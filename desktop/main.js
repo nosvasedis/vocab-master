@@ -432,8 +432,9 @@ async function runSmokeTest() {
         dbg.cpp3InferredUnit = cpp3PageQ.unit;
         dbg.cpp3WbIncludedInPages = cpp3PageQ.counts.wb;
         dbg.cpp3Enriched = cpp3PageQ.counts.enriched;
+        dbg.noBuiltinCollocations = cpp1Q.words.every((w) => !w.collocation);
 
-        // Test UI auto-assignment when selecting book + page range
+        // Test UI auto-assignment when selecting book + page range + high-contrast active tabs
         document.getElementById("bookTitle").value = "Cambridge Primary Paths 2";
         document.getElementById("unit").value = "";
         document.getElementById("pageRange").value = "74-76";
@@ -442,7 +443,12 @@ async function runSmokeTest() {
         const assignedCards = [...document.querySelectorAll("#vocabRows .vocab-card .vr-english")].filter((el) => el.value.trim().length > 0);
         dbg.uiAutoAssignedUnit = document.getElementById("unit").value;
         dbg.uiAutoAssignedWords = assignedCards.length;
-        const cbOk = dbg.cpp1Total > 50 && dbg.cpp1Wb > 5 && dbg.cpp2WbExcluded === 0 && dbg.cpp3InferredUnit === 6 && dbg.cpp3WbIncludedInPages > 10 && dbg.cpp3Enriched >= 4 && dbg.uiAutoAssignedUnit === "4" && dbg.uiAutoAssignedWords >= 10;
+        const activeUnitPill = document.querySelector(".cb-unit-pill.active");
+        const activePillBg = activeUnitPill ? getComputedStyle(activeUnitPill).backgroundColor : "rgba(0, 0, 0, 0)";
+        dbg.unitPillContrastOk = activePillBg !== "rgba(0, 0, 0, 0)" && activePillBg !== "rgb(255, 255, 255)";
+        document.querySelector('#cbInnerSubtabs [data-cb-subview="words"]')?.click();
+        dbg.wordsSubviewOpen = !document.getElementById("cbSubviewWords").classList.contains("hidden");
+        const cbOk = dbg.cpp1Total > 50 && dbg.cpp1Wb > 5 && dbg.cpp2WbExcluded === 0 && dbg.cpp3InferredUnit === 6 && dbg.cpp3WbIncludedInPages > 10 && dbg.cpp3Enriched >= 4 && dbg.uiAutoAssignedUnit === "4" && dbg.uiAutoAssignedWords >= 10 && dbg.noBuiltinCollocations && dbg.unitPillContrastOk && dbg.wordsSubviewOpen;
 
         // Test Lingo Arcade (5 Interactive Classroom Games)
         document.getElementById("btnOpenArcadeTop").click();

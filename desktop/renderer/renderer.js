@@ -550,12 +550,14 @@ function renderCoursebookWordChips() {
   const wrap = $("cbWordChips");
   const summaryEl = $("cbPreviewSummary");
   const btnCountEl = $("cbAssignCountBtn");
+  const browseTabCountEl = $("cbBrowseTabCount");
   if (!wrap || !summaryEl) return;
 
   if (!lastCoursebookQuery || !lastCoursebookQuery.supported) {
     wrap.innerHTML = "";
     summaryEl.textContent = "Select a unit above to browse and auto-assign words…";
     if (btnCountEl) btnCountEl.textContent = "0";
+    if (browseTabCountEl) browseTabCountEl.textContent = "0";
     return;
   }
 
@@ -565,6 +567,8 @@ function renderCoursebookWordChips() {
   const searchQ = ($("cbWordSearch")?.value || "").trim().toLowerCase();
   const assignedSet = getAssignedEnglishSet();
   const allWords = lastCoursebookQuery.words || [];
+  if (browseTabCountEl) browseTabCountEl.textContent = String(allWords.length);
+
   const filtered = searchQ
     ? allWords.filter((w) =>
         w.english.toLowerCase().includes(searchQ) ||
@@ -575,9 +579,9 @@ function renderCoursebookWordChips() {
 
   const assignedInPool = allWords.filter((w) => assignedSet.has(w.english.toLowerCase().trim())).length;
   const { counts } = lastCoursebookQuery;
-  summaryEl.innerHTML = `Showing <strong>${filtered.length}</strong> word${filtered.length === 1 ? "" : "s"} ` +
-    `(📗 SB: <strong>${counts.sb}</strong> · 📘 WB: <strong>${counts.wb}</strong> · ✨ 2nd Ed.: <strong>${counts.enriched}</strong>) — ` +
-    `<strong>${assignedInPool}</strong> currently in Studio. <em>Click any word chip to add or remove it:</em>`;
+  summaryEl.innerHTML = `Pool: <strong>${allWords.length}</strong> words ` +
+    `(📗 <strong>${counts.sb}</strong> SB · 📘 <strong>${counts.wb}</strong> WB · ✨ <strong>${counts.enriched}</strong> 2nd Ed.) · ` +
+    `<strong>${assignedInPool}</strong> in Step 2`;
 
   if (!filtered.length) {
     wrap.innerHTML = `<span style="color:var(--muted);font-size:0.82rem;padding:0.35rem 0">No words match your current filter. Try widening the page range or toggling Workbook / 2nd Ed. words on.</span>`;
@@ -594,7 +598,6 @@ function renderCoursebookWordChips() {
       : `SB p.${w.sbPage || w.page}`;
     const tooltip = [
       `${w.english} (${w.type}) — ${w.greek}`,
-      w.collocation ? `Collocation: ${w.collocation}` : "",
       w.example ? `Example: ${w.example}` : "",
       w.derivatives ? `Derivatives: ${w.derivatives}` : "",
     ].filter(Boolean).join("\n");
@@ -637,6 +640,14 @@ function updateStep2CoursebookBar() {
   }
 }
 
+function syncSetupModeTabs(isCppMode) {
+  document.querySelectorAll("#setupModeTabs [data-setup-mode]").forEach((btn) => {
+    const mode = btn.dataset.setupMode;
+    btn.classList.toggle("active", isCppMode ? mode === "cpp" : mode === "custom");
+  });
+  $("customCoursebookFields")?.classList.toggle("hidden", isCppMode);
+}
+
 function refreshCoursebookPanel({ triggerAutoAssign = false, sourceEvent = "" } = {}) {
   const panel = $("coursebookSmartPanel");
   const bookTitleVal = $("bookTitle")?.value || "";
@@ -647,13 +658,21 @@ function refreshCoursebookPanel({ triggerAutoAssign = false, sourceEvent = "" } 
     lastCoursebookBookId = null;
     panel?.classList.add("hidden");
     $("cbStep2Bar")?.classList.add("hidden");
+    syncSetupModeTabs(false);
     return;
   }
 
+  syncSetupModeTabs(true);
   panel?.classList.remove("hidden");
   const bookMeta = CPP_BOOKS[bookId];
 
-  // Auto-select recommended class profile if none selected yet (or when switching between CPP 1/2/3 before customizing)
+  // Sync top Book Switcher Tabs (Primary Path 1 / 2 / 3)
+  document.querySelectorAll("#cbBookTabs [data-cpp-book]").forEach((btn) => {
+    const tabBookId = resolveCoursebookId(btn.dataset.cppBook || "");
+    btn.classList.toggle("active", tabBookId === bookId);
+  });
+
+  // Auto-select recommended class profile if none selected yet (or when switching between CPP 1/2/3)
   const classSel = $("classProfile");
   if (classSel && (!classSel.value || (sourceEvent === "bookTitle" && lastCoursebookBookId !== bookId))) {
     classSel.value = bookMeta.recommendedProfile;
@@ -687,6 +706,11 @@ function refreshCoursebookPanel({ triggerAutoAssign = false, sourceEvent = "" } 
     if ($("unit") && !$("unit").value) $("unit").value = "1";
   }
 
+  const currentPages = $("pageRange")?.value.trim() || "";
+  if ($("cbCustomPageInput") && document.activeElement !== $("cbCustomPageInput")) {
+    $("cbCustomPageInput").value = currentPages;
+  }
+
   const includeSb = $("cbIncludeSb") ? $("cbIncludeSb").checked : true;
   const includeWb = $("cbIncludeWb") ? $("cbIncludeWb").checked : true;
   const wbScope = $("cbWbScope")?.value || "unit";
@@ -703,7 +727,7 @@ function refreshCoursebookPanel({ triggerAutoAssign = false, sourceEvent = "" } 
   const fullUnitCountsQuery = queryCoursebookWords({
     bookId,
     unit: unitNum,
-    pageRange: $("pageRange")?.value.trim() || "",
+    pageRange: currentPages,
     includeSb: true,
     includeWb: true,
     wbScope,
@@ -717,7 +741,7 @@ function refreshCoursebookPanel({ triggerAutoAssign = false, sourceEvent = "" } 
   const queryRes = queryCoursebookWords({
     bookId,
     unit: unitNum,
-    pageRange: $("pageRange")?.value.trim() || "",
+    pageRange: currentPages,
     includeSb,
     includeWb,
     wbScope,
@@ -740,7 +764,7 @@ function refreshCoursebookPanel({ triggerAutoAssign = false, sourceEvent = "" } 
   }
 
   renderCoursebookUnitPills(bookId, unitNum);
-  renderCoursebookSectionPills(uStruct, $("pageRange")?.value.trim() || "");
+  renderCoursebookSectionPills(uStruct, currentPages);
 
   if (triggerAutoAssign && ($("cbAutoAssign")?.checked !== false)) {
     const toAssign = getEffectiveAssignList(queryRes);
@@ -961,87 +985,89 @@ function readCardProvided(card) {
   return provided;
 }
 
-function applyFillToCard(card, item) {
+function applyFillToCard(card, item, { overwriteGenerated = false } = {}) {
   if (!item) return;
   const toggles = getCardToggles(card);
   const provided = readCardProvided(card);
-  const setField = (sel, val, key) => {
-    if (provided[key]) return;
+  const setField = (sel, val, key, forceOverwrite = false) => {
+    if (!forceOverwrite && provided[key]) return;
     if (!toggles[key] || !val || !String(val).trim()) return;
     const el = card.querySelector(sel);
-    if (el) el.value = val;
+    if (el) el.value = String(val).trim();
   };
-  setField(".vr-type", item.type, "type");
-  setField(".vr-greek", item.greek, "greek");
-  setField(".vr-emojis", item.emojis, "emojis");
-  setField(".vr-coll", item.collocation, "collocation");
-  setField(".vr-derivatives", item.derivatives, "derivatives");
-  setField(".vr-synonyms", item.synonyms, "synonyms");
-  setField(".vr-antonyms", item.antonyms, "antonyms");
+  // Preserve existing Type and Greek if already set (sense-locks), or fill them if empty
+  setField(".vr-type", item.type, "type", false);
+  setField(".vr-greek", item.greek, "greek", false);
+  // Always populate/refresh AI-generated fields (collocation, emojis, derivatives, synonyms, antonyms) when overwriteGenerated is true
+  setField(".vr-emojis", item.emojis, "emojis", overwriteGenerated);
+  setField(".vr-coll", item.collocation, "collocation", overwriteGenerated);
+  setField(".vr-derivatives", item.derivatives, "derivatives", overwriteGenerated);
+  setField(".vr-synonyms", item.synonyms, "synonyms", overwriteGenerated);
+  setField(".vr-antonyms", item.antonyms, "antonyms", overwriteGenerated);
 }
 
 async function fillVocabCards(cards) {
   const toFill = cards.filter((c) => c.querySelector(".vr-english").value.trim());
   if (!toFill.length) {
-    setVocabFillStatus("Type at least one English word first.", "error");
+    setVocabFillStatus("Type or load at least one English word first.", "error");
     return;
   }
 
-  // First pass: check if any words match the built-in Coursebook Wordbank (instant, works offline!)
+  // First pass: if Type or Greek are empty on any card, pre-populate sense-locks from Coursebook Wordbank
   const bookTitleVal = $("bookTitle")?.value.trim() || "";
   const unitVal = parseInt($("unit")?.value, 10) || 0;
-  let filledFromCoursebook = 0;
+  let matchedCoursebook = 0;
 
   toFill.forEach((card) => {
     const eng = card.querySelector(".vr-english")?.value.trim() || "";
     const cbMatch = lookupCoursebookWord(eng, bookTitleVal, unitVal);
     if (cbMatch) {
-      applyFillToCard(card, cbMatch);
-      filledFromCoursebook++;
+      applyFillToCard(card, cbMatch, { overwriteGenerated: false });
+      matchedCoursebook++;
     }
   });
-
-  // Check which cards still have enabled fields that remain empty after coursebook lookup
-  const remainingCards = toFill.filter((card) => {
-    const fields = getCardToggles(card);
-    const provided = readCardProvided(card);
-    return Object.entries(fields).some(([k, on]) => on && !provided[k]);
-  });
-
-  if (!remainingCards.length) {
-    setVocabFillStatus(`Filled ${toFill.length} word(s) instantly from the built-in Coursebook Wordbank.`, "ok");
-    renumberVocabCards();
-    return;
-  }
 
   const apiKey = localStorage.getItem(API_KEY_KEY);
   if (!apiKey) {
-    if (filledFromCoursebook > 0) {
-      setVocabFillStatus(`Filled ${filledFromCoursebook} word(s) from Coursebook Wordbank. Add a DeepSeek API key in Settings to AI-fill custom words.`, "info");
+    if (matchedCoursebook > 0) {
+      setVocabFillStatus(
+        `Filled Type & Greek for ${matchedCoursebook} word(s) from the Coursebook Wordbank. Add your DeepSeek API key in Settings to generate AI collocations & word families!`,
+        "info"
+      );
       renumberVocabCards();
+      openSettings();
       return;
     }
-    setVocabFillStatus("Add your DeepSeek API key in Settings first.", "error");
+    setVocabFillStatus("Add your DeepSeek API key in Settings to generate AI collocations & vocabulary fields.", "error");
     openSettings();
     return;
   }
 
-  const requests = remainingCards.map((card) => ({
-    english: card.querySelector(".vr-english").value.trim(),
-    fields: getCardToggles(card),
-    provided: readCardProvided(card),
-  }));
+  // Always call DeepSeek AI so natural collocations, emojis, derivatives, synonyms & antonyms are freshly generated!
+  // We pass only { type, greek } in `provided` so AI locks onto the exact coursebook sense while generating collocations & families.
+  const requests = toFill.map((card) => {
+    const cur = readCardProvided(card);
+    const senseLocks = {};
+    if (cur.type) senseLocks.type = cur.type;
+    if (cur.greek) senseLocks.greek = cur.greek;
+    return {
+      english: card.querySelector(".vr-english").value.trim(),
+      fields: getCardToggles(card),
+      provided: senseLocks,
+    };
+  });
 
-  remainingCards.forEach((c) => c.classList.add("filling"));
-  setVocabFillStatus("AI is filling vocabulary…", "info");
+  toFill.forEach((c) => c.classList.add("filling"));
+  setVocabFillStatus(`✨ AI is generating natural collocations & vocabulary details for ${toFill.length} word(s)…`, "info");
   try {
     const items = await autofillVocabulary(apiKey, $("classProfile").value, requests);
-    remainingCards.forEach((card, i) => applyFillToCard(card, items[i]));
-    setVocabFillStatus(`Filled ${toFill.length} word(s).`, "ok");
+    toFill.forEach((card, i) => applyFillToCard(card, items[i], { overwriteGenerated: true }));
+    setVocabFillStatus(`✨ AI generated collocations & details for ${toFill.length} word(s)!`, "ok");
+    toast(`AI generated collocations & details for ${toFill.length} word(s).`, "ok");
   } catch (e) {
     setVocabFillStatus(e.message || String(e), "error");
   } finally {
-    remainingCards.forEach((c) => c.classList.remove("filling"));
+    toFill.forEach((c) => c.classList.remove("filling"));
     renumberVocabCards();
   }
 }
@@ -2536,19 +2562,69 @@ function wireUi() {
     $("unit").dispatchEvent(new Event("input", { bubbles: true }));
   });
 
+  // Primary Coursebook Mode Tabs (CPP 1–3 Smart Wordbank vs Custom Coursebook)
+  $("setupModeTabs")?.addEventListener("click", (e) => {
+    const tab = e.target.closest("[data-setup-mode]");
+    if (!tab) return;
+    const mode = tab.dataset.setupMode;
+    if (mode === "cpp") {
+      if (!resolveCoursebookId($("bookTitle")?.value || "")) {
+        $("bookTitle").value = "Cambridge Primary Paths 1";
+      }
+      if (!$("unit")?.value) {
+        $("unit").value = "1";
+      }
+      refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "bookTitle" });
+    } else {
+      syncSetupModeTabs(false);
+      $("coursebookSmartPanel")?.classList.add("hidden");
+      $("cbStep2Bar")?.classList.add("hidden");
+      if (resolveCoursebookId($("bookTitle")?.value || "")) {
+        $("bookTitle").value = "";
+      }
+      $("bookTitle")?.focus();
+      updateContextSummary();
+    }
+  });
+
+  // Top Book Switcher Tabs (Primary Path 1 / 2 / 3)
+  $("cbBookTabs")?.addEventListener("click", (e) => {
+    const tab = e.target.closest("[data-cpp-book]");
+    if (!tab) return;
+    $("bookTitle").value = tab.dataset.cppBook;
+    $("pageRange").value = "";
+    if ($("cbCustomPageInput")) $("cbCustomPageInput").value = "";
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "bookTitle" });
+  });
+
   // Coursebook Smart Panel (Step 1) & Step 2 Coursebook Bar
   $("cbUnitPills")?.addEventListener("click", (e) => {
     const pill = e.target.closest("[data-cb-unit]");
     if (!pill) return;
     $("unit").value = pill.dataset.cbUnit;
     $("pageRange").value = "";
+    if ($("cbCustomPageInput")) $("cbCustomPageInput").value = "";
     refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "unitPill" });
   });
   $("cbSectionPills")?.addEventListener("click", (e) => {
     const pill = e.target.closest("[data-sec-pages]");
     if (!pill) return;
-    $("pageRange").value = pill.dataset.secPages || "";
+    const pages = pill.dataset.secPages || "";
+    $("pageRange").value = pages;
+    if ($("cbCustomPageInput")) $("cbCustomPageInput").value = pages;
     refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "sectionPill" });
+  });
+  $("cbCustomPageInput")?.addEventListener("input", (e) => {
+    $("pageRange").value = e.target.value;
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "pageRange" });
+  });
+  $("cbInnerSubtabs")?.addEventListener("click", (e) => {
+    const tab = e.target.closest("[data-cb-subview]");
+    if (!tab) return;
+    const subview = tab.dataset.cbSubview;
+    document.querySelectorAll("#cbInnerSubtabs .cb-inner-subtab").forEach((b) => b.classList.toggle("active", b === tab));
+    $("cbSubviewSources")?.classList.toggle("hidden", subview !== "sources");
+    $("cbSubviewWords")?.classList.toggle("hidden", subview !== "words");
   });
   ["cbIncludeSb", "cbIncludeWb", "cbWbScope", "cbIncludeEnriched", "cbHideBasic", "cbAssignLimit", "cbAutoAssign"].forEach((id) => {
     $(id)?.addEventListener("change", () => {
@@ -2568,7 +2644,7 @@ function wireUi() {
     const chip = e.target.closest(".cb-word-chip");
     if (!chip) return;
     const wrap = $("cbWordChips");
-    const idx = Number(chip.dataset.cbIdx);
+    const idx = Number(chip.dataset.cbWordIdx ?? chip.dataset.cbIdx);
     const word = wrap?._filteredWords?.[idx];
     if (word) toggleSingleCoursebookWordInStudio(word);
   });
@@ -2613,6 +2689,7 @@ function wireUi() {
     for (let i = 0; i < 5; i++) addVocabRow();
   });
   $("fillAllVocab").addEventListener("click", () => fillVocabCards([...document.querySelectorAll(".vocab-card")]));
+  $("btnAiFillTop")?.addEventListener("click", () => fillVocabCards([...document.querySelectorAll(".vocab-card")]));
 
   $("btnOpenBulkImport")?.addEventListener("click", () => {
     updateBulkImportPreview();
@@ -2922,7 +2999,7 @@ async function bootApp() {
     initVocabRows();
     renderExercisePickers();
     refreshPlanPreview();
-    refreshCoursebookPanel({ triggerAutoAssign: false, sourceEvent: "boot" });
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "boot" });
     updateContextSummary();
     setConn("on", "ready");
 

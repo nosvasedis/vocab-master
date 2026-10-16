@@ -44,6 +44,10 @@
   --font-worksheet: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --focus-ring: 0 0 0 3px rgba(18, 178, 161, 0.28);
   --topbar-bg: rgba(255, 255, 255, 0.88);
+  --accent: var(--brand);
+  --accent-soft: var(--brand-soft);
+  --card: var(--surface);
+  --bg-soft: var(--surface-2);
 }
 
 html[data-theme="dark"] {
@@ -81,6 +85,10 @@ html[data-theme="dark"] {
   --shadow-lg: 0 18px 54px rgba(0, 0, 0, 0.55);
   --focus-ring: 0 0 0 3px rgba(94, 234, 212, 0.3);
   --topbar-bg: rgba(20, 32, 38, 0.88);
+  --accent: var(--brand);
+  --accent-soft: var(--brand-soft);
+  --card: var(--surface);
+  --bg-soft: var(--surface-2);
 }
 
 /* ── Reset & base ─────────────────────────────────────────────────── */
@@ -1438,25 +1446,219 @@ html[data-theme="dark"] .preview-frame { background: linear-gradient(145deg, #10
   .content, .topbar { padding-left: 1rem; padding-right: 1rem; }
 }
 
-/* ═══════════════ Coursebook Smart Wordbank Panel ══════════════════ */
-.coursebook-smart-panel {
-  margin-top: 1.1rem;
-  margin-bottom: 1rem;
-  padding: 1.15rem 1.25rem;
-  border-radius: var(--radius-lg, 14px);
-  border: 1.5px solid var(--accent);
-  background: linear-gradient(145deg, var(--accent-soft) 0%, var(--card) 55%);
-  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.08);
+/* ═══════════════ Step 1 Mode Tabs & Coursebook Studio ═══════════════ */
+.setup-mode-bar {
   display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-}
-.cb-panel-head {
-  display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+  margin-top: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+.setup-mode-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem;
+  border-radius: 12px;
+  background: var(--surface-3);
+  border: 1px solid var(--line-strong);
+}
+.setup-mode-tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.45rem 0.95rem;
+  border-radius: 9px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.16s ease;
+}
+.setup-mode-tab:hover {
+  color: var(--ink);
+  background: var(--surface);
+}
+.setup-mode-tab.active {
+  background: var(--brand);
+  color: var(--brand-ink);
+  box-shadow: 0 2px 8px rgba(13, 116, 107, 0.25);
+}
+.mode-pill-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  color: inherit;
+}
+
+.coursebook-smart-panel {
+  margin-top: 0.85rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius-lg, 20px);
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. Top Book Switcher Tabs (Primary Path 1 / 2 / 3) */
+.cb-book-tabs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 1.1rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.cb-book-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.cb-book-tab {
+  appearance: none;
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 12px;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+.cb-book-tab:hover {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+.cb-book-tab.active {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: var(--brand-ink);
+  box-shadow: 0 3px 12px rgba(13, 116, 107, 0.24);
+}
+.cb-book-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+}
+.cb-book-txt {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.cb-book-txt strong {
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+.cb-book-txt small {
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+
+.cb-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+.cb-auto-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  padding: 0.36rem 0.75rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  user-select: none;
+}
+.cb-auto-toggle input {
+  accent-color: var(--brand);
+  margin: 0;
+}
+
+/* 2. Unit Tabs Strip (Unit 1 – Unit 9) */
+.cb-unit-strip-wrap {
+  padding: 0.65rem 1.1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.cb-unit-pills {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(82px, 1fr));
+  gap: 0.4rem;
+}
+@media (max-width: 960px) {
+  .cb-unit-pills {
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+  }
+}
+.cb-unit-pill {
+  appearance: none;
+  border: 1.5px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 0.42rem 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  text-align: center;
+}
+.cb-unit-pill:hover {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+.cb-unit-pill.active {
+  background: var(--brand) !important;
+  color: var(--brand-ink) !important;
+  border-color: var(--brand) !important;
+  box-shadow: 0 3px 10px rgba(13, 116, 107, 0.28);
+}
+.cb-unit-pill .u-sub {
+  font-weight: 600;
+  font-size: 0.69rem;
+  opacity: 0.85;
+}
+
+/* 3. Active Unit Summary Banner + Section Subtabs */
+.cb-unit-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.9rem 1.15rem;
+  background: linear-gradient(135deg, var(--brand-soft) 0%, var(--surface) 75%);
+  border-bottom: 1px solid var(--line);
+}
+.cb-unit-hero-info {
+  flex: 1;
+  min-width: 260px;
 }
 .cb-title-badges {
   display: flex;
@@ -1469,187 +1671,212 @@ html[data-theme="dark"] .preview-frame { background: linear-gradient(145deg, #10
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.18rem 0.6rem;
+  padding: 0.18rem 0.65rem;
   border-radius: 999px;
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.02em;
-  background: var(--accent);
-  color: #fff;
+  background: var(--brand);
+  color: var(--brand-ink);
 }
 .cb-cefr-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.16rem 0.55rem;
+  padding: 0.16rem 0.6rem;
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 700;
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--line-strong);
 }
-.cb-panel-title-wrap h3 {
+.cb-unit-hero-info h3 {
   margin: 0;
   font-size: 1.05rem;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--ink);
 }
 .cb-panel-sub {
   margin: 0.2rem 0 0;
-  font-size: 0.83rem;
-  color: var(--muted);
-}
-.cb-panel-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  flex-wrap: wrap;
-}
-.cb-auto-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
   font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--ink);
-  padding: 0.35rem 0.7rem;
-  border-radius: 999px;
-  background: var(--card);
-  border: 1px solid var(--line-strong);
-  cursor: pointer;
-  user-select: none;
+  color: var(--ink-2);
 }
-.cb-auto-toggle input {
-  accent-color: var(--accent);
-}
-.cb-row {
+
+.cb-section-subtabs-wrap {
   display: flex;
-  align-items: flex-start;
-  gap: 0.65rem;
+  align-items: center;
+  gap: 0.45rem;
   flex-wrap: wrap;
 }
-.cb-row-label {
-  font-size: 0.78rem;
-  font-weight: 700;
+.cb-subtab-label {
+  font-size: 0.72rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--muted);
-  padding-top: 0.38rem;
-  min-width: 98px;
 }
-.cb-unit-pills, .cb-section-pills {
-  display: flex;
+.cb-section-pills {
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  flex: 1;
-}
-.cb-unit-pill, .cb-section-pill {
-  appearance: none;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  background: var(--surface);
   border: 1px solid var(--line-strong);
-  background: var(--card);
-  color: var(--ink);
-  border-radius: 9px;
-  padding: 0.36rem 0.68rem;
-  font-size: 0.8rem;
-  font-weight: 600;
+  border-radius: 11px;
+}
+.cb-section-pill {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+  border-radius: 8px;
+  padding: 0.34rem 0.68rem;
+  font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.14s ease;
-  display: inline-flex;
+}
+.cb-section-pill:hover {
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+.cb-section-pill.active {
+  background: var(--brand) !important;
+  color: var(--brand-ink) !important;
+  box-shadow: 0 2px 6px rgba(13, 116, 107, 0.22);
+}
+.cb-custom-page-input {
+  width: 175px;
+  padding: 0.38rem 0.65rem;
+  font-size: 0.8rem;
+  border-radius: 9px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* 4. Inner Subtabs Bar (Sources vs Hand-Pick Words) */
+.cb-inner-subtabs-bar {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.55rem 1.15rem;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+}
+.cb-inner-subtabs {
+  display: inline-flex;
   gap: 0.35rem;
 }
-.cb-unit-pill:hover, .cb-section-pill:hover {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+.cb-inner-subtab {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.81rem;
+  font-weight: 700;
+  padding: 0.34rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.14s ease;
 }
-.cb-unit-pill.active, .cb-section-pill.active {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+.cb-inner-subtab:hover {
+  color: var(--ink);
+  background: var(--surface);
 }
-.cb-unit-pill .u-sub {
-  font-weight: 400;
-  font-size: 0.73rem;
-  opacity: 0.86;
+.cb-inner-subtab.active {
+  background: var(--surface);
+  color: var(--brand);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-sm);
 }
+.cb-preview-summary-inline {
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+
+.cb-subview {
+  padding: 0.85rem 1.15rem;
+  background: var(--surface);
+}
+
+/* Filters Bar inside Subview 1 */
 .cb-filters-bar {
   display: flex;
   align-items: center;
   gap: 0.55rem;
   flex-wrap: wrap;
-  padding: 0.6rem 0.75rem;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 10px;
 }
 .cb-filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.38rem;
-  padding: 0.3rem 0.65rem;
-  border-radius: 999px;
-  border: 1px solid var(--line-strong);
+  gap: 0.4rem;
+  padding: 0.38rem 0.72rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--line-strong);
   background: var(--surface-2);
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.81rem;
+  font-weight: 700;
   color: var(--ink);
   cursor: pointer;
   user-select: none;
   transition: all 0.14s ease;
 }
 .cb-filter-chip.active {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+  border-color: var(--brand);
+  background: var(--brand-soft);
 }
 .cb-filter-chip.cb-filter-enriched.active {
-  border-color: #d97706;
-  background: rgba(245, 158, 11, 0.14);
+  border-color: var(--amber);
+  background: var(--amber-soft);
 }
 .cb-filter-chip input {
-  accent-color: var(--accent);
+  accent-color: var(--brand);
   margin: 0;
 }
 .cb-count-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 20px;
-  padding: 0.05rem 0.38rem;
+  min-width: 22px;
+  padding: 0.06rem 0.4rem;
   border-radius: 999px;
-  font-size: 0.71rem;
-  font-weight: 700;
-  background: var(--card);
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: var(--surface);
   color: var(--ink);
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
 }
 .cb-wb-group, .cb-cap-group {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.38rem;
 }
 .cb-cap-group {
   margin-left: auto;
 }
 .cb-cap-label {
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.79rem;
+  font-weight: 700;
   color: var(--muted);
 }
 .cb-select-sm {
-  padding: 0.28rem 0.55rem;
+  padding: 0.34rem 0.6rem;
   border-radius: 8px;
   border: 1px solid var(--line-strong);
-  background: var(--card);
+  background: var(--surface);
   color: var(--ink);
-  font-size: 0.78rem;
+  font-size: 0.79rem;
   font-weight: 600;
 }
+
+/* Word Chips Browser inside Subview 2 */
 .cb-wordbank-preview {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 .cb-preview-head {
   display: flex;
@@ -1657,8 +1884,7 @@ html[data-theme="dark"] .preview-frame { background: linear-gradient(145deg, #10
   justify-content: space-between;
   gap: 0.75rem;
   flex-wrap: wrap;
-  margin-bottom: 0.6rem;
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   color: var(--muted);
 }
 .cb-preview-tools {
@@ -1667,19 +1893,19 @@ html[data-theme="dark"] .preview-frame { background: linear-gradient(145deg, #10
   gap: 0.45rem;
 }
 .cb-search-input {
-  padding: 0.28rem 0.6rem;
+  padding: 0.32rem 0.65rem;
   border-radius: 8px;
   border: 1px solid var(--line-strong);
   background: var(--surface-2);
   color: var(--ink);
-  font-size: 0.79rem;
-  width: 185px;
+  font-size: 0.8rem;
+  width: 210px;
 }
 .cb-word-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.38rem;
-  max-height: 225px;
+  gap: 0.4rem;
+  max-height: 240px;
   overflow-y: auto;
   padding-right: 0.25rem;
 }
@@ -1688,55 +1914,55 @@ html[data-theme="dark"] .preview-frame { background: linear-gradient(145deg, #10
   border: 1px solid var(--line-strong);
   background: var(--surface-2);
   color: var(--ink);
-  border-radius: 8px;
-  padding: 0.28rem 0.55rem;
-  font-size: 0.78rem;
+  border-radius: 9px;
+  padding: 0.32rem 0.6rem;
+  font-size: 0.8rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.32rem;
+  gap: 0.35rem;
   transition: all 0.12s ease;
   text-align: left;
 }
 .cb-word-chip:hover {
-  border-color: var(--accent);
+  border-color: var(--brand);
   transform: translateY(-1px);
 }
 .cb-word-chip.assigned {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  font-weight: 600;
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  font-weight: 700;
 }
 .cb-word-chip .chip-check {
-  color: var(--accent);
-  font-weight: 800;
+  color: var(--brand);
+  font-weight: 900;
 }
 .cb-word-chip .chip-pos {
   color: var(--muted);
-  font-size: 0.71rem;
+  font-size: 0.72rem;
   font-style: italic;
 }
 .cb-word-chip .chip-gr {
-  color: var(--muted);
-  font-size: 0.73rem;
+  color: var(--ink-2);
+  font-size: 0.74rem;
 }
 .cb-word-chip .chip-src {
   font-size: 0.66rem;
-  font-weight: 700;
-  padding: 0.05rem 0.34rem;
+  font-weight: 800;
+  padding: 0.06rem 0.36rem;
   border-radius: 5px;
   text-transform: uppercase;
 }
 .cb-word-chip .chip-src.src-sb {
-  background: rgba(16, 185, 129, 0.14);
+  background: rgba(16, 185, 129, 0.15);
   color: #047857;
 }
 .cb-word-chip .chip-src.src-wb {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(59, 130, 246, 0.16);
   color: #1d4ed8;
 }
 .cb-word-chip .chip-src.src-enriched {
-  background: rgba(245, 158, 11, 0.18);
+  background: rgba(245, 158, 11, 0.2);
   color: #b45309;
 }
 
@@ -1747,19 +1973,19 @@ html[data-theme="dark"] .preview-frame { background: linear-gradient(145deg, #10
   justify-content: space-between;
   gap: 0.75rem;
   flex-wrap: wrap;
-  padding: 0.65rem 0.9rem;
+  padding: 0.65rem 0.95rem;
   margin-bottom: 0.85rem;
-  border-radius: 10px;
-  border: 1px solid var(--accent);
-  background: var(--accent-soft);
+  border-radius: 12px;
+  border: 1.5px solid var(--brand);
+  background: var(--brand-soft);
 }
 .cb-step2-info {
   display: flex;
   align-items: center;
   gap: 0.55rem;
   flex-wrap: wrap;
-  font-size: 0.84rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--ink);
 }
 .cb-step2-actions {
@@ -1772,17 +1998,17 @@ html[data-theme="dark"] .preview-frame { background: linear-gradient(145deg, #10
   display: inline-flex;
   align-items: center;
   gap: 0.32rem;
-  padding: 0.24rem 0.55rem;
+  padding: 0.26rem 0.6rem;
   border-radius: 999px;
-  background: var(--card);
+  background: var(--surface);
   border: 1px solid var(--line-strong);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.79rem;
+  font-weight: 700;
   cursor: pointer;
   user-select: none;
 }
 .cb-mini-toggle input {
-  accent-color: var(--accent);
+  accent-color: var(--brand);
   margin: 0;
 }
 
