@@ -20,12 +20,18 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 
 ## ✨ What's New in Teacher Studio 2.0
 
-### 1. Unit & Class Level Architect (Step 1)
+### 1. Unit & Class Level Architect + Built-In Cambridge Primary Path 1–3 Wordbank (Step 1)
+- **📚 Built-In Cambridge Primary Path 1, 2 & 3 (2nd Edition) Smart Wordbank (`3,769` Entries)**:
+  - Select `Cambridge Primary Paths 1`, `2`, or `3` and pick a **Unit (`1`–`9`)** or type any **Page Range** (e.g., `118–120`). The app automatically infers the unit/section, matches the recommended class level (`A Senior`, `B Senior`, `C Senior`), and assigns the exact words to Step 2 with **zero AI wait time**.
+  - **Official Student's Book + Workbook Integration**: Includes all `2,904` Student's Book entries and `650` Workbook entries across all units (`U1`–`U9`) and sections (`Big Question`, `Section A` Nonfiction, `Section B` Fiction).
+  - **Optional Workbook Toggle & Scope Selector**: Easily check/uncheck **Include Workbook (`WB`)** in Step 1 or Step 2, and choose between **All Unit WB words** or **Mapped to section/pages**.
+  - **✨ 2nd Edition & CEFR Booster Vocabulary (`+215` Enriched Entries)**: Adds authentic 2nd Edition reading/oracy key words, phrasal verbs, and richer CEFR-matched vocabulary (`Early A1` to `A2+`) with full Greek meanings, natural collocations, emojis, derivatives, synonyms, and antonyms — plus a **Hide ultra-basic words** filter.
 - **Interactive Class Level Cards (`A Senior` – `E Senior`)**: Visual cards displaying CEFR level (`Early A1` to `B1`), Greek school grade equivalents (`Γ' Δημοτικού` to `Α'–Β' Γυμνασίου`), age ranges, and strict sentence-length caps.
 - **25+ Coursebook Presets & Recent Books Chips**: Instant autocomplete and 1-click chips for popular coursebooks (*Cambridge Primary Paths*, *Super Minds*, *Prepare*, *Eyes Open*, *Think*, *Go Getter*, *Burlington*, etc.).
 - **`+1` Next Unit Button & Zero-Key Sample Unit**: Increment units in one click, or load a pre-built C Senior unit without an API key.
 
 ### 2. Smart Vocabulary Studio (Step 2)
+- **⚡ Instant Offline Coursebook Lookup**: Any word present in the `3,769`-entry Cambridge Primary Path wordbank is filled **instantly offline** before calling DeepSeek AI for custom words.
 - **📥 Bulk Paste / Smart Import**: Paste word lists directly from PDFs, Word documents, or notes (`1. compete (v.) - συναγωνίζομαι | compete in a race > competition (n.) ≈ contest ≠ give up`). Automatically parses English headwords, parts of speech, Greek meanings, emojis, collocations, derivatives, synonyms, and antonyms.
 - **🎛️ Batch Field Toggles**: Enable or disable `Type`, `Greek`, `Emojis`, `Collocation`, `Derivatives`, `Synonyms`, or `Antonyms` across all vocabulary cards simultaneously.
 - **AI Sense-Locked Autofill**: Fill all words or individual cards with AI. Providing a part of speech (`v.`) or Greek meaning (`σφραγίζω`) locks the exact word sense.

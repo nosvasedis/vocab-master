@@ -422,9 +422,31 @@ async function runSmokeTest() {
         const docxRes = await window.desktop.exportDocx({ type: "lingo", data: sample.data });
         dbg.docxOk = !!(docxRes && docxRes.ok && docxRes.base64 && docxRes.base64.length > 1000);
 
+        // Test Cambridge Primary Path 1/2/3 Official + Enriched Wordbank
+        const cpp1Q = E.queryCoursebookWords({ bookId: "CPP1", unit: 1, includeSb: true, includeWb: true, includeEnriched: true });
+        const cpp2Q = E.queryCoursebookWords({ bookId: "CPP2", unit: 5, includeSb: true, includeWb: false, includeEnriched: true });
+        const cpp3PageQ = E.queryCoursebookWords({ bookId: "CPP3", pageRange: "118-120", includeSb: true, includeWb: true, wbScope: "unit", includeEnriched: true });
+        dbg.cpp1Total = cpp1Q.counts.total;
+        dbg.cpp1Wb = cpp1Q.counts.wb;
+        dbg.cpp2WbExcluded = cpp2Q.counts.wb;
+        dbg.cpp3InferredUnit = cpp3PageQ.unit;
+        dbg.cpp3WbIncludedInPages = cpp3PageQ.counts.wb;
+        dbg.cpp3Enriched = cpp3PageQ.counts.enriched;
+
+        // Test UI auto-assignment when selecting book + page range
+        document.getElementById("bookTitle").value = "Cambridge Primary Paths 2";
+        document.getElementById("unit").value = "";
+        document.getElementById("pageRange").value = "74-76";
+        document.getElementById("pageRange").dispatchEvent(new Event("input", { bubbles: true }));
+        await new Promise((r) => setTimeout(r, 150));
+        const assignedCards = [...document.querySelectorAll("#vocabRows .vocab-card .vr-english")].filter((el) => el.value.trim().length > 0);
+        dbg.uiAutoAssignedUnit = document.getElementById("unit").value;
+        dbg.uiAutoAssignedWords = assignedCards.length;
+        const cbOk = dbg.cpp1Total > 50 && dbg.cpp1Wb > 5 && dbg.cpp2WbExcluded === 0 && dbg.cpp3InferredUnit === 6 && dbg.cpp3WbIncludedInPages > 10 && dbg.cpp3Enriched >= 4 && dbg.uiAutoAssignedUnit === "4" && dbg.uiAutoAssignedWords >= 10;
+
         return JSON.stringify({
           ...dbg,
-          fail: (dbg.hit && dbg.modalHiddenAfter && dbg.classroomOpen && dbg.bulkParsedCount === 2 && dbg.docxOk) ? "" : "studio2-fail",
+          fail: (dbg.hit && dbg.modalHiddenAfter && dbg.classroomOpen && dbg.bulkParsedCount === 2 && dbg.docxOk && cbOk) ? "" : "studio2-fail",
         });
       })()
     `);

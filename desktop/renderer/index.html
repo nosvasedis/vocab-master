@@ -136,7 +136,7 @@
           <div class="field">
             <label class="field-label" for="unit">Unit Number</label>
             <div class="input-with-addon">
-              <input id="unit" type="number" min="1" placeholder="e.g. 6" />
+              <input id="unit" type="number" min="1" max="20" placeholder="e.g. 6" />
               <button type="button" class="btn btn-soft btn-sm addon-btn" id="btnNextUnit" title="Increment to next unit (+1)">+1</button>
             </div>
           </div>
@@ -146,10 +146,102 @@
           </div>
         </div>
 
+        <!-- ── Smart Coursebook Wordbank & Auto-Assignment Panel (CPP 1 / 2 / 3) ── -->
+        <div class="coursebook-smart-panel hidden" id="coursebookSmartPanel">
+          <div class="cb-panel-head">
+            <div class="cb-panel-title-wrap">
+              <div class="cb-title-badges">
+                <span class="cb-badge">📚 Official + 2nd Ed. Enriched Wordbank</span>
+                <span class="cb-cefr-pill" id="cbCefrPill">CEFR A1–A2</span>
+              </div>
+              <h3 id="cbPanelTitle">Cambridge Primary Paths — Smart Unit &amp; Page Wordbank</h3>
+              <p class="cb-panel-sub" id="cbPanelSub">Select a unit or page range to automatically assign official Student's Book, Workbook, and 2nd Edition CEFR-enriched vocabulary.</p>
+            </div>
+            <div class="cb-panel-actions">
+              <label class="cb-auto-toggle" title="Automatically assign matching words into Step 2 whenever you change Book, Unit, Pages, or filters">
+                <input type="checkbox" id="cbAutoAssign" checked />
+                <span>⚡ Auto-Assign Words</span>
+              </label>
+              <button type="button" class="btn btn-primary btn-sm" id="btnCbAssignNow" title="Assign the selected words into Step 2 Vocabulary Studio now">
+                📥 Assign to Studio (<span id="cbAssignCountBtn">0</span>)
+              </button>
+            </div>
+          </div>
+
+          <!-- Unit selector pills (1–9) -->
+          <div class="cb-row">
+            <span class="cb-row-label">Select Unit:</span>
+            <div class="cb-unit-pills" id="cbUnitPills" role="group" aria-label="Coursebook units"></div>
+          </div>
+
+          <!-- Section & Page Range quick presets -->
+          <div class="cb-row hidden" id="cbSectionPresetsRow">
+            <span class="cb-row-label">Section / Pages:</span>
+            <div class="cb-section-pills" id="cbSectionPills" role="group" aria-label="Section page presets"></div>
+          </div>
+
+          <!-- Word source & CEFR enrichment filters -->
+          <div class="cb-filters-bar">
+            <label class="cb-filter-chip active" id="lblCbSb" title="Include official Student's Book words for the selected unit/pages">
+              <input type="checkbox" id="cbIncludeSb" checked />
+              <span>📗 Student's Book</span>
+              <span class="cb-count-pill" id="cbCountSb">0</span>
+            </label>
+
+            <div class="cb-wb-group">
+              <label class="cb-filter-chip active" id="lblCbWb" title="Include official Workbook words in the Student's Book unit/pages">
+                <input type="checkbox" id="cbIncludeWb" checked />
+                <span>📘 Include Workbook Words</span>
+                <span class="cb-count-pill" id="cbCountWb">0</span>
+              </label>
+              <select id="cbWbScope" class="cb-select-sm" title="Include all Workbook words of this unit across all sections/pages, or only Workbook pages mapped to the selected section">
+                <option value="unit" selected>All Unit WB words</option>
+                <option value="section">Mapped to section/pages</option>
+              </select>
+            </div>
+
+            <label class="cb-filter-chip cb-filter-enriched active" id="lblCbEnriched" title="Include Cambridge Primary Path 2nd Edition Key Words, reading vocabulary &amp; CEFR-matched word families">
+              <input type="checkbox" id="cbIncludeEnriched" checked />
+              <span>✨ 2nd Ed. CEFR Booster</span>
+              <span class="cb-count-pill" id="cbCountEnriched">0</span>
+            </label>
+
+            <label class="cb-filter-chip active" id="lblCbHideBasic" title="Hide ultra-basic sight words (e.g. I, you, big, cat, see) so your worksheet focuses on rich target vocabulary">
+              <input type="checkbox" id="cbHideBasic" checked />
+              <span>🎯 Hide Trivial Words</span>
+            </label>
+
+            <div class="cb-cap-group">
+              <label for="cbAssignLimit" class="cb-cap-label">Assign:</label>
+              <select id="cbAssignLimit" class="cb-select-sm" title="How many matching words to auto-assign into Step 2">
+                <option value="smart" selected>Smart (All on pages · Top 15 for Full Unit)</option>
+                <option value="0">All matching words (No limit)</option>
+                <option value="8">Top 8 words (A Senior)</option>
+                <option value="10">Top 10 words (B Senior)</option>
+                <option value="12">Top 12 words (C/D Senior)</option>
+                <option value="15">Top 15 words (Standard Unit)</option>
+                <option value="20">Top 20 words (Extended)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Interactive Wordbank Chip Browser -->
+          <div class="cb-wordbank-preview" id="cbWordbankPreview">
+            <div class="cb-preview-head">
+              <span id="cbPreviewSummary">Select a unit above to browse and auto-assign words…</span>
+              <div class="cb-preview-tools">
+                <input type="search" id="cbWordSearch" class="cb-search-input" placeholder="🔍 Filter unit words…" autocomplete="off" />
+                <button type="button" class="btn btn-soft btn-sm" id="btnCbSelectAll" title="Assign all matching words into Step 2">Assign All Matching</button>
+              </div>
+            </div>
+            <div class="cb-word-chips" id="cbWordChips"></div>
+          </div>
+        </div>
+
         <div class="profile-info" id="profileInfo"></div>
 
         <div class="row-actions split">
-          <span class="step-hint-note">💡 Tip: Press <kbd>🎓 Sample Unit</kbd> anytime to test the full editor &amp; exporter right away.</span>
+          <span class="step-hint-note">💡 Tip: Choose <strong>Cambridge Primary Paths 1, 2, or 3</strong> above to unlock automatic unit &amp; page vocabulary assignment!</span>
           <button type="button" class="btn btn-primary" id="toStep2">
             Continue to Vocabulary
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -162,7 +254,7 @@
         <div class="card-head-split">
           <div class="card-head">
             <h2>2 · Vocabulary Studio</h2>
-            <p class="card-lead">Enter your unit words or bulk-paste a list. Use AI to auto-fill Greek meanings, emojis, collocations, and word families tailored to your class level.</p>
+            <p class="card-lead">Review your auto-assigned coursebook words or enter custom vocabulary. Click any word chip in the Unit Wordbank to add or remove words instantly.</p>
           </div>
           <div class="tabs" role="tablist">
             <button type="button" class="tab active" role="tab" data-tab="structured">📋 Structured Studio</button>
@@ -171,6 +263,30 @@
         </div>
 
         <div class="tab-panel active" id="panel-structured">
+          <!-- Active Coursebook Wordbank Bar in Step 2 -->
+          <div class="cb-step2-bar hidden" id="cbStep2Bar">
+            <div class="cb-step2-info">
+              <span class="cb-badge">📚 Coursebook Linked</span>
+              <span id="cbStep2Summary">Cambridge Primary Paths</span>
+            </div>
+            <div class="cb-step2-actions">
+              <label class="cb-mini-toggle" title="Include or exclude Workbook words for this unit">
+                <input type="checkbox" id="cbStep2WbToggle" checked />
+                <span>📘 Include Workbook</span>
+              </label>
+              <label class="cb-mini-toggle" title="Include or exclude 2nd Edition CEFR Booster words">
+                <input type="checkbox" id="cbStep2EnrichedToggle" checked />
+                <span>✨ 2nd Ed. Booster</span>
+              </label>
+              <button type="button" class="btn btn-soft btn-sm" id="btnStep2ResyncCb" title="Re-apply coursebook words for the selected unit &amp; pages">
+                🔄 Re-sync Words
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnStep2EditUnit" title="Jump back to Step 1 to pick a different section, page range, or word chip">
+                📖 Unit &amp; Page Wordbank
+              </button>
+            </div>
+          </div>
+
           <!-- Studio control bar -->
           <div class="vocab-studio-bar">
             <div class="vocab-studio-top">

@@ -1,4 +1,15 @@
 /* Vocab Master — core worksheet engine */
+import {
+  CPP_BOOKS,
+  CPP_WORDBANK,
+  resolveCoursebookId,
+  getCppUnitStructure,
+  parsePageRangeSpec,
+  inferUnitFromPages,
+  queryCoursebookWords,
+  selectSmartCoursebookWords,
+  lookupCoursebookWord,
+} from "./coursebook-data.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -4260,5 +4271,14 @@ export {
   parseBulkVocabularyText,
   getSampleUnitData,
   WORKSHEET_PRINT_CSS,
+  CPP_BOOKS,
+  CPP_WORDBANK,
+  resolveCoursebookId,
+  getCppUnitStructure,
+  parsePageRangeSpec,
+  inferUnitFromPages,
+  queryCoursebookWords,
+  selectSmartCoursebookWords,
+  lookupCoursebookWord,
 };
 

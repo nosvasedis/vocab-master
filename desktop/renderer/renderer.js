@@ -17,6 +17,9 @@ import {
   saveWorksheetSession, getAllSavedSessions, getSavedSession, deleteSavedSession,
   isLocalStorageWritable, normalizeWorksheetExercises,
   parseBulkVocabularyText, getSampleUnitData, WORKSHEET_PRINT_CSS,
+  CPP_BOOKS, CPP_WORDBANK, resolveCoursebookId, getCppUnitStructure,
+  parsePageRangeSpec, inferUnitFromPages, queryCoursebookWords,
+  selectSmartCoursebookWords, lookupCoursebookWord,
 } from "./app.js";
 
 const API_KEY_KEY = STORAGE_KEY;
@@ -376,13 +379,17 @@ function initBookPresets() {
 
   const recentBar = $("recentBooksBar");
   if (recentBar) {
-    const quickBooks = [...savedBooks].slice(0, 4);
-    if (quickBooks.length === 0) {
-      quickBooks.push("Cambridge Primary Paths 2", "Cambridge Primary Paths 3", "Cambridge Primary Paths 4", "Super Minds 3");
-    }
-    recentBar.innerHTML = quickBooks.map((b) =>
-      `<button type="button" class="recent-book-chip" data-book="${escAttr(b)}">📘 ${escHtml(b)}</button>`
-    ).join("");
+    const coreCpp = [
+      "Cambridge Primary Paths 1",
+      "Cambridge Primary Paths 2",
+      "Cambridge Primary Paths 3",
+    ];
+    const extras = [...savedBooks].filter((b) => !coreCpp.includes(b)).slice(0, 2);
+    const quickBooks = [...coreCpp, ...extras];
+    recentBar.innerHTML = quickBooks.map((b) => {
+      const isCpp = coreCpp.includes(b);
+      return `<button type="button" class="recent-book-chip" data-book="${escAttr(b)}" title="${isCpp ? "Includes official Student's Book + Workbook + 2nd Ed. Enriched Wordbank" : ""}">${isCpp ? "📚" : "📘"} ${escHtml(b)}</button>`;
+    }).join("");
     recentBar.addEventListener("click", (e) => {
       const chip = e.target.closest(".recent-book-chip");
       if (!chip) return;
@@ -402,6 +409,348 @@ function updateProfileInfo() {
   const p = CLASS_PROFILES[id];
   $("profileInfo").innerHTML = `<strong>${escHtml(p.label)}</strong> · CEFR <strong>${escHtml(p.cefr)}</strong> · ${escHtml(p.greekGrades)} (ages ${escHtml(p.ageRange)})<br>
     Max <strong>${p.maxSentenceWords} words</strong> per sentence · <strong>${p.allowDictation.length}</strong> dictation formats &amp; <strong>${p.allowLingo.length}</strong> Lingo practice formats unlocked for this level.`;
+}
+
+/* ═══════════════ Smart Coursebook Wordbank & Auto-Assignment ══════ */
+let lastCoursebookQuery = null;
+let lastCoursebookBookId = null;
+
+function getAssignedEnglishSet() {
+  const set = new Set();
+  document.querySelectorAll(".vocab-card .vr-english").forEach((inp) => {
+    const v = inp.value.trim().toLowerCase();
+    if (v) set.add(v);
+  });
+  return set;
+}
+
+function wordEntryToVocabRow(entry) {
+  return {
+    english: entry.english,
+    type: entry.type || "n.",
+    greek: entry.greek || "",
+    emojis: entry.emojis || "",
+    collocation: entry.collocation || "",
+    derivatives: entry.derivatives || "",
+    synonyms: entry.synonyms || "",
+    antonyms: entry.antonyms || "",
+    fieldToggles: {
+      type: true,
+      greek: true,
+      emojis: true,
+      collocation: true,
+      derivatives: Boolean(entry.derivatives),
+      synonyms: Boolean(entry.synonyms),
+      antonyms: Boolean(entry.antonyms),
+    },
+  };
+}
+
+function getEffectiveAssignList(queryRes) {
+  if (!queryRes || !queryRes.words?.length) return [];
+  const limitVal = $("cbAssignLimit")?.value ?? "smart";
+  if (limitVal === "0") {
+    return [...queryRes.words];
+  }
+  if (limitVal === "smart") {
+    // If the teacher selected a specific page range with <= 24 words, assign all of them;
+    // otherwise (e.g., Full Unit), select the top 15 pedagogical words.
+    if (queryRes.hasPageFilter && queryRes.words.length <= 24) {
+      return [...queryRes.words];
+    }
+    return selectSmartCoursebookWords(queryRes.words, 15);
+  }
+  const num = Number(limitVal) || 15;
+  return selectSmartCoursebookWords(queryRes.words, num);
+}
+
+function assignWordsToStudio(entries, { silent = false } = {}) {
+  if (!Array.isArray(entries) || !entries.length) {
+    if (!silent) toast("No matching coursebook words to assign.", "warn");
+    return;
+  }
+  const container = $("vocabRows");
+  if (!container) return;
+  container.innerHTML = "";
+  entries.forEach((entry) => {
+    addVocabRow(wordEntryToVocabRow(entry));
+  });
+  renumberVocabCards();
+  renderCoursebookWordChips();
+  updateStep2CoursebookBar();
+  if (!silent) {
+    toast(`Assigned ${entries.length} coursebook word${entries.length === 1 ? "" : "s"} to Vocabulary Studio.`, "ok");
+  }
+}
+
+function toggleSingleCoursebookWordInStudio(entry) {
+  if (!entry) return;
+  const key = entry.english.trim().toLowerCase();
+  const cards = [...document.querySelectorAll(".vocab-card")];
+  const existing = cards.find((c) => (c.querySelector(".vr-english")?.value || "").trim().toLowerCase() === key);
+
+  if (existing) {
+    existing.remove();
+    if (document.querySelectorAll(".vocab-card").length === 0) addVocabRow();
+    renumberVocabCards();
+    toast(`Removed "${entry.english}" from Vocabulary Studio.`, "info", 1800);
+  } else {
+    // If all existing rows are blank placeholders, clear them first
+    const allBlank = cards.every((c) => !(c.querySelector(".vr-english")?.value || "").trim());
+    if (allBlank) $("vocabRows").innerHTML = "";
+    addVocabRow(wordEntryToVocabRow(entry));
+    renumberVocabCards();
+    toast(`Added "${entry.english}" to Vocabulary Studio.`, "ok", 1800);
+  }
+  renderCoursebookWordChips();
+}
+
+function renderCoursebookUnitPills(bookId, activeUnit) {
+  const wrap = $("cbUnitPills");
+  if (!wrap || !CPP_BOOKS[bookId]) return;
+  const units = CPP_BOOKS[bookId].units || {};
+  wrap.innerHTML = Array.from({ length: 9 }, (_, i) => i + 1).map((u) => {
+    const meta = units[u] || { title: `Unit ${u}` };
+    const sbStart = 6 + (u - 1) * 22;
+    const sbEnd = sbStart + 21;
+    const isActive = Number(activeUnit) === u;
+    return `<button type="button" class="cb-unit-pill${isActive ? " active" : ""}" data-cb-unit="${u}" title="${escAttr(`Unit ${u}: ${meta.title} (SB p. ${sbStart}–${sbEnd})`)}">
+      <span>Unit ${u}</span>
+      <span class="u-sub">p.${sbStart}–${sbEnd}</span>
+    </button>`;
+  }).join("");
+}
+
+function renderCoursebookSectionPills(unitStruct, currentPageRange) {
+  const row = $("cbSectionPresetsRow");
+  const wrap = $("cbSectionPills");
+  if (!row || !wrap) return;
+  if (!unitStruct) {
+    row.classList.add("hidden");
+    wrap.innerHTML = "";
+    return;
+  }
+  row.classList.remove("hidden");
+  const normCurrent = String(currentPageRange || "").trim().replace(/[–—−]/g, "-");
+
+  wrap.innerHTML = unitStruct.sections.map((sec) => {
+    const normSec = sec.pageRange.replace(/[–—−]/g, "-");
+    const isFull = sec.id === "FULL";
+    const isActive = isFull
+      ? (!normCurrent || normCurrent === normSec)
+      : (normCurrent === normSec);
+    return `<button type="button" class="cb-section-pill${isActive ? " active" : ""}" data-sec-id="${escAttr(sec.id)}" data-sec-pages="${escAttr(isFull ? "" : sec.pageRange)}" title="${escAttr(`${sec.label} · ${sec.wbRange}`)}">
+      ${escHtml(sec.shortLabel)}
+    </button>`;
+  }).join("");
+}
+
+function renderCoursebookWordChips() {
+  const wrap = $("cbWordChips");
+  const summaryEl = $("cbPreviewSummary");
+  const btnCountEl = $("cbAssignCountBtn");
+  if (!wrap || !summaryEl) return;
+
+  if (!lastCoursebookQuery || !lastCoursebookQuery.supported) {
+    wrap.innerHTML = "";
+    summaryEl.textContent = "Select a unit above to browse and auto-assign words…";
+    if (btnCountEl) btnCountEl.textContent = "0";
+    return;
+  }
+
+  const assignList = getEffectiveAssignList(lastCoursebookQuery);
+  if (btnCountEl) btnCountEl.textContent = String(assignList.length);
+
+  const searchQ = ($("cbWordSearch")?.value || "").trim().toLowerCase();
+  const assignedSet = getAssignedEnglishSet();
+  const allWords = lastCoursebookQuery.words || [];
+  const filtered = searchQ
+    ? allWords.filter((w) =>
+        w.english.toLowerCase().includes(searchQ) ||
+        w.greek.toLowerCase().includes(searchQ) ||
+        String(w.page).includes(searchQ)
+      )
+    : allWords;
+
+  const assignedInPool = allWords.filter((w) => assignedSet.has(w.english.toLowerCase().trim())).length;
+  const { counts } = lastCoursebookQuery;
+  summaryEl.innerHTML = `Showing <strong>${filtered.length}</strong> word${filtered.length === 1 ? "" : "s"} ` +
+    `(📗 SB: <strong>${counts.sb}</strong> · 📘 WB: <strong>${counts.wb}</strong> · ✨ 2nd Ed.: <strong>${counts.enriched}</strong>) — ` +
+    `<strong>${assignedInPool}</strong> currently in Studio. <em>Click any word chip to add or remove it:</em>`;
+
+  if (!filtered.length) {
+    wrap.innerHTML = `<span style="color:var(--muted);font-size:0.82rem;padding:0.35rem 0">No words match your current filter. Try widening the page range or toggling Workbook / 2nd Ed. words on.</span>`;
+    return;
+  }
+
+  wrap.innerHTML = filtered.map((w, idx) => {
+    const isAssigned = assignedSet.has(w.english.toLowerCase().trim());
+    const srcClass = w.source === "wb" ? "src-wb" : w.source === "enriched" ? "src-enriched" : "src-sb";
+    const srcLabel = w.source === "wb"
+      ? `WB p.${w.wbPage || w.page}`
+      : w.source === "enriched"
+      ? `✨ 2nd Ed.`
+      : `SB p.${w.sbPage || w.page}`;
+    const tooltip = [
+      `${w.english} (${w.type}) — ${w.greek}`,
+      w.collocation ? `Collocation: ${w.collocation}` : "",
+      w.example ? `Example: ${w.example}` : "",
+      w.derivatives ? `Derivatives: ${w.derivatives}` : "",
+    ].filter(Boolean).join("\n");
+
+    return `<button type="button" class="cb-word-chip${isAssigned ? " assigned" : ""}" data-cb-word-idx="${idx}" title="${escAttr(tooltip)}">
+      <span class="chip-check">${isAssigned ? "✓" : "+"}</span>
+      <span>${escHtml(w.english)}</span>
+      <span class="chip-pos">${escHtml(w.type)}</span>
+      <span class="chip-gr">${escHtml(w.greek)}</span>
+      <span class="chip-src ${srcClass}">${escHtml(srcLabel)}</span>
+    </button>`;
+  }).join("");
+
+  // Store filtered list reference on element for click handler
+  wrap._filteredWords = filtered;
+}
+
+function updateStep2CoursebookBar() {
+  const bar = $("cbStep2Bar");
+  if (!bar) return;
+  if (!lastCoursebookQuery || !lastCoursebookQuery.supported) {
+    bar.classList.add("hidden");
+    return;
+  }
+  bar.classList.remove("hidden");
+  const uStruct = lastCoursebookQuery.unitStructure;
+  const pages = $("pageRange")?.value.trim();
+  const summary = $("cbStep2Summary");
+  if (summary) {
+    summary.innerHTML = `<strong>${escHtml(lastCoursebookQuery.bookTitle)}</strong>` +
+      (uStruct ? ` · Unit ${uStruct.unit}: <em>${escHtml(uStruct.unitTitle)}</em>` : "") +
+      (pages ? ` · Pages <strong>${escHtml(pages)}</strong>` : " · Full Unit") +
+      ` <span style="color:var(--muted)">(${lastCoursebookQuery.counts.sb} SB + ${lastCoursebookQuery.counts.wb} WB + ${lastCoursebookQuery.counts.enriched} 2nd Ed.)</span>`;
+  }
+  if ($("cbStep2WbToggle") && $("cbIncludeWb")) {
+    $("cbStep2WbToggle").checked = $("cbIncludeWb").checked;
+  }
+  if ($("cbStep2EnrichedToggle") && $("cbIncludeEnriched")) {
+    $("cbStep2EnrichedToggle").checked = $("cbIncludeEnriched").checked;
+  }
+}
+
+function refreshCoursebookPanel({ triggerAutoAssign = false, sourceEvent = "" } = {}) {
+  const panel = $("coursebookSmartPanel");
+  const bookTitleVal = $("bookTitle")?.value || "";
+  const bookId = resolveCoursebookId(bookTitleVal);
+
+  if (!bookId || !CPP_BOOKS[bookId]) {
+    lastCoursebookQuery = null;
+    lastCoursebookBookId = null;
+    panel?.classList.add("hidden");
+    $("cbStep2Bar")?.classList.add("hidden");
+    return;
+  }
+
+  panel?.classList.remove("hidden");
+  const bookMeta = CPP_BOOKS[bookId];
+
+  // Auto-select recommended class profile if none selected yet (or when switching between CPP 1/2/3 before customizing)
+  const classSel = $("classProfile");
+  if (classSel && (!classSel.value || (sourceEvent === "bookTitle" && lastCoursebookBookId !== bookId))) {
+    classSel.value = bookMeta.recommendedProfile;
+    syncLevelCardSelection();
+    updateProfileInfo();
+    renderExercisePickers();
+    refreshPlanPreview();
+  }
+  lastCoursebookBookId = bookId;
+
+  // Smart unit inference from Page Range or default to Unit 1
+  const pageRangeVal = $("pageRange")?.value.trim() || "";
+  let unitNum = parseInt($("unit")?.value, 10) || 0;
+
+  if (sourceEvent === "pageRange" && pageRangeVal) {
+    const inferred = inferUnitFromPages(bookId, pageRangeVal);
+    if (inferred && inferred !== unitNum) {
+      unitNum = inferred;
+      if ($("unit")) $("unit").value = String(inferred);
+    }
+  } else if (sourceEvent === "unitInput" && unitNum >= 1 && unitNum <= 9 && pageRangeVal) {
+    // If the teacher changed the Unit number manually and the old pageRange belongs to another unit, clear pageRange
+    const inferredFromOldPages = inferUnitFromPages(bookId, pageRangeVal);
+    if (inferredFromOldPages && inferredFromOldPages !== unitNum) {
+      $("pageRange").value = "";
+    }
+  }
+
+  if (!unitNum || unitNum < 1 || unitNum > 9) {
+    unitNum = 1;
+    if ($("unit") && !$("unit").value) $("unit").value = "1";
+  }
+
+  const includeSb = $("cbIncludeSb") ? $("cbIncludeSb").checked : true;
+  const includeWb = $("cbIncludeWb") ? $("cbIncludeWb").checked : true;
+  const wbScope = $("cbWbScope")?.value || "unit";
+  const includeEnriched = $("cbIncludeEnriched") ? $("cbIncludeEnriched").checked : true;
+  const hideBasic = $("cbHideBasic") ? $("cbHideBasic").checked : true;
+
+  $("lblCbSb")?.classList.toggle("active", includeSb);
+  $("lblCbWb")?.classList.toggle("active", includeWb);
+  $("lblCbEnriched")?.classList.toggle("active", includeEnriched);
+  $("lblCbHideBasic")?.classList.toggle("active", hideBasic);
+  if ($("cbWbScope")) $("cbWbScope").disabled = !includeWb;
+
+  // Query counts for each source independently so the teacher always sees available counts on the pills
+  const fullUnitCountsQuery = queryCoursebookWords({
+    bookId,
+    unit: unitNum,
+    pageRange: $("pageRange")?.value.trim() || "",
+    includeSb: true,
+    includeWb: true,
+    wbScope,
+    includeEnriched: true,
+    hideBasic,
+  });
+  if ($("cbCountSb")) $("cbCountSb").textContent = String(fullUnitCountsQuery.counts.sb);
+  if ($("cbCountWb")) $("cbCountWb").textContent = String(fullUnitCountsQuery.counts.wb);
+  if ($("cbCountEnriched")) $("cbCountEnriched").textContent = String(fullUnitCountsQuery.counts.enriched);
+
+  const queryRes = queryCoursebookWords({
+    bookId,
+    unit: unitNum,
+    pageRange: $("pageRange")?.value.trim() || "",
+    includeSb,
+    includeWb,
+    wbScope,
+    includeEnriched,
+    hideBasic,
+  });
+  lastCoursebookQuery = queryRes;
+
+  const uStruct = queryRes.unitStructure;
+  if ($("cbCefrPill")) $("cbCefrPill").textContent = `CEFR ${bookMeta.cefr} · 2nd Edition`;
+  if ($("cbPanelTitle")) {
+    $("cbPanelTitle").textContent = uStruct
+      ? `${bookMeta.title} · Unit ${uStruct.unit}: ${uStruct.unitTitle}`
+      : `${bookMeta.title} — Official & Enriched Wordbank`;
+  }
+  if ($("cbPanelSub")) {
+    $("cbPanelSub").innerHTML = uStruct
+      ? `Theme: <strong>${escHtml(uStruct.unitTheme)}</strong> · Student's Book <strong>p. ${uStruct.sbStart}–${uStruct.sbEnd}</strong> · Workbook <strong>p. ${uStruct.wbStart}–${uStruct.wbEnd}</strong>`
+      : `Select a unit or page range to automatically assign official Student's Book, Workbook, and 2nd Edition vocabulary.`;
+  }
+
+  renderCoursebookUnitPills(bookId, unitNum);
+  renderCoursebookSectionPills(uStruct, $("pageRange")?.value.trim() || "");
+
+  if (triggerAutoAssign && ($("cbAutoAssign")?.checked !== false)) {
+    const toAssign = getEffectiveAssignList(queryRes);
+    if (toAssign.length > 0) {
+      assignWordsToStudio(toAssign, { silent: true });
+    }
+  } else {
+    renderCoursebookWordChips();
+    updateStep2CoursebookBar();
+  }
+  updateContextSummary();
 }
 
 /* ═══════════════ Step 2 · Vocabulary Studio ═══════════════════════ */
@@ -626,41 +975,68 @@ function applyFillToCard(card, item) {
 }
 
 async function fillVocabCards(cards) {
-  const apiKey = localStorage.getItem(API_KEY_KEY);
-  if (!apiKey) {
-    setVocabFillStatus("Add your DeepSeek API key in Settings first.", "error");
-    openSettings();
-    return;
-  }
   const toFill = cards.filter((c) => c.querySelector(".vr-english").value.trim());
   if (!toFill.length) {
     setVocabFillStatus("Type at least one English word first.", "error");
     return;
   }
-  const requests = toFill.map((card) => ({
+
+  // First pass: check if any words match the built-in Coursebook Wordbank (instant, works offline!)
+  const bookTitleVal = $("bookTitle")?.value.trim() || "";
+  const unitVal = parseInt($("unit")?.value, 10) || 0;
+  let filledFromCoursebook = 0;
+
+  toFill.forEach((card) => {
+    const eng = card.querySelector(".vr-english")?.value.trim() || "";
+    const cbMatch = lookupCoursebookWord(eng, bookTitleVal, unitVal);
+    if (cbMatch) {
+      applyFillToCard(card, cbMatch);
+      filledFromCoursebook++;
+    }
+  });
+
+  // Check which cards still have enabled fields that remain empty after coursebook lookup
+  const remainingCards = toFill.filter((card) => {
+    const fields = getCardToggles(card);
+    const provided = readCardProvided(card);
+    return Object.entries(fields).some(([k, on]) => on && !provided[k]);
+  });
+
+  if (!remainingCards.length) {
+    setVocabFillStatus(`Filled ${toFill.length} word(s) instantly from the built-in Coursebook Wordbank.`, "ok");
+    renumberVocabCards();
+    return;
+  }
+
+  const apiKey = localStorage.getItem(API_KEY_KEY);
+  if (!apiKey) {
+    if (filledFromCoursebook > 0) {
+      setVocabFillStatus(`Filled ${filledFromCoursebook} word(s) from Coursebook Wordbank. Add a DeepSeek API key in Settings to AI-fill custom words.`, "info");
+      renumberVocabCards();
+      return;
+    }
+    setVocabFillStatus("Add your DeepSeek API key in Settings first.", "error");
+    openSettings();
+    return;
+  }
+
+  const requests = remainingCards.map((card) => ({
     english: card.querySelector(".vr-english").value.trim(),
     fields: getCardToggles(card),
     provided: readCardProvided(card),
   }));
-  if (!requests.every((r) => {
-    const enabled = Object.values(r.fields).some(Boolean);
-    const hasProvided = Object.keys(r.provided).length > 0;
-    const needsFill = Object.entries(r.fields).some(([k, on]) => on && !r.provided[k]);
-    return enabled && (hasProvided || needsFill);
-  })) {
-    setVocabFillStatus("Enable fields to fill, or type type/Greek first as a hint.", "error");
-    return;
-  }
-  toFill.forEach((c) => c.classList.add("filling"));
+
+  remainingCards.forEach((c) => c.classList.add("filling"));
   setVocabFillStatus("AI is filling vocabulary…", "info");
   try {
     const items = await autofillVocabulary(apiKey, $("classProfile").value, requests);
-    toFill.forEach((card, i) => applyFillToCard(card, items[i]));
+    remainingCards.forEach((card, i) => applyFillToCard(card, items[i]));
     setVocabFillStatus(`Filled ${toFill.length} word(s).`, "ok");
   } catch (e) {
     setVocabFillStatus(e.message || String(e), "error");
   } finally {
-    toFill.forEach((c) => c.classList.remove("filling"));
+    remainingCards.forEach((c) => c.classList.remove("filling"));
+    renumberVocabCards();
   }
 }
 
@@ -1694,6 +2070,7 @@ function applyFormToUi(form, { restorePlan = null } = {}) {
   } else {
     refreshPlanPreview();
   }
+  refreshCoursebookPanel({ triggerAutoAssign: false, sourceEvent: "restore" });
   updateContextSummary();
 }
 
@@ -2008,6 +2385,7 @@ function newWorksheet() {
   setBusyButtons(false);
   renderExercisePickers();
   refreshPlanPreview();
+  refreshCoursebookPanel({ triggerAutoAssign: false, sourceEvent: "new" });
   showStep(1);
   setConn("on", "ready");
   toast("New worksheet started — previous work is safely stored in History.", "info");
@@ -2076,12 +2454,67 @@ function wireUi() {
   });
   ["bookTitle", "unit", "pageRange"].forEach((id) => $(id).addEventListener("input", () => {
     if ($("profileInfo").querySelector(".inline-error")) updateProfileInfo();
+    const sourceEvent = id === "bookTitle" ? "bookTitle" : id === "unit" ? "unitInput" : "pageRange";
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent });
     updateContextSummary();
   }));
   $("btnNextUnit")?.addEventListener("click", () => {
     const cur = parseInt($("unit").value, 10);
     $("unit").value = Number.isFinite(cur) && cur >= 1 ? String(cur + 1) : "1";
     $("unit").dispatchEvent(new Event("input", { bubbles: true }));
+  });
+
+  // Coursebook Smart Panel (Step 1) & Step 2 Coursebook Bar
+  $("cbUnitPills")?.addEventListener("click", (e) => {
+    const pill = e.target.closest("[data-cb-unit]");
+    if (!pill) return;
+    $("unit").value = pill.dataset.cbUnit;
+    $("pageRange").value = "";
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "unitPill" });
+  });
+  $("cbSectionPills")?.addEventListener("click", (e) => {
+    const pill = e.target.closest("[data-sec-pages]");
+    if (!pill) return;
+    $("pageRange").value = pill.dataset.secPages || "";
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "sectionPill" });
+  });
+  ["cbIncludeSb", "cbIncludeWb", "cbWbScope", "cbIncludeEnriched", "cbHideBasic", "cbAssignLimit", "cbAutoAssign"].forEach((id) => {
+    $(id)?.addEventListener("change", () => {
+      refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "filter" });
+    });
+  });
+  $("btnCbAssignNow")?.addEventListener("click", () => {
+    if (!lastCoursebookQuery) return;
+    assignWordsToStudio(getEffectiveAssignList(lastCoursebookQuery));
+  });
+  $("btnCbSelectAll")?.addEventListener("click", () => {
+    if (!lastCoursebookQuery?.words?.length) return;
+    assignWordsToStudio(lastCoursebookQuery.words);
+  });
+  $("cbWordSearch")?.addEventListener("input", () => renderCoursebookWordChips());
+  $("cbWordChips")?.addEventListener("click", (e) => {
+    const chip = e.target.closest(".cb-word-chip");
+    if (!chip) return;
+    const wrap = $("cbWordChips");
+    const idx = Number(chip.dataset.cbIdx);
+    const word = wrap?._filteredWords?.[idx];
+    if (word) toggleSingleCoursebookWordInStudio(word);
+  });
+  $("cbStep2WbToggle")?.addEventListener("change", (e) => {
+    if ($("cbIncludeWb")) $("cbIncludeWb").checked = e.target.checked;
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "step2Toggle" });
+  });
+  $("cbStep2EnrichedToggle")?.addEventListener("change", (e) => {
+    if ($("cbIncludeEnriched")) $("cbIncludeEnriched").checked = e.target.checked;
+    refreshCoursebookPanel({ triggerAutoAssign: true, sourceEvent: "step2Toggle" });
+  });
+  $("btnStep2ResyncCb")?.addEventListener("click", () => {
+    if (!lastCoursebookQuery) return;
+    assignWordsToStudio(getEffectiveAssignList(lastCoursebookQuery));
+  });
+  $("btnStep2EditUnit")?.addEventListener("click", () => {
+    showStep(1);
+    $("coursebookSmartPanel")?.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 
   $("backStep1").addEventListener("click", () => showStep(1));
@@ -2417,6 +2850,7 @@ async function bootApp() {
     initVocabRows();
     renderExercisePickers();
     refreshPlanPreview();
+    refreshCoursebookPanel({ triggerAutoAssign: false, sourceEvent: "boot" });
     updateContextSummary();
     setConn("on", "ready");
 
