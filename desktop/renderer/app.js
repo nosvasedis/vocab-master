@@ -10,6 +10,13 @@ import {
   selectSmartCoursebookWords,
   lookupCoursebookWord,
 } from "./coursebook-data.js";
+import {
+  buildArcadeDeck,
+  buildDetectiveQuestions,
+  buildTabooCard,
+  maskWordInText,
+  createArcadeController,
+} from "./arcade.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -4280,5 +4287,10 @@ export {
   queryCoursebookWords,
   selectSmartCoursebookWords,
   lookupCoursebookWord,
+  buildArcadeDeck,
+  buildDetectiveQuestions,
+  buildTabooCard,
+  maskWordInText,
+  createArcadeController,
 };
 

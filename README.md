@@ -51,7 +51,16 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 - **🖥️ Classroom / Interactive Whiteboard Mode**: Full-screen, high-contrast projection view with zoom controls (`A−` / `A+`) where clicking any exercise line reveals or hides its answer one by one during class review.
 - **📦 One-Click Export Full Unit Pack**: Choose a folder once to export all 6 files (`Lingo Launcher`, `Dictation`, and `Answer Key` in both editable `.docx` Word format and print-ready A4 `.pdf`).
 
-### 5. Searchable Library & JSON Backups
+### 5. 🎮 Lingo Arcade — 5 Interactive Smartboard Classroom Games
+Launch **🎮 Classroom Games** from the top bar, Step 1 Unit Browser, Step 2 Studio, or Step 4 Preview with **zero AI wait time**:
+- **🃏 1. 3D Flashcards & Oracy Studio**: Tactile 3D-flipping cards (`Space` to flip, `←`/`→` to navigate) with **🇬🇷 Greek → 🇬🇧 English** or **🇬🇧 English → 🇬🇷 Greek & Word Family** modes, 1-click **🔊 Pronunciation**, and live **🎤 Oracy Speaking Prompts** for partner discussion.
+- **🧩 2. Smartboard Memory Match**: 12-tile or 16-tile numbered grid (`1`–`16`) so students can call out tile numbers from their desks. Match **🇬🇧 Word ↔ 🇬🇷 Greek** or **🇬🇧 Word ↔ 💬 Collocation**.
+- **🐝 3. Spell Bee & Collocation Anagram**: Interactive scrambled letter tiles + keyboard typing with gapped collocation clues, **🔊 Hear Word**, and **💡 Hint (+1 Letter)**.
+- **🕵️ 4. Context Detective — Game Show Quiz**: 4-option multiple-choice challenge combining Context Cloze, Word Family Detective, and Bilingual Speed rounds — complete with a **✂️ 50/50 Lifeline** and **🔥 Streak Multiplier**.
+- **⏱️ 5. Hot-Seat Taboo & Charades Timer**: Built for the classic ESL hot-seat game! Displays the giant Target Word alongside **🚫 3 Forbidden Taboo Words** and a **60s / 90s Circular Countdown Ring**.
+- **🏆 Live Team Scoreboard & Web Audio FX**: Built-in **2 Teams / 3 Teams / Solo Scoreboard** (`⚡ Team Sparks`, `🔥 Team Blazers`, `🦁 Team Lions`), synthesized Web Audio sound effects, native **Text-to-Speech (TTS)** pronunciation, and victory confetti!
+
+### 6. Searchable Library & JSON Backups
 - Every generated or edited unit is auto-saved to **History**.
 - Search by book/unit, filter by class level, **Duplicate** units for another class, or **Export / Restore JSON Backups** to move your library between computers.
 

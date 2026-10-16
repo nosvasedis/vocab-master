@@ -35,6 +35,9 @@
       </div>
 
       <div class="topbar-actions">
+        <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeTop" title="Launch interactive smartboard vocabulary games (Flashcards, Memory Match, Spell Bee, Context Detective, Hot-Seat Taboo)">
+          🎮 Classroom Games
+        </button>
         <button type="button" class="btn btn-soft btn-sm" id="btnLoadSample" title="Load a complete sample unit to explore all features without an API key">
           🎓 Sample Unit
         </button>
@@ -232,6 +235,7 @@
               <div class="cb-preview-tools">
                 <input type="search" id="cbWordSearch" class="cb-search-input" placeholder="🔍 Filter unit words…" autocomplete="off" />
                 <button type="button" class="btn btn-soft btn-sm" id="btnCbSelectAll" title="Assign all matching words into Step 2">Assign All Matching</button>
+                <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeStep1" title="Launch interactive classroom games with this unit's words right now!">🎮 Play Unit Games</button>
               </div>
             </div>
             <div class="cb-word-chips" id="cbWordChips"></div>
@@ -296,6 +300,9 @@
                 <span class="vocab-dup-pill hidden" id="vocabDupWarning">⚠️ Duplicate words</span>
               </div>
               <div class="vocab-quick-actions">
+                <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeStep2" title="Play interactive classroom games with your current vocabulary words">
+                  🎮 Play Games
+                </button>
                 <button type="button" class="btn btn-secondary btn-sm" id="btnOpenBulkImport" title="Paste a list of words, translations, or textbook lines">
                   📥 Bulk Paste / Import
                 </button>
@@ -479,6 +486,9 @@
           </div>
 
           <div class="sheet-actions">
+            <button type="button" class="btn btn-arcade-pill" id="btnOpenArcadeStep4" title="Launch interactive smartboard games with this unit's vocabulary">
+              🎮 Classroom Games
+            </button>
             <button type="button" class="btn btn-soft" id="btnClassroomMode" title="Open full-screen interactive whiteboard view for classroom projection">
               🖥️ Classroom Mode
             </button>
@@ -763,6 +773,7 @@
           <button type="button" class="cr-tab" data-cr-sheet="dictation">📝 Dictation</button>
           <button type="button" class="cr-tab" data-cr-sheet="answer">📋 Answer Key</button>
         </div>
+        <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeProjector" title="Switch to Classroom Vocabulary Games">🎮 Classroom Games</button>
         <button type="button" class="btn btn-soft btn-sm" id="crZoomOut" title="Decrease text size">A−</button>
         <button type="button" class="btn btn-soft btn-sm" id="crZoomIn" title="Increase text size">A+</button>
         <button type="button" class="btn btn-secondary btn-sm" id="crRevealAll">👁️ Reveal All Answers</button>
@@ -773,6 +784,76 @@
       💡 <strong>Interactive Whiteboard:</strong> Click any exercise item to reveal or hide its answer one by one during class review!
     </div>
     <div class="classroom-stage" id="classroomStage"></div>
+  </div>
+
+  <!-- ══ Lingo Arcade — Smart Classroom Games Overlay ══ -->
+  <div class="arcade-overlay hidden" id="arcadeModal" role="dialog" aria-modal="true" aria-label="Lingo Arcade Classroom Games">
+    <header class="arcade-topbar">
+      <div class="arcade-brand">
+        <span class="arcade-badge">🎮 Lingo Arcade</span>
+        <div class="arcade-unit-meta">
+          <strong id="arcadeUnitTitle">Interactive Classroom Games</strong>
+          <span class="arcade-deck-pill" id="arcadeDeckCount">0 words loaded</span>
+        </div>
+      </div>
+
+      <!-- 5 Game Mode Tabs -->
+      <nav class="arcade-game-tabs" id="arcadeGameTabs" role="tablist" aria-label="Select classroom game">
+        <button type="button" class="arcade-tab active" data-game="flashcards" role="tab">
+          <span class="at-icon">🃏</span>
+          <span class="at-text">3D Flashcards &amp; Oracy</span>
+        </button>
+        <button type="button" class="arcade-tab" data-game="memory" role="tab">
+          <span class="at-icon">🧩</span>
+          <span class="at-text">Memory Match</span>
+        </button>
+        <button type="button" class="arcade-tab" data-game="spellbee" role="tab">
+          <span class="at-icon">🐝</span>
+          <span class="at-text">Spell Bee</span>
+        </button>
+        <button type="button" class="arcade-tab" data-game="detective" role="tab">
+          <span class="at-icon">🕵️</span>
+          <span class="at-text">Context Detective</span>
+        </button>
+        <button type="button" class="arcade-tab" data-game="hotseat" role="tab">
+          <span class="at-icon">⏱️</span>
+          <span class="at-text">Hot-Seat Taboo</span>
+        </button>
+      </nav>
+
+      <div class="arcade-actions">
+        <button type="button" class="btn btn-soft btn-sm" id="arcadeTeamToggle" title="Cycle between Solo Mode, 2 Teams, and 3 Teams scoreboard">
+          🏆 2 Teams
+        </button>
+        <button type="button" class="btn btn-soft btn-sm active" id="arcadeSfxToggle" title="Toggle classroom sound effects">
+          🔔 Sound ON
+        </button>
+        <button type="button" class="btn btn-soft btn-sm active" id="arcadeTtsToggle" title="Automatically speak English words aloud with Text-to-Speech">
+          🔊 Voice ON
+        </button>
+        <button type="button" class="btn btn-soft btn-sm" id="arcadeShuffleDeck" title="Shuffle vocabulary deck &amp; restart current game">
+          🔀 New Round
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" id="closeArcadeModal">
+          ✕ Exit Arcade (Esc)
+        </button>
+      </div>
+    </header>
+
+    <!-- Live Classroom Team Scoreboard Strip -->
+    <div class="arcade-scoreboard-bar" id="arcadeScoreboardBar">
+      <div class="arcade-teams-wrap" id="arcadeTeamsWrap"></div>
+      <div class="arcade-streak-wrap">
+        <span class="arcade-streak-pill" id="arcadeStreakPill">🔥 Streak: 0</span>
+        <button type="button" class="btn btn-ghost btn-xs" id="arcadeResetScores" title="Reset team scores to 0">Reset Scores</button>
+      </div>
+    </div>
+
+    <!-- Interactive Game Stage -->
+    <div class="arcade-stage" id="arcadeStage"></div>
+
+    <!-- Confetti layer -->
+    <div class="arcade-confetti-layer" id="arcadeConfettiLayer" aria-hidden="true"></div>
   </div>
 
   <!-- ══ Teacher Guide & Shortcuts modal ══ -->

@@ -20,6 +20,7 @@ import {
   CPP_BOOKS, CPP_WORDBANK, resolveCoursebookId, getCppUnitStructure,
   parsePageRangeSpec, inferUnitFromPages, queryCoursebookWords,
   selectSmartCoursebookWords, lookupCoursebookWord,
+  buildArcadeDeck, createArcadeController,
 } from "./app.js";
 
 const API_KEY_KEY = STORAGE_KEY;
@@ -839,6 +840,7 @@ function createVocabCard(data = {}) {
       <span class="vocab-word-num" aria-label="Word number">1</span>
       <input class="vr-english" placeholder="English word or phrase (press Enter for next row)" value="${escAttr(data.english || "")}" />
       <div class="vocab-move-btns">
+        <button type="button" class="icon-btn btn-speak-word" title="Pronounce English word aloud" aria-label="Pronounce word">🔊</button>
         <button type="button" class="icon-btn btn-move-up" title="Move word up" aria-label="Move word up">↑</button>
         <button type="button" class="icon-btn btn-move-down" title="Move word down" aria-label="Move word down">↓</button>
       </div>
@@ -877,6 +879,10 @@ function createVocabCard(data = {}) {
       </div>
     </div>`;
 
+  card.querySelector(".btn-speak-word")?.addEventListener("click", () => {
+    const w = card.querySelector(".vr-english")?.value.trim();
+    if (w && arcadeController) arcadeController.audio.speak(w, { force: true });
+  });
   card.querySelector(".btn-rm").addEventListener("click", () => {
     card.remove();
     renumberVocabCards();
@@ -2434,10 +2440,76 @@ async function testApiKey() {
   }
 }
 
+/* ═══════════════ Lingo Arcade (Classroom Games) ══════════════════ */
+let arcadeController = null;
+
+function getActiveArcadeDeckContext() {
+  const bookTitle = $("bookTitle")?.value.trim() || currentData?.meta?.bookTitle || "Cambridge Primary Paths 3";
+  const unitVal = $("unit")?.value.trim() || currentData?.meta?.unit || "";
+  const pageVal = $("pageRange")?.value.trim() || currentData?.meta?.pageRange || "";
+  const lookupFn = (eng) => lookupCoursebookWord(eng, bookTitle, unitVal);
+
+  // 1. Check Step 2 structured cards
+  const studioWords = [...document.querySelectorAll(".vocab-card")].map(readVocabRow).filter((w) => w.english);
+  if (studioWords.length >= 3) {
+    const deck = buildArcadeDeck(studioWords, lookupFn);
+    const label = `${bookTitle}${unitVal ? ` · Unit ${unitVal}` : ""}${pageVal ? ` (p. ${pageVal})` : ""}`;
+    return { deck, unitTitle: label };
+  }
+
+  // 2. Check generated worksheet vocabulary in Step 4
+  if (currentData?.lingoLauncher?.vocabulary?.length >= 3) {
+    const deck = buildArcadeDeck(currentData.lingoLauncher.vocabulary, lookupFn);
+    const m = currentData.meta || {};
+    const label = `${m.bookTitle || bookTitle}${m.unit ? ` · Unit ${m.unit}` : ""}`;
+    return { deck, unitTitle: label };
+  }
+
+  // 3. Check active Step 1 Coursebook query (or default Unit 1 of selected CPP book)
+  const bookId = resolveCoursebookId(bookTitle);
+  if (bookId) {
+    const q = (lastCoursebookQuery?.words?.length >= 3)
+      ? lastCoursebookQuery
+      : queryCoursebookWords({
+          bookId,
+          unit: Number(unitVal) || 1,
+          pageRange: pageVal,
+          includeSb: true,
+          includeWb: true,
+          includeEnriched: true,
+          hideBasic: true,
+        });
+    const wordsToUse = getEffectiveAssignList(q);
+    if (wordsToUse.length >= 3) {
+      const deck = buildArcadeDeck(wordsToUse, lookupFn);
+      const label = `${CPP_BOOKS[bookId].title} · Unit ${q.unit || 1}`;
+      return { deck, unitTitle: label };
+    }
+  }
+
+  // 4. Fallback to Sample Unit vocabulary
+  const sample = getSampleUnitData();
+  const deck = buildArcadeDeck(sample.data.lingoLauncher.vocabulary, lookupFn);
+  return {
+    deck,
+    unitTitle: `${sample.form.bookTitle} · Unit ${sample.form.unit} (Sample Deck)`,
+  };
+}
+
 /* ═══════════════ Wiring ═══════════════════════════════════════════ */
 function wireUi() {
   $("btnTheme").addEventListener("click", toggleTheme);
   $("btnNew").addEventListener("click", newWorksheet);
+
+  arcadeController = createArcadeController({
+    getDeckContext: getActiveArcadeDeckContext,
+  });
+  ["btnOpenArcadeTop", "btnOpenArcadeStep1", "btnOpenArcadeStep2", "btnOpenArcadeStep4", "btnOpenArcadeProjector"].forEach((id) => {
+    $(id)?.addEventListener("click", () => {
+      $("classroomModal")?.classList.add("hidden");
+      arcadeController.openArcade();
+    });
+  });
 
   // Sample unit & Help guide
   $("btnLoadSample")?.addEventListener("click", loadSampleUnit);

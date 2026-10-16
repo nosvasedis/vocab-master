@@ -444,9 +444,27 @@ async function runSmokeTest() {
         dbg.uiAutoAssignedWords = assignedCards.length;
         const cbOk = dbg.cpp1Total > 50 && dbg.cpp1Wb > 5 && dbg.cpp2WbExcluded === 0 && dbg.cpp3InferredUnit === 6 && dbg.cpp3WbIncludedInPages > 10 && dbg.cpp3Enriched >= 4 && dbg.uiAutoAssignedUnit === "4" && dbg.uiAutoAssignedWords >= 10;
 
+        // Test Lingo Arcade (5 Interactive Classroom Games)
+        document.getElementById("btnOpenArcadeTop").click();
+        await new Promise((r) => setTimeout(r, 120));
+        const arcModal = document.getElementById("arcadeModal");
+        dbg.arcadeOpen = !arcModal.classList.contains("hidden");
+        dbg.fcRendered = !!document.querySelector("#arcadeStage .fc-card-3d");
+        document.querySelector('#arcadeGameTabs [data-game="memory"]').click();
+        dbg.memTiles = document.querySelectorAll("#arcadeStage .mem-tile").length;
+        document.querySelector('#arcadeGameTabs [data-game="spellbee"]').click();
+        dbg.sbTiles = document.querySelectorAll("#arcadeStage .sb-tile").length;
+        document.querySelector('#arcadeGameTabs [data-game="detective"]').click();
+        dbg.detOpts = document.querySelectorAll("#arcadeStage .det-option-btn").length;
+        document.querySelector('#arcadeGameTabs [data-game="hotseat"]').click();
+        dbg.hsTaboo = document.querySelectorAll("#arcadeStage .hs-taboo-chip").length;
+        document.getElementById("closeArcadeModal").click();
+        dbg.arcadeClosed = arcModal.classList.contains("hidden");
+        const arcadeOk = dbg.arcadeOpen && dbg.fcRendered && dbg.memTiles >= 12 && dbg.sbTiles >= 2 && dbg.detOpts === 4 && dbg.hsTaboo === 3 && dbg.arcadeClosed;
+
         return JSON.stringify({
           ...dbg,
-          fail: (dbg.hit && dbg.modalHiddenAfter && dbg.classroomOpen && dbg.bulkParsedCount === 2 && dbg.docxOk && cbOk) ? "" : "studio2-fail",
+          fail: (dbg.hit && dbg.modalHiddenAfter && dbg.classroomOpen && dbg.bulkParsedCount === 2 && dbg.docxOk && cbOk && arcadeOk) ? "" : "studio2-fail",
         });
       })()
     `);
