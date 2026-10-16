@@ -1,0 +1,72 @@
+{
+  "name": "vocab-master-desktop",
+  "productName": "Vocab Master",
+  "version": "2.0.0",
+  "description": "Vocab Master — AI Vocabulary & Dictation Worksheet Studio for ESL Teachers (A–E Senior).",
+  "author": "Vocab Master",
+  "license": "MIT",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "smoke": "electron . --smoke",
+    "icon": "node scripts/make-icon.js",
+    "dist": "electron-builder --win nsis portable",
+    "dist:setup": "electron-builder --win nsis",
+    "dist:portable": "electron-builder --win portable",
+    "dist:dir": "electron-builder --win dir"
+  },
+  "dependencies": {
+    "docx": "^8.5.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.vocabmaster.desktop",
+    "productName": "Vocab Master",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.cjs",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Vocab Master",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "uninstallDisplayName": "Vocab Master",
+      "artifactName": "Vocab-Master-Setup-${version}.exe"
+    },
+    "portable": {
+      "artifactName": "Vocab-Master-Portable-${version}.exe"
+    },
+    "afterPack": "./scripts/after-pack.cjs",
+    "npmRebuild": false
+  }
+}

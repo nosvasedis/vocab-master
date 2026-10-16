@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' app: data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'" />
+  <title>Vocab Master</title>
+  <link rel="icon" type="image/png" href="./assets/vocab-master-mark.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- ── Top bar ─────────────────────────────────────────────── -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <img src="./assets/vocab-master-mark.png" alt="" width="48" height="48" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <h1>Vocab Master</h1>
+            <span class="studio-badge">Teacher Studio 2.0</span>
+          </div>
+          <p class="brand-tagline">AI Vocabulary &amp; Dictation Worksheet Architect · A–E Senior</p>
+        </div>
+      </div>
+
+      <div class="context-bar-pill" id="contextBarPill" title="Active unit summary">
+        <span class="ctx-item" id="ctxBook">No book selected</span>
+        <span class="ctx-sep">·</span>
+        <span class="ctx-item ctx-badge" id="ctxLevel">Select level</span>
+        <span class="ctx-sep">·</span>
+        <span class="ctx-item" id="ctxWords">0 words</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button type="button" class="btn btn-soft btn-sm" id="btnLoadSample" title="Load a complete sample unit to explore all features without an API key">
+          🎓 Sample Unit
+        </button>
+        <button type="button" class="icon-btn" id="btnHelp" title="Teacher Guide &amp; Shortcuts (?)" aria-label="Teacher Guide and Shortcuts">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="btnTheme" title="Toggle light / dark theme" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="19" height="19"><circle cx="12" cy="12" r="4.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3 17 7M7 17l-1.7 1.7"/></g></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="19" height="19"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="currentColor"/></svg>
+        </button>
+        <button type="button" class="btn btn-ghost" id="btnNew" title="Start the next unit (Ctrl+N)">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          New
+        </button>
+        <button type="button" class="btn btn-ghost" id="btnHistory" title="Saved worksheets &amp; backups">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+          History
+          <span class="nav-count-badge hidden" id="historyCountBadge">0</span>
+        </button>
+        <button type="button" class="btn btn-ghost" id="btnSettings" title="DeepSeek API key &amp; data folder">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.01a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.01a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
+          Settings
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Stepper ─────────────────────────────────────────────── -->
+    <nav class="stepper" id="stepNav" aria-label="Worksheet steps">
+      <button type="button" class="step active" data-step="1">
+        <span class="step-dot">1</span>
+        <span class="step-text">
+          <span class="step-label">Unit Setup</span>
+          <span class="step-sub" id="stepSub1">Book &amp; class level</span>
+        </span>
+      </button>
+      <span class="step-line"></span>
+      <button type="button" class="step" data-step="2">
+        <span class="step-dot">2</span>
+        <span class="step-text">
+          <span class="step-label">Vocabulary Studio</span>
+          <span class="step-sub" id="stepSub2">0 words</span>
+        </span>
+      </button>
+      <span class="step-line"></span>
+      <button type="button" class="step" data-step="3">
+        <span class="step-dot">3</span>
+        <span class="step-text">
+          <span class="step-label">Exercise Architect</span>
+          <span class="step-sub" id="stepSub3">Pick &amp; generate</span>
+        </span>
+      </button>
+      <span class="step-line"></span>
+      <button type="button" class="step" data-step="4">
+        <span class="step-dot">4</span>
+        <span class="step-text">
+          <span class="step-label">Preview &amp; Export</span>
+          <span class="step-sub" id="stepSub4">Edit, project &amp; print</span>
+        </span>
+      </button>
+    </nav>
+
+    <main class="content">
+      <!-- ══ STEP 1 · Unit setup ══ -->
+      <section class="card step-section" data-step="1">
+        <div class="card-head-split">
+          <div class="card-head">
+            <h2>1 · Unit &amp; Class Setup</h2>
+            <p class="card-lead">Choose your coursebook, unit, and Greek ESL class profile. Every sentence length, grammar constraint, and exercise format adapts automatically.</p>
+          </div>
+          <div class="sample-callout">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnSampleStep1">🎓 Load Sample Unit (No API Key Needed)</button>
+          </div>
+        </div>
+
+        <div class="field-block">
+          <label class="field-label">Select Class Level (A–E Senior)</label>
+          <div class="level-cards-grid" id="classLevelCards" role="radiogroup" aria-label="Class level"></div>
+          <!-- Hidden/synced select kept for full engine & smoke test compatibility -->
+          <div class="sr-select-row">
+            <label class="field-label" for="classProfile">Class profile dropdown</label>
+            <select id="classProfile">
+              <option value="">Select class…</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-3-setup">
+          <div class="field book-title-field">
+            <label class="field-label" for="bookTitle">Coursebook Title</label>
+            <input id="bookTitle" list="bookTitleList" placeholder="e.g. Cambridge Primary Paths 3" autocomplete="off" />
+            <datalist id="bookTitleList">
+              <option value="Cambridge Primary Paths 1"></option>
+              <option value="Cambridge Primary Paths 2"></option>
+              <option value="Cambridge Primary Paths 3"></option>
+              <option value="Cambridge Primary Paths 4"></option>
+            </datalist>
+            <div class="recent-books-bar" id="recentBooksBar"></div>
+          </div>
+          <div class="field">
+            <label class="field-label" for="unit">Unit Number</label>
+            <div class="input-with-addon">
+              <input id="unit" type="number" min="1" placeholder="e.g. 6" />
+              <button type="button" class="btn btn-soft btn-sm addon-btn" id="btnNextUnit" title="Increment to next unit (+1)">+1</button>
+            </div>
+          </div>
+          <div class="field">
+            <label class="field-label" for="pageRange">Page Range</label>
+            <input id="pageRange" placeholder="e.g. 118–120" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="profile-info" id="profileInfo"></div>
+
+        <div class="row-actions split">
+          <span class="step-hint-note">💡 Tip: Press <kbd>🎓 Sample Unit</kbd> anytime to test the full editor &amp; exporter right away.</span>
+          <button type="button" class="btn btn-primary" id="toStep2">
+            Continue to Vocabulary
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ══ STEP 2 · Vocabulary ══ -->
+      <section class="card step-section hidden" data-step="2">
+        <div class="card-head-split">
+          <div class="card-head">
+            <h2>2 · Vocabulary Studio</h2>
+            <p class="card-lead">Enter your unit words or bulk-paste a list. Use AI to auto-fill Greek meanings, emojis, collocations, and word families tailored to your class level.</p>
+          </div>
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab active" role="tab" data-tab="structured">📋 Structured Studio</button>
+            <button type="button" class="tab" role="tab" data-tab="freeform">📝 Freeform Brief</button>
+          </div>
+        </div>
+
+        <div class="tab-panel active" id="panel-structured">
+          <!-- Studio control bar -->
+          <div class="vocab-studio-bar">
+            <div class="vocab-studio-top">
+              <div class="vocab-stats-group">
+                <p id="vocabWordCount" class="vocab-count"><strong>0</strong> words</p>
+                <span class="vocab-target-pill" id="vocabTargetHint">Recommended: 8–14 words</span>
+                <span class="vocab-dup-pill hidden" id="vocabDupWarning">⚠️ Duplicate words</span>
+              </div>
+              <div class="vocab-quick-actions">
+                <button type="button" class="btn btn-secondary btn-sm" id="btnOpenBulkImport" title="Paste a list of words, translations, or textbook lines">
+                  📥 Bulk Paste / Import
+                </button>
+                <button type="button" class="btn btn-soft btn-sm" id="btnSortVocab" title="Sort vocabulary words alphabetically (A–Z)">
+                  🔤 Sort A–Z
+                </button>
+                <button type="button" class="btn btn-soft btn-sm" id="btnCleanEmptyVocab" title="Remove empty word cards">
+                  🧹 Clean Empty
+                </button>
+                <button type="button" class="btn btn-soft btn-sm" id="btnToggleVocabCompact" title="Switch between compact and detailed card view">
+                  📐 Compact View
+                </button>
+              </div>
+            </div>
+
+            <!-- Batch field toggles across all words -->
+            <div class="batch-toggles-row" id="batchFieldToggles">
+              <span class="batch-label" title="Toggle fields across all vocabulary cards at once">All cards fields:</span>
+              <button type="button" class="chip-batch active" data-batch-field="type">Type (n./v.)</button>
+              <button type="button" class="chip-batch active" data-batch-field="greek">Greek</button>
+              <button type="button" class="chip-batch active" data-batch-field="emojis">Emojis</button>
+              <button type="button" class="chip-batch active" data-batch-field="collocation">Collocation</button>
+              <button type="button" class="chip-batch" data-batch-field="derivatives">Derivatives</button>
+              <button type="button" class="chip-batch" data-batch-field="synonyms">Synonyms</button>
+              <button type="button" class="chip-batch" data-batch-field="antonyms">Antonyms</button>
+              <span class="vocab-tip-inline">Tip: Press <kbd>Enter</kbd> in an English word field to jump to the next word.</span>
+            </div>
+          </div>
+
+          <div id="vocabRows"></div>
+
+          <div class="row-actions">
+            <button type="button" class="btn btn-primary" id="fillAllVocab">✨ Fill all words with AI</button>
+            <button type="button" class="btn btn-secondary" id="addVocabRow">+ Add word</button>
+            <button type="button" class="btn btn-soft" id="addFiveVocabRows">+ Add 5 rows</button>
+          </div>
+          <div id="vocabFillStatus" class="status hidden"></div>
+        </div>
+
+        <div class="tab-panel" id="panel-freeform">
+          <label class="field-label" for="freeform">Describe the unit topic, paste textbook text, or list lesson notes</label>
+          <textarea id="freeform" placeholder="Example: Unit 6 about outdoor adventures and extreme sports. Target words: cliff, canyon, equipment, survive, rescue, exhausted, thrilling, brave…"></textarea>
+          <p class="modal-note">In Freeform mode, the AI will extract and build the appropriate number of vocabulary entries and exercises for your selected class profile.</p>
+        </div>
+
+        <div class="row-actions split">
+          <button type="button" class="btn btn-secondary" id="backStep1">← Back to Unit Setup</button>
+          <button type="button" class="btn btn-primary" id="toStep3">Continue to Exercise Architect →</button>
+        </div>
+      </section>
+
+      <!-- ══ STEP 3 · Generate ══ -->
+      <section class="card step-section hidden" data-step="3">
+        <div class="card-head">
+          <h2>3 · Exercise Architect</h2>
+          <p class="card-lead">Choose how exercises are selected for your Dictation assessment and Lingo Launcher study sheet. Every unit word is guaranteed to be tested in Dictation.</p>
+        </div>
+
+        <div class="exercise-mode-cards" role="radiogroup" aria-label="Exercise selection mode">
+          <label class="mode-card">
+            <input type="radio" name="exerciseMode" value="random" checked />
+            <span class="mode-card-body">
+              <span class="mode-card-top">
+                <span class="mode-card-icon" aria-hidden="true">🎲</span>
+                <span class="mode-card-title">Smart Pedagogical Mix</span>
+                <span class="mode-card-badge">Recommended</span>
+              </span>
+              <span class="mode-card-desc">Automatically balances Recognition, Productive, and Analysis exercise types suited to your class level. Use Shuffle to preview different combinations.</span>
+            </span>
+          </label>
+          <label class="mode-card">
+            <input type="radio" name="exerciseMode" value="custom" />
+            <span class="mode-card-body">
+              <span class="mode-card-top">
+                <span class="mode-card-icon" aria-hidden="true">✅</span>
+                <span class="mode-card-title">Custom Exercise Menu</span>
+              </span>
+              <span class="mode-card-desc">Hand-pick exact exercise formats or start from a teaching preset (Recognition, Productive, Cambridge Exam Prep, Word Families).</span>
+            </span>
+          </label>
+        </div>
+
+        <!-- Random Mix Count Controls -->
+        <div id="randomMixControls" class="random-mix-bar">
+          <div class="rm-field">
+            <label for="randomDictCount">Dictation exercises:</label>
+            <select id="randomDictCount">
+              <option value="0">Auto (3–5 balanced)</option>
+              <option value="3">3 exercises (shorter quiz)</option>
+              <option value="4">4 exercises (standard)</option>
+              <option value="5">5 exercises (comprehensive)</option>
+            </select>
+          </div>
+          <div class="rm-field">
+            <label for="randomLingoCount">Lingo Launcher practice:</label>
+            <select id="randomLingoCount">
+              <option value="0">Auto (1–2 exercises)</option>
+              <option value="1">1 practice exercise</option>
+              <option value="2">2 practice exercises</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" id="shufflePlan">🔀 Shuffle Exercise Mix</button>
+        </div>
+
+        <!-- Custom Exercise Picker -->
+        <div id="exercisePicker" class="exercise-picker hidden">
+          <div class="exercise-picker-head">
+            <div>
+              <h3>Your Exercise Menu</h3>
+              <p class="exercise-picker-hint">Tick at least one Dictation and one Lingo type, or apply a quick teaching preset below. Synonym, opposite, and derivative types unlock when enabled in Step 2.</p>
+            </div>
+            <div class="preset-bar" id="exercisePresetBar">
+              <span class="preset-label">Presets:</span>
+              <button type="button" class="btn btn-soft btn-sm" data-preset="balanced">⚖️ Balanced</button>
+              <button type="button" class="btn btn-soft btn-sm" data-preset="recognition">🎯 Recognition</button>
+              <button type="button" class="btn btn-soft btn-sm" data-preset="productive">✍️ Productive</button>
+              <button type="button" class="btn btn-soft btn-sm" data-preset="exam">🎓 Exam Prep</button>
+              <button type="button" class="btn btn-soft btn-sm" data-preset="families">🌳 Word Families</button>
+              <button type="button" class="btn btn-ghost btn-sm" data-preset="clear">Clear</button>
+            </div>
+          </div>
+
+          <div class="family-filter-bar" id="exerciseFamilyFilter">
+            <span class="preset-label">Filter by skill:</span>
+            <button type="button" class="chip-filter active" data-family="all">All Types</button>
+            <button type="button" class="chip-filter" data-family="recognition">🟢 Recognition (Matching / Choice)</button>
+            <button type="button" class="chip-filter" data-family="productive">🔵 Productive (Cloze / Word Building)</button>
+            <button type="button" class="chip-filter" data-family="analysis">🟣 Analysis (Error Fix / Ordering)</button>
+          </div>
+
+          <div class="exercise-section">
+            <p class="exercise-section-label"><span>📝</span> Dictation Assessment Exercises</p>
+            <div id="dictationPicker" class="exercise-pick-grid"></div>
+          </div>
+          <div class="exercise-section">
+            <p class="exercise-section-label"><span>🚀</span> Lingo Launcher Practice Exercises</p>
+            <div id="lingoPicker" class="exercise-pick-grid"></div>
+          </div>
+        </div>
+
+        <div class="plan-badge" id="planPreview">Generation plan will appear here…</div>
+
+        <div class="row-actions">
+          <button type="button" class="btn btn-primary btn-generate" id="btnGenerate">
+            <span class="btn-spark" aria-hidden="true">✨</span> Generate Worksheets with AI
+          </button>
+          <button type="button" class="btn btn-soft" id="regenDictation" disabled title="Keep Lingo Launcher and regenerate only the Dictation worksheet">🔄 Regenerate Dictation Only</button>
+          <button type="button" class="btn btn-soft" id="regenLingo" disabled title="Keep Dictation and regenerate only the Lingo Launcher practice">🔄 Regenerate Lingo Practice Only</button>
+        </div>
+
+        <div id="genStatus" class="status hidden"></div>
+
+        <div class="row-actions split">
+          <button type="button" class="btn btn-secondary" id="backStep2">← Back to Vocabulary</button>
+          <button type="button" class="btn btn-primary hidden" id="toStep4">Open Preview &amp; Editor →</button>
+        </div>
+      </section>
+
+      <!-- ══ STEP 4 · Preview & Export ══ -->
+      <section class="card step-section hidden step-preview" data-step="4">
+        <div class="card-head-split">
+          <div class="card-head">
+            <h2>4 · Preview, Live Editor &amp; Export</h2>
+            <p class="card-lead">Click any vocabulary box or exercise line to edit it live. Project in Classroom Mode, print, or export as Word (<code>.docx</code>) and A4 PDF.</p>
+          </div>
+          <div class="pack-export-cta">
+            <button type="button" class="btn btn-primary" id="btnExportPack" title="Export Lingo Launcher, Dictation, and Answer Key (Word + PDF) into one folder">
+              📦 Export Full Unit Pack
+            </button>
+          </div>
+        </div>
+
+        <div id="validationPanel"></div>
+
+        <!-- Primary Sheet Switcher & Export Bar -->
+        <div class="sheet-toolbar">
+          <div class="segmented" role="tablist" aria-label="Worksheet">
+            <button type="button" class="preview-tab active" role="tab" data-preview="lingo">🚀 Lingo Launcher</button>
+            <button type="button" class="preview-tab" role="tab" data-preview="dictation">📝 Dictation</button>
+            <button type="button" class="preview-tab" role="tab" data-preview="answer">📋 Answer Key</button>
+          </div>
+
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-soft" id="btnClassroomMode" title="Open full-screen interactive whiteboard view for classroom projection">
+              🖥️ Classroom Mode
+            </button>
+            <button type="button" class="btn btn-soft" id="exPrint" title="Print current sheet (Ctrl+P)">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+              Print
+            </button>
+            <button type="button" class="btn btn-soft" id="exPdf" title="Save current sheet as A4 PDF">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
+              PDF
+            </button>
+            <button type="button" class="btn btn-primary" id="exDocx" title="Save current sheet as an editable Word (.docx) document">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+              Word (.docx)
+            </button>
+          </div>
+        </div>
+
+        <!-- Teacher Formatting & Inspection Sub-toolbar -->
+        <div class="teacher-view-bar">
+          <div class="tv-left">
+            <label class="chip-toggle" title="Overlay correct answers in green directly on the worksheet preview">
+              <input type="checkbox" id="toggleShowAnswers" />
+              👁️ Show Answers Inline
+            </label>
+            <label class="chip-toggle" title="Include a printable Name / Date / Class / Score block at the top of worksheets">
+              <input type="checkbox" id="toggleStudentHeader" />
+              📝 Student Name/Date Header
+            </label>
+          </div>
+          <div class="tv-right">
+            <label class="tv-density-label" for="selectDensity">Page Spacing:</label>
+            <select id="selectDensity" class="density-select">
+              <option value="compact">Compact (fit more on 1 page)</option>
+              <option value="standard" selected>Standard A4</option>
+              <option value="comfortable">Comfortable (larger writing space)</option>
+            </select>
+          </div>
+        </div>
+
+        <p class="preview-tip hidden" id="previewTip">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+          <span><strong>Live Editor:</strong> Click any <strong>vocabulary table cell</strong> or <strong>exercise item line</strong> below to edit it — changes auto-save to History.</span>
+        </p>
+
+        <div class="preview-frame" id="previewFrame"></div>
+
+        <div class="answer-key-bar">
+          <div>
+            <strong>📋 Teacher Answer Key Quick Export</strong>
+            <span>Download the complete Answer Key for both worksheets, including tested target words per line.</span>
+          </div>
+          <div class="sheet-actions">
+            <button type="button" class="btn btn-soft" id="exKeyPrint">🖨️ Print Key</button>
+            <button type="button" class="btn btn-soft" id="exKeyPdf">📄 Key PDF</button>
+            <button type="button" class="btn btn-soft" id="exKeyDocx">📘 Key Word (.docx)</button>
+          </div>
+        </div>
+
+        <details class="coverage-details" id="coverageDetails" open>
+          <summary><span id="coverageSummary">Word coverage</span></summary>
+          <div id="coveragePanel"></div>
+        </details>
+
+        <div class="row-actions split">
+          <button type="button" class="btn btn-secondary" id="backStep3">← Back to Exercise Architect</button>
+          <button type="button" class="btn btn-soft" id="btnDuplicateCurrent">📑 Duplicate Unit for Another Class</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="statusbar">
+      <span class="statusbar-left">
+        <span class="storage-pill" id="storagePill" title="Where your worksheets are saved">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+          <span id="storageLabel">Saving to this device</span>
+        </span>
+      </span>
+      <span class="statusbar-right">
+        <span id="connState" class="conn-state" title="AI connection">
+          <span class="conn-dot"></span><span id="connLabel">ready</span>
+        </span>
+        <span id="appVersion" class="version"></span>
+      </span>
+    </footer>
+  </div>
+
+  <!-- ══ Settings modal ══ -->
+  <div class="modal-overlay hidden" id="settingsModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-head">
+        <h2 id="settingsTitle">⚙️ Settings &amp; API Key</h2>
+        <button type="button" class="icon-btn" id="closeSettingsX" title="Close" aria-label="Close settings">✕</button>
+      </div>
+      <label class="field-label" for="apiKey" style="margin-top:0.75rem">DeepSeek API Key</label>
+      <div class="api-key-row">
+        <input id="apiKey" type="password" placeholder="sk-…" autocomplete="off" />
+        <button type="button" class="icon-btn" id="toggleKeyVisible" title="Show / hide key" aria-label="Show or hide API key">
+          <svg class="icon-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="icon-eye-off" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.5 10.5 0 0 1 12 19c-6.5 0-10-7-10-7a19.6 19.6 0 0 1 4.1-5.1M2 2l20 20M9.9 4.2A10.2 10.2 0 0 1 12 4c6.5 0 10 7 10 7a19.6 19.6 0 0 1-2.6 3.7"/><path d="M9.9 9.9a3 3 0 1 0 4.2 4.2"/></svg>
+        </button>
+        <button type="button" class="btn btn-soft" id="testApiKey">Test key</button>
+      </div>
+      <p id="keyStatus" class="key-status hidden" aria-live="polite"></p>
+      <p class="modal-note">Stored encrypted on this computer only — never shared with any third party.
+        Need a key? Create one at <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">platform.deepseek.com</a>.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-soft" id="openDataFolder">📂 Data folder</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" id="closeSettings">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveSettings">Save Key</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ History modal ══ -->
+  <div class="modal-overlay hidden" id="historyModal">
+    <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
+      <div class="modal-head">
+        <h2 id="historyTitle">🗂️ Saved Worksheets &amp; Library</h2>
+        <button type="button" class="icon-btn" id="closeHistory" title="Close" aria-label="Close history">✕</button>
+      </div>
+      <p class="modal-note">Every generated or edited unit is saved automatically. Search by book or unit, duplicate for another class, or export a backup file.</p>
+      <div class="history-toolbar">
+        <input type="search" id="historySearch" placeholder="🔍 Search book title, unit, or page…" autocomplete="off" />
+        <select id="historyClassFilter">
+          <option value="">All classes</option>
+        </select>
+        <button type="button" class="btn btn-soft btn-sm" id="btnExportBackup" title="Export all saved worksheets to a JSON backup file">📤 Backup</button>
+        <button type="button" class="btn btn-soft btn-sm" id="btnImportBackup" title="Restore worksheets from a JSON backup file">📥 Restore</button>
+        <input type="file" id="backupFileInput" accept=".json,application/json" class="hidden" />
+      </div>
+      <div id="historyContent" class="history-content"></div>
+    </div>
+  </div>
+
+  <!-- ══ Bulk Import Vocabulary modal ══ -->
+  <div class="modal-overlay hidden" id="bulkImportModal">
+    <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="bulkImportTitle">
+      <div class="modal-head">
+        <h2 id="bulkImportTitle">📥 Bulk Paste / Smart Vocabulary Import</h2>
+        <button type="button" class="icon-btn" id="closeBulkImport" title="Close" aria-label="Close bulk import">✕</button>
+      </div>
+      <p class="modal-note">
+        Paste a list of words (one per line, or comma-separated). Smart parser automatically recognizes optional parts of speech, Greek translations, collocations, derivatives, synonyms, and antonyms!
+      </p>
+      <div class="bulk-format-hint">
+        <code>compete (v.) - συναγωνίζομαι | compete in a race &gt; competition (n.) ≈ contest ≠ give up</code>
+      </div>
+      <textarea id="bulkImportText" rows="7" placeholder="Paste words here, e.g.:&#10;1. explore (v.) - εξερευνώ | explore a cave&#10;2. equipment (n.) - εξοπλισμός&#10;3. exhausted (adj.) - εξαντλημένος ≈ tired ≠ energetic&#10;4. rescue"></textarea>
+      <div class="bulk-import-preview" id="bulkImportPreview">Paste text above to preview parsed words…</div>
+      <div class="modal-actions">
+        <label class="chip-toggle">
+          <input type="checkbox" id="bulkReplaceExisting" />
+          Replace existing empty/current rows
+        </label>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" id="cancelBulkImport">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmBulkImport">Import Words</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Vocab Cell Editor modal (Step 4 live vocabulary table editing) ══ -->
+  <div class="modal-overlay hidden" id="vocabEditorModal">
+    <div class="modal modal-editor" role="dialog" aria-modal="true" aria-labelledby="vocabEditorTitle">
+      <div class="modal-head">
+        <div class="editor-head-text">
+          <h2 id="vocabEditorTitle">Edit Vocabulary Entry</h2>
+          <p id="vocabEditorSub" class="modal-note">Updates both Lingo Launcher table and Step 2 vocabulary card.</p>
+        </div>
+        <button type="button" class="icon-btn" id="closeVocabEditor" title="Close" aria-label="Close vocabulary editor">✕</button>
+      </div>
+      <div class="editor-body">
+        <div class="grid-2 editor-grid-2">
+          <div class="field">
+            <label class="field-label" for="veEnglish">English Word / Phrase</label>
+            <input id="veEnglish" placeholder="English headword" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label class="field-label" for="veType">Part of Speech (Type)</label>
+            <input id="veType" placeholder="n., v., adj., phr. v." autocomplete="off" />
+          </div>
+        </div>
+        <div class="grid-2 editor-grid-2">
+          <div class="field">
+            <label class="field-label" for="veGreek">Greek Meaning</label>
+            <input id="veGreek" placeholder="ελληνική σημασία" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label class="field-label" for="veEmojis">Emojis</label>
+            <input id="veEmojis" placeholder="🎯✨" autocomplete="off" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="veCollocation">Collocation / Example Phrase</label>
+          <input id="veCollocation" placeholder="Short natural phrase" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="veDerivatives">Derivatives (optional)</label>
+          <input id="veDerivatives" placeholder="e.g. competition (n.) - διαγωνισμός" autocomplete="off" />
+        </div>
+        <div class="grid-2 editor-grid-2">
+          <div class="field">
+            <label class="field-label" for="veSynonyms">Synonyms (optional)</label>
+            <input id="veSynonyms" placeholder="near-same words" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label class="field-label" for="veAntonyms">Antonyms (optional)</label>
+            <input id="veAntonyms" placeholder="opposite words" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" id="cancelVocabEditor">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveVocabEditor">Save Vocabulary Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Item editor modal ══ -->
+  <div class="modal-overlay hidden" id="itemEditorModal">
+    <div class="modal modal-editor" role="dialog" aria-modal="true" aria-labelledby="itemEditorTitle">
+      <div class="modal-head">
+        <div class="editor-head-text">
+          <h2 id="itemEditorTitle">Edit line</h2>
+          <p id="itemEditorSub" class="modal-note"></p>
+        </div>
+        <button type="button" class="icon-btn" id="closeItemEditor" title="Close" aria-label="Close editor">✕</button>
+      </div>
+      <div class="editor-body">
+        <div class="field">
+          <label class="field-label" for="itemPrompt">Prompt / sentence</label>
+          <textarea id="itemPrompt" rows="3" placeholder="Student-facing sentence or task"></textarea>
+        </div>
+        <div class="grid-2 editor-grid-2">
+          <div class="field" id="itemAnswerWrap">
+            <label class="field-label" for="itemAnswer">Answer</label>
+            <input id="itemAnswer" placeholder="Correct answer" autocomplete="off" />
+          </div>
+          <div class="field hidden" id="itemStemWrap">
+            <label class="field-label" for="itemStem">Stem clue (bold, uppercase)</label>
+            <input id="itemStem" placeholder="e.g. EMBARRASSMENT" autocomplete="off" />
+          </div>
+        </div>
+        <div class="field hidden" id="itemTestsWrap">
+          <label class="field-label" for="itemTests">Tests words (comma separated)</label>
+          <input id="itemTests" placeholder="words this line tests" autocomplete="off" />
+        </div>
+        <div class="field hidden" id="itemBankWrap">
+          <label class="field-label" for="itemBank">Word bank (one per line)</label>
+          <textarea id="itemBank" rows="3" placeholder="shuffled words for this exercise"></textarea>
+        </div>
+        <div class="field hidden" id="itemListWrap">
+          <label class="field-label" for="itemList">Word list (one per line)</label>
+          <textarea id="itemList" rows="3" placeholder="shuffled words for this exercise"></textarea>
+        </div>
+        <p class="editor-validation" id="itemEditorValidation"></p>
+        <p class="editor-note">Saved automatically to History after each edit, with instant re-validation.</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-soft btn-sm" id="btnAddItemAfter" title="Insert a new item right after this line">+ Add line below</button>
+        <button type="button" class="btn btn-soft btn-sm" id="btnDeleteItem" title="Remove this item from the exercise" style="color:var(--bad)">🗑️ Delete line</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" id="cancelItemEditor">Cancel</button>
+        <button type="button" class="btn btn-primary" id="saveItemEditor">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Classroom / Projector Mode Overlay ══ -->
+  <div class="classroom-overlay hidden" id="classroomModal" role="dialog" aria-modal="true" aria-label="Classroom Whiteboard Mode">
+    <header class="classroom-bar">
+      <div class="classroom-title-group">
+        <span class="classroom-badge">🖥️ Classroom Projector</span>
+        <strong id="classroomUnitLabel">Unit Worksheet</strong>
+      </div>
+      <div class="classroom-controls">
+        <div class="segmented" role="tablist">
+          <button type="button" class="cr-tab active" data-cr-sheet="lingo">🚀 Lingo Launcher</button>
+          <button type="button" class="cr-tab" data-cr-sheet="dictation">📝 Dictation</button>
+          <button type="button" class="cr-tab" data-cr-sheet="answer">📋 Answer Key</button>
+        </div>
+        <button type="button" class="btn btn-soft btn-sm" id="crZoomOut" title="Decrease text size">A−</button>
+        <button type="button" class="btn btn-soft btn-sm" id="crZoomIn" title="Increase text size">A+</button>
+        <button type="button" class="btn btn-secondary btn-sm" id="crRevealAll">👁️ Reveal All Answers</button>
+        <button type="button" class="btn btn-primary btn-sm" id="closeClassroomMode">✕ Exit Projector (Esc)</button>
+      </div>
+    </header>
+    <div class="classroom-hint-strip">
+      💡 <strong>Interactive Whiteboard:</strong> Click any exercise item to reveal or hide its answer one by one during class review!
+    </div>
+    <div class="classroom-stage" id="classroomStage"></div>
+  </div>
+
+  <!-- ══ Teacher Guide & Shortcuts modal ══ -->
+  <div class="modal-overlay hidden" id="helpModal">
+    <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <div class="modal-head">
+        <h2 id="helpTitle">🎓 Vocab Master — Teacher Studio Guide</h2>
+        <button type="button" class="icon-btn" id="closeHelp" title="Close" aria-label="Close guide">✕</button>
+      </div>
+      <div class="help-body">
+        <div class="help-grid">
+          <div class="help-card">
+            <h3>1. Level-Matched Pedagogy</h3>
+            <p>Each Greek ESL profile (<strong>A Senior</strong> to <strong>E Senior</strong>) enforces strict sentence-length caps, age-appropriate themes, and CEFR-aligned exercise types.</p>
+          </div>
+          <div class="help-card">
+            <h3>2. Smart Vocabulary Studio</h3>
+            <p>Use <strong>📥 Bulk Paste</strong> to import word lists in seconds, or type English words and click <strong>✨ Fill all words with AI</strong> to generate Greek, emojis, collocations, and derivatives.</p>
+          </div>
+          <div class="help-card">
+            <h3>3. Live Worksheet Editing</h3>
+            <p>In Step 4, click <strong>any vocabulary cell</strong> or <strong>any exercise line</strong> directly on the worksheet to tweak wording, answers, word banks, or add/remove lines.</p>
+          </div>
+          <div class="help-card">
+            <h3>4. Classroom Mode &amp; Full Pack</h3>
+            <p>Open <strong>🖥️ Classroom Mode</strong> to project on your interactive whiteboard and click lines to reveal answers. Click <strong>📦 Export Full Unit Pack</strong> to save all Word &amp; PDF files at once.</p>
+          </div>
+        </div>
+        <div class="shortcuts-box">
+          <h4>⌨️ Keyboard Shortcuts</h4>
+          <div class="shortcuts-list">
+            <span><kbd>Ctrl</kbd> + <kbd>N</kbd> New Unit</span>
+            <span><kbd>Ctrl</kbd> + <kbd>P</kbd> Print Active Sheet</span>
+            <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> Generate / Save Edit</span>
+            <span><kbd>Enter</kbd> (in Word Card) Next Word</span>
+            <span><kbd>?</kbd> Teacher Guide</span>
+            <span><kbd>Esc</kbd> Close Modal / Projector</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-soft" id="btnHelpLoadSample">🎓 Load Sample Unit Now</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-primary" id="closeHelpBtn">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Confirm modal ══ -->
+  <div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal modal-sm" role="dialog" aria-modal="true">
+      <h2 id="confirmTitle">Are you sure?</h2>
+      <p id="confirmBody" class="modal-note">This action cannot be undone.</p>
+      <div class="modal-actions">
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-secondary" id="confirmCancel">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmOk">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastRegion" class="toast-region" aria-live="polite"></div>
+
+  <script type="module" src="./renderer.js"></script>
+</body>
+</html>

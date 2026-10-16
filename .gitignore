@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+desktop/node_modules/
+
+# Build & Release artifacts (published via GitHub Releases)
+desktop/release/
+desktop/dist/
+
+# Local IDE / scratch files
+.freebuff/
+.reasonix/
+_extracted.txt
+_structure.txt
+*.docx
+~$*.docx
+
+# Logs & OS files
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,17 @@
+{
+  "name": "Vocab Master — Teacher Studio 2.0",
+  "short_name": "Vocab Master",
+  "description": "AI Vocabulary & Dictation Worksheet Architect for ESL Teachers (A–E Senior)",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef4f6",
+  "theme_color": "#0d746b",
+  "icons": [
+    {
+      "src": "./assets/vocab-master-mark.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
