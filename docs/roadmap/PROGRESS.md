@@ -2,28 +2,34 @@
 
 **Branch:** `feature/lessons-experience` · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-## Current state (2026-10-17, end of session 1)
+## Current state (2026-10-17 night, end of session 2)
 - **Done:**
-  - 81 draft lessons, all valid;
-  - lesson player, Lessons view and the arcade games;
-  - audio for all words and all story dialogue, plus the pilot dialogue;
-  - 43 AI illustrations;
-  - R2 delivery (`vocab-master-media`, public base in `content/delivery.json` and `desktop/renderer/assets/remote.json`);
-  - desktop installer and portable exe rebuilt 17:18 (smoke test passes).
-- **Automatic:** the scheduled task "Vocab Master: daily Lingo narration" runs daily at 10:33 local. Each run voices about one day's quota of Lingo narration, publishes it to R2, commits and pushes. Installed apps pick up the new clips through the remote manifest, with no rebuild. Narration should finish in about 3 days (≈ $2.85 of the remaining Gemini cap).
-- **Voices:**
-  - Lingo = designed lingo_f (Flash-Lite, standard API, chunked);
-  - words = en-gb-tutor-6 (batch);
-  - characters = varied role pools; studio-voice dialogue goes through OpenRouter;
-  - Greek = el-gr-assistant-5 (Greek glosses not voiced yet).
-- **Spend:** Gemini $0.48 of $3.60 · OpenRouter ≈ $1.05 of $3.00 · Cloudflare free tier.
-- **Waiting on the user:** a teacher read-through of the lessons (all are `status: draft`; set `approved` when happy).
+  - 81 lessons revised under the "show what you say" rules (draft status, all valid; 0 unshown mentions, enforced by test).
+  - **All 8,650 voice lines recorded**: Lingo, words, examples, definitions and dialogue, through the Gemini Batch API. Gap-fill prompts are voiced with "blank" (`spoken()` in build-audio), so the answer is never spoken.
+  - Clips published to R2.
+  - Desktop installer and portable exe rebuilt after the voice work. Run `npm run dist`; it now ends with `scripts/verify-package.mjs`.
+  - `main` (worksheet fixes up to 03ec78e) merged into this branch.
+- **Build rule (learned the hard way):** never run `npm run dist` while anything writes into `desktop/renderer` (e.g. `build-audio --collect`). A file changing during packing shifts the app.asar offsets and ships a scrambled app. `verify-package.mjs` byte-compares the archive with the source and fails the build.
+- **Voices:** Lingo and words = `en-gb-tutor-6`. Characters = studio/library role pools. Greek = `el-gr-assistant-5` (Greek glosses not voiced yet). No scheduled tasks.
+- **Spend:** Gemini $2.84 of $3.60 · OpenRouter ≈ $2.70 of $3.00 · Cloudflare free tier.
+- **Word-bank emojis:** `CPP_WORDBANK.emojis` is mostly generic filler (✨ on 200+ words). Trust one only when ≤2 words share it (`trustedBankEmoji` in app.js; the same rule in `lesson.js` and `polish-lessons.mjs`). Quiz options outside the focus words take a picture from `lesson.pictures`.
+- **Waiting on the user:** a teacher read-through of the lessons (all `status: draft`; set `approved` when happy).
 - **Next work for an agent (in order):**
-  1. After narration completes: rebuild the app, and optionally exclude bundled `.ogg` from the installer (`desktop/package.json` files: `"!renderer/assets/audio/**/*.ogg"`), since clips stream from R2 and are cached.
-  2. Per-lesson story-panel art and focus-word picture cards (`build-art.mjs`, free daily neurons).
-  3. Settings toggle "Calm motion"; voice Greek glosses (`--only greek`, batch, cheap).
-  4. Phase 2: live Kahoot-style games (no-phones host first, then Firebase phone mode). See PLAN §9.
-- **Known:** the local router (fritz.box) cached a negative DNS answer for the brand-new r2.dev host; it expires by itself. Content was verified through Cloudflare's IP.
+  1. After 00:00 UTC: `node scripts/art/build-art.mjs --only backdrops` (AI art for the 16 new backdrops, free allowance). Then `npm run dist`.
+  2. Optional: exclude bundled `.ogg` from the installer (`"!renderer/assets/audio/**/*.ogg"` in desktop/package.json files), since clips stream from R2 with an offline cache. The installer is about 137 MB now.
+  3. Per-lesson story-panel art and focus-word picture cards (`build-art.mjs`, free daily neurons).
+  4. Phase 2b: phone mode for Lingo Live (Firebase). See "Arcade revamp + Lingo Live" below and PLAN §9.
+- **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
+
+## Arcade revamp + Lingo Live (Phase 2a) ✅ (2026-10-17 night)
+- **Greek:** one switch for the whole arcade (ΕΛ button / G key, saved in `vm_arcade_greek`, **off by default**). Greek UI carries class `gk`, hidden by CSS unless the host has `.show-greek`. Games get `ctx.greek()` and may implement `onGreek(on)`. Games that type letters set `capturesLetters` so G stays a letter.
+- **Game fixes:** Flashcards "Picture first" (picture, gapped sentence, or Greek when on). Memory: Picture / Sentence / Greek, with Greek only when on. Spell Bee and Quiz clues never carry Greek (`greekClue` shown separately). Word types written in full (`typeName`). Hub cards fixed.
+- **Lingo Live** (`arcade/games/live.js`, featured first in the hub): Kahoot-style show on a fixed 1600×900 canvas.
+  - Lobby with music → 3-2-1 → intro → question (shape tiles ▲◆●■, countdown and time bar) → reveal (learn-it card, recorded voice only) → leaderboard → podium.
+  - No-phones answering: teams raise shape cards or 1–4 fingers; the teacher taps the team emoji on the chosen tile (keys: 1–4 pick a team, A–D answer, Space reveals or continues).
+  - Speed scoring (500–1000 plus a streak bonus, `live/scoring.js`), questions from any deck (`live/questions.js`: what is this, find the picture, gap, listen, true/false, Greek only when on), synthesized music (`live/music.js`).
+  - Tests in `tests/live.test.mjs`; the smoke test plays into the first question.
+- **Next (Phase 2b, needs the user):** phones. Students join with a PIN or QR on Firebase Realtime Database + Hosting (free Spark plan). Needs a Firebase project on the user's Google account (they approve creating it). The live game's `record(team, opt)` is the hook: a transport would call it per player and aggregate per team, or switch to per-player scores.
 
 ## Pedagogical revision "show what you say" (2026-10-17 evening, from the user)
 - **User's requirements:** everything a lesson says must be visible; lessons must be pedagogically exact; visuals calmer; a new Lingo voice recorded now; no scheduled tasks (the daily task was deleted).
@@ -83,7 +89,7 @@
 - [x] **Verified in the browser preview:** all 9 pilots play start to finish (37–49 steps each), with no console errors on fast forward/back
 - [ ] **Later polish:** a "Calm motion" toggle in Settings (`prefs.calmMotion` is already read by `teachLesson`); a header layout for narrow windows
 
-## Phase 1c: voice (in progress)
+## Phase 1c: voice ✅ (all 8,650 lines, batch, 2026-10-17)
 Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
 - verbatim `text`, with direction in a per-turn `speech_metadata.style`;
 - inline `<tags>`, IPA in `/slashes/`, conversational mode for 2 prebuilt voices;
@@ -126,7 +132,7 @@ Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
 - [ ] See PLAN.md §4, §6, §10. Remaining lessons: `node scripts/lessons/draft-lessons.mjs --all` (about $0.60)
 
 ## Phase 2: live games
-- [ ] 2a no-phones host · 2b Firebase + phone client · 2c team mode / load test
+- [x] 2a no-phones host (Lingo Live) · [ ] 2b Firebase + phone client · [ ] 2c team mode / load test
 
 ## Decisions log
 - 2026-10-17: Gemini TTS within a €3.50 budget (Flash for narration, Flash-Lite for words, Batch API). OpenRouter (Claude Haiku 5.5) drafts the lesson text. Cloudflare provides free art (Workers AI) and pack hosting (R2). Firebase handles phones.

@@ -9799,6 +9799,146 @@
       "outTok": 6324,
       "usd": 0.004306,
       "job": "qa CPP3-U8-BQ #2"
+    },
+    {
+      "t": "2026-10-17T15:23:41.559Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4333,
+      "outTok": 35203,
+      "usd": 0.159497,
+      "job": "batch batches/g8rot1rzwps9oyftrypskii2s3vkrxwpf88r (400/400)"
+    },
+    {
+      "t": "2026-10-17T15:25:07.481Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4508,
+      "outTok": 36851,
+      "usd": 0.166957,
+      "job": "batch batches/dur1z8p6nbr3skureul377pqs7k7nt9cn75s (400/400)"
+    },
+    {
+      "t": "2026-10-17T15:26:35.355Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4541,
+      "outTok": 37353,
+      "usd": 0.169224,
+      "job": "batch batches/asya8ym8n2d8rfkgi7b2scrd4al3ih4tz9jx (400/400)"
+    },
+    {
+      "t": "2026-10-17T15:27:55.071Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4601,
+      "outTok": 37742,
+      "usd": 0.170989,
+      "job": "batch batches/51vl6jo9t3gcrugret33e2zm73khk1vocnmg (400/400)"
+    },
+    {
+      "t": "2026-10-17T15:29:21.783Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4834,
+      "outTok": 38724,
+      "usd": 0.175466,
+      "job": "batch batches/e4e9utpsu6f678ogk0bl6hyxm9oc75xizpru (400/400)"
+    },
+    {
+      "t": "2026-10-17T15:31:00.090Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4672,
+      "outTok": 39792,
+      "usd": 0.180232,
+      "job": "batch batches/qjd11npkw9wdfy89hvzcjx44kxjmo4tv6rhp (400/400)"
+    },
+    {
+      "t": "2026-10-17T15:32:41.423Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4775,
+      "outTok": 40368,
+      "usd": 0.18285,
+      "job": "batch batches/1s51ley7u3ku9m3nbk3ttlly2hu18939hmkn (400/400)"
+    },
+    {
+      "t": "2026-10-17T16:25:04.028Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4609,
+      "outTok": 38263,
+      "usd": 0.173336,
+      "job": "batch batches/ju0l1c2bfzibrzhg4vqin0ui71yb2cvfoed6 (399/400)"
+    },
+    {
+      "t": "2026-10-17T16:27:07.114Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4991,
+      "outTok": 40277,
+      "usd": 0.182494,
+      "job": "batch batches/gy26v65dyoqzkrmpf6msk19xwhzp9wtd7ch0 (400/400)"
+    },
+    {
+      "t": "2026-10-17T16:29:00.908Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 4986,
+      "outTok": 41621,
+      "usd": 0.188541,
+      "job": "batch batches/acwu2vd4ml1iea9pgyr1tpgojs8i2kxymz6a (400/400)"
+    },
+    {
+      "t": "2026-10-17T16:31:33.454Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 5234,
+      "outTok": 42353,
+      "usd": 0.191897,
+      "job": "batch batches/tiq90dhqzpgz94pfuvlgkj4i1r02ypchz71b (399/400)"
+    },
+    {
+      "t": "2026-10-17T16:35:22.642Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 5178,
+      "outTok": 42753,
+      "usd": 0.193683,
+      "job": "batch batches/pt7bwy7a1kwzwn6yl41ut5y0hzul5akbw8ji (400/400)"
+    },
+    {
+      "t": "2026-10-17T16:35:51.163Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 1755,
+      "outTok": 14665,
+      "usd": 0.066431,
+      "job": "batch batches/r8bxm2x78wmlhnelzwratmaff036vd08aa3q (138/138)"
+    },
+    {
+      "t": "2026-10-17T16:42:32.502Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "batch",
+      "inTok": 3977,
+      "outTok": 34168,
+      "usd": 0.15475,
+      "job": "batch batches/bjftnw8g8n9na9ilc9thj9sqj7d71v1sa3rz (315/315)"
     }
   ]
 }
