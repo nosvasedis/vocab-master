@@ -10,6 +10,7 @@ import {
   selectSmartCoursebookWords,
   lookupCoursebookWord,
 } from "./coursebook-data.js";
+import { sanitizeVocabField, rejectionNote } from "./vocab-quality.js";
 import {
   buildArcadeDeck,
   buildDetectiveQuestions,
@@ -50,10 +51,10 @@ const EXERCISE_FAMILIES = {
   D13: "recognition", D14: "productive", D15: "recognition", D16: "analysis",
   D17: "productive", D18: "recognition", D19: "recognition", D20: "productive",
   D21: "analysis", D22: "productive", D23: "analysis", D24: "recognition",
-  D25: "recognition",
+  D25: "recognition", D26: "productive", D27: "productive", D28: "analysis",
   L01: "productive", L02: "recognition", L03: "recognition", L04: "recognition",
   L05: "productive", L06: "analysis", L07: "productive", L08: "productive",
-  L09: "analysis", L10: "productive",
+  L09: "analysis", L10: "productive", L11: "recognition", L12: "analysis", L13: "recognition",
 };
 
 const EXERCISE_LABELS = {
@@ -65,10 +66,12 @@ const EXERCISE_LABELS = {
   D16: "Category sort", D17: "Collocation pair", D18: "Register choice",
   D19: "Definition (advanced)", D20: "Error correction", D21: "Sequencing",
   D22: "Crossword clue", D23: "Analogy", D24: "Minimal pair", D25: "Picture cue",
+  D26: "Jumbled letters", D27: "Missing letters", D28: "Spelling check",
   L01: "Gap fill with list", L02: "Circle best word", L03: "Synonym match",
   L04: "Opposite pairs", L05: "Collocation match", L06: "Grammar labels",
   L07: "Derivative build", L08: "Sentence order", L09: "Odd one out (light)",
   L10: "Personalize prompt",
+  L11: "Yes / No questions", L12: "Spelling check", L13: "Which sentence is right?",
 };
 
 const EXERCISE_DESCRIPTIONS = {
@@ -97,6 +100,9 @@ const EXERCISE_DESCRIPTIONS = {
   D23: "Complete the analogy (word is to word as…).",
   D24: "Choose between similar-sounding or easily confused words.",
   D25: "Picture or emoji cue — optional paraphrase hint in brackets, never the answer word.",
+  D26: "Unscramble the jumbled letters to make the unit word — a short clue in brackets helps.",
+  D27: "Fill in the missing letters of the unit word (t _ a _ k) — a short clue helps.",
+  D28: "One word in [brackets] is misspelt — students write it correctly.",
   L01: "Sentences with gaps — answers chosen from a shuffled word list.",
   L02: "Each sentence has (option A / option B) choices built in.",
   L03: "Match words to synonyms in brackets. Only for words with synonyms in vocab.",
@@ -107,6 +113,9 @@ const EXERCISE_DESCRIPTIONS = {
   L08: "Reorder words to make a correct sentence.",
   L09: "Odd one out: 4 words per line — exactly 3 share a link, 1 is different.",
   L10: "Personalize prompt using unit vocabulary.",
+  L11: "Yes / No questions that check real understanding of the word (not just its definition).",
+  L12: "One word in [brackets] is misspelt — students write it correctly.",
+  L13: "Two sentences, A and B — only one uses the word correctly.",
 };
 
 const EXERCISE_EXAMPLES = {
@@ -135,6 +144,9 @@ const EXERCISE_EXAMPLES = {
   D23: 'Arm is to limb as stadium path is to ________. → track',
   D24: 'Her story was a great (inspiration / respiration) to us. → inspiration',
   D25: '🏃‍♀️🏟️ (oval path for runners) ________ → track',
+  D26: 'ckrat (a path for running races) → track',
+  D27: 't _ a _ k (a path for running races) → track',
+  D28: 'The runners ran around the [trak]. → track',
   L01: 'You need to run four times around the ________ to finish the mile. → track',
   L02: 'My teacher is a great (inspiration / track) to all her students.',
   L03: 'compete (race / rest / forget) → race',
@@ -145,6 +157,9 @@ const EXERCISE_EXAMPLES = {
   L08: 'around / ran / track / the / they → They ran around the track.',
   L09: 'track, medal, stadium, introduce → introduce',
   L10: 'Who is a big inspiration in your life, and why?',
+  L11: 'Do athletes compete in a stadium? → Yes',
+  L12: 'She won the swimming [competion]. → competition',
+  L13: 'A. They ran around the track.  B. They ran around the tracking. → A',
 };
 
 const BOOK_PRESETS = [
@@ -202,6 +217,9 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D23: "Complete each analogy.",
   D24: "Choose the correct word from the similar options in brackets.",
   D25: "Look at the picture cue and write the correct word.",
+  D26: "Unscramble the letters to make a word from the unit. The clue in brackets will help you.",
+  D27: "Write the missing letters to complete each word. The clue in brackets will help you.",
+  D28: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
   L01: "Fill in the gaps with words from the list.",
   L02: "Circle the best word in each sentence.",
   L03: "Choose the correct synonym from the options in brackets.",
@@ -212,6 +230,9 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   L08: "Put the words in the correct order to make a sentence.",
   L09: "Circle the odd one out in each group of four words.",
   L10: "Answer each question using words from the unit.",
+  L11: "Read each question and write Yes or No.",
+  L12: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
+  L13: "Only one sentence is correct. Write A or B.",
 };
 
 function getStudentExerciseInstruction(ex) {
@@ -225,8 +246,8 @@ const CLASS_PROFILES = {
     id: "A_SENIOR", label: "A Senior", greekGrades: "3η / 4η / 5η Δημοτικού",
     cefr: "Early A1", ageRange: "9–10", defaultVocab: 6, maxSentenceWords: 7,
     minEmojis: 2, maxDerivatives: 1, allowDefinitionsInDictation: false,
-    allowDictation: ["D01", "D03", "D04", "D06", "D13", "D15", "D17", "D25"],
-    allowLingo: ["L01", "L02", "L04", "L05", "L09"],
+    allowDictation: ["D01", "D03", "D04", "D06", "D13", "D15", "D17", "D25", "D26", "D27"],
+    allowLingo: ["L01", "L02", "L04", "L05", "L09", "L11"],
     cognitiveMix: { recognition: 0.6, productive: 0.3, analysis: 0.1 },
     lingoPracticeWeights: [1, 0, 0],
     wordBankSize: 4, itemsPerExercise: 5,
@@ -238,8 +259,8 @@ const CLASS_PROFILES = {
     id: "B_SENIOR", label: "B Senior", greekGrades: "4η / 5η / 6η Δημοτικού",
     cefr: "A1", ageRange: "10–11", defaultVocab: 8, maxSentenceWords: 9,
     minEmojis: 2, maxDerivatives: 2, allowDefinitionsInDictation: false,
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25"],
-    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09"],
+    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25", "D26", "D27", "D28"],
+    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11"],
     cognitiveMix: { recognition: 0.5, productive: 0.35, analysis: 0.15 },
     lingoPracticeWeights: [0.8, 0.2, 0],
     wordBankSize: 5, itemsPerExercise: 5,
@@ -251,8 +272,8 @@ const CLASS_PROFILES = {
     id: "C_SENIOR", label: "C Senior", greekGrades: "5η / 6η Δημοτικού · ίσως 1η Γυμνασίου",
     cefr: "A1–A2", ageRange: "11–12", defaultVocab: 8, maxSentenceWords: 11,
     minEmojis: 1, maxDerivatives: 3, allowDefinitionsInDictation: "simple",
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25"],
-    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09"],
+    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25", "D26", "D27", "D28"],
+    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11", "L12"],
     cognitiveMix: { recognition: 0.45, productive: 0.4, analysis: 0.15 },
     lingoPracticeWeights: [0.5, 0.5, 0],
     wordBankSize: 5, itemsPerExercise: 5,
@@ -264,8 +285,8 @@ const CLASS_PROFILES = {
     id: "D_SENIOR", label: "D Senior", greekGrades: "6η Δημοτικού · 1η / 2α Γυμνασίου",
     cefr: "A2", ageRange: "12–13", defaultVocab: 8, maxSentenceWords: 13,
     minEmojis: 0, maxDerivatives: 4, allowDefinitionsInDictation: "short",
-    allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25"],
-    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09"],
+    allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25","D26","D27","D28"],
+    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L11","L12","L13"],
     cognitiveMix: { recognition: 0.4, productive: 0.4, analysis: 0.2 },
     lingoPracticeWeights: [0.5, 0.5, 0],
     wordBankSize: 6, itemsPerExercise: 6,
@@ -277,8 +298,8 @@ const CLASS_PROFILES = {
     id: "E_SENIOR", label: "E Senior", greekGrades: "1η / 2α / 3η Γυμνασίου",
     cefr: "B1", ageRange: "13–14", defaultVocab: 8, maxSentenceWords: 16,
     minEmojis: 0, maxDerivatives: 99, allowDefinitionsInDictation: true,
-    allowDictation: Array.from({ length: 25 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
-    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L10"],
+    allowDictation: Array.from({ length: 28 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
+    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L10","L11","L12","L13"],
     cognitiveMix: { recognition: 0.35, productive: 0.4, analysis: 0.25 },
     lingoPracticeWeights: [0.3, 0.7, 0],
     wordBankSize: 6, itemsPerExercise: 6,
@@ -943,8 +964,110 @@ function promptRevealsAnswer(prompt, answer, typeId) {
   return promptContainsAnswerText(prompt, answer, typeId);
 }
 
+/** Items are numbered by the layout (circled badge), so a typed "(1)", "1)", "1." or "1 -" prefix is redundant. */
+function stripLeadingItemNumber(text) {
+  return String(text ?? "").replace(/^\s*(?:\(\s*\d{1,2}\s*\)|\[\s*\d{1,2}\s*\]|\d{1,2}\s*[).:\-–])\s+(?![_＿])/, "");
+}
+
+function stripItemNumberPrefixes(data) {
+  const strip = (ex) => ex.items?.forEach((item) => {
+    if (typeof item.prompt === "string") item.prompt = stripLeadingItemNumber(item.prompt);
+  });
+  data?.dictation?.exercises?.forEach(strip);
+  data?.lingoLauncher?.practice?.forEach(strip);
+  return data;
+}
+
+/* ── Newer exercise types: jumbled / missing letters, spelling check, yes-no, A/B ── */
+const SPELLING_CHECK_TYPES = new Set(["D28", "L12"]);
+const letterKey = (w) => String(w || "").toLowerCase().replace(/[^a-z]/g, "").split("").sort().join("");
+
+function splitPromptClue(prompt) {
+  const m = String(prompt || "").match(/^(.*?)\s*(\([^)]*\))?\s*$/);
+  return { head: (m?.[1] || "").trim(), clue: m?.[2] || "" };
+}
+
+function scrambleWord(word) {
+  const letters = word.split("");
+  for (let tries = 0; tries < 12; tries++) {
+    const out = shuffle(letters).join("");
+    if (out.toLowerCase() !== word.toLowerCase()) return out;
+  }
+  return letters.reverse().join("");
+}
+
+function maskWord(word) {
+  const idx = [];
+  for (let i = 1; i < word.length; i++) idx.push(i);
+  const hide = new Set(shuffle(idx).slice(0, Math.max(2, Math.round(idx.length * 0.4))));
+  return word.split("").map((ch, i) => (hide.has(i) ? "_" : ch)).join(" ");
+}
+
+/** Rebuild the letter puzzles from the answer so they are always solvable and never the plain word. */
+function normalizeLetterPuzzles(data) {
+  data?.dictation?.exercises?.forEach((ex) => {
+    if (ex.typeId !== "D26" && ex.typeId !== "D27") return;
+    ex.wordBank = [];
+    ex.items?.forEach((item) => {
+      const answer = String(item.answer || "").trim();
+      if (!/^[A-Za-z]{3,}$/.test(answer)) return;
+      const { head, clue } = splitPromptClue(item.prompt);
+      const squashed = head.replace(/\s+/g, "");
+      if (ex.typeId === "D26") {
+        const ok = head && !/\s/.test(head) && letterKey(head) === letterKey(answer) && head.toLowerCase() !== answer.toLowerCase();
+        if (!ok) item.prompt = scrambleWord(answer.toLowerCase()) + (clue ? " " + clue : "");
+      } else {
+        const fits = squashed.length === answer.length && head.includes("_")
+          && [...squashed].every((c, i) => c === "_" || c.toLowerCase() === answer[i].toLowerCase());
+        const shown = fits ? head.replace(/\s*_\s*/g, " _ ").replace(/\s{2,}/g, " ").trim() : maskWord(answer.toLowerCase());
+        item.prompt = shown + (clue ? " " + clue : "");
+      }
+    });
+  });
+  return data;
+}
+
+function validateExtraTypes(data, issues) {
+  const check = (ex, sheet) => {
+    const t = ex.typeId;
+    const label = sheet + " ex " + ex.number + " (" + t + ")";
+    if (SPELLING_CHECK_TYPES.has(t)) {
+      ex.items?.forEach((item) => {
+        const m = String(item.prompt || "").match(/\[([^\]]+)\]/);
+        if (!m) issues.push(label + " item " + item.number + ": misspelt word must be marked in [square brackets]");
+        else if (normalizeWord(m[1]) === normalizeWord(item.answer)) issues.push(label + " item " + item.number + ": the bracketed word is already spelt correctly");
+      });
+    }
+    if (t === "D26" || t === "D27") {
+      ex.items?.forEach((item) => {
+        if (!/^[A-Za-z]{3,}$/.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be a single unit word");
+      });
+    }
+    if (t === "L11") {
+      ex.items?.forEach((item) => {
+        if (!/^(yes|no)$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be Yes or No");
+        if (!/\?\s*$/.test(String(item.prompt || "").trim())) issues.push(label + " item " + item.number + ": prompt must be a question");
+      });
+      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toLowerCase());
+      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": all answers are \"" + answers[0] + "\" — mix Yes and No");
+    }
+    if (t === "L13") {
+      ex.items?.forEach((item) => {
+        const p = String(item.prompt || "");
+        if (!/A\.\s*\S/.test(p) || !/B\.\s*\S/.test(p)) issues.push(label + " item " + item.number + ": prompt needs \"A. … B. …\" sentences");
+        if (!/^[AB]$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be A or B");
+      });
+      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toUpperCase());
+      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": every answer is \"" + answers[0] + "\" — mix A and B");
+    }
+  };
+  data?.dictation?.exercises?.forEach((ex) => check(ex, "Dictation"));
+  data?.lingoLauncher?.practice?.forEach((ex) => check(ex, "Lingo"));
+}
+
 function normalizeWorksheetPrompts(data) {
   if (!data) return data;
+  stripItemNumberPrefixes(data);
   data.dictation?.exercises?.forEach((ex) => {
     const bracketMode = itemsHaveSlashChoices(ex) || BRACKET_CHOICE_TYPES.has(ex.typeId);
     ex.items?.forEach((item) => {
@@ -996,6 +1119,7 @@ function normalizeWorksheetExercises(data) {
     data.lingoLauncher.vocabulary = normalizeVocabulary(data.lingoLauncher.vocabulary);
   }
   normalizeDictationWordBanks(data);
+  normalizeLetterPuzzles(data);
   normalizeD13Exercises(data);
   normalizeD02Exercises(data);
   normalizeL01Exercises(data);
@@ -1599,31 +1723,31 @@ function riddleBodyLeaksAnswer(prompt, answer) {
 
 function formatDictationItemHtml(item, typeId) {
   if (typeId === "D02" && item.stem) {
-    const prompt = escapeHtml(item.prompt || "");
+    const prompt = escapeHtml(stripLeadingItemNumber(item.prompt) || "");
     const stem = escapeHtml(String(item.stem).toUpperCase());
     return `${prompt}  <strong class="stem-word">${stem}</strong>`;
   }
-  if (typeId === "D08") {
-    return renderD08PromptHtml(item.prompt);
+  if (typeId === "D08" || typeId === "D28") {
+    return renderD08PromptHtml(stripLeadingItemNumber(item.prompt));
   }
   if (typeId === "D11") {
-    const words = parseCommaWordGroup(item.prompt);
+    const words = parseCommaWordGroup(stripLeadingItemNumber(item.prompt));
     if (words.length >= 3) {
       return escapeHtml(words.join(" · "));
     }
   }
-  return escapeHtml(item.prompt || "");
+  return escapeHtml(stripLeadingItemNumber(item.prompt) || "");
 }
 
 function formatDictationItemPlain(item, typeId) {
   if (typeId === "D02" && item.stem) {
-    return `${item.prompt || ""}  ${String(item.stem).toUpperCase()}`;
+    return `${stripLeadingItemNumber(item.prompt) || ""}  ${String(item.stem).toUpperCase()}`;
   }
   if (typeId === "D11") {
-    const words = parseCommaWordGroup(item.prompt);
+    const words = parseCommaWordGroup(stripLeadingItemNumber(item.prompt));
     if (words.length >= 3) return words.join(" · ");
   }
-  return item.prompt || "";
+  return stripLeadingItemNumber(item.prompt) || "";
 }
 
 function collectWordFamilyForms(vocabEntry) {
@@ -2204,6 +2328,8 @@ function validateWorksheet(data) {
     }
   });
 
+  validateExtraTypes(data, issues);
+
   findCrossWorksheetDuplicatePrompts(data).forEach((dup) => {
     issues.push(`Duplicate sentence across worksheets: ${dup.message}`);
   });
@@ -2579,19 +2705,23 @@ function phraseWithTargetHtml(phrase, english) {
 function formatVocabCell(v, pictureStyle = "emoji") {
   let html = `<div class="v-top"><span class="v-num">${escapeHtml(v.number)}</span><span class="v-word">${escapeHtml(v.english)}</span>`;
   if (v.type?.trim()) html += `<span class="v-pos">${escapeHtml(v.type.trim())}</span>`;
+  // Greek sits on the same line: "be born phr. = γεννιέμαι" (saves a line per word).
+  if (v.greek?.trim()) html += `<span class="v-tr"><span class="v-eq">=</span> <span class="v-greek">${escapeHtml(v.greek.trim())}</span></span>`;
   const pics = v.emojis ? textWithPictures(v.emojis, pictureStyle).trim() : "";
   if (pics) html += `<span class="v-emoji">${pics}</span>`;
   html += `</div>`;
-  if (v.greek) html += `<div class="v-greek">${escapeHtml(v.greek)}</div>`;
   if (v.collocation) html += `<div class="vocab-coll v-coll">${phraseWithTargetHtml(v.collocation, v.english)}</div>`;
   normalizeDerivativesList(v.derivatives).forEach((d) => {
     const line = formatDerivativeLine(d);
     if (line) html += `<div class="vocab-deriv v-rel"><b>→</b>${escapeHtml(line)}</div>`;
   });
   const syn = normalizeWordList(v.synonyms);
-  if (syn.length) html += `<div class="vocab-related v-rel"><b>≈</b>${escapeHtml(syn.join(", "))}</div>`;
   const ant = normalizeAntonymList(v.antonyms);
-  if (ant.length) html += `<div class="vocab-related v-rel"><b>≠</b>${escapeHtml(ant.map(formatAntonymLine).join(", "))}</div>`;
+  // Synonyms and opposites share one row: "≈ clever   ≠ silly - ανόητος" (wraps only if too long).
+  const rel = [];
+  if (syn.length) rel.push(`<span class="vocab-related"><b>≈</b>${escapeHtml(syn.join(", "))}</span>`);
+  if (ant.length) rel.push(`<span class="vocab-related"><b>≠</b>${escapeHtml(ant.map(formatAntonymLine).join(", "))}</span>`);
+  if (rel.length) html += `<div class="v-rel">${rel.join("")}</div>`;
   return html;
 }
 
@@ -2616,7 +2746,7 @@ function renderLingoLauncher(data, options = {}) {
       practiceHtml += `<div class="word-list">${ex.wordList.map((w) => `<span>${escapeHtml(w)}</span>`).join("")}</div>`;
     }
     ex.items.forEach((item) => {
-      practiceHtml += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${textWithPictures(item.prompt, layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
+      practiceHtml += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${textWithPictures(stripLeadingItemNumber(item.prompt), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
     });
     practiceHtml += `</section>`;
   });
@@ -2728,6 +2858,9 @@ DICTATION FORMATS (never give away answers to students):
 - D20 Error correction: like D08 — each sentence has a deliberate vocabulary mistake; answer = corrected sentence; prompt must NOT already be correct
 - D11 Odd one out: each item = exactly 4 comma-separated words on one line (e.g. "run, jump, swim, apple") — NOT full sentences
 - D25 Picture / emoji cue: each item is mainly emoji(s); add (short paraphrase) ONLY if the emoji is ambiguous — NEVER use the answer word or a close form (FORBIDDEN: "➡️ (arrow pointing farther)" for answer farther/further); paraphrase instead: "➡️ (more distance this way)"
+- D26 Jumbled letters: prompt = "scrambledLetters (short clue)" e.g. "ckrat (a path for running races)"; the scramble MUST be the answer's letters in a different order (single word, lower case); the clue must NOT contain the answer or a close form; answer = the unit word
+- D27 Missing letters: prompt = "t _ a _ k (short clue)" — the answer's letters with 2–3 letters replaced by "_" separated by spaces (never the first letter); clue must NOT contain the answer; answer = the full unit word (single word)
+- D28 Spelling check: sentence with ONE misspelt unit word in [square brackets] (a realistic learner error, e.g. [competion]); answer = the correctly spelt word; the bracketed word must NOT be a real English word
 - GLOBAL: Parentheses with a single vocabulary word matching the answer are FORBIDDEN on D01/D02/D04/D14/D17 — this includes trailing hints like "(blend)" after a gap`;
 
 const LINGO_EXERCISE_FORMAT_RULES = `
@@ -2737,6 +2870,9 @@ LINGO PRACTICE FORMATS (follow exactly per typeId):
 - L03 Synonym match: wordList MUST be [] empty — NO word bank row. ONLY create items for vocabulary words that HAVE synonyms listed in the table. Each prompt = "TARGET ( synonymFromTable / distractor / distractor )"; answer = one of that word's listed synonyms from the vocabulary table — do NOT invent synonyms for words without synonyms in the table
 - L04 Opposite pairs: wordList MUST be [] empty. ONLY for words WITH antonyms in the table. Each prompt = "TARGET ( antonymFromTable / distractor / distractor )"; answer = listed antonym — do NOT invent antonyms
 - L05 Collocation match: wordList = ONLY headwords in THIS exercise (shuffled, ~5). Each prompt = NEW phrase/sentence with gap where the headword goes — use collocation as a pattern only, NOT as the prompt text. GOOD: "She keeps her clothes in the ________________" answer drawer (not copying "open the drawer" from the table). Gap position must match natural word order
+- L11 Yes / No questions: each prompt = a short question testing real understanding of a unit word in context (e.g. "Do athletes compete in a stadium?"); wordList MUST be []; answer = "Yes" or "No"; use a MIX of both (never all Yes); NEVER include the choices in the prompt
+- L12 Spelling check: sentence with ONE misspelt unit word in [square brackets]; wordList MUST be []; answer = the correctly spelt word; the bracketed word must NOT be a real English word; NEW sentences, not copied from dictation
+- L13 Which sentence is right?: wordList MUST be []; each prompt = "A. sentence  B. sentence" on one line — same unit word in both, exactly one uses it correctly (collocation, form or meaning); answer = "A" or "B"; MIX A and B answers; the mistake must be about the unit word, never random grammar
 - L09 Odd one out: each item = exactly 4 comma-separated words. 3 share the SAME part of speech (check vocabulary type); 1 is a different part of speech. answer = the odd word only. NEVER put antonyms or related forms (careful/careless) together. NEVER use 4 nouns with no verb/adjective odd word. GOOD: "artifact, treasure, jewel, excavate" (3 nouns + 1 verb, answer excavate). BAD: "careful, careless, royalty, excavate" (2 adjectives + mixed). BAD: "wagon, tide, audience, mystery" (4 nouns — no clear odd word)`;
 
 function buildSystemPrompt(profileId, plan) {
@@ -2758,7 +2894,7 @@ RULES:
 - DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise: ~${CLASS_PROFILES[profileId]?.itemsPerExercise || 5} items only
 - LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${CLASS_PROFILES[profileId]?.itemsPerExercise || 5} items maximum — NEVER one exercise with every vocabulary word
 - NEVER reuse the same sentence in Lingo practice and Dictation — write different contexts for each worksheet
-- Number items (1), (2)... in each exercise
+- Item "number" is a plain counter (1, 2, 3…) — NEVER type "(1)", "1)" or "1." at the start of any item "prompt"; the app prints the numbered circle itself
 - Dictation titles: "Exercise N" only — no parenthetical subtitles
 - Leave dictation "instruction" field empty — the app prints the student task line automatically
 - No <u> HTML tags
@@ -3863,12 +3999,16 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .pic { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: -0.28em; color: var(--ink); }
 .v-emoji .pic { width: 7.5mm; height: 7.5mm; }
 .item-text .pic { width: 1.6em; height: 1.6em; vertical-align: -0.45em; margin: 0 0.1em; }
-.v-greek { font-size: 10.4pt; font-weight: 600; margin: 0.4mm 0 0 6.2mm; }
+.v-tr { display: inline-flex; gap: 1.2mm; align-items: baseline; min-width: 0; }
+.v-eq { flex: none; font-size: 10pt; font-weight: 700; color: var(--ink-3); }
+.v-greek { font-size: 10.4pt; font-weight: 600; }
 .v-coll { font-size: 9.4pt; font-style: italic; color: var(--ink-2); margin: 0.6mm 0 0 6.2mm; }
 .v-coll::before { content: "“"; }
 .v-coll::after { content: "”"; }
 .v-coll .v-target { font-weight: 800; color: var(--ink); }
 .v-rel { font-size: 9pt; color: var(--ink-2); margin: 0.4mm 0 0 6.2mm; }
+.v-rel .vocab-related { display: inline-block; margin-right: 5mm; }
+.v-rel .vocab-related:last-child { margin-right: 0; }
 .v-rel b { display: inline-block; width: 4mm; font-weight: 800; color: var(--ink); }
 .vocab-empty { background: transparent !important; }
 
@@ -4166,10 +4306,10 @@ async function buildLingoDocx(data) {
     if (v) {
       const top = [badge(v.number, 16), run(`  ${v.english}`, { display: true, bold: true, size: 23 })];
       if (v.type?.trim()) top.push(run(`  ${v.type.trim()}`, { italics: true, size: 17, color: k.GREY }));
+      if (v.greek?.trim()) top.push(run("  =  ", { bold: true, size: 19, color: k.GREY }), run(v.greek.trim(), { bold: true, size: 20 }));
       if (v.emojis) top.push(run("  "), ...textRuns(v.emojis, { size: 19, pic: 22 }));
       lines.push(para(top));
       const sub = (runs) => para(runs, { indent: { left: 6 * MM } });
-      if (v.greek) lines.push(sub([run(v.greek, { bold: true, size: 20 })]));
       if (v.collocation) {
         const phrase = splitTargetInPhrase(v.collocation, v.english).map((p) => run(p.text, p.bold ? { italics: true, bold: true, size: 19, color: k.INK } : { italics: true, size: 19, color: "444444" }));
         lines.push(sub([run("“", { italics: true, size: 19, color: "444444" }), ...phrase, run("”", { italics: true, size: 19, color: "444444" })]));
@@ -4179,9 +4319,13 @@ async function buildLingoDocx(data) {
         if (t) lines.push(sub([run("→  ", { bold: true, size: 18 }), run(t, { size: 18, color: "444444" })]));
       });
       const syn = normalizeWordList(v.synonyms);
-      if (syn.length) lines.push(sub([run("≈  ", { bold: true, size: 18 }), run(syn.join(", "), { size: 18, color: "444444" })]));
       const ant = normalizeAntonymList(v.antonyms);
-      if (ant.length) lines.push(sub([run("≠  ", { bold: true, size: 18 }), run(ant.map(formatAntonymLine).join(", "), { size: 18, color: "444444" })]));
+      // Synonyms and opposites share one line: "≈ clever     ≠ silly - ανόητος".
+      const relRuns = [];
+      if (syn.length) relRuns.push(run("≈  ", { bold: true, size: 18 }), run(syn.join(", "), { size: 18, color: "444444" }));
+      if (syn.length && ant.length) relRuns.push(run("       ", { size: 18 }));
+      if (ant.length) relRuns.push(run("≠  ", { bold: true, size: 18 }), run(ant.map(formatAntonymLine).join(", "), { size: 18, color: "444444" }));
+      if (relRuns.length) lines.push(sub(relRuns));
     }
     return new d.TableCell({
       width: { size: 50, type: d.WidthType.PERCENTAGE },
@@ -4199,7 +4343,7 @@ async function buildLingoDocx(data) {
   data.lingoLauncher.practice.forEach((ex) => {
     children.push(...k.exerciseHead(ex));
     if (ex.wordList?.length) children.push(k.chipsBox(ex.wordList), para([], { spacing: { after: 1 * MM } }));
-    ex.items.forEach((it) => children.push(k.item(it.number, textRuns(it.prompt, { pic: 20 }))));
+    ex.items.forEach((it) => children.push(k.item(it.number, textRuns(stripLeadingItemNumber(it.prompt), { pic: 20 }))));
   });
   return d.Packer.toBlob(k.document(children));
 }
@@ -4226,9 +4370,9 @@ async function buildDictationDocx(data) {
     ex.items.forEach((it) => {
       let runs;
       if (ex.typeId === "D02" && it.stem) {
-        runs = [run(`${it.prompt}  `), run(String(it.stem).toUpperCase(), { display: true, bold: true })];
-      } else if (ex.typeId === "D08" && /\[[^\]]+\]/.test(it.prompt || "")) {
-        runs = String(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
+        runs = [run(`${stripLeadingItemNumber(it.prompt)}  `), run(String(it.stem).toUpperCase(), { display: true, bold: true })];
+      } else if ((ex.typeId === "D08" || ex.typeId === "D28") && /\[[^\]]+\]/.test(it.prompt || "")) {
+        runs = stripLeadingItemNumber(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
       } else {
         runs = k.textRuns(formatDictationItemPlain(it, ex.typeId), { pic: 26 });
       }
@@ -4360,8 +4504,43 @@ function autofillValueText(value) {
 
 const normEnglish = (s) => String(s || "").toLowerCase().replace(/[’']/g, "'").replace(/[-‐–]/g, " ").replace(/\s+/g, " ").trim();
 
+/** The fields whose AI answers get rule-checked and reviewed (the others are free text). */
+const VOCAB_CHECKED_FIELDS = ["emojis", "derivatives", "synonyms", "antonyms"];
+
+const AUTOFILL_EMOJI_GUIDE = `PICKING THE EMOJI (the picture a student sees next to the word — it must make them think of THIS word):
+- First decide the sense (use provided greek / type / collocation), then in "picture" describe in a few words the single clearest thing to draw, THEN choose the emoji for that picture.
+- Concrete nouns → the thing itself (apple 🍎, helmet ⛑️, lighthouse 🗼 not 🏠). Animals/plants/foods → that exact animal/plant/food.
+- Verbs → the action or its tell-tale object (climb 🧗, cut ✂️, swim 🏊, hide 🙈, whisper 🤫, rescue 🛟, explore 🧭, invent 💡).
+- Adjectives → a clear prototype of the quality (hot 🔥, cold 🥶, huge 🐘, tiny 🐜, fast 🐆, exhausted 😩, brave 🦁, noisy 📢). Feelings → the matching face.
+- Abstract words → a concrete symbol or tiny scene people instantly link to it (success 🏆, danger ⚠️, secret 🤐, idea 💡, journey 🧳, time ⏰, money 💰).
+- Prepositions / adverbs / function words → a spatial or symbolic emoji (up ⬆️, under ⬇️, together 🤝, always 🔁).
+- Match the sense: bat (animal) 🦇 vs bat (cricket) 🏏; seal (verb) ✉️ vs seal (animal) 🦭; match (game) ⚽ vs match (fire) 🔥.
+- 1 emoji is best. Use 2 only when a single one cannot show the meaning (e.g. object + action: ✂️💇). Never 3+, never the same emoji twice.
+- NEVER use: placeholders (❓❗🔤🔠ℹ️🆗✅❌), flags or national symbols, letters/numbers/keycaps, plain coloured shapes, or a face for a word that is not an emotion.
+- Use well-established emojis (Unicode 13 or older) so every device and every picture style can draw them; avoid brand-new emojis.`;
+
+const AUTOFILL_FAMILY_GUIDE = `WORD FAMILY ("derivatives") — the rules that matter most:
+- A word family = DIFFERENT words built from the same root by adding or changing a prefix/suffix, often changing the part of speech: compete → competition (n.), competitor (n.), competitive (adj.), competitively (adv.); teach → teacher (n.); happy → happiness (n.), unhappy (adj.), happily (adv.); excite → excitement (n.), excited (adj.), exciting (adj.).
+- NEVER list the headword itself, and NEVER list a mere inflection of it: not "compete" for compete, not competes/competed/competing, not plural of a noun, not happier/happiest for happy, not running/ran for run, not the same spelling with another part of speech (water (v.) for water (n.)).
+- Participle adjectives (excited, boring) and -ing nouns (building from build) are fine ONLY when they are a different part of speech from the headword.
+- Every entry must be a real, common English word that genuinely shares the root and meaning — no made-up forms, no look-alikes with a different root (cat ≠ catalogue, bear ≠ beard), no synonyms/opposites that merely relate in meaning.
+- Phrasal verbs and fixed phrases: use the family of the key word (give up → none usually; take care of → careful (adj.), carefully (adv.), careless (adj.)).
+- Format: "word (type) - Greek" with the Greek for THAT word; prefer the most useful and level-appropriate forms first.
+- If the word has no real derivatives (pencil, table, yesterday), return "" and add "derivatives" to "none" — do NOT pad the list with the headword or forms of it.`;
+
+const AUTOFILL_RELATION_GUIDE = `SYNONYMS & OPPOSITES:
+- synonyms: words with (nearly) the SAME meaning in THIS sense and the SAME part of speech, interchangeable in the collocation (big ↔ large, begin ↔ start, tired ↔ exhausted). Prefer simple, common words that the class level can understand; a single word is better than a phrase. Never the headword, an inflection of it, a definition, an opposite, or a merely related word (dog ≠ puppy ≠ animal).
+- antonyms: the natural OPPOSITE in THIS sense and the same part of speech, as "word - Greek" (e.g. cold - κρύος). Adjectives: hot/cold, brave/afraid; verbs: open/close, win/lose; nouns: the opposite concept (winner/loser, success/failure). A negated form of the same word (unhappy for happy) is allowed only if no better opposite exists; never "not + word". Never reuse a synonym as an antonym.
+- If a pair is not genuinely possible (an opposite of pencil, a synonym of Monday), return "" and list the field in "none".`;
+
+function vocabFieldLimits(profile) {
+  const max = profile.maxDerivatives >= 99 ? 5 : Math.max(1, profile.maxDerivatives);
+  return { derivatives: max, synonyms: max <= 1 ? 1 : max <= 2 ? 2 : 3, antonyms: max <= 1 ? 1 : 2 };
+}
+
 async function autofillBatch(apiKey, profileId, requests, { strict = false } = {}) {
   const profile = CLASS_PROFILES[profileId];
+  const limits = vocabFieldLimits(profile);
   const allFields = VOCAB_AUTOFILL_FIELDS;
   const schemaFields = allFields.map((k) => `"${k}": string`).join(", ");
 
@@ -4370,28 +4549,37 @@ async function autofillBatch(apiKey, profileId, requests, { strict = false } = {
 ${getProfilePromptBlock(profileId)}
 ${VOCAB_SENSE_DISAMBIGUATION_RULES}
 
-Schema: { "items": [ { "english": string, ${schemaFields}, "none": string[] } ] }
+Schema: { "items": [ { "english": string, "sense": string, "picture": string, ${schemaFields}, "none": string[] } ] }
 
 Rules:
 - One item per input word, in the SAME ORDER as the input; "english" must be copied exactly from the input
-- Each word has "fill" (fields to generate) and optional "provided" (teacher hints — LOCKED, copy exactly)
+- Each word has "fill" (fields to generate) and optional "provided" (teacher hints — LOCKED, copy exactly) and optional "avoid" (answers already rejected — never give those again)
 - Return EVERY key listed in "fill" with real content, PLUS echo every key in "provided" unchanged
+- "sense": FIRST decide the exact meaning of this word (a 3–8 word English gloss, e.g. "to close an envelope"). Everything else must fit it. "picture": 2–6 words naming what the emoji will show. Both are scratch notes for accuracy — always return them
 - type: standard abbreviation n., v., adj., adv., phr. v., prep., conj., pron., det., interj. Must match the locked sense from provided type/greek
 - greek: natural Greek for students at ${profile.label} level — must match provided greek if given, or match provided type
-- emojis: exactly 1 relevant emoji for THIS sense (2 only if one cannot show it); never 3+; never leave empty
+- emojis: 1 emoji (2 only if one cannot show the meaning); never 3+; never leave empty
 - collocation: short natural phrase (3–7 words) using the word in the locked sense — not a dictionary definition; never leave empty
-- derivatives: comma-separated "word (type) - Greek" — other members of the SAME word family (noun/verb/adjective/adverb forms, e.g. compete → competition (n.) - διαγωνισμός, competitive (adj.) - ανταγωνιστικός). Prefer forms suitable for ${profile.cefr}; up to ${profile.maxDerivatives}. Phrasal verbs and fixed phrases can use the family of their key word
-- synonyms: comma-separated, 1–2 simple words or short phrases with the same meaning in this sense
-- antonyms: comma-separated "word - Greek", the natural opposite in this sense (for nouns, the opposite concept, e.g. winner ↔ loser, success ↔ failure)
+- derivatives: comma-separated "word (type) - Greek"; up to ${limits.derivatives}, suitable for ${profile.cefr}
+- synonyms: comma-separated, up to ${limits.synonyms}
+- antonyms: comma-separated "word - Greek", up to ${limits.antonyms}
 - Only if a requested field truly has NO correct answer in English (e.g. an opposite of "pencil"), return "" for it AND list the field name in "none". Never invent wrong or unnatural words just to fill a field${strict ? `
-- SECOND PASS: these fields came back empty last time. Think again carefully — most words DO have a word family, a synonym and an opposite. Use "none" only when an answer is genuinely impossible` : ""}
+- SECOND PASS: these fields came back empty or were rejected last time (see "avoid"). Think again carefully — most words DO have a word family, a synonym and an opposite. Use "none" only when an answer is genuinely impossible` : ""}
+
+${AUTOFILL_EMOJI_GUIDE}
+
+${AUTOFILL_FAMILY_GUIDE}
+
+${AUTOFILL_RELATION_GUIDE}
 
 Examples:
-- { "english": "seal", "provided": { "type": "v." }, "fill": ["greek","emojis","collocation"] } → type "v.", greek "σφραγίζω", emojis about closing/sealing, collocation "seal an envelope"
-- { "english": "seal", "provided": { "greek": "φώκια" }, "fill": ["type","emojis","collocation"] } → type "n.", emojis 🦭, collocation about the animal
-- { "english": "brave", "fill": ["derivatives","synonyms","antonyms"] } → derivatives "bravery (n.) - θάρρος, bravely (adv.) - γενναία", synonyms "courageous", antonyms "afraid - φοβισμένος"`;
+- { "english": "seal", "provided": { "type": "v." }, "fill": ["greek","emojis","collocation"] } → sense "to close something tightly", type "v.", greek "σφραγίζω", picture "sealed envelope", emojis "✉️", collocation "seal an envelope"
+- { "english": "seal", "provided": { "greek": "φώκια" }, "fill": ["type","emojis","collocation"] } → sense "sea animal with flippers", type "n.", emojis "🦭", collocation "a seal on the rocks"
+- { "english": "brave", "fill": ["emojis","derivatives","synonyms","antonyms"] } → emojis "🦁", derivatives "bravery (n.) - θάρρος, bravely (adv.) - γενναία", synonyms "courageous", antonyms "afraid - φοβισμένος"
+- { "english": "compete", "provided": {"type":"v."}, "fill": ["derivatives"] } → derivatives "competition (n.) - διαγωνισμός, competitor (n.) - αντίπαλος, competitive (adj.) - ανταγωνιστικός" (NOT "compete", "competing" or "competes")
+- { "english": "pencil", "fill": ["derivatives","antonyms"] } → derivatives "", antonyms "", none ["derivatives","antonyms"]`;
 
-  const userPrompt = `Return json items for these words. Respect "fill" and "provided" on each:\n${JSON.stringify(requests, null, 2)}`;
+  const userPrompt = `Return json items for these words. Respect "fill", "provided" and "avoid" on each:\n${JSON.stringify(requests, null, 2)}`;
   const result = await callDeepSeek(apiKey, systemPrompt, userPrompt);
   const items = Array.isArray(result.items) ? result.items : [];
   const byEnglish = new Map(items.filter((it) => it?.english).map((it) => [normEnglish(it.english), it]));
@@ -4400,11 +4588,50 @@ Examples:
 }
 
 /**
+ * Second opinion on what the first pass wrote. A separate call acts as a strict teacher: it checks
+ * each emoji, word family, synonym and opposite against the word's sense, and returns corrected
+ * values ONLY for the fields it found faulty.
+ * @param rows [{ english, sense, type, greek, collocation, emojis?, derivatives?, synonyms?, antonyms?, issues? }]
+ * @returns one object per row with the corrected fields (empty object = approved).
+ */
+async function reviewBatch(apiKey, profileId, rows) {
+  const profile = CLASS_PROFILES[profileId];
+  const limits = vocabFieldLimits(profile);
+  const systemPrompt = `You are a strict English teacher for Greek ${profile.label} students (${profile.cefr}) checking AI-written vocabulary cards. Return valid json only.
+
+Schema: { "items": [ { "english": string, "emojis"?: string, "derivatives"?: string, "synonyms"?: string, "antonyms"?: string } ] }
+
+For each row, audit ONLY the fields present in "check". Return the row with a key ONLY for a field that is wrong and needs replacing, containing the corrected value. Return just { "english": ... } when everything is correct. Never touch fields outside "check". The sense is fixed by "sense", "type", "greek" and "collocation".
+
+How to audit:
+- emojis: Imagine a student who sees ONLY the emoji (no text). Would they think of THIS word in THIS sense? Replace it if it shows a different meaning or a homograph, is too vague, is a placeholder, or is a poor stand-in when a clearer emoji exists. Keep a good one. Never return an empty emoji.
+- derivatives: every entry must be a different, real word from the same root (different spelling from the headword and not merely an inflection of it). Remove the headword, plurals/-s/-ed/-ing/-er/-est forms of it, invented words, look-alikes with a different root, and entries without the right Greek. Add the most useful genuine derivatives if the list is thin (up to ${limits.derivatives}). Return "" if none truly exist.
+- synonyms: same meaning in THIS sense and same part of speech, simple and level-appropriate, up to ${limits.synonyms}. Remove the headword, inflections, definitions, opposites and loosely related words.
+- antonyms: "word - Greek", the natural opposite in THIS sense and the same part of speech, up to ${limits.antonyms}. Remove the headword, "not + word" and synonyms. Return "" if there is no genuine opposite.
+- "issues" lists problems already detected automatically (e.g. words that were thrown out); fix those fields.
+
+${AUTOFILL_EMOJI_GUIDE}
+
+${AUTOFILL_FAMILY_GUIDE}`;
+  const userPrompt = `Audit these rows and return json items in the SAME ORDER:\n${JSON.stringify(rows, null, 2)}`;
+  const result = await callDeepSeek(apiKey, systemPrompt, userPrompt);
+  const items = Array.isArray(result.items) ? result.items : [];
+  const byEnglish = new Map(items.filter((it) => it?.english).map((it) => [normEnglish(it.english), it]));
+  return rows.map((r, i) => byEnglish.get(normEnglish(r.english)) || (items.length === rows.length ? items[i] : null) || {});
+}
+
+/**
  * AI-fill vocabulary rows. Every requested field is filled unless the AI says it has no genuine
  * answer (then it is listed in the result's `unavailable` map: english → [fields]).
  * Works in small batches so long word lists are never cut short, and retries empty fields once.
+ * Each answer is rule-checked (a word family never repeats the headword, an opposite is never a
+ * synonym, an emoji must be a real picture) and, for emojis / families / synonyms / opposites,
+ * reviewed by a second AI call before it reaches the teacher.
+ * @param {object} [options]
+ * @param {(emoji: string) => boolean} [options.emojiDrawable] true when every picture style can draw this emoji
+ * @param {(message: string) => void} [options.onStage] progress text for the UI
  */
-async function autofillVocabulary(apiKey, profileId, wordRequests) {
+async function autofillVocabulary(apiKey, profileId, wordRequests, options = {}) {
   const profile = CLASS_PROFILES[profileId];
   if (!profile) throw new Error("Invalid class profile");
   const requests = buildAutofillRequests(wordRequests);
@@ -4417,32 +4644,133 @@ async function autofillVocabulary(apiKey, profileId, wordRequests) {
   }
 
   const BATCH = 8;
+  const limits = vocabFieldLimits(profile);
   const merged = requests.map((r) => ({ english: r.english, ...Object.fromEntries(Object.entries(r.provided)) }));
   const none = requests.map(() => new Set());
+  const aiMade = requests.map(() => new Set()); // checked fields the AI (not the teacher) wrote
+  const rejected = requests.map(() => ({})); // field → answers thrown out, so a retry never repeats them
+  const notes = requests.map(() => ({ sense: "", picture: "" }));
+  const stage = (msg) => { try { options.onStage?.(msg); } catch { /* UI only */ } };
+
+  const ctxFor = (i, key) => ({
+    english: requests[i].english,
+    type: merged[i].type || "",
+    synonyms: merged[i].synonyms || "",
+    max: limits[key],
+    isDrawable: options.emojiDrawable,
+  });
+  // Rule-check one AI answer and keep it in `merged`. Returns true when something usable was kept.
+  const accept = (i, key, raw) => {
+    const text = autofillValueText(raw);
+    if (!text) return false;
+    if (!VOCAB_CHECKED_FIELDS.includes(key)) { merged[i][key] = text; return true; }
+    const { value, rejected: bad } = sanitizeVocabField(key, text, ctxFor(i, key));
+    if (bad.length) rejected[i][key] = [...new Set([...(rejected[i][key] || []), ...bad])];
+    if (!value) return false;
+    merged[i][key] = value;
+    aiMade[i].add(key);
+    return true;
+  };
 
   const runPass = async (indexes, strict) => {
     for (let b = 0; b < indexes.length; b += BATCH) {
       const slice = indexes.slice(b, b + BATCH);
-      const batch = slice.map((i) => ({
-        english: requests[i].english,
-        fill: requests[i].fill.filter((k) => !merged[i][k] && !none[i].has(k)),
-        provided: { ...requests[i].provided, ...Object.fromEntries(requests[i].fill.filter((k) => merged[i][k]).map((k) => [k, merged[i][k]])) },
-      }));
+      const batch = slice.map((i) => {
+        const fill = requests[i].fill.filter((k) => !merged[i][k] && !none[i].has(k));
+        const avoid = Object.fromEntries(fill.filter((k) => rejected[i][k]?.length).map((k) => [k, rejected[i][k]]));
+        return {
+          english: requests[i].english,
+          fill,
+          provided: { ...requests[i].provided, ...Object.fromEntries(requests[i].fill.filter((k) => merged[i][k]).map((k) => [k, merged[i][k]])) },
+          ...(Object.keys(avoid).length ? { avoid } : {}),
+        };
+      });
       const answers = await autofillBatch(apiKey, profileId, batch, { strict });
       answers.forEach((item, j) => {
         const i = slice[j];
-        (Array.isArray(item.none) ? item.none : []).forEach((k) => none[i].add(k));
-        for (const key of batch[j].fill) {
-          const text = autofillValueText(item[key]);
-          if (text) merged[i][key] = text;
+        if (item.sense) notes[i].sense = String(item.sense).trim();
+        if (item.picture) notes[i].picture = String(item.picture).trim();
+        const fields = [...batch[j].fill].sort((a, c) => VOCAB_AUTOFILL_FIELDS.indexOf(a) - VOCAB_AUTOFILL_FIELDS.indexOf(c));
+        const said = Array.isArray(item.none) ? item.none : [];
+        for (const key of fields) {
+          // synonyms come before antonyms, so an opposite can be checked against them
+          if (!accept(i, key, item[key]) && said.includes(key) && !rejected[i][key]?.length) none[i].add(key);
         }
       });
     }
   };
 
-  await runPass(requests.map((_, i) => i), false);
-  const missing = requests.map((r, i) => i).filter((i) => requests[i].fill.some((k) => !merged[i][k] && !none[i].has(k)));
-  if (missing.length) await runPass(missing, true);
+  // The second AI opinion on emojis, word families, synonyms and opposites.
+  const reviewPass = async () => {
+    const indexes = requests.map((_, i) => i).filter((i) => aiMade[i].size);
+    for (let b = 0; b < indexes.length; b += BATCH) {
+      const slice = indexes.slice(b, b + BATCH);
+      const rows = slice.map((i) => {
+        const check = VOCAB_CHECKED_FIELDS.filter((k) => aiMade[i].has(k));
+        const issues = check.filter((k) => rejected[i][k]?.length).map((k) => `${k}: ${rejectionNote(k, rejected[i][k])}`);
+        return {
+          english: requests[i].english,
+          sense: notes[i].sense || undefined,
+          type: merged[i].type || undefined,
+          greek: merged[i].greek || undefined,
+          collocation: merged[i].collocation || undefined,
+          check,
+          ...Object.fromEntries(check.map((k) => [k, merged[i][k]])),
+          ...(issues.length ? { issues } : {}),
+        };
+      });
+      let fixes;
+      try {
+        fixes = await reviewBatch(apiKey, profileId, rows);
+      } catch (err) {
+        if (err?.fatal) throw err;
+        continue; // the review is a bonus — never lose the first answers because of it
+      }
+      fixes.forEach((fix, j) => {
+        const i = slice[j];
+        for (const key of [...rows[j].check].sort((a, c) => VOCAB_AUTOFILL_FIELDS.indexOf(a) - VOCAB_AUTOFILL_FIELDS.indexOf(c))) {
+          if (!(key in (fix || {}))) continue;
+          const text = autofillValueText(fix[key]);
+          const before = merged[i][key];
+          if (!text) {
+            // The reviewer found nothing valid. Emojis must stay; other fields may legitimately end up empty.
+            if (key === "emojis") continue;
+            merged[i][key] = "";
+            none[i].add(key);
+            continue;
+          }
+          const { value, rejected: bad } = sanitizeVocabField(key, text, ctxFor(i, key));
+          if (bad.length) rejected[i][key] = [...new Set([...(rejected[i][key] || []), ...bad])];
+          merged[i][key] = value || before;
+        }
+        // The cleaned synonyms may have changed: re-check the opposites against them.
+        if (aiMade[i].has("antonyms") && merged[i].antonyms) {
+          merged[i].antonyms = sanitizeVocabField("antonyms", merged[i].antonyms, ctxFor(i, "antonyms")).value || merged[i].antonyms;
+        }
+      });
+    }
+  };
+
+  const allIdx = requests.map((_, i) => i);
+  const missingIdx = () => allIdx.filter((i) => requests[i].fill.some((k) => !merged[i][k] && !none[i].has(k)));
+
+  stage("Writing phrases, pictures and word families…");
+  await runPass(allIdx, false);
+  const missing = missingIdx();
+  if (missing.length) {
+    stage("Taking a second look at fields that came back empty…");
+    await runPass(missing, true);
+  }
+  if (allIdx.some((i) => aiMade[i].size)) {
+    stage("Checking pictures, word families, synonyms and opposites…");
+    await reviewPass();
+  }
+  // The reviewer may have emptied a field; ask once more for anything still missing without a "none".
+  const stillMissing = missingIdx();
+  if (stillMissing.length) {
+    stage("Filling the last gaps…");
+    await runPass(stillMissing, true);
+  }
 
   const unavailable = {};
   requests.forEach((r, i) => {
@@ -4607,6 +4935,7 @@ function parseBulkVocabularyText(rawText) {
 }
 
 export {
+  sanitizeVocabField,
   splitTargetInPhrase,
   CLASS_PROFILES,
   configurePictures,

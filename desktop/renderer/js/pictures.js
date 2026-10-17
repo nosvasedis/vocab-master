@@ -83,3 +83,17 @@ export async function rasterisePictures(emojis, style, px = 96) {
   }
   return out;
 }
+
+/**
+ * Loads the picture packs and returns a test "can every drawn style show this emoji?".
+ * Emojis missing from a pack silently vanish from worksheets in that style, so the AI is told
+ * to pick another. Resolves to null (no check) when the packs cannot be read.
+ */
+export async function emojiDrawableCheck() {
+  const [openmoji, fluent] = await Promise.all([loadPack("openmoji"), loadPack("fluent")]);
+  if (!openmoji || !fluent) return null;
+  return (emoji) => {
+    const key = pictureKey(emoji);
+    return !!key && !!lookup(openmoji, key) && !!lookup(fluent, key);
+  };
+}
