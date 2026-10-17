@@ -1,0 +1,739 @@
+{
+  "schema": 1,
+  "id": "CPP2-U5-A",
+  "bookId": "CPP2",
+  "unit": 5,
+  "section": "A",
+  "title": "Feel the Rhythm: Music All Around Us",
+  "bigQuestion": "What is music?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ellie": {
+      "name": "Ellie",
+      "emoji": "👧",
+      "persona": "curious, friendly 10-year-old girl who loves asking questions"
+    },
+    "nico": {
+      "name": "Nico",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy who plays the violin, bubbly and kind"
+    },
+    "mrs_bell": {
+      "name": "Mrs Bell",
+      "emoji": "🧑‍🏫",
+      "persona": "warm, encouraging music teacher, calm and patient"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U5-SB-613",
+      "emoji": "🕺",
+      "kidDefinition": "To change place, or make your body or things go.",
+      "examples": [
+        "Please move your bag off the chair.",
+        "Look! The baby can move his feet to the music."
+      ],
+      "distractors": [
+        "jump",
+        "carry",
+        "wait"
+      ],
+      "greekHint": "κινούμαι = move",
+      "english": "move",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U5-SB-614",
+      "emoji": "🔗",
+      "kidDefinition": "To join two things or people together.",
+      "examples": [
+        "This bridge connects the two villages.",
+        "Music can connect friends from different countries."
+      ],
+      "distractors": [
+        "hide",
+        "paint",
+        "cook"
+      ],
+      "greekHint": "συνδέομαι = connect",
+      "english": "connect",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U5-SB-615",
+      "emoji": "😊",
+      "kidDefinition": "What you feel inside, like happy or sad.",
+      "examples": [
+        "Music helps me show my feelings.",
+        "Kate expresses her feelings through songs."
+      ],
+      "distractors": [
+        "pencils",
+        "windows",
+        "weather"
+      ],
+      "greekHint": "συναισθήματα = feelings",
+      "english": "feelings",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-616",
+      "emoji": "😌",
+      "kidDefinition": "Calm, not worried or tense.",
+      "examples": [
+        "Music helps me feel relaxed before a test.",
+        "After the concert, we felt relaxed and happy."
+      ],
+      "distractors": [
+        "hungry",
+        "cheap",
+        "tall"
+      ],
+      "greekHint": "χαλαρός = relaxed",
+      "english": "relaxed",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U5-SB-617",
+      "emoji": "🌍",
+      "kidDefinition": "The customs and music of a group of people.",
+      "examples": [
+        "Different cultures have different kinds of music.",
+        "I love learning about other cultures at school."
+      ],
+      "distractors": [
+        "garden",
+        "machine",
+        "puzzle"
+      ],
+      "greekHint": "πολιτισμός = culture",
+      "english": "culture",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-618",
+      "emoji": "🪕",
+      "kidDefinition": "Old, and passed down from one generation to the next.",
+      "examples": [
+        "Do you like traditional music?",
+        "We sing a traditional song at every family party."
+      ],
+      "distractors": [
+        "modern",
+        "tiny",
+        "quick"
+      ],
+      "greekHint": "παραδοσιακός = traditional",
+      "english": "traditional",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U5-SB-621",
+      "emoji": "🎻",
+      "kidDefinition": "A small wooden instrument you play with a bow.",
+      "examples": [
+        "John plays the violin in the school orchestra.",
+        "She practises the violin for thirty minutes every day."
+      ],
+      "distractors": [
+        "flute",
+        "drum",
+        "trumpet"
+      ],
+      "greekHint": "βιολί = violin",
+      "english": "violin",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-629",
+      "emoji": "🎼",
+      "kidDefinition": "A person who plays or writes music.",
+      "examples": [
+        "Dominic is a musician. He can play three instruments.",
+        "My aunt is a musician in a big band."
+      ],
+      "distractors": [
+        "teacher",
+        "doctor",
+        "baker"
+      ],
+      "greekHint": "μουσικός = musician",
+      "english": "musician",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-640",
+      "emoji": "🥁",
+      "kidDefinition": "The steady beat pattern in music.",
+      "examples": [
+        "Listen to the rhythm and clap along.",
+        "This song has a fast rhythm that makes me dance."
+      ],
+      "distractors": [
+        "colour",
+        "shadow",
+        "pillow"
+      ],
+      "greekHint": "ρυθμός = rhythm",
+      "english": "rhythm",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-641",
+      "emoji": "🎶",
+      "kidDefinition": "The tune of a song, the notes you can sing.",
+      "examples": [
+        "I like this melody. It's soft and relaxing!",
+        "I can hum the melody of my favourite song."
+      ],
+      "distractors": [
+        "ticket",
+        "mirror",
+        "puzzle"
+      ],
+      "greekHint": "μελωδία = melody",
+      "english": "melody",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U5-SB-611",
+    "CPP2-U5-SB-612",
+    "CPP2-U5-SB-619",
+    "CPP2-U5-SB-620",
+    "CPP2-U5-SB-622",
+    "CPP2-U5-SB-623",
+    "CPP2-U5-SB-624",
+    "CPP2-U5-SB-625",
+    "CPP2-U5-SB-626",
+    "CPP2-U5-SB-627",
+    "CPP2-U5-SB-628",
+    "CPP2-U5-SB-630",
+    "CPP2-U5-SB-631",
+    "CPP2-U5-SB-632",
+    "CPP2-U5-SB-633",
+    "CPP2-U5-SB-634",
+    "CPP2-U5-SB-635",
+    "CPP2-U5-SB-636",
+    "CPP2-U5-SB-637",
+    "CPP2-U5-SB-638",
+    "CPP2-U5-SB-639",
+    "CPP2-U5-SB-642",
+    "CPP2-U5-SB-643",
+    "CPP2-U5-SB-644",
+    "CPP2-U5-SB-645",
+    "CPP2-U5-SB-646",
+    "CPP2-U5-SB-647",
+    "CPP2-U5-SB-648",
+    "CPP2-U5-SB-649",
+    "CPP2-U5-SB-650",
+    "CPP2-U5-SB-651",
+    "CPP2-U5-SB-652",
+    "CPP2-U5-SB-653",
+    "CPP2-U5-SB-654",
+    "CPP2-U5-SB-655",
+    "CPP2-U5-SB-656",
+    "CPP2-U5-SB-657",
+    "CPP2-U5-SB-658",
+    "CPP2-U5-KW-14"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I'm Lingo, and I love music."
+        },
+        {
+          "id": "l2",
+          "text": "Music is everywhere. You hear it at home, at school, and in the park."
+        },
+        {
+          "id": "l3",
+          "text": "Some music makes us dance. Some music makes us feel calm."
+        },
+        {
+          "id": "l4",
+          "text": "Today, we will find out what music can do."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What kind of music do you listen to at home?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U5-SB-613",
+        "CPP2-U5-SB-640",
+        "CPP2-U5-SB-641",
+        "CPP2-U5-SB-629",
+        "CPP2-U5-SB-621",
+        "CPP2-U5-SB-618",
+        "CPP2-U5-SB-613",
+        "CPP2-U5-SB-615",
+        "CPP2-U5-SB-616",
+        "CPP2-U5-SB-614",
+        "CPP2-U5-SB-617"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Ellie and Nico at the Music Room",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mrs_bell"
+            },
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "The music room is full of happy voices."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mrs_bell",
+              "text": "Today, listen carefully to the rhythm of this song."
+            },
+            {
+              "id": "p1b",
+              "who": "ellie",
+              "text": "I can hear it! The rhythm is steady and fast."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-640"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "nico"
+            },
+            {
+              "who": "mrs_bell"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Nico opens his case and takes out his violin."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nico",
+              "text": "My grandpa is a musician. He taught me this melody."
+            },
+            {
+              "id": "p2b",
+              "who": "mrs_bell",
+              "text": "Let's learn this traditional song from my village."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-621",
+            "CPP2-U5-SB-629",
+            "CPP2-U5-SB-641",
+            "CPP2-U5-SB-618"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "In the park, Ellie starts to dance."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "ellie",
+              "text": "Can you move your feet to the beat?"
+            },
+            {
+              "id": "p3b",
+              "who": "nico",
+              "text": "Yes! I can move my whole body with the rhythm!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-613"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "They sit under a tree and feel calm."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "ellie",
+              "text": "Music helps me feel relaxed after a busy day."
+            },
+            {
+              "id": "p4b",
+              "who": "nico",
+              "text": "It also helps me share my feelings with my friends."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-616",
+            "CPP2-U5-SB-615"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "mrs_bell"
+            },
+            {
+              "who": "ellie"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "On stage, the whole class sings together."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mrs_bell",
+              "text": "Music can connect people of different cultures."
+            },
+            {
+              "id": "p5b",
+              "who": "ellie",
+              "text": "Yes! Music is a special way to learn about each other's culture."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-614",
+            "CPP2-U5-SB-617"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U5-SB-613",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the picture for the word: move"
+          },
+          "options": [
+            "CPP2-U5-SB-616",
+            "CPP2-U5-SB-613",
+            "CPP2-U5-SB-615",
+            "CPP2-U5-SB-614"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Move means to change place or make your body go, like dancing."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U5-SB-621",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen. Pick the word you hear."
+          },
+          "options": [
+            "CPP2-U5-SB-640",
+            "CPP2-U5-SB-629",
+            "CPP2-U5-SB-621",
+            "CPP2-U5-SB-641"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "A violin is a small instrument that you play with a bow."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-614",
+          "prompt": {
+            "id": "c3q",
+            "text": "Music can ____ people from different cultures."
+          },
+          "options": [
+            "cook",
+            "connect",
+            "hide",
+            "paint"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "To connect means to join people together, and music does that."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-615",
+          "prompt": {
+            "id": "c4q",
+            "text": "Ellie uses music to show her ____."
+          },
+          "options": [
+            "windows",
+            "pencils",
+            "weather",
+            "feelings"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "Feelings are what you feel inside, like happy or sad."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U5-SB-616",
+          "prompt": {
+            "id": "c5q",
+            "text": "Feeling relaxed means you are calm and not worried."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Relaxed means calm, like Ellie after a busy day."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U5-SB-618",
+          "prompt": {
+            "id": "c6q",
+            "text": "A traditional song is new and was written this year."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Traditional songs are old and passed down through families."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U5-SB-617",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is NOT part of a culture?"
+          },
+          "options": [
+            "food",
+            "language",
+            "dance",
+            "pencil"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "Dance, language and food are part of culture, but a pencil is not."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U5-SB-640",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word is NOT an instrument?"
+          },
+          "options": [
+            "violin",
+            "rhythm",
+            "drum",
+            "flute"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Violin, flute and drum are instruments, but rhythm is a beat pattern."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-629",
+          "prompt": {
+            "id": "c9q",
+            "text": "Dominic is a ____. He can play three instruments."
+          },
+          "options": [
+            "doctor",
+            "musician",
+            "baker",
+            "teacher"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "A musician is a person who plays or writes music."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-641",
+          "prompt": {
+            "id": "c10q",
+            "text": "I can hum the ____ of my favourite song."
+          },
+          "options": [
+            "puzzle",
+            "mirror",
+            "melody",
+            "ticket"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "The melody is the tune of a song, the part you can sing."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find each matching picture and word pair."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud as you turn the card over."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a musician or a song you love."
+      },
+      "frames": [
+        "My favourite musician is ___.",
+        "I feel ___ when I listen to music.",
+        "This song has a fast ___ and a lovely ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My favourite musician is Mozart. When I listen to music, I feel relaxed. This song has a fast rhythm and a lovely melody!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You found the rhythm of today's lesson."
+        },
+        {
+          "id": "l2",
+          "text": "Music can connect us, and it helps us share our feelings."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will find out what makes music special!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Rhythm Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one sentence with the word melody."
+        },
+        {
+          "id": "e2",
+          "text": "What is the difference between rhythm and melody?"
+        }
+      ]
+    }
+  ]
+}

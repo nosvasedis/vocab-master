@@ -1,0 +1,459 @@
+{
+  "schema": 1,
+  "id": "CPP2-U9-BQ",
+  "bookId": "CPP2",
+  "unit": 9,
+  "section": "BQ",
+  "title": "Big Ideas, Big Changes: Meet Lingo and the Inventions",
+  "bigQuestion": "How do inventions change our lives?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, curious and full of questions"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "friendly 10-year-old boy, loves building and fixing things"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U9-SB-1079",
+      "emoji": "💡",
+      "kidDefinition": "A new thing that people make for the first time.",
+      "examples": [
+        "The telephone was an amazing invention.",
+        "Every invention starts with one good idea."
+      ],
+      "distractors": [
+        "museum",
+        "garden",
+        "pencil"
+      ],
+      "english": "invention",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1083",
+      "emoji": "🛞",
+      "kidDefinition": "A round part that turns, so things can roll.",
+      "examples": [
+        "Round wheels help cars and bikes move easily.",
+        "My toy truck has four wheels that spin."
+      ],
+      "distractors": [
+        "window",
+        "button",
+        "table"
+      ],
+      "english": "wheel",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-KW-20",
+      "emoji": "🚲",
+      "kidDefinition": "A vehicle with two wheels that you pedal.",
+      "examples": [
+        "I ride my bicycle to school every morning.",
+        "Maya fixed her bicycle with her dad this weekend."
+      ],
+      "distractors": [
+        "scooter",
+        "skateboard",
+        "umbrella"
+      ],
+      "english": "bicycle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1084",
+      "emoji": "🚢",
+      "kidDefinition": "A big boat that carries people or things across the sea.",
+      "examples": [
+        "The big ship sailed across the sea to Crete.",
+        "Many ships carry food and toys to other countries."
+      ],
+      "distractors": [
+        "train",
+        "kite",
+        "ladder"
+      ],
+      "english": "ship",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1085",
+      "emoji": "💻",
+      "kidDefinition": "A machine that you use to work, play and learn.",
+      "examples": [
+        "My computer helps me learn English every day.",
+        "Leo uses the computer to build robots online."
+      ],
+      "distractors": [
+        "telephone",
+        "television",
+        "camera"
+      ],
+      "english": "computer",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1080",
+      "emoji": "📚",
+      "kidDefinition": "Facts or news that help you learn about something.",
+      "examples": [
+        "The library has lots of information about dinosaurs.",
+        "Can you find information about bicycles for our project?"
+      ],
+      "distractors": [
+        "picture",
+        "mountain",
+        "sandwich"
+      ],
+      "english": "information",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1082",
+      "emoji": "🪥",
+      "kidDefinition": "A small brush you use to clean your teeth.",
+      "examples": [
+        "Please take your toothbrush on the school trip.",
+        "Brush your teeth with a toothbrush every morning and night."
+      ],
+      "distractors": [
+        "pillow",
+        "spoon",
+        "kettle"
+      ],
+      "english": "toothbrush",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1081",
+      "emoji": "🧴",
+      "kidDefinition": "A liquid soap you use to wash your hair.",
+      "examples": [
+        "She washed her hair with a new shampoo.",
+        "This shampoo smells like oranges and feels very soft."
+      ],
+      "distractors": [
+        "towel",
+        "pillow",
+        "comb"
+      ],
+      "english": "shampoo",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hoo hoo! Welcome to our new unit, everybody. I am Lingo."
+        },
+        {
+          "id": "l2",
+          "text": "Today, Maya and Leo are going to show us something surprising."
+        },
+        {
+          "id": "l3",
+          "text": "Leo says that a tiny idea can change the whole world!"
+        },
+        {
+          "id": "l4",
+          "text": "Maya says that the wheel is the best invention ever made."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one thing in your home that you think is a great invention?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U9-SB-1079",
+        "CPP2-U9-SB-1083",
+        "CPP2-U9-KW-20",
+        "CPP2-U9-SB-1084",
+        "CPP2-U9-SB-1085",
+        "CPP2-U9-SB-1080",
+        "CPP2-U9-SB-1082",
+        "CPP2-U9-SB-1081"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U9-SB-1084",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the picture of a ship."
+          },
+          "options": [
+            "CPP2-U9-SB-1084",
+            "CPP2-U9-SB-1085",
+            "CPP2-U9-SB-1081",
+            "CPP2-U9-SB-1079"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A ship is a big boat that sails across the sea."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U9-SB-1085",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to the word. Which picture matches it?"
+          },
+          "options": [
+            "CPP2-U9-SB-1083",
+            "CPP2-U9-SB-1080",
+            "CPP2-U9-SB-1082",
+            "CPP2-U9-SB-1085"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "A computer is a machine we use to work, play and learn."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U9-KW-20",
+          "prompt": {
+            "id": "c3q",
+            "text": "We ride our ____ to the park every Saturday."
+          },
+          "options": [
+            "shampoo",
+            "bicycle",
+            "toothbrush",
+            "wheel"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "A bicycle has two wheels, and you pedal it to go places."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1082",
+          "prompt": {
+            "id": "c4q",
+            "text": "Brush your teeth with a ____ every morning."
+          },
+          "options": [
+            "shampoo",
+            "computer",
+            "ship",
+            "toothbrush"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "You clean your teeth with a toothbrush and toothpaste."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1081",
+          "prompt": {
+            "id": "c5q",
+            "text": "She washed her hair with a new ____."
+          },
+          "options": [
+            "ship",
+            "shampoo",
+            "computer",
+            "wheel"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Shampoo is a liquid soap that we use to wash our hair."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U9-SB-1083",
+          "prompt": {
+            "id": "c6q",
+            "text": "A wheel is a round part that helps things roll."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Wheels turn round and round, so cars and bikes can move."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U9-SB-1079",
+          "prompt": {
+            "id": "c7q",
+            "text": "An invention is a new thing that people make for the first time."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "An invention is something new that helps people, like the telephone."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U9-SB-1082",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "wheel",
+            "toothbrush",
+            "bicycle",
+            "ship"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Bicycle, ship and wheel help things move, but a toothbrush cleans teeth."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1080",
+          "prompt": {
+            "id": "c9q",
+            "text": "Can you give me some ____ about trains, please?"
+          },
+          "options": [
+            "shampoo",
+            "wheel",
+            "toothbrush",
+            "information"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "Information means facts that help you learn about something."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Now let's play memory. Turn two cards and find matching pairs."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word aloud as you turn the card. Good luck!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about an invention that you use every day."
+      },
+      "frames": [
+        "I think the ___ is a very important invention.",
+        "I use a ___ every day because it helps me.",
+        "Without a ___, my life would be very different."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I think the computer is a very important invention. I use a computer every day because it helps me learn. Without a computer, my life would be very different."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Wonderful work, everyone! You met eight Big Question words today."
+        },
+        {
+          "id": "l2",
+          "text": "From the wheel to the computer, inventions change our lives every day."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will read about Maya and Leo and their weather cat!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Invention Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one invention from today's words and say why it is useful."
+        },
+        {
+          "id": "e2",
+          "text": "Where can you find information about a new invention?"
+        }
+      ]
+    }
+  ]
+}

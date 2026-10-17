@@ -1,0 +1,732 @@
+{
+  "schema": 1,
+  "id": "CPP1-U5-B",
+  "bookId": "CPP1",
+  "unit": 5,
+  "section": "B",
+  "title": "Sandcastles, Shells and a Super Yo-Yo!",
+  "bigQuestion": "How do we have fun?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "beach",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, bubbly and full of ideas"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "curious 10-year-old boy, careful and thoughtful"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U5-SB-580",
+      "emoji": "🎀",
+      "kidDefinition": "To make a knot with laces or rope.",
+      "examples": [
+        "Please tie your shoelaces before you run.",
+        "I can tie a bow with my ribbon."
+      ],
+      "distractors": [
+        "catch",
+        "write",
+        "sing"
+      ],
+      "greekHint": "δένω: δένω = I tie",
+      "english": "tie",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-581",
+      "emoji": "🤲",
+      "kidDefinition": "To lift something up from the ground.",
+      "examples": [
+        "Please pick up your toys before dinner.",
+        "Can you pick up that pencil for me?"
+      ],
+      "distractors": [
+        "hold on",
+        "click on",
+        "look up"
+      ],
+      "english": "pick up",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-584",
+      "emoji": "🏃",
+      "kidDefinition": "A fast contest to see who wins.",
+      "examples": [
+        "We have a running race on Friday.",
+        "My sister won the race again!"
+      ],
+      "distractors": [
+        "shell",
+        "trash",
+        "shoelace"
+      ],
+      "english": "race",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-585",
+      "emoji": "👟",
+      "kidDefinition": "A string that you tie to close your shoes.",
+      "examples": [
+        "My shoelace is untied again!",
+        "Her new shoelaces are red and white."
+      ],
+      "distractors": [
+        "trash",
+        "sandcastle",
+        "yo-yo"
+      ],
+      "english": "shoelace",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-586",
+      "emoji": "🗑️",
+      "kidDefinition": "Things we throw away, like paper and bottles.",
+      "examples": [
+        "Put the trash in the big bin, please.",
+        "Let's keep the park clean and free of trash."
+      ],
+      "distractors": [
+        "shell",
+        "sandcastle",
+        "yo-yo"
+      ],
+      "english": "trash",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-587",
+      "emoji": "🏰",
+      "kidDefinition": "A castle that you build with wet sand.",
+      "examples": [
+        "We built a tall sandcastle with a flag.",
+        "The waves knocked down our sandcastle!"
+      ],
+      "distractors": [
+        "shell",
+        "shoelace",
+        "race"
+      ],
+      "english": "sandcastle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-588",
+      "emoji": "🐚",
+      "kidDefinition": "A hard cover that some sea animals make.",
+      "examples": [
+        "I found a pink shell on the beach.",
+        "Can you hear the sea in this shell?"
+      ],
+      "distractors": [
+        "trash",
+        "shoelace",
+        "yo-yo"
+      ],
+      "english": "shell",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-601",
+      "emoji": "🪀",
+      "kidDefinition": "A toy on a string that goes up and down.",
+      "examples": [
+        "My grandpa has an old yo-yo from his childhood.",
+        "Can you make your yo-yo sleep?"
+      ],
+      "distractors": [
+        "race",
+        "shell",
+        "sandcastle"
+      ],
+      "english": "yo-yo",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-602",
+      "emoji": "🎳",
+      "kidDefinition": "To move by turning over and over.",
+      "examples": [
+        "The ball will roll down the hill.",
+        "Let's roll the dice and play the game."
+      ],
+      "distractors": [
+        "tie",
+        "catch",
+        "write"
+      ],
+      "english": "roll",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-604",
+      "emoji": "🤩",
+      "kidDefinition": "Very good and wonderful. Something you love!",
+      "examples": [
+        "This ice cream is amazing!",
+        "We had an amazing day at the park."
+      ],
+      "distractors": [
+        "wooden",
+        "rubber",
+        "crumpled"
+      ],
+      "english": "amazing",
+      "type": "adj."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U5-SB-582",
+    "CPP1-U5-SB-583",
+    "CPP1-U5-SB-589",
+    "CPP1-U5-SB-590",
+    "CPP1-U5-SB-591",
+    "CPP1-U5-SB-592",
+    "CPP1-U5-SB-593",
+    "CPP1-U5-SB-594",
+    "CPP1-U5-SB-595",
+    "CPP1-U5-SB-596",
+    "CPP1-U5-SB-597",
+    "CPP1-U5-SB-598",
+    "CPP1-U5-SB-599",
+    "CPP1-U5-SB-600",
+    "CPP1-U5-SB-603",
+    "CPP1-U5-SB-605",
+    "CPP1-U5-SB-606",
+    "CPP1-U5-SB-607",
+    "CPP1-U5-SB-608",
+    "CPP1-U5-SB-609",
+    "CPP1-U5-SB-610",
+    "CPP1-U5-SB-611",
+    "CPP1-U5-SB-612",
+    "CPP1-U5-SB-613",
+    "CPP1-U5-SB-614",
+    "CPP1-U5-SB-615",
+    "CPP1-U5-SB-616",
+    "CPP1-U5-SB-617",
+    "CPP1-U5-SB-618",
+    "CPP1-U5-SB-619",
+    "CPP1-U5-SB-620",
+    "CPP1-U5-SB-621",
+    "CPP1-U5-SB-622",
+    "CPP1-U5-SB-623",
+    "CPP1-U5-SB-624",
+    "CPP1-U5-SB-625",
+    "CPP1-U5-SB-626",
+    "CPP1-U5-SB-627",
+    "CPP1-U5-SB-628",
+    "CPP1-U5-SB-629",
+    "CPP1-U5-SB-630",
+    "CPP1-U5-SB-631",
+    "CPP1-U5-SB-632",
+    "CPP1-U5-SB-633",
+    "CPP1-U5-SB-634",
+    "CPP1-U5-SB-635"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "beach",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we go to the beach and then to the park."
+        },
+        {
+          "id": "l3",
+          "text": "We will meet Mia and Leo. They always have fun!"
+        },
+        {
+          "id": "l4",
+          "text": "Let's learn some new words first, and then we will play."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite game to play outside?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U5-SB-580",
+        "CPP1-U5-SB-585",
+        "CPP1-U5-SB-581",
+        "CPP1-U5-SB-586",
+        "CPP1-U5-SB-587",
+        "CPP1-U5-SB-588",
+        "CPP1-U5-SB-584",
+        "CPP1-U5-SB-601",
+        "CPP1-U5-SB-602",
+        "CPP1-U5-SB-604"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Sandcastles, Shells and a Super Yo-Yo",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "On Saturday, Mia and Leo go to the beach."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Let's build a big sandcastle!"
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Wait, I need to tie my shoelace first."
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-587",
+            "CPP1-U5-SB-580",
+            "CPP1-U5-SB-585"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Some trash is lying on the sand."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "Look, there is trash on the sand!"
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Let's pick up the trash. We must keep the beach clean."
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-586",
+            "CPP1-U5-SB-581"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Leo finds a pretty shell in the sand."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "Wow! This shell is amazing!"
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "Let's put it on top of our sandcastle."
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-588",
+            "CPP1-U5-SB-604"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "At the park, the friends get ready for a race."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "mia",
+              "text": "Ready, set, go! Race you to the swings!"
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "Wait! My shoelace is tied, so I am ready too!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-584",
+            "CPP1-U5-SB-585"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Leo takes an old yo-yo out of his bag."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "leo",
+              "text": "Try it! You roll it down and pull it up."
+            },
+            {
+              "id": "p5b",
+              "who": "mia",
+              "text": "Amazing! This yo-yo is so much fun!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-601",
+            "CPP1-U5-SB-602",
+            "CPP1-U5-SB-604"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-580",
+          "prompt": {
+            "id": "c1q",
+            "text": "Can you ____ this rope to the tree, please?"
+          },
+          "options": [
+            "tie",
+            "catch",
+            "sing",
+            "write"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "To tie means to make a knot, so you tie a rope to a tree."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U5-SB-587",
+          "prompt": {
+            "id": "c2q",
+            "text": "Tap the picture of a castle made of sand."
+          },
+          "options": [
+            "CPP1-U5-SB-587",
+            "CPP1-U5-SB-588",
+            "CPP1-U5-SB-584",
+            "CPP1-U5-SB-601"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A sandcastle is a castle you build at the beach with wet sand."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U5-SB-586",
+          "prompt": {
+            "id": "c3q",
+            "text": "Mia and Leo leave their trash on the sand."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "False, because Leo says they must pick up the trash and keep the beach clean."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP1-U5-SB-581",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen to the words. Which one means to lift something up from the ground?"
+          },
+          "options": [
+            "CPP1-U5-SB-581",
+            "CPP1-U5-SB-580",
+            "CPP1-U5-SB-584",
+            "CPP1-U5-SB-585"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Pick up means to lift something up, like trash from the sand."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-584",
+          "prompt": {
+            "id": "c5q",
+            "text": "We have a running ____ at school next week."
+          },
+          "options": [
+            "sandcastle",
+            "shell",
+            "race",
+            "trash"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A race is a fast contest, and everyone runs to see who wins."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-588",
+          "prompt": {
+            "id": "c6q",
+            "text": "We found a pretty ____ on the beach."
+          },
+          "options": [
+            "shell",
+            "yo-yo",
+            "race",
+            "shoelace"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "A shell is the hard cover that sea animals make, and you find them on the beach."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-585",
+          "prompt": {
+            "id": "c7q",
+            "text": "Oh no! My ____ is undone, so I might fall!"
+          },
+          "options": [
+            "sandcastle",
+            "shell",
+            "trash",
+            "shoelace"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A shoelace is the string that closes your shoe."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U5-SB-601",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which picture shows a toy on a string that goes up and down?"
+          },
+          "options": [
+            "CPP1-U5-SB-588",
+            "CPP1-U5-SB-587",
+            "CPP1-U5-SB-601",
+            "CPP1-U5-SB-584"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "A yo-yo is a toy on a string, and it goes up and down."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U5-SB-604",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "trash",
+            "amazing",
+            "wooden",
+            "rubber"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "Amazing, wooden and rubber describe things, but trash is a noun, a thing itself."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-602",
+          "prompt": {
+            "id": "c10q",
+            "text": "You can ____ the yo-yo up and down."
+          },
+          "options": [
+            "write",
+            "catch",
+            "tie",
+            "roll"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c10e",
+            "text": "To roll means to move by turning over and over, and you can roll a yo-yo."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game! Find the matching pairs of picture and word."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud when you find a pair. Ready? Go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "What do you like to do at the beach or the park?"
+      },
+      "frames": [
+        "I like to build a ___.",
+        "At the park, I like to ___.",
+        "Before a race, I always tie my ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like to build a sandcastle. At the park, I like to play with my yo-yo. Before a race, I always tie my shoelace!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Fantastic work today, friends! You learned ten amazing new words."
+        },
+        {
+          "id": "l2",
+          "text": "You can tie, pick up, roll and race, just like Mia and Leo."
+        },
+        {
+          "id": "l3",
+          "text": "Remember, we always pick up our trash and keep the beach clean!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Fun Word Finder"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What do you need to tie before a race?"
+        },
+        {
+          "id": "e2",
+          "text": "Can you name one thing you should pick up at the beach?"
+        }
+      ]
+    }
+  ]
+}

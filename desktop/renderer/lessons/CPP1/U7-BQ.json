@@ -1,0 +1,440 @@
+{
+  "schema": 1,
+  "id": "CPP1-U7-BQ",
+  "bookId": "CPP1",
+  "unit": 7,
+  "section": "BQ",
+  "title": "Where Does Our Food Come From?",
+  "bigQuestion": "Why do we need plants and animals?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "farm",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher, encouraging and a little silly"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and full of questions"
+    },
+    "mrs_bee": {
+      "name": "Mrs. Bee",
+      "emoji": "🐝",
+      "persona": "gentle, buzzy, friendly bee who loves flowers and honey"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U7-SB-756",
+      "emoji": "🥛",
+      "kidDefinition": "To start from a place, plant, or animal.",
+      "examples": [
+        "Milk comes from cows, not from shops.",
+        "Apples come from trees in our garden."
+      ],
+      "distractors": [
+        "go to",
+        "get up",
+        "look at"
+      ],
+      "greekHint": "Το «από» σημαίνει from.",
+      "english": "come from",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP1-U7-SB-755",
+      "emoji": "🥕",
+      "kidDefinition": "Food that farmers grow or make.",
+      "examples": [
+        "Farmers grow fresh produce on their land.",
+        "Our shop sells local produce every day."
+      ],
+      "distractors": [
+        "toys",
+        "shoes",
+        "books"
+      ],
+      "english": "produce",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-757",
+      "emoji": "🛒",
+      "kidDefinition": "A place where people buy and sell things.",
+      "examples": [
+        "We buy eggs at the market on Sunday.",
+        "The market is full of colourful fruit."
+      ],
+      "distractors": [
+        "museum",
+        "library",
+        "hospital"
+      ],
+      "english": "market",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-758",
+      "emoji": "🧺",
+      "kidDefinition": "A round or box-shaped container for carrying things.",
+      "examples": [
+        "She carries eggs in a small basket.",
+        "Put the bread in the basket, please."
+      ],
+      "distractors": [
+        "bucket",
+        "pencil",
+        "bottle"
+      ],
+      "english": "basket",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-759",
+      "emoji": "🍓",
+      "kidDefinition": "Sweet fruit spread you eat on bread.",
+      "examples": [
+        "I like strawberry jam on my toast.",
+        "Who ate all the jam?"
+      ],
+      "distractors": [
+        "bread",
+        "soup",
+        "rice"
+      ],
+      "english": "jam",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-760",
+      "emoji": "🥩",
+      "kidDefinition": "Food from animals, such as chicken or beef.",
+      "examples": [
+        "Chicken and beef are types of meat.",
+        "Some people choose not to eat meat."
+      ],
+      "distractors": [
+        "bread",
+        "cake",
+        "soup"
+      ],
+      "english": "meat",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-761",
+      "emoji": "🧵",
+      "kidDefinition": "Material made from wool, cotton, or other fibres.",
+      "examples": [
+        "My jumper is made of soft cloth.",
+        "This cloth comes from sheep wool."
+      ],
+      "distractors": [
+        "paper",
+        "glass",
+        "wood"
+      ],
+      "english": "cloth",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-754",
+      "emoji": "🗣️",
+      "kidDefinition": "The sound you make when you speak or sing.",
+      "examples": [
+        "Mrs. Bee has a loud, happy voice.",
+        "Can you hear my voice from the back?"
+      ],
+      "distractors": [
+        "window",
+        "button",
+        "pencil"
+      ],
+      "english": "voice",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U7-SB-753"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "farm",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! Welcome to our farm. Can you hear the cows?"
+        },
+        {
+          "id": "l2",
+          "text": "Moo, moo! The cows are saying hello to us."
+        },
+        {
+          "id": "l3",
+          "text": "Plants and animals live here, and they give us so much."
+        },
+        {
+          "id": "l4",
+          "text": "Today we start a big question together. Are you ready?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What did you eat today? Where did it come from?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U7-SB-756",
+        "CPP1-U7-SB-755",
+        "CPP1-U7-SB-757",
+        "CPP1-U7-SB-758",
+        "CPP1-U7-SB-759",
+        "CPP1-U7-SB-760",
+        "CPP1-U7-SB-761",
+        "CPP1-U7-SB-754"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U7-SB-757",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means a place where people buy fresh food?"
+          },
+          "options": [
+            "CPP1-U7-SB-759",
+            "CPP1-U7-SB-757",
+            "CPP1-U7-SB-760",
+            "CPP1-U7-SB-758"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A market is a place where you buy fresh food, like vegetables."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U7-SB-759",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen. Which word do you hear? Can I have some jam, please?"
+          },
+          "options": [
+            "CPP1-U7-SB-761",
+            "CPP1-U7-SB-760",
+            "CPP1-U7-SB-759",
+            "CPP1-U7-SB-758"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Jam is sweet fruit that you spread on bread."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-756",
+          "prompt": {
+            "id": "c3q",
+            "text": "Where do potatoes ____?"
+          },
+          "options": [
+            "go to",
+            "get up",
+            "come from"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "We say come from to ask where something starts or grows."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U7-SB-761",
+          "prompt": {
+            "id": "c4q",
+            "text": "Cloth can come from animal wool."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Wool from sheep can be turned into cloth for clothes."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U7-SB-755",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "lettuce",
+            "cloth",
+            "tomato",
+            "apple"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Apples, tomatoes and lettuce are fresh produce, but cloth is not food."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U7-SB-758",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is a container you carry food in?"
+          },
+          "options": [
+            "CPP1-U7-SB-761",
+            "CPP1-U7-SB-758",
+            "CPP1-U7-SB-759",
+            "CPP1-U7-SB-760"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A basket is a container, so you can carry eggs or bread in it."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-754",
+          "prompt": {
+            "id": "c7q",
+            "text": "When I sing, my ____ is loud and happy."
+          },
+          "options": [
+            "window",
+            "voice",
+            "button"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Your voice is the sound you make when you speak or sing."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U7-SB-760",
+          "prompt": {
+            "id": "c8q",
+            "text": "Meat comes from plants."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Meat is food from animals, such as chicken or beef."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Find the matching word and picture pairs."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud as you turn the card. Take your time."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner: What is your favourite food? Where does it come from?"
+      },
+      "frames": [
+        "My favourite food is ___.",
+        "It comes from ___.",
+        "I buy it at the ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My favourite food is jam. It comes from fruit. I buy it at the market."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Wonderful work, friends! You met our farm words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can ask where food comes from, just like Mia."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will explore how plants and animals help us."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Farm Word Hero"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Where does milk come from?"
+        },
+        {
+          "id": "e2",
+          "text": "Name one thing you can put in a basket."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,700 @@
+{
+  "schema": 1,
+  "id": "CPP3-U9-A",
+  "bookId": "CPP3",
+  "unit": 9,
+  "section": "A",
+  "title": "Make Music from Everyday Things",
+  "bigQuestion": "Why do we have music?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mason": {
+      "name": "Mason",
+      "emoji": "👦",
+      "persona": "cheerful, curious 11-year-old boy who loves new ideas"
+    },
+    "ms_lee": {
+      "name": "Ms Lee",
+      "emoji": "👩‍🏫",
+      "persona": "warm, encouraging music teacher with a calm voice"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U9-SB-1144",
+      "emoji": "💡",
+      "kidDefinition": "To make something new.",
+      "examples": [
+        "We can create music with a box and a stick.",
+        "Mason wants to create a song for his class."
+      ],
+      "distractors": [
+        "forget",
+        "break",
+        "wash"
+      ],
+      "greekHint": "δημιουργώ: think of a creative idea becoming real",
+      "english": "create",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1145",
+      "emoji": "🪵",
+      "kidDefinition": "Empty on the inside, with no solid middle.",
+      "examples": [
+        "A hollow tube makes a lovely sound when you blow into it.",
+        "The drum is hollow, so it sounds deep and loud."
+      ],
+      "distractors": [
+        "heavy",
+        "shiny",
+        "soft"
+      ],
+      "greekHint": "κούφιο: a hollow tube is κούφιο inside",
+      "english": "hollow",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1146",
+      "emoji": "🧻",
+      "kidDefinition": "A long, thin object with a hole through the middle.",
+      "examples": [
+        "You can make a flute by cutting holes in a tube.",
+        "Mason found an empty cardboard tube in the bin."
+      ],
+      "distractors": [
+        "ladder",
+        "pillow",
+        "button"
+      ],
+      "greekHint": "σωλήνα: a tube is like a σωλήνας",
+      "english": "tube",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1148",
+      "emoji": "🎉",
+      "kidDefinition": "Covered with colours, pictures or nice things.",
+      "examples": [
+        "The old drum was decorated with pictures of wild animals.",
+        "Mason's tube was decorated with bright stars."
+      ],
+      "distractors": [
+        "plain",
+        "broken",
+        "dirty"
+      ],
+      "greekHint": "διακοσμημένος: think of decorations on a birthday cake",
+      "english": "decorated",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1149",
+      "emoji": "🌙",
+      "kidDefinition": "A soft, gentle song to help a baby sleep.",
+      "examples": [
+        "Adrian sang a lullaby to the baby to help it fall asleep.",
+        "Mum sings a lullaby to me every night."
+      ],
+      "distractors": [
+        "trumpet",
+        "puzzle",
+        "kettle"
+      ],
+      "greekHint": "νανούρισμα: sleepy songs at night, like a νανούρισμα",
+      "english": "lullaby",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1157",
+      "emoji": "😊",
+      "kidDefinition": "To show your feelings or ideas.",
+      "examples": [
+        "Monica prefers to express her feelings through music.",
+        "Music helps me express how I feel when I am happy."
+      ],
+      "distractors": [
+        "hide",
+        "forget",
+        "ignore"
+      ],
+      "greekHint": "εκφράζω: to express means to let your feelings out",
+      "english": "express",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1150",
+      "emoji": "🎵",
+      "kidDefinition": "A small instrument you play by blowing into it.",
+      "examples": [
+        "The cowboy played a happy tune on his harmonica.",
+        "I can fit a harmonica in my pocket."
+      ],
+      "distractors": [
+        "trumpet",
+        "xylophone",
+        "bagpipes"
+      ],
+      "greekHint": "φυσαρμόνικα: blow and play, like a φυσαρμόνικα",
+      "english": "harmonica",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1151",
+      "emoji": "🎻",
+      "kidDefinition": "A very large, deep string instrument.",
+      "examples": [
+        "Wendy loves the sound the double bass makes, it is very deep.",
+        "The double bass is taller than most players."
+      ],
+      "distractors": [
+        "violin",
+        "guitar",
+        "saxophone"
+      ],
+      "greekHint": "κοντραμπάσο: the biggest and deepest of the strings",
+      "english": "double bass",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1152",
+      "emoji": "🎼",
+      "kidDefinition": "A tiny flute that makes very high sounds.",
+      "examples": [
+        "Joanne plays the piccolo in our orchestra.",
+        "The piccolo can reach very high musical notes."
+      ],
+      "distractors": [
+        "tuba",
+        "cello",
+        "trombone"
+      ],
+      "greekHint": "πίκολο φλάουτο: the smallest flute, with the highest sound",
+      "english": "piccolo",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1177",
+      "emoji": "🎶",
+      "kidDefinition": "A short, catchy group of musical notes.",
+      "examples": [
+        "This tune is lively and has a good rhythm.",
+        "Mason hummed a happy tune while he walked to school."
+      ],
+      "distractors": [
+        "shadow",
+        "pocket",
+        "kitchen"
+      ],
+      "greekHint": "μουσικός σκοπός: a tune you can hum",
+      "english": "tune",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U9-SB-1143",
+    "CPP3-U9-SB-1147",
+    "CPP3-U9-SB-1153",
+    "CPP3-U9-SB-1154",
+    "CPP3-U9-SB-1155",
+    "CPP3-U9-SB-1156",
+    "CPP3-U9-SB-1158",
+    "CPP3-U9-SB-1159",
+    "CPP3-U9-SB-1160",
+    "CPP3-U9-SB-1161",
+    "CPP3-U9-SB-1162",
+    "CPP3-U9-SB-1163",
+    "CPP3-U9-SB-1164",
+    "CPP3-U9-SB-1165",
+    "CPP3-U9-SB-1166",
+    "CPP3-U9-SB-1167",
+    "CPP3-U9-SB-1169",
+    "CPP3-U9-SB-1170",
+    "CPP3-U9-SB-1171",
+    "CPP3-U9-SB-1172",
+    "CPP3-U9-SB-1173",
+    "CPP3-U9-SB-1174",
+    "CPP3-U9-SB-1175",
+    "CPP3-U9-SB-1176",
+    "CPP3-U9-SB-1178",
+    "CPP3-U9-KW-28",
+    "CPP3-U9-KW-29"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love music."
+        },
+        {
+          "id": "l2",
+          "text": "Music is everywhere: at home, at school, and in the park."
+        },
+        {
+          "id": "l3",
+          "text": "Some people sing a lullaby to a baby. Some people play in a band."
+        },
+        {
+          "id": "l4",
+          "text": "Today, we will learn new words to talk about music and instruments."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What song makes you feel happy?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U9-SB-1144",
+        "CPP3-U9-SB-1145",
+        "CPP3-U9-SB-1146",
+        "CPP3-U9-SB-1148",
+        "CPP3-U9-SB-1157",
+        "CPP3-U9-SB-1177",
+        "CPP3-U9-SB-1149",
+        "CPP3-U9-SB-1150",
+        "CPP3-U9-SB-1151",
+        "CPP3-U9-SB-1152"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Mason's Musical Tube",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mason"
+            },
+            {
+              "who": "ms_lee"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mason had an empty box and a big idea."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mason",
+              "text": "I want to create a song for my class today!"
+            },
+            {
+              "id": "p1b",
+              "who": "ms_lee",
+              "text": "Good idea! Try a hollow tube with some dried beans inside."
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1144",
+            "CPP3-U9-SB-1145",
+            "CPP3-U9-SB-1146"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mason"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Mason decorated his tube with bright stars and stripes."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mason",
+              "text": "Look! My tube is decorated with shiny stars."
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1148"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "mason"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "At bedtime, Mason played a soft tune for his little sister."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mason",
+              "text": "This tune is soft, like a lullaby, so you can sleep."
+            },
+            {
+              "id": "p3b",
+              "who": "mason",
+              "text": "Music helps me express how I feel inside."
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1177",
+            "CPP3-U9-SB-1149",
+            "CPP3-U9-SB-1157"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "ms_lee"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Ms Lee showed the class three real instruments."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "ms_lee",
+              "text": "This is the double bass. Its sound is deep and warm."
+            },
+            {
+              "id": "p4b",
+              "who": "ms_lee",
+              "text": "Now listen to the piccolo and the harmonica, too."
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1151",
+            "CPP3-U9-SB-1152",
+            "CPP3-U9-SB-1150"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "mason"
+            },
+            {
+              "who": "ms_lee"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Mason played his decorated tube, and everyone clapped."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mason",
+              "text": "I created this tune with my own tube!"
+            },
+            {
+              "id": "p5b",
+              "who": "ms_lee",
+              "text": "What a lively tune, Mason! Well done!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1177",
+            "CPP3-U9-SB-1148"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1144",
+          "prompt": {
+            "id": "c1q",
+            "text": "Mason wants to ____ a song with a tube."
+          },
+          "options": [
+            "forget",
+            "create",
+            "break",
+            "wash"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "To create means to make something new, like a song."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U9-SB-1145",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word means empty on the inside, with no solid middle?"
+          },
+          "options": [
+            "CPP3-U9-SB-1148",
+            "CPP3-U9-SB-1157",
+            "CPP3-U9-SB-1145",
+            "CPP3-U9-SB-1146"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Hollow describes something empty inside, like a straw."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP3-U9-SB-1146",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen: This is a long, thin pipe, like a straw. Which word is it?"
+          },
+          "options": [
+            "CPP3-U9-SB-1146",
+            "CPP3-U9-SB-1149",
+            "CPP3-U9-SB-1152",
+            "CPP3-U9-SB-1151"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "A tube is a long, thin object with a hole through the middle."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U9-SB-1148",
+          "prompt": {
+            "id": "c4q",
+            "text": "Mason's tube was decorated with bright stars."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "In the story, Mason decorated his tube with shiny stars and stripes."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U9-SB-1149",
+          "prompt": {
+            "id": "c5q",
+            "text": "A lullaby is a loud, fast song for a party."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "A lullaby is a soft, gentle song that helps a baby fall asleep."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1157",
+          "prompt": {
+            "id": "c6q",
+            "text": "Mason wants to ____ his feelings with music."
+          },
+          "options": [
+            "hide",
+            "forget",
+            "ignore",
+            "express"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "To express means to show your feelings or ideas to others."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U9-SB-1150",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "harmonica",
+            "trumpet",
+            "pencil",
+            "piccolo"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Harmonica, piccolo and trumpet are instruments, but a pencil is not."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1151",
+          "prompt": {
+            "id": "c8q",
+            "text": "The ____ is very large, and its sound is deep and warm."
+          },
+          "options": [
+            "shadow",
+            "rocket",
+            "double bass",
+            "pencil"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "The double bass is a very large string instrument with a deep sound."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U9-SB-1152",
+          "prompt": {
+            "id": "c9q",
+            "text": "The piccolo plays very low, deep notes."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "The piccolo is tiny and can reach very high musical notes."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1177",
+          "prompt": {
+            "id": "c10q",
+            "text": "This ____ is lively, and it has a good rhythm."
+          },
+          "options": [
+            "tune",
+            "kitchen",
+            "shadow",
+            "pocket"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "A tune is a short, catchy group of musical notes you can hum."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs: match each word to its picture."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Talk with your partner. Which instrument or sound would you like to create, and why?"
+      },
+      "frames": [
+        "I can create a tune with a ___.",
+        "I want to express my feelings with ___.",
+        "My favourite instrument is the ___, because it sounds ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I can create a tune with a tube. I want to express my feelings with music. My favourite instrument is the double bass, because it sounds deep and warm."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You now know ten new words about music."
+        },
+        {
+          "id": "l2",
+          "text": "You can create, express and describe music like a true musician."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will hear a famous story about Beethoven. See you soon!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Music Word Master"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word from today means empty on the inside?"
+        },
+        {
+          "id": "e2",
+          "text": "Name one instrument we learned today, and describe its sound in one sentence."
+        }
+      ]
+    }
+  ]
+}

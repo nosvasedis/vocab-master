@@ -1,0 +1,522 @@
+{
+  "schema": 1,
+  "id": "CPP1-U4-BQ",
+  "bookId": "CPP1",
+  "unit": 4,
+  "section": "BQ",
+  "title": "What Is a Friend? Let's Play!",
+  "bigQuestion": "What is a friend?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ellie": {
+      "name": "Ellie",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and kind"
+    },
+    "nico": {
+      "name": "Nico",
+      "emoji": "👦",
+      "persona": "friendly 10-year-old boy, funny and helpful"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U4-SB-437",
+      "emoji": "👫",
+      "kidDefinition": "A person you like and spend time with.",
+      "examples": [
+        "Joanne is a very good friend.",
+        "Nico is my best friend."
+      ],
+      "distractors": [
+        "teacher",
+        "doctor",
+        "pencil"
+      ],
+      "english": "friend",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-438",
+      "emoji": "🤔",
+      "kidDefinition": "What you think or feel about something.",
+      "examples": [
+        "In your opinion, what is the best pet?",
+        "In my opinion, bikes are fun."
+      ],
+      "distractors": [
+        "pencil",
+        "window",
+        "puzzle"
+      ],
+      "english": "opinion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-439",
+      "emoji": "🎈",
+      "kidDefinition": "A time when friends meet to play together.",
+      "examples": [
+        "Let's have a play date this Saturday.",
+        "My play date was in the park."
+      ],
+      "distractors": [
+        "homework",
+        "birthday",
+        "holiday"
+      ],
+      "english": "play date",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-440",
+      "emoji": "🎨",
+      "kidDefinition": "To make art with a pencil or paint.",
+      "examples": [
+        "My sister draws beautiful pictures.",
+        "We draw pictures in art class."
+      ],
+      "distractors": [
+        "eat lunch",
+        "wash dishes",
+        "fly kites"
+      ],
+      "english": "draw pictures",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U4-SB-441",
+      "emoji": "⚽",
+      "kidDefinition": "To kick a ball in a game with a team.",
+      "examples": [
+        "Tom and Nick play soccer on the weekends.",
+        "We play soccer at break time."
+      ],
+      "distractors": [
+        "eat lunch",
+        "wash dishes",
+        "fly kites"
+      ],
+      "english": "play soccer",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U4-SB-442",
+      "emoji": "🚴",
+      "kidDefinition": "To travel on a bicycle with pedals.",
+      "examples": [
+        "We ride our bikes every afternoon in the park.",
+        "Can you ride bikes fast?"
+      ],
+      "distractors": [
+        "eat lunch",
+        "wash dishes",
+        "fly kites"
+      ],
+      "english": "ride bikes",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U4-SB-443",
+      "emoji": "🎤",
+      "kidDefinition": "To make music with your voice and words.",
+      "examples": [
+        "We sing songs in our English class.",
+        "Let's sing songs together at the party."
+      ],
+      "distractors": [
+        "eat lunch",
+        "wash dishes",
+        "fly kites"
+      ],
+      "english": "sing songs",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U4-SB-444",
+      "emoji": "📖",
+      "kidDefinition": "To look at words in a book and understand them.",
+      "examples": [
+        "Dennis likes reading stories before going to bed.",
+        "I read stories with my friend."
+      ],
+      "distractors": [
+        "eat lunch",
+        "wash dishes",
+        "fly kites"
+      ],
+      "english": "read stories",
+      "type": "phr."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U4-SB-445",
+    "CPP1-U4-SB-446"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, everyone! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we ask a big question: What is a friend?"
+        },
+        {
+          "id": "l3",
+          "text": "Friends can share, play, and help each other."
+        },
+        {
+          "id": "l4",
+          "text": "Some friends play soccer. Some friends draw pictures."
+        },
+        {
+          "id": "l5",
+          "text": "Let's find out what friends like to do together!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you like to do with your friends?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U4-SB-437",
+        "CPP1-U4-SB-438",
+        "CPP1-U4-SB-439",
+        "CPP1-U4-SB-440",
+        "CPP1-U4-SB-441",
+        "CPP1-U4-SB-442",
+        "CPP1-U4-SB-443",
+        "CPP1-U4-SB-444"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Ellie and Her Good Friend",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Ellie and Nico are in the park."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ellie",
+              "text": "Nico is my best friend. We ride bikes together!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-437",
+            "CPP1-U4-SB-442"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Nico gives Ellie a picture."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nico",
+              "text": "I draw pictures for you, Ellie. Do you like them?"
+            },
+            {
+              "id": "p2b",
+              "who": "ellie",
+              "text": "In my opinion, they are beautiful!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-440",
+            "CPP1-U4-SB-438"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U4-SB-437",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which picture shows a friend?"
+          },
+          "options": [
+            "CPP1-U4-SB-437",
+            "CPP1-U4-SB-439",
+            "CPP1-U4-SB-440",
+            "CPP1-U4-SB-438"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A friend is a person you like and spend time with."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U4-SB-440",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point: draw pictures."
+          },
+          "options": [
+            "CPP1-U4-SB-440",
+            "CPP1-U4-SB-441",
+            "CPP1-U4-SB-442",
+            "CPP1-U4-SB-443"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "To draw pictures means to make art with a pencil or paint."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-438",
+          "prompt": {
+            "id": "c3q",
+            "text": "In your ____, what is the best pet?"
+          },
+          "options": [
+            "pencil",
+            "opinion",
+            "window"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "An opinion is what you think about something."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U4-SB-441",
+          "prompt": {
+            "id": "c4q",
+            "text": "To play soccer means to kick a ball in a game."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Soccer players kick the ball to score goals with their team."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U4-SB-437",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "ride bikes",
+            "friend",
+            "sing songs",
+            "play soccer"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "A friend is a person; the other three are things you do."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-439",
+          "prompt": {
+            "id": "c6q",
+            "text": "Let's have a ____ this Saturday in the park."
+          },
+          "options": [
+            "play date",
+            "homework",
+            "puzzle"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "A play date is a time when friends meet to play."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U4-SB-442",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which picture shows ride bikes?"
+          },
+          "options": [
+            "CPP1-U4-SB-442",
+            "CPP1-U4-SB-440",
+            "CPP1-U4-SB-443",
+            "CPP1-U4-SB-444"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "To ride bikes means to travel on a bicycle with pedals."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "listen",
+          "wordId": "CPP1-U4-SB-443",
+          "prompt": {
+            "id": "c8q",
+            "text": "Listen and point: sing songs."
+          },
+          "options": [
+            "CPP1-U4-SB-441",
+            "CPP1-U4-SB-444",
+            "CPP1-U4-SB-442",
+            "CPP1-U4-SB-443"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "When you sing songs, you make music with your voice."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U4-SB-444",
+          "prompt": {
+            "id": "c9q",
+            "text": "Reading stories means drawing pictures."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Reading stories means looking at words in a book and understanding them."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the picture and its word."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner about friends and fun activities."
+      },
+      "frames": [
+        "My friend is ___.",
+        "In my opinion, ___ is fun.",
+        "On Saturday, we can ___ together."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My friend is Maria. In my opinion, playing soccer is fun. On Saturday, we can ride bikes together."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, friends! You met eight useful words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about friends and what you like to do."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Friendship Starter"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing you can do with a friend."
+        },
+        {
+          "id": "e2",
+          "text": "Say one opinion about a fun activity."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,704 @@
+{
+  "schema": 1,
+  "id": "CPP3-U7-B",
+  "bookId": "CPP3",
+  "unit": 7,
+  "section": "B",
+  "title": "Secrets in the Drawer: Clues from the Past",
+  "bigQuestion": "How can we explore the past?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher who loves a good mystery"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "curious 11-year-old girl, quick and determined, a little dramatic"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "👦",
+      "persona": "cheerful 12-year-old boy, funny, always hungry for adventure"
+    },
+    "grandma": {
+      "name": "Grandma Eleni",
+      "emoji": "👵",
+      "persona": "warm, calm grandmother, gentle and proud, speaks slowly and smiles often"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U7-SB-982",
+      "emoji": "🧹",
+      "kidDefinition": "covered with a thin layer of dust",
+      "examples": [
+        "The old attic is very dusty.",
+        "Please wipe the dusty table before dinner."
+      ],
+      "distractors": [
+        "shiny",
+        "wet",
+        "hungry"
+      ],
+      "greekHint": "Σκόνη means dust. Dusty sounds like a room full of σκόνη.",
+      "english": "dusty",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U7-SB-983",
+      "emoji": "🗄️",
+      "kidDefinition": "a box that slides in and out of a desk",
+      "examples": [
+        "The keys are in the top drawer.",
+        "I keep my pencils in a drawer."
+      ],
+      "distractors": [
+        "cupboard",
+        "shelf",
+        "carpet"
+      ],
+      "greekHint": "Συρτάρι: you pull it out, just like the Greek word.",
+      "english": "drawer",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-984",
+      "emoji": "💌",
+      "kidDefinition": "a written message sent to someone",
+      "examples": [
+        "I wrote a letter to my cousin.",
+        "Grandma's letter made me smile."
+      ],
+      "distractors": [
+        "ticket",
+        "map",
+        "photo"
+      ],
+      "greekHint": "Γράμμα or επιστολή, both are fine for a letter.",
+      "english": "letter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-998",
+      "emoji": "✉️",
+      "kidDefinition": "a paper cover that holds a letter",
+      "examples": [
+        "She put the card in a red envelope.",
+        "Open the envelope carefully, please."
+      ],
+      "distractors": [
+        "basket",
+        "bottle",
+        "teapot"
+      ],
+      "greekHint": "Φάκελος: think of a folder that keeps a letter safe.",
+      "english": "envelope",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-999",
+      "emoji": "🔏",
+      "kidDefinition": "to close something tightly so it cannot be opened",
+      "examples": [
+        "He sealed the box with tape.",
+        "Please seal the jar after you use it."
+      ],
+      "distractors": [
+        "paint",
+        "wash",
+        "carry"
+      ],
+      "greekHint": "Σφραγίζω: sealing is like putting a stamp on the lid.",
+      "english": "seal",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U7-SB-995",
+      "emoji": "🛋️",
+      "kidDefinition": "chairs, tables, beds and sofas in a home",
+      "examples": [
+        "The new furniture fits in our living room.",
+        "We moved all the old furniture to the garden."
+      ],
+      "distractors": [
+        "weather",
+        "homework",
+        "puzzle"
+      ],
+      "greekHint": "Έπιπλα. Furniture is never used with a plural s.",
+      "english": "furniture",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-989",
+      "emoji": "👣",
+      "kidDefinition": "the sound or mark made by one step",
+      "examples": [
+        "I heard footsteps on the stairs.",
+        "Her footsteps were quiet on the grass."
+      ],
+      "distractors": [
+        "shoe",
+        "stairs",
+        "hallway"
+      ],
+      "greekHint": "Πατημασιά: the mark you leave when you walk.",
+      "english": "footstep",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-990",
+      "emoji": "🐾",
+      "kidDefinition": "a mark left on the ground by a person or animal",
+      "examples": [
+        "We saw fox tracks in the snow.",
+        "The tracks led us down to the river."
+      ],
+      "distractors": [
+        "tree",
+        "path",
+        "stone"
+      ],
+      "greekHint": "Αποτύπωμα or ίχνος: tracks stay behind, like a trail.",
+      "english": "track",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-994",
+      "emoji": "🧩",
+      "kidDefinition": "to find the answer to a problem or puzzle",
+      "examples": [
+        "Can you solve this puzzle with me?",
+        "We solved the maths problem together."
+      ],
+      "distractors": [
+        "forget",
+        "carry",
+        "sing"
+      ],
+      "greekHint": "Λύνω: you λύνεις a puzzle when you solve it.",
+      "english": "solve",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U7-SB-1003",
+      "emoji": "💎",
+      "kidDefinition": "very valuable, or very special to someone",
+      "examples": [
+        "This old ring is precious to my grandma.",
+        "The jewels were precious and very shiny."
+      ],
+      "distractors": [
+        "dusty",
+        "cheap",
+        "broken"
+      ],
+      "greekHint": "Πολύτιμος: a precious stone is a πολύτιμος λίθος.",
+      "english": "precious",
+      "type": "adj."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U7-SB-985",
+    "CPP3-U7-SB-986",
+    "CPP3-U7-SB-987",
+    "CPP3-U7-SB-988",
+    "CPP3-U7-SB-991",
+    "CPP3-U7-SB-992",
+    "CPP3-U7-SB-993",
+    "CPP3-U7-SB-996",
+    "CPP3-U7-SB-997",
+    "CPP3-U7-SB-1000",
+    "CPP3-U7-SB-1001",
+    "CPP3-U7-SB-1002",
+    "CPP3-U7-SB-1004",
+    "CPP3-U7-SB-1005",
+    "CPP3-U7-SB-1006",
+    "CPP3-U7-SB-1007",
+    "CPP3-U7-SB-1008"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, explorers! Today we are going on a mystery hunt through the past."
+        },
+        {
+          "id": "l2",
+          "text": "Every old house hides clues. Old papers, old boxes, and old footprints in the garden."
+        },
+        {
+          "id": "l3",
+          "text": "Detectives and scientists read these clues like a story. Let's see what they tell us."
+        },
+        {
+          "id": "l4",
+          "text": "Our two friends, Maya and Nikos, are about to find something very interesting."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one old thing you have at home, and where do you keep it?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U7-SB-982",
+        "CPP3-U7-SB-995",
+        "CPP3-U7-SB-983",
+        "CPP3-U7-SB-984",
+        "CPP3-U7-SB-998",
+        "CPP3-U7-SB-999",
+        "CPP3-U7-SB-989",
+        "CPP3-U7-SB-990",
+        "CPP3-U7-SB-994",
+        "CPP3-U7-SB-1003"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Letter in the Drawer",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "nikos"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Maya and Nikos are cleaning Grandma's old room in the attic."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "maya",
+              "text": "Wow, this furniture is so dusty! We need a lot of cloths."
+            },
+            {
+              "id": "p1b",
+              "who": "nikos",
+              "text": "Look, there is an old drawer under the bed. Let's open it!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-982",
+            "CPP3-U7-SB-995",
+            "CPP3-U7-SB-983"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "grandma"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Inside the drawer, Maya finds a yellow envelope with a red seal."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "maya",
+              "text": "This envelope is still sealed. Grandma, who wrote this letter?"
+            },
+            {
+              "id": "p2b",
+              "who": "grandma",
+              "text": "My grandfather wrote it. He was a mathematician who loved puzzles."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-998",
+            "CPP3-U7-SB-999",
+            "CPP3-U7-SB-984"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "The letter has a riddle. It also mentions the old tree in the garden."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "nikos",
+              "text": "I can see footsteps in the mud. They lead to the old tree!"
+            },
+            {
+              "id": "p3b",
+              "who": "maya",
+              "text": "Look at these tracks. Someone walked here very recently."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-989",
+            "CPP3-U7-SB-990"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "grandma"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Back in the kitchen, the riddle is harder than it looks."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "maya",
+              "text": "I can't solve this riddle. Can you help me, Grandma?"
+            },
+            {
+              "id": "p4b",
+              "who": "grandma",
+              "text": "Take your time, Maya. Think about the tree and the letter together."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-994"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "grandma"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Under the old tree, they find a small box full of photos and letters."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nikos",
+              "text": "These old photos are precious. They are a treasure for our family!"
+            },
+            {
+              "id": "p5b",
+              "who": "grandma",
+              "text": "Yes, my dears. Now the past is in our hands again. I am so proud."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-1003"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U7-SB-982",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word fits a room covered in a thin grey layer of dust?"
+          },
+          "options": [
+            "CPP3-U7-SB-1003",
+            "CPP3-U7-SB-989",
+            "CPP3-U7-SB-982"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "Dusty means covered with dust, just like the old attic furniture."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U7-SB-989",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: I heard footsteps on the stairs. Which word did you hear?"
+          },
+          "options": [
+            "CPP3-U7-SB-984",
+            "CPP3-U7-SB-989",
+            "CPP3-U7-SB-990"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "Footstep is the sound or mark made by one step."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-995",
+          "prompt": {
+            "id": "c3q",
+            "text": "The new ____ in our living room is very comfortable."
+          },
+          "options": [
+            "weather",
+            "furniture",
+            "homework"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "Furniture means chairs, tables and sofas, and we never add an s to it."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U7-SB-990",
+          "prompt": {
+            "id": "c4q",
+            "text": "A track is a mark left on the ground by a person or an animal."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Tracks are the marks that stay on the ground after someone walks past."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U7-SB-983",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word does not belong with the others?"
+          },
+          "options": [
+            "cupboard",
+            "drawer",
+            "footstep",
+            "shelf"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "Drawer, cupboard and shelf are places to store things, but a footstep is a sound when walking."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-984",
+          "prompt": {
+            "id": "c6q",
+            "text": "Before email, Nikos wrote a ____ to his grandma every summer."
+          },
+          "options": [
+            "sandwich",
+            "ticket",
+            "letter"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A letter is a written message that people sent before email existed."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U7-SB-998",
+          "prompt": {
+            "id": "c7q",
+            "text": "An envelope is a big box you use to store furniture."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "An envelope is a paper cover for a letter, not a big box for furniture."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U7-SB-999",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word means to close something tightly so nobody can open it?"
+          },
+          "options": [
+            "CPP3-U7-SB-1003",
+            "CPP3-U7-SB-999",
+            "CPP3-U7-SB-990"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "To seal something means to close it tightly, like a sealed envelope."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-994",
+          "prompt": {
+            "id": "c9q",
+            "text": "I can't ____ this puzzle yet. Can you help me?"
+          },
+          "options": [
+            "forget",
+            "carry",
+            "solve"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "To solve a puzzle means to find the answer to it."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U7-SB-1003",
+          "prompt": {
+            "id": "c10q",
+            "text": "Something precious is very valuable or very special to someone."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Precious things are valuable, or they mean a lot to a person."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a memory game! Turn over two cards and find the matching picture and word."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Work with your partner. Describe an old object you found, and say how it felt to find it."
+      },
+      "frames": [
+        "I found a ___ in a drawer.",
+        "It was very ___, and it was ___ to me.",
+        "I want to ___ the mystery of it."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I found a letter in a drawer. It was very dusty, and it was precious to me. I want to solve the mystery of it."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, explorers! You solved the mystery of the drawer together."
+        },
+        {
+          "id": "l2",
+          "text": "You now know words for old clues, from dusty furniture to precious treasure."
+        },
+        {
+          "id": "l3",
+          "text": "Keep looking for clues in your own world. The past is full of stories!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Past Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing in a room that can be dusty, and one thing that can be precious."
+        },
+        {
+          "id": "e2",
+          "text": "What do you do with an envelope before you post a letter?"
+        }
+      ]
+    }
+  ]
+}

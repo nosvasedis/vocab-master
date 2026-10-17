@@ -1,0 +1,717 @@
+{
+  "schema": 1,
+  "id": "CPP3-U4-A",
+  "bookId": "CPP3",
+  "unit": 4,
+  "section": "A",
+  "title": "The Clay Vase: What Makes Art, Art?",
+  "bigQuestion": "What is art?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 11-year-old girl, curious and kind, loves drawing"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "friendly 11-year-old boy, funny, a little bit messy, loves the beach"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U4-SB-528",
+      "emoji": "🎨",
+      "kidDefinition": "A person who makes paintings, sculptures or other art.",
+      "examples": [
+        "My favourite artist paints big, colourful flowers.",
+        "Every artist has a special style."
+      ],
+      "distractors": [
+        "teacher",
+        "singer",
+        "dancer"
+      ],
+      "greekHint": "καλλιτέχνης: τον λέμε αλλιώς 'τεχνίτης της τέχνης'.",
+      "english": "artist",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-519",
+      "emoji": "🗿",
+      "kidDefinition": "A three-dimensional work of art, like a statue.",
+      "examples": [
+        "This sculpture is made of shiny metal.",
+        "Sculpture is a difficult art to do well."
+      ],
+      "distractors": [
+        "painting",
+        "drawing",
+        "photograph"
+      ],
+      "greekHint": "γλυπτό: έχει τρεις διαστάσεις, όπως ένα άγαλμα.",
+      "english": "sculpture",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-521",
+      "emoji": "🔩",
+      "kidDefinition": "A hard, shiny material, like iron or gold.",
+      "examples": [
+        "The spoon is made of metal.",
+        "The sculpture is made of shiny metal."
+      ],
+      "distractors": [
+        "wood",
+        "plastic",
+        "glass"
+      ],
+      "english": "metal",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-525",
+      "emoji": "🧱",
+      "kidDefinition": "Soft wet earth that you can shape and bake.",
+      "examples": [
+        "In pottery, we make things out of clay.",
+        "Mia shapes the clay with her hands."
+      ],
+      "distractors": [
+        "sand",
+        "paper",
+        "stone"
+      ],
+      "greekHint": "πηλός: το μαλακό χώμα που πλάθουμε.",
+      "english": "clay",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-524",
+      "emoji": "🫖",
+      "kidDefinition": "The art of making things from clay, like cups and bowls.",
+      "examples": [
+        "Ian loves doing pottery and creating his own cups.",
+        "We have pottery class on Tuesdays."
+      ],
+      "distractors": [
+        "painting",
+        "sewing",
+        "knitting"
+      ],
+      "greekHint": "κεραμική: η τέχνη του πηλού.",
+      "english": "pottery",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-523",
+      "emoji": "🏺",
+      "kidDefinition": "A container, often made of clay, for holding flowers.",
+      "examples": [
+        "We learned to make vases in our pottery class.",
+        "There are fresh flowers in the blue vase."
+      ],
+      "distractors": [
+        "bottle",
+        "jug",
+        "bowl"
+      ],
+      "greekHint": "βάζο: για λουλούδια.",
+      "english": "vase",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-529",
+      "emoji": "🔶",
+      "kidDefinition": "A design that repeats, such as stars or stripes.",
+      "examples": [
+        "Wendy drew a pattern and coloured it with watercolours.",
+        "The dress has a pretty flower pattern."
+      ],
+      "distractors": [
+        "picture",
+        "shape",
+        "colour"
+      ],
+      "greekHint": "μοτίβο: ένα σχέδιο που επαναλαμβάνεται.",
+      "english": "pattern",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-534",
+      "emoji": "🖼️",
+      "kidDefinition": "A building where people can look at works of art.",
+      "examples": [
+        "Our local gallery brings works of art by famous artists once a year.",
+        "We went to a gallery to see some paintings."
+      ],
+      "distractors": [
+        "library",
+        "cinema",
+        "stadium"
+      ],
+      "greekHint": "γκαλερί: εκεί βλέπουμε έργα τέχνης.",
+      "english": "gallery",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-526",
+      "emoji": "🪶",
+      "kidDefinition": "Not heavy; easy to lift or carry.",
+      "examples": [
+        "This vase is very light, so it is easy to carry.",
+        "My school bag feels light today."
+      ],
+      "distractors": [
+        "heavy",
+        "loud",
+        "thick"
+      ],
+      "greekHint": "ελαφρύς: δεν είναι βαρύς.",
+      "english": "light",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U4-SB-531",
+      "emoji": "🏰",
+      "kidDefinition": "A castle built from wet sand on the beach.",
+      "examples": [
+        "Leo built a huge sandcastle with three towers.",
+        "Some sandcastles are very big and complicated!"
+      ],
+      "distractors": [
+        "snowman",
+        "treehouse",
+        "kite"
+      ],
+      "greekHint": "κάστρο από άμμο: φτιάχνεται στην παραλία.",
+      "english": "sandcastle",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U4-SB-517",
+    "CPP3-U4-SB-518",
+    "CPP3-U4-SB-520",
+    "CPP3-U4-SB-522",
+    "CPP3-U4-SB-527",
+    "CPP3-U4-SB-530",
+    "CPP3-U4-SB-532",
+    "CPP3-U4-SB-533",
+    "CPP3-U4-SB-535",
+    "CPP3-U4-SB-536",
+    "CPP3-U4-SB-537",
+    "CPP3-U4-SB-538",
+    "CPP3-U4-SB-539",
+    "CPP3-U4-SB-540",
+    "CPP3-U4-SB-541",
+    "CPP3-U4-SB-542",
+    "CPP3-U4-SB-543",
+    "CPP3-U4-SB-544",
+    "CPP3-U4-SB-545",
+    "CPP3-U4-SB-546",
+    "CPP3-U4-SB-547",
+    "CPP3-U4-SB-548",
+    "CPP3-U4-SB-549",
+    "CPP3-U4-SB-550",
+    "CPP3-U4-SB-551",
+    "CPP3-U4-SB-552",
+    "CPP3-U4-SB-553",
+    "CPP3-U4-KW-27"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, art explorers! I am Lingo, and I love looking at art."
+        },
+        {
+          "id": "l2",
+          "text": "Some art is huge. Some art is tiny. Some art is even made of sand!"
+        },
+        {
+          "id": "l3",
+          "text": "Who makes art? A painter, a sculptor, or a child playing with clay."
+        },
+        {
+          "id": "l4",
+          "text": "Today we are going to explore what art really is."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite kind of art, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U4-SB-528",
+        "CPP3-U4-SB-519",
+        "CPP3-U4-SB-521",
+        "CPP3-U4-SB-525",
+        "CPP3-U4-SB-524",
+        "CPP3-U4-SB-523",
+        "CPP3-U4-SB-529",
+        "CPP3-U4-SB-534",
+        "CPP3-U4-SB-526",
+        "CPP3-U4-SB-531"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Clay Vase",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "city",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia and Leo visit the local gallery on a sunny Saturday."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "leo",
+              "text": "Look, Mia! This sculpture is made of shiny metal."
+            },
+            {
+              "id": "p1b",
+              "who": "mia",
+              "text": "Wow! I think a talented artist spent weeks on it."
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-534",
+            "CPP3-U4-SB-519",
+            "CPP3-U4-SB-521",
+            "CPP3-U4-SB-528"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "city",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "A blue vase with a star pattern catches Mia's eye."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "This blue vase has a lovely star pattern."
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "It looks very light, but the label says it is clay!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-523",
+            "CPP3-U4-SB-529",
+            "CPP3-U4-SB-526",
+            "CPP3-U4-SB-525"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Back at school, the class starts a pottery lesson."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "Let's make our own vases in pottery class!"
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "Great idea. First, we shape the clay with our hands."
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-524",
+            "CPP3-U4-SB-523",
+            "CPP3-U4-SB-525"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "After school, Leo builds a huge sandcastle on the beach."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "leo",
+              "text": "Look at my sandcastle! It has three towers."
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "Your sandcastle is amazing. Maybe you are an artist too!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-531",
+            "CPP3-U4-SB-528"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Next week, Mia shows her finished vase to the class."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mia",
+              "text": "I made this vase, and I drew a pattern on it too!"
+            },
+            {
+              "id": "p5b",
+              "who": "leo",
+              "text": "It's wonderful, Mia. You are a real artist!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-523",
+            "CPP3-U4-SB-529",
+            "CPP3-U4-SB-528"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP3-U4-SB-519",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen and point to the word: sculpture."
+          },
+          "options": [
+            "CPP3-U4-SB-528",
+            "CPP3-U4-SB-525",
+            "CPP3-U4-SB-519",
+            "CPP3-U4-SB-531"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A sculpture is a three-dimensional work of art, like a statue."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-525",
+          "prompt": {
+            "id": "c2q",
+            "text": "In pottery class, we make cups and vases out of ____."
+          },
+          "options": [
+            "sugar",
+            "clay",
+            "glass",
+            "paper"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "Clay is the soft wet earth we shape in pottery."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U4-SB-526",
+          "prompt": {
+            "id": "c3q",
+            "text": "Statement: The blue vase in the gallery is light, even though it is made of clay."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Leo says it looks very light, so it is easy to carry."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U4-SB-521",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is NOT a material?"
+          },
+          "options": [
+            "clay",
+            "wood",
+            "metal",
+            "pattern"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "Clay, metal and wood are materials, but a pattern is a repeated design."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-529",
+          "prompt": {
+            "id": "c5q",
+            "text": "Mia drew a star ____ on the blue vase."
+          },
+          "options": [
+            "artist",
+            "sandcastle",
+            "pattern",
+            "gallery"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A pattern is a design that repeats, like stars or stripes."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U4-SB-534",
+          "prompt": {
+            "id": "c6q",
+            "text": "Find the word: a building where people look at works of art."
+          },
+          "options": [
+            "CPP3-U4-SB-528",
+            "CPP3-U4-SB-524",
+            "CPP3-U4-SB-534",
+            "CPP3-U4-SB-523"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A gallery is the place where we go to see art."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-524",
+          "prompt": {
+            "id": "c7q",
+            "text": "Ian loves ____ and making his own cups and vases."
+          },
+          "options": [
+            "singing",
+            "cooking",
+            "football",
+            "pottery"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "Pottery is the art of making things from clay."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U4-SB-531",
+          "prompt": {
+            "id": "c8q",
+            "text": "Statement: Leo built a sandcastle on the beach, with three towers."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "In the story, Leo says his sandcastle has three towers."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-523",
+          "prompt": {
+            "id": "c9q",
+            "text": "We learned to make a ____ in our pottery class."
+          },
+          "options": [
+            "hat",
+            "sandwich",
+            "vase",
+            "puzzle"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "A vase is a container, often made of clay, for flowers."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U4-SB-528",
+          "prompt": {
+            "id": "c10q",
+            "text": "Find the word: a person who creates paintings, sculptures and other art."
+          },
+          "options": [
+            "CPP3-U4-SB-531",
+            "CPP3-U4-SB-528",
+            "CPP3-U4-SB-529",
+            "CPP3-U4-SB-519"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "An artist is a person who makes art, like Mia at the end of the story."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Lingo is shuffling the word cards! Turn two cards over and match each word with its picture."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a work of art you like. Use your new words."
+      },
+      "frames": [
+        "My favourite ___ is the ___.",
+        "I like it because it is made of ___.",
+        "It is very ___, and it has a lovely ___.",
+        "I would like to make a ___ in pottery class."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My favourite work of art is a clay vase in our local gallery. It is very light, and it has a blue star pattern. I would like to make a vase like that in pottery class."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, art explorers! You now know ten useful art words."
+        },
+        {
+          "id": "l2",
+          "text": "Next time, look closely at a picture and find its pattern. Every artist has a secret!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Clay Star Artist"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one material an artist can use to make a sculpture."
+        },
+        {
+          "id": "e2",
+          "text": "Describe a vase that is light but made of clay."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,752 @@
+{
+  "schema": 1,
+  "id": "CPP3-U8-B",
+  "bookId": "CPP3",
+  "unit": 8,
+  "section": "B",
+  "title": "The Big Switch-Off: Machines, Candles and Batteries",
+  "bigQuestion": "How important is electricity?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "bright 11-year-old girl, organised and kind, a little bossy about switching things off"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "🧒",
+      "persona": "cheerful 9-year-old boy, curious and playful, always hungry"
+    },
+    "grandma": {
+      "name": "Grandma Eleni",
+      "emoji": "👵",
+      "persona": "warm, funny grandmother, a little old-fashioned, loves telling stories about the past"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U8-SB-1080",
+      "emoji": "🔌",
+      "kidDefinition": "To stop a light or machine working by pressing a button.",
+      "examples": [
+        "Maya switched off the TV before dinner.",
+        "Please switch off your phone when you come into class."
+      ],
+      "distractors": [
+        "switch on",
+        "pick up",
+        "put away"
+      ],
+      "greekHint": "Σβήνω = switch off. Think: σβήνω το φως, turn it off.",
+      "english": "switch off",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1081",
+      "emoji": "🥤",
+      "kidDefinition": "An electric machine that mixes fruit and drinks together.",
+      "examples": [
+        "Leo put bananas and milk in the blender.",
+        "The blender makes a smooth drink in one minute."
+      ],
+      "distractors": [
+        "toaster",
+        "kettle",
+        "rug"
+      ],
+      "greekHint": "Μπλέντερ, the same word as in Greek.",
+      "english": "blender",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1087",
+      "emoji": "🗑️",
+      "kidDefinition": "To use something carelessly, when it is not needed.",
+      "examples": [
+        "Don't waste water when you brush your teeth.",
+        "It is bad for the planet to waste food."
+      ],
+      "distractors": [
+        "save",
+        "share",
+        "clean"
+      ],
+      "greekHint": "Ξοδεύω: spend or use up badly.",
+      "english": "waste",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1083",
+      "emoji": "💇",
+      "kidDefinition": "An electric machine that blows hot air to dry hair.",
+      "examples": [
+        "Grandma used the hair dryer on her wet hair.",
+        "My hair dryer is noisy, but it works very fast."
+      ],
+      "distractors": [
+        "battery",
+        "rug",
+        "candle"
+      ],
+      "greekHint": "Πιστολάκι μαλλιών: hot air for hair.",
+      "english": "hair dryer",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1084",
+      "emoji": "🧹",
+      "kidDefinition": "An electric machine that sucks up dirt from floors and carpets.",
+      "examples": [
+        "Maya used the vacuum cleaner on the carpet.",
+        "A vacuum cleaner picks up dust very quickly."
+      ],
+      "distractors": [
+        "rug",
+        "broom",
+        "sofa"
+      ],
+      "greekHint": "Ηλεκτρική σκούπα: the electric cleaner.",
+      "english": "vacuum cleaner",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1089",
+      "emoji": "🔧",
+      "kidDefinition": "Not working, because it has been damaged.",
+      "examples": [
+        "The lamp is broken, so we need a new one.",
+        "Leo's broken toy car sits on the shelf."
+      ],
+      "distractors": [
+        "happy",
+        "empty",
+        "loud"
+      ],
+      "greekHint": "Χαλασμένος: it doesn't work any more.",
+      "english": "broken",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1085",
+      "emoji": "🧺",
+      "kidDefinition": "A machine that washes clothes for you.",
+      "examples": [
+        "Our washing machine washes the clothes in one hour.",
+        "The washing machine is loud when it spins."
+      ],
+      "distractors": [
+        "dishwasher",
+        "toaster",
+        "fridge"
+      ],
+      "greekHint": "Πλυντήριο ρούχων: the machine for clothes.",
+      "english": "washing machine",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1096",
+      "emoji": "🖐️",
+      "kidDefinition": "Done with your hands, not with a machine.",
+      "examples": [
+        "Grandma washes her lace curtains by hand.",
+        "I wrote my birthday card by hand."
+      ],
+      "distractors": [
+        "on foot",
+        "by bus",
+        "in a hurry"
+      ],
+      "greekHint": "Στο χέρι: with your own hands.",
+      "english": "by hand",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1082",
+      "emoji": "🔋",
+      "kidDefinition": "A small box of power for toys and remote controls.",
+      "examples": [
+        "My game controller needs a new battery.",
+        "This clock runs on one small battery."
+      ],
+      "distractors": [
+        "charger",
+        "headphones",
+        "rug"
+      ],
+      "greekHint": "Μπαταρία: the power box.",
+      "english": "battery",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1086",
+      "emoji": "🕯️",
+      "kidDefinition": "A stick of wax with a flame that gives light.",
+      "examples": [
+        "We lit a candle for a cosy dinner.",
+        "The candle smelled of lemons and gave soft light."
+      ],
+      "distractors": [
+        "charger",
+        "mouse",
+        "headphones"
+      ],
+      "greekHint": "Κερί: the wax candle with a flame.",
+      "english": "candle",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U8-SB-1088",
+    "CPP3-U8-SB-1090",
+    "CPP3-U8-SB-1091",
+    "CPP3-U8-SB-1092",
+    "CPP3-U8-SB-1093",
+    "CPP3-U8-SB-1094",
+    "CPP3-U8-SB-1095",
+    "CPP3-U8-SB-1097",
+    "CPP3-U8-SB-1098",
+    "CPP3-U8-SB-1099",
+    "CPP3-U8-SB-1100",
+    "CPP3-U8-SB-1101",
+    "CPP3-U8-SB-1102",
+    "CPP3-U8-SB-1103",
+    "CPP3-U8-SB-1104",
+    "CPP3-U8-SB-1105",
+    "CPP3-U8-SB-1106",
+    "CPP3-U8-SB-1107",
+    "CPP3-U8-SB-1108",
+    "CPP3-U8-SB-1109",
+    "CPP3-U8-SB-1110",
+    "CPP3-U8-SB-1111",
+    "CPP3-U8-SB-1112"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello! I am Lingo, and I love a good hoot about machines!"
+        },
+        {
+          "id": "l2",
+          "text": "Think about your kitchen, your bedroom and your bathroom."
+        },
+        {
+          "id": "l3",
+          "text": "Some machines help us cook, clean and dry our hair every day."
+        },
+        {
+          "id": "l4",
+          "text": "Today we meet a family on a very special Saturday."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Which electric machine do you use most at home?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U8-SB-1080",
+        "CPP3-U8-SB-1081",
+        "CPP3-U8-SB-1087",
+        "CPP3-U8-SB-1083",
+        "CPP3-U8-SB-1084",
+        "CPP3-U8-SB-1089",
+        "CPP3-U8-SB-1085",
+        "CPP3-U8-SB-1096",
+        "CPP3-U8-SB-1082",
+        "CPP3-U8-SB-1086"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Big Switch-Off",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is Saturday morning. Maya has a big plan for the house."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "maya",
+              "text": "Today is our Big Switch-Off! We must switch off every light we don't need."
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Even the light in the kitchen? I am making a snack!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1080"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Leo puts fruit and milk into the blender."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "I want a banana smoothie. I'll use the blender for it!"
+            },
+            {
+              "id": "p2b",
+              "who": "maya",
+              "text": "Good! Then switch it off. Don't waste food or water, Leo."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1081",
+            "CPP3-U8-SB-1087",
+            "CPP3-U8-SB-1080"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "After his bath, Leo wants his hair dry quickly."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "My hair dryer is noisy, but it dries my hair really fast."
+            },
+            {
+              "id": "p3b",
+              "who": "maya",
+              "text": "Use it for two minutes only, then switch off the hair dryer, please."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1083",
+            "CPP3-U8-SB-1080"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Maya turns on the vacuum cleaner, but nothing happens."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "maya",
+              "text": "Oh no! The vacuum cleaner is broken. Now I must clean the rug by hand."
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "Can Grandma help? She knows lots of old tricks!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1084",
+            "CPP3-U8-SB-1089",
+            "CPP3-U8-SB-1096"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "grandma"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Grandma Eleni arrives with a basket of socks and a smile."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "grandma",
+              "text": "Before the washing machine, we washed all our clothes by hand, my dear."
+            },
+            {
+              "id": "p5b",
+              "who": "maya",
+              "text": "Our washing machine is working today, Grandma. We can use it!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1085",
+            "CPP3-U8-SB-1096"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "In the evening, Leo's torch is dark. He looks for a new battery."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "leo",
+              "text": "My torch battery is empty! What can we use to see in the dark?"
+            },
+            {
+              "id": "p6b",
+              "who": "maya",
+              "text": "Light a candle! It gives soft light, and it needs no electricity."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1082",
+            "CPP3-U8-SB-1086"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP3-U8-SB-1080",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen: Please switch off the lights before bed. Which word did you hear?"
+          },
+          "options": [
+            "CPP3-U8-SB-1086",
+            "CPP3-U8-SB-1081",
+            "CPP3-U8-SB-1089",
+            "CPP3-U8-SB-1080"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "Switch off means to stop a light working, so the answer is the first option."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U8-SB-1084",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which picture shows a vacuum cleaner?"
+          },
+          "options": [
+            "CPP3-U8-SB-1084",
+            "CPP3-U8-SB-1081",
+            "CPP3-U8-SB-1083",
+            "CPP3-U8-SB-1086"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A vacuum cleaner sucks up dirt from the floor, so it is the one with the cleaning machine."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1085",
+          "prompt": {
+            "id": "c3q",
+            "text": "Mum put the dirty socks in the ____ and pressed start."
+          },
+          "options": [
+            "washing machine",
+            "battery",
+            "blender",
+            "rug"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "A washing machine is the machine that washes clothes for you."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U8-SB-1083",
+          "prompt": {
+            "id": "c4q",
+            "text": "Leo used a hair dryer to dry his hair after his bath."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "In the story, Leo's hair dryer dries his hair quickly after his bath."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U8-SB-1086",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "vacuum cleaner",
+            "hair dryer",
+            "candle",
+            "blender"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A blender, hair dryer and vacuum cleaner all need electricity, but a candle does not."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1082",
+          "prompt": {
+            "id": "c6q",
+            "text": "My remote control needs a new ____ because it is empty."
+          },
+          "options": [
+            "candle",
+            "battery",
+            "headphones",
+            "rug"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A battery is a small box of power for things like remote controls and toys."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U8-SB-1087",
+          "prompt": {
+            "id": "c7q",
+            "text": "To waste electricity means to use it carefully and wisely."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Waste means using something carelessly, so using electricity carefully is the opposite."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1089",
+          "prompt": {
+            "id": "c8q",
+            "text": "The vacuum cleaner is ____, so Maya can't use it today."
+          },
+          "options": [
+            "happy",
+            "loud",
+            "empty",
+            "broken"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "Broken means damaged and not working, like the vacuum cleaner in the story."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "listen",
+          "wordId": "CPP3-U8-SB-1096",
+          "prompt": {
+            "id": "c9q",
+            "text": "Listen: Grandma washes her socks by hand. Which phrase did you hear?"
+          },
+          "options": [
+            "CPP3-U8-SB-1096",
+            "CPP3-U8-SB-1087",
+            "CPP3-U8-SB-1083",
+            "CPP3-U8-SB-1085"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "By hand means with your own hands, not with a machine."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U8-SB-1081",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which picture shows a blender?"
+          },
+          "options": [
+            "CPP3-U8-SB-1081",
+            "CPP3-U8-SB-1086",
+            "CPP3-U8-SB-1083",
+            "CPP3-U8-SB-1084"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "A blender is the electric machine that mixes fruit and milk into a smoothie."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a memory game! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Turn over two cards. Can you find the pair? Let's go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your home. Which machines do you use, and how can you save power?"
+      },
+      "frames": [
+        "I use a ___ at home every day.",
+        "We should ___ the lights when we leave a room.",
+        "I never waste ___ because it is important for the planet."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I use a hair dryer every morning. We should switch off the lights when we leave a room. I never waste water because it is important for the planet."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, Switch-Off stars!"
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about blenders, batteries and candles like real experts."
+        },
+        {
+          "id": "l3",
+          "text": "Lingo is so proud of you. Hoot, hoot!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Switch-Off Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one machine at home that uses electricity."
+        },
+        {
+          "id": "e2",
+          "text": "What can you do to avoid wasting electricity at home?"
+        }
+      ]
+    }
+  ]
+}

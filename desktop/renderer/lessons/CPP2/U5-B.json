@@ -1,0 +1,735 @@
+{
+  "schema": 1,
+  "id": "CPP2-U5-B",
+  "bookId": "CPP2",
+  "unit": 5,
+  "section": "B",
+  "title": "Music That Helps Us: Nora's Village Day",
+  "bigQuestion": "What is music?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "village",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nora": {
+      "name": "Nora",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, kind and curious"
+    },
+    "grandpa": {
+      "name": "Grandpa Leo",
+      "emoji": "👴",
+      "persona": "gentle older man, warm and slow-speaking"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "playful 10-year-old boy, a little careless at first, then sensible"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U5-SB-659",
+      "emoji": "🥀",
+      "kidDefinition": "Not strong. You have little energy or power.",
+      "examples": [
+        "My dog is very old and weak.",
+        "After the long walk, my legs felt weak."
+      ],
+      "distractors": [
+        "strong",
+        "happy",
+        "fast"
+      ],
+      "greekHint": "Θύμισε: αδύναμος = weak, όχι 'strong'.",
+      "english": "weak",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U5-SB-665",
+      "emoji": "💬",
+      "kidDefinition": "Words that tell someone what they should do.",
+      "examples": [
+        "Can you give me some advice, please?",
+        "My mum's advice helped me feel better."
+      ],
+      "distractors": [
+        "poster",
+        "trunk",
+        "sheep"
+      ],
+      "greekHint": "Advice (noun) has no 's' at the end, unlike 'advise' (verb).",
+      "english": "advice",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-663",
+      "emoji": "📢",
+      "kidDefinition": "Making a lot of sound. The opposite of quiet.",
+      "examples": [
+        "The thunder was very loud last night.",
+        "Please do not speak in a loud voice in the library."
+      ],
+      "distractors": [
+        "quiet",
+        "soft",
+        "gentle"
+      ],
+      "greekHint": "Δυνατός για ήχο: loud. Σκέψου το 'λάουντσπίκερ'.",
+      "english": "loud",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U5-SB-674",
+      "emoji": "🦻",
+      "kidDefinition": "Not able to hear anything, or not able to hear well.",
+      "examples": [
+        "My grandma is deaf, so she reads my lips.",
+        "Some deaf people love music by feeling it."
+      ],
+      "distractors": [
+        "hungry",
+        "tired",
+        "shy"
+      ],
+      "greekHint": "Κουφός = deaf. Σκέψου: δεν ακούει.",
+      "english": "deaf",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U5-SB-676",
+      "emoji": "📳",
+      "kidDefinition": "A small, fast shake that you can feel.",
+      "examples": [
+        "I felt a vibration when the bus drove past.",
+        "Your phone makes a vibration when you get a message."
+      ],
+      "distractors": [
+        "silence",
+        "echo",
+        "rhythm"
+      ],
+      "greekHint": "Δόνηση = vibration. Σκέψου το 'δονούμαι'.",
+      "english": "vibration",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-662",
+      "emoji": "⚠️",
+      "kidDefinition": "Not safe. Something that can hurt you.",
+      "examples": [
+        "Swimming alone in the sea can be dangerous.",
+        "Playing with fire is very dangerous."
+      ],
+      "distractors": [
+        "safe",
+        "calm",
+        "friendly"
+      ],
+      "greekHint": "Επικίνδυνος = dangerous. Σκέψου 'κίνδυνος'.",
+      "english": "dangerous",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U5-SB-668",
+      "emoji": "⛑️",
+      "kidDefinition": "A hard hat you wear to protect your head.",
+      "examples": [
+        "Always wear a helmet when you ride your bike.",
+        "My brother wears a helmet for skating."
+      ],
+      "distractors": [
+        "sweater",
+        "cart",
+        "lullaby"
+      ],
+      "greekHint": "Κράνος = helmet. Φαντάσου ένα κράνος μοτοσικλετιστή.",
+      "english": "helmet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-667",
+      "emoji": "🛡️",
+      "kidDefinition": "To keep someone or something safe from harm.",
+      "examples": [
+        "Sunscreen can protect your skin from the sun.",
+        "A coat protects us from the cold."
+      ],
+      "distractors": [
+        "follow",
+        "hurt",
+        "count"
+      ],
+      "greekHint": "Προστατεύω = protect. Σκέψου την 'προστασία'.",
+      "english": "protect",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U5-SB-680",
+      "emoji": "👣",
+      "kidDefinition": "To go after someone, behind them, in the same way.",
+      "examples": [
+        "Follow me, please, and stay close.",
+        "The ducks follow their mum to the lake."
+      ],
+      "distractors": [
+        "hide",
+        "stop",
+        "wait"
+      ],
+      "greekHint": "Ακολουθώ = follow. Σκέψου 'ακολουθία'.",
+      "english": "follow",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U5-SB-707",
+      "emoji": "🎶",
+      "kidDefinition": "A soft, slow song that helps a baby fall asleep.",
+      "examples": [
+        "My mum sings a lullaby every night.",
+        "The lullaby was so gentle that the baby slept."
+      ],
+      "distractors": [
+        "sheep",
+        "cart",
+        "sweater"
+      ],
+      "greekHint": "Νανούρισμα = lullaby. Σκέψου το 'νανούρισμα' για μωρό.",
+      "english": "lullaby",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U5-SB-660",
+    "CPP2-U5-SB-661",
+    "CPP2-U5-SB-664",
+    "CPP2-U5-SB-666",
+    "CPP2-U5-SB-669",
+    "CPP2-U5-SB-670",
+    "CPP2-U5-SB-671",
+    "CPP2-U5-SB-672",
+    "CPP2-U5-SB-673",
+    "CPP2-U5-SB-675",
+    "CPP2-U5-SB-677",
+    "CPP2-U5-SB-678",
+    "CPP2-U5-SB-679",
+    "CPP2-U5-SB-681",
+    "CPP2-U5-SB-682",
+    "CPP2-U5-SB-683",
+    "CPP2-U5-SB-684",
+    "CPP2-U5-SB-685",
+    "CPP2-U5-SB-686",
+    "CPP2-U5-SB-687",
+    "CPP2-U5-SB-688",
+    "CPP2-U5-SB-689",
+    "CPP2-U5-SB-690",
+    "CPP2-U5-SB-691",
+    "CPP2-U5-SB-692",
+    "CPP2-U5-SB-693",
+    "CPP2-U5-SB-694",
+    "CPP2-U5-SB-695",
+    "CPP2-U5-SB-696",
+    "CPP2-U5-SB-697",
+    "CPP2-U5-SB-698",
+    "CPP2-U5-SB-699",
+    "CPP2-U5-SB-700",
+    "CPP2-U5-SB-701",
+    "CPP2-U5-SB-702",
+    "CPP2-U5-SB-703",
+    "CPP2-U5-SB-704",
+    "CPP2-U5-SB-705",
+    "CPP2-U5-SB-706"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "village",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, class! I am Lingo, and I love music."
+        },
+        {
+          "id": "l2",
+          "text": "Music can make us happy, calm, or even sleepy."
+        },
+        {
+          "id": "l3",
+          "text": "Did you know a sound can make you feel a tiny shake?"
+        },
+        {
+          "id": "l4",
+          "text": "Today we will meet Nora, a kind girl in a village."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite song, and how does it make you feel?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U5-SB-659",
+        "CPP2-U5-SB-665",
+        "CPP2-U5-SB-663",
+        "CPP2-U5-SB-674",
+        "CPP2-U5-SB-676",
+        "CPP2-U5-SB-662",
+        "CPP2-U5-SB-668",
+        "CPP2-U5-SB-667",
+        "CPP2-U5-SB-680",
+        "CPP2-U5-SB-707"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Nora and the Brave Donkey",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "nora"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "In a small village, Nora visits her grandpa and his old donkey, Dora."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "nora",
+              "text": "Grandpa, Dora looks very weak today."
+            },
+            {
+              "id": "p1b",
+              "who": "grandpa",
+              "text": "Yes, she is old. She cannot pull the cart anymore."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-659"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "nora"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Grandpa gives Nora some advice."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "grandpa",
+              "text": "Nora, my advice is simple: rest, water and warm food."
+            },
+            {
+              "id": "p2b",
+              "who": "nora",
+              "text": "Okay, Grandpa! I will help Dora feel better."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-665"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "nora"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Grandpa is deaf, but he can still feel the music."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "nora",
+              "text": "Grandpa, I will play my drum. It will be very loud!"
+            },
+            {
+              "id": "p3b",
+              "who": "grandpa",
+              "text": "Yes! I cannot hear it, but I feel the vibration in the floor."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-674",
+            "CPP2-U5-SB-676",
+            "CPP2-U5-SB-663"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "nora"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "On the street, Leo rides his bike without a helmet."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "nora",
+              "text": "Leo, that is dangerous! Wear a helmet to protect your head."
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "Oops! Okay, I will put on my helmet now."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-662",
+            "CPP2-U5-SB-668",
+            "CPP2-U5-SB-667"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "nora"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "At sunset, Dora walks slowly behind Nora to the barn."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nora",
+              "text": "Dora, follow me. Let us go home now."
+            },
+            {
+              "id": "p5b",
+              "who": "grandpa",
+              "text": "Listen! Nora is singing a lullaby to Dora."
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-680",
+            "CPP2-U5-SB-707"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-659",
+          "prompt": {
+            "id": "c1q",
+            "text": "My donkey is old and very ____. She cannot walk far."
+          },
+          "options": [
+            "strong",
+            "weak",
+            "fast",
+            "happy"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Weak means you have very little strength, so an old donkey can be weak."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U5-SB-668",
+          "prompt": {
+            "id": "c2q",
+            "text": "Find the word: you wear this on your head when you ride a bike."
+          },
+          "options": [
+            "CPP2-U5-SB-662",
+            "CPP2-U5-SB-668",
+            "CPP2-U5-SB-676",
+            "CPP2-U5-SB-665"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A helmet is a hard hat that protects your head when you ride a bike."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP2-U5-SB-707",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen and find the word: lullaby."
+          },
+          "options": [
+            "CPP2-U5-SB-680",
+            "CPP2-U5-SB-663",
+            "CPP2-U5-SB-659",
+            "CPP2-U5-SB-707"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "A lullaby is a soft song that helps a baby go to sleep."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U5-SB-662",
+          "prompt": {
+            "id": "c4q",
+            "text": "Riding a bike without a helmet is dangerous."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Dangerous means not safe, and riding without a helmet can hurt your head."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U5-SB-674",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "deaf",
+            "soft",
+            "loud",
+            "noisy"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Loud, soft and noisy describe sounds, but deaf describes a person who cannot hear."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-665",
+          "prompt": {
+            "id": "c6q",
+            "text": "Nora asked Grandpa for ____ on how to help Dora."
+          },
+          "options": [
+            "advice",
+            "sheep",
+            "trunk",
+            "poster"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Advice is useful words that tell you what to do."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U5-SB-676",
+          "prompt": {
+            "id": "c7q",
+            "text": "Find the word: a small, fast shake that you can feel."
+          },
+          "options": [
+            "CPP2-U5-SB-674",
+            "CPP2-U5-SB-663",
+            "CPP2-U5-SB-680",
+            "CPP2-U5-SB-676"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A vibration is a tiny shake, like a phone when it rings on silent."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-667",
+          "prompt": {
+            "id": "c8q",
+            "text": "Wear a helmet to ____ your head when you cycle."
+          },
+          "options": [
+            "protect",
+            "hurt",
+            "follow",
+            "count"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "To protect something means to keep it safe from harm."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "listen",
+          "wordId": "CPP2-U5-SB-680",
+          "prompt": {
+            "id": "c9q",
+            "text": "Listen and find the word: follow."
+          },
+          "options": [
+            "CPP2-U5-SB-680",
+            "CPP2-U5-SB-665",
+            "CPP2-U5-SB-707",
+            "CPP2-U5-SB-662"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "To follow means to go after someone, like Dora following Nora."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U5-SB-663",
+          "prompt": {
+            "id": "c10q",
+            "text": "In the story, Nora says she will play her drum very quietly."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Nora says she will play very loud, because loud means a lot of sound."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a quick quiz! Think carefully, then answer with your hands up."
+        },
+        {
+          "id": "l2",
+          "text": "Remember: every answer is a word from today's village story."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner: What is your advice for a safe bike ride?"
+      },
+      "frames": [
+        "My advice is to ___.",
+        "I wear a helmet to ___ my head.",
+        "A lullaby makes me feel ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My advice is to wear a helmet. I wear a helmet to protect my head. A lullaby makes me feel calm and sleepy."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, class! You learnt ten brilliant words today."
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about music, safety and feelings in English."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will find out more about music all around us!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Safe Sound Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one sentence with the word weak about an animal."
+        },
+        {
+          "id": "e2",
+          "text": "Which word from today means you cannot hear, and why does Grandpa feel the music?"
+        }
+      ]
+    }
+  ]
+}

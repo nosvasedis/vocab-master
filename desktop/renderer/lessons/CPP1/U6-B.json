@@ -1,0 +1,710 @@
+{
+  "schema": 1,
+  "id": "CPP1-U6-B",
+  "bookId": "CPP1",
+  "unit": 6,
+  "section": "B",
+  "title": "A Messy Disruption in the Park",
+  "bigQuestion": "How can we help?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "lily": {
+      "name": "Lily",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and kind"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "playful 9-year-old boy, excited and a little silly"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👩‍🚒",
+      "persona": "calm, brave firefighter, warm and reassuring"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U6-SB-706",
+      "emoji": "🗑️",
+      "kidDefinition": "not neat; dirty and in a mess",
+      "examples": [
+        "Oh! Your room is very messy!",
+        "Our kitchen is messy after we make dinner."
+      ],
+      "distractors": [
+        "clean",
+        "kind",
+        "loud"
+      ],
+      "greekHint": "ακατάστατος = messy",
+      "english": "messy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U6-SB-707",
+      "emoji": "💥",
+      "kidDefinition": "something that stops things from being calm and normal",
+      "examples": [
+        "A dog running through the picnic is a disruption!",
+        "The fire alarm was a big disruption in class."
+      ],
+      "distractors": [
+        "picnic",
+        "puzzle",
+        "blanket"
+      ],
+      "greekHint": "αναστάτωση",
+      "english": "disruption",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-690",
+      "emoji": "🐶",
+      "kidDefinition": "behaving badly; not good or well-behaved",
+      "examples": [
+        "Stop, naughty dog! Don't take my sandwich!",
+        "My little cousin is a very naughty kid!"
+      ],
+      "distractors": [
+        "kind",
+        "shy",
+        "quiet"
+      ],
+      "greekHint": "άτακτος",
+      "english": "naughty",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U6-SB-697",
+      "emoji": "🐱",
+      "kidDefinition": "a baby cat",
+      "examples": [
+        "Look at that little kitten! It's so cute!",
+        "The kitten is stuck up the tree."
+      ],
+      "distractors": [
+        "puppy",
+        "bird",
+        "fish"
+      ],
+      "greekHint": "γατάκι",
+      "english": "kitten",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-698",
+      "emoji": "⬇️",
+      "kidDefinition": "move from high up to low down",
+      "examples": [
+        "My cat is on the fridge. She can't get down!",
+        "Please get down from that wall, Leo!"
+      ],
+      "distractors": [
+        "stay put",
+        "sit down",
+        "pick up"
+      ],
+      "greekHint": "κατεβαίνω",
+      "english": "get down",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP1-U6-SB-699",
+      "emoji": "🚒",
+      "kidDefinition": "a person who puts out fires and helps people",
+      "examples": [
+        "Firefighters rescue people, animals and stop fires!",
+        "The firefighter came in a big red truck."
+      ],
+      "distractors": [
+        "farmer",
+        "doctor",
+        "driver"
+      ],
+      "greekHint": "πυροσβέστης",
+      "english": "firefighter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-700",
+      "emoji": "🪜",
+      "kidDefinition": "to save someone from danger",
+      "examples": [
+        "The firefighter rescued the kitten from the tree.",
+        "We can rescue animals that are lost or hurt."
+      ],
+      "distractors": [
+        "dig",
+        "blow",
+        "wash"
+      ],
+      "greekHint": "σώζω",
+      "english": "rescue",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U6-SB-701",
+      "emoji": "🛡️",
+      "kidDefinition": "not in danger; protected from harm",
+      "examples": [
+        "It's ok now! You're safe! Don't be scared!",
+        "Hold my hand, so you stay safe on the street."
+      ],
+      "distractors": [
+        "wet",
+        "tall",
+        "hungry"
+      ],
+      "greekHint": "ασφαλής",
+      "english": "safe",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U6-SB-695",
+      "emoji": "🔢",
+      "kidDefinition": "the order in which things happen",
+      "examples": [
+        "We need to understand the sequence of events.",
+        "Put the pictures in the right sequence: first, next, last."
+      ],
+      "distractors": [
+        "colour",
+        "garden",
+        "picnic"
+      ],
+      "greekHint": "σειρά",
+      "english": "sequence",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-696",
+      "emoji": "🎉",
+      "kidDefinition": "something that happens, often important or unusual",
+      "examples": [
+        "There are some strange events in the story.",
+        "The picnic was a happy event for the whole class."
+      ],
+      "distractors": [
+        "object",
+        "detail",
+        "idea"
+      ],
+      "greekHint": "γεγονός",
+      "english": "event",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U6-SB-689",
+    "CPP1-U6-SB-691",
+    "CPP1-U6-SB-692",
+    "CPP1-U6-SB-693",
+    "CPP1-U6-SB-694",
+    "CPP1-U6-SB-702",
+    "CPP1-U6-SB-703",
+    "CPP1-U6-SB-704",
+    "CPP1-U6-SB-705",
+    "CPP1-U6-SB-708",
+    "CPP1-U6-SB-709",
+    "CPP1-U6-SB-710",
+    "CPP1-U6-SB-711",
+    "CPP1-U6-SB-712",
+    "CPP1-U6-SB-713",
+    "CPP1-U6-SB-714",
+    "CPP1-U6-SB-715",
+    "CPP1-U6-SB-716",
+    "CPP1-U6-SB-717",
+    "CPP1-U6-SB-718",
+    "CPP1-U6-SB-719",
+    "CPP1-U6-SB-720",
+    "CPP1-U6-SB-721",
+    "CPP1-U6-SB-722",
+    "CPP1-U6-SB-723",
+    "CPP1-U6-SB-724",
+    "CPP1-U6-SB-725",
+    "CPP1-U6-SB-726",
+    "CPP1-U6-SB-727",
+    "CPP1-U6-SB-728",
+    "CPP1-U6-SB-729",
+    "CPP1-U6-SB-730"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today, we ask a big question: How can we help?"
+        },
+        {
+          "id": "l3",
+          "text": "Sometimes a day gets messy. Sometimes an animal needs our help!"
+        },
+        {
+          "id": "l4",
+          "text": "Let's meet Lily and Leo. Their picnic is about to get busy!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite animal?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U6-SB-706",
+        "CPP1-U6-SB-707",
+        "CPP1-U6-SB-690",
+        "CPP1-U6-SB-697",
+        "CPP1-U6-SB-698",
+        "CPP1-U6-SB-699",
+        "CPP1-U6-SB-700",
+        "CPP1-U6-SB-701",
+        "CPP1-U6-SB-695",
+        "CPP1-U6-SB-696"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Messy Disruption",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "lily"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Lily and Leo are having a picnic in the park. Their blanket is very messy."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "leo",
+              "text": "Oh no! Our picnic is so messy!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-706"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "lily"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Suddenly, a naughty dog runs through the picnic. What a disruption!"
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "lily",
+              "text": "Come back here, naughty dog!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-690",
+            "CPP1-U6-SB-707"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Then they hear a tiny cry. A kitten is up a tall tree."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "Look! That little kitten can't get down!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-697",
+            "CPP1-U6-SB-698"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "A firefighter arrives with a big red truck."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "maya",
+              "text": "Don't worry, little kitten. I will rescue you now!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-699",
+            "CPP1-U6-SB-700"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "lily"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Maya lifts the kitten down. The kitten is safe now!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "lily",
+              "text": "Hooray! The kitten is safe!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-701"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "What a busy event! Let's remember the sequence of events."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "lingo",
+              "text": "First, the dog. Then, the kitten. Finally, the firefighter saved the day!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-696",
+            "CPP1-U6-SB-695"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-706",
+          "prompt": {
+            "id": "c1q",
+            "text": "Oh! Your room is very ____! Please tidy it up."
+          },
+          "options": [
+            "kind",
+            "messy",
+            "loud",
+            "clean"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Messy means not neat, so a messy room needs tidying."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U6-SB-707",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: disruption. Which word did you hear?"
+          },
+          "options": [
+            "CPP1-U6-SB-706",
+            "CPP1-U6-SB-707",
+            "CPP1-U6-SB-701",
+            "CPP1-U6-SB-699"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A disruption is something that stops things being calm and normal."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U6-SB-690",
+          "prompt": {
+            "id": "c3q",
+            "text": "Naughty means very helpful and kind."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "Naughty means behaving badly, so it is the opposite of helpful and kind."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U6-SB-697",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "firefighter",
+            "bird",
+            "puppy",
+            "kitten"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Kitten, puppy and bird are animals, but a firefighter is a person."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-698",
+          "prompt": {
+            "id": "c5q",
+            "text": "My cat is on the fridge. She can't ____!"
+          },
+          "options": [
+            "get down",
+            "pick up",
+            "push",
+            "stay put"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Get down means move from high up to low down."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U6-SB-699",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word means a person who puts out fires?"
+          },
+          "options": [
+            "CPP1-U6-SB-697",
+            "CPP1-U6-SB-695",
+            "CPP1-U6-SB-699",
+            "CPP1-U6-SB-701"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A firefighter helps people and puts out fires with a big red truck."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-700",
+          "prompt": {
+            "id": "c7q",
+            "text": "The firefighter came to ____ the kitten from the tree."
+          },
+          "options": [
+            "rescue",
+            "blow",
+            "dig",
+            "wash"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "To rescue means to save someone from danger."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U6-SB-701",
+          "prompt": {
+            "id": "c8q",
+            "text": "If you are safe, you are in danger."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Safe means not in danger, so the statement is false."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-695",
+          "prompt": {
+            "id": "c9q",
+            "text": "Tell me the ____ of the story: what happens first, next and last."
+          },
+          "options": [
+            "garden",
+            "sequence",
+            "kitten",
+            "colour"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "The sequence is the order in which things happen."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U6-SB-696",
+          "prompt": {
+            "id": "c10q",
+            "text": "An event is something that happens, like a picnic or a fire."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "An event is something that happens, often an important or unusual thing."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a quick quiz! Every correct answer earns you a star."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a time you helped someone or an animal."
+      },
+      "frames": [
+        "I helped my ___ when it was in danger.",
+        "The place was messy, so I ___ it up.",
+        "Now my ___ is safe and happy."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I helped my cat when she was stuck on a wall. The place was messy, so I cleaned it up. Now my cat is safe and happy."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, helpers!"
+        },
+        {
+          "id": "l2",
+          "text": "You learned how to talk about messy days and brave rescues."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, you can be a helper too!"
+        }
+      ],
+      "badge": {
+        "emoji": "🚒",
+        "name": "Brave Rescue Helper"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means a baby cat?"
+        },
+        {
+          "id": "e2",
+          "text": "Tell me one thing that happened first in the story."
+        }
+      ]
+    }
+  ]
+}

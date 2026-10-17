@@ -1,0 +1,425 @@
+{
+  "schema": 1,
+  "id": "CPP3-U7-BQ",
+  "bookId": "CPP3",
+  "unit": 7,
+  "section": "BQ",
+  "title": "Digging Up the Past: Big Question Opener",
+  "bigQuestion": "How can we explore the past?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "👦",
+      "persona": "cheerful 11-year-old boy, curious and full of questions"
+    },
+    "anna": {
+      "name": "Anna",
+      "emoji": "👧",
+      "persona": "clever 12-year-old girl, loves history and asks thoughtful questions"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U7-SB-936",
+      "emoji": "📺",
+      "kidDefinition": "A report on TV or radio about recent events.",
+      "examples": [
+        "My parents always watch the evening news report.",
+        "Today's news report says a new old city was found."
+      ],
+      "distractors": [
+        "newspaper",
+        "diary",
+        "poster"
+      ],
+      "greekHint": "Δελτίο ειδήσεων: σκέψου το δελτίο των οκτώ.",
+      "english": "news report",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-937",
+      "emoji": "🏺",
+      "kidDefinition": "An old object made by people, such as a pot or a tool.",
+      "examples": [
+        "The archaeologists discovered many artifacts in the ancient tomb.",
+        "This clay artifact is three thousand years old."
+      ],
+      "distractors": [
+        "jewel",
+        "coin",
+        "tool"
+      ],
+      "greekHint": "Artifact: χειροποίητο αντικείμενο του παρελθόντος.",
+      "english": "artifact",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-940",
+      "emoji": "🗿",
+      "kidDefinition": "A figure of a person or animal, carved or made from stone or metal.",
+      "examples": [
+        "My favourite statue is Niki of Samothraki.",
+        "An archaeologist found a huge statue of a lion on the island."
+      ],
+      "distractors": [
+        "painting",
+        "bridge",
+        "tower"
+      ],
+      "greekHint": "Statue: άγαλμα, σαν τον Νίκη της Σαμοθράκης.",
+      "english": "statue",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-941",
+      "emoji": "🪨",
+      "kidDefinition": "A hard, solid piece of the earth, like a rock.",
+      "examples": [
+        "Zoe wore a necklace with precious stones.",
+        "Ancient builders cut huge stones to make the temple walls."
+      ],
+      "distractors": [
+        "wood",
+        "glass",
+        "metal"
+      ],
+      "greekHint": "Stone: πέτρα, λίθος.",
+      "english": "stone",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-939",
+      "emoji": "📏",
+      "kidDefinition": "A unit for measuring length. One metre is about one big step.",
+      "examples": [
+        "An archaeologist on Naxos island found a statue eleven metres tall!",
+        "The wall is two metres high."
+      ],
+      "distractors": [
+        "kilogram",
+        "litre",
+        "second"
+      ],
+      "greekHint": "Metre: μέτρο, για μήκος.",
+      "english": "meter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-938",
+      "emoji": "👑",
+      "kidDefinition": "A decorated covering worn on the head, often for a special occasion.",
+      "examples": [
+        "If you visit the museum, you can see the headdresses women wore in old times.",
+        "The king wore a gold headdress at the festival."
+      ],
+      "distractors": [
+        "scarf",
+        "crown",
+        "cap"
+      ],
+      "greekHint": "Headdress: κορδέλα ή μαντήλι για το κεφάλι.",
+      "english": "headdress",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-942",
+      "emoji": "🔤",
+      "kidDefinition": "The changing of words from one language into another language.",
+      "examples": [
+        "Is this translation of the article correct?",
+        "Anna made a translation of the old letter into English."
+      ],
+      "distractors": [
+        "dictionary",
+        "letter",
+        "alphabet"
+      ],
+      "greekHint": "Translation: μετάφραση.",
+      "english": "translation",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher. Hoo, hoo!"
+        },
+        {
+          "id": "l2",
+          "text": "Yesterday, a news report said an archaeologist found a huge stone statue."
+        },
+        {
+          "id": "l3",
+          "text": "Archaeologists dig in the ground to find old things from long ago."
+        },
+        {
+          "id": "l4",
+          "text": "Those old things help us understand how people lived in the past."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "If you could dig up one thing from the past, what would it be?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U7-SB-936",
+        "CPP3-U7-SB-937",
+        "CPP3-U7-SB-940",
+        "CPP3-U7-SB-941",
+        "CPP3-U7-SB-939",
+        "CPP3-U7-SB-938",
+        "CPP3-U7-SB-942"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U7-SB-937",
+          "prompt": {
+            "id": "c1q",
+            "text": "Look at the picture of an old clay pot from a tomb. Which word is it?"
+          },
+          "options": [
+            "CPP3-U7-SB-940",
+            "CPP3-U7-SB-939",
+            "CPP3-U7-SB-941",
+            "CPP3-U7-SB-937"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "An artifact is an old object made by people, like this pot."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U7-SB-939",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen. Which word is a unit that measures length?"
+          },
+          "options": [
+            "CPP3-U7-SB-936",
+            "CPP3-U7-SB-941",
+            "CPP3-U7-SB-938",
+            "CPP3-U7-SB-939"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "A metre is a unit for measuring length, about one big step."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-940",
+          "prompt": {
+            "id": "c3q",
+            "text": "The park has a tall ____ of a famous poet, made of bronze."
+          },
+          "options": [
+            "news report",
+            "metre",
+            "statue",
+            "headdress"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "A statue is a figure of a person, like the poet in the park."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-941",
+          "prompt": {
+            "id": "c4q",
+            "text": "Ancient builders cut huge ____ to make the temple walls."
+          },
+          "options": [
+            "artifact",
+            "stone",
+            "translation",
+            "headdress"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Stones are hard pieces of earth, and builders used them for walls."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U7-SB-936",
+          "prompt": {
+            "id": "c5q",
+            "text": "A news report tells people about recent events."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "A news report is a report about things that happened recently."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U7-SB-939",
+          "prompt": {
+            "id": "c6q",
+            "text": "A metre is a unit that measures how heavy something is."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A metre measures length, not weight. Weight uses kilograms."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U7-SB-938",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "cap",
+            "scarf",
+            "headdress",
+            "statue"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A statue is a figure, but a headdress, scarf and cap are things you wear."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U7-SB-942",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word means changing words from one language into another?"
+          },
+          "options": [
+            "CPP3-U7-SB-942",
+            "CPP3-U7-SB-940",
+            "CPP3-U7-SB-941",
+            "CPP3-U7-SB-937"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "A translation changes words from one language into another language."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a memory game! Find the matching pairs of picture and word."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud when you turn a card. Good luck, explorers!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Talk with your partner about a discovery from the past."
+      },
+      "frames": [
+        "I would like to see a ___ in a museum.",
+        "My favourite ___ is ___ because it is old and beautiful.",
+        "An archaeologist could find a ___ near my house."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I would like to see a golden headdress in a museum. My favourite artifact is a clay pot because it is very old. An archaeologist could find a statue near my house."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, explorers! You learned seven new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about the past, just like an archaeologist."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Junior Archaeologist"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one artifact or statue you learned about today, and say what it is."
+        },
+        {
+          "id": "e2",
+          "text": "How many metres is one big step, and what does a translation do?"
+        }
+      ]
+    }
+  ]
+}

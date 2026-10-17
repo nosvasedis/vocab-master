@@ -1,0 +1,736 @@
+{
+  "schema": 1,
+  "id": "CPP2-U2-B",
+  "bookId": "CPP2",
+  "unit": 2,
+  "section": "B",
+  "title": "Case of the Missing Necklace: Detectives at the Party",
+  "bigQuestion": "Why are celebrations important?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "helen": {
+      "name": "Helen",
+      "emoji": "👧",
+      "persona": "curious, brave 10-year-old girl who loves solving puzzles, excited and confident"
+    },
+    "emilia": {
+      "name": "Emilia",
+      "emoji": "🧒",
+      "persona": "careful, slightly nervous 10-year-old friend, honest and funny"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U2-SB-211",
+      "emoji": "🕵️",
+      "kidDefinition": "A person who looks for clues to solve mysteries.",
+      "examples": [
+        "The detective looks for clues in the garden.",
+        "My cousin wants to be a detective when he grows up."
+      ],
+      "distractors": [
+        "teacher",
+        "dentist",
+        "patient"
+      ],
+      "greekHint": "Μοιάζει με το «ντετέκτιβ».",
+      "english": "detective",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U2-SB-212",
+      "emoji": "😨",
+      "kidDefinition": "Feeling afraid of something.",
+      "examples": [
+        "I'm scared of the dark.",
+        "The little dog is scared of thunder."
+      ],
+      "distractors": [
+        "happy",
+        "tired",
+        "hungry"
+      ],
+      "greekHint": "Φοβισμένος: νιώθεις φόβο.",
+      "english": "scared",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U2-SB-213",
+      "emoji": "💡",
+      "kidDefinition": "To make a light or machine start working.",
+      "examples": [
+        "Please turn on the lamp, it's dark.",
+        "Can you turn on the radio?"
+      ],
+      "distractors": [
+        "run away",
+        "hold hands",
+        "pay attention to"
+      ],
+      "greekHint": "Ανάβω τα φώτα.",
+      "english": "turn on",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U2-SB-214",
+      "emoji": "🔌",
+      "kidDefinition": "To make a light or machine stop working.",
+      "examples": [
+        "Turn off the TV before you go to sleep.",
+        "Please turn off the tap when you finish."
+      ],
+      "distractors": [
+        "run away",
+        "hold hands",
+        "wash the dishes"
+      ],
+      "greekHint": "Σβήνω τα φώτα.",
+      "english": "turn off",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U2-SB-215",
+      "emoji": "💰",
+      "kidDefinition": "A person who takes things that are not theirs.",
+      "examples": [
+        "The thief left a note on the door.",
+        "Police caught the thief at the bank."
+      ],
+      "distractors": [
+        "patient",
+        "dentist",
+        "teacher"
+      ],
+      "greekHint": "Κλέφτης: θυμήσου τα «κλέφτες».",
+      "english": "thief-thieves",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-216",
+      "emoji": "🔊",
+      "kidDefinition": "A sound, often loud or unexpected.",
+      "examples": [
+        "I heard a loud noise upstairs.",
+        "The noise of the rain kept me awake."
+      ],
+      "distractors": [
+        "light",
+        "cardboard",
+        "backyard"
+      ],
+      "greekHint": "Ήχος ή θόρυβος.",
+      "english": "noise",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-218",
+      "emoji": "🧩",
+      "kidDefinition": "To find the answer to a problem.",
+      "examples": [
+        "Can you solve this puzzle?",
+        "We solved the problem together."
+      ],
+      "distractors": [
+        "fold",
+        "glue",
+        "sign"
+      ],
+      "greekHint": "Λύνω ένα πρόβλημα.",
+      "english": "solve",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U2-SB-219",
+      "emoji": "❓",
+      "kidDefinition": "Something strange that nobody can explain yet.",
+      "examples": [
+        "Who ate the last cake? It's a mystery!",
+        "The mystery of the lost key is finally solved."
+      ],
+      "distractors": [
+        "sheet",
+        "cardboard",
+        "dish"
+      ],
+      "greekHint": "Μυστήριο.",
+      "english": "mystery",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-220",
+      "emoji": "🔍",
+      "kidDefinition": "To look carefully for clues to find out the truth.",
+      "examples": [
+        "The police will investigate the broken window.",
+        "Scientists investigate new ideas every day."
+      ],
+      "distractors": [
+        "design",
+        "compliment",
+        "practice"
+      ],
+      "greekHint": "Ερευνώ.",
+      "english": "investigate",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U2-SB-224",
+      "emoji": "🥂",
+      "kidDefinition": "A special party where people wear their best clothes.",
+      "examples": [
+        "Our neighbours have a fancy party every New Year.",
+        "Everyone wears a smart suit to the fancy party."
+      ],
+      "distractors": [
+        "garden gloves",
+        "roasted chicken",
+        "wedding anniversary"
+      ],
+      "greekHint": "Δεξίωση: γιορτή με καλά ρούχα.",
+      "english": "fancy party",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U2-SB-210",
+    "CPP2-U2-SB-217",
+    "CPP2-U2-SB-221",
+    "CPP2-U2-SB-222",
+    "CPP2-U2-SB-223",
+    "CPP2-U2-SB-225",
+    "CPP2-U2-SB-226",
+    "CPP2-U2-SB-227",
+    "CPP2-U2-SB-228",
+    "CPP2-U2-SB-229",
+    "CPP2-U2-SB-230",
+    "CPP2-U2-SB-231",
+    "CPP2-U2-SB-232",
+    "CPP2-U2-SB-233",
+    "CPP2-U2-SB-234",
+    "CPP2-U2-SB-235",
+    "CPP2-U2-SB-236",
+    "CPP2-U2-SB-237",
+    "CPP2-U2-SB-238",
+    "CPP2-U2-SB-239",
+    "CPP2-U2-SB-240",
+    "CPP2-U2-SB-241",
+    "CPP2-U2-SB-242",
+    "CPP2-U2-SB-243",
+    "CPP2-U2-SB-244",
+    "CPP2-U2-SB-245",
+    "CPP2-U2-SB-246",
+    "CPP2-U2-SB-247",
+    "CPP2-U2-SB-248",
+    "CPP2-U2-SB-249",
+    "CPP2-U2-SB-250",
+    "CPP2-U2-SB-251",
+    "CPP2-U2-SB-252",
+    "CPP2-U2-SB-253",
+    "CPP2-U2-SB-254",
+    "CPP2-U2-SB-255",
+    "CPP2-U2-SB-256",
+    "CPP2-U2-SB-257",
+    "CPP2-U2-SB-258",
+    "CPP2-U2-SB-259",
+    "CPP2-U2-SB-260",
+    "CPP2-U2-SB-261",
+    "CPP2-U2-SB-262",
+    "CPP2-U2-SB-263",
+    "CPP2-U2-SB-264",
+    "CPP2-U2-SB-265",
+    "CPP2-U2-SB-266",
+    "CPP2-U2-SB-267",
+    "CPP2-U2-SB-268",
+    "CPP2-U2-SB-269"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I'm Lingo, and I love celebrations."
+        },
+        {
+          "id": "l2",
+          "text": "Birthdays, New Year, weddings and festivals are special days."
+        },
+        {
+          "id": "l3",
+          "text": "On New Year's Eve, people have fancy parties and wear their best clothes."
+        },
+        {
+          "id": "l4",
+          "text": "But sometimes, at a party, something strange happens!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite celebration, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U2-SB-211",
+        "CPP2-U2-SB-212",
+        "CPP2-U2-SB-213",
+        "CPP2-U2-SB-214",
+        "CPP2-U2-SB-215",
+        "CPP2-U2-SB-216",
+        "CPP2-U2-SB-218",
+        "CPP2-U2-SB-219",
+        "CPP2-U2-SB-220",
+        "CPP2-U2-SB-224"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Case of the Missing Necklace",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "helen"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "New Year's Eve. Helen and Emilia are at a fancy party at home."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "helen",
+              "text": "Emilia, my mum's diamond necklace is missing!"
+            },
+            {
+              "id": "p1b",
+              "who": "emilia",
+              "text": "Oh no! This is a mystery. Let's investigate together!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-224",
+            "CPP2-U2-SB-219",
+            "CPP2-U2-SB-220"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "helen"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Later, all the lights are off. The house is very dark."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "emilia",
+              "text": "It's so dark in here. I'm a little scared."
+            },
+            {
+              "id": "p2b",
+              "who": "helen",
+              "text": "Don't worry. Detectives are brave, so let's keep looking!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-212"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "helen"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Suddenly, there is a strange sound in the kitchen."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "helen",
+              "text": "What's that noise? I think there's a thief in the kitchen!"
+            },
+            {
+              "id": "p3b",
+              "who": "emilia",
+              "text": "Quick, turn on the light. I can't see anything!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-216",
+            "CPP2-U2-SB-215",
+            "CPP2-U2-SB-213"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "helen"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "The light is on now. Helen looks closely at the kitchen."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "helen",
+              "text": "I'm a detective, so I will solve this mystery!"
+            },
+            {
+              "id": "p4b",
+              "who": "emilia",
+              "text": "Look! The thief is a small cat with a shiny necklace!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-211",
+            "CPP2-U2-SB-218"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "helen"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "The mystery is solved. Helen smiles and turns off the lights."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "helen",
+              "text": "Case closed! Now let's turn off the lights and go to bed."
+            },
+            {
+              "id": "p5b",
+              "who": "emilia",
+              "text": "Happy New Year, Detective Helen!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-214"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-211",
+          "prompt": {
+            "id": "c1q",
+            "text": "A ____ looks for clues and tries to solve mysteries."
+          },
+          "options": [
+            "patient",
+            "detective",
+            "backyard",
+            "dentist"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A detective is a person who looks for clues to solve mysteries."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U2-SB-212",
+          "prompt": {
+            "id": "c2q",
+            "text": "If you are scared, you feel happy and calm."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "Scared means afraid, which is the opposite of calm."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U2-SB-213",
+          "prompt": {
+            "id": "c3q",
+            "text": "Which phrase means to make a light start working?"
+          },
+          "options": [
+            "CPP2-U2-SB-213",
+            "CPP2-U2-SB-216",
+            "CPP2-U2-SB-214",
+            "CPP2-U2-SB-218"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "When you turn on a light, it starts shining in the room."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-214",
+          "prompt": {
+            "id": "c4q",
+            "text": "Please ____ the light before you go to sleep."
+          },
+          "options": [
+            "hold hands",
+            "turn off",
+            "run away"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Turn off means make a light stop working, like at bedtime."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "listen",
+          "wordId": "CPP2-U2-SB-215",
+          "prompt": {
+            "id": "c5q",
+            "text": "Listen and point to the word: thief."
+          },
+          "options": [
+            "CPP2-U2-SB-215",
+            "CPP2-U2-SB-211",
+            "CPP2-U2-SB-219",
+            "CPP2-U2-SB-216"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "A thief is a person who takes things that belong to someone else."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U2-SB-216",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "noise",
+            "thief",
+            "detective",
+            "dentist"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Thief, detective and dentist are people, but noise is a sound."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-218",
+          "prompt": {
+            "id": "c7q",
+            "text": "Helen wants to ____ the mystery of the missing necklace."
+          },
+          "options": [
+            "glue",
+            "hug",
+            "solve",
+            "fold"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "To solve means to find the answer to a problem."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U2-SB-219",
+          "prompt": {
+            "id": "c8q",
+            "text": "A mystery is something nobody can explain yet."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "A mystery is strange and nobody knows the answer yet."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U2-SB-220",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word means to look carefully for clues to find the truth?"
+          },
+          "options": [
+            "CPP2-U2-SB-221",
+            "CPP2-U2-SB-215",
+            "CPP2-U2-SB-224",
+            "CPP2-U2-SB-220"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "When you investigate, you search carefully for clues."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-224",
+          "prompt": {
+            "id": "c10q",
+            "text": "On New Year's Eve, we have a ____ and wear our best clothes."
+          },
+          "options": [
+            "dentist",
+            "backyard",
+            "garden gloves",
+            "fancy party"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c10e",
+            "text": "A fancy party is a special celebration where everyone wears their best clothes."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture. Say the word out loud as you find it."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a celebration in your family. Use the frames and the words from today."
+      },
+      "frames": [
+        "Our family has a ___ on New Year's Eve.",
+        "When it's dark, I ask someone to turn on the ___.",
+        "If I hear a strange ___, I want to ___ the mystery."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "Our family has a fancy party on New Year's Eve. When it's dark, I ask someone to turn on the light. If I hear a strange noise, I want to solve the mystery."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, detectives! You helped Helen and Emilia solve the mystery."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about parties, noises, and clues in English!"
+        },
+        {
+          "id": "l3",
+          "text": "Celebrations bring people together, and today you were a great team."
+        }
+      ],
+      "badge": {
+        "emoji": "🕵️",
+        "name": "Junior Detective"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What does a detective do? Use the word investigate in your answer."
+        },
+        {
+          "id": "e2",
+          "text": "Tell me one thing you turn on or turn off at home before bedtime."
+        }
+      ]
+    }
+  ]
+}

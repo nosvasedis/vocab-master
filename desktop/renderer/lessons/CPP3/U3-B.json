@@ -1,0 +1,743 @@
+{
+  "schema": 1,
+  "id": "CPP3-U3-B",
+  "bookId": "CPP3",
+  "unit": 3,
+  "section": "B",
+  "title": "Storm Watch: Words for Wild Weather",
+  "bigQuestion": "Why do we need to take care of nature?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "village",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and bright"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "helpful 10-year-old boy, a little nervous but brave"
+    },
+    "grandpa": {
+      "name": "Grandpa Nikos",
+      "emoji": "👴",
+      "persona": "calm, kind grandfather, slow and warm, gives gentle advice"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U3-SB-421",
+      "emoji": "⛈️",
+      "kidDefinition": "very strong wind with heavy rain",
+      "examples": [
+        "The storm lasted all night.",
+        "We stayed inside during the storm."
+      ],
+      "distractors": [
+        "breeze",
+        "rainbow",
+        "sunshine"
+      ],
+      "greekHint": "Η καταιγίδα έρχεται ξαφνικά, σαν σφυρίγματα του ανέμου.",
+      "english": "storm",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-420",
+      "emoji": "⚠️",
+      "kidDefinition": "tell someone about danger before it happens",
+      "examples": [
+        "The sign warns drivers about slippery roads.",
+        "Grandpa warned us to stay inside."
+      ],
+      "distractors": [
+        "celebrate",
+        "polish",
+        "wander"
+      ],
+      "greekHint": "Προειδοποιώ: μια φωνή που λέει πρόσεχε!",
+      "english": "warn",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U3-SB-422",
+      "emoji": "💨",
+      "kidDefinition": "move through the air, as wind does",
+      "examples": [
+        "The wind will blow the leaves away.",
+        "Hold your hat, the wind is blowing!"
+      ],
+      "distractors": [
+        "pour",
+        "freeze",
+        "climb"
+      ],
+      "greekHint": "Φυσάω: ο άνεμος φυσάει στα μαλλιά σου.",
+      "english": "blow",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U3-SB-419",
+      "emoji": "🌿",
+      "kidDefinition": "a part of a tree that grows out from the trunk",
+      "examples": [
+        "A bird sat on a high branch.",
+        "The branch broke in the strong wind."
+      ],
+      "distractors": [
+        "root",
+        "trunk",
+        "petal"
+      ],
+      "greekHint": "Κλαδί: σαν τα χέρια ενός δέντρου.",
+      "english": "branch",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-423",
+      "emoji": "🌊",
+      "kidDefinition": "cover a place with a lot of water",
+      "examples": [
+        "Heavy rain can flood the streets.",
+        "The river flooded the field last winter."
+      ],
+      "distractors": [
+        "dry",
+        "freeze",
+        "crack"
+      ],
+      "greekHint": "Πλημμυρίζω: το νερό ξεχειλίζει παντού.",
+      "english": "flood",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U3-SB-453",
+      "emoji": "🏖️",
+      "kidDefinition": "a bag filled with sand to stop water",
+      "examples": [
+        "We put sandbags at the front door.",
+        "Sandbags can keep flood water out of the house."
+      ],
+      "distractors": [
+        "backpack",
+        "bucket",
+        "pillow"
+      ],
+      "greekHint": "Σακί με άμμο: βάζεις πολλά μαζί για να κρατάς το νερό έξω.",
+      "english": "sandbag",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-426",
+      "emoji": "🟫",
+      "kidDefinition": "wet, soft earth that sticks to your shoes",
+      "examples": [
+        "The dog jumped into the mud.",
+        "Wipe your boots before you come inside."
+      ],
+      "distractors": [
+        "sand",
+        "dust",
+        "ice"
+      ],
+      "greekHint": "Λάσπη: μετά τη βροχή, το χώμα γίνεται λάσπη.",
+      "english": "mud",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-478",
+      "emoji": "🏠",
+      "kidDefinition": "a safe place that protects you from weather or danger",
+      "examples": [
+        "We found shelter under a big tree.",
+        "The birds built a shelter in the bushes."
+      ],
+      "distractors": [
+        "shadow",
+        "puddle",
+        "garden"
+      ],
+      "greekHint": "Καταφύγιο: ένα ασφαλές μέρος όταν έρχεται κακοκαιρία.",
+      "english": "shelter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-435",
+      "emoji": "🧘",
+      "kidDefinition": "not moving at all",
+      "examples": [
+        "The lake was still and calm.",
+        "Sit still for one minute, please."
+      ],
+      "distractors": [
+        "loud",
+        "fast",
+        "wet"
+      ],
+      "greekHint": "Ακίνητος: σαν άγαλμα, χωρίς να κουνιέσαι.",
+      "english": "still",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U3-SB-432",
+      "emoji": "🐛",
+      "kidDefinition": "a small, long insect that later becomes a butterfly",
+      "examples": [
+        "The caterpillar ate a green leaf.",
+        "Caterpillars grow quickly before they change."
+      ],
+      "distractors": [
+        "ladybird",
+        "spider",
+        "beetle"
+      ],
+      "greekHint": "Κάμπια: θα γίνει μια όμορφη πεταλούδα.",
+      "english": "caterpillar",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U3-SB-424",
+    "CPP3-U3-SB-425",
+    "CPP3-U3-SB-427",
+    "CPP3-U3-SB-428",
+    "CPP3-U3-SB-429",
+    "CPP3-U3-SB-430",
+    "CPP3-U3-SB-431",
+    "CPP3-U3-SB-433",
+    "CPP3-U3-SB-434",
+    "CPP3-U3-SB-436",
+    "CPP3-U3-SB-437",
+    "CPP3-U3-SB-438",
+    "CPP3-U3-SB-439",
+    "CPP3-U3-SB-440",
+    "CPP3-U3-SB-441",
+    "CPP3-U3-SB-442",
+    "CPP3-U3-SB-443",
+    "CPP3-U3-SB-444",
+    "CPP3-U3-SB-445",
+    "CPP3-U3-SB-446",
+    "CPP3-U3-SB-447",
+    "CPP3-U3-SB-448",
+    "CPP3-U3-SB-449",
+    "CPP3-U3-SB-450",
+    "CPP3-U3-SB-451",
+    "CPP3-U3-SB-452",
+    "CPP3-U3-SB-454",
+    "CPP3-U3-SB-455",
+    "CPP3-U3-SB-456",
+    "CPP3-U3-SB-457",
+    "CPP3-U3-SB-458",
+    "CPP3-U3-SB-459",
+    "CPP3-U3-SB-460",
+    "CPP3-U3-SB-461",
+    "CPP3-U3-SB-462",
+    "CPP3-U3-SB-463",
+    "CPP3-U3-SB-464",
+    "CPP3-U3-SB-465",
+    "CPP3-U3-SB-466",
+    "CPP3-U3-SB-467",
+    "CPP3-U3-SB-468",
+    "CPP3-U3-SB-469",
+    "CPP3-U3-SB-470",
+    "CPP3-U3-SB-471",
+    "CPP3-U3-SB-472",
+    "CPP3-U3-SB-473",
+    "CPP3-U3-SB-474",
+    "CPP3-U3-SB-475",
+    "CPP3-U3-SB-476",
+    "CPP3-U3-SB-477",
+    "CPP3-U3-SB-479",
+    "CPP3-U3-SB-480",
+    "CPP3-U3-SB-481",
+    "CPP3-U3-SB-482",
+    "CPP3-U3-SB-483",
+    "CPP3-U3-SB-484",
+    "CPP3-U3-SB-485",
+    "CPP3-U3-SB-486"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love nature!"
+        },
+        {
+          "id": "l2",
+          "text": "Nature can be gentle, like a sunny morning in the park."
+        },
+        {
+          "id": "l3",
+          "text": "But nature can also be strong, like a big storm with wild wind."
+        },
+        {
+          "id": "l4",
+          "text": "Today, we will meet Maya and Leo and learn new words together."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you like to do when the sky is sunny?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U3-SB-421",
+        "CPP3-U3-SB-420",
+        "CPP3-U3-SB-422",
+        "CPP3-U3-SB-419",
+        "CPP3-U3-SB-423",
+        "CPP3-U3-SB-453",
+        "CPP3-U3-SB-426",
+        "CPP3-U3-SB-478",
+        "CPP3-U3-SB-435",
+        "CPP3-U3-SB-432"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Storm Over Little Village",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Dark clouds gather over the little village."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "maya",
+              "text": "Leo, look at the sky! It is getting very dark."
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Grandpa warned us. He said a storm is coming this afternoon."
+            }
+          ],
+          "highlight": [
+            "CPP3-U3-SB-420",
+            "CPP3-U3-SB-421"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "The wind starts to blow through the tall forest."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "grandpa",
+              "text": "Walk carefully, children. The wind is very strong today."
+            },
+            {
+              "id": "p2b",
+              "who": "maya",
+              "text": "Oh no! A big branch just fell across the path!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U3-SB-422",
+            "CPP3-U3-SB-419"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Heavy rain falls all night, and the river rises."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "grandpa",
+              "text": "The water may flood the street, so we need sandbags now."
+            },
+            {
+              "id": "p3b",
+              "who": "leo",
+              "text": "I will help! Our boots will be covered in mud, though."
+            }
+          ],
+          "highlight": [
+            "CPP3-U3-SB-423",
+            "CPP3-U3-SB-453",
+            "CPP3-U3-SB-426"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "The whole family finds shelter in their warm, dry house."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "maya",
+              "text": "Our house is a safe shelter. The storm sounds so loud!"
+            },
+            {
+              "id": "p4b",
+              "who": "grandpa",
+              "text": "Stay with me, Maya. We are safe here together."
+            }
+          ],
+          "highlight": [
+            "CPP3-U3-SB-478"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "The next morning, the sky is blue and the garden is still."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "leo",
+              "text": "Maya, stay still! There is a caterpillar on that leaf."
+            },
+            {
+              "id": "p5b",
+              "who": "maya",
+              "text": "A caterpillar! One day it will turn into a beautiful butterfly!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U3-SB-435",
+            "CPP3-U3-SB-432"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U3-SB-421",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means very strong wind with heavy rain?"
+          },
+          "options": [
+            "CPP3-U3-SB-423",
+            "CPP3-U3-SB-422",
+            "CPP3-U3-SB-421"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A storm has strong wind and heavy rain together."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U3-SB-420",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point to the word: warn."
+          },
+          "options": [
+            "CPP3-U3-SB-420",
+            "CPP3-U3-SB-426",
+            "CPP3-U3-SB-419"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "When you warn someone, you tell them about danger first."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-422",
+          "prompt": {
+            "id": "c3q",
+            "text": "The wind began to ____ hard, and the leaves flew everywhere."
+          },
+          "options": [
+            "blow",
+            "climb",
+            "freeze"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Wind moves through the air when it blows."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U3-SB-419",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is NOT a part of a tree? Choose the odd one out."
+          },
+          "options": [
+            "branch",
+            "root",
+            "trunk",
+            "rainbow"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "A rainbow is in the sky, but a branch, trunk and root belong to a tree."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U3-SB-423",
+          "prompt": {
+            "id": "c5q",
+            "text": "To flood means to make a place very dry."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "To flood means to cover a place with a lot of water, not to dry it."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-453",
+          "prompt": {
+            "id": "c6q",
+            "text": "We put ____ at the front door to keep the water outside."
+          },
+          "options": [
+            "sandbags",
+            "blankets",
+            "matches"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Sandbags are bags of sand that stop water from getting inside."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U3-SB-426",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word means wet, soft earth that sticks to your shoes?"
+          },
+          "options": [
+            "CPP3-U3-SB-478",
+            "CPP3-U3-SB-426",
+            "CPP3-U3-SB-435"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Mud is wet earth, and it can make your shoes very dirty."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-478",
+          "prompt": {
+            "id": "c8q",
+            "text": "The birds found ____ under the big tree when it rained."
+          },
+          "options": [
+            "shelter",
+            "shadow",
+            "puddle"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "A shelter is a safe place that keeps you dry and protected."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U3-SB-435",
+          "prompt": {
+            "id": "c9q",
+            "text": "If something is still, it is moving very fast."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Still means not moving at all, so the opposite of fast."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-432",
+          "prompt": {
+            "id": "c10q",
+            "text": "A ____ eats green leaves and one day becomes a butterfly."
+          },
+          "options": [
+            "spider",
+            "pebble",
+            "caterpillar"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A caterpillar is a small insect that changes into a butterfly."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a quick weather quiz! Listen to each clue and call out the word."
+        },
+        {
+          "id": "l2",
+          "text": "Ready? Let's go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "What can you do to stay safe when a storm is coming? Talk with your partner."
+      },
+      "frames": [
+        "When a storm comes, I go to a ___.",
+        "My grandpa warned me about the ___.",
+        "After the rain, I like to walk in the ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "When a storm comes, I go to a safe shelter at home. My grandpa warned me about the branches falling. After the rain, I like to walk in the garden and watch the caterpillars."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Fantastic work, word detectives! You learned ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about storms, floods and tiny caterpillars like a true nature expert!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Storm Safety Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing that can flood a street, and one thing you can put at the door to stop the water."
+        },
+        {
+          "id": "e2",
+          "text": "What does a caterpillar become, and what does it eat?"
+        }
+      ]
+    }
+  ]
+}

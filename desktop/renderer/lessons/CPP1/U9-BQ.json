@@ -1,0 +1,488 @@
+{
+  "schema": 1,
+  "id": "CPP1-U9-BQ",
+  "bookId": "CPP1",
+  "unit": 9,
+  "section": "BQ",
+  "title": "Dressed for the Day: Why Do We Need Clothes?",
+  "bigQuestion": "Why do we need clothes?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nasreddin": {
+      "name": "Nasreddin",
+      "emoji": "🧔",
+      "persona": "wise, funny old storyteller, slow and warm"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and chatty"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U9-SB-1006",
+      "emoji": "👚",
+      "kidDefinition": "The things we wear on our bodies every day.",
+      "examples": [
+        "I wash my clothes every week.",
+        "Mia puts on warm clothes in winter."
+      ],
+      "distractors": [
+        "shoes",
+        "hats",
+        "socks"
+      ],
+      "greekHint": "Ρούχα: τα βάζουμε πάνω μας κάθε μέρα.",
+      "english": "clothes",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1012",
+      "emoji": "🌦",
+      "kidDefinition": "What the sky, sun, rain and wind are like.",
+      "examples": [
+        "The weather is cold, so I need a coat.",
+        "Today the weather is sunny and warm."
+      ],
+      "distractors": [
+        "sunshine",
+        "rain",
+        "wind"
+      ],
+      "greekHint": "Καιρός: κοιτάμε τον ουρανό πριν βγούμε έξω.",
+      "english": "weather",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1013",
+      "emoji": "🎉",
+      "kidDefinition": "A special time or event, like a party or wedding.",
+      "examples": [
+        "For a special occasion, I wear my best dress.",
+        "This is a happy occasion for our family."
+      ],
+      "distractors": [
+        "homework",
+        "breakfast",
+        "bedroom"
+      ],
+      "greekHint": "Περίσταση: μια ξεχωριστή στιγμή της ημέρας ή του χρόνου.",
+      "english": "occasion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1014",
+      "emoji": "👟",
+      "kidDefinition": "A soft shoe we wear to run, jump and play sport.",
+      "examples": [
+        "I run fast in my new tennis shoes.",
+        "Put on your tennis shoe before we go outside."
+      ],
+      "distractors": [
+        "sandal",
+        "boot",
+        "sock"
+      ],
+      "greekHint": "Tennis shoe: το παπούτσι που φοράμε για άθληση.",
+      "english": "tennis shoe",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1015",
+      "emoji": "👗",
+      "kidDefinition": "A piece of clothing for girls and women, in one piece.",
+      "examples": [
+        "Mia wears a blue dress to the party.",
+        "This dress is long and very pretty."
+      ],
+      "distractors": [
+        "skirt",
+        "coat",
+        "scarf"
+      ],
+      "greekHint": "Dress: ένα ρούχο από ένα κομμάτι, σαν φόρεμα.",
+      "english": "dress",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1016",
+      "emoji": "👖",
+      "kidDefinition": "Strong blue trousers made of cotton denim.",
+      "examples": [
+        "My brother wears jeans to school.",
+        "These jeans are comfy for walking."
+      ],
+      "distractors": [
+        "trousers",
+        "shorts",
+        "leggings"
+      ],
+      "greekHint": "Jeans: τα γνωστά μπλε παντελόνια.",
+      "english": "jeans",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1017",
+      "emoji": "👕",
+      "kidDefinition": "A light top with short or long sleeves.",
+      "examples": [
+        "I love my yellow T-shirt on hot days.",
+        "Nasreddin wears a green T-shirt today."
+      ],
+      "distractors": [
+        "jumper",
+        "jacket",
+        "sweater"
+      ],
+      "greekHint": "T-shirt: το μπλουζάκι που φοράμε το καλοκαίρι.",
+      "english": "T-shirt",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1009",
+      "emoji": "❓",
+      "kidDefinition": "In what way, or by what method, something happens.",
+      "examples": [
+        "How do you wash your jeans?",
+        "Mia shows me how she ties her shoes."
+      ],
+      "distractors": [
+        "why",
+        "when",
+        "where"
+      ],
+      "greekHint": "How: ρωτάμε για τον τρόπο ή τη διαδικασία.",
+      "english": "how",
+      "type": "adv."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U9-SB-1007",
+    "CPP1-U9-SB-1008",
+    "CPP1-U9-SB-1010",
+    "CPP1-U9-SB-1011"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love looking at clothes."
+        },
+        {
+          "id": "l2",
+          "text": "Mia opens her wardrobe every morning. She asks, what should I wear today?"
+        },
+        {
+          "id": "l3",
+          "text": "Some days she wears a dress. Some days she wears jeans and a T-shirt."
+        },
+        {
+          "id": "l4",
+          "text": "Today, we will find out why we really need clothes."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you wear when it is raining outside?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U9-SB-1006",
+        "CPP1-U9-SB-1012",
+        "CPP1-U9-SB-1013",
+        "CPP1-U9-SB-1014",
+        "CPP1-U9-SB-1015",
+        "CPP1-U9-SB-1016",
+        "CPP1-U9-SB-1017",
+        "CPP1-U9-SB-1009"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP1-U9-SB-1015",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen and point to the picture: dress."
+          },
+          "options": [
+            "CPP1-U9-SB-1017",
+            "CPP1-U9-SB-1016",
+            "CPP1-U9-SB-1015",
+            "CPP1-U9-SB-1014"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A dress is one piece of clothing, so it is the picture with the long dress."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1012",
+          "prompt": {
+            "id": "c2q",
+            "text": "What is the ____ like today? It is sunny and warm."
+          },
+          "options": [
+            "clothes",
+            "weather",
+            "occasion",
+            "dress"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "We ask about the weather to know if the sky is sunny, rainy or cold."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1013",
+          "prompt": {
+            "id": "c3q",
+            "text": "We wear smart clothes for a special ____, like a wedding."
+          },
+          "options": [
+            "weather",
+            "occasion",
+            "T-shirt",
+            "jeans"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "An occasion is a special time or event, like a wedding or a birthday."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U9-SB-1016",
+          "prompt": {
+            "id": "c4q",
+            "text": "Jeans are a kind of shoe for your feet."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Jeans are trousers for your legs, not shoes for your feet."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U9-SB-1012",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "jeans",
+            "T-shirt",
+            "tennis shoe",
+            "weather"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "Weather is not something you wear, but the other three are clothes or shoes."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1014",
+          "prompt": {
+            "id": "c6q",
+            "text": "I put on my ____ before I run in the park."
+          },
+          "options": [
+            "weather",
+            "tennis shoe",
+            "dress",
+            "occasion"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A tennis shoe is a sports shoe that helps us run and jump."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U9-SB-1006",
+          "prompt": {
+            "id": "c7q",
+            "text": "Point to the picture of clothes: the things we wear every day."
+          },
+          "options": [
+            "CPP1-U9-SB-1012",
+            "CPP1-U9-SB-1009",
+            "CPP1-U9-SB-1006",
+            "CPP1-U9-SB-1013"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Clothes are the things we wear, like tops, trousers and dresses."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1009",
+          "prompt": {
+            "id": "c8q",
+            "text": "____ do you wash your jeans? In a washing machine."
+          },
+          "options": [
+            "When",
+            "Where",
+            "How",
+            "Why"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "We use how to ask about the way or method of doing something."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U9-SB-1017",
+          "prompt": {
+            "id": "c9q",
+            "text": "You wear a T-shirt on your head to keep warm."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "A T-shirt is a top for your body, not a hat for your head."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1015",
+          "prompt": {
+            "id": "c10q",
+            "text": "Mia has a pretty ____ with big yellow flowers on it."
+          },
+          "options": [
+            "jeans",
+            "T-shirt",
+            "dress",
+            "tennis shoe"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A dress is one long piece of clothing, often worn for parties."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Now let us play memory! Match each picture with its word."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "What do you wear on a hot day, and what do you wear on a cold day?"
+      },
+      "frames": [
+        "On a hot day, I wear a ___ and ___.",
+        "When it is cold, I put on ___.",
+        "For a special occasion, I wear ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "On a hot day, I wear a T-shirt and jeans. When it is cold, I put on a jumper. For a special occasion, I wear a dress."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You met the big question today."
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about clothes, weather and special occasions."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will read about a year of clothes with Mia and Nasreddin."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Clothes Champion"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Tell me one thing you wear when the weather is cold."
+        },
+        {
+          "id": "e2",
+          "text": "How do you choose your clothes for a special occasion?"
+        }
+      ]
+    }
+  ]
+}

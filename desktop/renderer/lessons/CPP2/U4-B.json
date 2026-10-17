@@ -1,0 +1,693 @@
+{
+  "schema": 1,
+  "id": "CPP2-U4-B",
+  "bookId": "CPP2",
+  "unit": 4,
+  "section": "B",
+  "title": "Savanna Stories: Herds, Waterholes and Summaries",
+  "bigQuestion": "How does our planet change?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "enitan": {
+      "name": "Enitan",
+      "emoji": "👧",
+      "persona": "curious 10-year-old girl, thoughtful and brave"
+    },
+    "dimitris": {
+      "name": "Dimitris",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy, helpful and a little chatty"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U4-SB-527",
+      "emoji": "🌾",
+      "kidDefinition": "A wide, dry land with tall grass and few trees.",
+      "examples": [
+        "The savanna is hot and dry in the summer.",
+        "Lions and zebras live in the savanna."
+      ],
+      "distractors": [
+        "forest",
+        "desert",
+        "village"
+      ],
+      "english": "savanna",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-525",
+      "emoji": "🐘",
+      "kidDefinition": "A large group of animals that move together.",
+      "examples": [
+        "A herd of cows walks slowly across the field.",
+        "The herd follows the leader to the water."
+      ],
+      "distractors": [
+        "nest",
+        "tree",
+        "leaf"
+      ],
+      "english": "herd",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-526",
+      "emoji": "💧",
+      "kidDefinition": "A small pool of water where animals drink.",
+      "examples": [
+        "Animals drink water at the waterhole.",
+        "The waterhole is small because it did not rain."
+      ],
+      "distractors": [
+        "nest",
+        "rock",
+        "cloud"
+      ],
+      "english": "waterhole",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-528",
+      "emoji": "🌿",
+      "kidDefinition": "The green plant that covers fields and lawns.",
+      "examples": [
+        "Cows eat fresh green grass every day.",
+        "Lily lies on the soft grass and reads."
+      ],
+      "distractors": [
+        "sand",
+        "rock",
+        "flower"
+      ],
+      "english": "grass",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-524",
+      "emoji": "🦩",
+      "kidDefinition": "To travel from one place to another when seasons change.",
+      "examples": [
+        "Birds migrate south when winter comes.",
+        "Whales migrate across the ocean every year."
+      ],
+      "distractors": [
+        "swim",
+        "sleep",
+        "dance"
+      ],
+      "english": "migrate",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-537",
+      "emoji": "🧭",
+      "kidDefinition": "To guide someone to a place, showing the way.",
+      "examples": [
+        "Can you lead us to the park?",
+        "The guide will lead the children up the hill."
+      ],
+      "distractors": [
+        "follow",
+        "carry",
+        "push"
+      ],
+      "english": "lead",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-538",
+      "emoji": "🧠",
+      "kidDefinition": "The ability to remember things you have learned or seen.",
+      "examples": [
+        "My grandma has a very good memory.",
+        "Elephants have a great memory for places."
+      ],
+      "distractors": [
+        "picture",
+        "feeling",
+        "dream"
+      ],
+      "english": "memory",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-541",
+      "emoji": "😟",
+      "kidDefinition": "Feeling unhappy because you think something bad might happen.",
+      "examples": [
+        "I am worried about the dry crops.",
+        "She looks worried because her bag is missing."
+      ],
+      "distractors": [
+        "sleepy",
+        "happy",
+        "windy"
+      ],
+      "english": "worried",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U4-SB-529",
+      "emoji": "✍️",
+      "kidDefinition": "To make a short version that keeps only the main ideas.",
+      "examples": [
+        "Please summarize the story in three sentences.",
+        "To summarize, we keep only the main ideas."
+      ],
+      "distractors": [
+        "remember",
+        "read",
+        "draw"
+      ],
+      "english": "summarize",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-530",
+      "emoji": "📝",
+      "kidDefinition": "A short version of a text with the main ideas.",
+      "examples": [
+        "Write a short summary of the text.",
+        "A summary does not include every detail."
+      ],
+      "distractors": [
+        "memory",
+        "picture",
+        "map"
+      ],
+      "english": "summary",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U4-SB-531",
+    "CPP2-U4-SB-532",
+    "CPP2-U4-SB-533",
+    "CPP2-U4-SB-534",
+    "CPP2-U4-SB-535",
+    "CPP2-U4-SB-536",
+    "CPP2-U4-SB-539",
+    "CPP2-U4-SB-540",
+    "CPP2-U4-SB-542",
+    "CPP2-U4-SB-543",
+    "CPP2-U4-SB-544",
+    "CPP2-U4-SB-545",
+    "CPP2-U4-SB-546",
+    "CPP2-U4-SB-547",
+    "CPP2-U4-SB-548",
+    "CPP2-U4-SB-549",
+    "CPP2-U4-SB-550",
+    "CPP2-U4-SB-551",
+    "CPP2-U4-SB-552",
+    "CPP2-U4-SB-553",
+    "CPP2-U4-SB-554",
+    "CPP2-U4-SB-555",
+    "CPP2-U4-SB-556"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Look at this wide, golden land with tall grass."
+        },
+        {
+          "id": "l2",
+          "text": "Few trees grow here. But many animals live here!"
+        },
+        {
+          "id": "l3",
+          "text": "Some animals walk very far to find water."
+        },
+        {
+          "id": "l4",
+          "text": "Today we visit the savanna, a place of big adventures!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Have you ever seen a big animal, like an elephant?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U4-SB-527",
+        "CPP2-U4-SB-528",
+        "CPP2-U4-SB-525",
+        "CPP2-U4-SB-526",
+        "CPP2-U4-SB-524",
+        "CPP2-U4-SB-537",
+        "CPP2-U4-SB-538",
+        "CPP2-U4-SB-541",
+        "CPP2-U4-SB-529",
+        "CPP2-U4-SB-530"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Long Walk to Water",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "dimitris"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Enitan and Dimitris are reading about the savanna."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "dimitris",
+              "text": "The savanna has tall grass, but not many trees."
+            },
+            {
+              "id": "p1b",
+              "who": "enitan",
+              "text": "Let's summarize the text in two sentences."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-527",
+            "CPP2-U4-SB-528",
+            "CPP2-U4-SB-529"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "dimitris"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Later, a herd of elephants walks across the dry land."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "enitan",
+              "text": "Look, Dimitris! A herd of elephants!"
+            },
+            {
+              "id": "p2b",
+              "who": "dimitris",
+              "text": "They are going to the waterhole to drink."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-525",
+            "CPP2-U4-SB-526"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "dimitris"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "The waterhole is getting smaller every day."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "enitan",
+              "text": "I'm worried. There isn't enough water anymore."
+            },
+            {
+              "id": "p3b",
+              "who": "dimitris",
+              "text": "Maybe the herd must migrate to find a new waterhole."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-541",
+            "CPP2-U4-SB-524",
+            "CPP2-U4-SB-526"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "dimitris"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "The oldest elephant walks in front. She will lead the herd."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "dimitris",
+              "text": "She can lead them to water. Elephants have great memories!"
+            },
+            {
+              "id": "p4b",
+              "who": "enitan",
+              "text": "Yes! She remembers where the water was last year."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-537",
+            "CPP2-U4-SB-538"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "dimitris"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Back at school, Enitan writes a short summary."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "enitan",
+              "text": "Here is my summary: the herd walks far to find water."
+            },
+            {
+              "id": "p5b",
+              "who": "dimitris",
+              "text": "Great! Your summary keeps the most important ideas."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-530"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U4-SB-527",
+          "prompt": {
+            "id": "c1q",
+            "text": "Tap the picture for this word: savanna."
+          },
+          "options": [
+            "CPP2-U4-SB-528",
+            "CPP2-U4-SB-527",
+            "CPP2-U4-SB-526",
+            "CPP2-U4-SB-525"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "The savanna is the wide, dry land with tall grass and few trees."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U4-SB-526",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and tap the word: waterhole."
+          },
+          "options": [
+            "CPP2-U4-SB-524",
+            "CPP2-U4-SB-541",
+            "CPP2-U4-SB-526",
+            "CPP2-U4-SB-537"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Animals drink at the waterhole, a small pool of water."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-524",
+          "prompt": {
+            "id": "c3q",
+            "text": "Every winter, birds fly south. They ____ to warmer places."
+          },
+          "options": [
+            "lead",
+            "summarize",
+            "migrate"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "Birds migrate when they travel to a new place for the season."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U4-SB-525",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "herd",
+            "waterhole",
+            "grass",
+            "savanna"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "The other three are parts of nature, but a herd is a group of animals."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-528",
+          "prompt": {
+            "id": "c5q",
+            "text": "Cows eat fresh green ____ in the field."
+          },
+          "options": [
+            "grass",
+            "memory",
+            "herd"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Grass is the green plant that covers the field."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U4-SB-529",
+          "prompt": {
+            "id": "c6q",
+            "text": "To summarize a story, you tell every single detail."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "When we summarize, we keep only the main ideas."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-530",
+          "prompt": {
+            "id": "c7q",
+            "text": "A short version of a story is a ____."
+          },
+          "options": [
+            "summary",
+            "memory",
+            "herd"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A summary is a short version that keeps the important information."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "listen",
+          "wordId": "CPP2-U4-SB-537",
+          "prompt": {
+            "id": "c8q",
+            "text": "Listen and tap the word: lead."
+          },
+          "options": [
+            "CPP2-U4-SB-538",
+            "CPP2-U4-SB-541",
+            "CPP2-U4-SB-524",
+            "CPP2-U4-SB-537"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "To lead means to show someone the way."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-538",
+          "prompt": {
+            "id": "c9q",
+            "text": "Elephants never forget things. They have a very good ____."
+          },
+          "options": [
+            "savanna",
+            "memory",
+            "summary"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "A memory helps you keep and remember things."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U4-SB-541",
+          "prompt": {
+            "id": "c10q",
+            "text": "Worried means feeling calm and very happy."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Worried means you feel unhappy because something might go wrong."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play Memory! Match each picture with its word. Ready? Go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "With your partner, summarize the story in two sentences. Use your new words."
+      },
+      "frames": [
+        "In the savanna, a ___ of elephants walks to the waterhole.",
+        "I am ___ about the grass because it is very dry.",
+        "My ___ of the story is short and clear."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "In the savanna, a herd of elephants walks to the waterhole. The waterhole is small, so they migrate to find water."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, everyone! You can talk about the savanna now."
+        },
+        {
+          "id": "l2",
+          "text": "You learned ten new words. Lingo is so proud of you!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Savanna Summariser"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means a large group of animals that move together?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence with the word migrate."
+        }
+      ]
+    }
+  ]
+}

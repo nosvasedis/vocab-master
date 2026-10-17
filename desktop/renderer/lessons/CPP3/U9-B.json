@@ -1,0 +1,696 @@
+{
+  "schema": 1,
+  "id": "CPP3-U9-B",
+  "bookId": "CPP3",
+  "unit": 9,
+  "section": "B",
+  "title": "Stage Words: Mason's Big Night",
+  "bigQuestion": "Why do we have music?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "stage",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mason": {
+      "name": "Mason",
+      "emoji": "🧒",
+      "persona": "cheerful 11-year-old boy, curious and full of energy"
+    },
+    "ms_ellis": {
+      "name": "Ms Ellis",
+      "emoji": "👩‍🏫",
+      "persona": "calm, warm music teacher, encouraging and kind"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U9-SB-1183",
+      "emoji": "🧑‍🎤",
+      "kidDefinition": "A person who plays or sings music.",
+      "examples": [
+        "Many musicians from around the world came to our music festival.",
+        "Mason wants to become a musician one day."
+      ],
+      "distractors": [
+        "dancer",
+        "painter",
+        "teacher"
+      ],
+      "greekHint": "Μουσικός: someone who plays music, like a musician in a band.",
+      "english": "musician",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1193",
+      "emoji": "🎼",
+      "kidDefinition": "A person who writes new music.",
+      "examples": [
+        "My favourite composer is Bach.",
+        "A composer writes new music on paper before the musicians play it."
+      ],
+      "distractors": [
+        "painter",
+        "author",
+        "actor"
+      ],
+      "greekHint": "Συνθέτης: the person who composes (writes) music.",
+      "english": "composer",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1182",
+      "emoji": "🎶",
+      "kidDefinition": "Paper with the notes of a song written on it.",
+      "examples": [
+        "Take out your sheet music, please. We are going to play a song.",
+        "Sheet music shows the notes for each instrument."
+      ],
+      "distractors": [
+        "notebook",
+        "pencil",
+        "ruler"
+      ],
+      "greekHint": "Παρτιτούρα: the written notes you read when you play.",
+      "english": "sheet music",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1196",
+      "emoji": "🎻",
+      "kidDefinition": "A large group of musicians who play together.",
+      "examples": [
+        "The school orchestra practises every Tuesday after lunch.",
+        "The orchestra played a happy song for the audience."
+      ],
+      "distractors": [
+        "library",
+        "factory",
+        "museum"
+      ],
+      "greekHint": "Ορχήστρα: a big group of musicians with many instruments.",
+      "english": "orchestra",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1185",
+      "emoji": "💺",
+      "kidDefinition": "The room with many seats where people watch a show.",
+      "examples": [
+        "The auditorium was full of parents and friends.",
+        "We sat in the front row of the auditorium."
+      ],
+      "distractors": [
+        "kitchen",
+        "garden",
+        "bathroom"
+      ],
+      "greekHint": "Αίθουσα: the hall where people sit to watch a show.",
+      "english": "auditorium",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1186",
+      "emoji": "🎭",
+      "kidDefinition": "Heavy material that hangs in front of a stage.",
+      "examples": [
+        "Please open the curtain so we can see the stage.",
+        "When the curtain opened, the actors waved to the crowd."
+      ],
+      "distractors": [
+        "carpet",
+        "blanket",
+        "window"
+      ],
+      "greekHint": "Κουρτίνα: the cloth you open and close at a theatre.",
+      "english": "curtain",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1201",
+      "emoji": "🎤",
+      "kidDefinition": "A raised stand where a speaker or conductor stands.",
+      "examples": [
+        "The conductor stepped onto the podium and raised her arms.",
+        "The speaker stood at the podium and smiled at the children."
+      ],
+      "distractors": [
+        "ladder",
+        "bench",
+        "staircase"
+      ],
+      "greekHint": "Εξέδρα: a small raised platform you stand on to be seen.",
+      "english": "podium",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1189",
+      "emoji": "🌟",
+      "kidDefinition": "A show where people sing, play or dance for others.",
+      "examples": [
+        "The performance was great, and the audience clapped at the end.",
+        "Our class will give a performance next Friday."
+      ],
+      "distractors": [
+        "lunch",
+        "holiday",
+        "lesson"
+      ],
+      "greekHint": "Παράσταση: a show that you watch on stage.",
+      "english": "performance",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1202",
+      "emoji": "🎛️",
+      "kidDefinition": "To adjust an instrument so it sounds right.",
+      "examples": [
+        "Before the concert, the musicians tuned their instruments.",
+        "Can you tune this guitar for me?"
+      ],
+      "distractors": [
+        "wash",
+        "sweep",
+        "cook"
+      ],
+      "greekHint": "Κουρδίζω: to adjust the strings so the sound is correct.",
+      "english": "tune",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1203",
+      "emoji": "🥁",
+      "kidDefinition": "A steady pattern of beats in music.",
+      "examples": [
+        "The rhythm of this song is fast and happy.",
+        "Clap along to the rhythm of the drum."
+      ],
+      "distractors": [
+        "silence",
+        "shadow",
+        "breeze"
+      ],
+      "greekHint": "Ρυθμός: the beat you can clap or tap your feet to.",
+      "english": "rhythm",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U9-SB-1179",
+    "CPP3-U9-SB-1180",
+    "CPP3-U9-SB-1181",
+    "CPP3-U9-SB-1184",
+    "CPP3-U9-SB-1187",
+    "CPP3-U9-SB-1188",
+    "CPP3-U9-SB-1190",
+    "CPP3-U9-SB-1191",
+    "CPP3-U9-SB-1192",
+    "CPP3-U9-SB-1194",
+    "CPP3-U9-SB-1195",
+    "CPP3-U9-SB-1197",
+    "CPP3-U9-SB-1198",
+    "CPP3-U9-SB-1199",
+    "CPP3-U9-SB-1200",
+    "CPP3-U9-SB-1204",
+    "CPP3-U9-SB-1205",
+    "CPP3-U9-SB-1206",
+    "CPP3-U9-SB-1207",
+    "CPP3-U9-SB-1208",
+    "CPP3-U9-SB-1209",
+    "CPP3-U9-SB-1210",
+    "CPP3-U9-SB-1211"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "stage",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love music."
+        },
+        {
+          "id": "l2",
+          "text": "Music is everywhere. We hear it at home, at school and on stage."
+        },
+        {
+          "id": "l3",
+          "text": "Some people make music. Some people listen. Some people do both!"
+        },
+        {
+          "id": "l4",
+          "text": "Today we meet a boy called Mason, and his big night at school."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite kind of music, and why do you like it?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U9-SB-1183",
+        "CPP3-U9-SB-1193",
+        "CPP3-U9-SB-1182",
+        "CPP3-U9-SB-1196",
+        "CPP3-U9-SB-1185",
+        "CPP3-U9-SB-1186",
+        "CPP3-U9-SB-1201",
+        "CPP3-U9-SB-1189",
+        "CPP3-U9-SB-1202",
+        "CPP3-U9-SB-1203"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Mason and the Big Night",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "mason"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mason finds an old piece of paper in a box."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mason",
+              "text": "Look! This is sheet music, and a famous composer wrote it."
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1182",
+            "CPP3-U9-SB-1193"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "ms_ellis"
+            },
+            {
+              "who": "mason"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Mason runs into the auditorium to find his music teacher."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "ms_ellis",
+              "text": "Welcome, Mason! Tonight is our big school performance."
+            },
+            {
+              "id": "p2b",
+              "who": "mason",
+              "text": "Can I play in the school orchestra, please?"
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1185",
+            "CPP3-U9-SB-1189",
+            "CPP3-U9-SB-1196"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "ms_ellis"
+            },
+            {
+              "who": "mason"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "The curtain is closed. The podium is ready at the front."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "ms_ellis",
+              "text": "Please stand on the podium, Mason. The orchestra is waiting."
+            },
+            {
+              "id": "p3b",
+              "who": "mason",
+              "text": "I can already feel the rhythm of the drums!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1201",
+            "CPP3-U9-SB-1203",
+            "CPP3-U9-SB-1186"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mason"
+            },
+            {
+              "who": "ms_ellis"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Before the show, Mason tunes his violin."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "mason",
+              "text": "I need to tune my violin first. Then I am ready!"
+            },
+            {
+              "id": "p4b",
+              "who": "ms_ellis",
+              "text": "You are a real musician, Mason. Well done!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1202",
+            "CPP3-U9-SB-1183"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "mason"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "The curtain lifts. The audience claps and cheers loudly."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mason",
+              "text": "What a wonderful performance! Music connects all of us."
+            }
+          ],
+          "highlight": [
+            "CPP3-U9-SB-1186",
+            "CPP3-U9-SB-1189"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1183",
+          "prompt": {
+            "id": "c1q",
+            "text": "A ____ plays the violin in our school orchestra."
+          },
+          "options": [
+            "painter",
+            "dancer",
+            "teacher",
+            "musician"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A musician is a person who plays or sings music."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U9-SB-1193",
+          "prompt": {
+            "id": "c2q",
+            "text": "A composer is a person who never writes music."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A composer writes new music, so this statement is false."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U9-SB-1196",
+          "prompt": {
+            "id": "c3q",
+            "text": "Which word names a large group of musicians who play together?"
+          },
+          "options": [
+            "CPP3-U9-SB-1203",
+            "CPP3-U9-SB-1185",
+            "CPP3-U9-SB-1196",
+            "CPP3-U9-SB-1201"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "An orchestra is a big group of musicians with many different instruments."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U9-SB-1201",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word does not belong with the others?"
+          },
+          "options": [
+            "podium",
+            "rhythm",
+            "auditorium",
+            "curtain"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Podium, curtain and auditorium are parts of a stage or hall, but rhythm is a beat in music."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1186",
+          "prompt": {
+            "id": "c5q",
+            "text": "Please open the ____ so the audience can see the stage."
+          },
+          "options": [
+            "blanket",
+            "carpet",
+            "window",
+            "curtain"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "A curtain is the cloth at the front of a stage that opens and closes."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "listen",
+          "wordId": "CPP3-U9-SB-1185",
+          "prompt": {
+            "id": "c6q",
+            "text": "Listen: auditorium. Which word did you hear?"
+          },
+          "options": [
+            "CPP3-U9-SB-1186",
+            "CPP3-U9-SB-1185",
+            "CPP3-U9-SB-1202",
+            "CPP3-U9-SB-1203"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "An auditorium is the room with seats where people watch a show."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1189",
+          "prompt": {
+            "id": "c7q",
+            "text": "The school ____ was wonderful, and the audience clapped loudly."
+          },
+          "options": [
+            "lunch",
+            "performance",
+            "holiday",
+            "lesson"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "A performance is a show where people sing, play or dance for others."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U9-SB-1202",
+          "prompt": {
+            "id": "c8q",
+            "text": "To tune an instrument means to make it sound right."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "When you tune an instrument, you adjust it so the notes are correct."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1182",
+          "prompt": {
+            "id": "c9q",
+            "text": "Take out your ____. We are going to play a song together."
+          },
+          "options": [
+            "notebook",
+            "pencil",
+            "ruler",
+            "sheet music"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "Sheet music is paper with the notes of a song written on it."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1203",
+          "prompt": {
+            "id": "c10q",
+            "text": "The ____ of this song is fast and happy."
+          },
+          "options": [
+            "breeze",
+            "silence",
+            "rhythm",
+            "shadow"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "Rhythm is the steady pattern of beats that you can clap along to."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find each word and its picture, and say the word out loud when you match it."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Which performance would you love to give, and what instrument would you play?"
+      },
+      "frames": [
+        "I would love to be a ___.",
+        "I would play the ___ because I like the rhythm.",
+        "We would perform in the ___ at our school."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I would love to be a musician in an orchestra. I would play the drums, because I love the rhythm. We would perform in the auditorium at our school."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You found stage words and music words today."
+        },
+        {
+          "id": "l2",
+          "text": "Mason learned that music connects people, just like you and me."
+        },
+        {
+          "id": "l3",
+          "text": "Keep listening, keep playing, and keep these words in your memory!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Stage Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means the room with many seats where people watch a show?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence with the word rhythm."
+        }
+      ]
+    }
+  ]
+}

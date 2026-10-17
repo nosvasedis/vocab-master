@@ -1,0 +1,490 @@
+{
+  "schema": 1,
+  "id": "CPP2-U3-BQ",
+  "bookId": "CPP2",
+  "unit": 3,
+  "section": "BQ",
+  "title": "Hungry for Ideas: Why Is Food Important?",
+  "bigQuestion": "Why is food important?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, curious and friendly"
+    },
+    "bun": {
+      "name": "Bun",
+      "emoji": "🍞",
+      "persona": "small, bouncy bread bun from the story, bright and brave"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U3-SB-294",
+      "emoji": "🍎",
+      "kidDefinition": "Things we eat to stay healthy and strong.",
+      "examples": [
+        "Healthy food helps our bodies grow strong.",
+        "Bread is a food that many families eat every day."
+      ],
+      "distractors": [
+        "furniture",
+        "window",
+        "bedroom"
+      ],
+      "greekHint": "τροφή: η τροφή μάς δίνει ενέργεια.",
+      "english": "food",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-295",
+      "emoji": "👍",
+      "kidDefinition": "To have the same opinion as someone else.",
+      "examples": [
+        "I agree with you, Maya. Bread is yummy!",
+        "Lingo and Maya agree that breakfast is important."
+      ],
+      "distractors": [
+        "cook",
+        "peel",
+        "chop"
+      ],
+      "greekHint": "συμφωνώ: όλοι λένε το ίδιο, σαν ένα.",
+      "english": "agree",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-296",
+      "emoji": "👎",
+      "kidDefinition": "To have a different opinion from someone.",
+      "examples": [
+        "I disagree. I think carrots taste sweet.",
+        "I disagree with your idea about pizza."
+      ],
+      "distractors": [
+        "sleep",
+        "wash",
+        "bake"
+      ],
+      "greekHint": "διαφωνώ: έχω διαφορετική γνώμη.",
+      "english": "disagree",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-298",
+      "emoji": "📋",
+      "kidDefinition": "A list of foods you can order in a restaurant.",
+      "examples": [
+        "The menu has pizza, soup and ice cream.",
+        "Maya reads the menu before she orders."
+      ],
+      "distractors": [
+        "plate",
+        "spoon",
+        "napkin"
+      ],
+      "greekHint": "μενού: η λίστα με τα φαγητά στο εστιατόριο.",
+      "english": "menu",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-299",
+      "emoji": "🍦",
+      "kidDefinition": "A cold, sweet food made from milk and sugar.",
+      "examples": [
+        "I love chocolate and strawberry ice cream.",
+        "Maya eats ice cream on hot summer days."
+      ],
+      "distractors": [
+        "cake",
+        "yoghurt",
+        "biscuit"
+      ],
+      "greekHint": "παγωτό: κρύο και γλυκό.",
+      "english": "ice cream",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-300",
+      "emoji": "🥪",
+      "kidDefinition": "Two slices of bread with food in the middle.",
+      "examples": [
+        "Bun makes a cheese sandwich for his lunch.",
+        "A tomato sandwich is quick and easy to make."
+      ],
+      "distractors": [
+        "pizza",
+        "pancake",
+        "soup"
+      ],
+      "greekHint": "σάντουιτς: ψωμί με γέμιση στη μέση.",
+      "english": "sandwich",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-301",
+      "emoji": "🥕",
+      "kidDefinition": "A long orange vegetable that grows under the ground.",
+      "examples": [
+        "Rabbits love eating crunchy carrots.",
+        "Maya cuts a carrot for her salad."
+      ],
+      "distractors": [
+        "potato",
+        "onion",
+        "cucumber"
+      ],
+      "greekHint": "καρότο: πορτοκαλί και τραγανό.",
+      "english": "carrot",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-302",
+      "emoji": "🍗",
+      "kidDefinition": "Meat from a bird that many people cook for dinner.",
+      "examples": [
+        "We have chicken and potatoes in the oven tonight.",
+        "Chicken is a good food for growing bodies."
+      ],
+      "distractors": [
+        "fish",
+        "beef",
+        "egg"
+      ],
+      "greekHint": "κοτόπουλο: κρέας από πουλί.",
+      "english": "chicken",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-303",
+      "emoji": "🥗",
+      "kidDefinition": "A mix of fresh, cold vegetables, often with oil.",
+      "examples": [
+        "Maya makes a big salad with tomatoes and cucumber.",
+        "We always eat a salad with every meal."
+      ],
+      "distractors": [
+        "soup",
+        "pasta",
+        "rice"
+      ],
+      "greekHint": "σαλάτα: φρέσκα και δροσερά λαχανικά.",
+      "english": "salad",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U3-SB-297",
+    "CPP2-U3-SB-304"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "kitchen",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we ask a big question: Why is food important?"
+        },
+        {
+          "id": "l3",
+          "text": "Food gives us energy to run, jump and learn."
+        },
+        {
+          "id": "l4",
+          "text": "Meet Maya and her friend, the Little Bread Bun!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite food, and why do you like it?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U3-SB-294",
+        "CPP2-U3-SB-295",
+        "CPP2-U3-SB-296",
+        "CPP2-U3-SB-298",
+        "CPP2-U3-SB-299",
+        "CPP2-U3-SB-300",
+        "CPP2-U3-SB-301",
+        "CPP2-U3-SB-302",
+        "CPP2-U3-SB-303"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U3-SB-294",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means things we eat to stay healthy and strong?"
+          },
+          "options": [
+            "CPP2-U3-SB-300",
+            "CPP2-U3-SB-294",
+            "CPP2-U3-SB-302",
+            "CPP2-U3-SB-298"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Food is anything we eat to stay healthy and strong."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U3-SB-295",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to Maya: I agree with you, Lingo! Which word did you hear?"
+          },
+          "options": [
+            "CPP2-U3-SB-296",
+            "CPP2-U3-SB-298",
+            "CPP2-U3-SB-295",
+            "CPP2-U3-SB-303"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "When you agree, you think the same as someone else."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-296",
+          "prompt": {
+            "id": "c3q",
+            "text": "Maya says cake is healthy. Lingo says, I ____. Cake is a sweet treat."
+          },
+          "options": [
+            "chop",
+            "agree",
+            "disagree",
+            "peel"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "Lingo has a different opinion, so he says disagree."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U3-SB-298",
+          "prompt": {
+            "id": "c4q",
+            "text": "A menu is a list of toys you can buy in a shop."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "A menu is a list of foods in a restaurant, not toys in a shop."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U3-SB-301",
+          "prompt": {
+            "id": "c5q",
+            "text": "Rabbits love this crunchy orange vegetable. Which word is it?"
+          },
+          "options": [
+            "CPP2-U3-SB-301",
+            "CPP2-U3-SB-302",
+            "CPP2-U3-SB-300",
+            "CPP2-U3-SB-303"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "A carrot is long, orange and crunchy."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U3-SB-303",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word does not belong with the others?"
+          },
+          "options": [
+            "salad",
+            "pizza",
+            "soup",
+            "table"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "Soup, salad and pizza are foods, but a table is furniture."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-300",
+          "prompt": {
+            "id": "c7q",
+            "text": "Bun puts cheese between two slices of bread. It is a ____."
+          },
+          "options": [
+            "sandwich",
+            "menu",
+            "chicken",
+            "carrot"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Bread with food in the middle is a sandwich."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "listen",
+          "wordId": "CPP2-U3-SB-302",
+          "prompt": {
+            "id": "c8q",
+            "text": "Listen to Lingo: Tonight we have roast chicken and potatoes. Which word did you hear?"
+          },
+          "options": [
+            "CPP2-U3-SB-300",
+            "CPP2-U3-SB-301",
+            "CPP2-U3-SB-302",
+            "CPP2-U3-SB-299"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "Chicken is meat from a bird that we cook for dinner."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-299",
+          "prompt": {
+            "id": "c9q",
+            "text": "It is hot. Maya wants something cold and sweet. She orders strawberry ____."
+          },
+          "options": [
+            "sandwich",
+            "chicken",
+            "carrot",
+            "ice cream"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "Ice cream is a cold, sweet treat made from milk and sugar."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play Memory! Turn over two cards at a time."
+        },
+        {
+          "id": "l2",
+          "text": "Match each picture with its word. Say the word out loud!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Talk with your partner. Why is food important? Share your ideas."
+      },
+      "frames": [
+        "I think food is important because it gives me ___.",
+        "My favourite food is ___. I like it because ___.",
+        "I agree with you. I also like ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I think food is important because it gives us energy. My favourite food is salad. I agree with you, because salad is healthy."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You met the Big Question today."
+        },
+        {
+          "id": "l2",
+          "text": "Food helps us grow, learn and play every day."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will meet Bun and read his story!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Food Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one food you like and say why."
+        },
+        {
+          "id": "e2",
+          "text": "Which word means you have the same opinion as someone else?"
+        }
+      ]
+    }
+  ]
+}

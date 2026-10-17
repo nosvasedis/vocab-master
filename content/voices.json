@@ -73,5 +73,9 @@
       "en-gb-tutor-13",
       "en-gb-storyteller-2"
     ]
-  }
+  },
+  "openrouterFor": [
+    "dialogue"
+  ],
+  "_openrouterNote": "Studio-voice story lines go to the same Gemini 3.8 Flash TTS model via OpenRouter (no daily cap, no style). Designed (voice_…) and library (en-gb-…) voices stay on Gemini direct."
 }

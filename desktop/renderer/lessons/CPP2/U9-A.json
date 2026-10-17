@@ -1,0 +1,625 @@
+{
+  "schema": 1,
+  "id": "CPP2-U9-A",
+  "bookId": "CPP2",
+  "unit": 9,
+  "section": "A",
+  "title": "Clever Ideas at Home",
+  "bigQuestion": "How do inventions change our lives?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, curious and friendly"
+    },
+    "grandpa": {
+      "name": "Grandpa Nikos",
+      "emoji": "👴",
+      "persona": "warm, slightly silly grandfather who loves telling stories"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U9-SB-1091",
+      "emoji": "💡",
+      "kidDefinition": "To make something new that did not exist before.",
+      "examples": [
+        "Scientists invent new machines to help people every day.",
+        "Who will invent the next amazing thing for our homes?"
+      ],
+      "distractors": [
+        "repair",
+        "cook",
+        "paint"
+      ],
+      "greekHint": "Το invent μοιάζει με το «εφευρίσκω»: βάλε ένα νέο «ιδέα» στο μυαλό σου.",
+      "english": "invent",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1093",
+      "emoji": "🧑‍🔬",
+      "kidDefinition": "A person who makes something new for the first time.",
+      "examples": [
+        "Thomas Edison was a famous inventor of the lightbulb.",
+        "My little sister wants to be an inventor when she grows up."
+      ],
+      "distractors": [
+        "teacher",
+        "painter",
+        "farmer"
+      ],
+      "english": "inventor",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1096",
+      "emoji": "🍞",
+      "kidDefinition": "A machine that makes bread hot and crispy.",
+      "examples": [
+        "Put two slices of bread in the toaster, please.",
+        "Our new toaster makes bread crispy in two minutes."
+      ],
+      "distractors": [
+        "kettle",
+        "fridge",
+        "oven"
+      ],
+      "english": "toaster",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1107",
+      "emoji": "🎈",
+      "kidDefinition": "To come out quickly with a small sound.",
+      "examples": [
+        "The toast will pop out when it is ready.",
+        "A cork can pop out of a bottle with a bang."
+      ],
+      "distractors": [
+        "sit down",
+        "walk away",
+        "switch off"
+      ],
+      "english": "pop out",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1108",
+      "emoji": "🔥",
+      "kidDefinition": "Black and spoiled because of too much heat.",
+      "examples": [
+        "Oh no, my pancake is burnt!",
+        "Don't leave the pizza in the oven, or it will get burnt."
+      ],
+      "distractors": [
+        "cold",
+        "wet",
+        "sweet"
+      ],
+      "english": "burnt",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1087",
+      "emoji": "👖",
+      "kidDefinition": "Strong blue trousers made of cotton.",
+      "examples": [
+        "My jeans are blue and very comfortable.",
+        "I wear jeans on Saturdays when I go to the park."
+      ],
+      "distractors": [
+        "socks",
+        "jacket",
+        "scarf"
+      ],
+      "english": "jeans",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1090",
+      "emoji": "🧦",
+      "kidDefinition": "Two things that are used together, like shoes.",
+      "examples": [
+        "I need a pair of socks for school.",
+        "She has a pair of new shoes for the party."
+      ],
+      "distractors": [
+        "box",
+        "bag",
+        "cup"
+      ],
+      "english": "pair",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1100",
+      "emoji": "🔭",
+      "kidDefinition": "A tool that makes faraway things look closer.",
+      "examples": [
+        "We looked at the stars through a telescope last night.",
+        "A telescope helps us see the moon very clearly."
+      ],
+      "distractors": [
+        "microscope",
+        "clock",
+        "bicycle"
+      ],
+      "english": "telescope",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U9-SB-1086",
+    "CPP2-U9-SB-1088",
+    "CPP2-U9-SB-1089",
+    "CPP2-U9-SB-1092",
+    "CPP2-U9-SB-1094",
+    "CPP2-U9-SB-1095",
+    "CPP2-U9-SB-1097",
+    "CPP2-U9-SB-1098",
+    "CPP2-U9-SB-1099",
+    "CPP2-U9-SB-1101",
+    "CPP2-U9-SB-1102",
+    "CPP2-U9-SB-1103",
+    "CPP2-U9-SB-1104",
+    "CPP2-U9-SB-1105",
+    "CPP2-U9-SB-1106",
+    "CPP2-U9-SB-1109",
+    "CPP2-U9-SB-1110",
+    "CPP2-U9-SB-1111",
+    "CPP2-U9-SB-1112",
+    "CPP2-U9-SB-1113",
+    "CPP2-U9-SB-1114",
+    "CPP2-U9-SB-1115",
+    "CPP2-U9-SB-1116",
+    "CPP2-U9-SB-1117",
+    "CPP2-U9-SB-1118",
+    "CPP2-U9-SB-1119",
+    "CPP2-U9-SB-1120",
+    "CPP2-U9-SB-1121",
+    "CPP2-U9-SB-1122",
+    "CPP2-U9-SB-1123",
+    "CPP2-U9-SB-1124",
+    "CPP2-U9-SB-1125",
+    "CPP2-U9-SB-1126",
+    "CPP2-U9-SB-1127",
+    "CPP2-U9-SB-1128",
+    "CPP2-U9-SB-1129",
+    "CPP2-U9-SB-1130",
+    "CPP2-U9-SB-1131",
+    "CPP2-U9-SB-1132",
+    "CPP2-U9-SB-1133",
+    "CPP2-U9-SB-1134",
+    "CPP2-U9-SB-1135"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love owls and inventions."
+        },
+        {
+          "id": "l2",
+          "text": "Look around your home. Can you see a toaster or a smartphone?"
+        },
+        {
+          "id": "l3",
+          "text": "Every object you use was once a new idea."
+        },
+        {
+          "id": "l4",
+          "text": "Today we will learn words about inventions and everyday life."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Which invention do you use every single day?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U9-SB-1091",
+        "CPP2-U9-SB-1093",
+        "CPP2-U9-SB-1096",
+        "CPP2-U9-SB-1107",
+        "CPP2-U9-SB-1108",
+        "CPP2-U9-SB-1087",
+        "CPP2-U9-SB-1090",
+        "CPP2-U9-SB-1100"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Grandpa's Burnt Bread",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia and Grandpa are in the kitchen. There is smoke near the toaster!"
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Grandpa, the bread is burnt! It's black!"
+            },
+            {
+              "id": "p1b",
+              "who": "grandpa",
+              "text": "Oops! I forgot to watch the toaster. Sorry, Mia!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1108",
+            "CPP2-U9-SB-1096"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Grandpa tries again. This time, the bread is golden and warm."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "grandpa",
+              "text": "Look! The bread pops out when it is ready. Perfect!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1107"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "shop",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "At the shop, Mia finds some jeans she really likes."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mia",
+              "text": "I need a new pair of jeans for school. These are great!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1090",
+            "CPP2-U9-SB-1087"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "That night, Grandpa shows Mia his old telescope in the garden."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "grandpa",
+              "text": "Look through the telescope, Mia. You can see the moon!"
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "Wow! It looks so close. What a clever tool!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1100"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Back in the kitchen, Grandpa smiles and gives Mia a warm slice of toast."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "grandpa",
+              "text": "Every inventor starts with one new idea. Maybe you will invent something!"
+            },
+            {
+              "id": "p5b",
+              "who": "mia",
+              "text": "Really? I would love to invent something amazing one day!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1093",
+            "CPP2-U9-SB-1091"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP2-U9-SB-1100",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen to the word and choose it: telescope."
+          },
+          "options": [
+            "CPP2-U9-SB-1090",
+            "CPP2-U9-SB-1096",
+            "CPP2-U9-SB-1087",
+            "CPP2-U9-SB-1100"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A telescope helps you see faraway things, like the moon, more clearly."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U9-SB-1096",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word means a machine that makes bread hot and crispy?"
+          },
+          "options": [
+            "CPP2-U9-SB-1090",
+            "CPP2-U9-SB-1100",
+            "CPP2-U9-SB-1087",
+            "CPP2-U9-SB-1096"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "A toaster is the machine you put bread in to make it warm and crispy."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1090",
+          "prompt": {
+            "id": "c3q",
+            "text": "Mia bought a new ____ of jeans for school."
+          },
+          "options": [
+            "cup",
+            "pair",
+            "box"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "We say a pair of jeans, because trousers have two legs."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1108",
+          "prompt": {
+            "id": "c4q",
+            "text": "The bread is black. Oh no, the bread is ____!"
+          },
+          "options": [
+            "wet",
+            "cold",
+            "burnt"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "Burnt food is black and spoiled because it was too hot."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U9-SB-1107",
+          "prompt": {
+            "id": "c5q",
+            "text": "Pop out means to fall down slowly."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Pop out means to come out quickly, like toast from a toaster."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1093",
+          "prompt": {
+            "id": "c6q",
+            "text": "A clever ____ thinks of new things and makes them."
+          },
+          "options": [
+            "inventor",
+            "teacher",
+            "painter"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "An inventor is a person who makes something new for the first time."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U9-SB-1091",
+          "prompt": {
+            "id": "c7q",
+            "text": "To invent something means to make something new."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "When you invent something, you create something that did not exist before."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U9-SB-1087",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word is NOT found in a kitchen?"
+          },
+          "options": [
+            "kettle",
+            "jeans",
+            "oven",
+            "toaster"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Jeans are trousers you wear, so they are not kitchen things like a toaster, kettle or oven."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Find the pair of cards that show the same word and picture."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Which everyday invention do you like most? Why?"
+      },
+      "frames": [
+        "My favourite invention is the ___.",
+        "I use it when I want ___.",
+        "An inventor is clever because they ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My favourite invention is the toaster. I use it when I want hot, crispy bread. An inventor is clever because they invent new things."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, inventors! You learned eight brilliant new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Lingo is so proud of you. Keep your eyes open for everyday inventions!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Junior Inventor"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one sentence with the word invent."
+        },
+        {
+          "id": "e2",
+          "text": "What did Mia buy at the shop? Use the word pair in your answer."
+        }
+      ]
+    }
+  ]
+}

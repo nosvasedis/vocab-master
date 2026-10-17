@@ -1,0 +1,426 @@
+{
+  "schema": 1,
+  "id": "CPP1-U3-BQ",
+  "bookId": "CPP1",
+  "unit": 3,
+  "section": "BQ",
+  "title": "Are You Alive? Living Things All Around Us",
+  "bigQuestion": "What are living things?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "garden",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "pinocchio": {
+      "name": "Pinocchio",
+      "emoji": "🪵",
+      "persona": "curious, cheerful wooden puppet boy who wants to be real, slightly wobbly voice"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "bright, friendly 10-year-old girl who loves garden bugs"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U3-SB-285",
+      "emoji": "🌱",
+      "kidDefinition": "Something that is alive, like a plant or an animal.",
+      "examples": [
+        "Plants and animals are living things.",
+        "A rock is not a living thing."
+      ],
+      "distractors": [
+        "rock",
+        "toy",
+        "chair"
+      ],
+      "greekHint": "ζωντανός: think of ζωή (life) inside the word.",
+      "english": "living thing",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-286",
+      "emoji": "👉",
+      "kidDefinition": "To let someone see something.",
+      "examples": [
+        "Can you show me how to draw a bee?",
+        "Please show me your new shoes."
+      ],
+      "distractors": [
+        "hide",
+        "carry",
+        "throw"
+      ],
+      "greekHint": "δείχνω: δείχνω means show; say 'δείξε μου' when you show.",
+      "english": "show",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U3-SB-289",
+      "emoji": "🌿",
+      "kidDefinition": "Short green plants that grow on the ground.",
+      "examples": [
+        "Cows eat grass in the fields.",
+        "Sheep like to eat soft green grass."
+      ],
+      "distractors": [
+        "sand",
+        "pebble",
+        "bread"
+      ],
+      "greekHint": "γρασίδι: picture a lawn of green γρασίδι.",
+      "english": "grass",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-290",
+      "emoji": "🐜",
+      "kidDefinition": "A tiny insect that lives in a big group.",
+      "examples": [
+        "Ants work together in big groups.",
+        "An ant can carry food many times its size."
+      ],
+      "distractors": [
+        "spider",
+        "snail",
+        "beetle"
+      ],
+      "greekHint": "μυρμήγκι: say it slowly and picture a tiny ant walking.",
+      "english": "ant",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-291",
+      "emoji": "🪱",
+      "kidDefinition": "A long, pink animal that lives in soil.",
+      "examples": [
+        "Earthworms help plants by making soil richer.",
+        "Mia found an earthworm under a big stone."
+      ],
+      "distractors": [
+        "snake",
+        "frog",
+        "lizard"
+      ],
+      "greekHint": "σκουλήκι: earthworms are σκουλήκια in the soil.",
+      "english": "earthworm",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-292",
+      "emoji": "🐝",
+      "kidDefinition": "An insect that makes sweet honey.",
+      "examples": [
+        "A bee visits many flowers each day.",
+        "Bees make honey for their hive."
+      ],
+      "distractors": [
+        "fly",
+        "moth",
+        "cricket"
+      ],
+      "greekHint": "μέλισσα: think of μέλι (honey) to remember bee.",
+      "english": "bee",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-293",
+      "emoji": "🦋",
+      "kidDefinition": "An insect with big, colourful wings.",
+      "examples": [
+        "A butterfly was once a caterpillar.",
+        "Many butterflies visit our garden in summer."
+      ],
+      "distractors": [
+        "leaf",
+        "cloud",
+        "kite"
+      ],
+      "greekHint": "πεταλούδα: picture a πεταλούδα with bright wings.",
+      "english": "butterfly",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U3-SB-287",
+    "CPP1-U3-SB-288"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "garden",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl guide."
+        },
+        {
+          "id": "l2",
+          "text": "Look at this garden. Plants grow. Insects buzz and fly."
+        },
+        {
+          "id": "l3",
+          "text": "Our wooden friend Pinocchio has a big question today."
+        },
+        {
+          "id": "l4",
+          "text": "Is a puppet alive? Let us find out together!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Can you name one thing in a garden that is alive?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U3-SB-285",
+        "CPP1-U3-SB-286",
+        "CPP1-U3-SB-289",
+        "CPP1-U3-SB-290",
+        "CPP1-U3-SB-291",
+        "CPP1-U3-SB-292",
+        "CPP1-U3-SB-293"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U3-SB-285",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the picture: living thing."
+          },
+          "options": [
+            "CPP1-U3-SB-292",
+            "CPP1-U3-SB-291",
+            "CPP1-U3-SB-289",
+            "CPP1-U3-SB-285"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A living thing is alive, so the plant picture is right."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U3-SB-290",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: ant. Which picture is it?"
+          },
+          "options": [
+            "CPP1-U3-SB-292",
+            "CPP1-U3-SB-291",
+            "CPP1-U3-SB-290",
+            "CPP1-U3-SB-293"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "An ant is a tiny insect that lives in a big group."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-289",
+          "prompt": {
+            "id": "c3q",
+            "text": "Cows eat ____ in the fields."
+          },
+          "options": [
+            "sand",
+            "bread",
+            "pebble",
+            "grass"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "Grass is the short green plant that cows eat."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-292",
+          "prompt": {
+            "id": "c4q",
+            "text": "A ____ makes sweet honey."
+          },
+          "options": [
+            "cricket",
+            "bee",
+            "moth",
+            "fly"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "The bee is the insect that makes honey."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U3-SB-291",
+          "prompt": {
+            "id": "c5q",
+            "text": "An earthworm has wings and can fly."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Earthworms have no wings, so they cannot fly."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U3-SB-291",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is not an insect: ant, bee, earthworm, butterfly?"
+          },
+          "options": [
+            "bee",
+            "ant",
+            "earthworm",
+            "butterfly"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "An earthworm is not an insect, but the other three are."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "listen",
+          "wordId": "CPP1-U3-SB-293",
+          "prompt": {
+            "id": "c7q",
+            "text": "Listen: butterfly. Which picture is it?"
+          },
+          "options": [
+            "CPP1-U3-SB-293",
+            "CPP1-U3-SB-290",
+            "CPP1-U3-SB-289",
+            "CPP1-U3-SB-292"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A butterfly is an insect with big, colourful wings."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-286",
+          "prompt": {
+            "id": "c8q",
+            "text": "Can you ____ me your new drawing?"
+          },
+          "options": [
+            "carry",
+            "throw",
+            "show",
+            "hide"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "To show means to let someone see something."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let us play memory! Match each picture with its word."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a living thing you like in the garden."
+      },
+      "frames": [
+        "I like the ___.",
+        "A ___ is a living thing.",
+        "I can see a ___ in my garden."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like the butterfly. A butterfly is a living thing. I can see a butterfly in my garden."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Wonderful work, explorers! You know so many living things now."
+        },
+        {
+          "id": "l2",
+          "text": "Ants, bees, butterflies, grass and earthworms are all alive."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Living Thing Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name two living things you can see in a garden."
+        },
+        {
+          "id": "e2",
+          "text": "Is a rock a living thing? Why or why not?"
+        }
+      ]
+    }
+  ]
+}

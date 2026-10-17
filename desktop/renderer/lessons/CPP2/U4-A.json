@@ -1,0 +1,753 @@
+{
+  "schema": 1,
+  "id": "CPP2-U4-A",
+  "bookId": "CPP2",
+  "unit": 4,
+  "section": "A",
+  "title": "Snow, Lava and Shaking Ground",
+  "bigQuestion": "How does our planet change?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "village",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "enitan": {
+      "name": "Enitan",
+      "emoji": "👧",
+      "persona": "curious, friendly 10-year-old girl, new to the village, eager to learn"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "🧒",
+      "persona": "cheerful 10-year-old boy, funny and a little bit dramatic"
+    },
+    "maya": {
+      "name": "Dr. Maya",
+      "emoji": "👩‍🔬",
+      "persona": "calm, clear-speaking scientist, kind and patient"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U4-SB-465",
+      "emoji": "❄️",
+      "kidDefinition": "Covered with a lot of snow.",
+      "examples": [
+        "The mountain looks beautiful and snowy in winter.",
+        "We built a snowy snowman in the garden."
+      ],
+      "distractors": [
+        "sunny",
+        "windy",
+        "rainy"
+      ],
+      "greekHint": "Snowy = χιονισμένος, think of snow (χιόνι) on the mountain.",
+      "english": "snowy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U4-SB-466",
+      "emoji": "🧊",
+      "kidDefinition": "To change from solid to liquid because of heat.",
+      "examples": [
+        "Snow melts when the weather gets warm.",
+        "The ice cream melts quickly in the sun."
+      ],
+      "distractors": [
+        "freeze",
+        "grow",
+        "sleep"
+      ],
+      "greekHint": "Melt = λιώνω, like ice turning into water in the sun.",
+      "english": "melt",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-467",
+      "emoji": "🌊",
+      "kidDefinition": "To move downhill like water.",
+      "examples": [
+        "The river flows down to the sea.",
+        "Rain water flows down the street after the storm."
+      ],
+      "distractors": [
+        "sit down",
+        "look up",
+        "wake up"
+      ],
+      "greekHint": "Flow down = κυλάω, water going down a hill.",
+      "english": "flow down",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-470",
+      "emoji": "🌍",
+      "kidDefinition": "The hard, outer layer of the Earth.",
+      "examples": [
+        "The crust of the Earth is divided into huge plates.",
+        "The bread has a crispy brown crust."
+      ],
+      "distractors": [
+        "cloud",
+        "hill",
+        "island"
+      ],
+      "greekHint": "Crust = φλοιός, the outside layer of the Earth.",
+      "english": "crust",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-472",
+      "emoji": "🪨",
+      "kidDefinition": "A huge piece of the Earth's crust.",
+      "examples": [
+        "The plates move slowly under our feet.",
+        "The two plates push against each other and mountains form."
+      ],
+      "distractors": [
+        "cup",
+        "bowl",
+        "spoon"
+      ],
+      "greekHint": "Plate = τεκτονική πλάκα, a giant rock slab.",
+      "english": "plate",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-477",
+      "emoji": "🫨",
+      "kidDefinition": "To move quickly from side to side.",
+      "examples": [
+        "The bus shakes on the bumpy road.",
+        "Please don't shake the bottle before you open it."
+      ],
+      "distractors": [
+        "climb",
+        "laugh",
+        "jump"
+      ],
+      "greekHint": "Shake = τρέμω, like the ground during an earthquake.",
+      "english": "shake",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-484",
+      "emoji": "🌎",
+      "kidDefinition": "When the ground suddenly shakes very strongly.",
+      "examples": [
+        "There was an earthquake, but everyone was safe.",
+        "Earthquakes are common in Japan."
+      ],
+      "distractors": [
+        "storm",
+        "rainbow",
+        "breeze"
+      ],
+      "greekHint": "Earthquake = σεισμός, the ground shaking.",
+      "english": "earthquake",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-491",
+      "emoji": "🌋",
+      "kidDefinition": "To burst out suddenly. Volcanoes do this.",
+      "examples": [
+        "The volcano erupted yesterday.",
+        "The volcano may erupt again soon, so scientists observe it."
+      ],
+      "distractors": [
+        "sleep",
+        "climb",
+        "laugh"
+      ],
+      "greekHint": "Erupt = εκρήγνυμαι, like a volcano bursting open.",
+      "english": "erupt",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-493",
+      "emoji": "🔥",
+      "kidDefinition": "Hot melted rock that flows out of a volcano.",
+      "examples": [
+        "Lava is hot and bright orange when it flows.",
+        "Cool lava becomes black rock, like on Nea Kameni."
+      ],
+      "distractors": [
+        "rain",
+        "ice",
+        "sand"
+      ],
+      "greekHint": "Lava = λάβα, hot melted rock from a volcano.",
+      "english": "lava",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-480",
+      "emoji": "🌫️",
+      "kidDefinition": "Tiny grey dust from a volcano.",
+      "examples": [
+        "The ash from the volcano covered the sky.",
+        "After the eruption, grey ash covered all the cars."
+      ],
+      "distractors": [
+        "sand",
+        "mud",
+        "rock"
+      ],
+      "greekHint": "Ash = στάχτη, the grey powder after a volcano.",
+      "english": "ash",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U4-SB-461",
+    "CPP2-U4-SB-462",
+    "CPP2-U4-SB-463",
+    "CPP2-U4-SB-464",
+    "CPP2-U4-SB-468",
+    "CPP2-U4-SB-469",
+    "CPP2-U4-SB-471",
+    "CPP2-U4-SB-473",
+    "CPP2-U4-SB-474",
+    "CPP2-U4-SB-475",
+    "CPP2-U4-SB-476",
+    "CPP2-U4-SB-478",
+    "CPP2-U4-SB-479",
+    "CPP2-U4-SB-481",
+    "CPP2-U4-SB-482",
+    "CPP2-U4-SB-483",
+    "CPP2-U4-SB-485",
+    "CPP2-U4-SB-486",
+    "CPP2-U4-SB-487",
+    "CPP2-U4-SB-488",
+    "CPP2-U4-SB-489",
+    "CPP2-U4-SB-490",
+    "CPP2-U4-SB-492",
+    "CPP2-U4-SB-494",
+    "CPP2-U4-SB-495",
+    "CPP2-U4-SB-496",
+    "CPP2-U4-SB-497",
+    "CPP2-U4-SB-498",
+    "CPP2-U4-SB-499",
+    "CPP2-U4-SB-500",
+    "CPP2-U4-SB-501",
+    "CPP2-U4-SB-502",
+    "CPP2-U4-SB-503",
+    "CPP2-U4-SB-504",
+    "CPP2-U4-SB-505",
+    "CPP2-U4-SB-506",
+    "CPP2-U4-SB-507",
+    "CPP2-U4-SB-508",
+    "CPP2-U4-SB-509",
+    "CPP2-U4-SB-510",
+    "CPP2-U4-SB-511",
+    "CPP2-U4-SB-512",
+    "CPP2-U4-SB-513",
+    "CPP2-U4-SB-514",
+    "CPP2-U4-SB-515",
+    "CPP2-U4-SB-516",
+    "CPP2-U4-SB-517",
+    "CPP2-U4-SB-518",
+    "CPP2-U4-SB-519",
+    "CPP2-U4-SB-520",
+    "CPP2-U4-SB-521",
+    "CPP2-U4-SB-522",
+    "CPP2-U4-SB-523"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "village",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo, your owl guide!"
+        },
+        {
+          "id": "l2",
+          "text": "Our planet is always changing, but mostly very slowly."
+        },
+        {
+          "id": "l3",
+          "text": "Sometimes the change is sudden, and very big."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out how mountains, rivers and volcanoes change our world."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Have you ever seen a mountain or a volcano? Tell me about it!"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U4-SB-465",
+        "CPP2-U4-SB-466",
+        "CPP2-U4-SB-467",
+        "CPP2-U4-SB-477",
+        "CPP2-U4-SB-470",
+        "CPP2-U4-SB-472",
+        "CPP2-U4-SB-484",
+        "CPP2-U4-SB-491",
+        "CPP2-U4-SB-493",
+        "CPP2-U4-SB-480"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Enitan and the Moving Mountain",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Enitan and her friend Leo look up at a faraway mountain."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "enitan",
+              "text": "Wow! That snowy mountain is so beautiful!"
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "In summer, the snow melts and the water comes down."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-465",
+            "CPP2-U4-SB-466"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "The melted snow flows down the hill into a little stream."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "Look! The water flows down the hill like a river."
+            },
+            {
+              "id": "p2b",
+              "who": "enitan",
+              "text": "It is becoming a river! That is amazing."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-467"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "leo"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Suddenly, the ground starts to shake under their feet."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "enitan",
+              "text": "Leo, the ground is shaking! Is it an earthquake?"
+            },
+            {
+              "id": "p3b",
+              "who": "maya",
+              "text": "Yes! Plates under the Earth's crust are moving."
+            },
+            {
+              "id": "p3c2",
+              "who": "maya",
+              "text": "The plates move and push against each other."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-477",
+            "CPP2-U4-SB-484",
+            "CPP2-U4-SB-472",
+            "CPP2-U4-SB-470"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Far away, a volcano erupts! Hot lava and grey ash rise into the sky."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "enitan",
+              "text": "Look at the ash in the sky! It covers everything."
+            },
+            {
+              "id": "p4b",
+              "who": "maya",
+              "text": "Lava flows from the volcano, and scientists observe it carefully."
+            }
+          ],
+          "highlight": [
+            "CPP2-U4-SB-491",
+            "CPP2-U4-SB-493",
+            "CPP2-U4-SB-480"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "enitan"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Back at school, Enitan and Leo know how our planet changes."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "leo",
+              "text": "Our planet changes slowly, and sometimes very fast!"
+            }
+          ],
+          "highlight": []
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U4-SB-491",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which picture shows the word: erupt?"
+          },
+          "options": [
+            "CPP2-U4-SB-491",
+            "CPP2-U4-SB-493",
+            "CPP2-U4-SB-466",
+            "CPP2-U4-SB-480"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "When a volcano erupts, it bursts out suddenly with lava and ash."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-470",
+          "prompt": {
+            "id": "c2q",
+            "text": "The Earth's ____ is its hard outer layer."
+          },
+          "options": [
+            "hill",
+            "crust",
+            "cloud",
+            "storm"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "The crust is the hard outside layer of our planet, under our feet."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP2-U4-SB-493",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen and choose the picture: lava."
+          },
+          "options": [
+            "CPP2-U4-SB-470",
+            "CPP2-U4-SB-465",
+            "CPP2-U4-SB-480",
+            "CPP2-U4-SB-493"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "Lava is hot, melted rock that flows out of a volcano."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U4-SB-480",
+          "prompt": {
+            "id": "c4q",
+            "text": "Ash is a hot liquid that flows out of a volcano."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Ash is tiny grey dust, but lava is the hot liquid that flows."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-472",
+          "prompt": {
+            "id": "c5q",
+            "text": "The Earth's ____ move slowly under our feet."
+          },
+          "options": [
+            "beds",
+            "plates",
+            "cakes",
+            "shells"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Plates are huge pieces of the Earth's crust that slowly move."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U4-SB-477",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "cloud",
+            "shake",
+            "erupt",
+            "melt"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Cloud is a noun, but shake, melt and erupt are all verbs."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U4-SB-484",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which picture shows the word: earthquake?"
+          },
+          "options": [
+            "CPP2-U4-SB-465",
+            "CPP2-U4-SB-491",
+            "CPP2-U4-SB-466",
+            "CPP2-U4-SB-484"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "An earthquake is when the ground suddenly shakes strongly."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-466",
+          "prompt": {
+            "id": "c8q",
+            "text": "When the sun is hot, the snow ____."
+          },
+          "options": [
+            "freezes",
+            "melts",
+            "grows",
+            "sleeps"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Snow melts when it gets warm, and it becomes water."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-467",
+          "prompt": {
+            "id": "c9q",
+            "text": "Water from the snow ____ the hill toward the river."
+          },
+          "options": [
+            "wakes up",
+            "flows down",
+            "sits down",
+            "looks up"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Water flows down when it moves from the top of a hill to the bottom."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U4-SB-465",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which picture shows the word: snowy?"
+          },
+          "options": [
+            "CPP2-U4-SB-491",
+            "CPP2-U4-SB-465",
+            "CPP2-U4-SB-493",
+            "CPP2-U4-SB-484"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "A snowy mountain is covered with a lot of snow."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs of words and pictures."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud when you turn over a card."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "With your partner, talk about how our planet changes. Use the frames."
+      },
+      "frames": [
+        "In summer, the snow ___ on the mountain.",
+        "Then the water ___ down the hill.",
+        "A volcano can ___ and make lava and ash."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "A: In summer, the snow melts on the mountain. B: Then the water flows down the hill. A: And a volcano can erupt and make lava and ash!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You are real planet explorers now."
+        },
+        {
+          "id": "l2",
+          "text": "You learned words for snow, rivers, earthquakes and volcanoes."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will discover even more changes around us!"
+        }
+      ],
+      "badge": {
+        "emoji": "🌋",
+        "name": "Planet Changer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one sentence with the word erupt."
+        },
+        {
+          "id": "e2",
+          "text": "Explain in your own words what lava is."
+        }
+      ]
+    }
+  ]
+}

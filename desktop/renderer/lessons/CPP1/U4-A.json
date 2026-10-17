@@ -1,0 +1,719 @@
+{
+  "schema": 1,
+  "id": "CPP1-U4-A",
+  "bookId": "CPP1",
+  "unit": 4,
+  "section": "A",
+  "title": "Friends Are Alike and Different!",
+  "bigQuestion": "What is a friend?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "playground",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ben": {
+      "name": "Ben",
+      "emoji": "🧒",
+      "persona": "cheerful 9-year-old boy, loves playing outside, friendly and a little bossy"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "curious 9-year-old girl, asks lots of questions, kind and thoughtful"
+    },
+    "hector": {
+      "name": "Hector",
+      "emoji": "🐰",
+      "persona": "gentle, shy hare from the forest, slightly lonely, speaks softly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U4-SB-447",
+      "emoji": "👯",
+      "kidDefinition": "How things are alike or the same.",
+      "examples": [
+        "Can you see the similarities between these two pictures?",
+        "Mia and Ben have a similarity: they both love football."
+      ],
+      "distractors": [
+        "hobby",
+        "playground",
+        "puzzle"
+      ],
+      "greekHint": "Όμοιο = ίδιο, παρόμοιο",
+      "english": "similarity",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-448",
+      "emoji": "🔀",
+      "kidDefinition": "How things are not the same.",
+      "examples": [
+        "There are many differences between my brother and me.",
+        "One difference: I like cats, but my friend likes dogs."
+      ],
+      "distractors": [
+        "swing",
+        "snack",
+        "pencil"
+      ],
+      "greekHint": "Διαφορά: τι δεν είναι ίδιο",
+      "english": "difference",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-451",
+      "emoji": "👫",
+      "kidDefinition": "The two of them together.",
+      "examples": [
+        "Both my sister and I like flying our kites.",
+        "We both have red backpacks."
+      ],
+      "distractors": [
+        "neither",
+        "either",
+        "everyone"
+      ],
+      "greekHint": "Και οι δύο: δύο μαζί",
+      "english": "both",
+      "type": "pron."
+    },
+    {
+      "wordId": "CPP1-U4-SB-455",
+      "emoji": "🤝",
+      "kidDefinition": "One person and the other person.",
+      "examples": [
+        "We help each other with our homework.",
+        "Friends listen to each other."
+      ],
+      "distractors": [
+        "themselves",
+        "anybody",
+        "someone"
+      ],
+      "greekHint": "Ο ένας τον άλλο: και οι δύο βοηθούν",
+      "english": "each other",
+      "type": "pron."
+    },
+    {
+      "wordId": "CPP1-U4-SB-464",
+      "emoji": "👍",
+      "kidDefinition": "To think the same as someone.",
+      "examples": [
+        "You're right! I agree with you!",
+        "We agree that playing together is fun."
+      ],
+      "distractors": [
+        "refuse",
+        "forget",
+        "hide"
+      ],
+      "greekHint": "Συμφωνώ: λέμε το ίδιο",
+      "english": "agree",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U4-SB-467",
+      "emoji": "👎",
+      "kidDefinition": "To think something different from someone.",
+      "examples": [
+        "I disagree! I think cats are the best pets!",
+        "Ben and Mia disagree about the best food."
+      ],
+      "distractors": [
+        "accept",
+        "decide",
+        "explain"
+      ],
+      "greekHint": "Διαφωνώ: έχω άλλη γνώμη",
+      "english": "disagree",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U4-SB-457",
+      "emoji": "✏️",
+      "kidDefinition": "To give something to someone for a short time.",
+      "examples": [
+        "Can you lend me your pencil?",
+        "I can lend you my ruler after class."
+      ],
+      "distractors": [
+        "borrow",
+        "give",
+        "keep"
+      ],
+      "greekHint": "Δανείζω: δίνω προσωρινά",
+      "english": "lend",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U4-SB-456",
+      "emoji": "🌦️",
+      "kidDefinition": "Not always, but at some times.",
+      "examples": [
+        "Sometimes I don't want to go out to play.",
+        "Sometimes Hector feels lonely in the forest."
+      ],
+      "distractors": [
+        "never",
+        "tomorrow",
+        "yesterday"
+      ],
+      "greekHint": "Μερικές φορές: όχι πάντα",
+      "english": "sometimes",
+      "type": "adv."
+    },
+    {
+      "wordId": "CPP1-U4-SB-454",
+      "emoji": "🔔",
+      "kidDefinition": "In the middle of an activity or time.",
+      "examples": [
+        "My best friend and I share our snacks during recess.",
+        "Ben reads a book during the lesson."
+      ],
+      "distractors": [
+        "beside",
+        "under",
+        "until"
+      ],
+      "greekHint": "Κατά τη διάρκεια: ενώ κάτι γίνεται",
+      "english": "during",
+      "type": "prep."
+    },
+    {
+      "wordId": "CPP1-U4-SB-460",
+      "emoji": "🕑",
+      "kidDefinition": "Later than a time or an event.",
+      "examples": [
+        "First I do my homework and after that, I play.",
+        "After lunch, we go to the park."
+      ],
+      "distractors": [
+        "before",
+        "until",
+        "since"
+      ],
+      "greekHint": "Μετά: αργότερα από κάτι",
+      "english": "after",
+      "type": "prep."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U4-SB-449",
+    "CPP1-U4-SB-450",
+    "CPP1-U4-SB-452",
+    "CPP1-U4-SB-453",
+    "CPP1-U4-SB-458",
+    "CPP1-U4-SB-459",
+    "CPP1-U4-SB-461",
+    "CPP1-U4-SB-462",
+    "CPP1-U4-SB-463",
+    "CPP1-U4-SB-465",
+    "CPP1-U4-SB-466",
+    "CPP1-U4-SB-468",
+    "CPP1-U4-SB-469",
+    "CPP1-U4-SB-470",
+    "CPP1-U4-SB-471"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "playground",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love the playground."
+        },
+        {
+          "id": "l2",
+          "text": "Look at the children. Some play on the swings. Some play on the slide."
+        },
+        {
+          "id": "l3",
+          "text": "Are they the same? Are they different? Let's find out together!"
+        },
+        {
+          "id": "l4",
+          "text": "Today we ask: what is a friend? Let's explore!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Who is your best friend, and how are you alike?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U4-SB-447",
+        "CPP1-U4-SB-448",
+        "CPP1-U4-SB-451",
+        "CPP1-U4-SB-455",
+        "CPP1-U4-SB-464",
+        "CPP1-U4-SB-467",
+        "CPP1-U4-SB-457",
+        "CPP1-U4-SB-456",
+        "CPP1-U4-SB-454",
+        "CPP1-U4-SB-460"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Mia, Ben and the Lonely Hare",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "playground",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia and Ben are at school. They wear the same blue jumpers."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Look, Ben! We both have red backpacks."
+            },
+            {
+              "id": "p1b",
+              "who": "ben",
+              "text": "Yes! We have a similarity. We like the same colours."
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-447",
+            "CPP1-U4-SB-451"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "It is maths time. Mia's pencil is broken."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "Ben, can you lend me your pencil, please?"
+            },
+            {
+              "id": "p2b",
+              "who": "ben",
+              "text": "Of course! Here you are. Friends help each other."
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-457",
+            "CPP1-U4-SB-455"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "playground",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "During recess, they play on the swings and the slide."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "ben",
+              "text": "I love the swings. You love the slide, Mia."
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "That is a difference between us. But we both have fun!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-454",
+            "CPP1-U4-SB-448"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "hector"
+            },
+            {
+              "who": "mia"
+            },
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Hector the hare sits alone by the big tree."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "hector",
+              "text": "Sometimes I feel lonely here. Can I play with you?"
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "Of course! We can help each other. Come and play!"
+            },
+            {
+              "id": "p4d",
+              "who": "ben",
+              "text": "I agree! Let's play after lunch, all together."
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-456",
+            "CPP1-U4-SB-455",
+            "CPP1-U4-SB-464",
+            "CPP1-U4-SB-460"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "ben"
+            },
+            {
+              "who": "hector"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Now the three friends are laughing under the big tree."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mia",
+              "text": "I think a good friend is someone who helps you."
+            },
+            {
+              "id": "p5b",
+              "who": "ben",
+              "text": "I disagree! A good friend shares pizza with you!"
+            },
+            {
+              "id": "p5d",
+              "who": "hector",
+              "text": "Ha! Maybe we agree on this: friends make the day better."
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-467"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP1-U4-SB-447",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen: which word means how things are alike or the same?"
+          },
+          "options": [
+            "CPP1-U4-SB-447",
+            "CPP1-U4-SB-448",
+            "CPP1-U4-SB-451",
+            "CPP1-U4-SB-455"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A similarity is a way that two things are alike."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-448",
+          "prompt": {
+            "id": "c2q",
+            "text": "There are many ____ between my brother and me."
+          },
+          "options": [
+            "pets",
+            "homework",
+            "differences",
+            "swings"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Differences are the ways things are not the same."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U4-SB-451",
+          "prompt": {
+            "id": "c3q",
+            "text": "The word both means the two of them together."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Both means two people or things together, like Mia and Ben."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-455",
+          "prompt": {
+            "id": "c4q",
+            "text": "Friends always help ____ when they need it."
+          },
+          "options": [
+            "nobody",
+            "myself",
+            "each other"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "Each other means one person and the other person helping."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-464",
+          "prompt": {
+            "id": "c5q",
+            "text": "You're right! I ____ with you!"
+          },
+          "options": [
+            "visit",
+            "lend",
+            "agree"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "When you agree, you think the same as someone."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U4-SB-457",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is odd one out?"
+          },
+          "options": [
+            "slide",
+            "lend",
+            "playground",
+            "swing"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Lend is a verb for giving something for a short time; the others are places or play things."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U4-SB-467",
+          "prompt": {
+            "id": "c7q",
+            "text": "To disagree means to think the same thing as someone."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "To disagree means to have a different opinion from someone."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-456",
+          "prompt": {
+            "id": "c8q",
+            "text": "I ____ want to go out to play, but I still like my friends."
+          },
+          "options": [
+            "sometimes",
+            "tomorrow",
+            "yesterday"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Sometimes means at some times, but not always."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-454",
+          "prompt": {
+            "id": "c9q",
+            "text": "Ben reads a book ____ the whole lesson."
+          },
+          "options": [
+            "during",
+            "beside",
+            "under"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "During means in the middle of an activity or time."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-460",
+          "prompt": {
+            "id": "c10q",
+            "text": "First we wash our hands. ____ that, we eat lunch."
+          },
+          "options": [
+            "Before",
+            "After",
+            "Until"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "After that means later, when something else is finished."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a quick quiz! Answer with your friends. Are you ready?"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about you and your best friend. What is alike and what is different?"
+      },
+      "frames": [
+        "We both like ___.",
+        "One difference between us is ___.",
+        "I agree with you because ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "We both like football. One difference is that I like cats, but my friend likes dogs. I agree with you because friends help each other."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, friends!"
+        },
+        {
+          "id": "l2",
+          "text": "You found similarities, differences, and new words to share."
+        },
+        {
+          "id": "l3",
+          "text": "Remember: friends help each other, and sometimes they disagree. That is okay!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Friendship Word Finder"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one similarity you have with a friend."
+        },
+        {
+          "id": "e2",
+          "text": "Finish the sentence: Sometimes I disagree with my friend, but I ___."
+        }
+      ]
+    }
+  ]
+}

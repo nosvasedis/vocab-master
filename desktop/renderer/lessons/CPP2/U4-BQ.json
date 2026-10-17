@@ -1,0 +1,467 @@
+{
+  "schema": 1,
+  "id": "CPP2-U4-BQ",
+  "bookId": "CPP2",
+  "unit": 4,
+  "section": "BQ",
+  "title": "Our Changing Planet: Big Question Opener",
+  "bigQuestion": "How does our planet change?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "enitan": {
+      "name": "Enitan",
+      "emoji": "👧",
+      "persona": "curious 10-year-old girl, bright and brave"
+    },
+    "kostas": {
+      "name": "Kostas",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy, playful and full of questions"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U4-SB-447",
+      "emoji": "🪐",
+      "kidDefinition": "A huge round world that moves around a star.",
+      "examples": [
+        "Mars is a red planet near Earth.",
+        "Our planet has rivers, mountains and oceans."
+      ],
+      "distractors": [
+        "star",
+        "moon",
+        "comet"
+      ],
+      "greekHint": "Πλανήτης: think of the planet Πλάνη, a wanderer that moves around the sky.",
+      "english": "planet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-448",
+      "emoji": "🔄",
+      "kidDefinition": "To become different from how something was before.",
+      "examples": [
+        "Leaves change colour in autumn.",
+        "The sky can change very quickly in spring."
+      ],
+      "distractors": [
+        "stay",
+        "open",
+        "close"
+      ],
+      "greekHint": "Αλλάζω: change the letters in your head, then change the word.",
+      "english": "change",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U4-SB-454",
+      "emoji": "⛅",
+      "kidDefinition": "The sky and air outside: sunny, rainy, windy or cold.",
+      "examples": [
+        "What is the weather like in Athens today?",
+        "Bad weather means we stay inside."
+      ],
+      "distractors": [
+        "lesson",
+        "weekend",
+        "bedroom"
+      ],
+      "greekHint": "Καιρός: say it with a sunny face and a cloudy face.",
+      "english": "weather",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-452",
+      "emoji": "🏞️",
+      "kidDefinition": "All the land you can see, with hills, fields or mountains.",
+      "examples": [
+        "The landscape near my village has green hills.",
+        "We painted a landscape with a river and trees."
+      ],
+      "distractors": [
+        "ocean",
+        "tunnel",
+        "bridge"
+      ],
+      "greekHint": "Τοπίο: picture a postcard of the land around you.",
+      "english": "landscape",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-455",
+      "emoji": "🌊",
+      "kidDefinition": "A long line of water that flows to the sea.",
+      "examples": [
+        "The river flows slowly into the blue sea.",
+        "Kids swim and fish in the river in summer."
+      ],
+      "distractors": [
+        "sea",
+        "road",
+        "bridge"
+      ],
+      "greekHint": "Ποτάμι: a river runs like a long, moving line of water.",
+      "english": "river",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-459",
+      "emoji": "⛰️",
+      "kidDefinition": "A very high place of land, higher than a hill.",
+      "examples": [
+        "The mountain was covered in white snow.",
+        "We climbed the mountain and saw the whole valley."
+      ],
+      "distractors": [
+        "valley",
+        "forest",
+        "ocean"
+      ],
+      "greekHint": "Βουνό: a mountain is bigger and higher than a λόφος, a hill.",
+      "english": "mountain",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-457",
+      "emoji": "🌧️",
+      "kidDefinition": "Water drops that fall from clouds in the sky.",
+      "examples": [
+        "Heavy rain fell all afternoon, so we stayed home.",
+        "Rain helps the plants and flowers grow."
+      ],
+      "distractors": [
+        "snow",
+        "fog",
+        "wind"
+      ],
+      "greekHint": "Βροχή: rain falls, so say it while you drop your fingers down.",
+      "english": "rain",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U4-SB-460",
+      "emoji": "🌋",
+      "kidDefinition": "A mountain with an opening where hot lava can come out.",
+      "examples": [
+        "The volcano erupted and hot lava came out.",
+        "Scientists study the volcano to keep people safe."
+      ],
+      "distractors": [
+        "cave",
+        "glacier",
+        "canyon"
+      ],
+      "greekHint": "Ηφαίστειο: Santorini's volcano is a famous example.",
+      "english": "volcano",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U4-SB-449",
+    "CPP2-U4-SB-450",
+    "CPP2-U4-SB-451",
+    "CPP2-U4-SB-453",
+    "CPP2-U4-SB-456",
+    "CPP2-U4-SB-458"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love looking at our world."
+        },
+        {
+          "id": "l2",
+          "text": "Our world is big. It has mountains, rivers, lakes and beaches."
+        },
+        {
+          "id": "l3",
+          "text": "Sometimes the sky is sunny. Sometimes it is cold and wet."
+        },
+        {
+          "id": "l4",
+          "text": "Our planet is always changing. Can you see the changes?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What changes do you notice in nature around you?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U4-SB-447",
+        "CPP2-U4-SB-454",
+        "CPP2-U4-SB-448",
+        "CPP2-U4-SB-452",
+        "CPP2-U4-SB-455",
+        "CPP2-U4-SB-459",
+        "CPP2-U4-SB-457",
+        "CPP2-U4-SB-460"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U4-SB-447",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the picture of a planet that goes around the Sun."
+          },
+          "options": [
+            "CPP2-U4-SB-459",
+            "CPP2-U4-SB-455",
+            "CPP2-U4-SB-447",
+            "CPP2-U4-SB-457"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A planet is a huge round world that moves around a star."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-448",
+          "prompt": {
+            "id": "c2q",
+            "text": "Our planet can ____ slowly over a long time."
+          },
+          "options": [
+            "open",
+            "change",
+            "close"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "To change means to become different from how something was before."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U4-SB-454",
+          "prompt": {
+            "id": "c3q",
+            "text": "Weather is the sky and air outside, like sunny, rainy or cold."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Yes, the weather tells us what the sky and air are like today."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U4-SB-455",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "lake",
+            "river",
+            "sandwich",
+            "sea"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "River, lake and sea are all places with water, but a sandwich is food."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "listen",
+          "wordId": "CPP2-U4-SB-459",
+          "prompt": {
+            "id": "c5q",
+            "text": "Listen: a very high place of land, with snow on the top. Which picture is it?"
+          },
+          "options": [
+            "CPP2-U4-SB-452",
+            "CPP2-U4-SB-459",
+            "CPP2-U4-SB-460",
+            "CPP2-U4-SB-457"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "A mountain is a very high place of land, higher than a hill."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-460",
+          "prompt": {
+            "id": "c6q",
+            "text": "A ____ can make hot lava come out of the ground."
+          },
+          "options": [
+            "mountain",
+            "volcano",
+            "planet"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A volcano is a mountain with an opening where hot lava comes out."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U4-SB-457",
+          "prompt": {
+            "id": "c7q",
+            "text": "Rain is water that falls from the clouds in the sky."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Rain is made of water drops that fall from clouds."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U4-SB-452",
+          "prompt": {
+            "id": "c8q",
+            "text": "Point to the picture of a landscape, with hills, fields and trees."
+          },
+          "options": [
+            "CPP2-U4-SB-454",
+            "CPP2-U4-SB-460",
+            "CPP2-U4-SB-455",
+            "CPP2-U4-SB-452"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "A landscape is all the land you can see around you."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U4-SB-454",
+          "prompt": {
+            "id": "c9q",
+            "text": "What's the ____ like today? It is sunny and warm."
+          },
+          "options": [
+            "weather",
+            "wonder",
+            "water"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "We ask about the weather to find out if the day is sunny, rainy or cold."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Match each picture with its word."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you find a pair. Ready, set, go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about the weather and landscape where you live."
+      },
+      "frames": [
+        "In my country, the weather is ___.",
+        "Near my home, there is a ___.",
+        "I like the ___ because it is ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "In my country, the weather is hot in summer. Near my home, there is a mountain. I like the river because it is cool and calm."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You met planet, weather and volcano today."
+        },
+        {
+          "id": "l2",
+          "text": "Our planet is changing, and you are ready to explore why."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Planet Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing in nature that can change over time."
+        },
+        {
+          "id": "e2",
+          "text": "What is the difference between a mountain and a volcano?"
+        }
+      ]
+    }
+  ]
+}

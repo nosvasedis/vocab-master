@@ -1,0 +1,623 @@
+{
+  "schema": 1,
+  "id": "CPP3-U5-BQ",
+  "bookId": "CPP3",
+  "unit": 5,
+  "section": "BQ",
+  "title": "Why Do We Travel? Pack Your Bags!",
+  "bigQuestion": "Why do we travel?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "🧒",
+      "persona": "cheerful 11-year-old boy, curious and full of energy"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "thoughtful 11-year-old girl, friendly and observant"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U5-SB-629",
+      "emoji": "✈️",
+      "kidDefinition": "To go to other places, often far away.",
+      "examples": [
+        "We like to travel by train in the summer.",
+        "Some people travel to learn new languages."
+      ],
+      "distractors": [
+        "cook",
+        "sleep",
+        "dance"
+      ],
+      "greekHint": "ταξιδεύω: ταξίδι, travel",
+      "english": "travel",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U5-SB-633",
+      "emoji": "🧳",
+      "kidDefinition": "A person who visits a place on holiday.",
+      "examples": [
+        "The tourist took a photo of the old bridge.",
+        "Tourists love the blue sea in Greece."
+      ],
+      "distractors": [
+        "teacher",
+        "farmer",
+        "driver"
+      ],
+      "greekHint": "τουρίστας: the visitor on holiday",
+      "english": "tourist",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-638",
+      "emoji": "🎁",
+      "kidDefinition": "A small thing you buy to remember a place.",
+      "examples": [
+        "I bought a souvenir of a red lighthouse.",
+        "A postcard is a cheap souvenir."
+      ],
+      "distractors": [
+        "ticket",
+        "sandwich",
+        "pencil"
+      ],
+      "greekHint": "αναμνηστικό: something to remember a trip",
+      "english": "souvenir",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-634",
+      "emoji": "⛺",
+      "kidDefinition": "Staying outdoors, often in a tent, for fun.",
+      "examples": [
+        "We went camping by the lake last summer.",
+        "Camping is fun when you sleep in a tent."
+      ],
+      "distractors": [
+        "swimming",
+        "cooking",
+        "reading"
+      ],
+      "greekHint": "κάμπινγκ: sleeping outdoors in a tent",
+      "english": "camping",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-635",
+      "emoji": "🛖",
+      "kidDefinition": "A small wooden house, often in the forest.",
+      "examples": [
+        "The wooden cabin had two small rooms.",
+        "They rested in a cabin after a long walk."
+      ],
+      "distractors": [
+        "garage",
+        "tunnel",
+        "bridge"
+      ],
+      "greekHint": "καλύβα: a small house in the mountains",
+      "english": "cabin",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-636",
+      "emoji": "🔥",
+      "kidDefinition": "A fire outdoors, used for cooking and warmth.",
+      "examples": [
+        "We sang songs around the campfire at night.",
+        "Please never leave a campfire burning."
+      ],
+      "distractors": [
+        "candle",
+        "lantern",
+        "blanket"
+      ],
+      "greekHint": "φωτιά κατασκήνωσης: the fire at camp",
+      "english": "campfire",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-637",
+      "emoji": "🥾",
+      "kidDefinition": "Walking for a long time on hills or mountains.",
+      "examples": [
+        "On Sunday, we went hiking up a big hill.",
+        "Hiking is a good way to see nature."
+      ],
+      "distractors": [
+        "swimming",
+        "cycling",
+        "rowing"
+      ],
+      "greekHint": "πεζοπορία: long walks in nature",
+      "english": "hiking",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-639",
+      "emoji": "🏰",
+      "kidDefinition": "A large old building with thick walls and towers.",
+      "examples": [
+        "The castle on the hill is very old.",
+        "Knights lived in the castle long ago."
+      ],
+      "distractors": [
+        "museum",
+        "market",
+        "bakery"
+      ],
+      "greekHint": "κάστρο: a big old building with towers",
+      "english": "castle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-630",
+      "emoji": "📝",
+      "kidDefinition": "A list of questions people answer to give information.",
+      "examples": [
+        "Please fill in this questionnaire about your holidays.",
+        "The questionnaire had ten simple questions."
+      ],
+      "distractors": [
+        "calendar",
+        "menu",
+        "diary"
+      ],
+      "greekHint": "ερωτηματολόγιο: a set of questions to answer",
+      "english": "questionnaire",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-632",
+      "emoji": "📊",
+      "kidDefinition": "What happens because of something, like the end of a game.",
+      "examples": [
+        "The result of the game was a big surprise.",
+        "What was the result of your test?"
+      ],
+      "distractors": [
+        "mirror",
+        "bottle",
+        "ladder"
+      ],
+      "greekHint": "αποτέλεσμα: what comes out of an action",
+      "english": "result",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U5-SB-631",
+    "CPP3-U5-SB-640"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love exploring the world."
+        },
+        {
+          "id": "l2",
+          "text": "Have you ever slept in a tent under the stars?"
+        },
+        {
+          "id": "l3",
+          "text": "Some people travel to see old castles. Others go hiking in the mountains."
+        },
+        {
+          "id": "l4",
+          "text": "Today we ask a big question: why do we travel?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Where would you like to go, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U5-SB-629",
+        "CPP3-U5-SB-633",
+        "CPP3-U5-SB-638",
+        "CPP3-U5-SB-634",
+        "CPP3-U5-SB-635",
+        "CPP3-U5-SB-636",
+        "CPP3-U5-SB-637",
+        "CPP3-U5-SB-639",
+        "CPP3-U5-SB-630",
+        "CPP3-U5-SB-632"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Leo and Maya Ask Why",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Leo and Maya are going camping in the forest."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "leo",
+              "text": "Look! There is a cabin near the river. We can sleep there tonight."
+            },
+            {
+              "id": "p1b",
+              "who": "maya",
+              "text": "Great! Let's go hiking first, then find wood for the campfire."
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-634",
+            "CPP3-U5-SB-635",
+            "CPP3-U5-SB-637",
+            "CPP3-U5-SB-636"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "In the village, they stop in front of an old castle."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "maya",
+              "text": "Wow, look at that castle! Many tourists come here to take photos."
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "I love to travel and learn. I will buy a souvenir for my grandma."
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-639",
+            "CPP3-U5-SB-633",
+            "CPP3-U5-SB-629",
+            "CPP3-U5-SB-638"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Back at school, the class answers a travel questionnaire."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "maya",
+              "text": "Our questionnaire asked: why do you travel? Most people said to learn."
+            },
+            {
+              "id": "p3b",
+              "who": "leo",
+              "text": "The result is clear. Travel makes people happy and curious."
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-630",
+            "CPP3-U5-SB-632"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-629",
+          "prompt": {
+            "id": "c1q",
+            "text": "When I grow up, I want to ____ to many different countries."
+          },
+          "options": [
+            "cook",
+            "travel",
+            "sleep"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Travel is the verb for going to other places."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U5-SB-639",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: castle. Which picture is it?"
+          },
+          "options": [
+            "CPP3-U5-SB-638",
+            "CPP3-U5-SB-639",
+            "CPP3-U5-SB-635",
+            "CPP3-U5-SB-636"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A castle is a big old building with towers and thick walls."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U5-SB-636",
+          "prompt": {
+            "id": "c3q",
+            "text": "Which picture shows a campfire?"
+          },
+          "options": [
+            "CPP3-U5-SB-636",
+            "CPP3-U5-SB-637",
+            "CPP3-U5-SB-638"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "A campfire is the fire we make outside to cook and stay warm."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-633",
+          "prompt": {
+            "id": "c4q",
+            "text": "Every summer, a ____ visits our city with a big map."
+          },
+          "options": [
+            "tourist",
+            "teacher",
+            "driver"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A tourist is a person who visits a place on holiday."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U5-SB-634",
+          "prompt": {
+            "id": "c5q",
+            "text": "Camping means sleeping in a tent outdoors, for fun."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Camping is a fun holiday outside, often in a tent."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U5-SB-637",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is NOT something you do outdoors on a trip?"
+          },
+          "options": [
+            "hiking",
+            "cabin",
+            "camping",
+            "travel"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Hiking, camping and travel are things we do; a cabin is a place."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-638",
+          "prompt": {
+            "id": "c7q",
+            "text": "I bought a small ____ from the shop to remember our trip."
+          },
+          "options": [
+            "ticket",
+            "sandwich",
+            "souvenir"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "A souvenir is something you buy to remember a place."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-630",
+          "prompt": {
+            "id": "c8q",
+            "text": "Please answer all the questions in the ____."
+          },
+          "options": [
+            "questionnaire",
+            "menu",
+            "calendar"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "A questionnaire is a list of questions people answer."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-632",
+          "prompt": {
+            "id": "c9q",
+            "text": "The ____ of our test was very good."
+          },
+          "options": [
+            "result",
+            "ladder",
+            "mirror"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "The result is what happens at the end, like your score."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U5-SB-635",
+          "prompt": {
+            "id": "c10q",
+            "text": "A cabin is a big city hotel with many floors."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "A cabin is a small wooden house, often in the forest."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play! Find the matching pairs of picture and word."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word aloud as you turn the card over."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a trip you would like to make."
+      },
+      "frames": [
+        "I want to travel to ___.",
+        "On holiday, I would like to go ___ because ___.",
+        "I would buy a souvenir of ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I want to travel to Italy. I would like to go camping near a lake, because I love nature. I would buy a souvenir of a small blue boat."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Fantastic work, travellers! You now know ten powerful words for your journeys."
+        },
+        {
+          "id": "l2",
+          "text": "Next time, we will explore the big question with Leo and Maya."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Junior Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing you can do at a campfire."
+        },
+        {
+          "id": "e2",
+          "text": "Why do people travel? Use one new word in your answer."
+        }
+      ]
+    }
+  ]
+}

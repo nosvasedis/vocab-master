@@ -1,0 +1,722 @@
+{
+  "schema": 1,
+  "id": "CPP1-U3-B",
+  "bookId": "CPP1",
+  "unit": 3,
+  "section": "B",
+  "title": "Pino the Wooden Puppet: Is He Alive?",
+  "bigQuestion": "What are living things?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "stavros": {
+      "name": "Mr Stavros",
+      "emoji": "🧔",
+      "persona": "kind, slow-speaking village carpenter, friendly"
+    },
+    "lena": {
+      "name": "Lena",
+      "emoji": "🧒",
+      "persona": "cheerful 9-year-old girl, curious and bubbly"
+    },
+    "pino": {
+      "name": "Pino",
+      "emoji": "🪆",
+      "persona": "wooden puppet, shy and curious, speaks in a small voice"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U3-SB-335",
+      "emoji": "🪆",
+      "kidDefinition": "A toy you move with strings or your hand.",
+      "examples": [
+        "My little sister has a puppet made of cloth.",
+        "The puppet can wave and dance on the stage."
+      ],
+      "distractors": [
+        "table",
+        "bicycle",
+        "window"
+      ],
+      "greekHint": "μαριονέττα: think of 'marionette'.",
+      "english": "puppet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-336",
+      "emoji": "🪵",
+      "kidDefinition": "Hard material from trees, used to make things.",
+      "examples": [
+        "This chair is made of wood.",
+        "The bridge is made of wood and it is strong."
+      ],
+      "distractors": [
+        "pencil",
+        "cloud",
+        "window"
+      ],
+      "greekHint": "ξύλο: say 'xylo' in your head, like xylophone.",
+      "english": "wood",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-340",
+      "emoji": "🪚",
+      "kidDefinition": "A person who makes things from wood.",
+      "examples": [
+        "My uncle is a carpenter in our village.",
+        "A carpenter can build a shelf in one day."
+      ],
+      "distractors": [
+        "teacher",
+        "doctor",
+        "farmer"
+      ],
+      "greekHint": "ξυλουργός: a worker with wood.",
+      "english": "carpenter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-341",
+      "emoji": "🧒",
+      "kidDefinition": "A child or a young person.",
+      "examples": [
+        "Ten kids are playing in the playground today.",
+        "The kid is laughing at the funny puppet."
+      ],
+      "distractors": [
+        "teacher",
+        "shelf",
+        "castle"
+      ],
+      "english": "kid",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-337",
+      "emoji": "😊",
+      "kidDefinition": "Feeling good, smiling and pleased.",
+      "examples": [
+        "I feel happy when the sun is shining.",
+        "The happy dog wags its tail."
+      ],
+      "distractors": [
+        "tired",
+        "hungry",
+        "cold"
+      ],
+      "english": "happy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U3-SB-338",
+      "emoji": "🤲",
+      "kidDefinition": "Not clean. Covered in dirt or mud.",
+      "examples": [
+        "My shoes are dirty after football.",
+        "Your hands are dirty. Please wash them now."
+      ],
+      "distractors": [
+        "quiet",
+        "tall",
+        "hot"
+      ],
+      "english": "dirty",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U3-SB-339",
+      "emoji": "✨",
+      "kidDefinition": "Not dirty. Free from dirt or mess.",
+      "examples": [
+        "My room is clean now.",
+        "Wash your hands and they will be clean."
+      ],
+      "distractors": [
+        "wide",
+        "slow",
+        "loud"
+      ],
+      "english": "clean",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U3-SB-344",
+      "emoji": "💥",
+      "kidDefinition": "To take place. To come about or occur.",
+      "examples": [
+        "What happened at school today?",
+        "Something exciting will happen tomorrow."
+      ],
+      "distractors": [
+        "sleep",
+        "draw",
+        "wash"
+      ],
+      "english": "happen",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U3-SB-345",
+      "emoji": "❓",
+      "kidDefinition": "For what reason? Used to ask about the reason.",
+      "examples": [
+        "Why is the sky blue?",
+        "Why are you late for school today?"
+      ],
+      "distractors": [
+        "very",
+        "often",
+        "here"
+      ],
+      "english": "why",
+      "type": "adv."
+    },
+    {
+      "wordId": "CPP1-U3-SB-364",
+      "emoji": "🏃",
+      "kidDefinition": "To change position or go from one place to another.",
+      "examples": [
+        "Don't move! The cat is sleeping.",
+        "Can you move the chair, please?"
+      ],
+      "distractors": [
+        "smile",
+        "sing",
+        "wash"
+      ],
+      "english": "move",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U3-SB-342",
+    "CPP1-U3-SB-343",
+    "CPP1-U3-SB-346",
+    "CPP1-U3-SB-347",
+    "CPP1-U3-SB-348",
+    "CPP1-U3-SB-349",
+    "CPP1-U3-SB-350",
+    "CPP1-U3-SB-351",
+    "CPP1-U3-SB-352",
+    "CPP1-U3-SB-353",
+    "CPP1-U3-SB-354",
+    "CPP1-U3-SB-355",
+    "CPP1-U3-SB-356",
+    "CPP1-U3-SB-357",
+    "CPP1-U3-SB-358",
+    "CPP1-U3-SB-359",
+    "CPP1-U3-SB-360",
+    "CPP1-U3-SB-361",
+    "CPP1-U3-SB-362",
+    "CPP1-U3-SB-363",
+    "CPP1-U3-SB-365",
+    "CPP1-U3-SB-366",
+    "CPP1-U3-SB-367",
+    "CPP1-U3-SB-368",
+    "CPP1-U3-SB-369",
+    "CPP1-U3-SB-370",
+    "CPP1-U3-SB-371",
+    "CPP1-U3-SB-372",
+    "CPP1-U3-SB-373",
+    "CPP1-U3-SB-374",
+    "CPP1-U3-SB-375",
+    "CPP1-U3-SB-376",
+    "CPP1-U3-SB-377",
+    "CPP1-U3-SB-378",
+    "CPP1-U3-SB-379",
+    "CPP1-U3-SB-380",
+    "CPP1-U3-SB-381",
+    "CPP1-U3-SB-382",
+    "CPP1-U3-SB-383",
+    "CPP1-U3-SB-384",
+    "CPP1-U3-SB-385",
+    "CPP1-U3-SB-386",
+    "CPP1-U3-SB-387",
+    "CPP1-U3-SB-388",
+    "CPP1-U3-SB-389",
+    "CPP1-U3-SB-390",
+    "CPP1-U3-SB-391",
+    "CPP1-U3-SB-392",
+    "CPP1-U3-SB-393",
+    "CPP1-U3-SB-395",
+    "CPP1-U3-SB-396",
+    "CPP1-U3-SB-397",
+    "CPP1-U3-SB-398",
+    "CPP1-U3-SB-399",
+    "CPP1-U3-SB-400",
+    "CPP1-U3-SB-401",
+    "CPP1-U3-SB-402",
+    "CPP1-U3-SB-403",
+    "CPP1-U3-SB-404",
+    "CPP1-U3-SB-405",
+    "CPP1-U3-SB-406",
+    "CPP1-U3-SB-407",
+    "CPP1-U3-SB-408"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we meet a puppet, a carpenter and a kid."
+        },
+        {
+          "id": "l3",
+          "text": "Is a puppet alive? Let's find out together."
+        },
+        {
+          "id": "l4",
+          "text": "Many things look alive, but are they really?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Name one living thing and one thing that is not alive."
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U3-SB-335",
+        "CPP1-U3-SB-336",
+        "CPP1-U3-SB-340",
+        "CPP1-U3-SB-341",
+        "CPP1-U3-SB-337",
+        "CPP1-U3-SB-338",
+        "CPP1-U3-SB-339",
+        "CPP1-U3-SB-344",
+        "CPP1-U3-SB-345",
+        "CPP1-U3-SB-364"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Pino Comes to Life?",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "stavros"
+            },
+            {
+              "who": "pino"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "In a village, a carpenter works with wood."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "stavros",
+              "text": "I make a puppet from wood. Hello, Pino!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-340",
+            "CPP1-U3-SB-336",
+            "CPP1-U3-SB-335"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "lena"
+            },
+            {
+              "who": "pino"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Lena is a kid who loves to play."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "pino",
+              "text": "Why can't I move my arms like you?"
+            },
+            {
+              "id": "p2b",
+              "who": "lena",
+              "text": "Maybe one day, Pino. Let's see!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-341",
+            "CPP1-U3-SB-345"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "lena"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Lena plays in the mud all afternoon."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "lena",
+              "text": "Look! Now my hands are dirty!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-338"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "lena"
+            },
+            {
+              "who": "pino"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Lena washes her hands. Now they are clean."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "lena",
+              "text": "Clean hands make me happy!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-339",
+            "CPP1-U3-SB-337"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "stavros"
+            },
+            {
+              "who": "pino"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Pino hears a bird. Suddenly, he jumps off the shelf!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "stavros",
+              "text": "Don't move, Pino! Something is going to happen!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-364",
+            "CPP1-U3-SB-344"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U3-SB-335",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word is a toy you move with strings?"
+          },
+          "options": [
+            "CPP1-U3-SB-336",
+            "CPP1-U3-SB-335",
+            "CPP1-U3-SB-340"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A puppet is a toy you move with strings or your hand."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U3-SB-336",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and pick the word: This table is made of ___."
+          },
+          "options": [
+            "CPP1-U3-SB-338",
+            "CPP1-U3-SB-337",
+            "CPP1-U3-SB-336"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Wood is the hard material from trees that we use to make tables."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-340",
+          "prompt": {
+            "id": "c3q",
+            "text": "A ____ makes tables and chairs from wood."
+          },
+          "options": [
+            "move",
+            "carpenter",
+            "kid"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "A carpenter is a person who makes things from wood."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-341",
+          "prompt": {
+            "id": "c4q",
+            "text": "Lena is a ____ who loves to play in the park."
+          },
+          "options": [
+            "kid",
+            "why",
+            "wood"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A kid is a child, so Lena is a kid."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-337",
+          "prompt": {
+            "id": "c5q",
+            "text": "Lena feels ____ after she washes her hands."
+          },
+          "options": [
+            "happy",
+            "why",
+            "dirty"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Happy means feeling good and smiling."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U3-SB-338",
+          "prompt": {
+            "id": "c6q",
+            "text": "In the story, Lena's hands are dirty after she plays in the mud."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Lena says her hands are dirty after the mud, so this is true."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U3-SB-339",
+          "prompt": {
+            "id": "c7q",
+            "text": "Clean means that something is not dirty."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Clean means free from dirt, so the statement is true."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U3-SB-344",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "wood",
+            "puppet",
+            "kid",
+            "happen"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "Happen is a verb, while kid, puppet and wood are nouns."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U3-SB-345",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word asks for a reason?"
+          },
+          "options": [
+            "CPP1-U3-SB-337",
+            "CPP1-U3-SB-340",
+            "CPP1-U3-SB-345"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "We use why to ask for the reason for something."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-364",
+          "prompt": {
+            "id": "c10q",
+            "text": "Please don't ____! The paint is still wet."
+          },
+          "options": [
+            "move",
+            "wash",
+            "smile"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Move means to change position, so we don't move near wet paint."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game with our picture cards!"
+        },
+        {
+          "id": "l2",
+          "text": "Find the matching picture and say the word out loud."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your day."
+      },
+      "frames": [
+        "Today I feel very ___.",
+        "My hands were ___, so I washed them.",
+        "Something ___ at my house yesterday."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "Today I feel very happy. My hands were dirty, so I washed them. Something happened at my house yesterday. My dog ran around and I laughed!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, friends! You are word detectives now."
+        },
+        {
+          "id": "l2",
+          "text": "You know puppet, carpenter, wood, and why!"
+        },
+        {
+          "id": "l3",
+          "text": "Keep your eyes open for these words all week."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Wood Workshop Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Why is a puppet not a living thing?"
+        },
+        {
+          "id": "e2",
+          "text": "Tell me one thing that is clean and one thing that is dirty."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,720 @@
+{
+  "schema": 1,
+  "id": "CPP3-U5-B",
+  "bookId": "CPP3",
+  "unit": 5,
+  "section": "B",
+  "title": "Explorers of Hidden Places",
+  "bigQuestion": "Why do we travel?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "forest",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ellie": {
+      "name": "Ellie",
+      "emoji": "👧",
+      "persona": "cheerful 11-year-old girl, curious and brave"
+    },
+    "sofia": {
+      "name": "Dr Sofia",
+      "emoji": "👩",
+      "persona": "calm, friendly adult guide, warm and clear"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U5-SB-696",
+      "emoji": "🏘️",
+      "kidDefinition": "A small place where people live, smaller than a town.",
+      "examples": [
+        "My village is very small, but I love living there.",
+        "We spent the summer in a quiet village by the sea."
+      ],
+      "distractors": [
+        "island",
+        "castle",
+        "mountain"
+      ],
+      "greekHint": "Το χωριό είναι μικρότερο από πόλη.",
+      "english": "village",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-701",
+      "emoji": "🥾",
+      "kidDefinition": "A narrow path, often through nature, for walking.",
+      "examples": [
+        "We followed the trail to the top of the hill.",
+        "The trail through the forest was long but beautiful."
+      ],
+      "distractors": [
+        "river",
+        "tent",
+        "bridge"
+      ],
+      "english": "trail",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-697",
+      "emoji": "⛰️",
+      "kidDefinition": "The side of a hill or mountain that goes up or down.",
+      "examples": [
+        "The hikers went down the slope of the hill quickly.",
+        "The slope was so steep that we had to hold on tight."
+      ],
+      "distractors": [
+        "lake",
+        "cave",
+        "bridge"
+      ],
+      "english": "slope",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-698",
+      "emoji": "🌴",
+      "kidDefinition": "A thick, wild forest with lots of plants and animals.",
+      "examples": [
+        "There are many animal and plant species in the jungle.",
+        "Parrots and monkeys live high in the jungle trees."
+      ],
+      "distractors": [
+        "desert",
+        "beach",
+        "city"
+      ],
+      "english": "jungle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-710",
+      "emoji": "⛏️",
+      "kidDefinition": "A place where something important happened or where people dig for things.",
+      "examples": [
+        "They were digging at the archeological site when they found sculptures.",
+        "The old site is now a quiet place for visitors."
+      ],
+      "distractors": [
+        "museum",
+        "shop",
+        "tent"
+      ],
+      "english": "site",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-708",
+      "emoji": "🏗️",
+      "kidDefinition": "Something that has been built, with parts joined together.",
+      "examples": [
+        "Deep in the jungle, there was a structure that looked like a pyramid!",
+        "This stone structure is over five hundred years old."
+      ],
+      "distractors": [
+        "carpet",
+        "ladder",
+        "spoon"
+      ],
+      "english": "structure",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-699",
+      "emoji": "🏛️",
+      "kidDefinition": "The broken remains of an old building or castle.",
+      "examples": [
+        "The children went to explore the ruins of the old castle.",
+        "We walked around the ruins and imagined the people who lived there."
+      ],
+      "distractors": [
+        "garden",
+        "bridge",
+        "tent"
+      ],
+      "english": "ruin",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-702",
+      "emoji": "🧑‍🔬",
+      "kidDefinition": "A person who studies old objects and buildings from the past.",
+      "examples": [
+        "My best friend's dad is an archeologist. He has discovered many ancient sculptures!",
+        "An archeologist carefully digs in the ground to find old things."
+      ],
+      "distractors": [
+        "farmer",
+        "pilot",
+        "chef"
+      ],
+      "english": "archeologist",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-718",
+      "emoji": "📍",
+      "kidDefinition": "Belonging to or coming from the place where you are.",
+      "examples": [
+        "Most local people enjoy eating at this restaurant. Let's do the same!",
+        "The local guide told us a funny story about the village."
+      ],
+      "distractors": [
+        "famous",
+        "strange",
+        "angry"
+      ],
+      "greekHint": "Το local είναι ντόπιος, από εκεί που είσαι.",
+      "english": "local",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U5-SB-725",
+      "emoji": "🌿",
+      "kidDefinition": "A long, thin plant that climbs up trees or walls.",
+      "examples": [
+        "The monkey swung from the vines and moved from tree to tree.",
+        "We pulled a long green vine off the wall of the old house."
+      ],
+      "distractors": [
+        "rope",
+        "feather",
+        "pencil"
+      ],
+      "english": "vine",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U5-SB-695",
+    "CPP3-U5-SB-700",
+    "CPP3-U5-SB-703",
+    "CPP3-U5-SB-704",
+    "CPP3-U5-SB-705",
+    "CPP3-U5-SB-706",
+    "CPP3-U5-SB-707",
+    "CPP3-U5-SB-709",
+    "CPP3-U5-SB-711",
+    "CPP3-U5-SB-712",
+    "CPP3-U5-SB-713",
+    "CPP3-U5-SB-714",
+    "CPP3-U5-SB-715",
+    "CPP3-U5-SB-716",
+    "CPP3-U5-SB-717",
+    "CPP3-U5-SB-719",
+    "CPP3-U5-SB-720",
+    "CPP3-U5-SB-721",
+    "CPP3-U5-SB-722",
+    "CPP3-U5-SB-723",
+    "CPP3-U5-SB-724",
+    "CPP3-U5-SB-726",
+    "CPP3-U5-SB-727",
+    "CPP3-U5-SB-728",
+    "CPP3-U5-SB-729",
+    "CPP3-U5-SB-730",
+    "CPP3-U5-SB-731",
+    "CPP3-U5-SB-732",
+    "CPP3-U5-SB-733",
+    "CPP3-U5-SB-734",
+    "CPP3-U5-SB-735",
+    "CPP3-U5-SB-736",
+    "CPP3-U5-SB-737",
+    "CPP3-U5-SB-738",
+    "CPP3-U5-SB-739",
+    "CPP3-U5-SB-740",
+    "CPP3-U5-SB-741",
+    "CPP3-U5-SB-742",
+    "CPP3-U5-SB-743",
+    "CPP3-U5-SB-744",
+    "CPP3-U5-SB-745",
+    "CPP3-U5-SB-746",
+    "CPP3-U5-SB-747",
+    "CPP3-U5-SB-748",
+    "CPP3-U5-SB-749",
+    "CPP3-U5-SB-750",
+    "CPP3-U5-SB-751",
+    "CPP3-U5-SB-752",
+    "CPP3-U5-SB-753",
+    "CPP3-U5-SB-754",
+    "CPP3-U5-SB-755",
+    "CPP3-U5-SB-756",
+    "CPP3-U5-SB-757"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "forest",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love exploring the world."
+        },
+        {
+          "id": "l2",
+          "text": "Some people travel to relax. Some travel to learn about history."
+        },
+        {
+          "id": "l3",
+          "text": "Today we will meet a curious girl, a kind guide, and a very old hidden place."
+        },
+        {
+          "id": "l4",
+          "text": "Are you ready to explore with me?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Where would you like to travel, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U5-SB-696",
+        "CPP3-U5-SB-701",
+        "CPP3-U5-SB-697",
+        "CPP3-U5-SB-698",
+        "CPP3-U5-SB-725",
+        "CPP3-U5-SB-718",
+        "CPP3-U5-SB-708",
+        "CPP3-U5-SB-710",
+        "CPP3-U5-SB-699",
+        "CPP3-U5-SB-702"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Hidden Stone Place",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "ellie"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Ellie and her family arrive in a quiet village in the mountains."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ellie",
+              "text": "This village is so peaceful. I love the quiet streets!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-696"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "sofia"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Ellie and Dr Sofia follow a narrow trail into the jungle."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "sofia",
+              "text": "Stay on the trail. It is easy to get lost in the jungle."
+            },
+            {
+              "id": "p2b",
+              "who": "ellie",
+              "text": "Wow! The jungle is so green and noisy!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-701",
+            "CPP3-U5-SB-698"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "sofia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "They climb a steep slope. Ellie grabs a long green vine to balance."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "ellie",
+              "text": "This slope is very steep! I will hold this vine."
+            },
+            {
+              "id": "p3b",
+              "who": "sofia",
+              "text": "Be careful! The vine is strong, but the ground is wet."
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-697",
+            "CPP3-U5-SB-725"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "sofia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "At the top, they find a stone structure hidden by plants."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "sofia",
+              "text": "I am an archeologist. This is an important site, and that is an old ruin."
+            },
+            {
+              "id": "p4b",
+              "who": "ellie",
+              "text": "Amazing! Who built this structure a long time ago?"
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-702",
+            "CPP3-U5-SB-710",
+            "CPP3-U5-SB-699",
+            "CPP3-U5-SB-708"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "ellie"
+            },
+            {
+              "who": "sofia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Back in the village, a local guide smiles and waves."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "sofia",
+              "text": "Travelling is a wonderful opportunity to learn about people."
+            },
+            {
+              "id": "p5b",
+              "who": "ellie",
+              "text": "The local people here are so kind. I want to come back!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-718"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U5-SB-699",
+          "prompt": {
+            "id": "c1q",
+            "text": "Tap the picture of a ruin, an old broken building."
+          },
+          "options": [
+            "CPP3-U5-SB-697",
+            "CPP3-U5-SB-725",
+            "CPP3-U5-SB-701",
+            "CPP3-U5-SB-699"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A ruin is the broken remains of an old building, so the picture of the old castle is correct."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U5-SB-701",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to the word trail, then tap its picture."
+          },
+          "options": [
+            "CPP3-U5-SB-698",
+            "CPP3-U5-SB-701",
+            "CPP3-U5-SB-697",
+            "CPP3-U5-SB-710"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A trail is a narrow path that people walk along, like the one in the forest."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-697",
+          "prompt": {
+            "id": "c3q",
+            "text": "The hikers ran down the ____ of the hill."
+          },
+          "options": [
+            "slope",
+            "ruin",
+            "jungle"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "The slope is the side of the hill, so hikers can run down it."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U5-SB-698",
+          "prompt": {
+            "id": "c4q",
+            "text": "In the story, Ellie and Dr Sofia walk through a city."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "False: they walk through a jungle, which is a thick, wild forest full of plants and animals."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U5-SB-702",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is NOT a job?"
+          },
+          "options": [
+            "pilot",
+            "vine",
+            "archeologist",
+            "farmer"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Archeologist, farmer and pilot are jobs, but a vine is a climbing plant."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-725",
+          "prompt": {
+            "id": "c6q",
+            "text": "The monkey swung from a ____ and moved to the next tree."
+          },
+          "options": [
+            "bridge",
+            "vine",
+            "ruin"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A vine is a long plant that climbs, and monkeys can swing from it."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U5-SB-718",
+          "prompt": {
+            "id": "c7q",
+            "text": "Local people are people who live in the place you are visiting."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "True: local people belong to a place because they live there."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-708",
+          "prompt": {
+            "id": "c8q",
+            "text": "Deep in the forest, Ellie saw a stone ____ that looked like a pyramid."
+          },
+          "options": [
+            "structure",
+            "ladder",
+            "carpet"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "A structure is something that has been built, like the stone pyramid-like building."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-696",
+          "prompt": {
+            "id": "c9q",
+            "text": "Ellie's family is visiting a small ____ in the mountains."
+          },
+          "options": [
+            "village",
+            "castle",
+            "island"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A village is a small place where people live, often in the countryside."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U5-SB-710",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which word means a place where people dig to find old things?"
+          },
+          "options": [
+            "CPP3-U5-SB-708",
+            "CPP3-U5-SB-702",
+            "CPP3-U5-SB-710",
+            "CPP3-U5-SB-698"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A site is a place where something is happening, such as digging for ancient objects."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud as you turn each card."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a place you visited or would love to visit."
+      },
+      "frames": [
+        "I went to a ___ with my family.",
+        "There was a ___ and a long trail.",
+        "I want to see an old ___ with an archeologist."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I went to a small village with my family. There was a steep slope and a long trail. I want to see an old ruin with an archeologist."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Fantastic work, explorers! You discovered ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Remember: travel helps us learn about places, people, and history."
+        }
+      ],
+      "badge": {
+        "emoji": "🧭",
+        "name": "Word Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What is the difference between a ruin and a structure?"
+        },
+        {
+          "id": "e2",
+          "text": "Which word from today would you use to describe a small place with few houses?"
+        }
+      ]
+    }
+  ]
+}

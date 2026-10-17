@@ -1,0 +1,724 @@
+{
+  "schema": 1,
+  "id": "CPP3-U7-A",
+  "bookId": "CPP3",
+  "unit": 7,
+  "section": "A",
+  "title": "Treasure Beneath the Sand",
+  "bigQuestion": "How can we explore the past?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "beach",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher who loves history and asks lots of questions"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "curious 11-year-old girl, excited and brave, speaks quickly when she is thrilled"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "friendly 11-year-old boy, funny and careful, likes to double-check things"
+    },
+    "ruth": {
+      "name": "Ms Ruth",
+      "emoji": "🧑‍🏫",
+      "persona": "calm, warm museum guide, encouraging and clear, speaks slowly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U7-SB-944",
+      "emoji": "💰",
+      "kidDefinition": "A collection of valuable things, like gold and jewels.",
+      "examples": [
+        "The pirates hid their treasure in a dark cave.",
+        "Divers found a treasure of old gold coins under the sea."
+      ],
+      "distractors": [
+        "spade",
+        "rope",
+        "compass"
+      ],
+      "greekHint": "θησαυρός: think of a 'thesauros' chest full of gold.",
+      "english": "treasure",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-945",
+      "emoji": "⛏️",
+      "kidDefinition": "To move earth with your hands or a spade.",
+      "examples": [
+        "Children love to dig in the sand at the beach.",
+        "Farmers dig holes to plant new trees every spring."
+      ],
+      "distractors": [
+        "jump",
+        "climb",
+        "carry"
+      ],
+      "greekHint": "σκάβω: dig a hole and say 'σκάβω' as you dig.",
+      "english": "dig - dug - dug",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U7-SB-947",
+      "emoji": "💎",
+      "kidDefinition": "A precious stone, often used in jewellery.",
+      "examples": [
+        "She wore a ring with a bright blue jewel.",
+        "The king's crown was covered with jewels."
+      ],
+      "distractors": [
+        "rock",
+        "button",
+        "bottle"
+      ],
+      "greekHint": "πετράδι: a stone that sparkles like a diamond.",
+      "english": "jewel",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-950",
+      "emoji": "🕳️",
+      "kidDefinition": "Hidden under the ground or sand.",
+      "examples": [
+        "My grandfather found a coin buried in his garden.",
+        "The old letters were buried in a box under the bed."
+      ],
+      "distractors": [
+        "empty",
+        "shiny",
+        "wet"
+      ],
+      "greekHint": "θαμμένος: something that is 'θαμμένος' is under the earth.",
+      "english": "buried",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U7-SB-951",
+      "emoji": "🏴‍☠️",
+      "kidDefinition": "A person who sails the sea and steals things.",
+      "examples": [
+        "The pirate wore a hat and carried a map.",
+        "Long ago, pirates sailed across the seas looking for gold."
+      ],
+      "distractors": [
+        "farmer",
+        "baker",
+        "teacher"
+      ],
+      "greekHint": "πειρατής: think of a pirate ship with a black flag.",
+      "english": "pirate",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-946",
+      "emoji": "🪖",
+      "kidDefinition": "A hard hat that protects your head.",
+      "examples": [
+        "Builders wear a yellow helmet to keep their heads safe.",
+        "The soldier's bronze helmet is on display in the museum."
+      ],
+      "distractors": [
+        "glove",
+        "boot",
+        "scarf"
+      ],
+      "greekHint": "κράνος: a helmet keeps the head safe, like a κράνος.",
+      "english": "helmet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-952",
+      "emoji": "🚢",
+      "kidDefinition": "A ship that has been destroyed at sea.",
+      "examples": [
+        "Divers explored the shipwreck at the bottom of the bay.",
+        "A storm caused the shipwreck near the rocky coast."
+      ],
+      "distractors": [
+        "island",
+        "harbour",
+        "lighthouse"
+      ],
+      "greekHint": "ναυάγιο: a ship that is broken in the sea.",
+      "english": "shipwreck",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-956",
+      "emoji": "🌊",
+      "kidDefinition": "To go down under water.",
+      "examples": [
+        "The stone will sink if you drop it in the pool.",
+        "The old boat sank during the storm last winter."
+      ],
+      "distractors": [
+        "float",
+        "swim",
+        "fly"
+      ],
+      "greekHint": "βυθίζομαι: sink goes down, like a βύθος (deep sea).",
+      "english": "sink - sank - sunk",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U7-SB-973",
+      "emoji": "🟫",
+      "kidDefinition": "Soil, the brown earth on the ground.",
+      "examples": [
+        "Plants grow well in dark, rich dirt.",
+        "Wash your hands after you play in the dirt."
+      ],
+      "distractors": [
+        "paint",
+        "ice",
+        "feather"
+      ],
+      "greekHint": "χώμα: brown dirt that you can feel in your hands.",
+      "english": "dirt",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U7-SB-953",
+      "emoji": "⚰️",
+      "kidDefinition": "A place where a dead person is buried.",
+      "examples": [
+        "Explorers opened the old tomb very carefully.",
+        "Inside the tomb, they found pots and golden masks."
+      ],
+      "distractors": [
+        "castle",
+        "palace",
+        "cave"
+      ],
+      "greekHint": "τάφος: a tomb is a τάφος, a place for very old treasures.",
+      "english": "tomb",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U7-SB-943",
+    "CPP3-U7-SB-948",
+    "CPP3-U7-SB-949",
+    "CPP3-U7-SB-954",
+    "CPP3-U7-SB-955",
+    "CPP3-U7-SB-957",
+    "CPP3-U7-SB-958",
+    "CPP3-U7-SB-959",
+    "CPP3-U7-SB-960",
+    "CPP3-U7-SB-961",
+    "CPP3-U7-SB-962",
+    "CPP3-U7-SB-963",
+    "CPP3-U7-SB-964",
+    "CPP3-U7-SB-965",
+    "CPP3-U7-SB-966",
+    "CPP3-U7-SB-967",
+    "CPP3-U7-SB-968",
+    "CPP3-U7-SB-969",
+    "CPP3-U7-SB-970",
+    "CPP3-U7-SB-971",
+    "CPP3-U7-SB-972",
+    "CPP3-U7-SB-974",
+    "CPP3-U7-SB-975",
+    "CPP3-U7-SB-976",
+    "CPP3-U7-SB-977",
+    "CPP3-U7-SB-978",
+    "CPP3-U7-SB-979",
+    "CPP3-U7-SB-980",
+    "CPP3-U7-SB-981"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "beach",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, explorers! I am Lingo, and I love learning about the past."
+        },
+        {
+          "id": "l2",
+          "text": "Long ago, people hid gold, coins and jewels in secret places."
+        },
+        {
+          "id": "l3",
+          "text": "Today, archaeologists still find amazing things under the ground."
+        },
+        {
+          "id": "l4",
+          "text": "Some treasures were lost at sea, and some were buried in old tombs."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "If you found an old box under the sand, what would you hope was inside?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U7-SB-944",
+        "CPP3-U7-SB-945",
+        "CPP3-U7-SB-947",
+        "CPP3-U7-SB-950",
+        "CPP3-U7-SB-951",
+        "CPP3-U7-SB-946",
+        "CPP3-U7-SB-952",
+        "CPP3-U7-SB-956",
+        "CPP3-U7-SB-973",
+        "CPP3-U7-SB-953"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Map by the Rock",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "One sunny morning, Mia and Leo found a dusty paper on the beach."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "leo",
+              "text": "Look, Mia! It is an old map, and it shows a treasure!"
+            },
+            {
+              "id": "p1b",
+              "who": "mia",
+              "text": "I think the treasure is buried near that big rock."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-944",
+            "CPP3-U7-SB-950"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "They ran to the rock and started to dig."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "Let's dig here! A pirate probably hid it long ago."
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Good idea. Please pass me the spade."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-945",
+            "CPP3-U7-SB-951"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Mia dug and dug, until her spade hit something hard."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mia",
+              "text": "Wait! I can see a shiny jewel in the dirt!"
+            },
+            {
+              "id": "p3b",
+              "who": "leo",
+              "text": "Wow, let's keep going carefully, so we do not break it."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-947",
+            "CPP3-U7-SB-973"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Leo brushed away the sand and found an old helmet."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "leo",
+              "text": "Look, a rusty helmet! It must come from a shipwreck."
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "The ship probably sank long ago, near these rocks."
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-946",
+            "CPP3-U7-SB-952",
+            "CPP3-U7-SB-956"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "city",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            },
+            {
+              "who": "ruth"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "A week later, Ms Ruth showed them a picture of an ancient tomb."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "ruth",
+              "text": "This tomb is thousands of years old. You two are real explorers!"
+            },
+            {
+              "id": "p5b",
+              "who": "leo",
+              "text": "Next time, we will look for another tomb!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U7-SB-953"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP3-U7-SB-944",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen to the word and choose the picture: treasure."
+          },
+          "options": [
+            "CPP3-U7-SB-945",
+            "CPP3-U7-SB-947",
+            "CPP3-U7-SB-951",
+            "CPP3-U7-SB-944"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A treasure is a collection of valuable things, like gold and jewels."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U7-SB-947",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which picture shows a sparkling stone you could wear in a ring?"
+          },
+          "options": [
+            "CPP3-U7-SB-952",
+            "CPP3-U7-SB-946",
+            "CPP3-U7-SB-947",
+            "CPP3-U7-SB-953"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "A jewel is a precious stone, and it sparkles in the sun."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-945",
+          "prompt": {
+            "id": "c3q",
+            "text": "Archaeologists ____ carefully to find old coins."
+          },
+          "options": [
+            "jump",
+            "climb",
+            "dig",
+            "carry"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "Dig means to move earth with a spade or your hands."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U7-SB-950",
+          "prompt": {
+            "id": "c4q",
+            "text": "Something that is buried is hidden under the ground."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Buried means that something is covered and hidden, like sand over a box."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-951",
+          "prompt": {
+            "id": "c5q",
+            "text": "The ____ hid gold coins on a secret island long ago."
+          },
+          "options": [
+            "teacher",
+            "pirate",
+            "farmer",
+            "baker"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "A pirate is a person who sails the sea and steals things."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U7-SB-956",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "helmet",
+            "sink",
+            "jewel",
+            "treasure"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Sink is a verb, but the others are nouns you can hold."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U7-SB-973",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which picture shows the brown earth you dig through?"
+          },
+          "options": [
+            "CPP3-U7-SB-973",
+            "CPP3-U7-SB-952",
+            "CPP3-U7-SB-953",
+            "CPP3-U7-SB-946"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Dirt is the soil on the ground, and plants grow in it."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-953",
+          "prompt": {
+            "id": "c8q",
+            "text": "The ancient king rested in a stone ____ for thousands of years."
+          },
+          "options": [
+            "castle",
+            "cave",
+            "palace",
+            "tomb"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "A tomb is a place where a dead person is buried."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U7-SB-952",
+          "prompt": {
+            "id": "c9q",
+            "text": "A shipwreck is a new ship that is still sailing across the sea."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "A shipwreck is a ship that has been destroyed at sea, so it is not sailing."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U7-SB-946",
+          "prompt": {
+            "id": "c10q",
+            "text": "Ancient soldiers wore a bronze ____ to protect their heads."
+          },
+          "options": [
+            "jewel",
+            "tomb",
+            "helmet",
+            "shipwreck"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A helmet is a hard hat that protects your head."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Find two cards that match: a word and its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud as you turn the card over."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "With your partner, imagine you are explorers on a beach. Use the frames to say what you might find."
+      },
+      "frames": [
+        "I think a ___ is buried under the sand.",
+        "I would dig here because ___.",
+        "I found a ___ in the dirt!"
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I think a treasure is buried under the sand. I would dig here because the map shows a big rock. I found a jewel in the dirt!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, explorers! You dug up ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Next time, we will find out how archaeologists explore the past."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Treasure Hunter"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means a hard hat that protects your head?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence using the word buried."
+        }
+      ]
+    }
+  ]
+}

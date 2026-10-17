@@ -1,0 +1,720 @@
+{
+  "schema": 1,
+  "id": "CPP1-U8-B",
+  "bookId": "CPP1",
+  "unit": 8,
+  "section": "B",
+  "title": "Ling's Painted Dream: Beach, Forest and Costume Words",
+  "bigQuestion": "What is imagination?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ling": {
+      "name": "Ling",
+      "emoji": "👧",
+      "persona": "curious, creative 9-year-old girl who loves painting, bright and confident"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "🧒",
+      "persona": "cheerful 9-year-old boy, funny, friendly and a little bit silly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U8-SB-940",
+      "emoji": "🫙",
+      "kidDefinition": "Having no space left inside.",
+      "examples": [
+        "The box is full of sand.",
+        "Leo's glass is full of cold lemonade."
+      ],
+      "distractors": [
+        "busy",
+        "happy",
+        "quiet"
+      ],
+      "greekHint": "γεμάτος",
+      "english": "full",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U8-SB-941",
+      "emoji": "🥛",
+      "kidDefinition": "Having nothing inside.",
+      "examples": [
+        "My glass is empty. Can I have some water, please?",
+        "Leo's bottle is empty after the beach."
+      ],
+      "distractors": [
+        "tired",
+        "hungry",
+        "cold"
+      ],
+      "greekHint": "άδειος",
+      "english": "empty",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U8-SB-942",
+      "emoji": "💧",
+      "kidDefinition": "Wanting a drink of water.",
+      "examples": [
+        "It's too hot and I'm very thirsty.",
+        "After running, the dog is thirsty."
+      ],
+      "distractors": [
+        "hungry",
+        "tired",
+        "sleepy"
+      ],
+      "greekHint": "διψασμένος",
+      "english": "thirsty",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U8-SB-943",
+      "emoji": "💨",
+      "kidDefinition": "A machine that moves air to cool you.",
+      "examples": [
+        "Turn on the fan. It's hot in the room.",
+        "The fan is loud, but it feels nice."
+      ],
+      "distractors": [
+        "heater",
+        "lamp",
+        "radio"
+      ],
+      "greekHint": "ανεμιστήρας",
+      "english": "fan",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-944",
+      "emoji": "⚠️",
+      "kidDefinition": "Think about danger and stay safe.",
+      "examples": [
+        "Be careful! Don't break the glass.",
+        "Be careful near the river, Leo!"
+      ],
+      "distractors": [
+        "Be quiet",
+        "Be happy",
+        "Be ready"
+      ],
+      "greekHint": "Πρόσεχε",
+      "english": "Be careful",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U8-SB-953",
+      "emoji": "💭",
+      "kidDefinition": "Pictures and stories you see while sleeping.",
+      "examples": [
+        "Kelly had a strange dream last night.",
+        "My dream is about a flying horse."
+      ],
+      "distractors": [
+        "story",
+        "song",
+        "game"
+      ],
+      "greekHint": "όνειρο",
+      "english": "dream",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-954",
+      "emoji": "🌊",
+      "kidDefinition": "A big stream of water flowing to the sea.",
+      "examples": [
+        "The Danube is a very long river!",
+        "We sat by the river and drew the trees."
+      ],
+      "distractors": [
+        "bridge",
+        "street",
+        "mountain"
+      ],
+      "greekHint": "ποταμός",
+      "english": "river",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-962",
+      "emoji": "🪣",
+      "kidDefinition": "A round container for carrying water or sand.",
+      "examples": [
+        "The little boy plays on the beach with his pail.",
+        "Ling fills her pail with wet sand."
+      ],
+      "distractors": [
+        "shovel",
+        "towel",
+        "kite"
+      ],
+      "greekHint": "κουβάς",
+      "english": "pail",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-967",
+      "emoji": "✏️",
+      "kidDefinition": "To draw a quick, simple picture.",
+      "examples": [
+        "Ben sketches very nice drawings.",
+        "Ling sketches a horse before she paints it."
+      ],
+      "distractors": [
+        "steal",
+        "wash",
+        "sleep"
+      ],
+      "greekHint": "σκιτσάρω",
+      "english": "sketch",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U8-SB-977",
+      "emoji": "🦸",
+      "kidDefinition": "Clothes you wear to look like someone else.",
+      "examples": [
+        "I can't decide what costume to wear at the costume party.",
+        "Leo wears a superhero costume for the show."
+      ],
+      "distractors": [
+        "sweater",
+        "shirt",
+        "shoe"
+      ],
+      "greekHint": "στολή μεταμφίεσης",
+      "english": "costume",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U8-SB-945",
+    "CPP1-U8-SB-946",
+    "CPP1-U8-SB-947",
+    "CPP1-U8-SB-948",
+    "CPP1-U8-SB-949",
+    "CPP1-U8-SB-950",
+    "CPP1-U8-SB-951",
+    "CPP1-U8-SB-952",
+    "CPP1-U8-SB-955",
+    "CPP1-U8-SB-956",
+    "CPP1-U8-SB-957",
+    "CPP1-U8-SB-958",
+    "CPP1-U8-SB-959",
+    "CPP1-U8-SB-960",
+    "CPP1-U8-SB-961",
+    "CPP1-U8-SB-963",
+    "CPP1-U8-SB-964",
+    "CPP1-U8-SB-965",
+    "CPP1-U8-SB-966",
+    "CPP1-U8-SB-968",
+    "CPP1-U8-SB-969",
+    "CPP1-U8-SB-970",
+    "CPP1-U8-SB-971",
+    "CPP1-U8-SB-972",
+    "CPP1-U8-SB-973",
+    "CPP1-U8-SB-974",
+    "CPP1-U8-SB-975",
+    "CPP1-U8-SB-976",
+    "CPP1-U8-SB-978"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Imagine you can paint a dream with one brush."
+        },
+        {
+          "id": "l3",
+          "text": "Today we meet Ling. She paints amazing pictures."
+        },
+        {
+          "id": "l4",
+          "text": "Let's learn new words and follow her story together."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you like to imagine? Tell me one thing!"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U8-SB-940",
+        "CPP1-U8-SB-941",
+        "CPP1-U8-SB-942",
+        "CPP1-U8-SB-943",
+        "CPP1-U8-SB-944",
+        "CPP1-U8-SB-953",
+        "CPP1-U8-SB-954",
+        "CPP1-U8-SB-962",
+        "CPP1-U8-SB-967",
+        "CPP1-U8-SB-977"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Ling's Beach Dream",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Ling sits at her desk and begins to sketch a picture."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ling",
+              "text": "I want to sketch a dream about a flying horse!"
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Your dream is amazing, Ling. Can I see?"
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-967",
+            "CPP1-U8-SB-953"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Later, Ling fills her pail with sand on the beach."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "I am so thirsty. My bottle is empty now."
+            },
+            {
+              "id": "p2b",
+              "who": "ling",
+              "text": "Let's fill it at the shop. Come on!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-962",
+            "CPP1-U8-SB-942",
+            "CPP1-U8-SB-941"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "They walk through the forest and reach a river."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "ling",
+              "text": "Be careful! The path is near the river."
+            },
+            {
+              "id": "p3b",
+              "who": "leo",
+              "text": "Wow, the river is so blue and calm."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-944",
+            "CPP1-U8-SB-954"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Back home, Ling turns on the fan."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "ling",
+              "text": "It is hot! Please turn on the fan, Leo."
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "My glass is full of cold lemonade now."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-943",
+            "CPP1-U8-SB-940"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Next week, the class has a costume party."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "leo",
+              "text": "I will be a superhero in my costume!"
+            },
+            {
+              "id": "p5b",
+              "who": "ling",
+              "text": "And I will be a painter with a magic paintbrush!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-977"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP1-U8-SB-962",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen to the word: pail. Which one is it?"
+          },
+          "options": [
+            "CPP1-U8-SB-977",
+            "CPP1-U8-SB-962",
+            "CPP1-U8-SB-967",
+            "CPP1-U8-SB-954"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A pail is the bucket you use to carry sand at the beach."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-941",
+          "prompt": {
+            "id": "c2q",
+            "text": "My water bottle is ____. Can I have some more, please?"
+          },
+          "options": [
+            "tired",
+            "happy",
+            "empty",
+            "full"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Empty means there is nothing inside, so you want more water."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U8-SB-942",
+          "prompt": {
+            "id": "c3q",
+            "text": "Leo says he is thirsty on the beach. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Thirsty means you want a drink, and Leo asks for one."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U8-SB-943",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "fan",
+            "empty",
+            "full",
+            "thirsty"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A fan is a noun, but the other three words are adjectives."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U8-SB-944",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which phrase tells you to take care and stay safe?"
+          },
+          "options": [
+            "CPP1-U8-SB-977",
+            "CPP1-U8-SB-944",
+            "CPP1-U8-SB-953",
+            "CPP1-U8-SB-954"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Be careful means think about danger, like when Ling warns Leo near the river."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-953",
+          "prompt": {
+            "id": "c6q",
+            "text": "Last night I had a strange ____ about a flying horse."
+          },
+          "options": [
+            "costume",
+            "dream",
+            "pail",
+            "river"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A dream is the pictures and stories you see when you sleep."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U8-SB-954",
+          "prompt": {
+            "id": "c7q",
+            "text": "In the story, Ling and Leo walk to a river in the city. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "The river is in the forest, not in the city."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-967",
+          "prompt": {
+            "id": "c8q",
+            "text": "Ling likes to ____ a quick picture before she paints."
+          },
+          "options": [
+            "sleep",
+            "sketch",
+            "steal",
+            "wash"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "To sketch means to draw a quick, simple picture first."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U8-SB-977",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word means clothes you wear to look like a superhero?"
+          },
+          "options": [
+            "CPP1-U8-SB-977",
+            "CPP1-U8-SB-941",
+            "CPP1-U8-SB-943",
+            "CPP1-U8-SB-962"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A costume is the special clothes you wear at a costume party."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-940",
+          "prompt": {
+            "id": "c10q",
+            "text": "Leo's glass is ____ to the top with cold lemonade."
+          },
+          "options": [
+            "empty",
+            "short",
+            "rich",
+            "full"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c10e",
+            "text": "Full means there is no space left inside the glass."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud each time you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your dream or the costume you want to wear."
+      },
+      "frames": [
+        "I have a dream about a ___.",
+        "On a hot day, I feel ___.",
+        "For a costume party, I want to be a ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I have a dream about a flying dog. On a hot day, I feel thirsty. For a costume party, I want to be a pilot."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You learned ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Ling is proud of your sketches and your imagination."
+        },
+        {
+          "id": "l3",
+          "text": "Keep using these words. Your imagination can take you far!"
+        }
+      ],
+      "badge": {
+        "emoji": "🎨",
+        "name": "Imagination Painter"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word from today means you want a drink? Write it down."
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence using the word dream."
+        }
+      ]
+    }
+  ]
+}

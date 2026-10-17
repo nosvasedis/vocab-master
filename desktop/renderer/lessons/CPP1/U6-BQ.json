@@ -1,0 +1,501 @@
+{
+  "schema": 1,
+  "id": "CPP1-U6-BQ",
+  "bookId": "CPP1",
+  "unit": 6,
+  "section": "BQ",
+  "title": "How Can We Help? Owl Helpers Start Here",
+  "bigQuestion": "How can we help?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, organised and curious"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "playful 9-year-old boy, always a little messy, friendly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U6-SB-651",
+      "emoji": "🗣️",
+      "kidDefinition": "When people talk together about an idea or problem.",
+      "examples": [
+        "We have a discussion about our school garden.",
+        "Let's have a discussion about helping at home."
+      ],
+      "distractors": [
+        "puzzle",
+        "picnic",
+        "rainbow"
+      ],
+      "greekHint": "συζήτηση",
+      "english": "discussion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-652",
+      "emoji": "📊",
+      "kidDefinition": "A picture with rows and boxes that shows information.",
+      "examples": [
+        "Let's make a chart with our chores.",
+        "The chart shows who sweeps on Monday."
+      ],
+      "distractors": [
+        "photo",
+        "blanket",
+        "bottle"
+      ],
+      "greekHint": "σχεδιάγραμμα",
+      "english": "chart",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-653",
+      "emoji": "💡",
+      "kidDefinition": "To give an idea for someone to think about.",
+      "examples": [
+        "I suggest we water the plants at school.",
+        "Can I suggest a fun way to help?"
+      ],
+      "distractors": [
+        "forget",
+        "climb",
+        "dance"
+      ],
+      "greekHint": "προτείνω",
+      "english": "suggest",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U6-SB-654",
+      "emoji": "🧹",
+      "kidDefinition": "To clean the floor with a broom.",
+      "examples": [
+        "Dad sweeps the kitchen every Saturday morning.",
+        "I sweep the floor after lunch."
+      ],
+      "distractors": [
+        "jump",
+        "paint",
+        "sing"
+      ],
+      "greekHint": "σκουπίζω",
+      "english": "sweep",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U6-SB-655",
+      "emoji": "🛏️",
+      "kidDefinition": "To tidy your sheets and blanket on the bed.",
+      "examples": [
+        "I make the bed every morning.",
+        "Leo makes the bed before breakfast."
+      ],
+      "distractors": [
+        "wash the car",
+        "feed the dog",
+        "clean the windows"
+      ],
+      "greekHint": "στρώνω το κρεβάτι",
+      "english": "make the bed",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U6-SB-656",
+      "emoji": "💧",
+      "kidDefinition": "To pour water on plants so they can grow.",
+      "examples": [
+        "Mom waters the plants in the afternoon.",
+        "Please water the flowers in the garden."
+      ],
+      "distractors": [
+        "cook",
+        "paint",
+        "wave"
+      ],
+      "greekHint": "ποτίζω",
+      "english": "water",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U6-SB-657",
+      "emoji": "🍽️",
+      "kidDefinition": "To put plates, forks and cups on the table for a meal.",
+      "examples": [
+        "My little sister sets the table for lunch.",
+        "We set the table before dinner."
+      ],
+      "distractors": [
+        "wash the car",
+        "feed the dog",
+        "tidy the room"
+      ],
+      "greekHint": "στρώνω το τραπέζι",
+      "english": "set the table",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U6-SB-658",
+      "emoji": "🎁",
+      "kidDefinition": "To give things to people who need them, for free.",
+      "examples": [
+        "Let's donate our old toys to the animal shelter.",
+        "We can donate books to the library."
+      ],
+      "distractors": [
+        "borrow",
+        "dance",
+        "kick"
+      ],
+      "greekHint": "δωρίζω, χαρίζω",
+      "english": "donate",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U6-SB-659",
+      "emoji": "♻️",
+      "kidDefinition": "To use old things again, so they are not thrown away.",
+      "examples": [
+        "We recycle plastic bottles and cans.",
+        "Please recycle paper in the blue bin."
+      ],
+      "distractors": [
+        "bake",
+        "carry",
+        "dig"
+      ],
+      "greekHint": "ανακυκλώνω",
+      "english": "recycle",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U6-KW-5",
+    "CPP1-U6-KW-6"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Our school is a busy place with lots of people."
+        },
+        {
+          "id": "l3",
+          "text": "Who helps keep it clean, bright and happy?"
+        },
+        {
+          "id": "l4",
+          "text": "Mia and Leo have a big question today."
+        },
+        {
+          "id": "l5",
+          "text": "How can we help our community?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one way you help at home?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U6-SB-651",
+        "CPP1-U6-SB-652",
+        "CPP1-U6-SB-653",
+        "CPP1-U6-SB-654",
+        "CPP1-U6-SB-655",
+        "CPP1-U6-SB-656",
+        "CPP1-U6-SB-657",
+        "CPP1-U6-SB-658",
+        "CPP1-U6-SB-659"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-651",
+          "prompt": {
+            "id": "c1q",
+            "text": "We have a ____ about how we can help our community."
+          },
+          "options": [
+            "discussion",
+            "puzzle",
+            "picnic"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A discussion is when people talk together about an idea."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U6-SB-652",
+          "prompt": {
+            "id": "c2q",
+            "text": "Point to the word for rows and boxes that show our chores."
+          },
+          "options": [
+            "CPP1-U6-SB-653",
+            "CPP1-U6-SB-656",
+            "CPP1-U6-SB-652"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "A chart is a picture with rows and boxes that show information."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP1-U6-SB-653",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen: Can I suggest an idea? Which word did you hear?"
+          },
+          "options": [
+            "CPP1-U6-SB-654",
+            "CPP1-U6-SB-656",
+            "CPP1-U6-SB-653"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "To suggest means to give an idea for others to think about."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-654",
+          "prompt": {
+            "id": "c4q",
+            "text": "Dad ____ the kitchen every Saturday morning."
+          },
+          "options": [
+            "sings",
+            "paints",
+            "sweeps"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "Sweeps means cleaning the floor with a broom."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U6-SB-655",
+          "prompt": {
+            "id": "c5q",
+            "text": "To make the bed means to tidy your sheets and blanket. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "When you make the bed, you smooth the sheets and blanket."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U6-SB-656",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "sweep",
+            "water",
+            "chart",
+            "recycle"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "Chart is a noun, but water, sweep and recycle are action words."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-656",
+          "prompt": {
+            "id": "c7q",
+            "text": "Mom ____ the plants in the afternoon."
+          },
+          "options": [
+            "cleans",
+            "feeds",
+            "waters"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "To water means to pour water on plants so they can grow."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U6-SB-657",
+          "prompt": {
+            "id": "c8q",
+            "text": "Point to the words for putting plates and forks on the table."
+          },
+          "options": [
+            "CPP1-U6-SB-657",
+            "CPP1-U6-SB-654",
+            "CPP1-U6-SB-655"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Set the table means to put plates, forks and cups out for a meal."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U6-SB-658",
+          "prompt": {
+            "id": "c9q",
+            "text": "Donate means to keep something just for yourself. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "To donate means to give something to people who need it."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-659",
+          "prompt": {
+            "id": "c10q",
+            "text": "We ____ plastic bottles and cans."
+          },
+          "options": [
+            "bake",
+            "dig",
+            "recycle"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "To recycle means to use old things again instead of throwing them away."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a quick owl quiz! Show me your best helping words."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner: What chores do you do at home?"
+      },
+      "frames": [
+        "I make the ___ every morning.",
+        "I sometimes ___ the plants on Sunday.",
+        "I suggest we ___ together at school."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I make the bed every morning. I water the plants on Sunday. I suggest we recycle bottles at school."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You know so many helpful words."
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about chores, charts and good ideas."
+        },
+        {
+          "id": "l3",
+          "text": "Next lesson, we read about helping our community together."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Helper Owl Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one chore you can do at home."
+        },
+        {
+          "id": "e2",
+          "text": "Which word means giving things to people who need them?"
+        }
+      ]
+    }
+  ]
+}

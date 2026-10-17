@@ -1,0 +1,730 @@
+{
+  "schema": 1,
+  "id": "CPP2-U3-A",
+  "bookId": "CPP2",
+  "unit": 3,
+  "section": "A",
+  "title": "Why Does My Onion Make Me Cry?",
+  "bigQuestion": "Why is food important?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "kitchen",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, curious and bright"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "playful 10-year-old boy, a little dramatic"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U3-SB-308",
+      "emoji": "🧅",
+      "kidDefinition": "A round vegetable with layers that can make you cry.",
+      "examples": [
+        "Let's add some onion to the salad.",
+        "Mia cuts one big onion for the soup."
+      ],
+      "distractors": [
+        "tomato",
+        "broccoli",
+        "pasta"
+      ],
+      "greekHint": "Το κρεμμύδι σε κάνει να κλαις, γι' αυτό θυμήσου το δάκρυ.",
+      "english": "onion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-311",
+      "emoji": "👃",
+      "kidDefinition": "Having a strong, bad smell.",
+      "examples": [
+        "Ugh! This cheese is very smelly!",
+        "Leo's old socks are very smelly."
+      ],
+      "distractors": [
+        "tasty",
+        "flat",
+        "terrible"
+      ],
+      "english": "smelly",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U3-SB-312",
+      "emoji": "🫒",
+      "kidDefinition": "A liquid from plants that we use for cooking.",
+      "examples": [
+        "Some fruit like oranges has nice smelling oils.",
+        "Mia puts oil in the pan."
+      ],
+      "distractors": [
+        "milk",
+        "yogurt",
+        "sugar"
+      ],
+      "english": "oil",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-306",
+      "emoji": "🛶",
+      "kidDefinition": "To stay on top of water and not sink.",
+      "examples": [
+        "Boats float in the water.",
+        "A small leaf can float on a pond."
+      ],
+      "distractors": [
+        "sink",
+        "swim",
+        "jump"
+      ],
+      "english": "float",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-313",
+      "emoji": "🚪",
+      "kidDefinition": "To move from inside to outside something.",
+      "examples": [
+        "When you cut an onion, the oil comes out.",
+        "The sun comes out after the rain."
+      ],
+      "distractors": [
+        "go in",
+        "turn on",
+        "sit down"
+      ],
+      "english": "come out",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-317",
+      "emoji": "😢",
+      "kidDefinition": "To fill with tears in your eyes.",
+      "examples": [
+        "His eyes water up every time he cuts an onion.",
+        "My eyes water up in the cold wind."
+      ],
+      "distractors": [
+        "wash up",
+        "wake up",
+        "give up"
+      ],
+      "english": "water up",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-315",
+      "emoji": "💨",
+      "kidDefinition": "A substance like air that spreads out to fill space.",
+      "examples": [
+        "When oil turns into gas, it makes your eyes water up.",
+        "Onion gas can make your eyes sting."
+      ],
+      "distractors": [
+        "solid",
+        "liquid",
+        "spoon"
+      ],
+      "english": "gas",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-318",
+      "emoji": "🚿",
+      "kidDefinition": "To clean something off using water.",
+      "examples": [
+        "Wash away the smelly onion gas with some water.",
+        "Rain can wash away the mud on your shoes."
+      ],
+      "distractors": [
+        "dry off",
+        "pick up",
+        "throw away"
+      ],
+      "english": "wash away",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-309",
+      "emoji": "💊",
+      "kidDefinition": "A small part of food that keeps your body healthy.",
+      "examples": [
+        "Fruit and vegetables have lots of vitamins.",
+        "Vitamin C is good for your body."
+      ],
+      "distractors": [
+        "sugar",
+        "flour",
+        "cereal"
+      ],
+      "english": "vitamin",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-310",
+      "emoji": "🥗",
+      "kidDefinition": "Something in food your body needs to be healthy.",
+      "examples": [
+        "Nutrients are important if you want to stay healthy.",
+        "Nuts have lots of nutrients."
+      ],
+      "distractors": [
+        "container",
+        "cracker",
+        "guide"
+      ],
+      "greekHint": "Το θρεπτικό συστατικό θρέφει το σώμα σου.",
+      "english": "nutrient",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U3-SB-305",
+    "CPP2-U3-SB-307",
+    "CPP2-U3-SB-314",
+    "CPP2-U3-SB-316",
+    "CPP2-U3-SB-319",
+    "CPP2-U3-SB-320",
+    "CPP2-U3-SB-321",
+    "CPP2-U3-SB-322",
+    "CPP2-U3-SB-323",
+    "CPP2-U3-SB-324",
+    "CPP2-U3-SB-325",
+    "CPP2-U3-SB-326",
+    "CPP2-U3-SB-327",
+    "CPP2-U3-SB-328",
+    "CPP2-U3-SB-329",
+    "CPP2-U3-SB-330",
+    "CPP2-U3-SB-331",
+    "CPP2-U3-SB-332",
+    "CPP2-U3-SB-333",
+    "CPP2-U3-SB-334",
+    "CPP2-U3-SB-335",
+    "CPP2-U3-SB-336",
+    "CPP2-U3-SB-337",
+    "CPP2-U3-SB-338",
+    "CPP2-U3-SB-339",
+    "CPP2-U3-SB-340",
+    "CPP2-U3-SB-341",
+    "CPP2-U3-SB-342",
+    "CPP2-U3-SB-343",
+    "CPP2-U3-SB-344",
+    "CPP2-U3-SB-345",
+    "CPP2-U3-SB-346",
+    "CPP2-U3-SB-347",
+    "CPP2-U3-SB-348",
+    "CPP2-U3-SB-349",
+    "CPP2-U3-SB-350",
+    "CPP2-U3-SB-351",
+    "CPP2-U3-SB-352",
+    "CPP2-U3-SB-353",
+    "CPP2-U3-SB-354",
+    "CPP2-U3-SB-355",
+    "CPP2-U3-SB-356",
+    "CPP2-U3-SB-357",
+    "CPP2-U3-SB-358",
+    "CPP2-U3-SB-359",
+    "CPP2-U3-SB-360",
+    "CPP2-U3-SB-361",
+    "CPP2-U3-SB-362",
+    "CPP2-U3-SB-363",
+    "CPP2-U3-SB-364",
+    "CPP2-U3-SB-365",
+    "CPP2-U3-SB-366",
+    "CPP2-U3-SB-367",
+    "CPP2-U3-SB-368",
+    "CPP2-U3-SB-369",
+    "CPP2-U3-SB-370",
+    "CPP2-U3-SB-371",
+    "CPP2-U3-SB-372",
+    "CPP2-U3-SB-373",
+    "CPP2-U3-KW-12",
+    "CPP2-U3-KW-13"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "kitchen",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! Welcome to our kitchen today."
+        },
+        {
+          "id": "l2",
+          "text": "Mia is making a fresh salad for lunch."
+        },
+        {
+          "id": "l3",
+          "text": "She needs one onion. But she has a little problem!"
+        },
+        {
+          "id": "l4",
+          "text": "Onions can be a bit smelly, and they can make us cry."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Have you ever cut an onion? What happened to your eyes?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U3-SB-308",
+        "CPP2-U3-SB-311",
+        "CPP2-U3-SB-312",
+        "CPP2-U3-SB-306",
+        "CPP2-U3-SB-313",
+        "CPP2-U3-SB-317",
+        "CPP2-U3-SB-315",
+        "CPP2-U3-SB-318",
+        "CPP2-U3-SB-309",
+        "CPP2-U3-SB-310"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Onion Problem",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia and Leo want to make a fresh salad."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Leo, can you help me? Let's cut this onion."
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Onions are so smelly! Ugh, I don't like it!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-308",
+            "CPP2-U3-SB-311"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Mia cuts the onion. Something strange happens."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "Look! Some oil comes out of the onion."
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Oh no! My eyes start to water up!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-312",
+            "CPP2-U3-SB-313",
+            "CPP2-U3-SB-317"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "The oil turns into a gas in the air around them."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "This gas is making me cry! Quick, wash away the gas!"
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "Good idea. Let's use some water right now."
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-315",
+            "CPP2-U3-SB-318"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Mia fills a glass with water and adds a drop of oil."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "mia",
+              "text": "Look, Leo! The oil can float on the water!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-306",
+            "CPP2-U3-SB-312"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "lingo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Lingo smiles and shares a healthy secret."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "lingo",
+              "text": "Onions have vitamins and nutrients. They keep you healthy!"
+            },
+            {
+              "id": "p5b",
+              "who": "mia",
+              "text": "Then our salad will be healthy and delicious!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-309",
+            "CPP2-U3-SB-310"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U3-SB-308",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the word: onion. Which one is it?"
+          },
+          "options": [
+            "CPP2-U3-SB-309",
+            "CPP2-U3-SB-312",
+            "CPP2-U3-SB-308"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "An onion is the round vegetable that makes you cry."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U3-SB-311",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and choose: smelly."
+          },
+          "options": [
+            "CPP2-U3-SB-310",
+            "CPP2-U3-SB-311",
+            "CPP2-U3-SB-306"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "Smelly means having a strong, bad smell, like old cheese."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-313",
+          "prompt": {
+            "id": "c3q",
+            "text": "When you cut an onion, the oil ____."
+          },
+          "options": [
+            "goes away",
+            "turns on",
+            "comes out"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "Come out means to move from inside to outside, like the oil."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U3-SB-306",
+          "prompt": {
+            "id": "c4q",
+            "text": "In the story, the oil can float on the water."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Float means to stay on top of water and not sink."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-317",
+          "prompt": {
+            "id": "c5q",
+            "text": "Mia's eyes ____ when she cuts an onion."
+          },
+          "options": [
+            "wash away",
+            "come out",
+            "water up"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "When your eyes water up, tears fill them because of the onion gas."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U3-SB-311",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "gas",
+            "smelly",
+            "onion",
+            "oil"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Smelly is an adjective, but onion, oil and gas are all nouns."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U3-SB-315",
+          "prompt": {
+            "id": "c7q",
+            "text": "Gas is made when oil turns into a gas and makes eyes water up."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Gas is a substance that spreads out, like the onion gas in the story."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-318",
+          "prompt": {
+            "id": "c8q",
+            "text": "Please ____ the onion gas with some water."
+          },
+          "options": [
+            "come out",
+            "water up",
+            "wash away"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "Wash away means to clean something off using water."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U3-SB-309",
+          "prompt": {
+            "id": "c9q",
+            "text": "Find the word: vitamin. Which one is it?"
+          },
+          "options": [
+            "CPP2-U3-SB-312",
+            "CPP2-U3-SB-309",
+            "CPP2-U3-SB-310"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Vitamins are small parts of food that keep your body healthy."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-310",
+          "prompt": {
+            "id": "c10q",
+            "text": "A ____ is a useful part of food that keeps you healthy."
+          },
+          "options": [
+            "oil",
+            "onion",
+            "nutrient"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "Nutrients are things in food that your body needs to stay healthy."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game! Match each picture with its word."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud as you turn each card. Good luck!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "With your partner, talk about a food you like and why it is healthy."
+      },
+      "frames": [
+        "My favourite food is ___. It has vitamins and nutrients.",
+        "When I cut an onion, my eyes water up.",
+        "I think ___ is smelly, but it is good for my body."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My favourite food is broccoli. It has vitamins and nutrients. When I eat it, I feel strong. What is your favourite food?"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, everyone! You learned ten brilliant new words today."
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about onions, oil, vitamins and nutrients like a real scientist!"
+        },
+        {
+          "id": "l3",
+          "text": "Keep practising, and I will see you next lesson, my friends!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Nutrient Ninja"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Why do your eyes water up when you cut an onion?"
+        },
+        {
+          "id": "e2",
+          "text": "Name one food that has vitamins or nutrients, and say why it is good for you."
+        }
+      ]
+    }
+  ]
+}

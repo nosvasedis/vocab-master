@@ -1,0 +1,710 @@
+{
+  "schema": 1,
+  "id": "CPP1-U6-A",
+  "bookId": "CPP1",
+  "unit": 6,
+  "section": "A",
+  "title": "Let's Clean Up Our Community!",
+  "bigQuestion": "How can we help?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, full of ideas"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "curious 9-year-old boy, helpful and kind"
+    },
+    "elena": {
+      "name": "Mrs Elena",
+      "emoji": "👵",
+      "persona": "gentle, smiling grandmother, warm and friendly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U6-SB-662",
+      "emoji": "🏘️",
+      "kidDefinition": "All the people who live and work in one area.",
+      "examples": [
+        "Our school community is friendly and kind.",
+        "We help people in our community every week."
+      ],
+      "distractors": [
+        "classroom",
+        "playground",
+        "supermarket"
+      ],
+      "greekHint": "Think of κοινός, meaning shared.",
+      "english": "community",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-663",
+      "emoji": "🧹",
+      "kidDefinition": "To make a place clean by removing rubbish.",
+      "examples": [
+        "Let's clean up the classroom after lunch.",
+        "Please clean up your toys before dinner."
+      ],
+      "distractors": [
+        "give up",
+        "wake up",
+        "grow up"
+      ],
+      "greekHint": "Καθαρίζω means clean, so clean up is the same idea.",
+      "english": "clean up",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP1-U6-SB-667",
+      "emoji": "📝",
+      "kidDefinition": "Words or things written one after another.",
+      "examples": [
+        "I write a list of things to buy.",
+        "Our list has five fun ideas for the park."
+      ],
+      "distractors": [
+        "picture",
+        "blanket",
+        "brush"
+      ],
+      "english": "list",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-668",
+      "emoji": "🏡",
+      "kidDefinition": "A place where older people live and get help.",
+      "examples": [
+        "My grandpa lives in a retirement home.",
+        "We sing songs at the retirement home on Fridays."
+      ],
+      "distractors": [
+        "playground",
+        "supermarket",
+        "library"
+      ],
+      "english": "retirement home",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-670",
+      "emoji": "👵",
+      "kidDefinition": "A person who lives in a place.",
+      "examples": [
+        "The residents enjoy our visits.",
+        "Each resident has a special chair in the garden."
+      ],
+      "distractors": [
+        "visitor",
+        "teacher",
+        "doctor"
+      ],
+      "english": "resident",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-671",
+      "emoji": "🧴",
+      "kidDefinition": "A glass or plastic container for drinks.",
+      "examples": [
+        "I drink water from my bottle every day.",
+        "Please put empty bottles in the recycling bin."
+      ],
+      "distractors": [
+        "blanket",
+        "brush",
+        "pencil"
+      ],
+      "greekHint": "Μπουκάλι sounds like bottle.",
+      "english": "bottle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-672",
+      "emoji": "🥫",
+      "kidDefinition": "A metal container for food or drink.",
+      "examples": [
+        "We collect cans for recycling.",
+        "There is a tomato soup can on the shelf."
+      ],
+      "distractors": [
+        "jar",
+        "box",
+        "bag"
+      ],
+      "english": "can",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-675",
+      "emoji": "🐕",
+      "kidDefinition": "A place that looks after animals without homes.",
+      "examples": [
+        "The dogs at the animal shelter need our love.",
+        "We help at the animal shelter on Saturdays."
+      ],
+      "distractors": [
+        "supermarket",
+        "library",
+        "dentist"
+      ],
+      "english": "animal shelter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-676",
+      "emoji": "🚶",
+      "kidDefinition": "A short trip taken on foot for fun.",
+      "examples": [
+        "I take my dog for a walk after school.",
+        "We go for a walk in the park."
+      ],
+      "distractors": [
+        "picnic",
+        "game",
+        "music"
+      ],
+      "english": "walk",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U6-SB-681",
+      "emoji": "💡",
+      "kidDefinition": "An idea you give to help someone decide.",
+      "examples": [
+        "Her suggestion is to plant more trees.",
+        "Do you have a suggestion for our school garden?"
+      ],
+      "distractors": [
+        "picture",
+        "blanket",
+        "pencil"
+      ],
+      "english": "suggestion",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U6-SB-660",
+    "CPP1-U6-SB-661",
+    "CPP1-U6-SB-664",
+    "CPP1-U6-SB-665",
+    "CPP1-U6-SB-666",
+    "CPP1-U6-SB-669",
+    "CPP1-U6-SB-673",
+    "CPP1-U6-SB-674",
+    "CPP1-U6-SB-677",
+    "CPP1-U6-SB-678",
+    "CPP1-U6-SB-679",
+    "CPP1-U6-SB-680",
+    "CPP1-U6-SB-682",
+    "CPP1-U6-SB-683",
+    "CPP1-U6-SB-684",
+    "CPP1-U6-SB-685",
+    "CPP1-U6-SB-686",
+    "CPP1-U6-SB-687",
+    "CPP1-U6-SB-688"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! It is Lingo the owl."
+        },
+        {
+          "id": "l2",
+          "text": "Today we learn how to help our community."
+        },
+        {
+          "id": "l3",
+          "text": "Our community is all the people who live near us."
+        },
+        {
+          "id": "l4",
+          "text": "Helping others makes our world a better place."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one way you like to help at home?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U6-SB-662",
+        "CPP1-U6-SB-667",
+        "CPP1-U6-SB-663",
+        "CPP1-U6-SB-671",
+        "CPP1-U6-SB-672",
+        "CPP1-U6-SB-681",
+        "CPP1-U6-SB-676",
+        "CPP1-U6-SB-668",
+        "CPP1-U6-SB-670",
+        "CPP1-U6-SB-675"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Messy Park",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "After a windy day, the park is very messy."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Look, Leo! Bottles and cans everywhere!"
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Our community needs our help today."
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-662",
+            "CPP1-U6-SB-671",
+            "CPP1-U6-SB-672"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Mia has a good idea."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "Let's clean up the park together!"
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Great suggestion, Mia. Let's make a list first."
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-663",
+            "CPP1-U6-SB-681",
+            "CPP1-U6-SB-667"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "They collect bottles and cans in big bags."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "Bottles and cans go in the recycling bin."
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "The park looks so much better already!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-671",
+            "CPP1-U6-SB-672"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "elena"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Next, they visit the retirement home."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "elena",
+              "text": "Welcome, children! Every resident loves your visits."
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "We are happy to help our community!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-668",
+            "CPP1-U6-SB-670"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Then they go to the animal shelter for a walk with the dogs."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "leo",
+              "text": "Who wants to take this dog for a walk?"
+            },
+            {
+              "id": "p5b",
+              "who": "mia",
+              "text": "Let's go! The dogs need our help too."
+            }
+          ],
+          "highlight": [
+            "CPP1-U6-SB-675",
+            "CPP1-U6-SB-676"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U6-SB-662",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means all the people who live and work together in one area?"
+          },
+          "options": [
+            "CPP1-U6-SB-662",
+            "CPP1-U6-SB-667",
+            "CPP1-U6-SB-676",
+            "CPP1-U6-SB-671"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A community is all the people who live and work in one area."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-663",
+          "prompt": {
+            "id": "c2q",
+            "text": "Let's ____ the park after school."
+          },
+          "options": [
+            "grow up",
+            "wake up",
+            "clean up",
+            "give up"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "We clean up a place when we remove the rubbish from it."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U6-SB-667",
+          "prompt": {
+            "id": "c3q",
+            "text": "In the story, Mia and Leo make a list before they clean up the park."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Leo says, let's make a list first, so the answer is True."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-668",
+          "prompt": {
+            "id": "c4q",
+            "text": "We sing songs with the ____ every Friday."
+          },
+          "options": [
+            "playground",
+            "library",
+            "supermarket",
+            "retirement home"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "A retirement home is a place where older people live and get help."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "listen",
+          "wordId": "CPP1-U6-SB-670",
+          "prompt": {
+            "id": "c5q",
+            "text": "Listen: The residents at the retirement home love our visits."
+          },
+          "options": [
+            "CPP1-U6-SB-667",
+            "CPP1-U6-SB-676",
+            "CPP1-U6-SB-670",
+            "CPP1-U6-SB-681"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A resident is a person who lives in a place like a retirement home."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U6-SB-671",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word means a glass or plastic container for water?"
+          },
+          "options": [
+            "CPP1-U6-SB-676",
+            "CPP1-U6-SB-671",
+            "CPP1-U6-SB-662",
+            "CPP1-U6-SB-667"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A bottle holds drinks, and we recycle plastic bottles."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U6-SB-672",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "bottle",
+            "can",
+            "jar",
+            "suggestion"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "Can, bottle and jar are containers, but a suggestion is an idea."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U6-SB-675",
+          "prompt": {
+            "id": "c8q",
+            "text": "We help the dogs and cats at the ____."
+          },
+          "options": [
+            "library",
+            "supermarket",
+            "animal shelter",
+            "playground"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "An animal shelter is a place that looks after animals without homes."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U6-SB-676",
+          "prompt": {
+            "id": "c9q",
+            "text": "A walk means going somewhere by car."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "A walk is a short trip taken on foot, not by car."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "listen",
+          "wordId": "CPP1-U6-SB-681",
+          "prompt": {
+            "id": "c10q",
+            "text": "Listen: That is a great suggestion, Leo!"
+          },
+          "options": [
+            "CPP1-U6-SB-681",
+            "CPP1-U6-SB-668",
+            "CPP1-U6-SB-662",
+            "CPP1-U6-SB-672"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "A suggestion is an idea you give to help someone decide."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word to its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "What can you and your friends do to help your community?"
+      },
+      "frames": [
+        "We can make a ___ of ideas.",
+        "Let's clean up the ___.",
+        "My suggestion is to visit the ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "We can make a list of ideas. Let's clean up the park. My suggestion is to visit the retirement home."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, community helpers! You learned great words today."
+        },
+        {
+          "id": "l2",
+          "text": "Your ideas can make our community cleaner and happier."
+        },
+        {
+          "id": "l3",
+          "text": "See you next time, friends!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Community Helper"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing you can collect and recycle."
+        },
+        {
+          "id": "e2",
+          "text": "Write one suggestion to help your community."
+        }
+      ]
+    }
+  ]
+}

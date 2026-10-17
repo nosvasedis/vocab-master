@@ -1,0 +1,721 @@
+{
+  "schema": 1,
+  "id": "CPP1-U9-A",
+  "bookId": "CPP1",
+  "unit": 9,
+  "section": "A",
+  "title": "Wrap Up Warm at Nasreddin's Party",
+  "bigQuestion": "Why do we need clothes?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "village",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nasreddin": {
+      "name": "Nasreddin",
+      "emoji": "🧔",
+      "persona": "cheerful, silly grown-up with a twinkle in his eye, friendly and funny"
+    },
+    "eleni": {
+      "name": "Eleni",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, curious and friendly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U9-SB-1022",
+      "emoji": "🥶",
+      "kidDefinition": "Not warm. The temperature is low.",
+      "examples": [
+        "It is cold in the morning.",
+        "Ian wears a sweater when the weather is cold."
+      ],
+      "distractors": [
+        "hot",
+        "sunny",
+        "wet"
+      ],
+      "greekHint": "Κρύος: think of 'κρύο', the cold.",
+      "english": "cold",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1023",
+      "emoji": "💨",
+      "kidDefinition": "When there is a lot of wind outside.",
+      "examples": [
+        "It is windy today, so hold your hat!",
+        "Kites fly well on windy days."
+      ],
+      "distractors": [
+        "sunny",
+        "foggy",
+        "stormy"
+      ],
+      "english": "windy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1024",
+      "emoji": "☔",
+      "kidDefinition": "When water falls from the sky.",
+      "examples": [
+        "It is rainy, so take your umbrella.",
+        "When it is rainy, I wear my raincoat."
+      ],
+      "distractors": [
+        "sunny",
+        "cloudy",
+        "dry"
+      ],
+      "greekHint": "Βροχερός: think of 'βροχή', rain.",
+      "english": "rainy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1025",
+      "emoji": "🌨️",
+      "kidDefinition": "Covered with snow, or when snow falls.",
+      "examples": [
+        "Look at the snowy mountains! How beautiful!",
+        "Let's play in the snowy park."
+      ],
+      "distractors": [
+        "sunny",
+        "foggy",
+        "dusty"
+      ],
+      "english": "snowy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1037",
+      "emoji": "🧥",
+      "kidDefinition": "A coat with sleeves that you wear outside.",
+      "examples": [
+        "Put on your jacket! It's cold outside.",
+        "My jacket has big pockets."
+      ],
+      "distractors": [
+        "sweater",
+        "raincoat",
+        "shirt"
+      ],
+      "english": "jacket",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1026",
+      "emoji": "🧤",
+      "kidDefinition": "A warm cover for your hands, with five parts.",
+      "examples": [
+        "Brr! It's very cold. I'm wearing gloves today.",
+        "My gloves are red and warm."
+      ],
+      "distractors": [
+        "sock",
+        "hat",
+        "boot"
+      ],
+      "greekHint": "Γάντι: one glove for one hand.",
+      "english": "glove",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1027",
+      "emoji": "🧣",
+      "kidDefinition": "A long piece of cloth you wrap around your neck.",
+      "examples": [
+        "Take a scarf with you. It's very cold outside.",
+        "Her scarves are blue and yellow."
+      ],
+      "distractors": [
+        "hat",
+        "belt",
+        "tie"
+      ],
+      "english": "scarf-scarves",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1030",
+      "emoji": "🩳",
+      "kidDefinition": "Short trousers that stop above your knees.",
+      "examples": [
+        "In summer, it's hot, so I wear shorts.",
+        "These shorts are very comfortable."
+      ],
+      "distractors": [
+        "jeans",
+        "skirt",
+        "coat"
+      ],
+      "english": "shorts",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1038",
+      "emoji": "🗓️",
+      "kidDefinition": "One of the four parts of the year.",
+      "examples": [
+        "What's your favourite season of the year?",
+        "Summer is a hot season."
+      ],
+      "distractors": [
+        "day",
+        "month",
+        "week"
+      ],
+      "greekHint": "Εποχή: a season of the year.",
+      "english": "season",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1031",
+      "emoji": "🍁",
+      "kidDefinition": "The season after summer, when leaves change colour.",
+      "examples": [
+        "Fall is the season before winter.",
+        "In fall, the leaves on the trees change colour."
+      ],
+      "distractors": [
+        "spring",
+        "winter",
+        "summer"
+      ],
+      "english": "fall",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U9-SB-1018",
+    "CPP1-U9-SB-1019",
+    "CPP1-U9-SB-1020",
+    "CPP1-U9-SB-1021",
+    "CPP1-U9-SB-1028",
+    "CPP1-U9-SB-1029",
+    "CPP1-U9-SB-1032",
+    "CPP1-U9-SB-1033",
+    "CPP1-U9-SB-1034",
+    "CPP1-U9-SB-1035",
+    "CPP1-U9-SB-1036",
+    "CPP1-U9-SB-1039",
+    "CPP1-U9-SB-1040",
+    "CPP1-U9-SB-1041",
+    "CPP1-U9-SB-1042",
+    "CPP1-U9-SB-1043",
+    "CPP1-U9-SB-1044",
+    "CPP1-U9-SB-1045",
+    "CPP1-U9-SB-1046",
+    "CPP1-U9-SB-1047",
+    "CPP1-U9-SB-1048",
+    "CPP1-U9-SB-1049",
+    "CPP1-U9-SB-1050"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "village",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, the owl. Hoo, hoo!"
+        },
+        {
+          "id": "l2",
+          "text": "Some days are sunny and warm. Some days are cold and wet!"
+        },
+        {
+          "id": "l3",
+          "text": "So what do we wear? Our clothes change with the weather."
+        },
+        {
+          "id": "l4",
+          "text": "Today we meet Eleni and her friend Nasreddin. Let's listen!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you wear when it is cold outside?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U9-SB-1022",
+        "CPP1-U9-SB-1023",
+        "CPP1-U9-SB-1024",
+        "CPP1-U9-SB-1025",
+        "CPP1-U9-SB-1037",
+        "CPP1-U9-SB-1026",
+        "CPP1-U9-SB-1027",
+        "CPP1-U9-SB-1030",
+        "CPP1-U9-SB-1038",
+        "CPP1-U9-SB-1031"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Snowy Party",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "nasreddin"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is a cold morning in the village. Eleni is ready for the party."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "eleni",
+              "text": "Brr! It is very cold today."
+            },
+            {
+              "id": "p1b",
+              "who": "nasreddin",
+              "text": "Put on your jacket, Eleni. Stay warm!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1022",
+            "CPP1-U9-SB-1037"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "nasreddin"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "On the street, the wind is strong and fast."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "eleni",
+              "text": "Oh, it is windy! Hold your scarf tight!"
+            },
+            {
+              "id": "p2b",
+              "who": "nasreddin",
+              "text": "Ha! Good idea. My scarf is flying away!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1023",
+            "CPP1-U9-SB-1027"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "eleni"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Then the sky turns grey. Drops of water start to fall."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "eleni",
+              "text": "Oh no, it is rainy now. Where is my umbrella?"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1024"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "nasreddin"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "At last, they reach the garden. Everything is white and snowy!"
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "eleni",
+              "text": "Look at the snowy garden! Let's build a snowman!"
+            },
+            {
+              "id": "p4b",
+              "who": "nasreddin",
+              "text": "First, put on your gloves. Your hands will be cold!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1025",
+            "CPP1-U9-SB-1026"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "nasreddin"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Nasreddin arrives at the party wearing shorts in the snow!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "eleni",
+              "text": "Nasreddin! Why are you wearing shorts? It is snowy!"
+            },
+            {
+              "id": "p5b",
+              "who": "nasreddin",
+              "text": "Oops! I forgot my jacket. Ha, ha!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1030"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "nasreddin"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "The party ends. The leaves turn orange and gold. What a lovely day!"
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "eleni",
+              "text": "My favourite season is fall. The leaves are beautiful!"
+            },
+            {
+              "id": "p6b",
+              "who": "nasreddin",
+              "text": "Yes! Fall is my favourite season too. Hooray!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1031",
+            "CPP1-U9-SB-1038"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U9-SB-1025",
+          "prompt": {
+            "id": "c1q",
+            "text": "Pick the word: the mountains are white with snow."
+          },
+          "options": [
+            "CPP1-U9-SB-1025",
+            "CPP1-U9-SB-1022",
+            "CPP1-U9-SB-1024"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "Snowy means covered with snow, like the mountains in the story."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1022",
+          "prompt": {
+            "id": "c2q",
+            "text": "Brr! The lake has ice on it. It's very ____."
+          },
+          "options": [
+            "cold",
+            "hot",
+            "sunny"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "Cold is the right word for ice and freezing weather."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U9-SB-1023",
+          "prompt": {
+            "id": "c3q",
+            "text": "Windy means it is very quiet and still outside."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "Windy means there is a lot of wind, so it is not still."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP1-U9-SB-1024",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen: 'When it's rainy, I wear my raincoat.' Which word did you hear?"
+          },
+          "options": [
+            "CPP1-U9-SB-1024",
+            "CPP1-U9-SB-1025",
+            "CPP1-U9-SB-1023"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Rainy is the word for a day when water falls from the sky."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1026",
+          "prompt": {
+            "id": "c5q",
+            "text": "It's cold. Wear a hat, a scarf and warm ____ on your hands."
+          },
+          "options": [
+            "shorts",
+            "gloves",
+            "fall",
+            "season"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Gloves keep your hands warm, and you wear them on your hands."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1027",
+          "prompt": {
+            "id": "c6q",
+            "text": "Wrap a warm ____ around your neck."
+          },
+          "options": [
+            "glove",
+            "scarf",
+            "jacket"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A scarf goes around your neck to keep you warm."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U9-SB-1030",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which one is the odd one out?"
+          },
+          "options": [
+            "glove",
+            "jacket",
+            "scarf",
+            "shorts"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "Shorts are for hot days, but the other three keep you warm in winter."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1037",
+          "prompt": {
+            "id": "c8q",
+            "text": "Put on your ____! It is cold outside."
+          },
+          "options": [
+            "jacket",
+            "fall",
+            "season"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "A jacket is a coat you wear outside when it is cold."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1038",
+          "prompt": {
+            "id": "c9q",
+            "text": "What is your favourite ____ of the year?"
+          },
+          "options": [
+            "season",
+            "shorts",
+            "jacket"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A season is one of the four parts of the year, like spring or fall."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1031",
+          "prompt": {
+            "id": "c10q",
+            "text": "In ____, the leaves on the trees change colour."
+          },
+          "options": [
+            "snowman",
+            "fall",
+            "shorts"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Fall is the season when leaves on the trees change colour."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each picture with its word."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you turn a card. Ready? Go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner: What do you wear when it is snowy or rainy?"
+      },
+      "frames": [
+        "When it is ___, I wear a ___.",
+        "I like ___ in ___ because it is warm.",
+        "My favourite ___ is ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "When it is snowy, I wear a jacket, gloves and a scarf. My favourite season is winter."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Great job, everyone! You know ten new words about weather and clothes."
+        },
+        {
+          "id": "l2",
+          "text": "Clothes keep us warm, dry and safe, whatever the season."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Weather Wardrobe Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing you wear when it is windy, and say why."
+        },
+        {
+          "id": "e2",
+          "text": "Which season comes before winter?"
+        }
+      ]
+    }
+  ]
+}

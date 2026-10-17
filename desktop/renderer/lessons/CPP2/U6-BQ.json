@@ -1,0 +1,514 @@
+{
+  "schema": 1,
+  "id": "CPP2-U6-BQ",
+  "bookId": "CPP2",
+  "unit": 6,
+  "section": "BQ",
+  "title": "Dino Detectives: Clues from the Past",
+  "bigQuestion": "What do we know about dinosaurs?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "curious 10-year-old girl, bright and brave"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "cheerful 9-year-old boy, funny and playful"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U6-SB-742",
+      "emoji": "🦒",
+      "kidDefinition": "The long part that joins an animal's head to its body.",
+      "examples": [
+        "Giraffes have very long necks.",
+        "The dinosaur stretched its neck to reach the leaves."
+      ],
+      "distractors": [
+        "wing",
+        "tail",
+        "knee"
+      ],
+      "greekHint": "Ο λαιμός είναι ο λαιμός του ζώου: ο λαιμός της καμηλοπάρδαλης.",
+      "english": "neck",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-745",
+      "emoji": "🐦",
+      "kidDefinition": "The part of a bird or insect used to fly.",
+      "examples": [
+        "Birds can fly because they have wings.",
+        "The pterosaur spread its huge wings."
+      ],
+      "distractors": [
+        "neck",
+        "tail",
+        "feather"
+      ],
+      "greekHint": "Φτερούγα: σκέψου τα φτερά ενός πουλιού.",
+      "english": "wing",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-741",
+      "emoji": "🦕",
+      "kidDefinition": "An animal that eats only plants.",
+      "examples": [
+        "Horses are herbivores.",
+        "Brachiosaurus was a herbivore with a very long neck."
+      ],
+      "distractors": [
+        "carnivore",
+        "omnivore",
+        "predator"
+      ],
+      "greekHint": "Herb- θυμίζει χόρτο και φυτά: herbivore = φυτοφάγο.",
+      "english": "herbivore",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-743",
+      "emoji": "🦖",
+      "kidDefinition": "An animal that eats only meat.",
+      "examples": [
+        "Lions are carnivores. They eat meat.",
+        "T. rex was a carnivore with huge teeth."
+      ],
+      "distractors": [
+        "herbivore",
+        "omnivore",
+        "predator"
+      ],
+      "greekHint": "Carn- θυμίζει σάρκα (κρέας): carnivore = σαρκοφάγο.",
+      "english": "carnivore",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-744",
+      "emoji": "😋",
+      "kidDefinition": "To crush food many times with your teeth.",
+      "examples": [
+        "Chew your food slowly. It's healthier.",
+        "The herbivore chews leaves for a long time."
+      ],
+      "distractors": [
+        "fly",
+        "sing",
+        "explain"
+      ],
+      "greekHint": "Μασάω: κάνεις το τραγανό ήχο με τα δόντια.",
+      "english": "chew",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U6-SB-739",
+      "emoji": "📋",
+      "kidDefinition": "A page with short, true facts about one topic.",
+      "examples": [
+        "Read the text and complete the fact file with facts.",
+        "Leo writes a fact file about T. rex."
+      ],
+      "distractors": [
+        "story book",
+        "shopping list",
+        "map"
+      ],
+      "greekHint": null,
+      "english": "fact file",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-738",
+      "emoji": "💡",
+      "kidDefinition": "Words that tell us why or how something happens.",
+      "examples": [
+        "There isn't an explanation for the mystery!",
+        "Can you give me an explanation for the giant footprints?"
+      ],
+      "distractors": [
+        "question",
+        "picture",
+        "mystery"
+      ],
+      "greekHint": null,
+      "english": "explanation",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U6-SB-740"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love mysteries."
+        },
+        {
+          "id": "l2",
+          "text": "Millions of years ago, giant animals walked on our Earth."
+        },
+        {
+          "id": "l3",
+          "text": "Then they disappeared. Why did that happen?"
+        },
+        {
+          "id": "l4",
+          "text": "Today, we will find clues and become Dino Detectives."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite dinosaur, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U6-SB-742",
+        "CPP2-U6-SB-745",
+        "CPP2-U6-SB-741",
+        "CPP2-U6-SB-743",
+        "CPP2-U6-SB-744",
+        "CPP2-U6-SB-739",
+        "CPP2-U6-SB-738"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Giant's Cave",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia and Leo walk into the Giant's Cave."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Look! That giant has a very long neck."
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "I think it is a herbivore. It only eats leaves."
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-742",
+            "CPP2-U6-SB-741"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Later, they write a fact file and look for an explanation."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "Herbivores chew their food for a long time."
+            },
+            {
+              "id": "p2b",
+              "who": "mia",
+              "text": "But a carnivore eats meat. It has sharp teeth!"
+            },
+            {
+              "id": "p2c2",
+              "who": "leo",
+              "text": "The giant bird had big wings, too!"
+            },
+            {
+              "id": "p2d",
+              "who": "lingo",
+              "text": "Great detective work! Now find your explanation."
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-744",
+            "CPP2-U6-SB-743",
+            "CPP2-U6-SB-745",
+            "CPP2-U6-SB-739",
+            "CPP2-U6-SB-738"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U6-SB-742",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the picture of: neck."
+          },
+          "options": [
+            "CPP2-U6-SB-742",
+            "CPP2-U6-SB-739",
+            "CPP2-U6-SB-745"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A neck is the long part that joins the head to the body."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U6-SB-745",
+          "prompt": {
+            "id": "c2q",
+            "text": "Point to the picture of: wing."
+          },
+          "options": [
+            "CPP2-U6-SB-745",
+            "CPP2-U6-SB-741",
+            "CPP2-U6-SB-744"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "Wings help birds and pterosaurs fly through the sky."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-741",
+          "prompt": {
+            "id": "c3q",
+            "text": "Dinosaurs that eat only plants are called ____."
+          },
+          "options": [
+            "herbivores",
+            "carnivores",
+            "explanations"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Herbivores eat only plants, like leaves and fruit."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-743",
+          "prompt": {
+            "id": "c4q",
+            "text": "T. rex was a ____. It ate only meat."
+          },
+          "options": [
+            "herbivore",
+            "carnivore",
+            "wing"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "A carnivore is an animal that eats meat."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-744",
+          "prompt": {
+            "id": "c5q",
+            "text": "Mia wants to ____ her food slowly."
+          },
+          "options": [
+            "fly",
+            "chew",
+            "explain"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "We chew food with our teeth before we swallow it."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U6-SB-739",
+          "prompt": {
+            "id": "c6q",
+            "text": "A fact file is a funny story with dragons."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A fact file is a page of short, true facts about a topic."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U6-SB-738",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "wing",
+            "explanation",
+            "neck",
+            "tail"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Neck, wing and tail are body parts, but an explanation is not."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "listen",
+          "wordId": "CPP2-U6-SB-743",
+          "prompt": {
+            "id": "c8q",
+            "text": "Listen. Which word means an animal that eats meat?"
+          },
+          "options": [
+            "CPP2-U6-SB-741",
+            "CPP2-U6-SB-743",
+            "CPP2-U6-SB-744"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Carnivore is the word for an animal that eats meat."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Pick a dinosaur. Tell your partner what it looks like and what it eats."
+      },
+      "frames": [
+        "My dinosaur is a ___.",
+        "It has a long ___.",
+        "It is a ___ because it eats ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My dinosaur is a herbivore. It has a long neck. It is a herbivore because it eats leaves."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, Dino Detectives!"
+        },
+        {
+          "id": "l2",
+          "text": "You now know seven new words for our Big Question."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will look for the explanation for the dinosaurs' extinction."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Dino Detective"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means an animal that eats only plants?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence using the word explanation."
+        }
+      ]
+    }
+  ]
+}

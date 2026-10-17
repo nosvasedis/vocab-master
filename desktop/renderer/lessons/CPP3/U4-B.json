@@ -1,0 +1,720 @@
+{
+  "schema": 1,
+  "id": "CPP3-U4-B",
+  "bookId": "CPP3",
+  "unit": 4,
+  "section": "B",
+  "title": "Art from Everyday Things",
+  "bigQuestion": "What is art?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "curious, cheerful 12-year-old girl who loves drawing"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "friendly, thoughtful 12-year-old boy who cares about the planet"
+    },
+    "costa": {
+      "name": "Ms Costa",
+      "emoji": "👩‍🏫",
+      "persona": "warm, encouraging art teacher, proud and calm"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U4-SB-554",
+      "emoji": "🐦",
+      "kidDefinition": "A tiny bird that can hover in the air.",
+      "examples": [
+        "Hummingbirds are tiny but very colourful!",
+        "A hummingbird can even fly backwards."
+      ],
+      "distractors": [
+        "sparrow",
+        "eagle",
+        "pigeon"
+      ],
+      "greekHint": "Think of a tiny bird that stays still in the air, like a helicopter.",
+      "english": "hummingbird",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-555",
+      "emoji": "🛍️",
+      "kidDefinition": "A light material used to make bottles and bags.",
+      "examples": [
+        "This water bottle is made of plastic.",
+        "We should use less plastic at school."
+      ],
+      "distractors": [
+        "wooden",
+        "metal",
+        "cotton"
+      ],
+      "greekHint": "Πλαστικό: the same sound as the English word.",
+      "english": "plastic",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-556",
+      "emoji": "🍾",
+      "kidDefinition": "The round top you take off a bottle.",
+      "examples": [
+        "I found a red bottle cap on the beach.",
+        "Leo glued a bottle cap onto his picture."
+      ],
+      "distractors": [
+        "ribbon",
+        "button",
+        "sticker"
+      ],
+      "greekHint": "Καπάκι: the cap that closes the bottle.",
+      "english": "bottle cap",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-561",
+      "emoji": "🪶",
+      "kidDefinition": "One of the soft, light parts covering a bird.",
+      "examples": [
+        "She found a white feather in the park.",
+        "Birds use their feathers to fly."
+      ],
+      "distractors": [
+        "leaf",
+        "petal",
+        "shell"
+      ],
+      "greekHint": "Φτερό: birds fly with it.",
+      "english": "feather",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-562",
+      "emoji": "♻️",
+      "kidDefinition": "Using old things again instead of throwing them away.",
+      "examples": [
+        "Recycling old paper is good for the planet.",
+        "Our class does recycling every Friday."
+      ],
+      "distractors": [
+        "shopping",
+        "painting",
+        "sleeping"
+      ],
+      "greekHint": "Ανακύκλωση: the cycle of making new things from old ones.",
+      "english": "recycling",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-558",
+      "emoji": "✏️",
+      "kidDefinition": "To draw something quickly with a pencil.",
+      "examples": [
+        "I will sketch my dog this afternoon.",
+        "She sketched a quick picture of the bridge."
+      ],
+      "distractors": [
+        "carve",
+        "stitch",
+        "wave"
+      ],
+      "greekHint": "Σκιτσάρω: a quick, simple drawing.",
+      "english": "sketch",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U4-SB-560",
+      "emoji": "🖼️",
+      "kidDefinition": "A picture of a person, especially their face.",
+      "examples": [
+        "The portrait of my grandmother hangs in our hall.",
+        "He painted a portrait of his best friend."
+      ],
+      "distractors": [
+        "landscape",
+        "statue",
+        "map"
+      ],
+      "greekHint": "Πορτρέτο: a picture that shows a person.",
+      "english": "portrait",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-600",
+      "emoji": "🎨",
+      "kidDefinition": "A stand that holds a painting or poster board.",
+      "examples": [
+        "Put the poster board on the easel.",
+        "My easel is next to the window."
+      ],
+      "distractors": [
+        "stage",
+        "ladder",
+        "shelf"
+      ],
+      "greekHint": "Καβαλέτο: the wooden stand artists use.",
+      "english": "easel",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-577",
+      "emoji": "🏆",
+      "kidDefinition": "A prize you receive for doing something well.",
+      "examples": [
+        "She won an award for her singing.",
+        "The award was a shiny golden star."
+      ],
+      "distractors": [
+        "ticket",
+        "stamp",
+        "letter"
+      ],
+      "greekHint": "Βραβείο: the prize that says well done.",
+      "english": "award",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-585",
+      "emoji": "😮",
+      "kidDefinition": "To breathe in suddenly because you are surprised.",
+      "examples": [
+        "I gasped when I saw the huge birthday cake!",
+        "They gasped at the amazing magic trick."
+      ],
+      "distractors": [
+        "yawn",
+        "sleep",
+        "walk"
+      ],
+      "greekHint": "Βγάζω πνιχτή κραυγή: a short, surprised breath.",
+      "english": "gasp",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U4-SB-557",
+    "CPP3-U4-SB-559",
+    "CPP3-U4-SB-563",
+    "CPP3-U4-SB-564",
+    "CPP3-U4-SB-565",
+    "CPP3-U4-SB-566",
+    "CPP3-U4-SB-567",
+    "CPP3-U4-SB-568",
+    "CPP3-U4-SB-569",
+    "CPP3-U4-SB-570",
+    "CPP3-U4-SB-571",
+    "CPP3-U4-SB-572",
+    "CPP3-U4-SB-573",
+    "CPP3-U4-SB-574",
+    "CPP3-U4-SB-575",
+    "CPP3-U4-SB-576",
+    "CPP3-U4-SB-578",
+    "CPP3-U4-SB-579",
+    "CPP3-U4-SB-580",
+    "CPP3-U4-SB-581",
+    "CPP3-U4-SB-582",
+    "CPP3-U4-SB-583",
+    "CPP3-U4-SB-584",
+    "CPP3-U4-SB-586",
+    "CPP3-U4-SB-587",
+    "CPP3-U4-SB-588",
+    "CPP3-U4-SB-589",
+    "CPP3-U4-SB-590",
+    "CPP3-U4-SB-591",
+    "CPP3-U4-SB-592",
+    "CPP3-U4-SB-593",
+    "CPP3-U4-SB-594",
+    "CPP3-U4-SB-595",
+    "CPP3-U4-SB-596",
+    "CPP3-U4-SB-597",
+    "CPP3-U4-SB-598",
+    "CPP3-U4-SB-599",
+    "CPP3-U4-SB-601",
+    "CPP3-U4-SB-602",
+    "CPP3-U4-SB-603",
+    "CPP3-U4-SB-604"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, art friends! I am Lingo, and I love finding art everywhere."
+        },
+        {
+          "id": "l2",
+          "text": "Art can be a painting, a sculpture, or a picture made from old things."
+        },
+        {
+          "id": "l3",
+          "text": "Can a tiny bird be art? Can a bottle cap become art?"
+        },
+        {
+          "id": "l4",
+          "text": "Today we will meet two friends, Mia and Leo, and find out!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is the most interesting thing you have ever made or drawn?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U4-SB-554",
+        "CPP3-U4-SB-555",
+        "CPP3-U4-SB-556",
+        "CPP3-U4-SB-561",
+        "CPP3-U4-SB-562",
+        "CPP3-U4-SB-558",
+        "CPP3-U4-SB-560",
+        "CPP3-U4-SB-600",
+        "CPP3-U4-SB-577",
+        "CPP3-U4-SB-585"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Mia and Leo's Art Surprise",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "In the garden, a tiny hummingbird zoomed past Mia's face."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Look! A hummingbird! It is so small and so fast."
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-554"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "At the beach, Leo found a bottle cap and a piece of plastic."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "This plastic is bad for the sea. Let's start recycling today!"
+            },
+            {
+              "id": "p2b",
+              "who": "mia",
+              "text": "Good idea! We can make art from this bottle cap."
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-555",
+            "CPP3-U4-SB-556",
+            "CPP3-U4-SB-562"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Back in class, Mia set up her easel by the window."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mia",
+              "text": "First, I will sketch a bird with this feather."
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-600",
+            "CPP3-U4-SB-561",
+            "CPP3-U4-SB-558"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "costa"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Ms Costa looked closely at Mia's new portrait of Leo."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "costa",
+              "text": "This portrait is wonderful, Mia! Leo looks so happy."
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "Thank you, Ms Costa! I feel like a real model!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-560"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "costa"
+            },
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "At the school ceremony, Mia walked onto the stage. Mia gasped with joy!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "costa",
+              "text": "This year's award goes to Mia, for her wonderful art!"
+            },
+            {
+              "id": "p5b",
+              "who": "leo",
+              "text": "Mia, you won! Congratulations, my friend!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U4-SB-577",
+            "CPP3-U4-SB-585"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U4-SB-554",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the word for the tiny bird that can hover in the air."
+          },
+          "options": [
+            "CPP3-U4-SB-561",
+            "CPP3-U4-SB-577",
+            "CPP3-U4-SB-554",
+            "CPP3-U4-SB-600"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A hummingbird is the tiny, fast bird that hovers in the garden."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-555",
+          "prompt": {
+            "id": "c2q",
+            "text": "Please do not throw ____ bottles on the beach."
+          },
+          "options": [
+            "wooden",
+            "cotton",
+            "metal",
+            "plastic"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "Plastic is the light material that bottles and bags are often made of."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP3-U4-SB-556",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen: bottle cap. Which card did Lingo say?"
+          },
+          "options": [
+            "CPP3-U4-SB-555",
+            "CPP3-U4-SB-561",
+            "CPP3-U4-SB-562",
+            "CPP3-U4-SB-556"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "A bottle cap is the round top you take off a bottle."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U4-SB-561",
+          "prompt": {
+            "id": "c4q",
+            "text": "A feather grows on a bird's body. True or False?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Feathers are the soft, light parts that cover a bird, and Mia used one in her sketch."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-562",
+          "prompt": {
+            "id": "c5q",
+            "text": "____ old paper and bottles helps to protect our planet."
+          },
+          "options": [
+            "Recycling",
+            "Racing",
+            "Shouting",
+            "Sleeping"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Recycling means using old things again instead of throwing them away."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U4-SB-560",
+          "prompt": {
+            "id": "c6q",
+            "text": "Point to the word for a picture of a person's face."
+          },
+          "options": [
+            "CPP3-U4-SB-600",
+            "CPP3-U4-SB-554",
+            "CPP3-U4-SB-577",
+            "CPP3-U4-SB-560"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "Ms Costa praised Mia's portrait of Leo, which showed his face."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-600",
+          "prompt": {
+            "id": "c7q",
+            "text": "Mia put her poster board on the ____ by the window."
+          },
+          "options": [
+            "shelf",
+            "ladder",
+            "easel",
+            "stage"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "An easel is the stand that holds a poster board while you paint or draw."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U4-SB-577",
+          "prompt": {
+            "id": "c8q",
+            "text": "Leo won the award at the school ceremony. True or False?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Mia won the award, and Leo congratulated her on the stage."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-585",
+          "prompt": {
+            "id": "c9q",
+            "text": "When Ms Costa said her name, Mia ____ with surprise."
+          },
+          "options": [
+            "slept",
+            "walked",
+            "gasped",
+            "yawned"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "When we gasp, we take a sudden breath because something surprises us."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U4-SB-558",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "clap",
+            "paint",
+            "sketch",
+            "draw"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Sketch, draw and paint are art actions, but clap is a sound action, not an art action."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a game of Memory! Match each picture with its word."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you turn over a card. Ready? Let's go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about art you could make from things you find outdoors or at home."
+      },
+      "frames": [
+        "I can make art from a ___.",
+        "I can sketch a ___ with a pencil.",
+        "Recycling helps the ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I can make art from a bottle cap and a feather. I can sketch a hummingbird too. Recycling helps the planet, so I think it is important."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, art stars! Today you met a hummingbird, a portrait, and an award."
+        },
+        {
+          "id": "l2",
+          "text": "Keep your eyes open, because art can be found everywhere, even in a bottle cap!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Art Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word from today would you use for a picture of someone's face?"
+        },
+        {
+          "id": "e2",
+          "text": "Name one thing you could recycle and turn into art, using a word from today."
+        }
+      ]
+    }
+  ]
+}

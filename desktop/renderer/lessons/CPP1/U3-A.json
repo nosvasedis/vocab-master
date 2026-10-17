@@ -1,0 +1,755 @@
+{
+  "schema": 1,
+  "id": "CPP1-U3-A",
+  "bookId": "CPP1",
+  "unit": 3,
+  "section": "A",
+  "title": "Explorers at the Pond",
+  "bigQuestion": "What are living things?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "🧒",
+      "persona": "curious 9-year-old boy, asks lots of questions"
+    },
+    "eleni": {
+      "name": "Eleni",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, excited and full of energy"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U3-SB-304",
+      "emoji": "🌊",
+      "kidDefinition": "A small lake with water, where plants and animals live.",
+      "examples": [
+        "There is a pond near my house.",
+        "Frogs and fish live in the pond."
+      ],
+      "distractors": [
+        "forest",
+        "pot",
+        "clock"
+      ],
+      "greekHint": "Η λιμνούλα έχει νερό και ζωή.",
+      "english": "pond",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-310",
+      "emoji": "🐸",
+      "kidDefinition": "A small green animal that can jump very high.",
+      "examples": [
+        "Frogs can jump very high.",
+        "The frog sits on a rock."
+      ],
+      "distractors": [
+        "rabbit",
+        "squirrel",
+        "eagle"
+      ],
+      "greekHint": "Ο βάτραχος πηδάει ψηλά.",
+      "english": "frog",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-311",
+      "emoji": "🐣",
+      "kidDefinition": "A baby frog that lives in water.",
+      "examples": [
+        "Frog babies are called tadpoles.",
+        "A tadpole swims in the pond."
+      ],
+      "distractors": [
+        "doll",
+        "sock",
+        "pot"
+      ],
+      "greekHint": "Ο γυρίνος είναι μωρό βατράχου.",
+      "english": "tadpole",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-309",
+      "emoji": "🐟",
+      "kidDefinition": "An animal with fins that swims in water.",
+      "examples": [
+        "Many people keep fish in their ponds.",
+        "Fish swim in fresh water."
+      ],
+      "distractors": [
+        "pocket",
+        "bridge",
+        "floor"
+      ],
+      "greekHint": "Το ψάρι κολυμπάει με πτερύγια.",
+      "english": "fish",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-308",
+      "emoji": "🪰",
+      "kidDefinition": "A insect with long wings that flies over water.",
+      "examples": [
+        "Dragonflies are many different colours.",
+        "A dragonfly flies over the pond."
+      ],
+      "distractors": [
+        "helicopter",
+        "eagle",
+        "ladybug"
+      ],
+      "greekHint": "Η λιβελούλα πετάει πάνω από το νερό.",
+      "english": "dragonfly",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-307",
+      "emoji": "🦟",
+      "kidDefinition": "A tiny flying insect that can bite people.",
+      "examples": [
+        "Mosquitoes live near water and in ponds.",
+        "A mosquito buzzes near my ear."
+      ],
+      "distractors": [
+        "squirrel",
+        "rabbit",
+        "sock"
+      ],
+      "greekHint": "Το κουνούπι βουίζει κοντά στο νερό.",
+      "english": "mosquito",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-321",
+      "emoji": "🪨",
+      "kidDefinition": "A hard stone found on the ground or in water.",
+      "examples": [
+        "Look at that frog sitting on the rock!",
+        "A rock does not grow or move."
+      ],
+      "distractors": [
+        "sock",
+        "clock",
+        "doll"
+      ],
+      "greekHint": "Η πέτρα δεν μεγαλώνει και δεν κινείται.",
+      "english": "rock",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-323",
+      "emoji": "👂",
+      "kidDefinition": "To know a sound come into your ears.",
+      "examples": [
+        "Can you hear a noise?",
+        "I can hear a frog singing."
+      ],
+      "distractors": [
+        "wait",
+        "sing",
+        "paint"
+      ],
+      "greekHint": "Ακούω με τα αυτιά μου.",
+      "english": "hear",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U3-SB-324",
+      "emoji": "🔊",
+      "kidDefinition": "A sound, often loud or strange.",
+      "examples": [
+        "I can hear a noise in the kitchen.",
+        "What is that loud noise by the pond?"
+      ],
+      "distractors": [
+        "floor",
+        "clock",
+        "doll"
+      ],
+      "greekHint": "Ο θόρυβος είναι ήχος.",
+      "english": "noise",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U3-SB-295",
+      "emoji": "🤔",
+      "kidDefinition": "To understand something or find the answer.",
+      "examples": [
+        "Can you figure out what the story is about?",
+        "Let's figure out if the rock is alive."
+      ],
+      "distractors": [
+        "look for",
+        "jump over",
+        "give up"
+      ],
+      "greekHint": "Βγάζω άκρη, καταλαβαίνω.",
+      "english": "figure out",
+      "type": "phr. v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U3-SB-294",
+    "CPP1-U3-SB-296",
+    "CPP1-U3-SB-297",
+    "CPP1-U3-SB-298",
+    "CPP1-U3-SB-299",
+    "CPP1-U3-SB-300",
+    "CPP1-U3-SB-301",
+    "CPP1-U3-SB-302",
+    "CPP1-U3-SB-303",
+    "CPP1-U3-SB-305",
+    "CPP1-U3-SB-306",
+    "CPP1-U3-SB-312",
+    "CPP1-U3-SB-313",
+    "CPP1-U3-SB-314",
+    "CPP1-U3-SB-315",
+    "CPP1-U3-SB-316",
+    "CPP1-U3-SB-317",
+    "CPP1-U3-SB-318",
+    "CPP1-U3-SB-319",
+    "CPP1-U3-SB-320",
+    "CPP1-U3-SB-322",
+    "CPP1-U3-SB-325",
+    "CPP1-U3-SB-326",
+    "CPP1-U3-SB-327",
+    "CPP1-U3-SB-328",
+    "CPP1-U3-SB-329",
+    "CPP1-U3-SB-330",
+    "CPP1-U3-SB-331",
+    "CPP1-U3-SB-332",
+    "CPP1-U3-SB-333",
+    "CPP1-U3-SB-334"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love ponds."
+        },
+        {
+          "id": "l2",
+          "text": "A pond is full of life. Let's take a look!"
+        },
+        {
+          "id": "l3",
+          "text": "Some things in a pond can move and grow."
+        },
+        {
+          "id": "l4",
+          "text": "Some things, like rocks, cannot move or grow."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What living things can you see near your home?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U3-SB-304",
+        "CPP1-U3-SB-310",
+        "CPP1-U3-SB-311",
+        "CPP1-U3-SB-309",
+        "CPP1-U3-SB-308",
+        "CPP1-U3-SB-307",
+        "CPP1-U3-SB-321",
+        "CPP1-U3-SB-323",
+        "CPP1-U3-SB-324",
+        "CPP1-U3-SB-295"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Day at the Pond",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Nikos and Eleni walk to the pond in the park."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "nikos",
+              "text": "Wow, look! A big pond!"
+            },
+            {
+              "id": "p1b",
+              "who": "lingo",
+              "text": "Let's look for living things together."
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-304"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Eleni sees something green on a rock."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "eleni",
+              "text": "Look at that frog on the rock!"
+            },
+            {
+              "id": "p2b",
+              "who": "lingo",
+              "text": "Frogs are amazing jumpers. Good eye, Eleni!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-310",
+            "CPP1-U3-SB-321"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Nikos hears a loud splash near the water."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "nikos",
+              "text": "I can hear a noise! Is it a fish?"
+            },
+            {
+              "id": "p3b",
+              "who": "lingo",
+              "text": "Stay quiet. Fish make splashes when they swim."
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-323",
+            "CPP1-U3-SB-324",
+            "CPP1-U3-SB-309"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "A tiny animal swims near the edge of the pond."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "eleni",
+              "text": "What is that little black thing?"
+            },
+            {
+              "id": "p4b",
+              "who": "lingo",
+              "text": "It is a tadpole. A tadpole is a baby frog!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-311"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "A dragonfly zooms over the pond. A mosquito buzzes nearby."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nikos",
+              "text": "Dragonflies can catch mosquitoes!"
+            },
+            {
+              "id": "p5b",
+              "who": "lingo",
+              "text": "Yes, and they are very useful in nature."
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-308",
+            "CPP1-U3-SB-307"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "eleni"
+            },
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "Nikos picks up a rock. He tries to figure out if it is alive."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "nikos",
+              "text": "This rock does not move or eat. So it is not alive!"
+            },
+            {
+              "id": "p6b",
+              "who": "eleni",
+              "text": "Great job! You figured it out!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U3-SB-295",
+            "CPP1-U3-SB-321"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U3-SB-311",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the word: tadpole."
+          },
+          "options": [
+            "CPP1-U3-SB-311",
+            "CPP1-U3-SB-310",
+            "CPP1-U3-SB-309",
+            "CPP1-U3-SB-304"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A tadpole is a baby frog that lives in water."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U3-SB-324",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point to the word you hear: noise."
+          },
+          "options": [
+            "CPP1-U3-SB-324",
+            "CPP1-U3-SB-304",
+            "CPP1-U3-SB-309",
+            "CPP1-U3-SB-323"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A noise is a sound, and you hear it with your ears."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-304",
+          "prompt": {
+            "id": "c3q",
+            "text": "A ____ is a small water home for frogs and fish."
+          },
+          "options": [
+            "pond",
+            "pot",
+            "clock",
+            "forest"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "A pond is a small area of water where plants and animals live."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U3-SB-308",
+          "prompt": {
+            "id": "c4q",
+            "text": "A dragonfly is a kind of fish."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "A dragonfly is an insect with wings, not a fish."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U3-SB-321",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "fish",
+            "tadpole",
+            "frog",
+            "rock"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "A rock is not alive, but the other three are living animals."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-307",
+          "prompt": {
+            "id": "c6q",
+            "text": "A ____ is a tiny insect that can bite you."
+          },
+          "options": [
+            "squirrel",
+            "sock",
+            "rabbit",
+            "mosquito"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "Mosquitoes are tiny flying insects that often live near water."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U3-SB-310",
+          "prompt": {
+            "id": "c7q",
+            "text": "Find the word: frog."
+          },
+          "options": [
+            "CPP1-U3-SB-304",
+            "CPP1-U3-SB-309",
+            "CPP1-U3-SB-307",
+            "CPP1-U3-SB-310"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A frog is a green animal that can jump very high."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-323",
+          "prompt": {
+            "id": "c8q",
+            "text": "Shh! Can you ____ that splash?"
+          },
+          "options": [
+            "paint",
+            "hear",
+            "wait",
+            "sing"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "When you hear something, the sound reaches your ears."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U3-SB-309",
+          "prompt": {
+            "id": "c9q",
+            "text": "A ____ has fins and swims in the water."
+          },
+          "options": [
+            "pocket",
+            "fish",
+            "bridge",
+            "floor"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Fish use their fins to swim in water."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U3-SB-295",
+          "prompt": {
+            "id": "c10q",
+            "text": "To figure out something means to understand it or solve it."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "When you figure out something, you understand it or find the answer."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a living thing you can see near water."
+      },
+      "frames": [
+        "I can see a ___ near the pond.",
+        "A ___ can ___ very well.",
+        "I can hear a ___ when it moves."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I can see a frog near the pond. A frog can jump very high. I can hear a splash when it moves."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, explorers! You know ten new pond words now."
+        },
+        {
+          "id": "l2",
+          "text": "You can figure out which things in a pond are alive."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, listen carefully for a noise by the water!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Pond Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one living thing in a pond and say why it is alive."
+        },
+        {
+          "id": "e2",
+          "text": "What is the difference between a frog and a tadpole?"
+        }
+      ]
+    }
+  ]
+}

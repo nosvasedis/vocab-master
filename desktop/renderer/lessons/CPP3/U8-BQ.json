@@ -1,0 +1,592 @@
+{
+  "schema": 1,
+  "id": "CPP3-U8-BQ",
+  "bookId": "CPP3",
+  "unit": 8,
+  "section": "BQ",
+  "title": "Switch On: Why Does Electricity Matter?",
+  "bigQuestion": "How important is electricity?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher who loves asking questions"
+    },
+    "ana": {
+      "name": "Ana",
+      "emoji": "👧",
+      "persona": "cheerful 11-year-old girl, curious and helpful"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "funny 11-year-old boy, a bit forgetful, always hungry"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U8-SB-1030",
+      "emoji": "🏭",
+      "kidDefinition": "Made by people, not found in nature.",
+      "examples": [
+        "Plastic is a man-made material.",
+        "Man-made materials are sometimes harmful for the environment."
+      ],
+      "distractors": [
+        "natural",
+        "wooden",
+        "electronic"
+      ],
+      "greekHint": "Το man-made είναι κατασκευασμένο από ανθρώπους.",
+      "english": "man-made",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1034",
+      "emoji": "☀️",
+      "kidDefinition": "Can be replaced again, so it never runs out.",
+      "examples": [
+        "Sun and wind are renewable sources of energy.",
+        "Scientists are turning to renewable energy because it is greener."
+      ],
+      "distractors": [
+        "useful",
+        "reusable",
+        "powerful"
+      ],
+      "greekHint": "Renewable: ανανεώνεται, δεν τελειώνει.",
+      "english": "renewable",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1035",
+      "emoji": "🪨",
+      "kidDefinition": "Will run out one day because it cannot be replaced.",
+      "examples": [
+        "Coal is a non-renewable fuel.",
+        "Non-renewable sources of energy are going to run out one day."
+      ],
+      "distractors": [
+        "expensive",
+        "unlimited",
+        "cheap"
+      ],
+      "greekHint": "Non-renewable: ένα 'non' για το όχι.",
+      "english": "non-renewable",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1033",
+      "emoji": "⛽",
+      "kidDefinition": "A thick black liquid used for fuel.",
+      "examples": [
+        "Oil is a non-renewable fossil fuel.",
+        "Many cars and ships use oil to move."
+      ],
+      "distractors": [
+        "water",
+        "gas",
+        "sugar"
+      ],
+      "greekHint": "Oil: πετρέλαιο, το μαύρο υγρό της γης.",
+      "english": "oil",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1036",
+      "emoji": "🐷",
+      "kidDefinition": "Keep something so you do not waste it.",
+      "examples": [
+        "We must save water and electricity every day.",
+        "Turn off the light to save energy."
+      ],
+      "distractors": [
+        "spend",
+        "waste",
+        "throw"
+      ],
+      "greekHint": "Save: κάνω οικονομία, σαν τον κουμπαρά.",
+      "english": "save",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1032",
+      "emoji": "🔋",
+      "kidDefinition": "Fill a battery with electricity again.",
+      "examples": [
+        "Don't forget to charge your cell phone before you leave the house.",
+        "I need to charge my tablet tonight."
+      ],
+      "distractors": [
+        "switch",
+        "cook",
+        "clean"
+      ],
+      "greekHint": "Charge: φορτίζω, γεμίζω την μπαταρία.",
+      "english": "charge",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1031",
+      "emoji": "🍲",
+      "kidDefinition": "A kitchen machine that heats food very quickly.",
+      "examples": [
+        "Cynthia warmed her dinner in the micro-wave oven.",
+        "Leo heats his soup in the micro-wave oven every night."
+      ],
+      "distractors": [
+        "fridge",
+        "stove",
+        "kettle"
+      ],
+      "greekHint": "Micro-wave: φούρνος μικροκυμάτων, ζεσταίνει γρήγορα.",
+      "english": "micro-wave oven",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1037",
+      "emoji": "💡",
+      "kidDefinition": "The glass object that gives us light.",
+      "examples": [
+        "LED light bulbs are much greener than the old-fashioned ones.",
+        "Please switch off the light bulb when you leave the room."
+      ],
+      "distractors": [
+        "candle",
+        "torch",
+        "lamp"
+      ],
+      "greekHint": "Light bulb: λάμπα, γλόμπος φωτός.",
+      "english": "light bulb",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1029",
+      "emoji": "🏬",
+      "kidDefinition": "A shop that sells phones, tablets and computers.",
+      "examples": [
+        "I went to an electronics store to buy a new tablet.",
+        "Leo and Ana found a cheap charger at the electronics store."
+      ],
+      "distractors": [
+        "bakery",
+        "library",
+        "pharmacy"
+      ],
+      "greekHint": "Electronics store: κατάστημα ηλεκτρονικών.",
+      "english": "electronics store",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U8-SB-1026",
+    "CPP3-U8-SB-1027",
+    "CPP3-U8-SB-1028"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, everyone! I am Lingo, and I am a very sleepy owl."
+        },
+        {
+          "id": "l2",
+          "text": "Yesterday the lights went out at my house, and everything stopped!"
+        },
+        {
+          "id": "l3",
+          "text": "No fridge, no computer, no microwave. It was very quiet and very dark."
+        },
+        {
+          "id": "l4",
+          "text": "Today we ask a big question: how important is electricity?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you use electricity for, every single day?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U8-SB-1030",
+        "CPP3-U8-SB-1034",
+        "CPP3-U8-SB-1035",
+        "CPP3-U8-SB-1033",
+        "CPP3-U8-SB-1036",
+        "CPP3-U8-SB-1032",
+        "CPP3-U8-SB-1031",
+        "CPP3-U8-SB-1037",
+        "CPP3-U8-SB-1029"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Big Switch-Off",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "ana"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "In the kitchen, Leo is very hungry. He wants his soup right now."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "leo",
+              "text": "Ana, the micro-wave oven is not working! My soup is still cold."
+            },
+            {
+              "id": "p1b",
+              "who": "ana",
+              "text": "Maybe the power is off. Let's find a light bulb and check the lights."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1031",
+            "CPP3-U8-SB-1037"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "shop",
+          "characters": [
+            {
+              "who": "ana"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "The next day, they visit an electronics store to buy a battery pack."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "ana",
+              "text": "This tablet is great, but it needs a battery. Can you charge it here?"
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Yes! Our phones need to charge too. Let's buy a small charger."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1029",
+            "CPP3-U8-SB-1032"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "ana"
+            },
+            {
+              "who": "leo"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "In the garden, they think about energy. Lingo the owl joins them on a branch."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "lingo",
+              "text": "Oil and coal are non-renewable. One day they will run out."
+            },
+            {
+              "id": "p3b",
+              "who": "ana",
+              "text": "Sun and wind are renewable. We should save energy and use them more!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1035",
+            "CPP3-U8-SB-1034",
+            "CPP3-U8-SB-1036",
+            "CPP3-U8-SB-1030"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U8-SB-1034",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the word: sun and wind are sources of energy that never run out."
+          },
+          "options": [
+            "CPP3-U8-SB-1036",
+            "CPP3-U8-SB-1034",
+            "CPP3-U8-SB-1035",
+            "CPP3-U8-SB-1030"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Renewable means it can be replaced again, like sun and wind."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1030",
+          "prompt": {
+            "id": "c2q",
+            "text": "Plastic is a ____ material, because people make it in factories."
+          },
+          "options": [
+            "electronic",
+            "renewable",
+            "man-made"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Man-made means made by people, not by nature."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U8-SB-1035",
+          "prompt": {
+            "id": "c3q",
+            "text": "Oil and coal are non-renewable, so one day they will run out."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Non-renewable sources cannot be replaced, so they will finish one day."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP3-U8-SB-1033",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen and choose the word: oil."
+          },
+          "options": [
+            "CPP3-U8-SB-1033",
+            "CPP3-U8-SB-1037",
+            "CPP3-U8-SB-1032"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Oil is a thick black liquid that cars use as fuel."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U8-SB-1036",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "table",
+            "save",
+            "waste",
+            "keep"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Save, waste and keep are verbs about using or keeping things, but table is a noun for furniture."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1032",
+          "prompt": {
+            "id": "c6q",
+            "text": "Please ____ your tablet tonight, because the battery is empty."
+          },
+          "options": [
+            "switch",
+            "cook",
+            "charge"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "To charge means to fill a battery with electricity again."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U8-SB-1031",
+          "prompt": {
+            "id": "c7q",
+            "text": "Point to the word: Mum warms her soup in this fast kitchen machine."
+          },
+          "options": [
+            "CPP3-U8-SB-1031",
+            "CPP3-U8-SB-1037",
+            "CPP3-U8-SB-1029"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A micro-wave oven heats food very quickly."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U8-SB-1037",
+          "prompt": {
+            "id": "c8q",
+            "text": "LED light bulbs are much greener than the old-fashioned ones."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "LED light bulbs are a greener choice for our planet."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1029",
+          "prompt": {
+            "id": "c9q",
+            "text": "I went to the ____ to buy a new tablet and a charger."
+          },
+          "options": [
+            "library",
+            "bakery",
+            "electronics store"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "An electronics store sells phones, tablets and computers."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Match each picture with its word."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you find a pair. Ready? Let's go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "With your partner, talk about how we can use less electricity at home."
+      },
+      "frames": [
+        "I use a ___ every day.",
+        "We can save energy when we switch off the ___.",
+        "I think ___ is a renewable source, because it never runs out."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I use a micro-wave oven every day. We can save energy when we switch off the light bulb. I think sun is a renewable source, because it never runs out."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You met the big question and many new words."
+        },
+        {
+          "id": "l2",
+          "text": "Remember: renewable sources never run out, but non-renewable ones will."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will read Amazing Electricity and discover more!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Switched-On Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one renewable source of energy and one non-renewable source."
+        },
+        {
+          "id": "e2",
+          "text": "Write one way you can save electricity at home this week."
+        }
+      ]
+    }
+  ]
+}

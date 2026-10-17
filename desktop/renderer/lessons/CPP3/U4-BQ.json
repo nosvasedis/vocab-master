@@ -1,0 +1,443 @@
+{
+  "schema": 1,
+  "id": "CPP3-U4-BQ",
+  "bookId": "CPP3",
+  "unit": 4,
+  "section": "BQ",
+  "title": "What Is Art? Let's Explore!",
+  "bigQuestion": "What is art?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher, energetic and encouraging"
+    },
+    "theo": {
+      "name": "Theo",
+      "emoji": "🧒",
+      "persona": "cheerful 11-year-old boy, curious and talkative"
+    },
+    "mira": {
+      "name": "Mira",
+      "emoji": "👧",
+      "persona": "thoughtful 11-year-old girl who loves painting, calm and kind"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U4-SB-505",
+      "emoji": "🗣️",
+      "kidDefinition": "To show your thoughts or feelings to other people.",
+      "examples": [
+        "She likes to express her ideas through drawing.",
+        "Theo can express his feelings with bright colours."
+      ],
+      "distractors": [
+        "hide",
+        "forget",
+        "carry"
+      ],
+      "greekHint": "Σκέψου: εκφράζω, να δείχνεις τις σκέψεις σου.",
+      "english": "express",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U4-SB-506",
+      "emoji": "👀",
+      "kidDefinition": "The way you think about something.",
+      "examples": [
+        "From my point of view, this mural tells a happy story.",
+        "Mira and Theo have a different point of view about the statue."
+      ],
+      "distractors": [
+        "a cup of tea",
+        "a day off",
+        "a big surprise"
+      ],
+      "greekHint": "Η άποψη είναι ο τρόπος που σκέφτεσαι κάτι.",
+      "english": "point of view",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP3-U4-SB-509",
+      "emoji": "🖼️",
+      "kidDefinition": "A picture made with paint.",
+      "examples": [
+        "Our class made a huge painting of the sea.",
+        "Mira's painting of the forest hangs in the hall."
+      ],
+      "distractors": [
+        "music",
+        "pottery",
+        "theatre"
+      ],
+      "greekHint": "Η ζωγραφιά είναι ό,τι φτιάχνεις με χρώματα.",
+      "english": "painting",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-510",
+      "emoji": "📷",
+      "kidDefinition": "The art of taking pictures with a camera.",
+      "examples": [
+        "Photography helps me notice tiny details in the street.",
+        "Theo wants to learn photography at the summer camp."
+      ],
+      "distractors": [
+        "bridge",
+        "garden",
+        "kitchen"
+      ],
+      "greekHint": "Φωτογραφία είναι η τέχνη της εικόνας με κάμερα.",
+      "english": "photography",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-512",
+      "emoji": "🧱",
+      "kidDefinition": "A big painting on a wall.",
+      "examples": [
+        "The old town has a mural of a big blue fish.",
+        "We walked past a colourful mural on the school wall."
+      ],
+      "distractors": [
+        "window",
+        "tunnel",
+        "kitchen"
+      ],
+      "greekHint": "Η τοιχογραφία είναι ζωγραφιά πάνω σε τοίχο.",
+      "english": "mural",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U4-SB-514",
+      "emoji": "🌈",
+      "kidDefinition": "Having lots of bright colours.",
+      "examples": [
+        "The market was full of colourful fruit and flowers.",
+        "Mira painted a colourful sunset over the hills."
+      ],
+      "distractors": [
+        "tiny",
+        "quiet",
+        "heavy"
+      ],
+      "greekHint": "Πολύχρωμος: πολλά λαμπερά χρώματα.",
+      "english": "colorful",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U4-SB-515",
+      "emoji": "😖",
+      "kidDefinition": "Not nice to look at.",
+      "examples": [
+        "The dirty old sign looked ugly in the sun.",
+        "Some people think modern art looks ugly, but others love it."
+      ],
+      "distractors": [
+        "huge",
+        "heavy",
+        "quick"
+      ],
+      "greekHint": "Άσχημος: δεν είναι ωραίος στο βλέμμα.",
+      "english": "ugly",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U4-SB-516",
+      "emoji": "🌿",
+      "kidDefinition": "Quiet, relaxed, and peaceful.",
+      "examples": [
+        "After the rain, the park felt calm and quiet.",
+        "Mira feels calm when she paints by the lake."
+      ],
+      "distractors": [
+        "noisy",
+        "angry",
+        "tired"
+      ],
+      "greekHint": "Ήρεμος: νιώθεις ήσυχα και χαλαρά.",
+      "english": "calm",
+      "type": "adj."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U4-SB-507",
+    "CPP3-U4-SB-508",
+    "CPP3-U4-SB-511",
+    "CPP3-U4-SB-513"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hoo hoo! Hello, art explorers! I am Lingo, your owl guide."
+        },
+        {
+          "id": "l2",
+          "text": "Today we ask a big question: What is art?"
+        },
+        {
+          "id": "l3",
+          "text": "Is a painting art? Is a shiny photo art? Is a huge wall picture art?"
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out together, and share our ideas."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Which artwork do you like best, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U4-SB-505",
+        "CPP3-U4-SB-506",
+        "CPP3-U4-SB-509",
+        "CPP3-U4-SB-510",
+        "CPP3-U4-SB-512",
+        "CPP3-U4-SB-514",
+        "CPP3-U4-SB-515",
+        "CPP3-U4-SB-516"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-505",
+          "prompt": {
+            "id": "c1q",
+            "text": "When friends ____ their feelings, we should listen kindly."
+          },
+          "options": [
+            "hide",
+            "express",
+            "carry"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "To express means to show your thoughts or feelings to others."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U4-SB-509",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word fits a picture painted on canvas and hung in a frame?"
+          },
+          "options": [
+            "CPP3-U4-SB-510",
+            "CPP3-U4-SB-509",
+            "CPP3-U4-SB-512"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A painting is a picture made with paint, often on canvas."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP3-U4-SB-512",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen. A big painting covers the whole wall of an old building. Which word is it?"
+          },
+          "options": [
+            "CPP3-U4-SB-514",
+            "CPP3-U4-SB-516",
+            "CPP3-U4-SB-512"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "A mural is a big painting on a wall."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U4-SB-516",
+          "prompt": {
+            "id": "c4q",
+            "text": "Calm means quiet and relaxed."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Calm describes a feeling of peace and quiet."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U4-SB-515",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "calm",
+            "colourful",
+            "ugly",
+            "beautiful"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "Ugly is negative, but the other three words are positive."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-506",
+          "prompt": {
+            "id": "c6q",
+            "text": "What is your ____ on this painting?"
+          },
+          "options": [
+            "point of view",
+            "a big surprise",
+            "a day off"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Point of view is the way you think about something."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U4-SB-514",
+          "prompt": {
+            "id": "c7q",
+            "text": "The parrot has ____ feathers: red, blue, and green."
+          },
+          "options": [
+            "heavy",
+            "tiny",
+            "colourful"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Colourful means having lots of bright colours."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U4-SB-510",
+          "prompt": {
+            "id": "c8q",
+            "text": "Photography is the art of taking pictures with a camera."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Photography is an art where you make pictures with a camera."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play! Match each picture with its word. Can you remember where they are?"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner: What is art to you?"
+      },
+      "frames": [
+        "For me, art is ___.",
+        "I like ___ because it is ___.",
+        "From my point of view, ___ is art."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "For me, art is a painting of the sea. I like murals because they are colourful and big. From my point of view, photography is art too."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, art explorers! You learned eight new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can express your ideas about art, and share your point of view."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will meet Theo and Mira. Hoo hoo, see you soon!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Art Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing that you think is art, and say why."
+        },
+        {
+          "id": "e2",
+          "text": "Use the word colourful in a sentence about a picture."
+        }
+      ]
+    }
+  ]
+}

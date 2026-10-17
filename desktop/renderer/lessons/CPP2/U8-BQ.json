@@ -1,0 +1,566 @@
+{
+  "schema": 1,
+  "id": "CPP2-U8-BQ",
+  "bookId": "CPP2",
+  "unit": 8,
+  "section": "BQ",
+  "title": "Who Is a Hero? Meet the Heroes!",
+  "bigQuestion": "What is a hero?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ben": {
+      "name": "Ben",
+      "emoji": "👦",
+      "persona": "cheerful, curious 10-year-old boy, a little worried at first"
+    },
+    "nina": {
+      "name": "Nina",
+      "emoji": "👩‍🚒",
+      "persona": "calm, warm firefighter, reassuring and friendly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U8-SB-967",
+      "emoji": "🦁",
+      "kidDefinition": "Not scared. Full of courage.",
+      "examples": [
+        "My dad is very brave! He isn't scared of anything!"
+      ],
+      "distractors": [
+        "tired",
+        "hungry",
+        "sleepy"
+      ],
+      "greekHint": "Σκέψου: ένας γενναίος λέοντας.",
+      "english": "brave",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-970",
+      "emoji": "💗",
+      "kidDefinition": "Kind, and wants to look after people.",
+      "examples": [
+        "My best friend is a very caring person."
+      ],
+      "distractors": [
+        "angry",
+        "lazy",
+        "rude"
+      ],
+      "english": "caring",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-968",
+      "emoji": "🎁",
+      "kidDefinition": "Happy to give and share things with others.",
+      "examples": [
+        "My aunt was very generous and kind."
+      ],
+      "distractors": [
+        "greedy",
+        "lazy",
+        "loud"
+      ],
+      "english": "generous",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-969",
+      "emoji": "🤝",
+      "kidDefinition": "Ready to help other people.",
+      "examples": [
+        "The people in this shop are very helpful."
+      ],
+      "distractors": [
+        "noisy",
+        "sleepy",
+        "tall"
+      ],
+      "english": "helpful",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-966",
+      "emoji": "🛟",
+      "kidDefinition": "To keep someone safe from danger.",
+      "examples": [
+        "The firefighter saved the cat from the tree."
+      ],
+      "distractors": [
+        "paint",
+        "jump",
+        "sleep"
+      ],
+      "english": "save",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-964",
+      "emoji": "🚨",
+      "kidDefinition": "A serious situation that needs help now.",
+      "examples": [
+        "Help! Call 999! It's an emergency."
+      ],
+      "distractors": [
+        "picnic",
+        "holiday",
+        "lesson"
+      ],
+      "greekHint": "Σκέψου: έκτακτη ανάγκη, άμεση βοήθεια.",
+      "english": "emergency",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-965",
+      "emoji": "📞",
+      "kidDefinition": "A phone conversation with someone.",
+      "examples": [
+        "Yesterday, I had a call from a very old friend."
+      ],
+      "distractors": [
+        "letter",
+        "picture",
+        "song"
+      ],
+      "english": "call",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-972",
+      "emoji": "🧯",
+      "kidDefinition": "To stop a fire from burning.",
+      "examples": [
+        "Firefighters put out fires quickly."
+      ],
+      "distractors": [
+        "put on",
+        "put up",
+        "put away"
+      ],
+      "english": "put out",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-962",
+      "emoji": "🙋",
+      "kidDefinition": "About you and your own life.",
+      "examples": [
+        "My personal hero is my grandma."
+      ],
+      "distractors": [
+        "public",
+        "famous",
+        "shiny"
+      ],
+      "english": "personal",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-963",
+      "emoji": "📖",
+      "kidDefinition": "A story that someone tells.",
+      "examples": [
+        "His narrative was very interesting."
+      ],
+      "distractors": [
+        "recipe",
+        "menu",
+        "map"
+      ],
+      "greekHint": "Σκέψου: αφήγηση, σαν να λες μια ιστορία.",
+      "english": "narrative",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U8-SB-961",
+    "CPP2-U8-SB-971"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo, your owl friend! Hoo hoo!"
+        },
+        {
+          "id": "l2",
+          "text": "Today we ask a big question: What is a hero?"
+        },
+        {
+          "id": "l3",
+          "text": "Some heroes wear capes. Some heroes wear fire helmets."
+        },
+        {
+          "id": "l4",
+          "text": "Some heroes are your friends, or your family."
+        },
+        {
+          "id": "l5",
+          "text": "Let's meet some heroes and learn new words!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Who is a hero for you? Tell me in one word."
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U8-SB-967",
+        "CPP2-U8-SB-970",
+        "CPP2-U8-SB-968",
+        "CPP2-U8-SB-969",
+        "CPP2-U8-SB-966",
+        "CPP2-U8-SB-964",
+        "CPP2-U8-SB-965",
+        "CPP2-U8-SB-972",
+        "CPP2-U8-SB-962",
+        "CPP2-U8-SB-963"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Emergency in the Park!",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "At the park, Ben sees a cat stuck in a tall tree."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ben",
+              "text": "Oh no! This is an emergency! Someone must save the cat!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-964",
+            "CPP2-U8-SB-966"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "nina"
+            },
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Nina, a firefighter, arrives. She is brave and helpful."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nina",
+              "text": "Don't worry, Ben. You are very caring. Let's save the cat together!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-967",
+            "CPP2-U8-SB-969",
+            "CPP2-U8-SB-970"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-967",
+          "prompt": {
+            "id": "c1q",
+            "text": "My dad is very ____. He isn't scared of anything!"
+          },
+          "options": [
+            "tired",
+            "brave",
+            "sleepy",
+            "hungry"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Brave means not scared, even when something is hard."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U8-SB-972",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word means to stop a fire from burning?"
+          },
+          "options": [
+            "CPP2-U8-SB-965",
+            "CPP2-U8-SB-964",
+            "CPP2-U8-SB-966",
+            "CPP2-U8-SB-972"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "Firefighters put out fires, so put out is the right word."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP2-U8-SB-968",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen and choose the word you hear: generous."
+          },
+          "options": [
+            "CPP2-U8-SB-968",
+            "CPP2-U8-SB-970",
+            "CPP2-U8-SB-967",
+            "CPP2-U8-SB-969"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "A generous person is happy to give and share things."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U8-SB-964",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "call",
+            "emergency",
+            "narrative",
+            "brave"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "Emergency, call and narrative are nouns, but brave is an adjective."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-966",
+          "prompt": {
+            "id": "c5q",
+            "text": "The firefighter ____ the cat from the tree."
+          },
+          "options": [
+            "slept",
+            "saved",
+            "painted",
+            "jumped"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "To save means to keep someone safe from danger."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U8-SB-965",
+          "prompt": {
+            "id": "c6q",
+            "text": "A call is a phone conversation with someone."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "When you call a friend, you talk to them on the phone."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U8-SB-962",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word means about you and your own life?"
+          },
+          "options": [
+            "CPP2-U8-SB-964",
+            "CPP2-U8-SB-962",
+            "CPP2-U8-SB-970",
+            "CPP2-U8-SB-963"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Personal things belong to you and your own life."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-963",
+          "prompt": {
+            "id": "c8q",
+            "text": "The teacher read a long ____ about a brave dog."
+          },
+          "options": [
+            "letter",
+            "narrative",
+            "picture",
+            "recipe"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A narrative is a story that someone tells."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-970",
+          "prompt": {
+            "id": "c9q",
+            "text": "My best friend is a very ____ person."
+          },
+          "options": [
+            "caring",
+            "angry",
+            "sleepy",
+            "lazy"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A caring person is kind and wants to look after others."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-969",
+          "prompt": {
+            "id": "c10q",
+            "text": "Our neighbour is very ____ when we need help."
+          },
+          "options": [
+            "helpful",
+            "sleepy",
+            "tall",
+            "noisy"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "A helpful person is ready to help other people."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a hero you know. Use your new words."
+      },
+      "frames": [
+        "My hero is my ___.",
+        "I think a hero is ___ and ___.",
+        "My hero is ___ because ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My hero is my grandpa. He is very caring and helpful. He always helps our neighbours."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, heroes! You met Ben and Nina today."
+        },
+        {
+          "id": "l2",
+          "text": "You now know words like brave, caring and emergency."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Hero Starter"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means happy to give and share things with others?"
+        },
+        {
+          "id": "e2",
+          "text": "What is an emergency? Tell me in one short sentence."
+        }
+      ]
+    }
+  ]
+}

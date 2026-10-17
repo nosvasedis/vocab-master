@@ -1,0 +1,730 @@
+{
+  "schema": 1,
+  "id": "CPP1-U4-B",
+  "bookId": "CPP1",
+  "unit": 4,
+  "section": "B",
+  "title": "Hetty and the Hound: A Forest Friend Story",
+  "bigQuestion": "What is a friend?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "forest",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "hetty": {
+      "name": "Hetty",
+      "emoji": "🐇",
+      "persona": "quick, brave young hare, a little out of breath, friendly"
+    },
+    "chip": {
+      "name": "Chip",
+      "emoji": "🐿️",
+      "persona": "calm, helpful chipmunk, cheerful and kind"
+    },
+    "rex": {
+      "name": "Rex",
+      "emoji": "🐕",
+      "persona": "big, booming hound, grumpy at first but not cruel, curious"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U4-SB-472",
+      "emoji": "🐇",
+      "kidDefinition": "An animal like a rabbit, with long ears.",
+      "examples": [
+        "The hare runs very fast in the forest.",
+        "Hares have long ears and big feet."
+      ],
+      "distractors": [
+        "hound",
+        "chipmunk",
+        "goat"
+      ],
+      "greekHint": "Το λαγός έχει μεγάλα αυτιά, όπως το «λαγός» στα ελληνικά.",
+      "english": "hare",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-473",
+      "emoji": "🐕",
+      "kidDefinition": "A dog that is used to hunt other animals.",
+      "examples": [
+        "The hound has a long nose and big ears.",
+        "The hound follows the hare through the trees."
+      ],
+      "distractors": [
+        "hare",
+        "goat",
+        "calf"
+      ],
+      "greekHint": "Το κυνηγόσκυλο κυνηγάει, όπως το «κυνηγώ».",
+      "english": "hound",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-497",
+      "emoji": "🏃",
+      "kidDefinition": "To run after someone to catch them.",
+      "examples": [
+        "Dogs like to chase balls in the park.",
+        "The cat will chase the mouse."
+      ],
+      "distractors": [
+        "hide",
+        "sleep",
+        "wash"
+      ],
+      "greekHint": "Το chase θυμίζει το «κυνηγώ».",
+      "english": "chase",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U4-SB-501",
+      "emoji": "💨",
+      "kidDefinition": "To go quickly away from danger.",
+      "examples": [
+        "When the bell rings, we run away from the storm.",
+        "Run away! The bee is coming!"
+      ],
+      "distractors": [
+        "sit down",
+        "wake up",
+        "stand still"
+      ],
+      "greekHint": "Το «τρέχω μακριά» είναι το run away.",
+      "english": "run away",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP1-U4-SB-506",
+      "emoji": "🍀",
+      "kidDefinition": "A safe getaway from danger, by good luck.",
+      "examples": [
+        "The cat jumped away. What a lucky escape!",
+        "We missed the rain. That was a lucky escape!"
+      ],
+      "distractors": [
+        "lucky day",
+        "happy ending",
+        "bad dream"
+      ],
+      "greekHint": "Η «τη γλύτωσα παρατρίχα» είναι το lucky escape.",
+      "english": "lucky escape",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U4-SB-505",
+      "emoji": "🕳️",
+      "kidDefinition": "An opening in the ground or in a wall.",
+      "examples": [
+        "The rabbit made a hole in the garden.",
+        "Look at this big hole! What lives in it?"
+      ],
+      "distractors": [
+        "bridge",
+        "tree",
+        "stone"
+      ],
+      "english": "hole",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-477",
+      "emoji": "🐿️",
+      "kidDefinition": "A small, striped animal that lives in holes.",
+      "examples": [
+        "Chipmunks live in holes in the ground.",
+        "The chipmunk ran up the tree with a nut."
+      ],
+      "distractors": [
+        "squirrel",
+        "hedgehog",
+        "mouse"
+      ],
+      "greekHint": "Το chipmunk είναι ένα μικρό σκιουράκι με ρίγες.",
+      "english": "chipmunk",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-481",
+      "emoji": "🧸",
+      "kidDefinition": "Covered with soft hair, or fur.",
+      "examples": [
+        "My cat is soft and furry.",
+        "Squirrels are small and furry."
+      ],
+      "distractors": [
+        "shiny",
+        "bumpy",
+        "wooden"
+      ],
+      "english": "furry",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U4-SB-482",
+      "emoji": "🌅",
+      "kidDefinition": "The first part of something.",
+      "examples": [
+        "This is the beginning of the lesson.",
+        "Here's the beginning of the story."
+      ],
+      "distractors": [
+        "middle",
+        "picture",
+        "garden"
+      ],
+      "english": "beginning",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U4-SB-484",
+      "emoji": "🏁",
+      "kidDefinition": "The last part of something.",
+      "examples": [
+        "The movie has a sad end.",
+        "At the end of the day, we go home."
+      ],
+      "distractors": [
+        "middle",
+        "picture",
+        "garden"
+      ],
+      "greekHint": "Το end είναι το τέλος, σαν το «Τέλος» στο τέλος ενός βιβλίου.",
+      "english": "end",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U4-SB-394",
+    "CPP1-U4-SB-474",
+    "CPP1-U4-SB-475",
+    "CPP1-U4-SB-476",
+    "CPP1-U4-SB-478",
+    "CPP1-U4-SB-479",
+    "CPP1-U4-SB-480",
+    "CPP1-U4-SB-483",
+    "CPP1-U4-SB-485",
+    "CPP1-U4-SB-486",
+    "CPP1-U4-SB-487",
+    "CPP1-U4-SB-488",
+    "CPP1-U4-SB-489",
+    "CPP1-U4-SB-490",
+    "CPP1-U4-SB-491",
+    "CPP1-U4-SB-492",
+    "CPP1-U4-SB-493",
+    "CPP1-U4-SB-494",
+    "CPP1-U4-SB-495",
+    "CPP1-U4-SB-496",
+    "CPP1-U4-SB-498",
+    "CPP1-U4-SB-499",
+    "CPP1-U4-SB-500",
+    "CPP1-U4-SB-502",
+    "CPP1-U4-SB-503",
+    "CPP1-U4-SB-504",
+    "CPP1-U4-SB-507",
+    "CPP1-U4-SB-508",
+    "CPP1-U4-SB-509",
+    "CPP1-U4-SB-510",
+    "CPP1-U4-SB-511",
+    "CPP1-U4-SB-512",
+    "CPP1-U4-SB-513",
+    "CPP1-U4-SB-514",
+    "CPP1-U4-SB-515",
+    "CPP1-U4-SB-516",
+    "CPP1-U4-SB-517"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "forest",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love the forest."
+        },
+        {
+          "id": "l2",
+          "text": "Some friends are big. Some friends are small."
+        },
+        {
+          "id": "l3",
+          "text": "Today we meet a hare, a chipmunk, and a very big hound."
+        },
+        {
+          "id": "l4",
+          "text": "Friends help us when we are in trouble. Let's see how!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Who is your best friend, and what do you do together?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U4-SB-472",
+        "CPP1-U4-SB-473",
+        "CPP1-U4-SB-497",
+        "CPP1-U4-SB-501",
+        "CPP1-U4-SB-506",
+        "CPP1-U4-SB-505",
+        "CPP1-U4-SB-477",
+        "CPP1-U4-SB-481",
+        "CPP1-U4-SB-482",
+        "CPP1-U4-SB-484"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Hetty and the Hound",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "hetty"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Here is the beginning of the story. Hetty the hare is hopping through the forest."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "hetty",
+              "text": "What a lovely day for a walk. I love this forest!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-482",
+            "CPP1-U4-SB-472"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "chip"
+            },
+            {
+              "who": "rex"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Chip sees a big hound coming through the trees."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "chip",
+              "text": "Hetty! Rex the hound is coming. Run away, quick!"
+            },
+            {
+              "id": "p2b",
+              "who": "hetty",
+              "text": "Oh no! I have to go!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-501",
+            "CPP1-U4-SB-473"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "rex"
+            },
+            {
+              "who": "hetty"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Rex starts to chase the hare through the forest."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "rex",
+              "text": "Stop, hare! I am going to catch you!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-497"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "hetty"
+            },
+            {
+              "who": "chip"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Hetty jumps into a hole in the ground. Chip is already inside."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "chip",
+              "text": "Come in! I am a chipmunk, and this is my home."
+            },
+            {
+              "id": "p4b",
+              "who": "chip",
+              "text": "Hide behind my furry tail. Shh!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-505",
+            "CPP1-U4-SB-477",
+            "CPP1-U4-SB-481"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "rex"
+            },
+            {
+              "who": "hetty"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Rex sniffs around the hole. Then he walks away, and Hetty comes out."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "hetty",
+              "text": "Phew! That was a lucky escape!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-506"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "hetty"
+            },
+            {
+              "who": "chip"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "And that is the end of the story. Hetty hugs her friend."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "hetty",
+              "text": "Thank you, Chip. You are my best friend!"
+            },
+            {
+              "id": "p6b",
+              "who": "chip",
+              "text": "Friends help each other. That is what friends do."
+            }
+          ],
+          "highlight": [
+            "CPP1-U4-SB-484"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U4-SB-472",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the word: hare."
+          },
+          "options": [
+            "CPP1-U4-SB-472",
+            "CPP1-U4-SB-473",
+            "CPP1-U4-SB-477",
+            "CPP1-U4-SB-505"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A hare is the animal with long ears and big feet."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U4-SB-473",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point to the picture: hound."
+          },
+          "options": [
+            "CPP1-U4-SB-473",
+            "CPP1-U4-SB-472",
+            "CPP1-U4-SB-477",
+            "CPP1-U4-SB-505"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A hound is a dog that hunts, like Rex in the story."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-497",
+          "prompt": {
+            "id": "c3q",
+            "text": "The hounds will ____ the hare through the forest."
+          },
+          "options": [
+            "chase",
+            "sleep",
+            "wash"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "To chase means to run after someone to catch them."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-501",
+          "prompt": {
+            "id": "c4q",
+            "text": "Quick, Hetty, ____! The hound is coming!"
+          },
+          "options": [
+            "sit down",
+            "wake up",
+            "run away"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "When there is danger, we run away quickly."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U4-SB-506",
+          "prompt": {
+            "id": "c5q",
+            "text": "A lucky escape means you get away from danger safely."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Hetty had a lucky escape when she got away from Rex."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U4-SB-505",
+          "prompt": {
+            "id": "c6q",
+            "text": "A hole is a big tree."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A hole is an opening in the ground, not a tree."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U4-SB-482",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "hole",
+            "beginning",
+            "middle",
+            "end"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Beginning, end and middle are parts of a story. A hole is not."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-484",
+          "prompt": {
+            "id": "c8q",
+            "text": "The story has a happy ____."
+          },
+          "options": [
+            "hound",
+            "hole",
+            "end"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "The end is the last part of a story."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U4-SB-481",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word means soft and covered in fur?"
+          },
+          "options": [
+            "CPP1-U4-SB-482",
+            "CPP1-U4-SB-484",
+            "CPP1-U4-SB-481",
+            "CPP1-U4-SB-505"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "Furry means covered with soft hair, like a chipmunk's tail."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U4-SB-477",
+          "prompt": {
+            "id": "c10q",
+            "text": "The little ____ hid in the hole."
+          },
+          "options": [
+            "swan",
+            "ram",
+            "chipmunk"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A chipmunk is a small striped animal that lives in holes."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture. Say the word out loud as you match it."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a friend who helps you. Use the words in the frames."
+      },
+      "frames": [
+        "My best friend is a ___.",
+        "When I am in trouble, my friend ___.",
+        "Hetty had a lucky ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My best friend is a dog. When I am in trouble, my friend helps me. Hetty had a lucky escape!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, friends! You met a hare, a hound, and a brave chipmunk."
+        },
+        {
+          "id": "l2",
+          "text": "You learned the beginning, the middle and the end of a story. Great work!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Forest Friend Hero"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What is the difference between a hare and a hound?"
+        },
+        {
+          "id": "e2",
+          "text": "Tell me one thing a good friend does for you."
+        }
+      ]
+    }
+  ]
+}

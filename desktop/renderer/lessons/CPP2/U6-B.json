@@ -1,0 +1,722 @@
+{
+  "schema": 1,
+  "id": "CPP2-U6-B",
+  "bookId": "CPP2",
+  "unit": 6,
+  "section": "B",
+  "title": "Into the Jungle: Paths, Giants and Echoing Voices",
+  "bigQuestion": "What do we know about dinosaurs?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "forest",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nigel": {
+      "name": "Nigel",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy, curious and funny"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "brave, careful 10-year-old girl, sensible and kind"
+    },
+    "giant": {
+      "name": "Bruno the Giant",
+      "emoji": "🧔",
+      "persona": "deep, friendly giant, speaks slowly and warmly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U6-SB-789",
+      "emoji": "🛤️",
+      "kidDefinition": "A narrow way to walk along.",
+      "examples": [
+        "The path goes through the trees.",
+        "Walk on the path so you do not get lost."
+      ],
+      "distractors": [
+        "road",
+        "river",
+        "bridge"
+      ],
+      "greekHint": "Το μονοπάτι: a path you walk on, like a little road.",
+      "english": "path",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-791",
+      "emoji": "🌱",
+      "kidDefinition": "The surface you walk on outside.",
+      "examples": [
+        "The ground is soft after the rain.",
+        "Sit down on the ground and rest."
+      ],
+      "distractors": [
+        "sky",
+        "roof",
+        "wall"
+      ],
+      "greekHint": "Το έδαφος: the land under your feet.",
+      "english": "ground",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-793",
+      "emoji": "☀️",
+      "kidDefinition": "The light from the sun during the day.",
+      "examples": [
+        "We played outside in the daylight.",
+        "Some birds sing early in the daylight."
+      ],
+      "distractors": [
+        "moonlight",
+        "nighttime",
+        "sunset"
+      ],
+      "english": "daylight",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-795",
+      "emoji": "💥",
+      "kidDefinition": "To hit something by accident while moving.",
+      "examples": [
+        "I bumped into my friend in the corridor.",
+        "Be careful, or you will bump into the table."
+      ],
+      "distractors": [
+        "walk into",
+        "look at",
+        "run out of"
+      ],
+      "english": "bump into",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U6-SB-796",
+      "emoji": "🏁",
+      "kidDefinition": "The first part of something.",
+      "examples": [
+        "At the beginning of the film, a dog ran away.",
+        "The beginning of the lesson is always fun."
+      ],
+      "distractors": [
+        "end",
+        "middle",
+        "morning"
+      ],
+      "greekHint": "Η αρχή: the start.",
+      "english": "beginning",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-799",
+      "emoji": "🧔",
+      "kidDefinition": "A very, very big person in a story.",
+      "examples": [
+        "The giant had big feet and a big smile.",
+        "A giant helped the children find their way."
+      ],
+      "distractors": [
+        "mouse",
+        "pebble",
+        "ant"
+      ],
+      "greekHint": "Ο γίγαντας: very big, like a giant in a tale.",
+      "english": "giant",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-800",
+      "emoji": "🌴",
+      "kidDefinition": "A hot forest with many tall trees and animals.",
+      "examples": [
+        "Monkeys swing from trees in the jungle.",
+        "The jungle is hot and very green."
+      ],
+      "distractors": [
+        "desert",
+        "city",
+        "farm"
+      ],
+      "greekHint": "Η ζούγκλα: a thick, green forest.",
+      "english": "jungle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-804",
+      "emoji": "🗣️",
+      "kidDefinition": "The sound a person makes when they speak or sing.",
+      "examples": [
+        "I heard a voice calling my name.",
+        "Her voice was soft and gentle."
+      ],
+      "distractors": [
+        "whisper",
+        "shadow",
+        "echo"
+      ],
+      "greekHint": "Η φωνή: the sound from your mouth.",
+      "english": "voice",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-805",
+      "emoji": "📢",
+      "kidDefinition": "Very loud and deep, like thunder.",
+      "examples": [
+        "The booming drum made everyone jump.",
+        "The thunder made a booming sound."
+      ],
+      "distractors": [
+        "tiny",
+        "gentle",
+        "silent"
+      ],
+      "english": "booming",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U6-SB-806",
+      "emoji": "⛰️",
+      "kidDefinition": "The very outside part of something.",
+      "examples": [
+        "Do not stand too close to the edge of the cliff.",
+        "She sat at the edge of the pool."
+      ],
+      "distractors": [
+        "middle",
+        "centre",
+        "top"
+      ],
+      "greekHint": "Η άκρη: the far side, the last bit.",
+      "english": "edge",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U6-SB-790",
+    "CPP2-U6-SB-792",
+    "CPP2-U6-SB-794",
+    "CPP2-U6-SB-797",
+    "CPP2-U6-SB-798",
+    "CPP2-U6-SB-801",
+    "CPP2-U6-SB-802",
+    "CPP2-U6-SB-803",
+    "CPP2-U6-SB-807",
+    "CPP2-U6-SB-808",
+    "CPP2-U6-SB-809",
+    "CPP2-U6-SB-810",
+    "CPP2-U6-SB-811",
+    "CPP2-U6-SB-812",
+    "CPP2-U6-SB-813",
+    "CPP2-U6-SB-814",
+    "CPP2-U6-SB-815",
+    "CPP2-U6-SB-816",
+    "CPP2-U6-SB-817",
+    "CPP2-U6-SB-818",
+    "CPP2-U6-SB-819",
+    "CPP2-U6-SB-820",
+    "CPP2-U6-SB-821",
+    "CPP2-U6-SB-822",
+    "CPP2-U6-SB-823",
+    "CPP2-U6-SB-824",
+    "CPP2-U6-SB-825",
+    "CPP2-U6-SB-826"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "forest",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! It is me, Lingo the owl. Hoo, hoo!"
+        },
+        {
+          "id": "l2",
+          "text": "Today we are going on an adventure through a green, hot jungle."
+        },
+        {
+          "id": "l3",
+          "text": "We will follow a path, meet a friendly giant, and hear a very loud voice."
+        },
+        {
+          "id": "l4",
+          "text": "Are you ready to explore with us?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Would you like to explore a jungle? Why or why not?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U6-SB-789",
+        "CPP2-U6-SB-791",
+        "CPP2-U6-SB-793",
+        "CPP2-U6-SB-795",
+        "CPP2-U6-SB-796",
+        "CPP2-U6-SB-799",
+        "CPP2-U6-SB-800",
+        "CPP2-U6-SB-804",
+        "CPP2-U6-SB-805",
+        "CPP2-U6-SB-806"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Giant's Cave",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "nigel"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "At the beginning of the story, two friends found a path into the jungle."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "nigel",
+              "text": "Look! A path into the jungle. Let's go explore!"
+            },
+            {
+              "id": "p1b",
+              "who": "mia",
+              "text": "Wait for me! I love the daylight shining through the trees."
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-796",
+            "CPP2-U6-SB-789",
+            "CPP2-U6-SB-800",
+            "CPP2-U6-SB-793"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "nigel"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "The ground was wet and muddy after the rain."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nigel",
+              "text": "Whoa! I bumped into a tree. Ouch!"
+            },
+            {
+              "id": "p2b",
+              "who": "mia",
+              "text": "Be careful. The ground is very slippery here."
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-795",
+            "CPP2-U6-SB-791"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "giant"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Suddenly, a booming voice echoed through the trees."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "giant",
+              "text": "Hello there! Who is walking on my path?"
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "We are sorry! We did not know it was yours."
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-804",
+            "CPP2-U6-SB-805",
+            "CPP2-U6-SB-799"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "nigel"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "They stood at the edge of a dark cave."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "mia",
+              "text": "Don't stand near the edge! It's a long way down."
+            },
+            {
+              "id": "p4b",
+              "who": "nigel",
+              "text": "I'm a little nervous, but I'm also curious!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-806"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "giant"
+            },
+            {
+              "who": "nigel"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "The giant stepped out into the daylight, smiling warmly."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "giant",
+              "text": "Don't be scared. I am friendly, and I love visitors!"
+            },
+            {
+              "id": "p5b",
+              "who": "nigel",
+              "text": "Thank you! Your cave is amazing!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-793",
+            "CPP2-U6-SB-799"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U6-SB-789",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means a narrow way to walk along?"
+          },
+          "options": [
+            "CPP2-U6-SB-791",
+            "CPP2-U6-SB-800",
+            "CPP2-U6-SB-789",
+            "CPP2-U6-SB-806"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A path is a narrow way you walk along, like the one in the forest."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-793",
+          "prompt": {
+            "id": "c2q",
+            "text": "Plants need ____ to grow strong and green."
+          },
+          "options": [
+            "dirt",
+            "jungle",
+            "nighttime",
+            "daylight"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "Plants need daylight from the sun, not the dark of nighttime."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U6-SB-791",
+          "prompt": {
+            "id": "c3q",
+            "text": "In the story, the ground in the forest was dry and hard."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "The story says the ground was wet and muddy after the rain."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U6-SB-799",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "jungle",
+            "ground",
+            "giant",
+            "path"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "A giant is a big person in a tale, while the others are places or surfaces."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "listen",
+          "wordId": "CPP2-U6-SB-804",
+          "prompt": {
+            "id": "c5q",
+            "text": "Listen to the word and point to it: voice."
+          },
+          "options": [
+            "CPP2-U6-SB-806",
+            "CPP2-U6-SB-805",
+            "CPP2-U6-SB-804",
+            "CPP2-U6-SB-789"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A voice is the sound that comes out of a person's mouth when they speak."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-805",
+          "prompt": {
+            "id": "c6q",
+            "text": "The thunder made a ____ sound across the sky."
+          },
+          "options": [
+            "tiny",
+            "wooden",
+            "sleepy",
+            "booming"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "Booming means very loud and deep, like thunder."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-795",
+          "prompt": {
+            "id": "c7q",
+            "text": "I was not looking where I walked, so I ____ a big tree."
+          },
+          "options": [
+            "bumped into",
+            "went up",
+            "ran out of",
+            "looked at"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "To bump into something means to hit it by accident while moving."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U6-SB-806",
+          "prompt": {
+            "id": "c8q",
+            "text": "The edge of a path is the middle of the path."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "The edge is the outside part, not the middle."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-796",
+          "prompt": {
+            "id": "c9q",
+            "text": "The ____ of the story was very exciting for the children."
+          },
+          "options": [
+            "beginning",
+            "end",
+            "middle",
+            "morning"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "The beginning is the first part of a story."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U6-SB-800",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which word describes a hot, green forest full of tall trees and animals?"
+          },
+          "options": [
+            "CPP2-U6-SB-793",
+            "CPP2-U6-SB-799",
+            "CPP2-U6-SB-800",
+            "CPP2-U6-SB-804"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A jungle is a hot, green forest with lots of trees and animals."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Turn over two cards and find matching pairs."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you find a pair. Ready? Go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Imagine you walk into a jungle with a partner. Tell your partner about your adventure."
+      },
+      "frames": [
+        "I walk along a ___ in the jungle.",
+        "Suddenly, I hear a ___ from the trees.",
+        "At the end of the adventure, I see a ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I walk along a path in the jungle. Suddenly, I hear a booming voice from the trees. At the end of the adventure, I see a friendly giant!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Fantastic work, explorers! You remembered so many new words today."
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about a path, a jungle, and a booming voice. Well done!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Jungle Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing you can find on the ground in a jungle."
+        },
+        {
+          "id": "e2",
+          "text": "Tell me one sentence with the word bump into."
+        }
+      ]
+    }
+  ]
+}

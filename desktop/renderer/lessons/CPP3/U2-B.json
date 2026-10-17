@@ -1,0 +1,752 @@
+{
+  "schema": 1,
+  "id": "CPP3-U2-B",
+  "bookId": "CPP3",
+  "unit": 2,
+  "section": "B",
+  "title": "Surprise in the Kitchen: Cooking for Grandma",
+  "bigQuestion": "What is food for?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "kitchen",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "jan": {
+      "name": "Jan",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, excited and helpful"
+    },
+    "dad": {
+      "name": "Dad",
+      "emoji": "👨",
+      "persona": "warm, patient dad, playful and encouraging"
+    },
+    "grandma": {
+      "name": "Grandma",
+      "emoji": "👵",
+      "persona": "kind, delighted grandmother, warm and a little surprised"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U2-SB-245",
+      "emoji": "🌭",
+      "kidDefinition": "a long, thin meat food, often cooked on a grill",
+      "examples": [
+        "We grilled some sausages at the picnic.",
+        "Would you like a sausage in your bread roll?"
+      ],
+      "distractors": [
+        "carrot",
+        "cheese",
+        "bread"
+      ],
+      "greekHint": "Θυμήσου: λουκάνικο, όπως στο χοτ ντογκ.",
+      "english": "sausage",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-246",
+      "emoji": "🥕",
+      "kidDefinition": "the foods you need to make a recipe",
+      "examples": [
+        "Check the ingredients before you start cooking.",
+        "Flour and eggs are two ingredients in this cake."
+      ],
+      "distractors": [
+        "dessert",
+        "holidays",
+        "jackets"
+      ],
+      "greekHint": "Τα υλικά της συνταγής.",
+      "english": "ingredients",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-248",
+      "emoji": "🍯",
+      "kidDefinition": "a sweet, sticky food that bees make",
+      "examples": [
+        "Would you like some honey on your toast?",
+        "Bees make honey from the flowers in the garden."
+      ],
+      "distractors": [
+        "butter",
+        "jam",
+        "pepper"
+      ],
+      "english": "honey",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-249",
+      "emoji": "🥫",
+      "kidDefinition": "a cabinet with doors where you keep food",
+      "examples": [
+        "Open the cupboard and get the big plates.",
+        "The biscuits are in the cupboard above the sink."
+      ],
+      "distractors": [
+        "window",
+        "carpet",
+        "pillow"
+      ],
+      "english": "cupboard",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-251",
+      "emoji": "🍲",
+      "kidDefinition": "a deep metal pan for cooking food on a stove",
+      "examples": [
+        "Put the soup in the pot and let it boil.",
+        "Our big pot can cook soup for the whole family."
+      ],
+      "distractors": [
+        "spoon",
+        "plate",
+        "knife"
+      ],
+      "greekHint": "Κατσαρόλα: βαθύ μεταλλικό σκεύος.",
+      "english": "pot",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-257",
+      "emoji": "🥄",
+      "kidDefinition": "to move food around in a pot with a spoon",
+      "examples": [
+        "Stir the milk slowly so it does not burn.",
+        "Stir the tea with a spoon before you drink it."
+      ],
+      "distractors": [
+        "bang",
+        "crawl",
+        "appear"
+      ],
+      "english": "stir",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U2-SB-252",
+      "emoji": "🧂",
+      "kidDefinition": "tasting of salt, often in a strong way",
+      "examples": [
+        "These crisps are too salty for me today.",
+        "Taste the soup first, because it might be salty."
+      ],
+      "distractors": [
+        "fresh",
+        "brave",
+        "worried"
+      ],
+      "greekHint": "Αλμυρός: σαν τη θάλασσα.",
+      "english": "salty",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U2-SB-258",
+      "emoji": "🎂",
+      "kidDefinition": "to make something look pretty with extra things",
+      "examples": [
+        "We decorate the classroom for the school party.",
+        "She decorated her cupcakes with bright sprinkles."
+      ],
+      "distractors": [
+        "clean",
+        "break",
+        "hide"
+      ],
+      "english": "decorate",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U2-SB-260",
+      "emoji": "🎉",
+      "kidDefinition": "to do something special for a happy day",
+      "examples": [
+        "We celebrate Dad's birthday with a big dinner.",
+        "Let's celebrate our team's win with ice cream!"
+      ],
+      "distractors": [
+        "sleep",
+        "cry",
+        "hide"
+      ],
+      "greekHint": "Γιορτάζω: κάνω γιορτή.",
+      "english": "celebrate",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U2-SB-280",
+      "emoji": "🎁",
+      "kidDefinition": "something unexpected that makes you happy",
+      "examples": [
+        "The party was a wonderful surprise for her.",
+        "Hide the present and give her a nice surprise."
+      ],
+      "distractors": [
+        "package",
+        "sign",
+        "knock"
+      ],
+      "english": "surprise",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U2-SB-244",
+    "CPP3-U2-SB-247",
+    "CPP3-U2-SB-250",
+    "CPP3-U2-SB-253",
+    "CPP3-U2-SB-254",
+    "CPP3-U2-SB-255",
+    "CPP3-U2-SB-256",
+    "CPP3-U2-SB-259",
+    "CPP3-U2-SB-261",
+    "CPP3-U2-SB-262",
+    "CPP3-U2-SB-263",
+    "CPP3-U2-SB-264",
+    "CPP3-U2-SB-265",
+    "CPP3-U2-SB-266",
+    "CPP3-U2-SB-267",
+    "CPP3-U2-SB-268",
+    "CPP3-U2-SB-269",
+    "CPP3-U2-SB-270",
+    "CPP3-U2-SB-271",
+    "CPP3-U2-SB-272",
+    "CPP3-U2-SB-273",
+    "CPP3-U2-SB-274",
+    "CPP3-U2-SB-275",
+    "CPP3-U2-SB-276",
+    "CPP3-U2-SB-277",
+    "CPP3-U2-SB-278",
+    "CPP3-U2-SB-279",
+    "CPP3-U2-SB-281",
+    "CPP3-U2-SB-282",
+    "CPP3-U2-SB-283",
+    "CPP3-U2-SB-284",
+    "CPP3-U2-SB-285",
+    "CPP3-U2-SB-286",
+    "CPP3-U2-SB-287",
+    "CPP3-U2-SB-288",
+    "CPP3-U2-SB-289",
+    "CPP3-U2-SB-290",
+    "CPP3-U2-SB-291",
+    "CPP3-U2-SB-292",
+    "CPP3-U2-SB-293",
+    "CPP3-U2-SB-294",
+    "CPP3-U2-KW-24"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "kitchen",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo, and I love cooking with my friends!"
+        },
+        {
+          "id": "l2",
+          "text": "Today we are cooking a special meal in Jan's kitchen."
+        },
+        {
+          "id": "l3",
+          "text": "Every family has a favourite dish for special days."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out what food can do for us!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite food to share with friends?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U2-SB-245",
+        "CPP3-U2-SB-246",
+        "CPP3-U2-SB-248",
+        "CPP3-U2-SB-249",
+        "CPP3-U2-SB-251",
+        "CPP3-U2-SB-257",
+        "CPP3-U2-SB-252",
+        "CPP3-U2-SB-258",
+        "CPP3-U2-SB-260",
+        "CPP3-U2-SB-280"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Jan's Secret Surprise Dinner",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Jan and her dad were planning a surprise for Grandma."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "jan",
+              "text": "Dad, we need all the ingredients on this list."
+            },
+            {
+              "id": "p1b",
+              "who": "dad",
+              "text": "Good idea. Let's check the cupboard first."
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-246",
+            "CPP3-U2-SB-249"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "dad"
+            },
+            {
+              "who": "jan"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Dad took a big pot from the cupboard."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "dad",
+              "text": "We need honey for the cake. Grandma loves it!"
+            },
+            {
+              "id": "p2b",
+              "who": "jan",
+              "text": "Can we add sausages for the guests too?"
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-251",
+            "CPP3-U2-SB-249",
+            "CPP3-U2-SB-248",
+            "CPP3-U2-SB-245"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "jan"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Jan stirred the mixture slowly in the pot."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "jan",
+              "text": "Oh no! This mixture tastes too salty!"
+            },
+            {
+              "id": "p3b",
+              "who": "dad",
+              "text": "Don't worry. We can fix it together."
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-257",
+            "CPP3-U2-SB-252"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Later, Jan was ready to finish the cake."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "jan",
+              "text": "Look, Dad! I can decorate the top with strawberries."
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-258"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "grandma"
+            },
+            {
+              "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Grandma walked in. Everyone shouted, Surprise!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "grandma",
+              "text": "What a lovely surprise! Thank you, everyone!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-280"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "grandma"
+            },
+            {
+              "who": "dad"
+            },
+            {
+              "who": "jan"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "Everyone sat down to eat and celebrate together."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "dad",
+              "text": "We celebrate family and good food together. Happy birthday, Grandma!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-260"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U2-SB-245",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the picture of a sausage."
+          },
+          "options": [
+            "CPP3-U2-SB-248",
+            "CPP3-U2-SB-249",
+            "CPP3-U2-SB-251",
+            "CPP3-U2-SB-245"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A sausage is a long meat food, so look for the sausage picture."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U2-SB-260",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and choose the word: celebrate."
+          },
+          "options": [
+            "CPP3-U2-SB-258",
+            "CPP3-U2-SB-280",
+            "CPP3-U2-SB-257",
+            "CPP3-U2-SB-260"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "To celebrate means to do something special for a happy day."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-246",
+          "prompt": {
+            "id": "c3q",
+            "text": "Check all the ____ of the recipe before you start cooking."
+          },
+          "options": [
+            "dessert",
+            "holidays",
+            "ingredients",
+            "jackets"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "Ingredients are the foods you mix together in a recipe."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U2-SB-248",
+          "prompt": {
+            "id": "c4q",
+            "text": "Honey is a sweet food that bees make."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Bees make honey from flowers, and it is sweet and sticky."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U2-SB-249",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "fridge",
+            "cupboard",
+            "bed",
+            "pot"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "Cupboard, pot and fridge are kitchen things, but a bed is not."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-257",
+          "prompt": {
+            "id": "c6q",
+            "text": "Please ____ the soup slowly with a big spoon."
+          },
+          "options": [
+            "appear",
+            "bang",
+            "stir",
+            "crawl"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "When you stir, you move food around with a spoon."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U2-SB-251",
+          "prompt": {
+            "id": "c7q",
+            "text": "Find the picture of a pot."
+          },
+          "options": [
+            "CPP3-U2-SB-251",
+            "CPP3-U2-SB-248",
+            "CPP3-U2-SB-257",
+            "CPP3-U2-SB-252"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A pot is a deep pan for cooking soup and pasta."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-252",
+          "prompt": {
+            "id": "c8q",
+            "text": "This soup is too ____. Please add some water."
+          },
+          "options": [
+            "worried",
+            "fresh",
+            "brave",
+            "salty"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "Salty food tastes strong of salt, so we add water to help."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U2-SB-258",
+          "prompt": {
+            "id": "c9q",
+            "text": "To decorate a cake means to make it look pretty."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "Decorating adds bright, pretty things to make something look special."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-280",
+          "prompt": {
+            "id": "c10q",
+            "text": "We planned a big ____ party for Grandma. She was so happy!"
+          },
+          "options": [
+            "knock",
+            "package",
+            "sign",
+            "surprise"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c10e",
+            "text": "A surprise is something unexpected that makes you happy."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Turn two cards and say the word out loud when you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a special meal or party you have enjoyed."
+      },
+      "frames": [
+        "For my birthday, my family and I cooked ___.",
+        "To make this dish, you need ___.",
+        "I like to decorate my food with ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "For my birthday, my family and I cooked pasta with sausages. To make this dish, you need pasta and tomatoes. I like to decorate my food with fresh basil."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work! You learnt ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about cooking, food and surprise parties."
+        },
+        {
+          "id": "l3",
+          "text": "Lingo is very proud of you!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Kitchen Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word describes a soup that tastes too much of salt?"
+        },
+        {
+          "id": "e2",
+          "text": "What is one thing you would like to decorate for a party, and why?"
+        }
+      ]
+    }
+  ]
+}

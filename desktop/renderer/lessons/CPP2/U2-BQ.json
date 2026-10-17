@@ -1,0 +1,624 @@
+{
+  "schema": 1,
+  "id": "CPP2-U2-BQ",
+  "bookId": "CPP2",
+  "unit": 2,
+  "section": "BQ",
+  "title": "Party Time! Why Do We Celebrate?",
+  "bigQuestion": "Why are celebrations important?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "emilia": {
+      "name": "Emilia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and kind"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "🧒",
+      "persona": "friendly 10-year-old boy, playful and warm"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U2-SB-145",
+      "emoji": "🎉",
+      "kidDefinition": "A special day or event when people have fun together.",
+      "examples": [
+        "There is a school celebration on Friday. We will sing songs.",
+        "Our family celebration is always full of laughter."
+      ],
+      "distractors": [
+        "homework",
+        "umbrella",
+        "puzzle"
+      ],
+      "greekHint": "γιορτή",
+      "english": "celebration",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-151",
+      "emoji": "🥳",
+      "kidDefinition": "To do something special for a happy day.",
+      "examples": [
+        "How do you celebrate your birthday every year?",
+        "We celebrate New Year's with music and dancing."
+      ],
+      "distractors": [
+        "forget",
+        "wrap",
+        "wait"
+      ],
+      "greekHint": "γιορτάζω",
+      "english": "celebrate",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U2-SB-149",
+      "emoji": "💌",
+      "kidDefinition": "A card or letter that asks you to come to something.",
+      "examples": [
+        "Here is an invitation to my party. I hope you can come!",
+        "Emilia sent an invitation to her friend Leo."
+      ],
+      "distractors": [
+        "calendar",
+        "ticket",
+        "blanket"
+      ],
+      "greekHint": "πρόσκληση",
+      "english": "invitation",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-150",
+      "emoji": "🎁",
+      "kidDefinition": "Something you give to someone on a special day.",
+      "examples": [
+        "I want to buy a gift for my sister. It's her birthday tomorrow.",
+        "Emilia brings a gift for Leo."
+      ],
+      "distractors": [
+        "ticket",
+        "pencil",
+        "blanket"
+      ],
+      "greekHint": "δώρο",
+      "english": "gift",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-KW-7",
+      "emoji": "🎂",
+      "kidDefinition": "A sweet food, often baked for a birthday party.",
+      "examples": [
+        "We eat cake at my birthday party.",
+        "Emilia and her mum bake a big cake together."
+      ],
+      "distractors": [
+        "sandwich",
+        "notebook",
+        "crisps"
+      ],
+      "greekHint": "κέικ, τούρτα",
+      "english": "cake",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-155",
+      "emoji": "🎈",
+      "kidDefinition": "A bag of air that you blow up and it floats.",
+      "examples": [
+        "There are lots of balloons in the room.",
+        "Leo ties red balloons to the park bench."
+      ],
+      "distractors": [
+        "button",
+        "bottle",
+        "basket"
+      ],
+      "greekHint": "μπαλόνι",
+      "english": "balloon",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-152",
+      "emoji": "🕯️",
+      "kidDefinition": "A small stick of wax with a flame on top.",
+      "examples": [
+        "There are ten candles on the cake.",
+        "Emilia makes a wish and blows out the candles."
+      ],
+      "distractors": [
+        "pillow",
+        "pencil",
+        "spoon"
+      ],
+      "greekHint": "κερί",
+      "english": "candle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-147",
+      "emoji": "👍",
+      "kidDefinition": "Good, happy, or kind. Not negative.",
+      "examples": [
+        "Lingo gave me a positive comment about my drawing.",
+        "Leo has a positive attitude at every party."
+      ],
+      "distractors": [
+        "heavy",
+        "quiet",
+        "empty"
+      ],
+      "greekHint": "θετικός",
+      "english": "positive",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U2-SB-146",
+      "emoji": "💬",
+      "kidDefinition": "To say or do something back after someone speaks.",
+      "examples": [
+        "Please listen to your partner and respond kindly.",
+        "Leo will respond to the invitation today."
+      ],
+      "distractors": [
+        "sing",
+        "jump",
+        "forget"
+      ],
+      "greekHint": "απαντώ, αποκρίνομαι",
+      "english": "respond",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U2-SB-158",
+      "emoji": "🎆",
+      "kidDefinition": "The celebration on 1 January when a new year begins.",
+      "examples": [
+        "On New Year's, we eat together and give gifts.",
+        "Emilia's adventure happens on New Year's Eve."
+      ],
+      "distractors": [
+        "Monday",
+        "summer",
+        "breakfast"
+      ],
+      "greekHint": "Πρωτοχρονιά",
+      "english": "New Year's",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U2-SB-148",
+    "CPP2-U2-SB-153",
+    "CPP2-U2-SB-154",
+    "CPP2-U2-SB-156",
+    "CPP2-U2-SB-157"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hoo, hoo! Hello, my friends! I am Lingo."
+        },
+        {
+          "id": "l2",
+          "text": "Today we ask a big question: Why are celebrations important?"
+        },
+        {
+          "id": "l3",
+          "text": "Think about a birthday. What do you see?"
+        },
+        {
+          "id": "l4",
+          "text": "Maybe there are candles, a cake and balloons!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one thing you always see at a birthday party?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U2-SB-145",
+        "CPP2-U2-SB-151",
+        "CPP2-U2-SB-149",
+        "CPP2-U2-SB-150",
+        "CPP2-U2-KW-7",
+        "CPP2-U2-SB-155",
+        "CPP2-U2-SB-152",
+        "CPP2-U2-SB-147",
+        "CPP2-U2-SB-146",
+        "CPP2-U2-SB-158"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Emilia's New Year's Adventure",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Emilia is in the kitchen on New Year's Eve."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "emilia",
+              "text": "Look! A big cake and ten candles! It is New Year's."
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-KW-7",
+            "CPP2-U2-SB-152",
+            "CPP2-U2-SB-158"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "emilia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Leo hands Emilia an invitation on the street."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "Here is an invitation to my New Year's party!"
+            },
+            {
+              "id": "p2b",
+              "who": "emilia",
+              "text": "Thank you! I will bring a gift for you."
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-149",
+            "CPP2-U2-SB-150"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "emilia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "At the park, the party has balloons and music."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "emilia",
+              "text": "This celebration is wonderful! Let's celebrate together."
+            },
+            {
+              "id": "p3b",
+              "who": "leo",
+              "text": "Your ideas are positive! Please respond to my message."
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-145",
+            "CPP2-U2-SB-151",
+            "CPP2-U2-SB-155",
+            "CPP2-U2-SB-147",
+            "CPP2-U2-SB-146"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U2-SB-152",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means the small light you blow out on a cake?"
+          },
+          "options": [
+            "CPP2-U2-SB-150",
+            "CPP2-U2-SB-152",
+            "CPP2-U2-SB-145",
+            "CPP2-U2-SB-155"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A candle is a small light with a flame, and you blow it out."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U2-SB-150",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: Please bring a gift for my party. Which word did you hear?"
+          },
+          "options": [
+            "CPP2-U2-SB-150",
+            "CPP2-U2-SB-151",
+            "CPP2-U2-SB-155",
+            "CPP2-U2-SB-147"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A gift is something you give to a friend on a special day."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-151",
+          "prompt": {
+            "id": "c3q",
+            "text": "We ____ my birthday with a big party."
+          },
+          "options": [
+            "celebrate",
+            "forget",
+            "wrap"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "To celebrate means to do something fun for a special day."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U2-SB-155",
+          "prompt": {
+            "id": "c4q",
+            "text": "A balloon is a food that you eat at a party."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "A balloon is a bag of air that floats, not something you eat."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U2-KW-7",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which one is NOT a party food?"
+          },
+          "options": [
+            "cake",
+            "notebook",
+            "crisps",
+            "sandwiches"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Cake, sandwiches and crisps are food; a notebook is for writing."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-147",
+          "prompt": {
+            "id": "c6q",
+            "text": "Lingo says, 'Great drawing!' That is a ____ comment."
+          },
+          "options": [
+            "quiet",
+            "heavy",
+            "positive"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A positive comment is happy and kind."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U2-SB-149",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is a card that asks you to come to a party?"
+          },
+          "options": [
+            "CPP2-U2-SB-149",
+            "CPP2-U2-SB-155",
+            "CPP2-U2-SB-158",
+            "CPP2-U2-SB-152"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "An invitation is a card or letter that asks you to come."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-146",
+          "prompt": {
+            "id": "c8q",
+            "text": "Please listen to your friend and ____ politely."
+          },
+          "options": [
+            "respond",
+            "jump",
+            "sing"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "To respond means to answer or reply after someone speaks."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U2-SB-158",
+          "prompt": {
+            "id": "c9q",
+            "text": "New Year's is the celebration when a new year begins."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "New Year's is on 1 January, when a new year starts."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-145",
+          "prompt": {
+            "id": "c10q",
+            "text": "Our class ____ is on Friday, with music and games."
+          },
+          "options": [
+            "umbrella",
+            "celebration",
+            "homework"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "A celebration is a special event where people have fun together."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs of pictures and words."
+        },
+        {
+          "id": "l2",
+          "text": "Flip two cards. Can you match a candle with its word?"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a celebration you love."
+      },
+      "frames": [
+        "I love the ___ at my birthday party.",
+        "On ___, my family and I celebrate together.",
+        "I think ___ is important because it makes people happy."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I love the cake at my birthday party. On New Year's, my family and I celebrate together. I think celebrations are important because they make people happy."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You now know ten celebration words."
+        },
+        {
+          "id": "l2",
+          "text": "Celebrations are important because they bring people together."
+        },
+        {
+          "id": "l3",
+          "text": "Next lesson, we will read about birthdays around the world!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Celebration Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Why are celebrations important? Give one reason."
+        },
+        {
+          "id": "e2",
+          "text": "Name two words from today's lesson you can use at a party."
+        }
+      ]
+    }
+  ]
+}

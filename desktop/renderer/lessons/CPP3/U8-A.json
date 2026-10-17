@@ -1,0 +1,725 @@
+{
+  "schema": 1,
+  "id": "CPP3-U8-A",
+  "bookId": "CPP3",
+  "unit": 8,
+  "section": "A",
+  "title": "Lights Out in the Storm!",
+  "bigQuestion": "How important is electricity?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher, clear and encouraging"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "👦",
+      "persona": "cheerful 9-year-old boy, curious and a little bit brave"
+    },
+    "mum": {
+      "name": "Mum",
+      "emoji": "👩",
+      "persona": "calm, caring adult, gentle and practical"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U8-SB-1038",
+      "emoji": "⛈️",
+      "kidDefinition": "A storm with thunder and lightning.",
+      "examples": [
+        "We stayed inside during the thunderstorm.",
+        "A thunderstorm can bring loud noise and heavy rain."
+      ],
+      "distractors": [
+        "rainbow",
+        "sunshine",
+        "snowflake"
+      ],
+      "greekHint": "Καταιγίδα: σκέψου 'καταιγίδα' με βροντές και αστραπές.",
+      "english": "thunderstorm",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1041",
+      "emoji": "🔊",
+      "kidDefinition": "The loud rumbling sound after lightning.",
+      "examples": [
+        "I heard thunder just after the bright flash.",
+        "My dog hides under the bed when there is thunder."
+      ],
+      "distractors": [
+        "whisper",
+        "sunshine",
+        "rainbow"
+      ],
+      "greekHint": "Βροντή: ο δυνατός ήχος του ουρανού.",
+      "english": "thunder",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1042",
+      "emoji": "⚡",
+      "kidDefinition": "The bright flash of light in a storm.",
+      "examples": [
+        "Lightning lit up the whole field for a second.",
+        "Lightning can strike a tree during a storm, so stay safe indoors."
+      ],
+      "distractors": [
+        "shadow",
+        "rainbow",
+        "snowflake"
+      ],
+      "greekHint": "Κεραυνός: η λάμψη που βλέπεις πριν από τη βροντή.",
+      "english": "lightning",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1039",
+      "emoji": "💪",
+      "kidDefinition": "Very strong, with a lot of force or energy.",
+      "examples": [
+        "The powerful wind bent the tall trees.",
+        "The runner finished with a powerful burst of speed."
+      ],
+      "distractors": [
+        "popular",
+        "relaxed",
+        "green"
+      ],
+      "greekHint": "Δυνατός: έχει πολλή δύναμη.",
+      "english": "powerful",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1050",
+      "emoji": "🧊",
+      "kidDefinition": "A cold box in the kitchen that keeps food fresh.",
+      "examples": [
+        "Keep the milk in the fridge or it will go bad.",
+        "Our fridge is full of fruit and cheese."
+      ],
+      "distractors": [
+        "oven",
+        "kettle",
+        "toaster"
+      ],
+      "greekHint": "Ψυγείο: κρατά τα τρόφιμα κρύα.",
+      "english": "fridge",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1049",
+      "emoji": "💡",
+      "kidDefinition": "To make a light or machine start working.",
+      "examples": [
+        "He switched on the light and started reading.",
+        "Please switch on the fan, it is very hot in here."
+      ],
+      "distractors": [
+        "switch off",
+        "blow up",
+        "pull together"
+      ],
+      "greekHint": "Ανάβω: πατάω τον διακόπτη για να ανάψει.",
+      "english": "switch on",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1043",
+      "emoji": "🪨",
+      "kidDefinition": "Black rock that people burn to make energy.",
+      "examples": [
+        "In the past, people burned coal to make electricity.",
+        "Burning coal makes a lot of smoke and pollutes the air."
+      ],
+      "distractors": [
+        "gas",
+        "wood",
+        "sand"
+      ],
+      "greekHint": "Κάρβουνο: μαύρο, καίγεται για ενέργεια.",
+      "english": "burn",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1046",
+      "emoji": "🌬️",
+      "kidDefinition": "Energy from moving air, made by turbines.",
+      "examples": [
+        "Nowadays, we use wind power to produce electricity.",
+        "Wind power turns giant turbines on the hills."
+      ],
+      "distractors": [
+        "coal",
+        "gas",
+        "fossil fuel"
+      ],
+      "greekHint": "Αιολική ενέργεια: ο άνεμος γυρίζει τις ανεμογεννήτριες.",
+      "english": "wind power",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1047",
+      "emoji": "☀️",
+      "kidDefinition": "Energy that comes from the sun.",
+      "examples": [
+        "Solar power is a renewable source of energy.",
+        "Solar panels on the roof use solar power to make electricity."
+      ],
+      "distractors": [
+        "sunshine",
+        "rainbow",
+        "shadow"
+      ],
+      "greekHint": "Ηλιακή ενέργεια: έρχεται από τον ήλιο.",
+      "english": "solar power",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U8-SB-1054",
+      "emoji": "🔋",
+      "kidDefinition": "To have no more of something left.",
+      "examples": [
+        "When we run out of fossil fuels, what will we do?",
+        "Don't let your phone run out of battery on the way home."
+      ],
+      "distractors": [
+        "run away",
+        "blow up",
+        "pull together"
+      ],
+      "greekHint": "Ξεμένω: τελειώνει ό,τι έχουμε.",
+      "english": "run out",
+      "type": "phr. v."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U8-SB-1040",
+    "CPP3-U8-SB-1044",
+    "CPP3-U8-SB-1045",
+    "CPP3-U8-SB-1048",
+    "CPP3-U8-SB-1051",
+    "CPP3-U8-SB-1052",
+    "CPP3-U8-SB-1053",
+    "CPP3-U8-SB-1055",
+    "CPP3-U8-SB-1056",
+    "CPP3-U8-SB-1057",
+    "CPP3-U8-SB-1058",
+    "CPP3-U8-SB-1059",
+    "CPP3-U8-SB-1060",
+    "CPP3-U8-SB-1061",
+    "CPP3-U8-SB-1062",
+    "CPP3-U8-SB-1063",
+    "CPP3-U8-SB-1064",
+    "CPP3-U8-SB-1065",
+    "CPP3-U8-SB-1066",
+    "CPP3-U8-SB-1067",
+    "CPP3-U8-SB-1068",
+    "CPP3-U8-SB-1069",
+    "CPP3-U8-SB-1070",
+    "CPP3-U8-SB-1071",
+    "CPP3-U8-SB-1072",
+    "CPP3-U8-SB-1073",
+    "CPP3-U8-SB-1074",
+    "CPP3-U8-SB-1075",
+    "CPP3-U8-SB-1076",
+    "CPP3-U8-SB-1077",
+    "CPP3-U8-SB-1078",
+    "CPP3-U8-SB-1079"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! Lingo here, ready for a stormy story."
+        },
+        {
+          "id": "l2",
+          "text": "Imagine the sky turns dark grey, and the wind starts to howl."
+        },
+        {
+          "id": "l3",
+          "text": "Then, a loud crack comes from the clouds, and all the lights go off!"
+        },
+        {
+          "id": "l4",
+          "text": "Today, we will learn words about storms, electricity and clean energy."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you do when the lights go off at home?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U8-SB-1038",
+        "CPP3-U8-SB-1041",
+        "CPP3-U8-SB-1042",
+        "CPP3-U8-SB-1039",
+        "CPP3-U8-SB-1050",
+        "CPP3-U8-SB-1049",
+        "CPP3-U8-SB-1043",
+        "CPP3-U8-SB-1046",
+        "CPP3-U8-SB-1047",
+        "CPP3-U8-SB-1054"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Big Switch-Off",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "mum"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "One warm evening, a big thunderstorm rolled over the village."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "nikos",
+              "text": "Mum, listen! That was really loud thunder!"
+            },
+            {
+              "id": "p1b",
+              "who": "mum",
+              "text": "Yes, Nikos. There is a thunderstorm outside tonight."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1038",
+            "CPP3-U8-SB-1041"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "mum"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "A bright flash lit up the sky outside the window."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nikos",
+              "text": "Wow! That lightning was so powerful!"
+            },
+            {
+              "id": "p2b",
+              "who": "mum",
+              "text": "Stay away from the window. Lightning can be dangerous."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1042",
+            "CPP3-U8-SB-1039"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "mum"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Then the lights went off, and the fridge stopped humming."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mum",
+              "text": "Oh no! The thunderstorm cut the power. Can you switch on the torch?"
+            },
+            {
+              "id": "p3b",
+              "who": "nikos",
+              "text": "Got it! I hope the milk in the fridge stays cold."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1038",
+            "CPP3-U8-SB-1049",
+            "CPP3-U8-SB-1050"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "mum"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "The next morning, Nikos saw turbines and solar panels in the village."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "nikos",
+              "text": "Mum, the wind power turbines are spinning really fast!"
+            },
+            {
+              "id": "p4b",
+              "who": "mum",
+              "text": "Yes. We burn less coal now, because solar power is cleaner."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1046",
+            "CPP3-U8-SB-1047",
+            "CPP3-U8-SB-1043"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "mum"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Nikos smiled. The sun was shining, and the lights came back on."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nikos",
+              "text": "Clean energy is important, so we never run out of power."
+            },
+            {
+              "id": "p5b",
+              "who": "mum",
+              "text": "Exactly! Now let's switch on the lamp together."
+            }
+          ],
+          "highlight": [
+            "CPP3-U8-SB-1054",
+            "CPP3-U8-SB-1049"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1038",
+          "prompt": {
+            "id": "c1q",
+            "text": "The sky went dark, and a big ____ rolled over the village."
+          },
+          "options": [
+            "rainbow",
+            "sunshine",
+            "snowflake",
+            "thunderstorm"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A thunderstorm is a storm with thunder and lightning, so it fits here."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U8-SB-1041",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and pick the word for the loud rumbling sound in the sky."
+          },
+          "options": [
+            "CPP3-U8-SB-1042",
+            "CPP3-U8-SB-1039",
+            "CPP3-U8-SB-1041",
+            "CPP3-U8-SB-1050"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Thunder is the loud sound that comes after lightning."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U8-SB-1042",
+          "prompt": {
+            "id": "c3q",
+            "text": "Lightning is the bright flash of light you see in a storm."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Lightning is the bright flash, and thunder is the sound that follows it."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1039",
+          "prompt": {
+            "id": "c4q",
+            "text": "The wind was so ____ that it bent the tall trees."
+          },
+          "options": [
+            "relaxed",
+            "powerful",
+            "green",
+            "popular"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Powerful means very strong, and the wind was very strong."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1050",
+          "prompt": {
+            "id": "c5q",
+            "text": "Keep the milk in the ____ so it stays cold and fresh."
+          },
+          "options": [
+            "kettle",
+            "toaster",
+            "oven",
+            "fridge"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "A fridge is the cold box in the kitchen that keeps food fresh."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U8-SB-1049",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which phrase means to make a light start working?"
+          },
+          "options": [
+            "CPP3-U8-SB-1049",
+            "CPP3-U8-SB-1054",
+            "CPP3-U8-SB-1039",
+            "CPP3-U8-SB-1050"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "You switch on a light when you press the switch and it starts working."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U8-SB-1043",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "solar power",
+            "wind power",
+            "hydroelectric power",
+            "coal"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "Coal is a fossil fuel that we burn, but wind, solar and water power are clean renewable sources."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1046",
+          "prompt": {
+            "id": "c8q",
+            "text": "Big white turbines on the hill use ____ to make electricity."
+          },
+          "options": [
+            "gas",
+            "wind power",
+            "solar power",
+            "coal"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Turbines turn with moving air, so they use wind power."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U8-SB-1047",
+          "prompt": {
+            "id": "c9q",
+            "text": "Solar power uses energy from the wind."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Solar power uses energy from the sun, not from the wind."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U8-SB-1054",
+          "prompt": {
+            "id": "c10q",
+            "text": "We must not ____ of clean energy, so we need many solar panels."
+          },
+          "options": [
+            "pull together",
+            "switch on",
+            "blow up",
+            "run out"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c10e",
+            "text": "Run out of something means there is no more of it left."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a memory game! Turn over two cards and find matching pairs."
+        },
+        {
+          "id": "l2",
+          "text": "Match each picture with its word. Say the word aloud as you turn the card."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner what you would do during a thunderstorm at home, and why."
+      },
+      "frames": [
+        "When there is a thunderstorm, I ___.",
+        "I hear thunder, so I ___.",
+        "I think solar power and wind power are ___ because ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "When there is a thunderstorm, I stay inside. I hear thunder and see lightning, so I switch on a torch. I think solar power and wind power are good because they keep our fridge running without much coal."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, storm explorers!"
+        },
+        {
+          "id": "l2",
+          "text": "You learned words about thunder, lightning, and clean energy from the sun and wind."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will switch on our knowledge about electricity even more!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Storm Word Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one word from today's lesson that describes a storm."
+        },
+        {
+          "id": "e2",
+          "text": "What is one clean source of energy, and what does it use?"
+        }
+      ]
+    }
+  ]
+}

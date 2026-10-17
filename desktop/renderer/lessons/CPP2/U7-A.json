@@ -1,0 +1,703 @@
+{
+  "schema": 1,
+  "id": "CPP2-U7-A",
+  "bookId": "CPP2",
+  "unit": 7,
+  "section": "A",
+  "title": "Maria's Amazing Free-Time Project",
+  "bigQuestion": "Why is free time important?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "maria": {
+      "name": "Maria",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, creative and proud of her projects"
+    },
+    "nick": {
+      "name": "Nick",
+      "emoji": "👦",
+      "persona": "curious 10-year-old boy, friendly and full of questions"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U7-SB-859",
+      "emoji": "🪙",
+      "kidDefinition": "A group of similar things you keep together.",
+      "examples": [
+        "Maria has a big collection of stickers.",
+        "My brother has a collection of toy cars."
+      ],
+      "distractors": [
+        "toothpaste",
+        "lentil",
+        "desert"
+      ],
+      "greekHint": "Συλλογή: think of a collection of coins or stamps.",
+      "english": "collection",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-862",
+      "emoji": "📔",
+      "kidDefinition": "A book where you stick photos, pictures and notes.",
+      "examples": [
+        "Maria keeps her photos in a scrapbook.",
+        "I made a scrapbook of my summer holiday."
+      ],
+      "distractors": [
+        "toothpaste",
+        "garlic",
+        "pool"
+      ],
+      "greekHint": "Λεύκωμα: a book you fill with pictures you love.",
+      "english": "scrapbook",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-866",
+      "emoji": "⭐",
+      "kidDefinition": "A small paper picture with glue on the back.",
+      "examples": [
+        "She put a star sticker on her page.",
+        "Little children love bright stickers and colours."
+      ],
+      "distractors": [
+        "marble",
+        "onion",
+        "dessert"
+      ],
+      "english": "sticker",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-867",
+      "emoji": "🧶",
+      "kidDefinition": "Long, thin thread used for knitting or sewing.",
+      "examples": [
+        "He tied the box with red yarn.",
+        "Grandma knits warm scarves with soft yarn."
+      ],
+      "distractors": [
+        "clay",
+        "lentil",
+        "melon"
+      ],
+      "english": "yarn",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-865",
+      "emoji": "🧱",
+      "kidDefinition": "What something is made from, like paper or wood.",
+      "examples": [
+        "Cardboard is a good material for models.",
+        "What material is your school bag made of?"
+      ],
+      "distractors": [
+        "garlic",
+        "clock",
+        "toothpaste"
+      ],
+      "english": "material",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-868",
+      "emoji": "🔺",
+      "kidDefinition": "A huge stone building with four triangle sides.",
+      "examples": [
+        "The Great Pyramid is very old and very large.",
+        "We drew a pyramid in our history book."
+      ],
+      "distractors": [
+        "desert",
+        "shopping mall",
+        "graph"
+      ],
+      "greekHint": "Πυραμίδα: the famous pyramids in Egypt.",
+      "english": "pyramid",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-875",
+      "emoji": "🏺",
+      "kidDefinition": "Very old, from a long time ago.",
+      "examples": [
+        "Ancient Egyptians built pyramids for their kings.",
+        "Ancient houses were made of mud and stone."
+      ],
+      "distractors": [
+        "muddy",
+        "yummy",
+        "neat"
+      ],
+      "greekHint": "Αρχαίος: think of Ancient Greece.",
+      "english": "ancient",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U7-SB-878",
+      "emoji": "📜",
+      "kidDefinition": "Picture symbols used for writing in ancient Egypt.",
+      "examples": [
+        "Hieroglyphics look like birds, eyes and small people.",
+        "Can you read hieroglyphics? I can only read letters."
+      ],
+      "distractors": [
+        "spinning top",
+        "leapfrog",
+        "graph"
+      ],
+      "english": "hieroglyphics",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-871",
+      "emoji": "🔒",
+      "kidDefinition": "A metal fastener that needs a key to open.",
+      "examples": [
+        "Please check the lock on the front door.",
+        "My diary has a lock, so my sister cannot read it."
+      ],
+      "distractors": [
+        "sidewalk",
+        "pharmacy",
+        "pool"
+      ],
+      "english": "lock",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-872",
+      "emoji": "🔑",
+      "kidDefinition": "A metal tool that opens a lock.",
+      "examples": [
+        "Where is my key? I cannot open the door!",
+        "Keep your key in your pocket, not on the table."
+      ],
+      "distractors": [
+        "clock",
+        "marble",
+        "lentil"
+      ],
+      "greekHint": "Κλειδί: the key that opens a lock.",
+      "english": "key",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U7-SB-860",
+    "CPP2-U7-SB-861",
+    "CPP2-U7-SB-863",
+    "CPP2-U7-SB-864",
+    "CPP2-U7-SB-869",
+    "CPP2-U7-SB-870",
+    "CPP2-U7-SB-873",
+    "CPP2-U7-SB-874",
+    "CPP2-U7-SB-876",
+    "CPP2-U7-SB-877",
+    "CPP2-U7-SB-879",
+    "CPP2-U7-SB-880",
+    "CPP2-U7-SB-881",
+    "CPP2-U7-SB-882",
+    "CPP2-U7-SB-883",
+    "CPP2-U7-SB-884",
+    "CPP2-U7-SB-885",
+    "CPP2-U7-SB-886",
+    "CPP2-U7-SB-887",
+    "CPP2-U7-SB-888",
+    "CPP2-U7-SB-889",
+    "CPP2-U7-SB-890",
+    "CPP2-U7-SB-891",
+    "CPP2-U7-SB-892",
+    "CPP2-U7-SB-893",
+    "CPP2-U7-SB-894",
+    "CPP2-U7-SB-895",
+    "CPP2-U7-SB-896",
+    "CPP2-U7-SB-897",
+    "CPP2-U7-SB-898",
+    "CPP2-U7-SB-899",
+    "CPP2-U7-SB-900",
+    "CPP2-U7-SB-901",
+    "CPP2-U7-SB-902",
+    "CPP2-U7-SB-903",
+    "CPP2-U7-SB-904",
+    "CPP2-U7-SB-905",
+    "CPP2-U7-SB-906",
+    "CPP2-U7-SB-907",
+    "CPP2-U7-SB-908",
+    "CPP2-U7-SB-909",
+    "CPP2-U7-SB-910",
+    "CPP2-U7-SB-911",
+    "CPP2-U7-SB-912",
+    "CPP2-U7-SB-913"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love free time."
+        },
+        {
+          "id": "l2",
+          "text": "Some people collect things. Some people make things. Some people read about the past."
+        },
+        {
+          "id": "l3",
+          "text": "Today we meet Maria. She has a wonderful free-time project!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite thing to do in your free time?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U7-SB-862",
+        "CPP2-U7-SB-859",
+        "CPP2-U7-SB-866",
+        "CPP2-U7-SB-867",
+        "CPP2-U7-SB-865",
+        "CPP2-U7-SB-868",
+        "CPP2-U7-SB-875",
+        "CPP2-U7-SB-878",
+        "CPP2-U7-SB-871",
+        "CPP2-U7-SB-872"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Maria's Scrapbook Secret",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maria"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "On Sunday afternoon, Maria has free time. She opens her box of treasures."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "maria",
+              "text": "Look at my collection of stickers! I love them all."
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-859",
+            "CPP2-U7-SB-866"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maria"
+            },
+            {
+              "who": "nick"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Nick comes in. He sees a big, colourful book on the table."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nick",
+              "text": "Wow! What is that big book?"
+            },
+            {
+              "id": "p2b",
+              "who": "maria",
+              "text": "It is my scrapbook. I stick photos and drawings in it."
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-862"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "maria"
+            },
+            {
+              "who": "nick"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Maria shows Nick a page about ancient Egypt."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "maria",
+              "text": "Look! Ancient Egyptians built this pyramid. It is thousands of years old!"
+            },
+            {
+              "id": "p3b",
+              "who": "nick",
+              "text": "They used hieroglyphics for writing, right? Pictures, not letters!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-868",
+            "CPP2-U7-SB-875",
+            "CPP2-U7-SB-878"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maria"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Maria makes a model pyramid. She needs good materials."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "maria",
+              "text": "I use cardboard and yarn. Cardboard is a great material for models!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-865",
+            "CPP2-U7-SB-867"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maria"
+            },
+            {
+              "who": "nick"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Nick spots a little box with a lock. Maria smiles and holds up a key."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nick",
+              "text": "Is your scrapbook inside that box?"
+            },
+            {
+              "id": "p5b",
+              "who": "maria",
+              "text": "Yes! The lock keeps it safe. Here is the key!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-871",
+            "CPP2-U7-SB-872"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U7-SB-862",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the scrapbook."
+          },
+          "options": [
+            "CPP2-U7-SB-859",
+            "CPP2-U7-SB-866",
+            "CPP2-U7-SB-871",
+            "CPP2-U7-SB-862"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A scrapbook is the big book where you stick photos and pictures."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U7-SB-859",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to Lingo. Point to the word you hear."
+          },
+          "options": [
+            "CPP2-U7-SB-868",
+            "CPP2-U7-SB-872",
+            "CPP2-U7-SB-867",
+            "CPP2-U7-SB-859"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "Collection is a group of things you keep together, like Maria's stickers."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-866",
+          "prompt": {
+            "id": "c3q",
+            "text": "Maria put a shiny ____ of a camel on her page."
+          },
+          "options": [
+            "sticker",
+            "pyramid",
+            "lock",
+            "yarn"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "A sticker is a small paper picture with glue on the back."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-867",
+          "prompt": {
+            "id": "c4q",
+            "text": "She tied the box with pink ____."
+          },
+          "options": [
+            "key",
+            "material",
+            "yarn",
+            "collection"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "Yarn is long, thin thread, so it can tie a box."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U7-SB-865",
+          "prompt": {
+            "id": "c5q",
+            "text": "Maria said cardboard is a good material for making a model pyramid."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "A material is what something is made from, and Maria used cardboard."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U7-SB-868",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "sticker",
+            "scrapbook",
+            "pyramid",
+            "collection"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A pyramid is a huge building, but the other three are small things you can keep in a box."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-875",
+          "prompt": {
+            "id": "c7q",
+            "text": "____ Egyptians built pyramids thousands of years ago."
+          },
+          "options": [
+            "Muddy",
+            "Yummy",
+            "Neat",
+            "Ancient"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "Ancient means very old, from a long time ago."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U7-SB-878",
+          "prompt": {
+            "id": "c8q",
+            "text": "Hieroglyphics are picture symbols that ancient Egyptians used for writing."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Hieroglyphics used pictures instead of letters for writing."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-871",
+          "prompt": {
+            "id": "c9q",
+            "text": "The box has a metal ____, so Nick cannot open it."
+          },
+          "options": [
+            "lock",
+            "yarn",
+            "sticker",
+            "material"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A lock keeps things closed until you use a key."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-872",
+          "prompt": {
+            "id": "c10q",
+            "text": "Where is the ____? I need it to open the lock!"
+          },
+          "options": [
+            "key",
+            "collection",
+            "yarn",
+            "pyramid"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "A key is the metal tool that opens a lock."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Turn over two cards and find the matching word and picture."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your own collection, project or hobby."
+      },
+      "frames": [
+        "I have a collection of ___.",
+        "I keep my ___ in a ___.",
+        "My favourite material for making things is ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I have a collection of shells from the beach. I keep them in a box with a lock. My favourite material for making things is yarn."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, explorers! You learnt ten new words about treasures, Egypt and making things."
+        },
+        {
+          "id": "l2",
+          "text": "Maria's free time was full of creativity. Yours can be too!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Free Time Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What do people use a scrapbook for?"
+        },
+        {
+          "id": "e2",
+          "text": "Name one material you could use to make a model pyramid."
+        }
+      ]
+    }
+  ]
+}

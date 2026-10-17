@@ -1,0 +1,733 @@
+{
+  "schema": 1,
+  "id": "CPP2-U8-B",
+  "bookId": "CPP2",
+  "unit": 8,
+  "section": "B",
+  "title": "Quick Thinking at the Park",
+  "bigQuestion": "What is a hero?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ben": {
+      "name": "Ben",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy, a little nervous, expressive"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "calm, brave 10-year-old girl, clear and kind"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U8-SB-1023",
+      "emoji": "🔴",
+      "kidDefinition": "Red, itchy spots on your skin that appear suddenly.",
+      "examples": [
+        "I have hives on my arms after the plant.",
+        "Her hives went away after one day."
+      ],
+      "distractors": [
+        "bracelet",
+        "turkey",
+        "shore"
+      ],
+      "greekHint": "Τα hives είναι σαν μικρές κόκκινες μπαλίτσες στο δέρμα.",
+      "english": "hives",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1024",
+      "emoji": "🎈",
+      "kidDefinition": "To become bigger and rounder, often after an injury.",
+      "examples": [
+        "My ankle swelled after I fell off my bike.",
+        "His eyes swell when he has a cold."
+      ],
+      "distractors": [
+        "hurry",
+        "fold",
+        "shine"
+      ],
+      "english": "swell",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1025",
+      "emoji": "🤧",
+      "kidDefinition": "When your body reacts badly to something it does not like.",
+      "examples": [
+        "She has an allergic reaction to cats.",
+        "After the nuts, he had an allergic reaction."
+      ],
+      "distractors": [
+        "bracelet",
+        "turkey",
+        "field"
+      ],
+      "english": "allergic reaction",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1027",
+      "emoji": "🤚",
+      "kidDefinition": "To rub your skin with your nails because it feels itchy.",
+      "examples": [
+        "Please do not scratch the mosquito bite.",
+        "The cat likes to scratch the sofa."
+      ],
+      "distractors": [
+        "hurry",
+        "fold",
+        "wave"
+      ],
+      "english": "scratch",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1028",
+      "emoji": "🔴",
+      "kidDefinition": "To suddenly get spots or hives on your body.",
+      "examples": [
+        "The baby broke out in spots after the medicine.",
+        "I always break out in sweat when I run."
+      ],
+      "distractors": [
+        "hurry up",
+        "fall down",
+        "pick up"
+      ],
+      "english": "break out in",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1029",
+      "emoji": "🐝",
+      "kidDefinition": "To hurt someone with a sharp point, like a bee does.",
+      "examples": [
+        "A wasp stung my friend on the leg.",
+        "Be careful, that bee might sting you."
+      ],
+      "distractors": [
+        "hug",
+        "fold",
+        "wave"
+      ],
+      "greekHint": "Το sting-stung είναι το τσίμπημα της μέλισσας. Η παρελθοντική μορφή είναι stung.",
+      "english": "sting-stung",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1032",
+      "emoji": "🚑",
+      "kidDefinition": "A special vehicle that takes sick or hurt people to hospital.",
+      "examples": [
+        "The ambulance came very quickly to the park.",
+        "Call an ambulance if someone cannot breathe."
+      ],
+      "distractors": [
+        "bracelet",
+        "turkey",
+        "shore"
+      ],
+      "english": "ambulance",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1051",
+      "emoji": "💨",
+      "kidDefinition": "To take air into your lungs and let it out.",
+      "examples": [
+        "Please breathe slowly and count to five.",
+        "I can breathe better with the window open."
+      ],
+      "distractors": [
+        "hurry",
+        "fold",
+        "wave"
+      ],
+      "english": "breathe",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1054",
+      "emoji": "📣",
+      "kidDefinition": "To be the person who decides what to do in an emergency.",
+      "examples": [
+        "The captain took charge when the boat was in trouble.",
+        "Who will take charge of the school trip?"
+      ],
+      "distractors": [
+        "go away",
+        "fall asleep",
+        "sit down"
+      ],
+      "english": "take charge",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP2-U8-SB-1062",
+      "emoji": "😌",
+      "kidDefinition": "Quiet and relaxed, not worried or upset.",
+      "examples": [
+        "Stay calm, everyone. Help is on the way.",
+        "The baby is calm when she hears music."
+      ],
+      "distractors": [
+        "bossy",
+        "shy",
+        "funny"
+      ],
+      "english": "calm",
+      "type": "adj."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U8-SB-1022",
+    "CPP2-U8-SB-1026",
+    "CPP2-U8-SB-1030",
+    "CPP2-U8-SB-1031",
+    "CPP2-U8-SB-1033",
+    "CPP2-U8-SB-1034",
+    "CPP2-U8-SB-1035",
+    "CPP2-U8-SB-1036",
+    "CPP2-U8-SB-1037",
+    "CPP2-U8-SB-1038",
+    "CPP2-U8-SB-1039",
+    "CPP2-U8-SB-1040",
+    "CPP2-U8-SB-1041",
+    "CPP2-U8-SB-1042",
+    "CPP2-U8-SB-1043",
+    "CPP2-U8-SB-1044",
+    "CPP2-U8-SB-1045",
+    "CPP2-U8-SB-1046",
+    "CPP2-U8-SB-1047",
+    "CPP2-U8-SB-1048",
+    "CPP2-U8-SB-1049",
+    "CPP2-U8-SB-1050",
+    "CPP2-U8-SB-1052",
+    "CPP2-U8-SB-1053",
+    "CPP2-U8-SB-1055",
+    "CPP2-U8-SB-1056",
+    "CPP2-U8-SB-1057",
+    "CPP2-U8-SB-1058",
+    "CPP2-U8-SB-1059",
+    "CPP2-U8-SB-1060",
+    "CPP2-U8-SB-1061",
+    "CPP2-U8-SB-1063"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I'm Lingo, and I love stories about heroes."
+        },
+        {
+          "id": "l2",
+          "text": "Heroes can be big, or they can be small."
+        },
+        {
+          "id": "l3",
+          "text": "Some heroes help us when we feel unwell or hurt."
+        },
+        {
+          "id": "l4",
+          "text": "Today, we meet Mia and her friend Ben, at the park."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Who helped you the last time you were hurt?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U8-SB-1029",
+        "CPP2-U8-SB-1024",
+        "CPP2-U8-SB-1027",
+        "CPP2-U8-SB-1023",
+        "CPP2-U8-SB-1028",
+        "CPP2-U8-SB-1062",
+        "CPP2-U8-SB-1051",
+        "CPP2-U8-SB-1054",
+        "CPP2-U8-SB-1025",
+        "CPP2-U8-SB-1032"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Bee at the Picnic",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ben"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is a sunny day. Ben and Mia are having a picnic."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ben",
+              "text": "I love picnics in the park!"
+            },
+            {
+              "id": "p1b",
+              "who": "mia",
+              "text": "Me too! Look at those pretty flowers."
+            }
+          ],
+          "highlight": []
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Suddenly, a bee stings Ben's arm."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "ben",
+              "text": "Ouch! A bee stung me!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-1029"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ben"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "His arm begins to swell. Ben looks worried."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "ben",
+              "text": "My arm is swelling, and it feels so itchy!"
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "Don't scratch it, Ben. You'll make it worse."
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-1024",
+            "CPP2-U8-SB-1027"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ben"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Red spots appear. Ben is breaking out in hives."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "ben",
+              "text": "Mia, I have hives all over my arms!"
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "Stay calm, Ben. Sit down. I will help you."
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-1023",
+            "CPP2-U8-SB-1028",
+            "CPP2-U8-SB-1062"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Mia takes charge. She knows what to do."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mia",
+              "text": "I think this is an allergic reaction. Lie on your side."
+            },
+            {
+              "id": "p5b",
+              "who": "ben",
+              "text": "Okay. I'm trying to breathe slowly."
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-1054",
+            "CPP2-U8-SB-1025",
+            "CPP2-U8-SB-1051"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "ben"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "Mia calls for help. Soon, the ambulance arrives."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "mia",
+              "text": "Hello? Please send an ambulance to the park. Quickly!"
+            },
+            {
+              "id": "p6b",
+              "who": "ben",
+              "text": "Thank you, Mia. You were a real hero!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-1032"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U8-SB-1023",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the word: hives."
+          },
+          "options": [
+            "CPP2-U8-SB-1027",
+            "CPP2-U8-SB-1032",
+            "CPP2-U8-SB-1023",
+            "CPP2-U8-SB-1062"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "Hives are red, itchy spots on your skin."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U8-SB-1032",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to the word: ambulance. Point to it."
+          },
+          "options": [
+            "CPP2-U8-SB-1032",
+            "CPP2-U8-SB-1051",
+            "CPP2-U8-SB-1054",
+            "CPP2-U8-SB-1024"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "An ambulance takes sick or hurt people to hospital."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-1024",
+          "prompt": {
+            "id": "c3q",
+            "text": "A bee stung her, and her arm began to ____."
+          },
+          "options": [
+            "breathe",
+            "scratch",
+            "swell"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "When something swells, it gets bigger and rounder."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U8-SB-1029",
+          "prompt": {
+            "id": "c4q",
+            "text": "To sting means to hurt someone with a sharp point, like a bee."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A bee can sting you with its sharp point."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U8-SB-1062",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "scratch",
+            "calm",
+            "swell",
+            "hurry"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Calm is an adjective, but the other three words are verbs."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-1025",
+          "prompt": {
+            "id": "c6q",
+            "text": "Ben has an ____ to bee stings."
+          },
+          "options": [
+            "sunburn",
+            "allergic reaction",
+            "picnic"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "An allergic reaction is when your body reacts badly to something."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-1028",
+          "prompt": {
+            "id": "c7q",
+            "text": "After the sting, Ben began to ____ hives."
+          },
+          "options": [
+            "break out in",
+            "hurry up",
+            "fall down"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "When you break out in hives, spots suddenly appear on your skin."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-1054",
+          "prompt": {
+            "id": "c8q",
+            "text": "Mia ____ and called for help."
+          },
+          "options": [
+            "fell asleep",
+            "went home",
+            "took charge"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "To take charge means you decide what to do in an emergency."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U8-SB-1051",
+          "prompt": {
+            "id": "c9q",
+            "text": "Find the word: breathe."
+          },
+          "options": [
+            "CPP2-U8-SB-1062",
+            "CPP2-U8-SB-1024",
+            "CPP2-U8-SB-1051",
+            "CPP2-U8-SB-1032"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "You breathe air in and out with your lungs."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-1027",
+          "prompt": {
+            "id": "c10q",
+            "text": "Don't ____ the hives. You'll make them worse."
+          },
+          "options": [
+            "swell",
+            "scratch",
+            "breathe"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Scratching itchy skin can make it hurt more."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Great work, heroes! Let's play a quick quiz."
+        },
+        {
+          "id": "l2",
+          "text": "Use the words from the story. Think fast, and stay calm!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a time someone helped you when you were hurt or scared."
+      },
+      "frames": [
+        "I felt ___ when I got hurt.",
+        "My friend took ___ and helped me.",
+        "Thanks to that person, I could ___ again."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I felt scared when I fell off my bike. My dad took charge and called for help. Thanks to him, I could breathe calmly again."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done! You learned ten brilliant words today."
+        },
+        {
+          "id": "l2",
+          "text": "Mia stayed calm, took charge, and called an ambulance. That is heroic!"
+        },
+        {
+          "id": "l3",
+          "text": "Heroes can be small, too. Help someone today!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Quick Thinking Hero"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What should you do if someone can't breathe? Use the word ambulance."
+        },
+        {
+          "id": "e2",
+          "text": "Name one thing that can make your skin break out in hives."
+        }
+      ]
+    }
+  ]
+}

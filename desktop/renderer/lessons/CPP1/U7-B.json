@@ -1,0 +1,699 @@
+{
+  "schema": 1,
+  "id": "CPP1-U7-B",
+  "bookId": "CPP1",
+  "unit": 7,
+  "section": "B",
+  "title": "Buzzing Bees and Dancing Lambs",
+  "bigQuestion": "Why do we need plants and animals?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "garden",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "🧒",
+      "persona": "cheerful, curious 9-year-old girl, friendly and bright"
+    },
+    "mrsbee": {
+      "name": "Mrs. Bee",
+      "emoji": "🐝",
+      "persona": "kind, gentle, chatty bee who loves her hive, warm and proud"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U7-SB-811",
+      "emoji": "🌳",
+      "kidDefinition": "A tall plant with a trunk and branches.",
+      "examples": [
+        "There are six tall trees in our garden.",
+        "We sit under the big tree to read."
+      ],
+      "distractors": [
+        "bush",
+        "flower",
+        "rock"
+      ],
+      "greekHint": "δέντρο: think of a tree with a trunk, like the Greek word for a tree",
+      "english": "tree",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-823",
+      "emoji": "⛱️",
+      "kidDefinition": "To keep the sun off, making a cool place.",
+      "examples": [
+        "The umbrella shades us from the hot sun.",
+        "Our big tree shades the garden in summer."
+      ],
+      "distractors": [
+        "warm",
+        "freeze",
+        "drip"
+      ],
+      "english": "shade",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U7-SB-827",
+      "emoji": "🍃",
+      "kidDefinition": "A light, gentle wind that feels cool.",
+      "examples": [
+        "What a lovely breeze! It's cool and fresh.",
+        "A breeze moves the leaves on the tree."
+      ],
+      "distractors": [
+        "storm",
+        "thunder",
+        "cloud"
+      ],
+      "english": "breeze",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-812",
+      "emoji": "💨",
+      "kidDefinition": "The invisible gas around us that we breathe.",
+      "examples": [
+        "The air is cleaner in the countryside.",
+        "Plants give us fresh air every day."
+      ],
+      "distractors": [
+        "water",
+        "earth",
+        "sand"
+      ],
+      "greekHint": "αέρας: a lot of air is in the sky",
+      "english": "air",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-813",
+      "emoji": "🌬️",
+      "kidDefinition": "To take air into your body and let it out.",
+      "examples": [
+        "Let's go outside to breathe some fresh air.",
+        "Breathe slowly when you feel tired."
+      ],
+      "distractors": [
+        "sing",
+        "jump",
+        "sleep"
+      ],
+      "english": "breathe",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U7-SB-810",
+      "emoji": "🏠",
+      "kidDefinition": "A home where bees live together.",
+      "examples": [
+        "Bees live all together in a hive.",
+        "The hive is full of busy bees."
+      ],
+      "distractors": [
+        "cave",
+        "garden",
+        "barn"
+      ],
+      "greekHint": "κυψέλη: a bee house, like a small hive",
+      "english": "hive",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-816",
+      "emoji": "🍯",
+      "kidDefinition": "A sweet, yellow food made by bees.",
+      "examples": [
+        "My grandma has bread with butter and honey for breakfast.",
+        "Bees make honey from flowers."
+      ],
+      "distractors": [
+        "butter",
+        "jam",
+        "bread"
+      ],
+      "greekHint": "μέλι: sweet and golden",
+      "english": "honey",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-817",
+      "emoji": "🐝",
+      "kidDefinition": "To hurt someone with a sharp point, like a bee.",
+      "examples": [
+        "Bees can sting you when they feel in danger.",
+        "Be gentle, so the bee does not sting."
+      ],
+      "distractors": [
+        "wave",
+        "whisper",
+        "laugh"
+      ],
+      "english": "sting",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U7-SB-820",
+      "emoji": "🐄",
+      "kidDefinition": "The sound a cow makes.",
+      "examples": [
+        "We live on a farm and we can hear the cows moo all the time.",
+        "The cow says moo at the gate."
+      ],
+      "distractors": [
+        "bark",
+        "neigh",
+        "quack"
+      ],
+      "english": "moo",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U7-SB-819",
+      "emoji": "🐑",
+      "kidDefinition": "To jump and move around happily.",
+      "examples": [
+        "Baby kids and lambs like prancing in the grass!",
+        "The lambs prance around the farm."
+      ],
+      "distractors": [
+        "sit",
+        "sleep",
+        "swim"
+      ],
+      "english": "prance",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U7-SB-814",
+    "CPP1-U7-SB-815",
+    "CPP1-U7-SB-818",
+    "CPP1-U7-SB-821",
+    "CPP1-U7-SB-822",
+    "CPP1-U7-SB-824",
+    "CPP1-U7-SB-825",
+    "CPP1-U7-SB-826",
+    "CPP1-U7-SB-828",
+    "CPP1-U7-SB-829",
+    "CPP1-U7-SB-830",
+    "CPP1-U7-SB-831",
+    "CPP1-U7-SB-832",
+    "CPP1-U7-SB-833",
+    "CPP1-U7-SB-834",
+    "CPP1-U7-SB-835",
+    "CPP1-U7-SB-836",
+    "CPP1-U7-SB-837",
+    "CPP1-U7-SB-838",
+    "CPP1-U7-SB-839",
+    "CPP1-U7-SB-840",
+    "CPP1-U7-SB-841",
+    "CPP1-U7-SB-842",
+    "CPP1-U7-SB-843",
+    "CPP1-U7-SB-844",
+    "CPP1-U7-SB-845",
+    "CPP1-U7-SB-846",
+    "CPP1-U7-SB-847",
+    "CPP1-U7-SB-848",
+    "CPP1-U7-SB-849",
+    "CPP1-U7-SB-850"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "garden",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Trees give us shade and fresh air to breathe."
+        },
+        {
+          "id": "l3",
+          "text": "Bees make honey, and cows say moo!"
+        },
+        {
+          "id": "l4",
+          "text": "Today we visit a garden and a farm with Mia."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite animal, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U7-SB-811",
+        "CPP1-U7-SB-823",
+        "CPP1-U7-SB-827",
+        "CPP1-U7-SB-812",
+        "CPP1-U7-SB-813",
+        "CPP1-U7-SB-810",
+        "CPP1-U7-SB-816",
+        "CPP1-U7-SB-817",
+        "CPP1-U7-SB-820",
+        "CPP1-U7-SB-819"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Mia and Mrs. Bee's Garden Visit",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia sits under a big tree in the garden."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "This tree shades me. It feels so cool!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-811",
+            "CPP1-U7-SB-823"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "mrsbee"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "A warm breeze moves the leaves above Mia."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "What a lovely breeze! I can breathe fresh air."
+            },
+            {
+              "id": "p2b",
+              "who": "mrsbee",
+              "text": "Yes, the air is clean today. Breathe slowly and relax."
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-827",
+            "CPP1-U7-SB-813",
+            "CPP1-U7-SB-812"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mrsbee"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Mrs. Bee shows Mia her hive."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mrsbee",
+              "text": "Welcome to my hive! We make honey here."
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "Can I taste some honey, please?"
+            },
+            {
+              "id": "p3d",
+              "who": "mrsbee",
+              "text": "Yes, but be gentle. Bees can sting if they feel scared."
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-810",
+            "CPP1-U7-SB-816",
+            "CPP1-U7-SB-817"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "On the farm, the animals are busy and happy."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "mia",
+              "text": "Listen! The cows moo at the gate."
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "Cows cannot dance, but lambs can prance!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-820",
+            "CPP1-U7-SB-819"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Mia waves goodbye under the big tree."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mia",
+              "text": "Thank you, Mrs. Bee! I loved our visit."
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-811"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U7-SB-810",
+          "prompt": {
+            "id": "c1q",
+            "text": "Pick the word for the bees' home."
+          },
+          "options": [
+            "CPP1-U7-SB-820",
+            "CPP1-U7-SB-811",
+            "CPP1-U7-SB-810",
+            "CPP1-U7-SB-827"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A hive is where bees live together, like a little bee house."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U7-SB-811",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to the word: tree. Which one did you hear?"
+          },
+          "options": [
+            "CPP1-U7-SB-812",
+            "CPP1-U7-SB-811",
+            "CPP1-U7-SB-823",
+            "CPP1-U7-SB-813"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A tree is a tall plant with branches, and Mia sits under one."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-823",
+          "prompt": {
+            "id": "c3q",
+            "text": "The big tree will ____ us from the hot sun."
+          },
+          "options": [
+            "shade",
+            "prance",
+            "sting",
+            "moo"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "To shade means to keep the sun off, so it feels cool."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U7-SB-827",
+          "prompt": {
+            "id": "c4q",
+            "text": "A breeze is a light wind that feels cool."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A breeze is gentle and cool, not a big storm."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U7-SB-816",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "sting",
+            "prance",
+            "honey",
+            "moo"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "Moo, prance and sting are actions, but honey is a food we eat."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-812",
+          "prompt": {
+            "id": "c6q",
+            "text": "Trees give us clean ____ to breathe."
+          },
+          "options": [
+            "hive",
+            "honey",
+            "air",
+            "garden"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "Air is the gas we breathe, and trees make it fresh."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-813",
+          "prompt": {
+            "id": "c7q",
+            "text": "Let's walk outside and ____ some fresh air."
+          },
+          "options": [
+            "moo",
+            "sting",
+            "breathe",
+            "prance"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "To breathe means to take air in and let it out."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U7-SB-817",
+          "prompt": {
+            "id": "c8q",
+            "text": "Bees can sting you when they feel in danger."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Mrs. Bee warns Mia that bees can sting when they feel scared."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U7-SB-819",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word means to jump and dance happily?"
+          },
+          "options": [
+            "CPP1-U7-SB-812",
+            "CPP1-U7-SB-820",
+            "CPP1-U7-SB-823",
+            "CPP1-U7-SB-819"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "Lambs prance in the grass when they are happy."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "listen",
+          "wordId": "CPP1-U7-SB-820",
+          "prompt": {
+            "id": "c10q",
+            "text": "Listen: moo. Which word is it?"
+          },
+          "options": [
+            "CPP1-U7-SB-817",
+            "CPP1-U7-SB-819",
+            "CPP1-U7-SB-820",
+            "CPP1-U7-SB-816"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A cow says moo, and Mia hears it on the farm."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find two cards that match: a word and its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud each time you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Where do you like to relax outside, and why? Tell your partner."
+      },
+      "frames": [
+        "I like to sit under the ___.",
+        "It gives me ___ on hot days.",
+        "I can breathe ___ there."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like to sit under the big tree. It gives me shade on hot days. I can breathe fresh air there."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You met trees, bees and lambs today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can say breathe, honey, moo and prance with confidence!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Nature Word Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What word means a home for bees?"
+        },
+        {
+          "id": "e2",
+          "text": "Can you tell a friend one thing a tree gives us?"
+        }
+      ]
+    }
+  ]
+}

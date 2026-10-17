@@ -205,7 +205,12 @@ export function validateLesson(lesson, getWord, { hasClip } = {}) {
           else seenInCheck.add(it.wordId);
           const w = getWord(it.wordId);
           if (w?.greek && it.prompt?.text?.includes(w.greek)) err(`${where}: the Greek answer leaks into the prompt`);
-          if (it.kind === "gap" && w && it.prompt?.text && maskWordInText(it.prompt.text.replace(/_{2,}/g, " "), w.english)) err(`${where}: gap prompt still contains the answer word`);
+          if (it.kind === "gap" && w && it.prompt?.text) {
+            const prompt = it.prompt.text.replace(/_{2,}/g, " ");
+            // Multi-word answers ("wind instrument") may share a word with the prompt; only the whole phrase leaks.
+            const leaks = /\s/.test(w.english.trim()) ? prompt.toLowerCase().includes(w.english.trim().toLowerCase()) : !!maskWordInText(prompt, w.english);
+            if (leaks) err(`${where}: gap prompt still contains the answer word`);
+          }
         }
         if (["pickPicture", "listen"].includes(it.kind)) for (const o of opts) if (!focusIds.has(o) && !getWord(o)) err(`${where}: ${it.kind} options must be word ids (${o})`);
         if (it.kind === "gap" && !/_{2,}/.test(it.prompt?.text || "")) err(`${where}: gap prompt needs "____"`);

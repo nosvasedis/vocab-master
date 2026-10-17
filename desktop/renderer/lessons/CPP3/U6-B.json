@@ -1,0 +1,670 @@
+{
+  "schema": 1,
+  "id": "CPP3-U6-B",
+  "bookId": "CPP3",
+  "unit": 6,
+  "section": "B",
+  "title": "Whistle, Goal and Tie: Match Day in the Park",
+  "bigQuestion": "Why do we play sports?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "theo": {
+      "name": "Theo",
+      "emoji": "👦",
+      "persona": "nervous but brave 11-year-old boy, goalkeeper, friendly"
+    },
+    "nina": {
+      "name": "Nina",
+      "emoji": "👧",
+      "persona": "confident 11-year-old girl, team captain, encouraging"
+    },
+    "dana": {
+      "name": "Coach Dana",
+      "emoji": "👩",
+      "persona": "calm, supportive adult coach, clear and kind"
+    },
+    "ref": {
+      "name": "Mr Kostas",
+      "emoji": "🧑‍⚖️",
+      "persona": "firm but fair referee, serious tone with a smile"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U6-SB-855",
+      "emoji": "📣",
+      "kidDefinition": "A small loud object you blow to make a sound to start or stop a game.",
+      "examples": [
+        "The lifeguard blew her whistle when the children swam too far.",
+        "Listen for the whistle, then start running!"
+      ],
+      "distractors": [
+        "horn",
+        "bell",
+        "drum"
+      ],
+      "greekHint": "Σφυρίχτρα: σφυρίζω, φυσάω.",
+      "english": "whistle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-875",
+      "emoji": "🧑‍⚖️",
+      "kidDefinition": "The person who watches a sports match and makes sure the rules are followed.",
+      "examples": [
+        "The referee gave the team a free kick after the foul.",
+        "Our referee is fair and never takes sides."
+      ],
+      "distractors": [
+        "captain",
+        "coach",
+        "player"
+      ],
+      "greekHint": "Διαιτητής: αυτός που κρίνει τον αγώνα.",
+      "english": "referee",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-858",
+      "emoji": "🧤",
+      "kidDefinition": "The player who stands in front of the goal and tries to stop the ball.",
+      "examples": [
+        "Our goalkeeper caught the ball with both hands.",
+        "My cousin wants to be a goalkeeper when he grows up."
+      ],
+      "distractors": [
+        "defender",
+        "striker",
+        "winger"
+      ],
+      "greekHint": "Τερματοφύλακας: φυλάει το τέρμα.",
+      "english": "goalkeeper",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-859",
+      "emoji": "🥅",
+      "kidDefinition": "A point scored when the ball goes into the net in a game like football.",
+      "examples": [
+        "We scored a goal in the last minute of the match!",
+        "Kick the ball into the goal, please."
+      ],
+      "distractors": [
+        "trophy",
+        "medal",
+        "ticket"
+      ],
+      "greekHint": "Γκολ: το σκορ όταν η μπάλα μπαίνει στο τέρμα.",
+      "english": "goal",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-854",
+      "emoji": "🦶",
+      "kidDefinition": "The joint where your foot connects to your leg.",
+      "examples": [
+        "I hurt my ankle when I jumped off the wall.",
+        "Wear strong shoes to protect your ankle when you run."
+      ],
+      "distractors": [
+        "wrist",
+        "elbow",
+        "knee"
+      ],
+      "greekHint": "Αστράγαλος: το κόκαλο ανάμεσα στο πόδι και το ποδάρι.",
+      "english": "ankle",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-867",
+      "emoji": "⚽",
+      "kidDefinition": "To send the ball to a teammate by kicking or throwing it.",
+      "examples": [
+        "Pass me the ball, Sam! I'm free!",
+        "She made a perfect pass to her teammate."
+      ],
+      "distractors": [
+        "kick",
+        "throw",
+        "catch"
+      ],
+      "greekHint": "Δίνω πάσα: στέλνω την μπάλα στον συμπαίκτη μου.",
+      "english": "pass",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U6-SB-885",
+      "emoji": "🟰",
+      "kidDefinition": "A result in a game when both teams have the same score.",
+      "examples": [
+        "The chess game ended in a tie, so nobody won.",
+        "Both teams scored three goals, so it was a tie."
+      ],
+      "distractors": [
+        "win",
+        "prize",
+        "loss"
+      ],
+      "greekHint": "Ισοπαλία: ίδιο σκορ και για τις δύο ομάδες.",
+      "english": "tie",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-903",
+      "emoji": "🏃",
+      "kidDefinition": "Gentle exercise you do before a sport to get your body ready.",
+      "examples": [
+        "We always do a warm-up before we run.",
+        "A short warm-up helps your muscles get ready."
+      ],
+      "distractors": [
+        "lunch",
+        "nap",
+        "holiday"
+      ],
+      "greekHint": "Προθέρμανση: ζεστάνε το σώμα πριν την άσκηση.",
+      "english": "warm-up",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U6-SB-851",
+    "CPP3-U6-SB-852",
+    "CPP3-U6-SB-853",
+    "CPP3-U6-SB-856",
+    "CPP3-U6-SB-857",
+    "CPP3-U6-SB-860",
+    "CPP3-U6-SB-861",
+    "CPP3-U6-SB-862",
+    "CPP3-U6-SB-863",
+    "CPP3-U6-SB-864",
+    "CPP3-U6-SB-865",
+    "CPP3-U6-SB-866",
+    "CPP3-U6-SB-868",
+    "CPP3-U6-SB-869",
+    "CPP3-U6-SB-870",
+    "CPP3-U6-SB-871",
+    "CPP3-U6-SB-872",
+    "CPP3-U6-SB-873",
+    "CPP3-U6-SB-874",
+    "CPP3-U6-SB-876",
+    "CPP3-U6-SB-877",
+    "CPP3-U6-SB-878",
+    "CPP3-U6-SB-879",
+    "CPP3-U6-SB-880",
+    "CPP3-U6-SB-881",
+    "CPP3-U6-SB-882",
+    "CPP3-U6-SB-883",
+    "CPP3-U6-SB-884",
+    "CPP3-U6-SB-886",
+    "CPP3-U6-SB-887",
+    "CPP3-U6-SB-888",
+    "CPP3-U6-SB-889",
+    "CPP3-U6-SB-890",
+    "CPP3-U6-SB-891",
+    "CPP3-U6-SB-892",
+    "CPP3-U6-SB-893",
+    "CPP3-U6-SB-894",
+    "CPP3-U6-SB-895",
+    "CPP3-U6-SB-896",
+    "CPP3-U6-SB-897",
+    "CPP3-U6-SB-898",
+    "CPP3-U6-SB-899",
+    "CPP3-U6-SB-900",
+    "CPP3-U6-SB-901",
+    "CPP3-U6-SB-902",
+    "CPP3-U6-SB-904"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love watching sports in the park."
+        },
+        {
+          "id": "l2",
+          "text": "Some sports are played on a big field. Some are played on a court."
+        },
+        {
+          "id": "l3",
+          "text": "Today we meet Theo, Nina and their team. It is match day!"
+        },
+        {
+          "id": "l4",
+          "text": "They are nervous, but they are also very excited to play."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What sport do you like to play or watch, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U6-SB-903",
+        "CPP3-U6-SB-855",
+        "CPP3-U6-SB-875",
+        "CPP3-U6-SB-858",
+        "CPP3-U6-SB-859",
+        "CPP3-U6-SB-867",
+        "CPP3-U6-SB-854",
+        "CPP3-U6-SB-885"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Match Day in the Park",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "theo"
+            },
+            {
+              "who": "nina"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "On Saturday morning, the team arrives at the park. Everyone is ready to play."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "theo",
+              "text": "I feel a little nervous, Nina. What if I miss the ball?"
+            },
+            {
+              "id": "p1b",
+              "who": "nina",
+              "text": "Let's do a quick warm-up first. Then you will feel better, Theo!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-903"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ref"
+            },
+            {
+              "who": "dana"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "The referee walks onto the field and lifts his whistle to his lips."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "ref",
+              "text": "Players, take your places! Fair play for everyone today."
+            },
+            {
+              "id": "p2b",
+              "who": "dana",
+              "text": "Good luck, team! Listen carefully and stay calm."
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-855",
+            "CPP3-U6-SB-875"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "nina"
+            },
+            {
+              "who": "theo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Nina makes a quick pass to Sam. Sam kicks hard, and the ball flies into the goal!"
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "nina",
+              "text": "Great pass, Sam! That is our first goal!"
+            },
+            {
+              "id": "p3b",
+              "who": "theo",
+              "text": "Brilliant! Now I just need to keep our goal safe."
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-867",
+            "CPP3-U6-SB-859"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "theo"
+            },
+            {
+              "who": "nina"
+            },
+            {
+              "who": "dana"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Theo, our goalkeeper, saves a hard shot. Then Nina falls and grabs her ankle."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "dana",
+              "text": "Nina, stay still. Let me check your ankle, please."
+            },
+            {
+              "id": "p4b",
+              "who": "theo",
+              "text": "Wow, what a save! I am so happy to be our goalkeeper today."
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-858",
+            "CPP3-U6-SB-854"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "nina"
+            },
+            {
+              "who": "dana"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "At the end, both teams have one goal each. The match finishes as a tie."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nina",
+              "text": "A tie is not bad, but I really wanted to win!"
+            },
+            {
+              "id": "p5b",
+              "who": "dana",
+              "text": "You played well together. Practise hard, and we will try again next week."
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-885"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U6-SB-855",
+          "prompt": {
+            "id": "c1q",
+            "text": "Pick the picture: the small object the referee blows to start the match."
+          },
+          "options": [
+            "CPP3-U6-SB-855",
+            "CPP3-U6-SB-854",
+            "CPP3-U6-SB-867",
+            "CPP3-U6-SB-859"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "The referee blows a whistle to start or stop the game."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U6-SB-875",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point: this person makes sure the rules are followed in the match."
+          },
+          "options": [
+            "CPP3-U6-SB-875",
+            "CPP3-U6-SB-854",
+            "CPP3-U6-SB-858",
+            "CPP3-U6-SB-859"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "The referee is the person who watches the match and keeps it fair."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-858",
+          "prompt": {
+            "id": "c3q",
+            "text": "The ____ caught the ball with both hands and kept the goal safe."
+          },
+          "options": [
+            "striker",
+            "captain",
+            "defender",
+            "goalkeeper"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "A goalkeeper stands in front of the goal and stops the ball."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U6-SB-859",
+          "prompt": {
+            "id": "c4q",
+            "text": "In the story, Theo scored the first goal of the match."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Sam scored the first goal after Nina's pass, not Theo."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-854",
+          "prompt": {
+            "id": "c5q",
+            "text": "Nina fell during the match and hurt her ____."
+          },
+          "options": [
+            "wrist",
+            "elbow",
+            "ankle",
+            "knee"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "Your ankle is the joint between your foot and your leg."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U6-SB-867",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "field",
+            "kick",
+            "throw",
+            "pass"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Field is a place, but kick, pass and throw are things you do with the ball."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-885",
+          "prompt": {
+            "id": "c7q",
+            "text": "Both teams scored two goals, so the match ended in a ____."
+          },
+          "options": [
+            "win",
+            "loss",
+            "prize",
+            "tie"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A tie means both teams have the same score at the end."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-903",
+          "prompt": {
+            "id": "c8q",
+            "text": "Before the match, we do a quick ____ to get our muscles ready."
+          },
+          "options": [
+            "lunch",
+            "warm-up",
+            "nap",
+            "holiday"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A warm-up is gentle exercise that prepares your body for sport."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game! Find the matching pairs of pictures and words."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word aloud when you turn over a card. Ready? Let's go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Talk with a partner. Which sport is best for a team, and why?"
+      },
+      "frames": [
+        "I think a good ___ is important in a match because ___.",
+        "In my opinion, the ___ must always be fair.",
+        "When I play football, I like to ___ the ball to my teammates."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I think a good goalkeeper is important, because they stop the goals. In my opinion, the referee must always be fair. When I play football, I like to pass the ball to my teammates."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, team! You learned eight useful words for match day."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can describe a game like a real commentator. Well done!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Match Day Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What does a referee do during a match?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence with the word warm-up or tie."
+        }
+      ]
+    }
+  ]
+}

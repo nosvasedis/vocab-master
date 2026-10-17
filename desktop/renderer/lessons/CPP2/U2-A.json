@@ -1,0 +1,728 @@
+{
+  "schema": 1,
+  "id": "CPP2-U2-A",
+  "bookId": "CPP2",
+  "unit": 2,
+  "section": "A",
+  "title": "The Coin in the Cake",
+  "bigQuestion": "Why are celebrations important?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "kitchen",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "emilia": {
+      "name": "Emilia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and excited"
+    },
+    "yiayia": {
+      "name": "Yiayia",
+      "emoji": "👵",
+      "persona": "warm, proud grandma, gentle and funny"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "playful 10-year-old boy, friendly and talkative"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U2-SB-159",
+      "emoji": "⚖️",
+      "kidDefinition": "To look at two things and see how they are alike or different.",
+      "examples": [
+        "Let's compare our two drawings.",
+        "I compare my bike with my brother's bike."
+      ],
+      "distractors": [
+        "decorate",
+        "invite",
+        "open"
+      ],
+      "greekHint": "Το compare μοιάζει με 'κόμπαρε': συγκρίνω δύο πράγματα.",
+      "english": "compare",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U2-SB-161",
+      "emoji": "👯",
+      "kidDefinition": "Almost the same, but not exactly the same.",
+      "examples": [
+        "Our shoes are similar, but yours are white.",
+        "My cat and your cat are similar."
+      ],
+      "distractors": [
+        "beautiful",
+        "silly",
+        "quiet"
+      ],
+      "english": "similar",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U2-SB-162",
+      "emoji": "🔀",
+      "kidDefinition": "Not the same as something else.",
+      "examples": [
+        "My brother and I are very different.",
+        "Pizza and salad are different foods."
+      ],
+      "distractors": [
+        "pretty",
+        "silent",
+        "quiet"
+      ],
+      "english": "different",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U2-SB-166",
+      "emoji": "👫",
+      "kidDefinition": "The two of them, not just one.",
+      "examples": [
+        "Both my hands are cold today.",
+        "We both like apple pie."
+      ],
+      "distractors": [
+        "neither",
+        "each",
+        "some"
+      ],
+      "english": "both",
+      "type": "pron."
+    },
+    {
+      "wordId": "CPP2-U2-SB-163",
+      "emoji": "⭕",
+      "kidDefinition": "Shaped like a circle, with no corners.",
+      "examples": [
+        "The moon looks round tonight.",
+        "A ball is round."
+      ],
+      "distractors": [
+        "silent",
+        "silly",
+        "beautiful"
+      ],
+      "english": "round",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U2-SB-164",
+      "emoji": "⬜",
+      "kidDefinition": "Shaped with four equal sides and four corners.",
+      "examples": [
+        "This box is square.",
+        "A window can be square."
+      ],
+      "distractors": [
+        "pretty",
+        "quiet",
+        "delicious"
+      ],
+      "english": "square",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U2-SB-172",
+      "emoji": "🪙",
+      "kidDefinition": "A small, flat piece of money made of metal.",
+      "examples": [
+        "I found a coin on the street.",
+        "We hid a coin in the bread for luck."
+      ],
+      "distractors": [
+        "metal",
+        "cloth",
+        "stick"
+      ],
+      "greekHint": "Coin: νόμισμα. Σκέψου ένα κέρμα στην τσέπη σου.",
+      "english": "coin",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-174",
+      "emoji": "📜",
+      "kidDefinition": "Something a family or group does the same way, again and again.",
+      "examples": [
+        "Eating soup on Sunday is our family tradition.",
+        "Cutting a cake on New Year's is a tradition in Greece."
+      ],
+      "distractors": [
+        "chore",
+        "date",
+        "address"
+      ],
+      "english": "tradition",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-175",
+      "emoji": "🍀",
+      "kidDefinition": "Good things that happen to you by chance.",
+      "examples": [
+        "Good luck with your test!",
+        "I had good luck today and found a coin."
+      ],
+      "distractors": [
+        "surprise",
+        "address",
+        "meaning"
+      ],
+      "english": "luck",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U2-SB-169",
+      "emoji": "🌠",
+      "kidDefinition": "Something you hope for, often in your mind before a special moment.",
+      "examples": [
+        "I make a wish before I blow out my candles.",
+        "Make a wish, and then eat your cake!"
+      ],
+      "distractors": [
+        "hike",
+        "slice",
+        "butter"
+      ],
+      "english": "wish",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U2-SB-160",
+    "CPP2-U2-SB-165",
+    "CPP2-U2-SB-167",
+    "CPP2-U2-SB-168",
+    "CPP2-U2-SB-170",
+    "CPP2-U2-SB-171",
+    "CPP2-U2-SB-173",
+    "CPP2-U2-SB-176",
+    "CPP2-U2-SB-177",
+    "CPP2-U2-SB-178",
+    "CPP2-U2-SB-179",
+    "CPP2-U2-SB-180",
+    "CPP2-U2-SB-181",
+    "CPP2-U2-SB-182",
+    "CPP2-U2-SB-183",
+    "CPP2-U2-SB-184",
+    "CPP2-U2-SB-185",
+    "CPP2-U2-SB-186",
+    "CPP2-U2-SB-187",
+    "CPP2-U2-SB-188",
+    "CPP2-U2-SB-189",
+    "CPP2-U2-SB-190",
+    "CPP2-U2-SB-191",
+    "CPP2-U2-SB-192",
+    "CPP2-U2-SB-193",
+    "CPP2-U2-SB-194",
+    "CPP2-U2-SB-195",
+    "CPP2-U2-SB-196",
+    "CPP2-U2-SB-197",
+    "CPP2-U2-SB-198",
+    "CPP2-U2-SB-199",
+    "CPP2-U2-SB-200",
+    "CPP2-U2-SB-201",
+    "CPP2-U2-SB-202",
+    "CPP2-U2-SB-203",
+    "CPP2-U2-SB-204",
+    "CPP2-U2-SB-205",
+    "CPP2-U2-SB-206",
+    "CPP2-U2-SB-207",
+    "CPP2-U2-SB-208",
+    "CPP2-U2-SB-209",
+    "CPP2-U2-KW-8",
+    "CPP2-U2-KW-9",
+    "CPP2-U2-KW-10",
+    "CPP2-U2-KW-11"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we visit Emilia and her grandma in Greece."
+        },
+        {
+          "id": "l3",
+          "text": "It is New Year's Day, and there is a very special cake."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out why we celebrate with food and fun!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What special food do you eat on a special day?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U2-SB-159",
+        "CPP2-U2-SB-161",
+        "CPP2-U2-SB-162",
+        "CPP2-U2-SB-166",
+        "CPP2-U2-SB-163",
+        "CPP2-U2-SB-164",
+        "CPP2-U2-SB-172",
+        "CPP2-U2-SB-174",
+        "CPP2-U2-SB-175",
+        "CPP2-U2-SB-169"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Coin in the Cake",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "emilia"
+            },
+            {
+              "who": "yiayia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Emilia looks at a big cake on the kitchen table."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "emilia",
+              "text": "Yiayia, this cake is round! It looks delicious!"
+            },
+            {
+              "id": "p1b",
+              "who": "yiayia",
+              "text": "Yes, it is round. We cut it on New Year's Day."
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-163"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "yiayia"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Yiayia smiles and tells a special story."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "yiayia",
+              "text": "In Greece, cutting a cake is a tradition. We do it every year."
+            },
+            {
+              "id": "p2b",
+              "who": "emilia",
+              "text": "I love our tradition, Yiayia!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-174"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Leo visits with his own cake from home."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "My birthday cake is square! Let's compare our cakes."
+            },
+            {
+              "id": "p3b",
+              "who": "emilia",
+              "text": "Our cakes are different shapes, but both are tasty!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-164",
+            "CPP2-U2-SB-159",
+            "CPP2-U2-SB-162",
+            "CPP2-U2-SB-166"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "yiayia"
+            },
+            {
+              "who": "emilia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Yiayia puts one coin inside each cake."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "yiayia",
+              "text": "Look, our cakes are similar. Each one has a coin inside."
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "A coin! I hope I find it!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-161",
+            "CPP2-U2-SB-172"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "emilia"
+            },
+            {
+              "who": "yiayia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Emilia cuts a slice and finds a shiny coin!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "emilia",
+              "text": "I found the coin! I think I will have good luck."
+            },
+            {
+              "id": "p5b",
+              "who": "yiayia",
+              "text": "Make a wish first, Emilia. Then we eat the cake!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U2-SB-175",
+            "CPP2-U2-SB-169"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-159",
+          "prompt": {
+            "id": "c1q",
+            "text": "Let's ____ our two birthday cakes. Which one is bigger?"
+          },
+          "options": [
+            "compare",
+            "invite",
+            "decorate",
+            "open"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "To compare means to look at two things and see how they are alike or different."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U2-SB-162",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word means not the same as something else?"
+          },
+          "options": [
+            "CPP2-U2-SB-164",
+            "CPP2-U2-SB-162",
+            "CPP2-U2-SB-163",
+            "CPP2-U2-SB-161"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "Different means not the same, like Emilia's cake and Leo's cake."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U2-SB-163",
+          "prompt": {
+            "id": "c3q",
+            "text": "A round cake has four corners."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "Round things have no corners at all, like a circle or a ball."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-164",
+          "prompt": {
+            "id": "c4q",
+            "text": "A ____ table has four equal sides and four corners."
+          },
+          "options": [
+            "pretty",
+            "square",
+            "quiet",
+            "silly"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Square things have four equal sides, like Leo's birthday cake."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U2-SB-172",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "square",
+            "luck",
+            "wish",
+            "coin"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Square is an adjective for shape, while coin, luck and wish are nouns."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "listen",
+          "wordId": "CPP2-U2-SB-174",
+          "prompt": {
+            "id": "c6q",
+            "text": "Listen. Something families do again and again, every year. Which word is this?"
+          },
+          "options": [
+            "CPP2-U2-SB-169",
+            "CPP2-U2-SB-172",
+            "CPP2-U2-SB-174",
+            "CPP2-U2-SB-175"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A tradition is something families do the same way every year."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-166",
+          "prompt": {
+            "id": "c7q",
+            "text": "____ Martha and Kate are my friends."
+          },
+          "options": [
+            "Neither",
+            "Some",
+            "Both",
+            "Each"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Both means the two of them, so Martha and Kate are both my friends."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U2-SB-175",
+          "prompt": {
+            "id": "c8q",
+            "text": "If you find the coin, you will have good ____."
+          },
+          "options": [
+            "surprise",
+            "luck",
+            "meaning",
+            "address"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Good luck means good things will happen to you, by chance."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U2-SB-169",
+          "prompt": {
+            "id": "c9q",
+            "text": "In the story, Yiayia tells Emilia to make a wish first."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "Yes, Yiayia says make a wish first, then eat the cake."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "listen",
+          "wordId": "CPP2-U2-SB-161",
+          "prompt": {
+            "id": "c10q",
+            "text": "Listen. Our two cakes look almost the same. Which word is this?"
+          },
+          "options": [
+            "CPP2-U2-SB-162",
+            "CPP2-U2-SB-159",
+            "CPP2-U2-SB-161",
+            "CPP2-U2-SB-166"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "Similar means almost the same, but not exactly the same."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's have a quick quiz! Think back to Emilia's story and show what you remember."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Compare a celebration in your family with a friend's family. How are they similar or different?"
+      },
+      "frames": [
+        "In my family, our special food is ___.",
+        "My friend's family has a different ___.",
+        "Our celebrations are similar, but both ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "In my family, our special food is pie. My friend's family has a different tradition. Our celebrations are similar, but both are fun!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You now know ten new words."
+        },
+        {
+          "id": "l2",
+          "text": "Next time, you can compare your own family traditions with a friend!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Celebration Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing that is round and one thing that is square."
+        },
+        {
+          "id": "e2",
+          "text": "Use the word similar in a sentence about your birthday or a holiday."
+        }
+      ]
+    }
+  ]
+}

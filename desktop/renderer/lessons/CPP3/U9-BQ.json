@@ -1,0 +1,519 @@
+{
+  "schema": 1,
+  "id": "CPP3-U9-BQ",
+  "bookId": "CPP3",
+  "unit": 9,
+  "section": "BQ",
+  "title": "Why Do We Have Music? Let's Find Out!",
+  "bigQuestion": "Why do we have music?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mason": {
+      "name": "Mason",
+      "emoji": "🧒",
+      "persona": "cheerful 9-year-old boy, curious and full of questions"
+    },
+    "irene": {
+      "name": "Irene",
+      "emoji": "👧",
+      "persona": "friendly 11-year-old girl, confident, loves playing instruments"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U9-SB-1133",
+      "emoji": "🎸",
+      "kidDefinition": "A thing you play to make music.",
+      "examples": [
+        "Irene can play three musical instruments.",
+        "Mason wants to learn a new instrument this year."
+      ],
+      "distractors": [
+        "picture",
+        "pocket",
+        "blanket"
+      ],
+      "greekHint": "Μουσικό όργανο: ένα εργαλείο για να βγάλεις μουσική.",
+      "english": "instrument",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1140",
+      "emoji": "🎻",
+      "kidDefinition": "An instrument with strings that you play with a bow or your fingers.",
+      "examples": [
+        "The harp is a string instrument with many strings.",
+        "Irene practises the violin, which is a string instrument."
+      ],
+      "distractors": [
+        "window",
+        "pencil",
+        "blanket"
+      ],
+      "greekHint": "Έγχορδο: έχει χορδές, όπως η κιθάρα.",
+      "english": "string instrument",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1141",
+      "emoji": "🎺",
+      "kidDefinition": "An instrument you play by blowing air into it.",
+      "examples": [
+        "The trumpet is a wind instrument that is very loud.",
+        "Mason blows gently into his recorder, a wind instrument."
+      ],
+      "distractors": [
+        "cushion",
+        "bicycle",
+        "kettle"
+      ],
+      "greekHint": "Πνευστό: παίζεται με φύσημα.",
+      "english": "wind instrument",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1142",
+      "emoji": "🥁",
+      "kidDefinition": "An instrument you hit, shake, or tap to make a sound.",
+      "examples": [
+        "The drum is a percussion instrument that makes a big sound.",
+        "Mason shakes a tambourine, another percussion instrument, to keep the beat."
+      ],
+      "distractors": [
+        "ladder",
+        "pillow",
+        "saucer"
+      ],
+      "greekHint": "Κρουστό: το χτυπάς ή το κουνάς.",
+      "english": "percussion instrument",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1139",
+      "emoji": "🗣️",
+      "kidDefinition": "The sound you make when you speak or sing.",
+      "examples": [
+        "Irene has a warm, friendly voice when she sings.",
+        "Mason uses his voice to count the beats in the song."
+      ],
+      "distractors": [
+        "voyage",
+        "vase",
+        "valley"
+      ],
+      "greekHint": "Φωνή: ο ήχος που βγάζεις όταν μιλάς ή τραγουδάς.",
+      "english": "voice",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1138",
+      "emoji": "💨",
+      "kidDefinition": "The air you take into your body and let out.",
+      "examples": [
+        "Before the high note, Mason took a deep breath.",
+        "Take a slow breath in, then sing the first line softly."
+      ],
+      "distractors": [
+        "bread",
+        "bath",
+        "breeze"
+      ],
+      "greekHint": "Αναπνοή: ο αέρας που παίρνεις και βγάζεις.",
+      "english": "breath",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1134",
+      "emoji": "📣",
+      "kidDefinition": "To say or sing short words again and again with a rhythm.",
+      "examples": [
+        "The children chanted the name of their team at the match.",
+        "We chant the days of the week to a fun beat."
+      ],
+      "distractors": [
+        "cookie",
+        "harbour",
+        "ribbon"
+      ],
+      "greekHint": "Τραγουδώ ρυθμικά: λέμε κάτι με ρυθμό, ξανά και ξανά.",
+      "english": "chant",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1135",
+      "emoji": "🎤",
+      "kidDefinition": "A modern style of music that many people enjoy listening to.",
+      "examples": [
+        "Irene loves pop music because the songs are catchy and bright.",
+        "Pop music is often played on the radio in the car."
+      ],
+      "distractors": [
+        "sandwich",
+        "garden",
+        "thunder"
+      ],
+      "greekHint": "Μουσική ποπ: σύγχρονο, εύκολο στο άκουσμα στυλ.",
+      "english": "pop music",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1136",
+      "emoji": "🎹",
+      "kidDefinition": "Traditional music written by famous composers, often played by orchestras.",
+      "examples": [
+        "Mason's favourite classical music was written by Beethoven.",
+        "We listened to classical music while we painted pictures."
+      ],
+      "distractors": [
+        "basket",
+        "lantern",
+        "meadow"
+      ],
+      "greekHint": "Κλασσική μουσική: έργα μεγάλων συνθετών.",
+      "english": "classical music",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U9-SB-1137",
+      "emoji": "🎷",
+      "kidDefinition": "A relaxed style of music with a lot of improvisation.",
+      "examples": [
+        "Karen plays the saxophone and loves listening to jazz.",
+        "Jazz music sounds smooth and fun on a quiet evening."
+      ],
+      "distractors": [
+        "tennis",
+        "dinner",
+        "bicycle"
+      ],
+      "greekHint": "Τζαζ: χαλαρό στυλ με αυτοσχεδιασμό.",
+      "english": "jazz",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love music."
+        },
+        {
+          "id": "l2",
+          "text": "Music is everywhere. You hear it in shops, parks, and even in the kitchen."
+        },
+        {
+          "id": "l3",
+          "text": "Mason hums while he draws. Irene carries her flute to school every day."
+        },
+        {
+          "id": "l4",
+          "text": "Today we ask a big question: why do we have music?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What song makes you want to move, clap, or sing along?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U9-SB-1133",
+        "CPP3-U9-SB-1140",
+        "CPP3-U9-SB-1141",
+        "CPP3-U9-SB-1142",
+        "CPP3-U9-SB-1139",
+        "CPP3-U9-SB-1138",
+        "CPP3-U9-SB-1134",
+        "CPP3-U9-SB-1135",
+        "CPP3-U9-SB-1136",
+        "CPP3-U9-SB-1137"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U9-SB-1133",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the word for a thing you play to make music."
+          },
+          "options": [
+            "CPP3-U9-SB-1134",
+            "CPP3-U9-SB-1139",
+            "CPP3-U9-SB-1133",
+            "CPP3-U9-SB-1138"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "An instrument is something you play to make music."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U9-SB-1134",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen. Everyone sings the same short words again and again with a beat. Which word is it?"
+          },
+          "options": [
+            "CPP3-U9-SB-1135",
+            "CPP3-U9-SB-1134",
+            "CPP3-U9-SB-1137",
+            "CPP3-U9-SB-1136"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "When we chant, we say or sing words together with a rhythm."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1138",
+          "prompt": {
+            "id": "c3q",
+            "text": "The singer took a deep ____ before the big note."
+          },
+          "options": [
+            "bath",
+            "breath",
+            "breeze",
+            "bread"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "A breath is the air we take in and let out."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U9-SB-1135",
+          "prompt": {
+            "id": "c4q",
+            "text": "Pop music is a kind of music that is often played on the radio."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Pop music is modern and catchy, and it is often on the radio."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1139",
+          "prompt": {
+            "id": "c5q",
+            "text": "Simon has a great ____! He should be a singer."
+          },
+          "options": [
+            "valley",
+            "vase",
+            "voice",
+            "voyage"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "Your voice is the sound you make when you speak or sing."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U9-SB-1140",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out? guitar, violin, flute, harp"
+          },
+          "options": [
+            "guitar",
+            "flute",
+            "violin",
+            "harp"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "The flute is a wind instrument, but the others are string instruments."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U9-SB-1142",
+          "prompt": {
+            "id": "c7q",
+            "text": "Point to the word for instruments you hit or shake, like a drum."
+          },
+          "options": [
+            "CPP3-U9-SB-1133",
+            "CPP3-U9-SB-1141",
+            "CPP3-U9-SB-1142",
+            "CPP3-U9-SB-1140"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Percussion instruments make sound when you hit, shake, or tap them."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U9-SB-1141",
+          "prompt": {
+            "id": "c8q",
+            "text": "A flute is a wind instrument, so you play it by blowing air into it."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Wind instruments need air blown into them to make sound."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U9-SB-1137",
+          "prompt": {
+            "id": "c9q",
+            "text": "Karen plays the saxophone and listens to ____ every night."
+          },
+          "options": [
+            "dinner",
+            "jazz",
+            "bicycle",
+            "tennis"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Jazz is a relaxed style of music, and it often features the saxophone."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U9-SB-1136",
+          "prompt": {
+            "id": "c10q",
+            "text": "Point to the words for music written by famous composers like Beethoven."
+          },
+          "options": [
+            "CPP3-U9-SB-1136",
+            "CPP3-U9-SB-1137",
+            "CPP3-U9-SB-1134",
+            "CPP3-U9-SB-1135"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Classical music is written by famous composers and often played by orchestras."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game with our new music words."
+        },
+        {
+          "id": "l2",
+          "text": "Turn the cards over, find the pairs, and say each word out loud."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about the music you love. Use the new words."
+      },
+      "frames": [
+        "I like ___ music because it sounds ___.",
+        "My favourite instrument is the ___.",
+        "Before I sing, I take a deep ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like pop music because it sounds happy. My favourite instrument is the drum, a percussion instrument. Before I sing, I take a deep breath."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You now know ten Big Question words."
+        },
+        {
+          "id": "l2",
+          "text": "Music can make us happy, calm, or brave. Keep listening and keep asking why."
+        }
+      ],
+      "badge": {
+        "emoji": "🎶",
+        "name": "Music Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one string instrument, one wind instrument, and one percussion instrument."
+        },
+        {
+          "id": "e2",
+          "text": "Why do you think people sing and chant together?"
+        }
+      ]
+    }
+  ]
+}

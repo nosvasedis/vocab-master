@@ -1,0 +1,686 @@
+{
+  "schema": 1,
+  "id": "CPP2-U8-A",
+  "bookId": "CPP2",
+  "unit": 8,
+  "section": "A",
+  "title": "Lulu Smells Smoke: A Guide Dog Hero",
+  "bigQuestion": "What is a hero?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "anna": {
+      "name": "Anna",
+      "emoji": "👧",
+      "persona": "calm, brave 10-year-old girl, warm and clear"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "🧑‍⚕️",
+      "persona": "friendly adult paramedic, calm and reassuring"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U8-SB-973",
+      "emoji": "🖼️",
+      "kidDefinition": "The words under a picture that explain it.",
+      "examples": [
+        "The caption under this photo says: Lovely beach day.",
+        "Can you read the caption on the poster?"
+      ],
+      "distractors": [
+        "title",
+        "sound",
+        "colour"
+      ],
+      "greekHint": "Η λεζάντα είναι το κείμενο κάτω από τη φωτογραφία.",
+      "english": "caption",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-974",
+      "emoji": "🦸",
+      "kidDefinition": "Very brave, and helps other people in danger.",
+      "examples": [
+        "The heroic firefighter saved the cat.",
+        "It was a heroic thing to do."
+      ],
+      "distractors": [
+        "cowardly",
+        "tiny",
+        "sleepy"
+      ],
+      "greekHint": "Ηρωικός: σαν ήρωας.",
+      "english": "heroic",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-975",
+      "emoji": "📞",
+      "kidDefinition": "To press numbers on a phone to call someone.",
+      "examples": [
+        "I dialled Mum's number from school.",
+        "Please dial the number on the screen."
+      ],
+      "distractors": [
+        "press",
+        "answer",
+        "sing"
+      ],
+      "greekHint": "Dial: σχηματίζω τον αριθμό στο τηλέφωνο.",
+      "english": "dial",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U8-SB-976",
+      "emoji": "🚑",
+      "kidDefinition": "A person who quickly helps sick or hurt people.",
+      "examples": [
+        "The paramedic checked the boy's arm.",
+        "Paramedics work in ambulances."
+      ],
+      "distractors": [
+        "doctor",
+        "firefighter",
+        "teacher"
+      ],
+      "greekHint": "Paramedic: διασώστης.",
+      "english": "paramedic",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-977",
+      "emoji": "🦯",
+      "kidDefinition": "Not able to see.",
+      "examples": [
+        "Anna is blind, but she is very clever.",
+        "My grandpa is blind, so he uses a white cane."
+      ],
+      "distractors": [
+        "deaf",
+        "loud",
+        "thirsty"
+      ],
+      "greekHint": "Blind: τυφλός.",
+      "english": "blind",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-985",
+      "emoji": "🦮",
+      "kidDefinition": "A dog that helps a blind person go out safely.",
+      "examples": [
+        "The guide dog waited at the kerb.",
+        "A guide dog helps its owner every day."
+      ],
+      "distractors": [
+        "hamster",
+        "rabbit",
+        "guinea pig"
+      ],
+      "greekHint": "Guide dog: σκύλος οδηγός.",
+      "english": "guide dog",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-989",
+      "emoji": "🪢",
+      "kidDefinition": "Straps a dog wears so a person can guide it.",
+      "examples": [
+        "The dog's harness is bright yellow.",
+        "Put the harness on before your walk."
+      ],
+      "distractors": [
+        "collar",
+        "lead",
+        "bowl"
+      ],
+      "greekHint": "Harness: σαμαράκι σκύλου.",
+      "english": "harness",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-979",
+      "emoji": "🧠",
+      "kidDefinition": "Clever, and able to learn things quickly.",
+      "examples": [
+        "My parrot is very smart!",
+        "Dolphins are smart animals."
+      ],
+      "distractors": [
+        "heavy",
+        "lonely",
+        "careful"
+      ],
+      "greekHint": "Smart: έξυπνος.",
+      "english": "smart",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U8-SB-980",
+      "emoji": "👃",
+      "kidDefinition": "A smell that you can notice.",
+      "examples": [
+        "The flowers have a sweet scent.",
+        "Dogs can follow the scent of food."
+      ],
+      "distractors": [
+        "colour",
+        "shape",
+        "sound"
+      ],
+      "greekHint": "Scent: μυρωδιά.",
+      "english": "scent",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U8-SB-987",
+      "emoji": "🚸",
+      "kidDefinition": "To go from one side of a road to the other.",
+      "examples": [
+        "Look left and right before you cross the road.",
+        "We cross the street at the zebra crossing."
+      ],
+      "distractors": [
+        "climb",
+        "wait",
+        "jump"
+      ],
+      "greekHint": "Cross: διασχίζω.",
+      "english": "cross",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U8-SB-978",
+    "CPP2-U8-SB-981",
+    "CPP2-U8-SB-982",
+    "CPP2-U8-SB-983",
+    "CPP2-U8-SB-984",
+    "CPP2-U8-SB-986",
+    "CPP2-U8-SB-988",
+    "CPP2-U8-SB-990",
+    "CPP2-U8-SB-991",
+    "CPP2-U8-SB-992",
+    "CPP2-U8-SB-993",
+    "CPP2-U8-SB-994",
+    "CPP2-U8-SB-995",
+    "CPP2-U8-SB-996",
+    "CPP2-U8-SB-998",
+    "CPP2-U8-SB-999",
+    "CPP2-U8-SB-1000",
+    "CPP2-U8-SB-1001",
+    "CPP2-U8-SB-1002",
+    "CPP2-U8-SB-1003",
+    "CPP2-U8-SB-1004",
+    "CPP2-U8-SB-1005",
+    "CPP2-U8-SB-1006",
+    "CPP2-U8-SB-1007",
+    "CPP2-U8-SB-1008",
+    "CPP2-U8-SB-1009",
+    "CPP2-U8-SB-1010",
+    "CPP2-U8-SB-1011",
+    "CPP2-U8-SB-1012",
+    "CPP2-U8-SB-1013",
+    "CPP2-U8-SB-1014",
+    "CPP2-U8-SB-1015",
+    "CPP2-U8-SB-1016",
+    "CPP2-U8-SB-1017",
+    "CPP2-U8-SB-1018",
+    "CPP2-U8-SB-1019",
+    "CPP2-U8-SB-1020",
+    "CPP2-U8-SB-1021"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love stories about brave animals."
+        },
+        {
+          "id": "l2",
+          "text": "Today we meet a dog who is not an ordinary dog."
+        },
+        {
+          "id": "l3",
+          "text": "She helps her friend every single day."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out what happens when there is an emergency!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Who is your hero, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U8-SB-977",
+        "CPP2-U8-SB-985",
+        "CPP2-U8-SB-989",
+        "CPP2-U8-SB-979",
+        "CPP2-U8-SB-980",
+        "CPP2-U8-SB-975",
+        "CPP2-U8-SB-976",
+        "CPP2-U8-SB-987",
+        "CPP2-U8-SB-974",
+        "CPP2-U8-SB-973"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Lulu Smells Smoke",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "anna"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Anna is blind. Her guide dog, Lulu, wears a red harness. Lulu is always with her."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "anna",
+              "text": "Good morning, Lulu. Let's have breakfast together."
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-977",
+            "CPP2-U8-SB-985",
+            "CPP2-U8-SB-989"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "anna"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Suddenly, Lulu stops. She picks up a strange scent in the air."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "anna",
+              "text": "Lulu, you are so smart! What can you smell?"
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-979",
+            "CPP2-U8-SB-980"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "anna"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Smoke is coming from the pan! Anna picks up her phone and dials the emergency number."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "anna",
+              "text": "Lulu, stay with me. I need help. Please, help!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-975"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "anna"
+            },
+            {
+              "who": "nikos"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Lulu leads Anna outside. They cross the street carefully. Soon, a paramedic arrives."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "nikos",
+              "text": "I am a paramedic. Are you both safe?"
+            },
+            {
+              "id": "p4b",
+              "who": "anna",
+              "text": "Yes, we are. Lulu found the smoke. She is so smart."
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-987",
+            "CPP2-U8-SB-976"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "anna"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "The caption under the newspaper photo says: A heroic dog saves the day!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "anna",
+              "text": "Good girl, Lulu. You were heroic today."
+            }
+          ],
+          "highlight": [
+            "CPP2-U8-SB-973",
+            "CPP2-U8-SB-974"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-977",
+          "prompt": {
+            "id": "c1q",
+            "text": "Anna is ____. She can't see the road."
+          },
+          "options": [
+            "blind",
+            "loud",
+            "thirsty"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "Blind means you cannot see, so Anna is blind."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U8-SB-985",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word means a dog that helps a blind person go out safely?"
+          },
+          "options": [
+            "CPP2-U8-SB-976",
+            "CPP2-U8-SB-989",
+            "CPP2-U8-SB-985"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "A guide dog is the special dog that helps a blind person."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP2-U8-SB-975",
+          "prompt": {
+            "id": "c3q",
+            "text": "Which word completes the sentence? She picked up the phone and ____ the number."
+          },
+          "options": [
+            "CPP2-U8-SB-980",
+            "CPP2-U8-SB-987",
+            "CPP2-U8-SB-975"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "To dial means to press the numbers on a phone to call someone."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U8-SB-976",
+          "prompt": {
+            "id": "c4q",
+            "text": "A paramedic helps people who are hurt or ill."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Paramedics are trained to help people quickly when they are hurt or sick."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U8-SB-989",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "lead",
+            "harness",
+            "kitten",
+            "collar"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A harness, a collar and a lead are things for a dog, but a kitten is an animal."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-987",
+          "prompt": {
+            "id": "c6q",
+            "text": "Look both ways before you ____ the road."
+          },
+          "options": [
+            "cross",
+            "climb",
+            "stop"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "To cross means to go from one side of the road to the other."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-980",
+          "prompt": {
+            "id": "c7q",
+            "text": "Dogs can smell many different ____."
+          },
+          "options": [
+            "scents",
+            "sounds",
+            "colours"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A scent is a smell, and dogs have very good noses for scents."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U8-SB-974",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word means very brave, like a superhero?"
+          },
+          "options": [
+            "CPP2-U8-SB-979",
+            "CPP2-U8-SB-974",
+            "CPP2-U8-SB-977"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Heroic means very brave, just like a superhero."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U8-SB-973",
+          "prompt": {
+            "id": "c9q",
+            "text": "A caption is a sound that a dog makes."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "A caption is the text under a picture that explains it."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U8-SB-979",
+          "prompt": {
+            "id": "c10q",
+            "text": "Dogs are very ____. They learn new tricks quickly."
+          },
+          "options": [
+            "smart",
+            "heavy",
+            "careful"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Smart means clever and able to learn quickly."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the matching pairs of words and pictures."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Would you like a guide dog? Tell your partner why or why not."
+      },
+      "frames": [
+        "A guide dog helps a ___ person.",
+        "I think my ___ is very smart because ___.",
+        "A hero is someone who ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "A guide dog helps a blind person cross the road safely. I think a dog is smart because it learns many tricks. A hero is someone who helps other people when they need it."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You learned ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Lulu was a heroic dog, and you were heroic learners too!"
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will meet more heroes together."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Word Hero"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What does a guide dog do for a blind person?"
+        },
+        {
+          "id": "e2",
+          "text": "Which word means a clever animal? Write one sentence with it."
+        }
+      ]
+    }
+  ]
+}

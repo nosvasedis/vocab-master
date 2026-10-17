@@ -1,0 +1,520 @@
+{
+  "schema": 1,
+  "id": "CPP3-U2-BQ",
+  "bookId": "CPP3",
+  "unit": 2,
+  "section": "BQ",
+  "title": "What Is Food For? Meet Lingo and Friends",
+  "bigQuestion": "What is food for?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "kitchen",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "jan": {
+      "name": "Jan",
+      "emoji": "👦",
+      "persona": "cheerful 11-year-old boy, curious, loves birthday surprises"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "friendly 11-year-old girl, thoughtful, loves cooking with family"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U2-SB-160",
+      "emoji": "⚡",
+      "kidDefinition": "The power your body uses to move and think.",
+      "examples": [
+        "Bread and fruit give you energy for school.",
+        "Athletes need a lot of energy to run and jump."
+      ],
+      "distractors": [
+        "homework",
+        "weather",
+        "puzzle"
+      ],
+      "greekHint": "Θυμήσου: ενέργεια = energy.",
+      "english": "energy",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-157",
+      "emoji": "🥦",
+      "kidDefinition": "Good for your body. It keeps you strong and well.",
+      "examples": [
+        "Vegetables help us stay healthy and strong.",
+        "An apple is a healthy snack for school."
+      ],
+      "distractors": [
+        "sleepy",
+        "noisy",
+        "sunny"
+      ],
+      "english": "healthy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U2-SB-166",
+      "emoji": "🍬",
+      "kidDefinition": "Not good for your body. It can make you ill.",
+      "examples": [
+        "Too many sweets are unhealthy for your teeth.",
+        "Jan knows that eating only sweets is unhealthy."
+      ],
+      "distractors": [
+        "tiny",
+        "cheerful",
+        "early"
+      ],
+      "english": "unhealthy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U2-SB-163",
+      "emoji": "🥕",
+      "kidDefinition": "Full of good things your body needs to grow.",
+      "examples": [
+        "Fruit and vegetables are very nutritious food.",
+        "Beans are nutritious and give your body what it needs."
+      ],
+      "distractors": [
+        "tiny",
+        "cheerful",
+        "quiet"
+      ],
+      "english": "nutritious",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U2-SB-164",
+      "emoji": "😋",
+      "kidDefinition": "Very nice to eat. It has a good flavour.",
+      "examples": [
+        "Mia's soup is tasty and warm on a cold day.",
+        "This strawberry is sweet and very tasty!"
+      ],
+      "distractors": [
+        "quiet",
+        "busy",
+        "cold"
+      ],
+      "greekHint": "Θυμήσου: νόστιμος = tasty.",
+      "english": "tasty",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U2-SB-161",
+      "emoji": "🥗",
+      "kidDefinition": "Eating many kinds of food in the right amounts.",
+      "examples": [
+        "A balanced diet has fruit, vegetables and protein.",
+        "We try to eat a balanced diet every day."
+      ],
+      "distractors": [
+        "mealtime",
+        "tradition",
+        "energy"
+      ],
+      "english": "balanced diet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-165",
+      "emoji": "🥚",
+      "kidDefinition": "A nutrient in meat, eggs, fish and beans.",
+      "examples": [
+        "Protein is good for your muscles.",
+        "Eggs and fish have lots of protein."
+      ],
+      "distractors": [
+        "fat",
+        "energy",
+        "fruit"
+      ],
+      "english": "protein",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-162",
+      "emoji": "🧈",
+      "kidDefinition": "A part of food. We need only a little.",
+      "examples": [
+        "We need a little fat in our diet, but not much.",
+        "Cheese has fat, so eat only a small piece."
+      ],
+      "distractors": [
+        "protein",
+        "energy",
+        "vegetable"
+      ],
+      "english": "fat",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-167",
+      "emoji": "🍽️",
+      "kidDefinition": "The time of day when we eat a meal.",
+      "examples": [
+        "At mealtime, our family eats together at the table.",
+        "Mealtime is my favourite time of the day."
+      ],
+      "distractors": [
+        "bedtime",
+        "playtime",
+        "school time"
+      ],
+      "english": "mealtime",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-171",
+      "emoji": "🥘",
+      "kidDefinition": "A custom that people keep doing for years.",
+      "examples": [
+        "Baking a cake for a birthday is a family tradition.",
+        "Each country has its own food traditions."
+      ],
+      "distractors": [
+        "birthday",
+        "holiday",
+        "uniform"
+      ],
+      "english": "tradition",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U2-SB-154",
+    "CPP3-U2-SB-155",
+    "CPP3-U2-SB-156",
+    "CPP3-U2-SB-158",
+    "CPP3-U2-SB-159",
+    "CPP3-U2-SB-168",
+    "CPP3-U2-SB-169",
+    "CPP3-U2-SB-170"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "kitchen",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love food!"
+        },
+        {
+          "id": "l2",
+          "text": "Today we meet our friends Jan and Mia."
+        },
+        {
+          "id": "l3",
+          "text": "Jan is planning a birthday surprise for his family."
+        },
+        {
+          "id": "l4",
+          "text": "But first, let us think. What is food for?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite food, and what did you eat for breakfast today?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U2-SB-160",
+        "CPP3-U2-SB-157",
+        "CPP3-U2-SB-166",
+        "CPP3-U2-SB-163",
+        "CPP3-U2-SB-164",
+        "CPP3-U2-SB-161",
+        "CPP3-U2-SB-165",
+        "CPP3-U2-SB-162",
+        "CPP3-U2-SB-167",
+        "CPP3-U2-SB-171"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U2-SB-160",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the picture for: energy."
+          },
+          "options": [
+            "CPP3-U2-SB-165",
+            "CPP3-U2-SB-160",
+            "CPP3-U2-SB-164",
+            "CPP3-U2-SB-167"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Energy is the power that helps you run and play."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U2-SB-165",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point to the word: protein."
+          },
+          "options": [
+            "CPP3-U2-SB-161",
+            "CPP3-U2-SB-171",
+            "CPP3-U2-SB-162",
+            "CPP3-U2-SB-165"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "Protein helps your muscles grow strong."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-157",
+          "prompt": {
+            "id": "c3q",
+            "text": "Eating vegetables every day helps you stay ____."
+          },
+          "options": [
+            "healthy",
+            "noisy",
+            "sleepy",
+            "tasty"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Healthy food keeps your body strong and well."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-166",
+          "prompt": {
+            "id": "c4q",
+            "text": "Eating too many sweets is ____."
+          },
+          "options": [
+            "sunny",
+            "healthy",
+            "tiny",
+            "unhealthy"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "Too many sweets are not good for your body."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U2-SB-163",
+          "prompt": {
+            "id": "c5q",
+            "text": "Nutritious food is full of good things your body needs. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Nutritious food gives your body what it needs to grow."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U2-SB-162",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "tasty",
+            "energy",
+            "fat",
+            "protein"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Tasty is an adjective; protein, fat and energy are nouns."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-161",
+          "prompt": {
+            "id": "c7q",
+            "text": "We eat fruit, vegetables and protein to have a ____."
+          },
+          "options": [
+            "energy",
+            "tradition",
+            "mealtime",
+            "balanced diet"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A balanced diet has many kinds of food in the right amounts."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U2-SB-164",
+          "prompt": {
+            "id": "c8q",
+            "text": "Tasty means the food smells bad. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Tasty means the food is nice to eat."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U2-SB-171",
+          "prompt": {
+            "id": "c9q",
+            "text": "Find the picture for: tradition."
+          },
+          "options": [
+            "CPP3-U2-SB-163",
+            "CPP3-U2-SB-167",
+            "CPP3-U2-SB-171",
+            "CPP3-U2-SB-157"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "A tradition is something families keep doing for years."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-167",
+          "prompt": {
+            "id": "c10q",
+            "text": "At ____, our family sits down together to eat."
+          },
+          "options": [
+            "mealtime",
+            "playtime",
+            "school time",
+            "bedtime"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Mealtime is the time of day when we eat a meal."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a memory game! Match each food word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner what food is for, and share one healthy food you like."
+      },
+      "frames": [
+        "Food gives me ___.",
+        "My favourite healthy food is ___.",
+        "At mealtime, my family ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "Food gives me energy. My favourite healthy food is apples. At mealtime, my family eats together."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You met our friends and learned ten new food words."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about energy, healthy food and family traditions."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Food Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one food that gives you energy."
+        },
+        {
+          "id": "e2",
+          "text": "What does nutritious mean?"
+        }
+      ]
+    }
+  ]
+}

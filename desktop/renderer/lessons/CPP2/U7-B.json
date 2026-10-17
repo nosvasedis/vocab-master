@@ -1,0 +1,694 @@
+{
+  "schema": 1,
+  "id": "CPP2-U7-B",
+  "bookId": "CPP2",
+  "unit": 7,
+  "section": "B",
+  "title": "Fix It, Save It, Imagine It!",
+  "bigQuestion": "Why is free time important?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "troy": {
+      "name": "Troy",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy, a little worried when things break"
+    },
+    "caren": {
+      "name": "Caren",
+      "emoji": "👧",
+      "persona": "curious 10-year-old girl, clever, calm and kind"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U7-SB-914",
+      "emoji": "📄",
+      "kidDefinition": "Words that tell you how to do something.",
+      "examples": [
+        "Read the instructions before you build your robot.",
+        "The instructions are on the last page of the box."
+      ],
+      "distractors": [
+        "mistake",
+        "battery",
+        "toolbox"
+      ],
+      "greekHint": "Οδηγία: it guides you, step by step.",
+      "english": "instruction",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-915",
+      "emoji": "🔧",
+      "kidDefinition": "To make something work again.",
+      "examples": [
+        "Can you fix my bike? The brake is broken.",
+        "We fixed the chair with some strong glue."
+      ],
+      "distractors": [
+        "wash",
+        "climb",
+        "sing"
+      ],
+      "greekHint": "Fix = φτιάχνω.",
+      "english": "fix",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U7-SB-916",
+      "emoji": "🔌",
+      "kidDefinition": "A long wire that connects two machines.",
+      "examples": [
+        "This cable connects my tablet to my computer.",
+        "Please put the cable at the back of the TV."
+      ],
+      "distractors": [
+        "bottle",
+        "pencil",
+        "blanket"
+      ],
+      "english": "cable",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-918",
+      "emoji": "✋",
+      "kidDefinition": "To have something in your hands.",
+      "examples": [
+        "Hold the glass carefully, please.",
+        "I hold my dog's lead when we cross the road."
+      ],
+      "distractors": [
+        "kick",
+        "sing",
+        "paint"
+      ],
+      "english": "hold",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U7-SB-919",
+      "emoji": "⬇️",
+      "kidDefinition": "To let something fall by accident.",
+      "examples": [
+        "Oops! I dropped my pencil on the floor.",
+        "Be careful, don't drop the eggs!"
+      ],
+      "distractors": [
+        "climb",
+        "paint",
+        "kick"
+      ],
+      "english": "drop",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U7-SB-926",
+      "emoji": "📚",
+      "kidDefinition": "A flat board on a wall for books.",
+      "examples": [
+        "I keep my favourite books on a shelf.",
+        "My toy robot is on the top shelf."
+      ],
+      "distractors": [
+        "carpet",
+        "window",
+        "fridge"
+      ],
+      "english": "shelf",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-917",
+      "emoji": "🐖",
+      "kidDefinition": "To keep money for something you want later.",
+      "examples": [
+        "Monica is saving money to buy a new bike.",
+        "I save money every month for a new book."
+      ],
+      "distractors": [
+        "spend money",
+        "lose money",
+        "count coins"
+      ],
+      "english": "save money",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP2-U7-SB-924",
+      "emoji": "💭",
+      "kidDefinition": "Ideas and pictures you create in your mind.",
+      "examples": [
+        "Caren uses her imagination to make up stories.",
+        "Close your eyes and use your imagination!"
+      ],
+      "distractors": [
+        "memory",
+        "patience",
+        "honesty"
+      ],
+      "english": "imagination",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-932",
+      "emoji": "🌟",
+      "kidDefinition": "Very clever or very good.",
+      "examples": [
+        "What a brilliant idea! Well done!",
+        "Your drawing is brilliant, Sam!"
+      ],
+      "distractors": [
+        "tired",
+        "hungry",
+        "thirsty"
+      ],
+      "english": "brilliant",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U7-SB-931",
+      "emoji": "🪁",
+      "kidDefinition": "A kite that stays still in the air.",
+      "examples": [
+        "Troy flew his hover kite in the park.",
+        "My hover kite floats high above the trees."
+      ],
+      "distractors": [
+        "football",
+        "skateboard",
+        "umbrella"
+      ],
+      "english": "hover kite",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U7-SB-920",
+    "CPP2-U7-SB-921",
+    "CPP2-U7-SB-922",
+    "CPP2-U7-SB-923",
+    "CPP2-U7-SB-925",
+    "CPP2-U7-SB-927",
+    "CPP2-U7-SB-928",
+    "CPP2-U7-SB-929",
+    "CPP2-U7-SB-930",
+    "CPP2-U7-SB-933",
+    "CPP2-U7-SB-934",
+    "CPP2-U7-SB-935",
+    "CPP2-U7-SB-936",
+    "CPP2-U7-SB-937",
+    "CPP2-U7-SB-938",
+    "CPP2-U7-SB-939",
+    "CPP2-U7-SB-940",
+    "CPP2-U7-SB-941",
+    "CPP2-U7-SB-942",
+    "CPP2-U7-SB-943",
+    "CPP2-U7-SB-944",
+    "CPP2-U7-KW-19"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, class! I am Lingo, your owl friend."
+        },
+        {
+          "id": "l2",
+          "text": "Today we talk about free time and fun projects."
+        },
+        {
+          "id": "l3",
+          "text": "Some children build robots in their free time."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out how free time helps us learn new skills."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you like to do in your free time?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U7-SB-914",
+        "CPP2-U7-SB-915",
+        "CPP2-U7-SB-916",
+        "CPP2-U7-SB-918",
+        "CPP2-U7-SB-919",
+        "CPP2-U7-SB-926",
+        "CPP2-U7-SB-917",
+        "CPP2-U7-SB-924",
+        "CPP2-U7-SB-932",
+        "CPP2-U7-SB-931"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Fix Me!",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "troy"
+            },
+            {
+              "who": "caren"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Troy's robot has stopped working. He looks worried."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "troy",
+              "text": "My robot is broken! Can you help me fix it?"
+            },
+            {
+              "id": "p1b",
+              "who": "caren",
+              "text": "Let me look. I think we can fix it together!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-915"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "troy"
+            },
+            {
+              "who": "caren"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Troy finds the box on a high shelf."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "caren",
+              "text": "Let's read the instruction sheet first."
+            },
+            {
+              "id": "p2b",
+              "who": "troy",
+              "text": "Good idea! The instructions are right here."
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-914",
+            "CPP2-U7-SB-926"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "troy"
+            },
+            {
+              "who": "caren"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Caren holds the robot while Troy finds a cable."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "caren",
+              "text": "Hold it carefully, Troy. Don't drop it!"
+            },
+            {
+              "id": "p3b",
+              "who": "troy",
+              "text": "Here is the cable. It connects the robot to my tablet."
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-918",
+            "CPP2-U7-SB-919",
+            "CPP2-U7-SB-916"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "troy"
+            },
+            {
+              "who": "caren"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Troy stops and thinks very hard."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "troy",
+              "text": "I can use my imagination to solve this!"
+            },
+            {
+              "id": "p4b",
+              "who": "caren",
+              "text": "Wow, what a brilliant idea, Troy!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-924",
+            "CPP2-U7-SB-932"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "troy"
+            },
+            {
+              "who": "caren"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Troy saved money for months to buy this robot."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "caren",
+              "text": "Your robot works again! Let's fly the hover kite."
+            },
+            {
+              "id": "p5b",
+              "who": "troy",
+              "text": "Hooray! Thanks for your help, Caren!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-917",
+            "CPP2-U7-SB-931"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-914",
+          "prompt": {
+            "id": "c1q",
+            "text": "Please read the ____ before you build the robot."
+          },
+          "options": [
+            "mistake",
+            "battery",
+            "instruction"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "Instructions tell you the steps to follow, one by one."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U7-SB-915",
+          "prompt": {
+            "id": "c2q",
+            "text": "Find the word: to make something work again."
+          },
+          "options": [
+            "CPP2-U7-SB-918",
+            "CPP2-U7-SB-915",
+            "CPP2-U7-SB-919"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "To fix something means to make it work again, like a broken toy."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP2-U7-SB-916",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen carefully. Which word did you hear?"
+          },
+          "options": [
+            "CPP2-U7-SB-931",
+            "CPP2-U7-SB-916",
+            "CPP2-U7-SB-926"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "A cable is a long wire that connects two machines."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U7-SB-917",
+          "prompt": {
+            "id": "c4q",
+            "text": "Save money means to keep money for something you want later."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Monica saves money so she can buy a new bike."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-918",
+          "prompt": {
+            "id": "c5q",
+            "text": "Please ____ the glass carefully. It is full!"
+          },
+          "options": [
+            "sing",
+            "hold",
+            "kick"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "To hold something means to have it in your hands."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U7-SB-919",
+          "prompt": {
+            "id": "c6q",
+            "text": "To drop something means to pick it up carefully."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "To drop something means to let it fall by accident."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-924",
+          "prompt": {
+            "id": "c7q",
+            "text": "Caren uses her ____ to make up new stories."
+          },
+          "options": [
+            "imagination",
+            "memory",
+            "patience"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Imagination helps you create ideas and pictures in your mind."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U7-SB-926",
+          "prompt": {
+            "id": "c8q",
+            "text": "Find the word: a flat board on a wall for books."
+          },
+          "options": [
+            "CPP2-U7-SB-932",
+            "CPP2-U7-SB-931",
+            "CPP2-U7-SB-926"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "A shelf holds books, toys and other things."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U7-SB-932",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "thirsty",
+            "brilliant",
+            "hungry",
+            "tired"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Tired, hungry and thirsty describe how you feel; brilliant is praise."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-931",
+          "prompt": {
+            "id": "c10q",
+            "text": "Troy flew his ____ high above the park."
+          },
+          "options": [
+            "hover kite",
+            "umbrella",
+            "football"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "A hover kite stays still in the air, like a magic kite."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game with our new words!"
+        },
+        {
+          "id": "l2",
+          "text": "Find each matching picture and say the word out loud."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your free time and your favourite things."
+      },
+      "frames": [
+        "I am saving money to buy a ___.",
+        "I keep my favourite toys on a ___.",
+        "I use my ___ to make up stories."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I am saving money to buy a bike. I keep my favourite toys on a shelf. I use my imagination to make up stories."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, everyone! Well done!"
+        },
+        {
+          "id": "l2",
+          "text": "You learnt ten new words about fixing, saving and imagining."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Fix-It Word Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means to let something fall by accident?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence with the word shelf or hover kite."
+        }
+      ]
+    }
+  ]
+}

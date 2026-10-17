@@ -1,0 +1,730 @@
+{
+  "schema": 1,
+  "id": "CPP2-U6-A",
+  "bookId": "CPP2",
+  "unit": 6,
+  "section": "A",
+  "title": "Big Bones, Big Words: Meet the Dinosaurs",
+  "bigQuestion": "What do we know about dinosaurs?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nora": {
+      "name": "Nora",
+      "emoji": "👧",
+      "persona": "curious 10-year-old girl, thoughtful and eager to learn"
+    },
+    "milo": {
+      "name": "Milo",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy, funny and a little bit excited"
+    },
+    "gus": {
+      "name": "Gus",
+      "emoji": "🧍",
+      "persona": "kind, slow-speaking giant, deep and gentle voice, smiling"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U6-SB-746",
+      "emoji": "💡",
+      "kidDefinition": "The most important point of a text.",
+      "examples": [
+        "What is the main idea of this text?",
+        "The main idea is that dinosaurs became extinct."
+      ],
+      "distractors": [
+        "footprint",
+        "million",
+        "asteroid"
+      ],
+      "greekHint": "Κύρια ιδέα: η πιο σημαντική σκέψη του κειμένου.",
+      "english": "main idea",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-747",
+      "emoji": "🔍",
+      "kidDefinition": "A small piece of information about something.",
+      "examples": [
+        "Read the details in the second paragraph.",
+        "This detail helps me understand the main idea."
+      ],
+      "distractors": [
+        "footprint",
+        "million",
+        "reptile"
+      ],
+      "greekHint": "Λεπτομέρεια: το μικρό κομμάτι που δείχνει το σημαντικό.",
+      "english": "detail",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-748",
+      "emoji": "🕊️",
+      "kidDefinition": "Kind, calm and careful. Not rough.",
+      "examples": [
+        "Gus is very gentle with the little children.",
+        "My cat is gentle when I brush her fur."
+      ],
+      "distractors": [
+        "sharp",
+        "thick",
+        "scary"
+      ],
+      "greekHint": "Gentle: σκέψου το γλυκό, ήρεμο χάδι.",
+      "english": "gentle",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U6-SB-749",
+      "emoji": "🦎",
+      "kidDefinition": "A cold-blooded animal with dry, scaly skin.",
+      "examples": [
+        "Lizards and crocodiles are reptiles.",
+        "Snakes are reptiles too."
+      ],
+      "distractors": [
+        "footprint",
+        "asteroid",
+        "coconut"
+      ],
+      "greekHint": "Reptile: ερπετό, σαν τον σαλαμάνδρα που γλιστράει.",
+      "english": "reptile",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-752",
+      "emoji": "🚫",
+      "kidDefinition": "When all animals of one kind disappear forever.",
+      "examples": [
+        "Scientists are studying the extinction of dinosaurs.",
+        "Some animals face extinction because of climate change."
+      ],
+      "distractors": [
+        "reptile",
+        "footprint",
+        "million"
+      ],
+      "greekHint": "Extinction: εξαφάνιση, όταν κάτι χάνεται για πάντα.",
+      "english": "extinction",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-753",
+      "emoji": "🔢",
+      "kidDefinition": "The number one thousand thousand. A very big number.",
+      "examples": [
+        "Dinosaurs lived on Earth millions of years ago.",
+        "A million is a thousand thousands."
+      ],
+      "distractors": [
+        "footprint",
+        "horn",
+        "stripe"
+      ],
+      "greekHint": "Million: εκατομμύριο, ένα μεγάλο νούμερο με έξι μηδενικά.",
+      "english": "million",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-755",
+      "emoji": "🦤",
+      "kidDefinition": "No longer alive anywhere in the world.",
+      "examples": [
+        "The dodo bird became extinct long ago.",
+        "Most dinosaurs are extinct today."
+      ],
+      "distractors": [
+        "gentle",
+        "enormous",
+        "sharp"
+      ],
+      "greekHint": "Extinct: εξαφανισμένος, δεν υπάρχει πια στον κόσμο.",
+      "english": "extinct",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U6-SB-756",
+      "emoji": "👣",
+      "kidDefinition": "The mark that a foot leaves on the ground.",
+      "examples": [
+        "Nora found a dinosaur footprint in the mud.",
+        "Look at that big footprint near the river!"
+      ],
+      "distractors": [
+        "horn",
+        "stripe",
+        "coconut"
+      ],
+      "greekHint": "Footprint: αποτύπωμα ποδιού στο χώμα.",
+      "english": "footprint",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-761",
+      "emoji": "☄️",
+      "kidDefinition": "A big rock that travels through space.",
+      "examples": [
+        "An asteroid hit the Earth millions of years ago.",
+        "Scientists watch asteroids in space every day."
+      ],
+      "distractors": [
+        "coconut",
+        "horn",
+        "stripe"
+      ],
+      "greekHint": "Asteroid: αστεροειδής, ένας βράχος που ταξιδεύει στο διάστημα.",
+      "english": "asteroid",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U6-SB-770",
+      "emoji": "🐘",
+      "kidDefinition": "Very, very big.",
+      "examples": [
+        "Some dinosaurs were enormous, but others were small.",
+        "Gus has enormous feet!"
+      ],
+      "distractors": [
+        "ugly",
+        "scary",
+        "pointy"
+      ],
+      "greekHint": "Enormous: τεράστιος, σαν ελέφαντας.",
+      "english": "enormous",
+      "type": "adj."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U6-SB-750",
+    "CPP2-U6-SB-751",
+    "CPP2-U6-SB-754",
+    "CPP2-U6-SB-757",
+    "CPP2-U6-SB-758",
+    "CPP2-U6-SB-759",
+    "CPP2-U6-SB-760",
+    "CPP2-U6-SB-762",
+    "CPP2-U6-SB-763",
+    "CPP2-U6-SB-764",
+    "CPP2-U6-SB-765",
+    "CPP2-U6-SB-766",
+    "CPP2-U6-SB-767",
+    "CPP2-U6-SB-768",
+    "CPP2-U6-SB-769",
+    "CPP2-U6-SB-771",
+    "CPP2-U6-SB-772",
+    "CPP2-U6-SB-773",
+    "CPP2-U6-SB-774",
+    "CPP2-U6-SB-775",
+    "CPP2-U6-SB-776",
+    "CPP2-U6-SB-777",
+    "CPP2-U6-SB-778",
+    "CPP2-U6-SB-779",
+    "CPP2-U6-SB-780",
+    "CPP2-U6-SB-781",
+    "CPP2-U6-SB-782",
+    "CPP2-U6-SB-783",
+    "CPP2-U6-SB-784",
+    "CPP2-U6-SB-785",
+    "CPP2-U6-SB-786",
+    "CPP2-U6-SB-787",
+    "CPP2-U6-SB-788"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo, and I love owls and dinosaurs!"
+        },
+        {
+          "id": "l2",
+          "text": "Dinosaurs lived on Earth millions of years ago."
+        },
+        {
+          "id": "l3",
+          "text": "Some were enormous, and some were very small."
+        },
+        {
+          "id": "l4",
+          "text": "But where did they all go? Let's find out together!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Do you have a favourite dinosaur? What is it?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U6-SB-753",
+        "CPP2-U6-SB-770",
+        "CPP2-U6-SB-749",
+        "CPP2-U6-SB-748",
+        "CPP2-U6-SB-746",
+        "CPP2-U6-SB-747",
+        "CPP2-U6-SB-756",
+        "CPP2-U6-SB-761",
+        "CPP2-U6-SB-752",
+        "CPP2-U6-SB-755"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Gus and the Mysterious Mud",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "nora"
+            },
+            {
+              "who": "milo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Nora and Milo are reading a text about dinosaurs in class."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "nora",
+              "text": "What is the main idea of this text?"
+            },
+            {
+              "id": "p1b",
+              "who": "milo",
+              "text": "I think the main idea is that dinosaurs disappeared. This detail helps!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-746",
+            "CPP2-U6-SB-747"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "gus"
+            },
+            {
+              "who": "milo"
+            },
+            {
+              "who": "nora"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "In the forest, they meet Gus, a giant with a kind smile."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "gus",
+              "text": "Hello, friends! I am very gentle. Please don't be afraid."
+            },
+            {
+              "id": "p2b",
+              "who": "milo",
+              "text": "Look! A reptile is sleeping on that log."
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-748",
+            "CPP2-U6-SB-749"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "gus"
+            },
+            {
+              "who": "nora"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Gus points to a huge mark in the mud."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "gus",
+              "text": "Look! A dinosaur footprint in the mud."
+            },
+            {
+              "id": "p3b",
+              "who": "nora",
+              "text": "Wow! Your feet are enormous, Gus!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-756",
+            "CPP2-U6-SB-770"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "space",
+          "characters": [
+            {
+              "who": "lingo"
+            },
+            {
+              "who": "milo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Lingo shows them a picture of a rock flying through space."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "lingo",
+              "text": "Millions of years ago, an asteroid crashed into the Earth."
+            },
+            {
+              "id": "p4b",
+              "who": "milo",
+              "text": "Did that asteroid cause everything to change?"
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-753",
+            "CPP2-U6-SB-761"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "nora"
+            },
+            {
+              "who": "gus"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Back in class, the friends think about what they learned."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nora",
+              "text": "Some dinosaurs are extinct now. Scientists study their extinction."
+            },
+            {
+              "id": "p5b",
+              "who": "gus",
+              "text": "But lizards are reptiles, and they are still here today!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-752",
+            "CPP2-U6-SB-755"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-746",
+          "prompt": {
+            "id": "c1q",
+            "text": "Read the text. The ____ is that dinosaurs became extinct."
+          },
+          "options": [
+            "footprint",
+            "main idea",
+            "asteroid",
+            "million"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "The main idea is the most important point of the whole text."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U6-SB-747",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word means a small fact that helps explain the main idea?"
+          },
+          "options": [
+            "CPP2-U6-SB-746",
+            "CPP2-U6-SB-748",
+            "CPP2-U6-SB-749",
+            "CPP2-U6-SB-747"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "A detail is a small piece of information that supports the main idea."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U6-SB-748",
+          "prompt": {
+            "id": "c3q",
+            "text": "Gus is gentle. He is careful and kind with the children."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Gentle means kind, calm and careful, so Gus is gentle."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U6-SB-749",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which one is NOT a reptile?"
+          },
+          "options": [
+            "lizard",
+            "snake",
+            "turtle",
+            "dolphin"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "A dolphin is a mammal, not a reptile, so it is the odd one out."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-752",
+          "prompt": {
+            "id": "c5q",
+            "text": "Scientists are studying the ____ of the dinosaurs."
+          },
+          "options": [
+            "footprint",
+            "extinction",
+            "million",
+            "reptile"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Extinction is when a whole kind of animal disappears forever."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-755",
+          "prompt": {
+            "id": "c6q",
+            "text": "The dodo bird is ____ now. Nobody can see one."
+          },
+          "options": [
+            "sharp",
+            "enormous",
+            "extinct",
+            "gentle"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "Extinct means no longer alive anywhere in the world."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U6-SB-756",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the mark a foot leaves in the mud?"
+          },
+          "options": [
+            "CPP2-U6-SB-749",
+            "CPP2-U6-SB-761",
+            "CPP2-U6-SB-753",
+            "CPP2-U6-SB-756"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A footprint is the shape a foot leaves on the ground."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U6-SB-753",
+          "prompt": {
+            "id": "c8q",
+            "text": "A million is the number one hundred."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A million is a thousand thousands, much bigger than one hundred."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U6-SB-761",
+          "prompt": {
+            "id": "c9q",
+            "text": "A big rock that travels through space is called an ____."
+          },
+          "options": [
+            "reptile",
+            "footprint",
+            "asteroid",
+            "million"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "An asteroid is a big rock that moves through space."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U6-SB-770",
+          "prompt": {
+            "id": "c10q",
+            "text": "Enormous means very small."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Enormous means very, very big, not small."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game with our dinosaur words!"
+        },
+        {
+          "id": "l2",
+          "text": "Find the matching pairs. Say each word aloud as you turn the card."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a dinosaur you know. Use the frames."
+      },
+      "frames": [
+        "I know a dinosaur called ___.",
+        "It was ___, and it lived millions of years ago.",
+        "I think the main idea is ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I know a dinosaur called Triceratops. It was enormous, and it lived millions of years ago. I think the main idea is that dinosaurs were amazing!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, explorers! You learned ten brilliant dinosaur words today."
+        },
+        {
+          "id": "l2",
+          "text": "You found the main idea, spotted the details, and met a gentle giant."
+        },
+        {
+          "id": "l3",
+          "text": "Keep using these words, and you will become a word detective!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Dino Word Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What is the difference between a main idea and a detail?"
+        },
+        {
+          "id": "e2",
+          "text": "Can you name one reptile and one thing that is extinct?"
+        }
+      ]
+    }
+  ]
+}

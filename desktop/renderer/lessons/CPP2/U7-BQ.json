@@ -1,0 +1,525 @@
+{
+  "schema": 1,
+  "id": "CPP2-U7-BQ",
+  "bookId": "CPP2",
+  "unit": 7,
+  "section": "BQ",
+  "title": "Why Is Free Time Important?",
+  "bigQuestion": "Why is free time important?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "sam": {
+      "name": "Sam",
+      "emoji": "👦",
+      "persona": "cheerful 10-year-old boy, curious and full of questions"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "calm, thoughtful 10-year-old girl who loves writing and keeps a diary"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U7-SB-848",
+      "emoji": "🕒",
+      "kidDefinition": "Time when you do what you like, not school work.",
+      "examples": [
+        "I play football in my free time.",
+        "Free time helps you relax after a busy day."
+      ],
+      "distractors": [
+        "homework",
+        "bedtime",
+        "lesson"
+      ],
+      "greekHint": "ελεύθερος χρόνος",
+      "english": "free time",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-849",
+      "emoji": "🏃",
+      "kidDefinition": "Something you do, like a sport, hobby or game.",
+      "examples": [
+        "Painting is my favourite activity.",
+        "Swimming is a fun activity in the summer."
+      ],
+      "distractors": [
+        "homework",
+        "dinner",
+        "uniform"
+      ],
+      "greekHint": "δραστηριότητα",
+      "english": "activity",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-850",
+      "emoji": "📔",
+      "kidDefinition": "A book where you write about your day.",
+      "examples": [
+        "Maya writes about her day in her diary.",
+        "I keep a diary every night before bed."
+      ],
+      "distractors": [
+        "pencil",
+        "ruler",
+        "backpack"
+      ],
+      "greekHint": "ημερολόγιο",
+      "english": "diary",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-852",
+      "emoji": "📋",
+      "kidDefinition": "Questions asked to find out what many people do.",
+      "examples": [
+        "We did a class survey about our hobbies.",
+        "The survey shows that most of us love music."
+      ],
+      "distractors": [
+        "poster",
+        "ticket",
+        "holiday"
+      ],
+      "greekHint": "έρευνα",
+      "english": "survey",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-853",
+      "emoji": "😌",
+      "kidDefinition": "Calm and peaceful, helping you feel less tired.",
+      "examples": [
+        "A warm bath is very relaxing.",
+        "Relaxing music helps me fall asleep."
+      ],
+      "distractors": [
+        "noisy",
+        "hungry",
+        "cold"
+      ],
+      "greekHint": "χαλαρωτικός",
+      "english": "relaxing",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U7-SB-854",
+      "emoji": "🎮",
+      "kidDefinition": "A game you play on a screen or computer.",
+      "examples": [
+        "Sam plays a new video game on Sunday.",
+        "Video games are fun, but not all day long."
+      ],
+      "distractors": [
+        "bicycle",
+        "guitar",
+        "kite"
+      ],
+      "greekHint": "ηλεκτρονικό παιχνίδι",
+      "english": "video game",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-855",
+      "emoji": "🎬",
+      "kidDefinition": "A story you watch on a screen, like a film.",
+      "examples": [
+        "Let's watch a movie tonight.",
+        "We watched a funny movie at the cinema."
+      ],
+      "distractors": [
+        "magazine",
+        "radio",
+        "painting"
+      ],
+      "greekHint": "ταινία",
+      "english": "movie",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-856",
+      "emoji": "⚾",
+      "kidDefinition": "A sport where you hit a ball and run around bases.",
+      "examples": [
+        "Baseball is a popular sport in the USA.",
+        "Sam practises baseball in the park on Saturdays."
+      ],
+      "distractors": [
+        "tennis",
+        "basketball",
+        "football"
+      ],
+      "greekHint": "μπέιζμπολ",
+      "english": "baseball",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U7-SB-857",
+      "emoji": "🍳",
+      "kidDefinition": "To make food hot and ready to eat.",
+      "examples": [
+        "My dad likes to cook pasta on Sundays.",
+        "I can cook eggs for breakfast."
+      ],
+      "distractors": [
+        "clean",
+        "sleep",
+        "dance"
+      ],
+      "greekHint": "μαγειρεύω",
+      "english": "cook",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U7-SB-858",
+      "emoji": "💪",
+      "kidDefinition": "To move your body to stay fit and strong.",
+      "examples": [
+        "Gina exercises three times a week.",
+        "Let's exercise outside in the park."
+      ],
+      "distractors": [
+        "sleep",
+        "sing",
+        "read"
+      ],
+      "greekHint": "γυμνάζομαι",
+      "english": "exercise",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U7-SB-851",
+    "CPP2-U7-KW-15",
+    "CPP2-U7-KW-16",
+    "CPP2-U7-KW-17",
+    "CPP2-U7-KW-18"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love owls, books and free time."
+        },
+        {
+          "id": "l2",
+          "text": "Today we start a big question: why is free time important?"
+        },
+        {
+          "id": "l3",
+          "text": "Sam loves video games."
+        },
+        {
+          "id": "l4",
+          "text": "Maya writes in her diary every night."
+        },
+        {
+          "id": "l5",
+          "text": "Let's find out what you do when you are not at school!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you like to do in your free time?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U7-SB-848",
+        "CPP2-U7-SB-849",
+        "CPP2-U7-SB-850",
+        "CPP2-U7-SB-852",
+        "CPP2-U7-SB-853",
+        "CPP2-U7-SB-854",
+        "CPP2-U7-SB-855",
+        "CPP2-U7-SB-856",
+        "CPP2-U7-SB-857",
+        "CPP2-U7-SB-858"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-848",
+          "prompt": {
+            "id": "c1q",
+            "text": "I love reading books in my ____ after school."
+          },
+          "options": [
+            "free time",
+            "homework",
+            "bedtime",
+            "lesson"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "Free time is the time you can spend on things you enjoy."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U7-SB-850",
+          "prompt": {
+            "id": "c2q",
+            "text": "Tap the picture that shows a diary."
+          },
+          "options": [
+            "CPP2-U7-SB-850",
+            "CPP2-U7-SB-852",
+            "CPP2-U7-SB-856"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A diary is a book where you write about your day."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U7-SB-849",
+          "prompt": {
+            "id": "c3q",
+            "text": "An activity is something you do, like swimming or drawing. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Swimming and drawing are both activities, so the answer is true."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-852",
+          "prompt": {
+            "id": "c4q",
+            "text": "We did a class ____ about our favourite hobbies."
+          },
+          "options": [
+            "ticket",
+            "survey",
+            "poster",
+            "holiday"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "A survey uses questions to find out what many people think or do."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-853",
+          "prompt": {
+            "id": "c5q",
+            "text": "A warm bath is very ____."
+          },
+          "options": [
+            "hungry",
+            "relaxing",
+            "noisy",
+            "cold"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Relaxing means calm and peaceful, so a warm bath helps you feel good."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "listen",
+          "wordId": "CPP2-U7-SB-854",
+          "prompt": {
+            "id": "c6q",
+            "text": "Listen and point to the word: video game."
+          },
+          "options": [
+            "CPP2-U7-SB-854",
+            "CPP2-U7-SB-857",
+            "CPP2-U7-SB-855"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "A video game is a game you play on a screen."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U7-SB-855",
+          "prompt": {
+            "id": "c7q",
+            "text": "A movie is something you cook in the kitchen. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "A movie is a story you watch, not food you cook."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U7-SB-856",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "baseball",
+            "cooking",
+            "tennis",
+            "basketball"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Baseball, tennis and basketball are sports, but cooking is not."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U7-SB-857",
+          "prompt": {
+            "id": "c9q",
+            "text": "My dad likes to ____ pasta on Sundays."
+          },
+          "options": [
+            "sleep",
+            "cook",
+            "clean",
+            "dance"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "To cook means to make food hot and ready to eat."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U7-SB-858",
+          "prompt": {
+            "id": "c10q",
+            "text": "To exercise means to sleep for a long time. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "To exercise means to move your body, like running or jumping."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs of words and pictures."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner: What do you do in your free time?"
+      },
+      "frames": [
+        "In my free time, I like to ___.",
+        "My favourite activity is ___.",
+        "I think ___ is relaxing."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "In my free time, I like to play baseball. My favourite activity is cooking with my dad. I think cooking is relaxing."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You now know ten new words about free time."
+        },
+        {
+          "id": "l2",
+          "text": "Free time helps us relax, play and learn new things."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will explore Ancient Egypt. See you soon!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Free Time Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one activity you do in your free time."
+        },
+        {
+          "id": "e2",
+          "text": "Is free time important? Give one reason."
+        }
+      ]
+    }
+  ]
+}

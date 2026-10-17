@@ -1,0 +1,692 @@
+{
+  "schema": 1,
+  "id": "CPP1-U5-A",
+  "bookId": "CPP1",
+  "unit": 5,
+  "section": "A",
+  "title": "What's in the Box? Fun Words to Play With",
+  "bigQuestion": "How do we have fun?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and kind"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "energetic 9-year-old boy, funny and friendly"
+    },
+    "grandma": {
+      "name": "Grandma",
+      "emoji": "👵",
+      "persona": "warm, gentle grandmother, loves stories and surprises"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U5-SB-544",
+      "emoji": "🧸",
+      "kidDefinition": "A soft toy bear that children cuddle.",
+      "examples": [
+        "Linda likes playing with teddy bears.",
+        "My teddy bear sleeps on my bed."
+      ],
+      "distractors": [
+        "doll",
+        "puppet",
+        "ball"
+      ],
+      "greekHint": "Το αρκουδάκι είναι το πιο αγαπημένο παιχνίδι.",
+      "english": "teddy bear",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-545",
+      "emoji": "🧍",
+      "kidDefinition": "With no other people. Only one person.",
+      "examples": [
+        "I like to read alone in my room.",
+        "Please do not walk home alone."
+      ],
+      "distractors": [
+        "busy",
+        "happy",
+        "quiet"
+      ],
+      "greekHint": "Alone: μόνος, μόνη, μόνοι.",
+      "english": "alone",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U5-SB-546",
+      "emoji": "🙋",
+      "kidDefinition": "Without help from anyone else. By yourself.",
+      "examples": [
+        "I can do it on my own!",
+        "She built the tower on her own."
+      ],
+      "distractors": [
+        "with friends",
+        "in a team",
+        "at the park"
+      ],
+      "greekHint": "On my own: μόνος μου.",
+      "english": "on (your) own",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U5-SB-547",
+      "emoji": "👥",
+      "kidDefinition": "A small number of people who do something together.",
+      "examples": [
+        "Our group won the guessing game.",
+        "We share ideas in our group."
+      ],
+      "distractors": [
+        "team",
+        "crowd",
+        "class"
+      ],
+      "english": "group",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-548",
+      "emoji": "⭐",
+      "kidDefinition": "Important or loved, and different from others.",
+      "examples": [
+        "This toy is very special to me.",
+        "Grandma made a special cake today."
+      ],
+      "distractors": [
+        "plain",
+        "broken",
+        "normal"
+      ],
+      "greekHint": "Special: ξεχωριστός, ιδιαίτερος.",
+      "english": "special",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U5-SB-550",
+      "emoji": "🎲",
+      "kidDefinition": "A game where you try to find a hidden answer.",
+      "examples": [
+        "Let's play a guessing game. Who wants to start?",
+        "Guessing games are fun with friends."
+      ],
+      "distractors": [
+        "puzzle",
+        "race",
+        "story"
+      ],
+      "english": "guessing game",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-552",
+      "emoji": "🪙",
+      "kidDefinition": "To find and keep many things of the same kind.",
+      "examples": [
+        "Maria collects old dolls.",
+        "My uncle likes to collect stamps."
+      ],
+      "distractors": [
+        "fold",
+        "forget",
+        "sell"
+      ],
+      "english": "collect",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-553",
+      "emoji": "🎁",
+      "kidDefinition": "Something you give to someone, often wrapped in paper.",
+      "examples": [
+        "This gift is for your birthday.",
+        "I made a gift for my mum."
+      ],
+      "distractors": [
+        "garden",
+        "kitchen",
+        "ticket"
+      ],
+      "greekHint": "Gift: δώρο, το δώρο.",
+      "english": "gift",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-555",
+      "emoji": "🔨",
+      "kidDefinition": "To create or build something.",
+      "examples": [
+        "Sandra makes stick puppets for her students.",
+        "Let's make a paper boat today."
+      ],
+      "distractors": [
+        "break",
+        "wash",
+        "sing"
+      ],
+      "english": "make",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-556",
+      "emoji": "📦",
+      "kidDefinition": "To be the right size to go inside something.",
+      "examples": [
+        "The doll doesn't fit in the dollhouse.",
+        "Will this box fit in the car?"
+      ],
+      "distractors": [
+        "jump",
+        "sing",
+        "sit"
+      ],
+      "english": "fit",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U5-SB-542",
+    "CPP1-U5-SB-543",
+    "CPP1-U5-SB-549",
+    "CPP1-U5-SB-551",
+    "CPP1-U5-SB-554",
+    "CPP1-U5-SB-557",
+    "CPP1-U5-SB-558",
+    "CPP1-U5-SB-559",
+    "CPP1-U5-SB-560",
+    "CPP1-U5-SB-561",
+    "CPP1-U5-SB-562",
+    "CPP1-U5-SB-563",
+    "CPP1-U5-SB-564",
+    "CPP1-U5-SB-565",
+    "CPP1-U5-SB-566",
+    "CPP1-U5-SB-567",
+    "CPP1-U5-SB-568",
+    "CPP1-U5-SB-569",
+    "CPP1-U5-SB-570",
+    "CPP1-U5-SB-571",
+    "CPP1-U5-SB-572",
+    "CPP1-U5-SB-573",
+    "CPP1-U5-SB-574",
+    "CPP1-U5-SB-575",
+    "CPP1-U5-SB-576",
+    "CPP1-U5-SB-577",
+    "CPP1-U5-SB-578",
+    "CPP1-U5-SB-579"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we learn how we have fun with toys and games."
+        },
+        {
+          "id": "l3",
+          "text": "Some games are with friends. Some you play on your own."
+        },
+        {
+          "id": "l4",
+          "text": "Let's open a box of toys and see what's inside!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite toy or game?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U5-SB-553",
+        "CPP1-U5-SB-544",
+        "CPP1-U5-SB-556",
+        "CPP1-U5-SB-548",
+        "CPP1-U5-SB-545",
+        "CPP1-U5-SB-546",
+        "CPP1-U5-SB-547",
+        "CPP1-U5-SB-550",
+        "CPP1-U5-SB-552",
+        "CPP1-U5-SB-555"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Box Full of Surprises",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "grandma"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Grandma gives Mia a box for her birthday."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "grandma",
+              "text": "This is a gift for you, Mia. Open it!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-553"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Mia finds an old teddy bear inside the box."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "Look! A teddy bear! It is very special."
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Oh no! The teddy bear does not fit in the box."
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-544",
+            "CPP1-U5-SB-548",
+            "CPP1-U5-SB-556"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Mia and Leo meet their group at the park."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "Let's play a guessing game with our group!"
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "Great idea! Sometimes I like to play alone, too."
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-550",
+            "CPP1-U5-SB-547",
+            "CPP1-U5-SB-545"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "grandma"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Grandma likes to collect old toys."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "grandma",
+              "text": "I collect old toys. Let's make a new game together!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-552",
+            "CPP1-U5-SB-555"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Mia makes a new game. She plays on her own."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mia",
+              "text": "I can do it on my own! Watch me!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-546"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-553",
+          "prompt": {
+            "id": "c1q",
+            "text": "Grandma gave me a special ____ for my birthday."
+          },
+          "options": [
+            "kitchen",
+            "garden",
+            "gift"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A gift is something you give to someone, like a present."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U5-SB-544",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word names a soft toy bear?"
+          },
+          "options": [
+            "CPP1-U5-SB-544",
+            "CPP1-U5-SB-556",
+            "CPP1-U5-SB-555",
+            "CPP1-U5-SB-553"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A teddy bear is a soft toy bear that children love to hug."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U5-SB-545",
+          "prompt": {
+            "id": "c3q",
+            "text": "Alone means with lots of other people around you."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "Alone means with no other people, only you."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP1-U5-SB-546",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen: I can do it on my own! Which phrase did you hear?"
+          },
+          "options": [
+            "CPP1-U5-SB-556",
+            "CPP1-U5-SB-546",
+            "CPP1-U5-SB-547",
+            "CPP1-U5-SB-552"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "On my own means I do it by myself, without help."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U5-SB-547",
+          "prompt": {
+            "id": "c5q",
+            "text": "Three of these words mean a number of people together. Which one does not?"
+          },
+          "options": [
+            "team",
+            "group",
+            "crowd",
+            "alone"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "Group, crowd and team are all groups of people, but alone means one person."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-548",
+          "prompt": {
+            "id": "c6q",
+            "text": "This old teddy bear is very ____ to me. It was my grandad's."
+          },
+          "options": [
+            "plain",
+            "broken",
+            "special"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "Special means important to you, and different from others."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U5-SB-550",
+          "prompt": {
+            "id": "c7q",
+            "text": "In a guessing game, you try to find a hidden answer."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "In a guessing game, players think hard to find the secret answer."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-552",
+          "prompt": {
+            "id": "c8q",
+            "text": "Grandma likes to ____ old stamps and coins."
+          },
+          "options": [
+            "forget",
+            "collect",
+            "fold"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "To collect means to gather many things of the same kind."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-555",
+          "prompt": {
+            "id": "c9q",
+            "text": "Leo and Mia will ____ a new game with the box."
+          },
+          "options": [
+            "make",
+            "wash",
+            "break"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "To make means to create or build something new."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-556",
+          "prompt": {
+            "id": "c10q",
+            "text": "The big teddy bear will not ____ in the small box."
+          },
+          "options": [
+            "fit",
+            "sing",
+            "jump"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "To fit means to be the right size to go inside something."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs of words and pictures."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud as you turn the card. Good luck!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a special toy or game you like."
+      },
+      "frames": [
+        "My special toy is a ___.",
+        "I like to play ___ on my own.",
+        "I like playing a guessing game with my ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My special toy is a teddy bear. I like to play on my own. I like playing a guessing game with my group."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, friends! You found many fun words today."
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about toys, games and gifts in English."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Fun Word Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one sentence with the words on your own or with a group."
+        },
+        {
+          "id": "e2",
+          "text": "What does the word special mean to you? Use it in a sentence."
+        }
+      ]
+    }
+  ]
+}

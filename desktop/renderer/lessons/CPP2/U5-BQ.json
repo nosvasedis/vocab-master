@@ -1,0 +1,589 @@
+{
+  "schema": 1,
+  "id": "CPP2-U5-BQ",
+  "bookId": "CPP2",
+  "unit": 5,
+  "section": "BQ",
+  "title": "What Is Music? Let's Find Out!",
+  "bigQuestion": "What is music?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nick": {
+      "name": "Nick",
+      "emoji": "🧒",
+      "persona": "cheerful 10-year-old boy, curious and friendly"
+    },
+    "donkey": {
+      "name": "Donkey",
+      "emoji": "🫏",
+      "persona": "gentle, kind old donkey, slow and thoughtful"
+    },
+    "rooster": {
+      "name": "Rooster",
+      "emoji": "🐓",
+      "persona": "proud, cheerful rooster, loud and full of ideas"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U5-SB-598",
+      "emoji": "🎵",
+      "kidDefinition": "Sounds made by voices or instruments, often with a beat.",
+      "examples": [
+        "I listen to music when I go to school.",
+        "Music makes me want to dance."
+      ],
+      "distractors": [
+        "painting",
+        "lesson",
+        "holiday"
+      ],
+      "greekHint": "Μουσική: μουσική είναι ό,τι ακούς και σε κάνει να χορεύεις.",
+      "english": "music",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-603",
+      "emoji": "🎻",
+      "kidDefinition": "Music from long ago, written by famous composers.",
+      "examples": [
+        "Ian likes classical music. It helps him relax.",
+        "Mozart wrote lots of classical music."
+      ],
+      "distractors": [
+        "rock",
+        "pop",
+        "jazz"
+      ],
+      "english": "classical music",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-604",
+      "emoji": "🪕",
+      "kidDefinition": "Traditional music that people sing and play in villages.",
+      "examples": [
+        "In summer, people in our village play folk music.",
+        "My grandmother knows lots of folk songs."
+      ],
+      "distractors": [
+        "opera",
+        "rock",
+        "jazz"
+      ],
+      "greekHint": "Δημοτική μουσική: η μουσική των χωριών και των παραδόσεων.",
+      "english": "folk music",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-605",
+      "emoji": "🎹",
+      "kidDefinition": "A big instrument with black and white keys.",
+      "examples": [
+        "Learning to play the piano is very difficult.",
+        "Lingo plays the piano every morning."
+      ],
+      "distractors": [
+        "violin",
+        "drum",
+        "harp"
+      ],
+      "english": "piano",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-607",
+      "emoji": "🎸",
+      "kidDefinition": "An instrument with strings that you strum with your fingers.",
+      "examples": [
+        "My sister can play the guitar very well!",
+        "Nick strums his guitar on the stage."
+      ],
+      "distractors": [
+        "cello",
+        "drum",
+        "harp"
+      ],
+      "english": "guitar",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-608",
+      "emoji": "🎺",
+      "kidDefinition": "A shiny brass instrument that you blow into.",
+      "examples": [
+        "Nick wants to learn to play the trumpet.",
+        "The trumpet sounds loud and bright!"
+      ],
+      "distractors": [
+        "tuba",
+        "drum",
+        "cello"
+      ],
+      "english": "trumpet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-599",
+      "emoji": "💡",
+      "kidDefinition": "An idea you offer to help someone decide what to do.",
+      "examples": [
+        "Can I make a suggestion? Let's sing together!",
+        "I like your suggestion! Let's play tennis!"
+      ],
+      "distractors": [
+        "question",
+        "decision",
+        "holiday"
+      ],
+      "greekHint": "Πρόταση: όταν προτείνεις κάτι να κάνουμε μαζί.",
+      "english": "suggestion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-600",
+      "emoji": "📖",
+      "kidDefinition": "A book that tells the true story of someone's life.",
+      "examples": [
+        "I read a biography of a famous singer.",
+        "This biography of Mozart is very interesting."
+      ],
+      "distractors": [
+        "novel",
+        "comic",
+        "menu"
+      ],
+      "english": "biography",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-601",
+      "emoji": "📱",
+      "kidDefinition": "A list of songs you choose to play in order.",
+      "examples": [
+        "Tonia has a very nice playlist on her phone.",
+        "I made a playlist for the bus ride."
+      ],
+      "distractors": [
+        "notebook",
+        "calendar",
+        "headphones"
+      ],
+      "english": "playlist",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U5-SB-602",
+      "emoji": "💬",
+      "kidDefinition": "To show what you think or feel.",
+      "examples": [
+        "Music helps me express my feelings.",
+        "Dancing can express happiness without any words."
+      ],
+      "distractors": [
+        "forget",
+        "hide",
+        "travel"
+      ],
+      "greekHint": "Εκφράζω: να δείχνεις αυτό που νιώθεις.",
+      "english": "express",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U5-SB-606",
+    "CPP2-U5-SB-609",
+    "CPP2-U5-SB-610"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hoo hoo! Hello, music friends! I am Lingo the owl."
+        },
+        {
+          "id": "l2",
+          "text": "Close your eyes. What can you hear right now?"
+        },
+        {
+          "id": "l3",
+          "text": "Maybe a bird. Maybe a car. Maybe a happy song!"
+        },
+        {
+          "id": "l4",
+          "text": "Today we start a big question: What is music?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What music do you like to listen to?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U5-SB-598",
+        "CPP2-U5-SB-603",
+        "CPP2-U5-SB-604",
+        "CPP2-U5-SB-605",
+        "CPP2-U5-SB-607",
+        "CPP2-U5-SB-608",
+        "CPP2-U5-SB-599",
+        "CPP2-U5-SB-600",
+        "CPP2-U5-SB-601",
+        "CPP2-U5-SB-602"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Donkey and Rooster Make a Song",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "donkey"
+            },
+            {
+              "who": "rooster"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "On a farm, an old donkey and a rooster want to make music."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "donkey",
+              "text": "I have an idea! Let's sing together in the town."
+            },
+            {
+              "id": "p1b",
+              "who": "rooster",
+              "text": "I like your suggestion! Let's play the trumpet too!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-599",
+            "CPP2-U5-SB-608"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "donkey"
+            },
+            {
+              "who": "nick"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "On the street, a boy named Nick joins them with his guitar."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nick",
+              "text": "My playlist is ready! Let's play some folk music."
+            },
+            {
+              "id": "p2b",
+              "who": "donkey",
+              "text": "Music helps me express my feelings. I feel so happy!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U5-SB-601",
+            "CPP2-U5-SB-602"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP2-U5-SB-608",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen to the word. Which picture did you hear?"
+          },
+          "options": [
+            "CPP2-U5-SB-608",
+            "CPP2-U5-SB-605",
+            "CPP2-U5-SB-607"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "The trumpet is the shiny brass instrument you blow into."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U5-SB-607",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which picture shows a guitar?"
+          },
+          "options": [
+            "CPP2-U5-SB-608",
+            "CPP2-U5-SB-607",
+            "CPP2-U5-SB-605"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A guitar has strings that you strum with your fingers."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-602",
+          "prompt": {
+            "id": "c3q",
+            "text": "Music helps me ____ my feelings."
+          },
+          "options": [
+            "forget",
+            "travel",
+            "express"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "To express means to show what you think or feel."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-599",
+          "prompt": {
+            "id": "c4q",
+            "text": "I like your ____! Let's play tennis!"
+          },
+          "options": [
+            "suggestion",
+            "piano",
+            "playlist"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A suggestion is an idea you offer to help decide what to do."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U5-SB-600",
+          "prompt": {
+            "id": "c5q",
+            "text": "A biography tells the true story of a person's life."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "A biography is a true book about someone's life."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U5-SB-605",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "playlist",
+            "guitar",
+            "piano",
+            "trumpet"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "A playlist is a list of songs, not an instrument you play."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-601",
+          "prompt": {
+            "id": "c7q",
+            "text": "Tonia has a very nice ____ on her phone."
+          },
+          "options": [
+            "guitar",
+            "playlist",
+            "trumpet"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "A playlist is a list of songs you choose to play in order."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U5-SB-604",
+          "prompt": {
+            "id": "c8q",
+            "text": "Folk music is traditional music that people sing and play in villages."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Folk music comes from traditions and is often played in villages."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U5-SB-603",
+          "prompt": {
+            "id": "c9q",
+            "text": "Classical music is music from long ago, written by famous composers."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "Classical music was written by famous composers long ago."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U5-SB-598",
+          "prompt": {
+            "id": "c10q",
+            "text": "I listen to ____ when I go to school."
+          },
+          "options": [
+            "lesson",
+            "music",
+            "painting"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Music is sounds made by voices or instruments, often with a beat."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs of words and pictures."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud as you turn the card."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner about music. Use the frames to talk about your favourite sounds."
+      },
+      "frames": [
+        "I like ___ music.",
+        "My favourite instrument is the ___.",
+        "Can I make a ___? Let's listen to ___!"
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like classical music. My favourite instrument is the piano. Can I make a suggestion? Let's listen to my playlist!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, music explorers! You learnt ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "You met instruments, music styles, and even a donkey band."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will read about a famous composer's life."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Music Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one instrument you learnt today."
+        },
+        {
+          "id": "e2",
+          "text": "What does the word biography mean?"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,709 @@
+{
+  "schema": 1,
+  "id": "CPP1-U2-A",
+  "bookId": "CPP1",
+  "unit": 2,
+  "section": "A",
+  "title": "Our School Rooms and Things",
+  "bigQuestion": "What is school like?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "school",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nick": {
+      "name": "Nick",
+      "emoji": "👦",
+      "persona": "cheerful 9-year-old boy, curious, a little forgetful"
+    },
+    "maria": {
+      "name": "Maria",
+      "emoji": "👧",
+      "persona": "friendly 9-year-old girl, helpful, bright"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U2-SB-163",
+      "emoji": "🧥",
+      "kidDefinition": "A warm piece of clothing you wear outside.",
+      "examples": [
+        "It is cold. Put on your coat.",
+        "My coat is blue and very warm."
+      ],
+      "distractors": [
+        "scarf",
+        "hat",
+        "gloves"
+      ],
+      "greekHint": "Το παλτό το φοράμε έξω όταν κάνει κρύο.",
+      "english": "coat",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-162",
+      "emoji": "🗄️",
+      "kidDefinition": "A stand with hooks or bars for hanging things.",
+      "examples": [
+        "Put your coat on the rack.",
+        "The rack by the door holds our bags."
+      ],
+      "distractors": [
+        "shelf",
+        "desk",
+        "cupboard"
+      ],
+      "english": "rack",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-164",
+      "emoji": "🪝",
+      "kidDefinition": "To put something up so it stays on a hook.",
+      "examples": [
+        "Hang your bag on the hook.",
+        "Please hang your drawing on the wall."
+      ],
+      "distractors": [
+        "drop",
+        "sit",
+        "throw"
+      ],
+      "english": "hang",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U2-SB-158",
+      "emoji": "✏️",
+      "kidDefinition": "A small tool that makes your pencil pointed again.",
+      "examples": [
+        "Can I use your pencil sharpener, please?",
+        "My pencil is short. I need a pencil sharpener."
+      ],
+      "distractors": [
+        "ruler",
+        "notebook",
+        "scissors"
+      ],
+      "greekHint": "Η ξύστρα κάνει το μολύβι μυτερό ξανά.",
+      "english": "pencil sharpener",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-157",
+      "emoji": "🪨",
+      "kidDefinition": "Not sharp. A dull pencil does not have a point.",
+      "examples": [
+        "My pencils are dull. I can't draw.",
+        "This knife is dull. Cutting bread is hard."
+      ],
+      "distractors": [
+        "sharp",
+        "bright",
+        "happy"
+      ],
+      "english": "dull",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U2-SB-159",
+      "emoji": "👩‍🍳",
+      "kidDefinition": "A cover you wear over clothes to keep them clean.",
+      "examples": [
+        "Wear an apron when you paint.",
+        "Dad puts on his apron to cook dinner."
+      ],
+      "distractors": [
+        "bag",
+        "hat",
+        "scarf"
+      ],
+      "english": "apron",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-160",
+      "emoji": "🛡️",
+      "kidDefinition": "To keep someone or something safe from harm.",
+      "examples": [
+        "Helmets protect your head when you ride a bike.",
+        "Please protect your books from the rain."
+      ],
+      "distractors": [
+        "hide",
+        "carry",
+        "wash"
+      ],
+      "english": "protect",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U2-SB-167",
+      "emoji": "🎨",
+      "kidDefinition": "A room where children draw, paint and make things.",
+      "examples": [
+        "We paint pictures in the art room.",
+        "The art room has lots of crayons."
+      ],
+      "distractors": [
+        "library",
+        "gym",
+        "kitchen"
+      ],
+      "english": "art room",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-165",
+      "emoji": "🎵",
+      "kidDefinition": "A room where children learn about music and instruments.",
+      "examples": [
+        "We sing songs in the music room.",
+        "The piano is in the music room."
+      ],
+      "distractors": [
+        "library",
+        "office",
+        "garden"
+      ],
+      "english": "music room",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-166",
+      "emoji": "🏀",
+      "kidDefinition": "A big room where children play sports.",
+      "examples": [
+        "We run and jump in the gym.",
+        "Our gym has big balls and nets."
+      ],
+      "distractors": [
+        "pool",
+        "park",
+        "stage"
+      ],
+      "english": "gym",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U2-SB-155",
+    "CPP1-U2-SB-156",
+    "CPP1-U2-SB-161",
+    "CPP1-U2-SB-168",
+    "CPP1-U2-SB-169",
+    "CPP1-U2-SB-170",
+    "CPP1-U2-SB-171",
+    "CPP1-U2-SB-172",
+    "CPP1-U2-SB-173",
+    "CPP1-U2-SB-174",
+    "CPP1-U2-SB-175",
+    "CPP1-U2-SB-176",
+    "CPP1-U2-SB-177",
+    "CPP1-U2-SB-178",
+    "CPP1-U2-SB-179",
+    "CPP1-U2-SB-180",
+    "CPP1-U2-SB-181",
+    "CPP1-U2-SB-182",
+    "CPP1-U2-SB-183",
+    "CPP1-U2-SB-184",
+    "CPP1-U2-SB-185",
+    "CPP1-U2-SB-186",
+    "CPP1-U2-SB-187",
+    "CPP1-U2-SB-188",
+    "CPP1-U2-SB-189",
+    "CPP1-U2-SB-190",
+    "CPP1-U2-SB-191",
+    "CPP1-U2-SB-192",
+    "CPP1-U2-SB-193",
+    "CPP1-U2-SB-194",
+    "CPP1-U2-SB-195",
+    "CPP1-U2-SB-196",
+    "CPP1-U2-SB-197",
+    "CPP1-U2-SB-198",
+    "CPP1-U2-SB-199",
+    "CPP1-U2-SB-200",
+    "CPP1-U2-SB-201",
+    "CPP1-U2-SB-202",
+    "CPP1-U2-SB-203",
+    "CPP1-U2-SB-204",
+    "CPP1-U2-SB-205",
+    "CPP1-U2-SB-206",
+    "CPP1-U2-SB-207",
+    "CPP1-U2-SB-208",
+    "CPP1-U2-SB-209"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "school",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I'm Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we explore the rooms and places in our school."
+        },
+        {
+          "id": "l3",
+          "text": "Some rooms are big. Some rooms are very special!"
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out what school is like."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite room at school?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U2-SB-163",
+        "CPP1-U2-SB-162",
+        "CPP1-U2-SB-164",
+        "CPP1-U2-SB-158",
+        "CPP1-U2-SB-157",
+        "CPP1-U2-SB-159",
+        "CPP1-U2-SB-160",
+        "CPP1-U2-SB-167",
+        "CPP1-U2-SB-165",
+        "CPP1-U2-SB-166"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Busy Morning at School",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "nick"
+            },
+            {
+              "who": "maria"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is Monday morning. Nick and Maria walk into school."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "maria",
+              "text": "Hang your coat on the rack, Nick."
+            },
+            {
+              "id": "p1b",
+              "who": "nick",
+              "text": "Good idea! My coat is wet."
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-163",
+            "CPP1-U2-SB-162",
+            "CPP1-U2-SB-164"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "nick"
+            },
+            {
+              "who": "maria"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Now they are in the art room."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "maria",
+              "text": "Welcome to the art room! We draw and paint here."
+            },
+            {
+              "id": "p2b",
+              "who": "nick",
+              "text": "Put on your apron. It will protect your clothes."
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-167",
+            "CPP1-U2-SB-159",
+            "CPP1-U2-SB-160"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "nick"
+            },
+            {
+              "who": "maria"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Nick's pencil is dull. He can't draw."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "nick",
+              "text": "My pencil is dull. I need a pencil sharpener."
+            },
+            {
+              "id": "p3b",
+              "who": "maria",
+              "text": "Here you go! Use my pencil sharpener."
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-157",
+            "CPP1-U2-SB-158"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "maria"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Next, they go to the gym."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "maria",
+              "text": "We play basketball in the gym. Let's go!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-166"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "nick"
+            },
+            {
+              "who": "maria"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Then they visit the music room."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nick",
+              "text": "We learn about music in the music room."
+            },
+            {
+              "id": "p5b",
+              "who": "maria",
+              "text": "I love music! Let's sing a song."
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-165"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "listen",
+          "wordId": "CPP1-U2-SB-158",
+          "prompt": {
+            "id": "c1q",
+            "text": "Listen: Can I borrow your pencil sharpener, please? Which word did you hear?"
+          },
+          "options": [
+            "CPP1-U2-SB-159",
+            "CPP1-U2-SB-162",
+            "CPP1-U2-SB-158"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A pencil sharpener makes your pencil pointed again."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-157",
+          "prompt": {
+            "id": "c2q",
+            "text": "My pencil is ____. I can't draw a straight line."
+          },
+          "options": [
+            "happy",
+            "sharp",
+            "dull"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Dull means not sharp, so you cannot draw well with it."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-159",
+          "prompt": {
+            "id": "c3q",
+            "text": "Wear an ____ over your clothes when you paint."
+          },
+          "options": [
+            "hat",
+            "apron",
+            "bag"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "An apron covers your clothes so they stay clean."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U2-SB-160",
+          "prompt": {
+            "id": "c4q",
+            "text": "True or false: An apron can protect your clothes from paint."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "To protect means to keep something safe, and an apron keeps paint off your clothes."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U2-SB-163",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "art room",
+            "gym",
+            "coat",
+            "music room"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A coat is something you wear, and the other words are rooms at school."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-164",
+          "prompt": {
+            "id": "c6q",
+            "text": "Please ____ your coat on the rack."
+          },
+          "options": [
+            "protect",
+            "play",
+            "hang"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "We hang a coat on a hook or a rack to keep it tidy."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U2-SB-162",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word names the stand with hooks for coats?"
+          },
+          "options": [
+            "CPP1-U2-SB-163",
+            "CPP1-U2-SB-164",
+            "CPP1-U2-SB-162"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "A rack is a stand where you hang coats and bags."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U2-SB-166",
+          "prompt": {
+            "id": "c8q",
+            "text": "True or false: We play volleyball and basketball in the art room."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "We play these sports in the gym, not in the art room."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-167",
+          "prompt": {
+            "id": "c9q",
+            "text": "We draw and paint pictures in the ____."
+          },
+          "options": [
+            "art room",
+            "gym",
+            "music room"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "The art room is the place for drawing and painting."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U2-SB-165",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which word names the room where we learn about music?"
+          },
+          "options": [
+            "CPP1-U2-SB-165",
+            "CPP1-U2-SB-166",
+            "CPP1-U2-SB-167"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "In the music room, we sing songs and learn about instruments."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture. Say the word as you find it."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner about the rooms and things at your school."
+      },
+      "frames": [
+        "My favourite room is the ___.",
+        "We ___ in the ___.",
+        "I need a ___ for my pencil."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My favourite room is the art room. We draw and paint there. I wear an apron to protect my clothes."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You learned ten new school words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can find your way around our school."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will explore more of the school together."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "School Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which room do we play basketball in?"
+        },
+        {
+          "id": "e2",
+          "text": "What word means a stand with hooks for hanging coats?"
+        }
+      ]
+    }
+  ]
+}

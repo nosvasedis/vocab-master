@@ -1,0 +1,712 @@
+{
+  "schema": 1,
+  "id": "CPP1-U8-A",
+  "bookId": "CPP1",
+  "unit": 8,
+  "section": "A",
+  "title": "Space Helmets and Super Steps",
+  "bigQuestion": "What is imagination?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ling": {
+      "name": "Ling",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, creative and dreamy"
+    },
+    "tom": {
+      "name": "Tom",
+      "emoji": "👦",
+      "persona": "friendly 9-year-old boy, curious and careful"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U8-SB-889",
+      "emoji": "🧑‍🚀",
+      "kidDefinition": "A person who travels into space.",
+      "examples": [
+        "Lee wants to be an astronaut when he grows up.",
+        "The astronaut waves at us from the window of her rocket."
+      ],
+      "distractors": [
+        "pilot",
+        "doctor",
+        "teacher"
+      ],
+      "greekHint": "Αστροναύτης: a space traveller.",
+      "english": "astronaut",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-890",
+      "emoji": "🪖",
+      "kidDefinition": "A hard hat that protects your head.",
+      "examples": [
+        "Tom puts on his helmet before the bike ride.",
+        "Astronauts wear a helmet with a clear glass front."
+      ],
+      "distractors": [
+        "gloves",
+        "scarf",
+        "ticket"
+      ],
+      "greekHint": "Κράνος: it keeps your head safe.",
+      "english": "helmet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-893",
+      "emoji": "✅",
+      "kidDefinition": "Prepared and able to start now.",
+      "examples": [
+        "Ling is ready to paint her imaginary animal.",
+        "Everyone, are you ready for the space trip?"
+      ],
+      "distractors": [
+        "silly",
+        "mad",
+        "thin"
+      ],
+      "greekHint": "Έτοιμος: you are all set to go.",
+      "english": "ready",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U8-SB-894",
+      "emoji": "1️⃣",
+      "kidDefinition": "Before anything else; at the very start.",
+      "examples": [
+        "First, get your scissors and your paper.",
+        "Tom reads the instructions first, then he begins."
+      ],
+      "distractors": [
+        "always",
+        "never",
+        "again"
+      ],
+      "greekHint": "Πρώτα: the very beginning step.",
+      "english": "first",
+      "type": "adv."
+    },
+    {
+      "wordId": "CPP1-U8-SB-891",
+      "emoji": "➡️",
+      "kidDefinition": "Coming straight after this one.",
+      "examples": [
+        "Next, glue the paper onto the cardboard box.",
+        "What is next on our list of steps?"
+      ],
+      "distractors": [
+        "before",
+        "yesterday",
+        "sometimes"
+      ],
+      "greekHint": "Μετά: the step that comes after.",
+      "english": "next",
+      "type": "adv."
+    },
+    {
+      "wordId": "CPP1-U8-SB-897",
+      "emoji": "⏭️",
+      "kidDefinition": "After that; at a later time.",
+      "examples": [
+        "Cut the paper, then glue it on the helmet.",
+        "We ate our lunch, then we went outside to play."
+      ],
+      "distractors": [
+        "before",
+        "always",
+        "never"
+      ],
+      "greekHint": "Έπειτα: think of it as 'and after that'.",
+      "english": "then",
+      "type": "adv."
+    },
+    {
+      "wordId": "CPP1-U8-SB-896",
+      "emoji": "✂️",
+      "kidDefinition": "Remove a shape by cutting it with scissors.",
+      "examples": [
+        "Please cut out a circle from the paper.",
+        "Ling cuts out a star for her space animal."
+      ],
+      "distractors": [
+        "glue it",
+        "draw on",
+        "rub off"
+      ],
+      "greekHint": "Κόβω και αφαιρώ: scissors do the work.",
+      "english": "cut out",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP1-U8-SB-909",
+      "emoji": "🧴",
+      "kidDefinition": "A sticky liquid that joins things together.",
+      "examples": [
+        "Put a little glue on the back of the picture.",
+        "We need glue to stick the feathers on."
+      ],
+      "distractors": [
+        "cocoa",
+        "stone",
+        "ticket"
+      ],
+      "greekHint": "Κόλα: it makes things stick.",
+      "english": "glue",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-919",
+      "emoji": "🧻",
+      "kidDefinition": "Very thin paper that is soft and light.",
+      "examples": [
+        "The present is wrapped in pink tissue paper.",
+        "Ling sticks coloured tissue paper on her animal."
+      ],
+      "distractors": [
+        "newspaper",
+        "cardboard",
+        "cocoa"
+      ],
+      "greekHint": "Μεταξόχαρτο: thin, soft paper for crafts.",
+      "english": "tissue paper",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-920",
+      "emoji": "🤏",
+      "kidDefinition": "To squeeze paper into a messy ball.",
+      "examples": [
+        "Crumple the paper into a ball, then open it up.",
+        "Ling crumples the tissue paper into a soft cloud."
+      ],
+      "distractors": [
+        "giggle",
+        "flatten",
+        "rub"
+      ],
+      "greekHint": "Τσαλακώνω: squeeze it into a ball.",
+      "english": "crumple",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U8-SB-892",
+    "CPP1-U8-SB-895",
+    "CPP1-U8-SB-898",
+    "CPP1-U8-SB-899",
+    "CPP1-U8-SB-900",
+    "CPP1-U8-SB-901",
+    "CPP1-U8-SB-902",
+    "CPP1-U8-SB-903",
+    "CPP1-U8-SB-904",
+    "CPP1-U8-SB-905",
+    "CPP1-U8-SB-906",
+    "CPP1-U8-SB-907",
+    "CPP1-U8-SB-908",
+    "CPP1-U8-SB-910",
+    "CPP1-U8-SB-911",
+    "CPP1-U8-SB-912",
+    "CPP1-U8-SB-913",
+    "CPP1-U8-SB-914",
+    "CPP1-U8-SB-915",
+    "CPP1-U8-SB-916",
+    "CPP1-U8-SB-917",
+    "CPP1-U8-SB-918",
+    "CPP1-U8-SB-921",
+    "CPP1-U8-SB-922",
+    "CPP1-U8-SB-923",
+    "CPP1-U8-SB-924",
+    "CPP1-U8-SB-925",
+    "CPP1-U8-SB-926",
+    "CPP1-U8-SB-927",
+    "CPP1-U8-SB-928",
+    "CPP1-U8-SB-929",
+    "CPP1-U8-SB-930",
+    "CPP1-U8-SB-931",
+    "CPP1-U8-SB-932",
+    "CPP1-U8-SB-933",
+    "CPP1-U8-SB-934",
+    "CPP1-U8-SB-935",
+    "CPP1-U8-SB-936",
+    "CPP1-U8-SB-937",
+    "CPP1-U8-SB-938",
+    "CPP1-U8-SB-939"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Close your eyes. Imagine a rocket flying to the moon."
+        },
+        {
+          "id": "l3",
+          "text": "Could you be an astronaut? What would you wear?"
+        },
+        {
+          "id": "l4",
+          "text": "Today, Ling and Tom make a space helmet together."
+        },
+        {
+          "id": "l5",
+          "text": "Let's use our imagination. Are you ready?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What would you like to imagine today?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U8-SB-889",
+        "CPP1-U8-SB-890",
+        "CPP1-U8-SB-893",
+        "CPP1-U8-SB-894",
+        "CPP1-U8-SB-891",
+        "CPP1-U8-SB-897",
+        "CPP1-U8-SB-896",
+        "CPP1-U8-SB-909",
+        "CPP1-U8-SB-919",
+        "CPP1-U8-SB-920"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Ling's Space Helmet",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "tom"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Ling wants to be an astronaut one day."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ling",
+              "text": "I dream I am an astronaut in space!"
+            },
+            {
+              "id": "p1b",
+              "who": "tom",
+              "text": "Wow! Let's make a space helmet together, Ling."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-889",
+            "CPP1-U8-SB-890"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "tom"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "The friends plan their craft. First, they get the materials."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "ling",
+              "text": "Are you ready, Tom? Let's start!"
+            },
+            {
+              "id": "p2b",
+              "who": "tom",
+              "text": "First, we need a big piece of cardboard."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-893",
+            "CPP1-U8-SB-894"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "tom"
+            },
+            {
+              "who": "ling"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Tom uses scissors. Next, he makes the helmet shape."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "tom",
+              "text": "Next, I will cut out the helmet shape."
+            },
+            {
+              "id": "p3b",
+              "who": "ling",
+              "text": "Then I will glue the tissue paper on it."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-891",
+            "CPP1-U8-SB-896",
+            "CPP1-U8-SB-897",
+            "CPP1-U8-SB-909"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "ling"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Ling makes a soft space cloud from paper."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "ling",
+              "text": "Crumple the tissue paper into a soft cloud, like this."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-919",
+            "CPP1-U8-SB-920"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "space",
+          "characters": [
+            {
+              "who": "ling"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "The helmet is finished. Ling feels like a real astronaut!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "ling",
+              "text": "Look! I am a happy astronaut in my helmet!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-889",
+            "CPP1-U8-SB-890"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U8-SB-889",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means a person who travels into space?"
+          },
+          "options": [
+            "CPP1-U8-SB-909",
+            "CPP1-U8-SB-889",
+            "CPP1-U8-SB-893",
+            "CPP1-U8-SB-890"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "An astronaut is a person who travels into space in a rocket."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-890",
+          "prompt": {
+            "id": "c2q",
+            "text": "Tom puts on his ____ before the bike ride."
+          },
+          "options": [
+            "helmet",
+            "gloves",
+            "scarf"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A helmet is a hard hat that keeps your head safe."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP1-U8-SB-891",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen: 'Next, put the glue on the card.' Which word did you hear?"
+          },
+          "options": [
+            "CPP1-U8-SB-909",
+            "CPP1-U8-SB-891",
+            "CPP1-U8-SB-897",
+            "CPP1-U8-SB-894"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "Next tells us the step that comes after the one before."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U8-SB-894",
+          "prompt": {
+            "id": "c4q",
+            "text": "The word 'first' tells us the very beginning step. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "First is used at the start, when you begin a list of steps."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U8-SB-893",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "first",
+            "next",
+            "then",
+            "ready"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "Ready describes a person, so it is an adjective. The others are order words."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-897",
+          "prompt": {
+            "id": "c6q",
+            "text": "Draw the body. ____, add two big eyes."
+          },
+          "options": [
+            "always",
+            "then",
+            "never"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Then means after that, at a later time."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-896",
+          "prompt": {
+            "id": "c7q",
+            "text": "First, ____ a circle from the paper carefully."
+          },
+          "options": [
+            "giggle",
+            "crumple",
+            "cut out"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Cut out means to remove a shape by cutting it with scissors."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U8-SB-909",
+          "prompt": {
+            "id": "c8q",
+            "text": "Glue is a sticky liquid used to join things together. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Glue helps paper and other things stick together."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-919",
+          "prompt": {
+            "id": "c9q",
+            "text": "Crumple some ____ and stick it on the roll."
+          },
+          "options": [
+            "cocoa",
+            "tissue paper",
+            "newspaper"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Tissue paper is very thin, soft paper that is good for crafts."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U8-SB-920",
+          "prompt": {
+            "id": "c10q",
+            "text": "To crumple paper means to make it flat and smooth. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "To crumple means to squeeze paper into a messy ball, not to flatten it."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the matching word and picture."
+        },
+        {
+          "id": "l2",
+          "text": "Turn two cards. Say the word out loud. Good luck!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "With your partner, explain how to make a space helmet. Use first, next and then."
+      },
+      "frames": [
+        "First, I ___ a shape from cardboard.",
+        "Next, I put ___ on it.",
+        "Then, I wear my ___ and I am ready!"
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "First, I cut out a shape from cardboard. Next, I put tissue paper on it with glue. Then I wear my helmet and I am ready!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, imagination superstars! You made a space helmet."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can use first, next and then to share steps."
+        }
+      ],
+      "badge": {
+        "emoji": "🚀",
+        "name": "Space Helmet Maker"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means a person who travels into space?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one step for a craft, starting with First, and add Then."
+        }
+      ]
+    }
+  ]
+}

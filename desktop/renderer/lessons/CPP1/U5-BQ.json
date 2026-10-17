@@ -1,0 +1,543 @@
+{
+  "schema": 1,
+  "id": "CPP1-U5-BQ",
+  "bookId": "CPP1",
+  "unit": 5,
+  "section": "BQ",
+  "title": "Let's Have Fun! The Big Question Opener",
+  "bigQuestion": "How do we have fun?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and bubbly"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "playful 10-year-old boy, energetic and a little silly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U5-SB-533",
+      "emoji": "🎭",
+      "kidDefinition": "A puppet that you hold up on a thin stick.",
+      "examples": [
+        "Let's play with our stick puppets.",
+        "My stick puppet is a red dragon."
+      ],
+      "distractors": [
+        "kite",
+        "robot",
+        "ball"
+      ],
+      "greekHint": "Το stick είναι το ραβδί: μαριονέτα με λαβή.",
+      "english": "stick puppet",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-536",
+      "emoji": "🛒",
+      "kidDefinition": "To get something by paying money for it.",
+      "examples": [
+        "I want to buy a new toy car.",
+        "Can you buy some bread at the shop, please?"
+      ],
+      "distractors": [
+        "sell",
+        "borrow",
+        "carry"
+      ],
+      "greekHint": "Αγοράζω: όταν πληρώνεις και παίρνεις κάτι δικό σου.",
+      "english": "buy",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-538",
+      "emoji": "🎵",
+      "kidDefinition": "Sounds with a rhythm that we listen to and enjoy.",
+      "examples": [
+        "I listen to music in the evenings.",
+        "Music makes me want to move."
+      ],
+      "distractors": [
+        "puzzle",
+        "picture",
+        "kite"
+      ],
+      "greekHint": "Music, μουσική: ακούμε και χορεύουμε.",
+      "english": "music",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U5-SB-539",
+      "emoji": "💃",
+      "kidDefinition": "To move your body to music.",
+      "examples": [
+        "My best friend and I like dancing together!",
+        "We dance in the playground every Friday."
+      ],
+      "distractors": [
+        "sing",
+        "swim",
+        "climb"
+      ],
+      "greekHint": "Dance, χορεύω: το dance ακούγεται σαν «ντάνς».",
+      "english": "dance",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-537",
+      "emoji": "🪢",
+      "kidDefinition": "To jump over a rope that goes under your feet.",
+      "examples": [
+        "She likes jumping rope.",
+        "I jump rope with my cousin at the park."
+      ],
+      "distractors": [
+        "ride a bike",
+        "play football",
+        "make a cake"
+      ],
+      "greekHint": "Jump rope: κάνω σχοινάκι, πηδάω πάνω από σχοινί.",
+      "english": "jump rope",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U5-SB-540",
+      "emoji": "🍪",
+      "kidDefinition": "To cook food, like cakes or cookies, in an oven.",
+      "examples": [
+        "My grandmother bakes cookies on Sundays.",
+        "We bake a cake for my birthday."
+      ],
+      "distractors": [
+        "wash",
+        "sweep",
+        "knit"
+      ],
+      "greekHint": "Bake, ψήνω: ό,τι ψήνεται στον φούρνο.",
+      "english": "bake",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-SB-541",
+      "emoji": "🎨",
+      "kidDefinition": "To make pictures with colours, using a brush.",
+      "examples": [
+        "Nick doesn't like painting pictures.",
+        "I paint a rainbow in my notebook."
+      ],
+      "distractors": [
+        "climb",
+        "hop",
+        "whistle"
+      ],
+      "greekHint": "Paint, ζωγραφίζω με νερομπογιές ή λαδομπογιές.",
+      "english": "paint",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U5-KW-3",
+      "emoji": "🎲",
+      "kidDefinition": "To have fun with a game, often with friends.",
+      "examples": [
+        "We play games at break time.",
+        "Let's play games after school."
+      ],
+      "distractors": [
+        "eat lunch",
+        "make a cake",
+        "wash hands"
+      ],
+      "english": "play games",
+      "type": "phr."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U5-SB-534",
+    "CPP1-U5-SB-535",
+    "CPP1-U5-KW-2",
+    "CPP1-U5-KW-4"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we start a big question."
+        },
+        {
+          "id": "l3",
+          "text": "How do we have fun?"
+        },
+        {
+          "id": "l4",
+          "text": "Do you dance, paint, or play games?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you like to do for fun on Sundays?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U5-SB-533",
+        "CPP1-U5-SB-536",
+        "CPP1-U5-SB-538",
+        "CPP1-U5-SB-539",
+        "CPP1-U5-SB-537",
+        "CPP1-U5-SB-540",
+        "CPP1-U5-SB-541",
+        "CPP1-U5-KW-3"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Box Full of Toys!",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia finds a big box of toys at home."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Look! A stick puppet! Let's play with it!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-533"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Leo smells cookies in the kitchen."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "Yummy! Can we dance and paint after that?"
+            }
+          ],
+          "highlight": [
+            "CPP1-U5-SB-540",
+            "CPP1-U5-SB-539",
+            "CPP1-U5-SB-541"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U5-SB-533",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the stick puppet."
+          },
+          "options": [
+            "CPP1-U5-SB-533",
+            "CPP1-U5-SB-540",
+            "CPP1-U5-SB-541",
+            "CPP1-U5-KW-3"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A stick puppet is a puppet you hold on a thin stick."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U5-SB-538",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: I listen to music in the evenings. Which word did you hear?"
+          },
+          "options": [
+            "CPP1-U5-SB-537",
+            "CPP1-U5-SB-536",
+            "CPP1-U5-SB-538",
+            "CPP1-U5-SB-539"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Music is the word for sounds we listen to and enjoy."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-536",
+          "prompt": {
+            "id": "c3q",
+            "text": "I want to ____ a new toy car."
+          },
+          "options": [
+            "buy",
+            "borrow",
+            "sell"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "To buy something means to pay money to get it."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-540",
+          "prompt": {
+            "id": "c4q",
+            "text": "My grandmother likes to ____ cookies on Sundays."
+          },
+          "options": [
+            "sweep",
+            "bake",
+            "wash"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "We bake cookies in an oven, so bake is the right word."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U5-SB-541",
+          "prompt": {
+            "id": "c5q",
+            "text": "Paint means to make pictures with colours. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "When you paint, you use a brush and colours to make a picture."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U5-SB-537",
+          "prompt": {
+            "id": "c6q",
+            "text": "Jump rope means to cook food in an oven. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Jump rope means jumping over a rope, not cooking food."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U5-SB-538",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "music",
+            "buy",
+            "bake",
+            "paint"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "Bake, paint and buy are action words, but music is a noun."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U5-SB-541",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word means making pictures with colours?"
+          },
+          "options": [
+            "CPP1-U5-SB-540",
+            "CPP1-U5-SB-541",
+            "CPP1-U5-SB-539",
+            "CPP1-U5-SB-537"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Paint is the word for making pictures with a brush and colours."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U5-KW-3",
+          "prompt": {
+            "id": "c9q",
+            "text": "At break time, we ____ with our friends."
+          },
+          "options": [
+            "make a cake",
+            "eat lunch",
+            "play games",
+            "wash hands"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "Play games means having fun with a game, so it fits here."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U5-SB-539",
+          "prompt": {
+            "id": "c10q",
+            "text": "I put on my shoes and ____ to the music."
+          },
+          "options": [
+            "climb",
+            "swim",
+            "dance"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "When you move your body to music, you dance."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game!"
+        },
+        {
+          "id": "l2",
+          "text": "Find the matching word and picture. Say each word out loud."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "What do you do for fun? Tell your partner!"
+      },
+      "frames": [
+        "I like to ___.",
+        "On Sundays, I ___.",
+        "My favourite fun is ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like to dance with my friends. On Sundays, I bake cookies with my mum. My favourite fun is playing games."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends!"
+        },
+        {
+          "id": "l2",
+          "text": "You learnt eight new fun words today."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will find out more about our big question."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Fun Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one fun thing you like to do after school."
+        },
+        {
+          "id": "e2",
+          "text": "Which word means making pictures with colours?"
+        }
+      ]
+    }
+  ]
+}

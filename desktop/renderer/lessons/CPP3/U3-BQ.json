@@ -1,0 +1,601 @@
+{
+  "schema": 1,
+  "id": "CPP3-U3-BQ",
+  "bookId": "CPP3",
+  "unit": 3,
+  "section": "BQ",
+  "title": "Why Do We Need to Protect Nature?",
+  "bigQuestion": "Why do we need to take care of nature?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "forest",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 11-year-old girl, curious and brave"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "👦",
+      "persona": "friendly 12-year-old boy, loves animals, a little worried"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U3-SB-345",
+      "emoji": "🐶",
+      "kidDefinition": "to look after someone or something.",
+      "examples": [
+        "My grandma takes care of our garden.",
+        "Please take care of your books at school."
+      ],
+      "distractors": [
+        "give up",
+        "put on",
+        "turn off"
+      ],
+      "greekHint": "φροντίζω = look after",
+      "english": "take care of",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP3-U3-SB-346",
+      "emoji": "🌳",
+      "kidDefinition": "plants, animals and the natural world around us.",
+      "examples": [
+        "We love walking in nature.",
+        "Nature gives us clean air and fresh water."
+      ],
+      "distractors": [
+        "village",
+        "machine",
+        "museum"
+      ],
+      "greekHint": "φύση = nature",
+      "english": "nature",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-347",
+      "emoji": "🐸",
+      "kidDefinition": "the natural home of an animal or plant.",
+      "examples": [
+        "Bears need a forest habitat to live and sleep.",
+        "Pollution is destroying the habitat of many fish."
+      ],
+      "distractors": [
+        "furniture",
+        "homework",
+        "vehicle"
+      ],
+      "greekHint": "φυσικό περιβάλλον = natural home",
+      "english": "habitat",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-350",
+      "emoji": "🛡️",
+      "kidDefinition": "to keep someone or something safe from harm.",
+      "examples": [
+        "Let's protect the forest from fires.",
+        "Parents protect their children every day."
+      ],
+      "distractors": [
+        "destroy",
+        "collect",
+        "forget"
+      ],
+      "greekHint": "προστατεύω = keep safe",
+      "english": "protect",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U3-SB-352",
+      "emoji": "⚠️",
+      "kidDefinition": "at risk of disappearing from Earth forever.",
+      "examples": [
+        "Tigers are in danger of extinction.",
+        "Many bees are in danger of extinction now."
+      ],
+      "distractors": [
+        "in a hurry",
+        "on the bus",
+        "at school"
+      ],
+      "greekHint": "κινδυνεύει με εξαφάνιση",
+      "english": "in danger or extinction",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP3-U3-SB-355",
+      "emoji": "🐺",
+      "kidDefinition": "at risk of becoming extinct soon.",
+      "examples": [
+        "Pandas are endangered animals.",
+        "The sea turtle is an endangered species in some places."
+      ],
+      "distractors": [
+        "crowded",
+        "hungry",
+        "sleepy"
+      ],
+      "greekHint": "υπό εξαφάνιση = at risk",
+      "english": "endangered",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U3-SB-356",
+      "emoji": "🦕",
+      "kidDefinition": "no longer alive anywhere on Earth.",
+      "examples": [
+        "Dinosaurs are extinct.",
+        "The dodo is an extinct bird."
+      ],
+      "distractors": [
+        "bright",
+        "empty",
+        "noisy"
+      ],
+      "greekHint": "εξαφανισμένος = gone forever",
+      "english": "extinct",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U3-SB-353",
+      "emoji": "🌴",
+      "kidDefinition": "a hot, wet forest with lots of rain and trees.",
+      "examples": [
+        "Rainforests are home to many animals.",
+        "Orangutans live high up in the rainforest."
+      ],
+      "distractors": [
+        "desert",
+        "island",
+        "mountain"
+      ],
+      "greekHint": "δάσος της βροχής = rain forest",
+      "english": "rainforest",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-357",
+      "emoji": "🐝",
+      "kidDefinition": "a small insect that makes honey.",
+      "examples": [
+        "Honeybees help flowers grow fruit.",
+        "A honeybee can visit hundreds of flowers in one day."
+      ],
+      "distractors": [
+        "beetle",
+        "spider",
+        "ant"
+      ],
+      "greekHint": "μέλισσα = bee",
+      "english": "honeybee",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U3-SB-359",
+      "emoji": "🏭",
+      "kidDefinition": "dirty things that harm air, water or land.",
+      "examples": [
+        "Pollution makes the air dirty and hard to breathe.",
+        "We must reduce pollution in our city."
+      ],
+      "distractors": [
+        "sunshine",
+        "harvest",
+        "electricity"
+      ],
+      "greekHint": "μόλυνση = dirt that harms",
+      "english": "pollution",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U3-SB-348",
+    "CPP3-U3-SB-349",
+    "CPP3-U3-SB-351",
+    "CPP3-U3-SB-354",
+    "CPP3-U3-SB-358",
+    "CPP3-U3-SB-360"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "forest",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love owls, trees and wild places."
+        },
+        {
+          "id": "l2",
+          "text": "Today we begin a big question: Why do we need to take care of nature?"
+        },
+        {
+          "id": "l3",
+          "text": "Let's walk into the forest and listen very carefully."
+        },
+        {
+          "id": "l4",
+          "text": "Can you hear the birds? Can you hear a bee buzzing near the flowers?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite animal, and where does it live?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U3-SB-345",
+        "CPP3-U3-SB-346",
+        "CPP3-U3-SB-347",
+        "CPP3-U3-SB-350",
+        "CPP3-U3-SB-355",
+        "CPP3-U3-SB-356",
+        "CPP3-U3-SB-352",
+        "CPP3-U3-SB-357",
+        "CPP3-U3-SB-353",
+        "CPP3-U3-SB-359"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Walk in the Green Forest",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "nikos"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia and Nikos walk into a rainforest, and they see many new things."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "Look! A honeybee is sitting on that flower. This rainforest is full of life."
+            },
+            {
+              "id": "p1b",
+              "who": "nikos",
+              "text": "Yes, and this is the habitat of many animals. We must take care of it."
+            }
+          ],
+          "highlight": [
+            "CPP3-U3-SB-353",
+            "CPP3-U3-SB-347",
+            "CPP3-U3-SB-357"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "nikos"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Nikos reads a sign about animals that need help."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nikos",
+              "text": "Orangutans are endangered. Pollution is harming their home, and some animals are in danger of extinction."
+            },
+            {
+              "id": "p2b",
+              "who": "mia",
+              "text": "Then let us protect them. Together we can protect nature!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U3-SB-355",
+            "CPP3-U3-SB-359",
+            "CPP3-U3-SB-352",
+            "CPP3-U3-SB-350",
+            "CPP3-U3-SB-345"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-345",
+          "prompt": {
+            "id": "c1q",
+            "text": "Who ____ your pets when you go on holiday?"
+          },
+          "options": [
+            "turn off",
+            "put on",
+            "give up",
+            "take care of"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "To take care of something means to look after it."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U3-SB-346",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which word means plants, animals and the natural world around us?"
+          },
+          "options": [
+            "CPP3-U3-SB-346",
+            "CPP3-U3-SB-347",
+            "CPP3-U3-SB-357",
+            "CPP3-U3-SB-359"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "Nature is everything in the natural world, from trees to rivers."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U3-SB-347",
+          "prompt": {
+            "id": "c3q",
+            "text": "A habitat is the natural home of an animal or plant."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "A habitat is where an animal or plant lives naturally."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP3-U3-SB-350",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen to Lingo: Let us protect the forest and its animals. Which word did you hear?"
+          },
+          "options": [
+            "CPP3-U3-SB-353",
+            "CPP3-U3-SB-359",
+            "CPP3-U3-SB-357",
+            "CPP3-U3-SB-350"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "Protect means keep something safe from harm."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U3-SB-357",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "honeybee",
+            "habitat",
+            "rainforest",
+            "nature"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "A honeybee is an insect, while the other three are places or the natural world."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-355",
+          "prompt": {
+            "id": "c6q",
+            "text": "Wolves in Greece are ____ animals, so we must help them."
+          },
+          "options": [
+            "sleepy",
+            "hungry",
+            "endangered",
+            "crowded"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "Endangered means at risk of becoming extinct soon."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U3-SB-356",
+          "prompt": {
+            "id": "c7q",
+            "text": "An extinct animal is still alive somewhere in the world."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Extinct means no longer alive anywhere on Earth."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-352",
+          "prompt": {
+            "id": "c8q",
+            "text": "Tigers are ____ because their habitats are disappearing."
+          },
+          "options": [
+            "at school",
+            "in danger of extinction",
+            "in a hurry",
+            "on the bus"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "This phrase means an animal could soon disappear from Earth forever."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U3-SB-359",
+          "prompt": {
+            "id": "c9q",
+            "text": "Plastic in the sea is a kind of ____ that harms fish."
+          },
+          "options": [
+            "sunshine",
+            "pollution",
+            "homework",
+            "furniture"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Pollution is dirty stuff that harms the air, water or land."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U3-SB-353",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which word means a hot, wet forest full of trees and rain?"
+          },
+          "options": [
+            "CPP3-U3-SB-347",
+            "CPP3-U3-SB-346",
+            "CPP3-U3-SB-357",
+            "CPP3-U3-SB-353"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c10e",
+            "text": "A rainforest is a warm, rainy forest where many animals live."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Find the pairs of words and pictures."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud when you find it. Rainforest, habitat, honeybee, pollution!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "What can you do to take care of nature? Talk with your partner."
+      },
+      "frames": [
+        "I can protect ___.",
+        "I can help the ___ by ___.",
+        "We must take care of ___ because ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I can protect the rainforest by not dropping rubbish. We must take care of nature because animals need their habitat."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, nature detectives! You learned ten powerful words."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can explain why nature needs our care. Hoo-ray!"
+        }
+      ],
+      "badge": {
+        "emoji": "🌍",
+        "name": "Nature Guardian"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one animal that is in danger of extinction, and say why."
+        },
+        {
+          "id": "e2",
+          "text": "Finish the sentence: Pollution is bad for animals because ____."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,551 @@
+{
+  "schema": 1,
+  "id": "CPP1-U8-BQ",
+  "bookId": "CPP1",
+  "unit": 8,
+  "section": "BQ",
+  "title": "Imagination Takes Flight!",
+  "bigQuestion": "What is imagination?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "classroom",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ling": {
+      "name": "Ling",
+      "emoji": "👧",
+      "persona": "cheerful 10-year-old girl, dreamy and creative, loves painting"
+    },
+    "dan": {
+      "name": "Dan",
+      "emoji": "👦",
+      "persona": "curious 9-year-old boy, friendly and talkative"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U8-SB-878",
+      "emoji": "💭",
+      "kidDefinition": "The ability to think of new and creative ideas.",
+      "examples": [
+        "Jane has a lot of imagination and paints beautiful pictures.",
+        "Dragons and unicorns come from our imagination."
+      ],
+      "distractors": [
+        "bicycle",
+        "river",
+        "pencil"
+      ],
+      "greekHint": "Φαντασία: think of the word 'fantasy'.",
+      "english": "imagination",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-881",
+      "emoji": "🦄",
+      "kidDefinition": "Not real. Made up in your mind.",
+      "examples": [
+        "This flower is imaginary, not real.",
+        "Ling has an imaginary friend called Sun."
+      ],
+      "distractors": [
+        "sunny",
+        "heavy",
+        "tiny"
+      ],
+      "greekHint": "Φανταστικός: a thing that exists only in your head.",
+      "english": "imaginary",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U8-SB-883",
+      "emoji": "🎨",
+      "kidDefinition": "To make something new.",
+      "examples": [
+        "Dan can create beautiful images.",
+        "We create art with paint and clay."
+      ],
+      "distractors": [
+        "whisper",
+        "wander",
+        "jump"
+      ],
+      "greekHint": "Δημιουργώ: I create, I make.",
+      "english": "create",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U8-SB-884",
+      "emoji": "🖼️",
+      "kidDefinition": "A picture made with paint or brushes.",
+      "examples": [
+        "Do you like this painting?",
+        "The painting shows a blue horse in the field."
+      ],
+      "distractors": [
+        "window",
+        "carpet",
+        "pillow"
+      ],
+      "english": "painting",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-885",
+      "emoji": "🗿",
+      "kidDefinition": "An artwork made by shaping a solid material.",
+      "examples": [
+        "There are interesting sculptures in the park.",
+        "This sculpture is made of shiny metal."
+      ],
+      "distractors": [
+        "cushion",
+        "ladder",
+        "kettle"
+      ],
+      "english": "sculpture",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-886",
+      "emoji": "🏺",
+      "kidDefinition": "Soft wet earth that you can shape.",
+      "examples": [
+        "We use clay in art class to create sculptures.",
+        "Clay can become a bowl or a little animal."
+      ],
+      "distractors": [
+        "sugar",
+        "wood",
+        "glue"
+      ],
+      "greekHint": "Πηλός: think of a potter's wheel.",
+      "english": "clay",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-887",
+      "emoji": "📷",
+      "kidDefinition": "A machine that takes photos.",
+      "examples": [
+        "Sharon takes great photos on her camera.",
+        "My camera is in my bag."
+      ],
+      "distractors": [
+        "telephone",
+        "torch",
+        "radio"
+      ],
+      "greekHint": "Φωτογραφική μηχανή: the machine that makes photos.",
+      "english": "camera",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-888",
+      "emoji": "📸",
+      "kidDefinition": "A picture taken with a camera.",
+      "examples": [
+        "I like this black and white photograph.",
+        "Take a photograph of your favourite park."
+      ],
+      "distractors": [
+        "map",
+        "ticket",
+        "poster"
+      ],
+      "greekHint": "Φωτογραφία: a picture of light.",
+      "english": "photograph",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U8-SB-882",
+      "emoji": "🎭",
+      "kidDefinition": "A party where everyone dresses up as someone else.",
+      "examples": [
+        "My friend is having a costume party.",
+        "I am going as a princess to the costume party."
+      ],
+      "distractors": [
+        "sports day",
+        "picnic",
+        "bedtime"
+      ],
+      "greekHint": "Στολή μασκέ: dress up and have fun.",
+      "english": "costume party",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U8-SB-879",
+    "CPP1-U8-SB-880"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl guide."
+        },
+        {
+          "id": "l2",
+          "text": "Today we begin a brand new unit."
+        },
+        {
+          "id": "l3",
+          "text": "Our Big Question is: What is imagination?"
+        },
+        {
+          "id": "l4",
+          "text": "Imagination helps us dream, invent, and create."
+        },
+        {
+          "id": "l5",
+          "text": "Let's find out how it makes art and stories!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one thing you can imagine right now?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U8-SB-878",
+        "CPP1-U8-SB-881",
+        "CPP1-U8-SB-883",
+        "CPP1-U8-SB-884",
+        "CPP1-U8-SB-885",
+        "CPP1-U8-SB-886",
+        "CPP1-U8-SB-887",
+        "CPP1-U8-SB-888",
+        "CPP1-U8-SB-882"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Ling's Paintbrush",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "ling"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Ling sits in the garden with her paintbrush."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ling",
+              "text": "Look! I can see an imaginary dragon in the clouds."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-881"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "ling"
+            },
+            {
+              "who": "dan"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Dan takes a photograph of Ling's painting with his camera."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "dan",
+              "text": "Your imagination is amazing, Ling!"
+            },
+            {
+              "id": "p2b",
+              "who": "ling",
+              "text": "Thank you! I want to create a clay sculpture next."
+            }
+          ],
+          "highlight": [
+            "CPP1-U8-SB-887",
+            "CPP1-U8-SB-888"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U8-SB-878",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which one shows imagination?"
+          },
+          "options": [
+            "CPP1-U8-SB-884",
+            "CPP1-U8-SB-886",
+            "CPP1-U8-SB-887",
+            "CPP1-U8-SB-878"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "Imagination is the power to think of new ideas in your mind."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U8-SB-885",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point to the sculpture."
+          },
+          "options": [
+            "CPP1-U8-SB-887",
+            "CPP1-U8-SB-885",
+            "CPP1-U8-SB-884",
+            "CPP1-U8-SB-888"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A sculpture is a shaped artwork you can walk around."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-883",
+          "prompt": {
+            "id": "c3q",
+            "text": "Dan can ____ beautiful images with his brushes."
+          },
+          "options": [
+            "jump",
+            "whisper",
+            "create",
+            "wander"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "To create means to make something new."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U8-SB-881",
+          "prompt": {
+            "id": "c4q",
+            "text": "An imaginary unicorn is a real animal."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Imaginary things are made up in our minds, not real."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U8-SB-887",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "painting",
+            "clay",
+            "sculpture",
+            "camera"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "A camera is a machine; the others are art made by hand."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U8-SB-882",
+          "prompt": {
+            "id": "c6q",
+            "text": "Next Sunday I am going to a ____ as a pirate."
+          },
+          "options": [
+            "photograph",
+            "sculpture",
+            "costume party"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "At a costume party, you dress up as someone else."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U8-SB-888",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which one is a photograph?"
+          },
+          "options": [
+            "CPP1-U8-SB-888",
+            "CPP1-U8-SB-886",
+            "CPP1-U8-SB-887",
+            "CPP1-U8-SB-884"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A photograph is a picture taken with a camera."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "listen",
+          "wordId": "CPP1-U8-SB-886",
+          "prompt": {
+            "id": "c8q",
+            "text": "Listen: clay. Point to the clay."
+          },
+          "options": [
+            "CPP1-U8-SB-886",
+            "CPP1-U8-SB-887",
+            "CPP1-U8-SB-884",
+            "CPP1-U8-SB-885"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Clay is soft earth that you can shape with your hands."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U8-SB-884",
+          "prompt": {
+            "id": "c9q",
+            "text": "A painting can hang on a wall."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A painting is a picture, so people often hang it on walls."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a memory game with our word pictures!"
+        },
+        {
+          "id": "l2",
+          "text": "Turn two cards, then say each word out loud."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner what you imagine."
+      },
+      "frames": [
+        "I use my imagination when I ___.",
+        "I can create a ___.",
+        "An imaginary animal I like is a ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I use my imagination when I draw. I can create a painting of a flying horse. An imaginary animal I like is a dragon."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, imagination explorers!"
+        },
+        {
+          "id": "l2",
+          "text": "Today you met clay, sculptures, cameras, and costume parties."
+        },
+        {
+          "id": "l3",
+          "text": "Next lesson, we will meet Ling and her magic paintbrush."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Imagination Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one thing you can create with clay."
+        },
+        {
+          "id": "e2",
+          "text": "What is an imaginary animal you like?"
+        }
+      ]
+    }
+  ]
+}

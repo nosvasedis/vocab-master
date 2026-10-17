@@ -1,0 +1,749 @@
+{
+  "schema": 1,
+  "id": "CPP3-U2-A",
+  "bookId": "CPP3",
+  "unit": 2,
+  "section": "A",
+  "title": "Jan's Birthday Pancakes: Words for Food",
+  "bigQuestion": "What is food for?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "kitchen",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "jan": {
+      "name": "Jan",
+      "emoji": "🧒",
+      "persona": "cheerful 11-year-old girl, curious and excited about cooking"
+    },
+    "dad": {
+      "name": "Dad",
+      "emoji": "👨‍🍳",
+      "persona": "calm, funny dad, kind and a little teasing"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U2-SB-172",
+      "emoji": "📊",
+      "kidDefinition": "A diagram with arrows that shows steps in order.",
+      "examples": [
+        "Our teacher drew a flow chart to show how bread is made.",
+        "Use the flow chart to follow the recipe, one box at a time."
+      ],
+      "distractors": [
+        "map",
+        "list",
+        "poster"
+      ],
+      "greekHint": "διάγραμμα ροής: τα βέλη δείχνουν τη σειρά",
+      "english": "flow chart",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-173",
+      "emoji": "👣",
+      "kidDefinition": "One action in a process, done before or after another.",
+      "examples": [
+        "Follow the steps of the recipe to make the cupcakes.",
+        "The first step is to wash your hands before you cook."
+      ],
+      "distractors": [
+        "stair",
+        "stop",
+        "path"
+      ],
+      "greekHint": "βήμα: ένα βήμα κάθε φορά, όπως στη συνταγή",
+      "english": "step",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-175",
+      "emoji": "✏️",
+      "kidDefinition": "To draw a line under important words.",
+      "examples": [
+        "Please underline the date in your letter.",
+        "Read the story and underline the words you do not know."
+      ],
+      "distractors": [
+        "erase",
+        "copy",
+        "draw"
+      ],
+      "greekHint": "υπογραμμίζω: τραβάω μια γραμμή κάτω από τη λέξη",
+      "english": "underline",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U2-SB-176",
+      "emoji": "🔍",
+      "kidDefinition": "A piece of information that helps you find an answer.",
+      "examples": [
+        "Use the clues in the pictures to guess the meaning of a word.",
+        "The muddy boots were a clue that it had rained."
+      ],
+      "distractors": [
+        "answer",
+        "question",
+        "pencil"
+      ],
+      "greekHint": "στοιχείο: μια ένδειξη που σε βοηθά να βρεις την απάντηση",
+      "english": "clue",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-180",
+      "emoji": "🧄",
+      "kidDefinition": "A white bulb with cloves, used to flavour food.",
+      "examples": [
+        "My aunt hates garlic, so she never adds it to her recipes.",
+        "Add one clove of garlic to the soup for a strong smell."
+      ],
+      "distractors": [
+        "lemon",
+        "popcorn",
+        "carrot"
+      ],
+      "greekHint": "σκόρδο: θυμήσου το δυνατό άρωμά του",
+      "english": "garlic",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-181",
+      "emoji": "🧅",
+      "kidDefinition": "A round vegetable with layers that can make you cry.",
+      "examples": [
+        "Cut the onion in thin slices and add it to the salad.",
+        "Onions release a gas that can make your eyes water."
+      ],
+      "distractors": [
+        "potato",
+        "pepper",
+        "carrot"
+      ],
+      "greekHint": "κρεμμύδι: το κρεμμύδι κάνει τα μάτια να δακρύζουν",
+      "english": "onion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-182",
+      "emoji": "👅",
+      "kidDefinition": "The flavour you notice in your mouth when you eat.",
+      "examples": [
+        "I don't like the taste of this food. Should I add some salt?",
+        "Garlic gives food a strong and delicious taste."
+      ],
+      "distractors": [
+        "smell",
+        "touch",
+        "sound"
+      ],
+      "greekHint": "γεύση: η γεύση είναι αυτό που νιώθεις στη γλώσσα",
+      "english": "taste",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-194",
+      "emoji": "🧈",
+      "kidDefinition": "A soft yellow food made from milk, spread on bread.",
+      "examples": [
+        "Bob spread some butter and jam on his slice of bread.",
+        "Melt a little butter in the pan before you cook the eggs."
+      ],
+      "distractors": [
+        "tissue",
+        "pencil",
+        "pillow"
+      ],
+      "greekHint": "βούτυρο: θυμήσου το λιωμένο βούτυρο στο τηγάνι",
+      "english": "butter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-200",
+      "emoji": "🥞",
+      "kidDefinition": "A thin, round cake cooked in a pan.",
+      "examples": [
+        "On Sundays we sometimes have pancakes with strawberries and syrup.",
+        "Flip the pancake carefully when the bottom turns golden."
+      ],
+      "distractors": [
+        "biscuit",
+        "sandwich",
+        "muffin"
+      ],
+      "greekHint": "τηγανίτα: μια λεπτή, στρογγυλή τηγανίτα στο τηγάνι",
+      "english": "pancake",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U2-SB-228",
+      "emoji": "📖",
+      "kidDefinition": "A book that explains words and their meanings.",
+      "examples": [
+        "Look up the word in the dictionary if you can't guess its meaning.",
+        "My dictionary helps me learn new words every week."
+      ],
+      "distractors": [
+        "encyclopedia",
+        "notebook",
+        "calendar"
+      ],
+      "greekHint": "λεξικό: βρες τη λέξη και τη σημασία της",
+      "english": "dictionary",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U2-SB-174",
+    "CPP3-U2-SB-177",
+    "CPP3-U2-SB-178",
+    "CPP3-U2-SB-179",
+    "CPP3-U2-SB-183",
+    "CPP3-U2-SB-184",
+    "CPP3-U2-SB-185",
+    "CPP3-U2-SB-186",
+    "CPP3-U2-SB-187",
+    "CPP3-U2-SB-188",
+    "CPP3-U2-SB-189",
+    "CPP3-U2-SB-190",
+    "CPP3-U2-SB-191",
+    "CPP3-U2-SB-192",
+    "CPP3-U2-SB-193",
+    "CPP3-U2-SB-195",
+    "CPP3-U2-SB-196",
+    "CPP3-U2-SB-197",
+    "CPP3-U2-SB-198",
+    "CPP3-U2-SB-199",
+    "CPP3-U2-SB-201",
+    "CPP3-U2-SB-202",
+    "CPP3-U2-SB-203",
+    "CPP3-U2-SB-204",
+    "CPP3-U2-SB-205",
+    "CPP3-U2-SB-206",
+    "CPP3-U2-SB-207",
+    "CPP3-U2-SB-208",
+    "CPP3-U2-SB-209",
+    "CPP3-U2-SB-210",
+    "CPP3-U2-SB-211",
+    "CPP3-U2-SB-212",
+    "CPP3-U2-SB-213",
+    "CPP3-U2-SB-214",
+    "CPP3-U2-SB-215",
+    "CPP3-U2-SB-216",
+    "CPP3-U2-SB-217",
+    "CPP3-U2-SB-218",
+    "CPP3-U2-SB-219",
+    "CPP3-U2-SB-220",
+    "CPP3-U2-SB-221",
+    "CPP3-U2-SB-222",
+    "CPP3-U2-SB-223",
+    "CPP3-U2-SB-224",
+    "CPP3-U2-SB-225",
+    "CPP3-U2-SB-226",
+    "CPP3-U2-SB-227",
+    "CPP3-U2-SB-229",
+    "CPP3-U2-SB-230",
+    "CPP3-U2-SB-231",
+    "CPP3-U2-SB-232",
+    "CPP3-U2-SB-233",
+    "CPP3-U2-SB-234",
+    "CPP3-U2-SB-235",
+    "CPP3-U2-SB-236",
+    "CPP3-U2-SB-237",
+    "CPP3-U2-SB-238",
+    "CPP3-U2-SB-239",
+    "CPP3-U2-SB-240",
+    "CPP3-U2-SB-241",
+    "CPP3-U2-SB-242",
+    "CPP3-U2-SB-243"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "kitchen",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo! Today we will read a birthday story."
+        },
+        {
+          "id": "l2",
+          "text": "Jan wants to make a special breakfast for her birthday."
+        },
+        {
+          "id": "l3",
+          "text": "Breakfast is the first meal of the day, and food can be very interesting."
+        },
+        {
+          "id": "l4",
+          "text": "Let's see what food is for, and how people make it."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite breakfast food?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U2-SB-176",
+        "CPP3-U2-SB-228",
+        "CPP3-U2-SB-175",
+        "CPP3-U2-SB-172",
+        "CPP3-U2-SB-173",
+        "CPP3-U2-SB-180",
+        "CPP3-U2-SB-181",
+        "CPP3-U2-SB-182",
+        "CPP3-U2-SB-194",
+        "CPP3-U2-SB-200"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Jan's Birthday Pancakes",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is Jan's birthday. She and Dad want to make a surprise breakfast."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "jan",
+              "text": "Dad, look! I found a recipe for birthday pancakes."
+            },
+            {
+              "id": "p1b",
+              "who": "dad",
+              "text": "Great! Read the recipe first. Use the clues in the pictures to help you."
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-176"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Jan takes a pen and draws a flow chart on the table."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "jan",
+              "text": "I will underline the important steps. Then we can cook them in order."
+            },
+            {
+              "id": "p2b",
+              "who": "dad",
+              "text": "Good idea! Follow the flow chart, one box at a time."
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-175",
+            "CPP3-U2-SB-172"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "dad"
+            },
+            {
+              "who": "jan"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Step one: melt a little butter in the pan."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "dad",
+              "text": "Step one is always the butter, Jan. Let's melt it slowly."
+            },
+            {
+              "id": "p3b",
+              "who": "jan",
+              "text": "Mmm, the butter smells lovely!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-173",
+            "CPP3-U2-SB-194"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Jan has a funny idea, and Dad starts to laugh."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "jan",
+              "text": "Can I add garlic and onion for a special taste?"
+            },
+            {
+              "id": "p4b",
+              "who": "dad",
+              "text": "No way! Garlic and onion are not for birthday pancakes!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-180",
+            "CPP3-U2-SB-181",
+            "CPP3-U2-SB-182"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Jan checks her dictionary for the word pancake, then smiles."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "jan",
+              "text": "The dictionary says a pancake is a thin, round cake. Happy birthday, Dad!"
+            },
+            {
+              "id": "p5b",
+              "who": "dad",
+              "text": "Happy birthday, Jan! Let's eat our pancakes together."
+            }
+          ],
+          "highlight": [
+            "CPP3-U2-SB-228",
+            "CPP3-U2-SB-200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U2-SB-172",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which one is a flow chart?"
+          },
+          "options": [
+            "CPP3-U2-SB-172",
+            "CPP3-U2-SB-194",
+            "CPP3-U2-SB-181",
+            "CPP3-U2-SB-180"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A flow chart uses arrows to show steps in order."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U2-SB-181",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and tap the word: onion."
+          },
+          "options": [
+            "CPP3-U2-SB-181",
+            "CPP3-U2-SB-182",
+            "CPP3-U2-SB-180",
+            "CPP3-U2-SB-200"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "An onion is a round vegetable that can make you cry when you cut it."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-173",
+          "prompt": {
+            "id": "c3q",
+            "text": "Follow each ____ of the recipe, one at a time."
+          },
+          "options": [
+            "step",
+            "clue",
+            "butter",
+            "taste"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Each step is one action in the recipe, done in order."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U2-SB-194",
+          "prompt": {
+            "id": "c4q",
+            "text": "Butter is a soft yellow food made from milk."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Butter is soft, yellow and made from milk, so the statement is true."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U2-SB-228",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "dictionary",
+            "garlic",
+            "butter",
+            "onion"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Onion, garlic and butter are foods, but a dictionary is a book."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-176",
+          "prompt": {
+            "id": "c6q",
+            "text": "Use the ____ in the pictures to guess the meaning of a word."
+          },
+          "options": [
+            "pancake",
+            "flow chart",
+            "clue",
+            "onion"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A clue is a piece of information that helps you find an answer."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U2-SB-200",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which one is a pancake?"
+          },
+          "options": [
+            "CPP3-U2-SB-176",
+            "CPP3-U2-SB-172",
+            "CPP3-U2-SB-194",
+            "CPP3-U2-SB-200"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A pancake is a thin, round cake cooked in a pan."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U2-SB-175",
+          "prompt": {
+            "id": "c8q",
+            "text": "To underline a word means to draw a circle around it."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "To underline means to draw a line under the word, not a circle."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U2-SB-182",
+          "prompt": {
+            "id": "c9q",
+            "text": "I don't like the ____ of this soup. Should I add some salt?"
+          },
+          "options": [
+            "clue",
+            "onion",
+            "step",
+            "taste"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "Taste is the flavour you notice in your mouth when you eat."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U2-SB-180",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which one is garlic?"
+          },
+          "options": [
+            "CPP3-U2-SB-173",
+            "CPP3-U2-SB-180",
+            "CPP3-U2-SB-200",
+            "CPP3-U2-SB-181"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Garlic is a white bulb with cloves that adds strong flavour."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture. Say the word out loud as you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your favourite breakfast. Use the words from today."
+      },
+      "frames": [
+        "My favourite breakfast is ___.",
+        "I like the taste of ___ with ___.",
+        "I always use a ___ to help me find the right recipe."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My favourite breakfast is pancakes with strawberries. I like the taste of butter on them. I always use a dictionary to look up new words in my recipes."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, you read the story like a true word detective!"
+        },
+        {
+          "id": "l2",
+          "text": "You found clues, drew a flow chart, and learnt ten new food and recipe words."
+        },
+        {
+          "id": "l3",
+          "text": "That's awesome! Next time, let's find out what food is for."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Recipe Reader"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What do you use a dictionary for?"
+        },
+        {
+          "id": "e2",
+          "text": "Can you name one food that has a strong taste?"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,735 @@
+{
+  "schema": 1,
+  "id": "CPP3-U5-A",
+  "bookId": "CPP3",
+  "unit": 5,
+  "section": "A",
+  "title": "The Waterfall Adventure: Why Do We Travel?",
+  "bigQuestion": "Why do we travel?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "forest",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher who speaks clearly and encourages everyone"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "cheerful, curious 11-year-old girl who loves maps and new places"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "playful, slightly bossy 12-year-old boy who likes adventure and jokes"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "🧔",
+      "persona": "calm, friendly adult tour guide with a warm, grandfatherly voice"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U5-SB-641",
+      "emoji": "🎯",
+      "kidDefinition": "The reason why you do something.",
+      "examples": [
+        "The purpose of our trip is to learn about nature.",
+        "What is the purpose of this school project?"
+      ],
+      "distractors": [
+        "holiday",
+        "ticket",
+        "suitcase"
+      ],
+      "greekHint": "Σκοπός: η αιτία που κάνεις κάτι.",
+      "english": "purpose",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-647",
+      "emoji": "🎒",
+      "kidDefinition": "Travelling with a backpack and staying in cheap places.",
+      "examples": [
+        "Nicole went backpacking around Europe with her friends.",
+        "We love backpacking because we carry everything on our backs."
+      ],
+      "distractors": [
+        "shopping",
+        "cooking",
+        "painting"
+      ],
+      "greekHint": "Διακοπές με σακίδιο στην πλάτη.",
+      "english": "backpacking",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-651",
+      "emoji": "🧭",
+      "kidDefinition": "A person who shows visitors around and explains places.",
+      "examples": [
+        "Our tour guide showed us a very old church.",
+        "The tour guide told us funny stories about the village."
+      ],
+      "distractors": [
+        "pilot",
+        "driver",
+        "chef"
+      ],
+      "greekHint": "Ξεναγός: ο άνθρωπος που σε ξενα γεί.",
+      "english": "tour guide",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-646",
+      "emoji": "🗣️",
+      "kidDefinition": "To say in words what something looks like or is like.",
+      "examples": [
+        "Please describe the view from the top of the hill.",
+        "Can you describe your favourite place in the world?"
+      ],
+      "distractors": [
+        "pack",
+        "swim",
+        "climb"
+      ],
+      "greekHint": "Περιγράφω: λέω με λόγια πώς είναι κάτι.",
+      "english": "describe",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U5-SB-657",
+      "emoji": "💦",
+      "kidDefinition": "A river that falls down over high rocks.",
+      "examples": [
+        "We swam near a huge waterfall in the forest.",
+        "There is a small waterfall near our cabin in the mountains."
+      ],
+      "distractors": [
+        "mountain",
+        "bridge",
+        "island"
+      ],
+      "greekHint": "Καταρράκτης: νερό που πέφτει από ψηλά βράχια.",
+      "english": "waterfall",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-656",
+      "emoji": "🛶",
+      "kidDefinition": "A small, narrow boat that you move with a paddle.",
+      "examples": [
+        "Kelly paddles her canoe on the lake every summer.",
+        "We rented a canoe and paddled across the river."
+      ],
+      "distractors": [
+        "yacht",
+        "ferry",
+        "bicycle"
+      ],
+      "greekHint": "Κανό: μικρή στενή βάρκα με κουπί.",
+      "english": "canoe",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U5-SB-693",
+      "emoji": "😲",
+      "kidDefinition": "So amazing that it is hard to believe.",
+      "examples": [
+        "The sunset from the hill was incredible!",
+        "Our teacher had an incredible story about her trip."
+      ],
+      "distractors": [
+        "cute",
+        "flat",
+        "quiet"
+      ],
+      "greekHint": "Απίστευτος: τόσο υπέροχος που δύσκολα το πιστεύεις.",
+      "english": "incredible",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U5-SB-644",
+      "emoji": "🤝",
+      "kidDefinition": "To make someone agree to do something.",
+      "examples": [
+        "Leo tried to persuade me to swim, but I said no.",
+        "Can you persuade your mum to visit the mountains with us?"
+      ],
+      "distractors": [
+        "forget",
+        "borrow",
+        "carry"
+      ],
+      "greekHint": "Πείθω: κάνω κάποιον να συμφωνήσει.",
+      "english": "persuade",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U5-SB-658",
+      "emoji": "♻️",
+      "kidDefinition": "Careful to do the right thing and look after places.",
+      "examples": [
+        "A responsible traveller takes their rubbish home.",
+        "Be responsible and never leave litter on the beach."
+      ],
+      "distractors": [
+        "careless",
+        "lazy",
+        "nervous"
+      ],
+      "greekHint": "Υπεύθυνος: προσέχω και φροντίζω τα πράγματα σωστά.",
+      "english": "responsible",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U5-SB-643",
+      "emoji": "📩",
+      "kidDefinition": "Words you send to tell someone something.",
+      "examples": [
+        "I sent a message to my grandmother about the trip.",
+        "My friend sent me a message yesterday, but I haven't answered yet."
+      ],
+      "distractors": [
+        "map",
+        "ticket",
+        "photo"
+      ],
+      "greekHint": "Μήνυμα: ό,τι στέλνεις σε κάποιον για να του πεις κάτι.",
+      "english": "message",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U5-SB-642",
+    "CPP3-U5-SB-645",
+    "CPP3-U5-SB-648",
+    "CPP3-U5-SB-649",
+    "CPP3-U5-SB-650",
+    "CPP3-U5-SB-652",
+    "CPP3-U5-SB-653",
+    "CPP3-U5-SB-654",
+    "CPP3-U5-SB-655",
+    "CPP3-U5-SB-659",
+    "CPP3-U5-SB-660",
+    "CPP3-U5-SB-661",
+    "CPP3-U5-SB-662",
+    "CPP3-U5-SB-663",
+    "CPP3-U5-SB-664",
+    "CPP3-U5-SB-665",
+    "CPP3-U5-SB-666",
+    "CPP3-U5-SB-667",
+    "CPP3-U5-SB-668",
+    "CPP3-U5-SB-669",
+    "CPP3-U5-SB-670",
+    "CPP3-U5-SB-671",
+    "CPP3-U5-SB-672",
+    "CPP3-U5-SB-673",
+    "CPP3-U5-SB-674",
+    "CPP3-U5-SB-675",
+    "CPP3-U5-SB-676",
+    "CPP3-U5-SB-677",
+    "CPP3-U5-SB-678",
+    "CPP3-U5-SB-679",
+    "CPP3-U5-SB-680",
+    "CPP3-U5-SB-681",
+    "CPP3-U5-SB-682",
+    "CPP3-U5-SB-683",
+    "CPP3-U5-SB-684",
+    "CPP3-U5-SB-685",
+    "CPP3-U5-SB-686",
+    "CPP3-U5-SB-687",
+    "CPP3-U5-SB-688",
+    "CPP3-U5-SB-689",
+    "CPP3-U5-SB-690",
+    "CPP3-U5-SB-691",
+    "CPP3-U5-SB-692",
+    "CPP3-U5-SB-694"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "forest",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo, and I love exploring new places with you!"
+        },
+        {
+          "id": "l2",
+          "text": "People pack their bags and go somewhere new for many different reasons."
+        },
+        {
+          "id": "l3",
+          "text": "Some people travel to relax. Some travel to learn. Some travel to help nature."
+        },
+        {
+          "id": "l4",
+          "text": "Today we will follow Maya and Leo on a trip full of surprises."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Where would you love to go on your next adventure, and why?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U5-SB-641",
+        "CPP3-U5-SB-647",
+        "CPP3-U5-SB-651",
+        "CPP3-U5-SB-646",
+        "CPP3-U5-SB-657",
+        "CPP3-U5-SB-656",
+        "CPP3-U5-SB-693",
+        "CPP3-U5-SB-644",
+        "CPP3-U5-SB-658",
+        "CPP3-U5-SB-643"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Waterfall Adventure",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Maya and Leo spread a big map across the kitchen table."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "maya",
+              "text": "Let's go backpacking in the mountains this summer!"
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Okay, but what is the purpose of our trip?"
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-647",
+            "CPP3-U5-SB-641"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "maya"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "At the park gate, they meet their tour guide, Nikos."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nikos",
+              "text": "Welcome, everyone! Let me describe our route for today."
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Great! Our tour guide already knows every path in these hills."
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-651",
+            "CPP3-U5-SB-646"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "maya"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Soon they hear a roar. A huge waterfall tumbles over the rocks."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "maya",
+              "text": "Wow! This view is incredible!"
+            },
+            {
+              "id": "p3b",
+              "who": "leo",
+              "text": "Let's paddle a canoe across the lake to the waterfall!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-657",
+            "CPP3-U5-SB-693",
+            "CPP3-U5-SB-656"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Leo wants to jump in the lake, but Maya is not sure."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "leo",
+              "text": "Come on, Maya! Can I persuade you to jump in with me?"
+            },
+            {
+              "id": "p4b",
+              "who": "nikos",
+              "text": "Be a responsible traveller. Take your rubbish home with you."
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-644",
+            "CPP3-U5-SB-658"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "maya"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "That evening, Maya sends a message to her grandmother."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "maya",
+              "text": "Grandma, the waterfall was amazing. Come and see it next year!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U5-SB-643"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-641",
+          "prompt": {
+            "id": "c1q",
+            "text": "What is the ____ of your trip to the mountains?"
+          },
+          "options": [
+            "purpose",
+            "waterfall",
+            "backpacking",
+            "canoe"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "Purpose means the reason why you do something, so purpose fits here."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U5-SB-657",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which picture shows a waterfall?"
+          },
+          "options": [
+            "CPP3-U5-SB-646",
+            "CPP3-U5-SB-657",
+            "CPP3-U5-SB-656",
+            "CPP3-U5-SB-651"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "A waterfall is water falling over rocks, like the one Maya and Leo saw."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U5-SB-646",
+          "prompt": {
+            "id": "c3q",
+            "text": "To describe something means to take a photo of it. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "To describe means to use words to say what something looks like or is like."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP3-U5-SB-644",
+          "prompt": {
+            "id": "c4q",
+            "text": "Lingo says: persuade. Which word is it?"
+          },
+          "options": [
+            "CPP3-U5-SB-658",
+            "CPP3-U5-SB-647",
+            "CPP3-U5-SB-644",
+            "CPP3-U5-SB-643"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "To persuade someone means to make them agree to do something."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U5-SB-658",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "tour guide",
+            "responsible",
+            "canoe",
+            "waterfall"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Responsible is an adjective, while canoe, waterfall and tour guide are nouns."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U5-SB-651",
+          "prompt": {
+            "id": "c6q",
+            "text": "A tour guide shows visitors around and explains the places they visit. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "A tour guide is a friendly expert who shows people around and tells them about the place."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-693",
+          "prompt": {
+            "id": "c7q",
+            "text": "The view from the top of the hill was ____!"
+          },
+          "options": [
+            "responsible",
+            "cute",
+            "incredible"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Incredible means so amazing that it is hard to believe, which fits the view."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-643",
+          "prompt": {
+            "id": "c8q",
+            "text": "I sent a ____ to my grandmother about our trip."
+          },
+          "options": [
+            "message",
+            "waterfall",
+            "canoe"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "A message is words you send to someone, like Maya's message to her grandmother."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U5-SB-656",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word is a small boat that you move with a paddle?"
+          },
+          "options": [
+            "CPP3-U5-SB-657",
+            "CPP3-U5-SB-647",
+            "CPP3-U5-SB-643",
+            "CPP3-U5-SB-656"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "A canoe is a small, narrow boat, and you paddle it across the lake."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP3-U5-SB-647",
+          "prompt": {
+            "id": "c10q",
+            "text": "Next summer, we are going ____ around the islands with our rucksacks."
+          },
+          "options": [
+            "message",
+            "painting",
+            "backpacking"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "Backpacking means travelling with a backpack and staying in cheap places."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Look at the picture, say the word out loud, then find its pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a trip you would like to take. Use your words!"
+      },
+      "frames": [
+        "I would like to go ___ in the mountains.",
+        "The purpose of my trip is to see a ___.",
+        "A responsible traveller always ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I would like to go backpacking in the mountains. The purpose of my trip is to see a waterfall. A responsible traveller always takes rubbish home."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, explorers! You learned ten new words for travelling."
+        },
+        {
+          "id": "l2",
+          "text": "Maya and Leo found an incredible waterfall, and you found the words to describe it."
+        },
+        {
+          "id": "l3",
+          "text": "Remember, a responsible traveller always takes care of nature."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Responsible Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What is the purpose of a tour guide?"
+        },
+        {
+          "id": "e2",
+          "text": "Can you describe a waterfall or a canoe trip you would like to try?"
+        }
+      ]
+    }
+  ]
+}

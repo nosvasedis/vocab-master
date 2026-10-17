@@ -1,0 +1,714 @@
+{
+  "schema": 1,
+  "id": "CPP1-U9-B",
+  "bookId": "CPP1",
+  "unit": 9,
+  "section": "B",
+  "title": "Storm Clouds and Cosy Clothes",
+  "bigQuestion": "Why do we need clothes?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, bubbly and quick to laugh"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "🧒",
+      "persona": "curious 10-year-old boy, a little worried about the storm"
+    },
+    "grandpa": {
+      "name": "Grandpa",
+      "emoji": "👴",
+      "persona": "calm, warm storyteller, slow and gentle voice"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U9-SB-1051",
+      "emoji": "👖",
+      "kidDefinition": "Clothes you wear on your legs.",
+      "examples": [
+        "My blue pants are very comfortable for running.",
+        "Leo puts on clean pants before school."
+      ],
+      "distractors": [
+        "skirt",
+        "shorts",
+        "socks"
+      ],
+      "greekHint": "Say παντελόνι and picture pants on your legs.",
+      "english": "pants",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1052",
+      "emoji": "🧥",
+      "kidDefinition": "A warm piece of clothing you wear over other clothes.",
+      "examples": [
+        "Leo puts on his coat before he goes outside.",
+        "It is cold, so Grandpa wears a long coat."
+      ],
+      "distractors": [
+        "hat",
+        "gloves",
+        "socks"
+      ],
+      "greekHint": "Παλτό: a coat for cold days.",
+      "english": "coat",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1053",
+      "emoji": "👝",
+      "kidDefinition": "A small part in clothes for holding things.",
+      "examples": [
+        "Mia keeps a tissue in her coat pocket.",
+        "Leo puts his keys in his pocket."
+      ],
+      "distractors": [
+        "drawer",
+        "bag",
+        "button"
+      ],
+      "greekHint": "Τσέπη: think of a pocket in your trousers.",
+      "english": "pocket",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1054",
+      "emoji": "👞",
+      "kidDefinition": "To remove clothes or shoes from your body.",
+      "examples": [
+        "Please take off your wet coat, Leo.",
+        "Take off your shoes when you come inside."
+      ],
+      "distractors": [
+        "put on",
+        "come in",
+        "hang up"
+      ],
+      "greekHint": "Βγάζω: you take off your shoes.",
+      "english": "take off",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1055",
+      "emoji": "🔒",
+      "kidDefinition": "To have something and not lose or throw it.",
+      "examples": [
+        "Grandpa keeps his old stories in a special box.",
+        "Keep your phone safe in your pocket."
+      ],
+      "distractors": [
+        "lose",
+        "throw",
+        "forget"
+      ],
+      "greekHint": "Φυλάω: keep something safe for later.",
+      "english": "keep",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1064",
+      "emoji": "😌",
+      "kidDefinition": "Relaxed and easy, not tight or hard.",
+      "examples": [
+        "Mia wears comfortable shoes for running.",
+        "This soft blanket is very comfortable."
+      ],
+      "distractors": [
+        "tight",
+        "cold",
+        "wet"
+      ],
+      "greekHint": "Άνετος: clothes that feel nice on your body.",
+      "english": "comfortable",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1057",
+      "emoji": "⛈",
+      "kidDefinition": "Strong wind and rain, often with thunder and lightning.",
+      "examples": [
+        "A big storm is coming, so let's go home.",
+        "The storm ended, and the sun came out."
+      ],
+      "distractors": [
+        "sunshine",
+        "rainbow",
+        "snow"
+      ],
+      "greekHint": "Θύελλα: a big, wild storm.",
+      "english": "storm",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1059",
+      "emoji": "🔊",
+      "kidDefinition": "The loud sound you hear during a storm.",
+      "examples": [
+        "Boom! That was loud thunder in the sky.",
+        "We heard thunder after the bright flash."
+      ],
+      "distractors": [
+        "silence",
+        "sunshine",
+        "snow"
+      ],
+      "greekHint": "Βροντή: a very loud sound from the sky.",
+      "english": "thunder",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1060",
+      "emoji": "⚡",
+      "kidDefinition": "A bright flash of light in a storm.",
+      "examples": [
+        "Lightning lit up the sky over the park.",
+        "We counted the seconds after the lightning."
+      ],
+      "distractors": [
+        "rainbow",
+        "fog",
+        "snow"
+      ],
+      "greekHint": "Κεραυνός: a bright flash in the sky.",
+      "english": "lightning",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U9-SB-1061",
+      "emoji": "✨",
+      "kidDefinition": "To give out bright light.",
+      "examples": [
+        "The sun shines on the beach today.",
+        "Can you shine the torch over here, please?"
+      ],
+      "distractors": [
+        "hide",
+        "fall",
+        "sleep"
+      ],
+      "greekHint": "Λάμπω: the light shines bright.",
+      "english": "shine",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U9-SB-1056",
+    "CPP1-U9-SB-1058",
+    "CPP1-U9-SB-1062",
+    "CPP1-U9-SB-1063",
+    "CPP1-U9-SB-1065",
+    "CPP1-U9-SB-1066",
+    "CPP1-U9-SB-1067",
+    "CPP1-U9-SB-1068",
+    "CPP1-U9-SB-1069",
+    "CPP1-U9-SB-1070",
+    "CPP1-U9-SB-1071",
+    "CPP1-U9-SB-1072",
+    "CPP1-U9-SB-1073",
+    "CPP1-U9-SB-1074",
+    "CPP1-U9-SB-1075",
+    "CPP1-U9-SB-1076",
+    "CPP1-U9-SB-1077",
+    "CPP1-U9-SB-1078",
+    "CPP1-U9-SB-1079",
+    "CPP1-U9-SB-1080",
+    "CPP1-U9-SB-1081",
+    "CPP1-U9-SB-1082"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I'm Lingo, and I love a rainy day."
+        },
+        {
+          "id": "l2",
+          "text": "Today we learn about clothes and the weather."
+        },
+        {
+          "id": "l3",
+          "text": "Some days are sunny. Some days are cold, windy, or stormy!"
+        },
+        {
+          "id": "l4",
+          "text": "Let's see what Mia, Leo and Grandpa wear today."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you wear when it is cold outside?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U9-SB-1051",
+        "CPP1-U9-SB-1064",
+        "CPP1-U9-SB-1053",
+        "CPP1-U9-SB-1057",
+        "CPP1-U9-SB-1055",
+        "CPP1-U9-SB-1060",
+        "CPP1-U9-SB-1059",
+        "CPP1-U9-SB-1061",
+        "CPP1-U9-SB-1052",
+        "CPP1-U9-SB-1054"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Sky Turns Grey",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia and Leo are playing in the park on a warm afternoon."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "I'm wearing my comfortable pants today. They're great for running!"
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Nice! My jacket has a big pocket for my snacks."
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1051",
+            "CPP1-U9-SB-1064",
+            "CPP1-U9-SB-1053"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Suddenly, dark clouds fill the sky."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "leo",
+              "text": "Look at the sky! There's a big storm coming."
+            },
+            {
+              "id": "p2b",
+              "who": "mia",
+              "text": "Keep your phone safe in your pocket, Leo. Let's run!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1057",
+            "CPP1-U9-SB-1055"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "A bright flash makes the wet street shine. Then comes a loud sound."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "Lightning! Did you see that?"
+            },
+            {
+              "id": "p3b",
+              "who": "mia",
+              "text": "Yes! Now listen. Thunder is coming next!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1060",
+            "CPP1-U9-SB-1059",
+            "CPP1-U9-SB-1061"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "grandpa"
+            },
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "At home, Grandpa is waiting with a warm smile."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "grandpa",
+              "text": "You're soaking wet! Take off your wet coat, please, Leo."
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "Thanks, Grandpa. My pants are wet too!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1054",
+            "CPP1-U9-SB-1052"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "grandpa"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Grandpa lights a lamp and smiles at the children."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "grandpa",
+              "text": "Shall I tell you a folktale while we wait for the storm to end?"
+            },
+            {
+              "id": "p5b",
+              "who": "mia",
+              "text": "Yes, please! Can you shine the lamp over here?"
+            }
+          ],
+          "highlight": [
+            "CPP1-U9-SB-1061"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U9-SB-1051",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means clothes you wear on your legs?"
+          },
+          "options": [
+            "CPP1-U9-SB-1051",
+            "CPP1-U9-SB-1061",
+            "CPP1-U9-SB-1052",
+            "CPP1-U9-SB-1053"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "Pants are the clothes you wear on your legs."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1052",
+          "prompt": {
+            "id": "c2q",
+            "text": "In winter, I wear a warm ____ and a scarf outside."
+          },
+          "options": [
+            "coat",
+            "gloves",
+            "hat"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A coat is the warm clothing you wear over your other clothes."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U9-SB-1053",
+          "prompt": {
+            "id": "c3q",
+            "text": "A pocket is a part of your shoes."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "A pocket is a small part of your clothes for holding things."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1054",
+          "prompt": {
+            "id": "c4q",
+            "text": "Please ____ your wet shoes when you come into the house."
+          },
+          "options": [
+            "put on",
+            "come in",
+            "take off"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "When you take off your shoes, you remove them from your feet."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1055",
+          "prompt": {
+            "id": "c5q",
+            "text": "I ____ my phone safe in my pocket."
+          },
+          "options": [
+            "throw",
+            "lose",
+            "keep"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "To keep something means to hold it and keep it safe."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U9-SB-1057",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "storm",
+            "thunder",
+            "lightning",
+            "shine"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "Storm, thunder and lightning are weather words, but shine is a verb."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "listen",
+          "wordId": "CPP1-U9-SB-1059",
+          "prompt": {
+            "id": "c7q",
+            "text": "Listen. Which word means the loud sound you hear in a storm?"
+          },
+          "options": [
+            "CPP1-U9-SB-1060",
+            "CPP1-U9-SB-1059",
+            "CPP1-U9-SB-1057",
+            "CPP1-U9-SB-1064"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Thunder is the loud sound that comes after lightning."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U9-SB-1060",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word means a bright flash of light in the sky?"
+          },
+          "options": [
+            "CPP1-U9-SB-1052",
+            "CPP1-U9-SB-1059",
+            "CPP1-U9-SB-1061",
+            "CPP1-U9-SB-1060"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "Lightning is the bright flash you see in a storm."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U9-SB-1061",
+          "prompt": {
+            "id": "c9q",
+            "text": "The lamp will ____ brightly in the dark room."
+          },
+          "options": [
+            "hide",
+            "shine",
+            "sleep"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "When a light shines, it gives out bright light."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U9-SB-1064",
+          "prompt": {
+            "id": "c10q",
+            "text": "Tight, hard shoes are usually comfortable to wear."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Comfortable things feel relaxed and easy, not tight or hard."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs of words and pictures."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud when you turn a card."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "What do you wear and keep when there is a storm? Tell your partner."
+      },
+      "frames": [
+        "I wear a ___ when it is cold.",
+        "I keep my ___ in my pocket.",
+        "When there is a storm, I ___ inside."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I wear a coat when it is cold. I keep my phone in my pocket. When there is a storm, I stay inside."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Fantastic work today, friends!"
+        },
+        {
+          "id": "l2",
+          "text": "You can name clothes, talk about storms, and tell a friend what to take off."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Storm Watcher"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one clothing item you wear when it is cold."
+        },
+        {
+          "id": "e2",
+          "text": "What is the loud sound in a storm, and what bright light comes before it?"
+        }
+      ]
+    }
+  ]
+}

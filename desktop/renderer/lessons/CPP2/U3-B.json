@@ -1,0 +1,696 @@
+{
+  "schema": 1,
+  "id": "CPP2-U3-B",
+  "bookId": "CPP2",
+  "unit": 3,
+  "section": "B",
+  "title": "From Golden Wheat to Warm Buns",
+  "bigQuestion": "Why is food important?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "kitchen",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "max": {
+      "name": "Max",
+      "emoji": "🧒",
+      "persona": "cheerful 9-year-old boy, curious and always hungry"
+    },
+    "rose": {
+      "name": "Grandma Rose",
+      "emoji": "👵",
+      "persona": "kind, patient grandmother, gently teasing, loves baking"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U3-SB-379",
+      "emoji": "🌾",
+      "kidDefinition": "a plant with golden grains, used to make flour",
+      "examples": [
+        "Wheat grows tall in big golden fields.",
+        "Farmers harvest wheat in the summer."
+      ],
+      "distractors": [
+        "rice",
+        "corn",
+        "oats"
+      ],
+      "greekHint": "Το σιτάρι γίνεται αλεύρι.",
+      "english": "wheat",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-374",
+      "emoji": "🥣",
+      "kidDefinition": "a white powder made from wheat, used for baking",
+      "examples": [
+        "Grandma puts flour into a big bowl.",
+        "Add a cup of flour and stir it well."
+      ],
+      "distractors": [
+        "sugar",
+        "butter",
+        "honey"
+      ],
+      "greekHint": "Το αλεύρι βγαίνει από το σιτάρι.",
+      "english": "flour",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-376",
+      "emoji": "🫓",
+      "kidDefinition": "a soft mix of flour and water, ready to bake",
+      "examples": [
+        "The dough is soft and warm in my hands.",
+        "Leave the dough to rest for ten minutes."
+      ],
+      "distractors": [
+        "cheese",
+        "milk",
+        "egg"
+      ],
+      "english": "dough",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-377",
+      "emoji": "🥄",
+      "kidDefinition": "to stir different things together into one",
+      "examples": [
+        "Mix the eggs and sugar in a bowl.",
+        "Please mix the paint to make green."
+      ],
+      "distractors": [
+        "wash",
+        "chop",
+        "peel"
+      ],
+      "english": "mix",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-378",
+      "emoji": "🔥",
+      "kidDefinition": "a hot box where we bake food",
+      "examples": [
+        "The cake is ready. Take it out of the oven.",
+        "Turn on the oven before you bake the pizza."
+      ],
+      "distractors": [
+        "fridge",
+        "kettle",
+        "sink"
+      ],
+      "english": "oven",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-381",
+      "emoji": "🍞",
+      "kidDefinition": "a small, round bread roll",
+      "examples": [
+        "I eat a warm bun with butter for breakfast.",
+        "The bakery sells sweet buns with cinnamon."
+      ],
+      "distractors": [
+        "apple",
+        "cheese",
+        "fish"
+      ],
+      "english": "bun",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-380",
+      "emoji": "🌱",
+      "kidDefinition": "a tiny, hard seed from a plant like wheat",
+      "examples": [
+        "Birds eat grain from the ground.",
+        "Bread is made from grains of wheat."
+      ],
+      "distractors": [
+        "leaf",
+        "root",
+        "stem"
+      ],
+      "greekHint": "Ο σπόρος του σιταριού λέγεται grain.",
+      "english": "grain",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-385",
+      "emoji": "🐜",
+      "kidDefinition": "a tiny insect that works hard with others",
+      "examples": [
+        "An ant carried a crumb to its home.",
+        "Ants live in big groups called colonies."
+      ],
+      "distractors": [
+        "bee",
+        "spider",
+        "beetle"
+      ],
+      "english": "ant",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U3-SB-386",
+      "emoji": "🧺",
+      "kidDefinition": "to gather things and keep them in one place",
+      "examples": [
+        "Let's collect the eggs from the hen house.",
+        "I collect shells on the beach."
+      ],
+      "distractors": [
+        "drop",
+        "throw",
+        "lose"
+      ],
+      "english": "collect",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U3-SB-387",
+      "emoji": "⚡",
+      "kidDefinition": "quickly, and without any warning",
+      "examples": [
+        "Suddenly, the lights went out!",
+        "The bird flew away suddenly."
+      ],
+      "distractors": [
+        "slowly",
+        "quietly",
+        "gently"
+      ],
+      "english": "suddenly",
+      "type": "adv."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U3-SB-375",
+    "CPP2-U3-SB-382",
+    "CPP2-U3-SB-383",
+    "CPP2-U3-SB-384",
+    "CPP2-U3-SB-388",
+    "CPP2-U3-SB-389",
+    "CPP2-U3-SB-390",
+    "CPP2-U3-SB-391",
+    "CPP2-U3-SB-392",
+    "CPP2-U3-SB-393",
+    "CPP2-U3-SB-394",
+    "CPP2-U3-SB-395",
+    "CPP2-U3-SB-396",
+    "CPP2-U3-SB-397",
+    "CPP2-U3-SB-398",
+    "CPP2-U3-SB-399",
+    "CPP2-U3-SB-400",
+    "CPP2-U3-SB-401",
+    "CPP2-U3-SB-402",
+    "CPP2-U3-SB-403"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "kitchen",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love bread!"
+        },
+        {
+          "id": "l2",
+          "text": "Every loaf of bread starts with a tiny seed from a plant."
+        },
+        {
+          "id": "l3",
+          "text": "Today, we will travel from a golden field to a warm kitchen."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out how bread is made, step by step!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you like to eat with your bread?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U3-SB-379",
+        "CPP2-U3-SB-374",
+        "CPP2-U3-SB-376",
+        "CPP2-U3-SB-377",
+        "CPP2-U3-SB-378",
+        "CPP2-U3-SB-381",
+        "CPP2-U3-SB-380",
+        "CPP2-U3-SB-385",
+        "CPP2-U3-SB-386",
+        "CPP2-U3-SB-387"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Max and the Golden Buns",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "max"
+            },
+            {
+              "who": "rose"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Max and Grandma Rose walk through a field of wheat."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "max",
+              "text": "Grandma, this wheat is so tall and golden!"
+            },
+            {
+              "id": "p1b",
+              "who": "rose",
+              "text": "We grind the wheat into flour for our bread."
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-379",
+            "CPP2-U3-SB-374"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "max"
+            },
+            {
+              "who": "rose"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Back in the kitchen, they mix flour, water and salt."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "max",
+              "text": "Can I help? I love to mix!"
+            },
+            {
+              "id": "p2b",
+              "who": "rose",
+              "text": "Yes! Mix it slowly. Now it is a soft dough."
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-377",
+            "CPP2-U3-SB-376"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "max"
+            },
+            {
+              "who": "rose"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Grandma rolls the dough into little round buns."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "max",
+              "text": "These buns look like tiny clouds!"
+            },
+            {
+              "id": "p3b",
+              "who": "rose",
+              "text": "Now they go into the hot oven to bake."
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-381",
+            "CPP2-U3-SB-378"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "max"
+            },
+            {
+              "who": "rose"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Outside, a tiny ant walks past a bag of grain."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "max",
+              "text": "Look! That ant is carrying a grain of wheat!"
+            },
+            {
+              "id": "p4b",
+              "who": "rose",
+              "text": "Ants collect food all summer to eat in winter."
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-385",
+            "CPP2-U3-SB-380",
+            "CPP2-U3-SB-386"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "max"
+            },
+            {
+              "who": "rose"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Suddenly, the oven timer rings. Ding! The buns are ready!"
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "max",
+              "text": "Yum! Warm bread smells wonderful!"
+            },
+            {
+              "id": "p5b",
+              "who": "rose",
+              "text": "We can share. Maybe the ant wants a crumb too!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U3-SB-387"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U3-SB-379",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word is the golden plant we use to make flour?"
+          },
+          "options": [
+            "CPP2-U3-SB-378",
+            "CPP2-U3-SB-379",
+            "CPP2-U3-SB-381",
+            "CPP2-U3-SB-374"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Wheat is the golden plant, and we grind it into flour."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-374",
+          "prompt": {
+            "id": "c2q",
+            "text": "We need some ____, water and a little salt to make bread."
+          },
+          "options": [
+            "flour",
+            "butter",
+            "sugar"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "Flour is the white powder that makes bread strong and soft."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-376",
+          "prompt": {
+            "id": "c3q",
+            "text": "Roll the ____ into little round shapes before baking."
+          },
+          "options": [
+            "honey",
+            "dough",
+            "cheese"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "Dough is the soft mixture you roll and shape before baking."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP2-U3-SB-378",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen and choose: This hot box is where we bake bread and buns."
+          },
+          "options": [
+            "CPP2-U3-SB-374",
+            "CPP2-U3-SB-380",
+            "CPP2-U3-SB-381",
+            "CPP2-U3-SB-378"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "The oven is the hot box that bakes food."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-377",
+          "prompt": {
+            "id": "c5q",
+            "text": "Please ____ the eggs and sugar in a big bowl."
+          },
+          "options": [
+            "chop",
+            "wash",
+            "mix"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "To mix means to stir things together until they are one."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U3-SB-385",
+          "prompt": {
+            "id": "c6q",
+            "text": "An ant is a big animal that lives in the sea."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Ants are tiny insects that live on land, not in the sea."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U3-SB-380",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word does NOT belong with the others?"
+          },
+          "options": [
+            "bee",
+            "ant",
+            "grain",
+            "beetle"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Ant, bee and beetle are insects, but a grain is a tiny seed."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-381",
+          "prompt": {
+            "id": "c8q",
+            "text": "I want one warm ____ with some butter for breakfast."
+          },
+          "options": [
+            "carrot",
+            "bun",
+            "fish"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A bun is a small, round bread roll that is often sweet."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-386",
+          "prompt": {
+            "id": "c9q",
+            "text": "Ants work together to ____ food for the winter."
+          },
+          "options": [
+            "throw",
+            "collect",
+            "lose"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "To collect means to gather things and keep them in one place."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U3-SB-387",
+          "prompt": {
+            "id": "c10q",
+            "text": "The dog was sleeping. ____, it jumped up and barked!"
+          },
+          "options": [
+            "Slowly",
+            "Suddenly",
+            "Quietly"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Suddenly means quickly and without any warning."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play Memory! Find the pairs of wheat, flour, and bun."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner what they eat with bread. Then use the frames to tell your partner about your food."
+      },
+      "frames": [
+        "For breakfast, I eat ___ with ___.",
+        "I saw an ___ in the garden today.",
+        "Suddenly, I felt hungry when I smelled ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "For breakfast, I eat a bun with cheese. I saw an ant in the garden today. Suddenly, I felt hungry when I smelled warm bread!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You know how wheat becomes flour, and flour becomes dough."
+        },
+        {
+          "id": "l2",
+          "text": "You can mix, collect, and bake like a real baker!"
+        },
+        {
+          "id": "l3",
+          "text": "Next time you eat a bun, think of that golden wheat field."
+        }
+      ],
+      "badge": {
+        "emoji": "🥖",
+        "name": "Little Baker"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name two steps that take wheat from the field to a warm bun."
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence with the word oven or suddenly."
+        }
+      ]
+    }
+  ]
+}

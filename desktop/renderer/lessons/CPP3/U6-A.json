@@ -1,0 +1,744 @@
+{
+  "schema": 1,
+  "id": "CPP3-U6-A",
+  "bookId": "CPP3",
+  "unit": 6,
+  "section": "A",
+  "title": "Ella's Golden Plan: Words for Training and Winning",
+  "bigQuestion": "Why do we play sports?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ella": {
+      "name": "Ella",
+      "emoji": "👧",
+      "persona": "cheerful 11-year-old girl, determined gymnast, speaks with excitement"
+    },
+    "sam": {
+      "name": "Sam",
+      "emoji": "👦",
+      "persona": "friendly 12-year-old boy, fast runner, supportive and funny"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U6-SB-796",
+      "emoji": "🔢",
+      "kidDefinition": "The way things come, one after another.",
+      "examples": [
+        "Put the pictures in the right order, from first to last.",
+        "When you tell a story, make the order of events clear."
+      ],
+      "distractors": [
+        "colour",
+        "shape",
+        "sound"
+      ],
+      "greekHint": "Σκέψου: order = σειρά, η σωστή σειρά των πραγμάτων.",
+      "english": "order",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-797",
+      "emoji": "🔗",
+      "kidDefinition": "A set of things that follow each other in a fixed pattern.",
+      "examples": [
+        "Ella practises a sequence of five moves before every competition.",
+        "Can you remember this sequence of numbers? Try it!"
+      ],
+      "distractors": [
+        "picture",
+        "shadow",
+        "rhythm"
+      ],
+      "greekHint": "Sequence = αλληλουχία, πράγματα που έρχονται το ένα μετά το άλλο.",
+      "english": "sequence",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-798",
+      "emoji": "🙆",
+      "kidDefinition": "A person who does gymnastics, especially in competitions.",
+      "examples": [
+        "The gymnast smiled after her perfect routine on the beam.",
+        "Nadia Comaneci was a famous gymnast from Romania."
+      ],
+      "distractors": [
+        "swimmer",
+        "dancer",
+        "runner"
+      ],
+      "greekHint": "Gymnast = αθλητής της ενόργανης γυμναστικής.",
+      "english": "gymnast",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-799",
+      "emoji": "🥇",
+      "kidDefinition": "A metal prize given to the winner of a competition.",
+      "examples": [
+        "She won a gold medal at the school sports day.",
+        "Every athlete hopes to win a medal one day."
+      ],
+      "distractors": [
+        "trophy",
+        "ribbon",
+        "badge"
+      ],
+      "greekHint": "Medal = μετάλλιο, το βραβείο των νικητών.",
+      "english": "medal",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-801",
+      "emoji": "🤸",
+      "kidDefinition": "A sport with floor routines, jumps and balance on apparatus.",
+      "examples": [
+        "In my opinion, gymnastics is a very difficult sport.",
+        "Gymnastics needs strength, balance and lots of practice."
+      ],
+      "distractors": [
+        "swimming",
+        "judo",
+        "volleyball"
+      ],
+      "greekHint": "Gymnastics = ενόργανη γυμναστική.",
+      "english": "gymnastics",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-803",
+      "emoji": "💪",
+      "kidDefinition": "To practise a sport regularly to get better at it.",
+      "examples": [
+        "Most swimmers train for at least four hours a day.",
+        "If you want to win, you have to train very hard."
+      ],
+      "distractors": [
+        "relax",
+        "sleep",
+        "rest"
+      ],
+      "greekHint": "Train = προπονούμαι.",
+      "english": "train",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U6-SB-813",
+      "emoji": "🏃",
+      "kidDefinition": "A person who is good at sports and trains hard.",
+      "examples": [
+        "If you want to be a better athlete, you need to train more.",
+        "Sam is a fast athlete, and he loves running races."
+      ],
+      "distractors": [
+        "spectator",
+        "coach",
+        "referee"
+      ],
+      "greekHint": "Athlete = αθλητής.",
+      "english": "athlete",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-832",
+      "emoji": "💨",
+      "kidDefinition": "A very fast race over a short distance.",
+      "examples": [
+        "After the warm-up, we ran sprints for half an hour.",
+        "Sam won the sprint and everyone clapped for him."
+      ],
+      "distractors": [
+        "marathon",
+        "stroll",
+        "relay"
+      ],
+      "greekHint": "Sprint = σπριντ, αγώνας ταχύτητας.",
+      "english": "sprint",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-836",
+      "emoji": "🏋️",
+      "kidDefinition": "To move your body with physical activity to stay fit.",
+      "examples": [
+        "It is a good idea to exercise three or four times a week.",
+        "Ella likes to exercise in the park with her friends."
+      ],
+      "distractors": [
+        "relax",
+        "sleep",
+        "eat"
+      ],
+      "greekHint": "Exercise = γυμνάζομαι.",
+      "english": "exercise",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U6-SB-838",
+      "emoji": "📅",
+      "kidDefinition": "Again and again, at the same times, like every week.",
+      "examples": [
+        "You should exercise regularly to keep fit and healthy.",
+        "Ella trains regularly, every Monday and Thursday."
+      ],
+      "distractors": [
+        "sometimes",
+        "rarely",
+        "quickly"
+      ],
+      "greekHint": "Regularly = τακτικά.",
+      "english": "regularly",
+      "type": "adv."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U6-SB-800",
+    "CPP3-U6-SB-802",
+    "CPP3-U6-SB-804",
+    "CPP3-U6-SB-805",
+    "CPP3-U6-SB-806",
+    "CPP3-U6-SB-807",
+    "CPP3-U6-SB-808",
+    "CPP3-U6-SB-809",
+    "CPP3-U6-SB-810",
+    "CPP3-U6-SB-811",
+    "CPP3-U6-SB-812",
+    "CPP3-U6-SB-814",
+    "CPP3-U6-SB-815",
+    "CPP3-U6-SB-816",
+    "CPP3-U6-SB-817",
+    "CPP3-U6-SB-818",
+    "CPP3-U6-SB-819",
+    "CPP3-U6-SB-820",
+    "CPP3-U6-SB-821",
+    "CPP3-U6-SB-822",
+    "CPP3-U6-SB-823",
+    "CPP3-U6-SB-824",
+    "CPP3-U6-SB-825",
+    "CPP3-U6-SB-826",
+    "CPP3-U6-SB-827",
+    "CPP3-U6-SB-828",
+    "CPP3-U6-SB-829",
+    "CPP3-U6-SB-830",
+    "CPP3-U6-SB-831",
+    "CPP3-U6-SB-833",
+    "CPP3-U6-SB-834",
+    "CPP3-U6-SB-835",
+    "CPP3-U6-SB-837",
+    "CPP3-U6-SB-839",
+    "CPP3-U6-SB-840",
+    "CPP3-U6-SB-841",
+    "CPP3-U6-SB-842",
+    "CPP3-U6-SB-843",
+    "CPP3-U6-SB-844",
+    "CPP3-U6-SB-845",
+    "CPP3-U6-SB-846",
+    "CPP3-U6-SB-847",
+    "CPP3-U6-SB-848",
+    "CPP3-U6-SB-849",
+    "CPP3-U6-SB-850"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love owls and sport!"
+        },
+        {
+          "id": "l2",
+          "text": "Every day, people around the world play sport in parks, pools and playgrounds."
+        },
+        {
+          "id": "l3",
+          "text": "Some people play sport for fun. Some people play sport to become champions."
+        },
+        {
+          "id": "l4",
+          "text": "Today we will meet two friends from Squirrel Park and learn new sport words."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite sport, and why do you like it?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U6-SB-796",
+        "CPP3-U6-SB-797",
+        "CPP3-U6-SB-813",
+        "CPP3-U6-SB-798",
+        "CPP3-U6-SB-801",
+        "CPP3-U6-SB-799",
+        "CPP3-U6-SB-803",
+        "CPP3-U6-SB-832",
+        "CPP3-U6-SB-836",
+        "CPP3-U6-SB-838"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Ella's Golden Plan",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "sam"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is Saturday morning in Squirrel Park. Ella and Sam are warming up together."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ella",
+              "text": "I want to be a gymnast one day. I train hard every week."
+            },
+            {
+              "id": "p1b",
+              "who": "sam",
+              "text": "You are a real athlete, Ella! Your gymnastics is amazing."
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-798",
+            "CPP3-U6-SB-803",
+            "CPP3-U6-SB-813",
+            "CPP3-U6-SB-801"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "sam"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Sam runs a short, fast race along the path."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "sam",
+              "text": "I run a sprint every morning. I exercise regularly to stay strong."
+            },
+            {
+              "id": "p2b",
+              "who": "ella",
+              "text": "Great plan! Regular practice helps you get better."
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-832",
+            "CPP3-U6-SB-836",
+            "CPP3-U6-SB-838"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "sam"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "In the classroom, Ella writes her training plan on a big sheet of paper."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "ella",
+              "text": "First we warm up. Then we stretch. Then we practise in the right order."
+            },
+            {
+              "id": "p3b",
+              "who": "sam",
+              "text": "And what is your sequence of moves for the competition?"
+            },
+            {
+              "id": "p3c2",
+              "who": "ella",
+              "text": "Five moves: jump, turn, balance, land and smile!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-796",
+            "CPP3-U6-SB-797"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "sam"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "At the school sports day, the crowd cheers loudly for Ella."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "ella",
+              "text": "I did my routine perfectly! My legs were shaking, but I did it."
+            },
+            {
+              "id": "p4b",
+              "who": "sam",
+              "text": "Look! You got a bronze medal. That is brilliant!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-799",
+            "CPP3-U6-SB-801"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "sam"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Ella smiles and holds her medal high in the air."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "ella",
+              "text": "Thank you, Sam. This medal is for every training session!"
+            },
+            {
+              "id": "p5b",
+              "who": "sam",
+              "text": "Now it is my turn to train. Same time next Saturday?"
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-799",
+            "CPP3-U6-SB-803"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U6-SB-798",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word is for a person who does gymnastics?"
+          },
+          "options": [
+            "CPP3-U6-SB-799",
+            "CPP3-U6-SB-813",
+            "CPP3-U6-SB-798",
+            "CPP3-U6-SB-832"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "A gymnast is the person, while gymnastics is the sport itself."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U6-SB-799",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to the word: medal. Point to the word you hear."
+          },
+          "options": [
+            "CPP3-U6-SB-832",
+            "CPP3-U6-SB-813",
+            "CPP3-U6-SB-799",
+            "CPP3-U6-SB-798"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "A medal is a shiny prize that winners receive after a competition."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-796",
+          "prompt": {
+            "id": "c3q",
+            "text": "Put the steps of the warm-up in the right ____."
+          },
+          "options": [
+            "order",
+            "gymnast",
+            "athlete",
+            "medal"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Order means the correct sequence, so first, then, and last."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-797",
+          "prompt": {
+            "id": "c4q",
+            "text": "The dance has a fixed ____ of moves: jump, spin, then land."
+          },
+          "options": [
+            "sequence",
+            "medal",
+            "athlete",
+            "sprint"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A sequence is a set of things that always follow in the same pattern."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U6-SB-803",
+          "prompt": {
+            "id": "c5q",
+            "text": "Statement: Athletes only train once a year to get stronger."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "To train means to practise regularly, not just once a year."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U6-SB-838",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "athlete",
+            "medal",
+            "sprint",
+            "regularly"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "Regularly is an adverb, while the other three words are nouns."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-836",
+          "prompt": {
+            "id": "c7q",
+            "text": "To stay fit, you should ____ three times a week."
+          },
+          "options": [
+            "allow",
+            "blend",
+            "exercise",
+            "sprinkle"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "Exercise is a verb meaning to move your body to stay healthy."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U6-SB-801",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word names the sport with floor routines and balance beams?"
+          },
+          "options": [
+            "CPP3-U6-SB-832",
+            "CPP3-U6-SB-799",
+            "CPP3-U6-SB-813",
+            "CPP3-U6-SB-801"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "Gymnastics is the name of the sport, and it includes beams and floor routines."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "listen",
+          "wordId": "CPP3-U6-SB-813",
+          "prompt": {
+            "id": "c9q",
+            "text": "Listen to the word: athlete. Point to the word you hear."
+          },
+          "options": [
+            "CPP3-U6-SB-801",
+            "CPP3-U6-SB-799",
+            "CPP3-U6-SB-832",
+            "CPP3-U6-SB-813"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c9e",
+            "text": "An athlete is a person who plays sport and trains hard."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U6-SB-832",
+          "prompt": {
+            "id": "c10q",
+            "text": "Statement: A sprint is a very long race, like a marathon."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "A sprint is a short, very fast race, not a long one."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play a memory game! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud when you turn over a card. Good luck, champions!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a sport you like and how you practise it."
+      },
+      "frames": [
+        "I like ___ because it keeps my body strong.",
+        "I want to become an ___ one day.",
+        "I try to ___ regularly after school."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like gymnastics because it keeps my body strong. I want to become an athlete one day. I try to exercise regularly after school, and I train with my friends on Saturdays."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, champions! You learned ten amazing sport words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about training, medals and sequences like a real athlete!"
+        },
+        {
+          "id": "l3",
+          "text": "Keep practising, and remember: regular training makes every champion stronger."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Sports Word Champion"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What is the difference between order and sequence? Explain in one sentence."
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence about a sport you do, using the word regularly."
+        }
+      ]
+    }
+  ]
+}

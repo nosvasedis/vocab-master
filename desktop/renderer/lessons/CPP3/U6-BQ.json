@@ -1,0 +1,529 @@
+{
+  "schema": 1,
+  "id": "CPP3-U6-BQ",
+  "bookId": "CPP3",
+  "unit": 6,
+  "section": "BQ",
+  "title": "Why Do We Play Sports? Team Spirit Starts Here",
+  "bigQuestion": "Why do we play sports?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "playground",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher, bright and encouraging"
+    },
+    "zip": {
+      "name": "Zip",
+      "emoji": "🐿️",
+      "persona": "energetic 11-year-old squirrel, fast-talking, proud of his team"
+    },
+    "rosa": {
+      "name": "Rosa",
+      "emoji": "🐿️",
+      "persona": "calm, careful 11-year-old squirrel, thoughtful and kind"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U6-SB-785",
+      "emoji": "🤸",
+      "kidDefinition": "A school lesson where you run, jump and play sports.",
+      "examples": [
+        "I love PE because we play games in the sunshine.",
+        "Our PE teacher gives us a new game every Monday."
+      ],
+      "distractors": [
+        "maths",
+        "art",
+        "science"
+      ],
+      "greekHint": "PE = Φυσική Αγωγή: φυσική αγωγή, γυμναστική, κίνηση.",
+      "english": "PE",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-786",
+      "emoji": "👥",
+      "kidDefinition": "A group of people who play a sport together.",
+      "examples": [
+        "Our soccer team practises four times a week.",
+        "Everyone in our team wears the same blue shirt."
+      ],
+      "distractors": [
+        "trophy",
+        "coach",
+        "ball"
+      ],
+      "greekHint": "team = ομάδα: μία ομάδα, όλοι μαζί.",
+      "english": "team",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-787",
+      "emoji": "🐦",
+      "kidDefinition": "A special character or animal that makes a team fun.",
+      "examples": [
+        "Our team mascot is a big pink bird.",
+        "The mascot waves at the crowd before every match."
+      ],
+      "distractors": [
+        "helmet",
+        "whistle",
+        "medal"
+      ],
+      "greekHint": "mascot = μασκότ: το σύμβολο της ομάδας.",
+      "english": "mascot",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-788",
+      "emoji": "💪",
+      "kidDefinition": "To keep your body healthy and strong through exercise.",
+      "examples": [
+        "Jerry goes jogging three times a week to keep in shape.",
+        "Swimming is a great way to stay in shape."
+      ],
+      "distractors": [
+        "take a nap",
+        "go shopping",
+        "eat sweets"
+      ],
+      "greekHint": "stay in shape = κρατιέμαι σε φόρμα.",
+      "english": "stay in shape",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP3-U6-SB-789",
+      "emoji": "🏁",
+      "kidDefinition": "To take part in a race or game against other people.",
+      "examples": [
+        "Tom first competed in a professional match two years ago.",
+        "Ten runners will compete in the big race tomorrow."
+      ],
+      "distractors": [
+        "sleep",
+        "cook",
+        "dance"
+      ],
+      "greekHint": "compete = διαγωνίζομαι: παίρνω μέρος σε αγώνα.",
+      "english": "compete",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U6-SB-790",
+      "emoji": "🏆",
+      "kidDefinition": "To be the best in a game or race.",
+      "examples": [
+        "When Anna won the trophy, she was extremely happy.",
+        "Did your team win the match on Saturday?"
+      ],
+      "distractors": [
+        "lose",
+        "wave",
+        "sing"
+      ],
+      "greekHint": "win = νικάω: είμαι πρώτος, κερδίζω.",
+      "english": "win",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U6-SB-792",
+      "emoji": "🏋",
+      "kidDefinition": "Practice that helps you get better at a sport.",
+      "examples": [
+        "You need a lot more training before you can join big matches.",
+        "Morning training makes me stronger every day."
+      ],
+      "distractors": [
+        "holiday",
+        "lunch",
+        "picnic"
+      ],
+      "greekHint": "training = προπόνηση: η εξάσκηση πριν τον αγώνα.",
+      "english": "training",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U6-SB-794",
+      "emoji": "🦺",
+      "kidDefinition": "Being protected from harm or danger.",
+      "examples": [
+        "Always wear a helmet for your safety when you cycle.",
+        "Safety comes first when we go climbing on the rocks."
+      ],
+      "distractors": [
+        "danger",
+        "shoes",
+        "music"
+      ],
+      "greekHint": "safety = ασφάλεια: να είσαι προστατευμένος.",
+      "english": "safety",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U6-SB-791",
+    "CPP3-U6-SB-793",
+    "CPP3-U6-SB-795"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "playground",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love sport!"
+        },
+        {
+          "id": "l2",
+          "text": "Do you run, jump, or climb in your free time?"
+        },
+        {
+          "id": "l3",
+          "text": "Today we find out why people play sports."
+        },
+        {
+          "id": "l4",
+          "text": "Some people play for fun. Some play to win trophies!"
+        },
+        {
+          "id": "l5",
+          "text": "Let's meet two friends from the Speedy Squirrels story."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite sport, and why do you like it?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U6-SB-785",
+        "CPP3-U6-SB-786",
+        "CPP3-U6-SB-787",
+        "CPP3-U6-SB-788",
+        "CPP3-U6-SB-789",
+        "CPP3-U6-SB-790",
+        "CPP3-U6-SB-792",
+        "CPP3-U6-SB-794"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Zip and Rosa at the Park",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "zip"
+            },
+            {
+              "who": "rosa"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Zip and Rosa stand by the big oak tree, ready for the race."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "zip",
+              "text": "Our team is ready to compete in the big race!"
+            },
+            {
+              "id": "p1b",
+              "who": "rosa",
+              "text": "Yes! But first we need training, so let's stay in shape."
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-789",
+            "CPP3-U6-SB-786",
+            "CPP3-U6-SB-792",
+            "CPP3-U6-SB-788"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "zip"
+            },
+            {
+              "who": "rosa"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Rosa checks the helmets. Zip waves at their pink bird mascot."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "rosa",
+              "text": "Remember, safety comes first. Helmets on, please!"
+            },
+            {
+              "id": "p2b",
+              "who": "zip",
+              "text": "Then we can win the trophy together, Rosa!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U6-SB-794",
+            "CPP3-U6-SB-790",
+            "CPP3-U6-SB-787"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U6-SB-787",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the word for the special character that cheers for the team."
+          },
+          "options": [
+            "CPP3-U6-SB-786",
+            "CPP3-U6-SB-787",
+            "CPP3-U6-SB-785",
+            "CPP3-U6-SB-792"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A mascot is the special animal or character that represents a team."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U6-SB-794",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: Safety first! Point to the word you hear."
+          },
+          "options": [
+            "CPP3-U6-SB-790",
+            "CPP3-U6-SB-786",
+            "CPP3-U6-SB-794",
+            "CPP3-U6-SB-789"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Safety means being protected from harm, so we always wear our helmets."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-792",
+          "prompt": {
+            "id": "c3q",
+            "text": "We do ____ every day to get better before the big match."
+          },
+          "options": [
+            "climbing",
+            "safety",
+            "mascot",
+            "training"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "Training is the practice we do to improve at a sport."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP3-U6-SB-788",
+          "prompt": {
+            "id": "c4q",
+            "text": "Jerry runs three times a week to ____."
+          },
+          "options": [
+            "stay in shape",
+            "take a nap",
+            "go shopping",
+            "eat sweets"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "To stay in shape means keeping your body fit and healthy."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U6-SB-786",
+          "prompt": {
+            "id": "c5q",
+            "text": "A team is a group of people who play together. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Everyone in a team works together towards the same goal."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U6-SB-790",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "sleep",
+            "win",
+            "play",
+            "compete"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Win, compete and play are things we do in games, but sleep is not."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U6-SB-789",
+          "prompt": {
+            "id": "c7q",
+            "text": "To compete means to take part in a race or game. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "When you compete, you play or race against other people."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U6-SB-785",
+          "prompt": {
+            "id": "c8q",
+            "text": "Point to the word for the school lesson where you run and play sports."
+          },
+          "options": [
+            "CPP3-U6-SB-790",
+            "CPP3-U6-SB-792",
+            "CPP3-U6-SB-785",
+            "CPP3-U6-SB-789"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c8e",
+            "text": "PE is the school lesson where we move, play games and do sport."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud each time you find a pair."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a sport you like, and why it is good for you."
+      },
+      "frames": [
+        "I like ___ because it helps me stay in shape.",
+        "In my school, ___ is my favourite lesson.",
+        "One day, I would like to compete with my ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like swimming because it helps me stay in shape. In my school, PE is my favourite lesson. One day, I would like to compete with my team."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work today, super sports stars!"
+        },
+        {
+          "id": "l2",
+          "text": "You now know words like team, training, compete and win."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will read about the Olympics and find out more."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Sport Star Starter"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Why do you think people play sports? Use one word from today."
+        },
+        {
+          "id": "e2",
+          "text": "What is one way you can keep safe when you do sport?"
+        }
+      ]
+    }
+  ]
+}

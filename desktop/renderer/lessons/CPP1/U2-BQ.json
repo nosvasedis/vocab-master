@@ -1,0 +1,505 @@
+{
+  "schema": 1,
+  "id": "CPP1-U2-BQ",
+  "bookId": "CPP1",
+  "unit": 2,
+  "section": "BQ",
+  "title": "Welcome to School! Meet Lingo and Friends",
+  "bigQuestion": "What is school like?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "school",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and friendly"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "👦",
+      "persona": "kind 10-year-old boy, a little shy at first"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U2-SB-145",
+      "emoji": "❓",
+      "kidDefinition": "Words you say to find out something you want to know.",
+      "examples": [
+        "I have a question about the maths homework.",
+        "Can you answer my question, please?"
+      ],
+      "distractors": [
+        "lesson",
+        "lunch",
+        "homework"
+      ],
+      "greekHint": "Σκέψου το «ερωτώ»: ερώτηση.",
+      "english": "question",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-146",
+      "emoji": "🧑‍🎓",
+      "kidDefinition": "A child who goes to school to learn.",
+      "examples": [
+        "Forty students sit in our classroom.",
+        "Every student has a green notebook."
+      ],
+      "distractors": [
+        "backpack",
+        "window",
+        "garden"
+      ],
+      "greekHint": "Student = μαθητής. Ο μαθητής μαθαίνει.",
+      "english": "student",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-148",
+      "emoji": "👋",
+      "kidDefinition": "To say hello in a warm, friendly way.",
+      "examples": [
+        "We welcome new friends with a big smile.",
+        "Our class will welcome you on Monday."
+      ],
+      "distractors": [
+        "sleep",
+        "dance",
+        "jump"
+      ],
+      "greekHint": "Welcome = καλώς ήρθες!",
+      "english": "welcome",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U2-SB-149",
+      "emoji": "😊",
+      "kidDefinition": "To have a feeling, such as happy or nervous.",
+      "examples": [
+        "I feel nervous on my first day.",
+        "I feel happy when my friends smile at me."
+      ],
+      "distractors": [
+        "draw",
+        "eat",
+        "dance"
+      ],
+      "greekHint": "Feel = νιώθω.",
+      "english": "feel",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U2-SB-150",
+      "emoji": "🏫",
+      "kidDefinition": "The room in a school where students learn together.",
+      "examples": [
+        "Our classroom has big windows and bright posters.",
+        "My classroom is next to the library."
+      ],
+      "distractors": [
+        "kitchen",
+        "garden",
+        "library"
+      ],
+      "greekHint": "Class = τάξη, room = δωμάτιο.",
+      "english": "classroom",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-151",
+      "emoji": "🪑",
+      "kidDefinition": "A table where you sit and work at school.",
+      "examples": [
+        "I put my pencil case on my desk.",
+        "Please sit at your desk and open your book."
+      ],
+      "distractors": [
+        "chair",
+        "bench",
+        "shelf"
+      ],
+      "greekHint": "Το θρανίο σου είναι το «desk».",
+      "english": "desk",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-152",
+      "emoji": "🧑‍🏫",
+      "kidDefinition": "A person who teaches students at school.",
+      "examples": [
+        "Our teacher reads us a story every Monday.",
+        "My teacher is very funny and kind."
+      ],
+      "distractors": [
+        "doctor",
+        "farmer",
+        "driver"
+      ],
+      "greekHint": "Teach = διδάσκω, teacher = δάσκαλος.",
+      "english": "teacher",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-153",
+      "emoji": "👕",
+      "kidDefinition": "Special clothes that students wear at school.",
+      "examples": [
+        "My uniform is navy blue with a white shirt.",
+        "Everyone wears the same uniform at my school."
+      ],
+      "distractors": [
+        "jacket",
+        "backpack",
+        "scarf"
+      ],
+      "greekHint": "Uniform = όλοι ντύνονται το ίδιο.",
+      "english": "uniform",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-154",
+      "emoji": "👫",
+      "kidDefinition": "A friend who is in the same class as you.",
+      "examples": [
+        "My classmate Nikos likes football.",
+        "My classmates and I love our new project."
+      ],
+      "distractors": [
+        "neighbour",
+        "cousin",
+        "doctor"
+      ],
+      "greekHint": "Class + mate = συμμαθητής.",
+      "english": "classmate",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U2-SB-147"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "school",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we step into a school with new friends."
+        },
+        {
+          "id": "l3",
+          "text": "School is a big place, full of people and noise!"
+        },
+        {
+          "id": "l4",
+          "text": "Let us find out what school is like."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one thing you like about school?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U2-SB-145",
+        "CPP1-U2-SB-152",
+        "CPP1-U2-SB-146",
+        "CPP1-U2-SB-154",
+        "CPP1-U2-SB-150",
+        "CPP1-U2-SB-151",
+        "CPP1-U2-SB-153",
+        "CPP1-U2-SB-148",
+        "CPP1-U2-SB-149"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U2-SB-152",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means the person who teaches the class?"
+          },
+          "options": [
+            "CPP1-U2-SB-152",
+            "CPP1-U2-SB-148",
+            "CPP1-U2-SB-154",
+            "CPP1-U2-SB-146"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A teacher teaches the class, and students and classmates learn."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U2-SB-150",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point to the word: classroom."
+          },
+          "options": [
+            "CPP1-U2-SB-151",
+            "CPP1-U2-SB-149",
+            "CPP1-U2-SB-153",
+            "CPP1-U2-SB-150"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "A classroom is the room where you learn with your class."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-151",
+          "prompt": {
+            "id": "c3q",
+            "text": "Please sit at your ____ and open your book."
+          },
+          "options": [
+            "desk",
+            "garden",
+            "lunch"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "You sit at a desk to work and write in class."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U2-SB-153",
+          "prompt": {
+            "id": "c4q",
+            "text": "A uniform is special clothes that students wear at school. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Yes, a school uniform is the clothing everyone wears at school."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U2-SB-149",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is NOT a feeling?"
+          },
+          "options": [
+            "welcome",
+            "sad",
+            "happy",
+            "nervous"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Happy, sad and nervous are feelings, but welcome is an action."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-145",
+          "prompt": {
+            "id": "c6q",
+            "text": "Can I ask you a ____, please?"
+          },
+          "options": [
+            "question",
+            "lesson",
+            "lunch"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "A question is the words you say when you want to find something out."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U2-SB-148",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which word means to say hello warmly to someone new?"
+          },
+          "options": [
+            "CPP1-U2-SB-149",
+            "CPP1-U2-SB-146",
+            "CPP1-U2-SB-154",
+            "CPP1-U2-SB-148"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "We welcome new friends with a smile and a hello."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U2-SB-150",
+          "prompt": {
+            "id": "c8q",
+            "text": "A classroom is a place to sleep at night. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A classroom is where students learn, not where people sleep."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "listen",
+          "wordId": "CPP1-U2-SB-154",
+          "prompt": {
+            "id": "c9q",
+            "text": "Listen and point to the word: classmate."
+          },
+          "options": [
+            "CPP1-U2-SB-154",
+            "CPP1-U2-SB-152",
+            "CPP1-U2-SB-151",
+            "CPP1-U2-SB-153"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A classmate is a friend who is in your class with you."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U2-SB-146",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which word means a child who goes to school to learn?"
+          },
+          "options": [
+            "CPP1-U2-SB-151",
+            "CPP1-U2-SB-145",
+            "CPP1-U2-SB-146",
+            "CPP1-U2-SB-152"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "A student is the person who learns at school, while a teacher helps them."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let us play memory! Find the matching word and picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud as you turn the card over."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your school. What is it like?"
+      },
+      "frames": [
+        "My school has a ___.",
+        "I feel ___ in my classroom.",
+        "My favourite classmate is ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My school has a big library. I feel happy in my classroom. My favourite classmate is Eleni."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, friends! You met new words today."
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about your teacher, your desk and your classmates."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, Mia and Nikos will show us their school!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Welcome Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What do you wear at school? Use the word uniform."
+        },
+        {
+          "id": "e2",
+          "text": "How do you feel on your first day at school?"
+        }
+      ]
+    }
+  ]
+}

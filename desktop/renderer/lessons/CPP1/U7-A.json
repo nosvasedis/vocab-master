@@ -1,0 +1,719 @@
+{
+  "schema": 1,
+  "id": "CPP1-U7-A",
+  "bookId": "CPP1",
+  "unit": 7,
+  "section": "A",
+  "title": "Amazing Animals in the Snow and Caves",
+  "bigQuestion": "Why do we need plants and animals?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "village",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mila": {
+      "name": "Mila",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, curious and brave"
+    },
+    "nikos": {
+      "name": "Nikos",
+      "emoji": "👦",
+      "persona": "funny 10-year-old boy, loves playing in the snow"
+    },
+    "mrs_bee": {
+      "name": "Mrs. Bee",
+      "emoji": "👩‍🏫",
+      "persona": "kind, patient teacher who knows lots about animals"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U7-SB-779",
+      "emoji": "❄️",
+      "kidDefinition": "White, cold, soft pieces of ice that fall from the sky.",
+      "examples": [
+        "It is cold today. Look at the snow!",
+        "We built a snowman in the snow."
+      ],
+      "distractors": [
+        "rain",
+        "sand",
+        "wind"
+      ],
+      "greekHint": "Χιόνι: think of a snowy mountain.",
+      "english": "snow",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-777",
+      "emoji": "🦌",
+      "kidDefinition": "A large animal with antlers that lives in cold places.",
+      "examples": [
+        "Reindeer can run fast in the snow.",
+        "Santa's reindeer pull his sleigh in the story."
+      ],
+      "distractors": [
+        "horse",
+        "goat",
+        "bear"
+      ],
+      "greekHint": "Τάρανδος: a deer that lives in the cold north.",
+      "english": "reindeer",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-778",
+      "emoji": "🦌",
+      "kidDefinition": "The hard, branched horns on the head of a deer.",
+      "examples": [
+        "The deer shakes its big antlers.",
+        "Antlers grow again every year."
+      ],
+      "distractors": [
+        "beak",
+        "tail",
+        "paw"
+      ],
+      "greekHint": "Κέρατο: the branched horn of a deer.",
+      "english": "antler",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-771",
+      "emoji": "🐾",
+      "kidDefinition": "The soft, thick hair that covers an animal's body.",
+      "examples": [
+        "My cat has soft, white fur.",
+        "Bears have thick fur in winter."
+      ],
+      "distractors": [
+        "feathers",
+        "scales",
+        "wool"
+      ],
+      "greekHint": "Γούνα: think of a warm, furry coat.",
+      "english": "fur",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-770",
+      "emoji": "🐬",
+      "kidDefinition": "An animal that feeds its babies milk and has hair or fur.",
+      "examples": [
+        "Whales are mammals, not fish.",
+        "Humans are mammals too."
+      ],
+      "distractors": [
+        "bird",
+        "fish",
+        "insect"
+      ],
+      "greekHint": "Θηλαστικό: animals that drink milk from their mother.",
+      "english": "mammal",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-767",
+      "emoji": "🦇",
+      "kidDefinition": "A small animal with wings that flies at night.",
+      "examples": [
+        "The bat flies around the tree at night.",
+        "A bat sleeps all day, hanging upside down."
+      ],
+      "distractors": [
+        "owl",
+        "mouse",
+        "rabbit"
+      ],
+      "greekHint": "Νυχτερίδα: it flies in the night.",
+      "english": "bat",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-763",
+      "emoji": "🕳️",
+      "kidDefinition": "A large dark hole in a hill or a rock.",
+      "examples": [
+        "We found a cave in the mountain.",
+        "Bears sleep in a cave in winter."
+      ],
+      "distractors": [
+        "hill",
+        "tree",
+        "river"
+      ],
+      "greekHint": "Σπηλιά: a dark place inside a rock.",
+      "english": "cave",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U7-SB-764",
+      "emoji": "👀",
+      "kidDefinition": "To use your eyes to notice something.",
+      "examples": [
+        "Can you see the moon tonight?",
+        "I see a red bird in the tree."
+      ],
+      "distractors": [
+        "hear",
+        "touch",
+        "smell"
+      ],
+      "greekHint": "Βλέπω: use your eyes.",
+      "english": "see",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U7-SB-765",
+      "emoji": "🪢",
+      "kidDefinition": "To move something towards you using force.",
+      "examples": [
+        "Please pull the door to open it.",
+        "The dog can pull the rope with its teeth."
+      ],
+      "distractors": [
+        "push",
+        "lift",
+        "carry"
+      ],
+      "greekHint": "Τραβάω: pull the rope towards you.",
+      "english": "pull",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U7-SB-766",
+      "emoji": "😴",
+      "kidDefinition": "To stop working or moving and relax.",
+      "examples": [
+        "After school, I rest on the sofa.",
+        "The tired dog likes to rest in the shade."
+      ],
+      "distractors": [
+        "run",
+        "play",
+        "work"
+      ],
+      "greekHint": "Ξεκουράζομαι: sit or lie down and relax.",
+      "english": "rest",
+      "type": "v."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U7-SB-762",
+    "CPP1-U7-SB-768",
+    "CPP1-U7-SB-769",
+    "CPP1-U7-SB-772",
+    "CPP1-U7-SB-773",
+    "CPP1-U7-SB-774",
+    "CPP1-U7-SB-775",
+    "CPP1-U7-SB-776",
+    "CPP1-U7-SB-780",
+    "CPP1-U7-SB-781",
+    "CPP1-U7-SB-782",
+    "CPP1-U7-SB-783",
+    "CPP1-U7-SB-784",
+    "CPP1-U7-SB-785",
+    "CPP1-U7-SB-786",
+    "CPP1-U7-SB-787",
+    "CPP1-U7-SB-788",
+    "CPP1-U7-SB-789",
+    "CPP1-U7-SB-790",
+    "CPP1-U7-SB-791",
+    "CPP1-U7-SB-792",
+    "CPP1-U7-SB-793",
+    "CPP1-U7-SB-794",
+    "CPP1-U7-SB-795",
+    "CPP1-U7-SB-796",
+    "CPP1-U7-SB-797",
+    "CPP1-U7-SB-798",
+    "CPP1-U7-SB-799",
+    "CPP1-U7-SB-800",
+    "CPP1-U7-SB-801",
+    "CPP1-U7-SB-802",
+    "CPP1-U7-SB-803",
+    "CPP1-U7-SB-804",
+    "CPP1-U7-SB-805",
+    "CPP1-U7-SB-806",
+    "CPP1-U7-SB-807",
+    "CPP1-U7-SB-808",
+    "CPP1-U7-SB-809"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "village",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, everyone! It is me, Lingo the owl!"
+        },
+        {
+          "id": "l2",
+          "text": "Animals are amazing. Some fly. Some swim. Some live in the snow."
+        },
+        {
+          "id": "l3",
+          "text": "Today we will meet some animals and visit a very mysterious cave."
+        },
+        {
+          "id": "l4",
+          "text": "Are you ready? Let's go on an adventure!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite animal, and where does it live?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U7-SB-779",
+        "CPP1-U7-SB-777",
+        "CPP1-U7-SB-778",
+        "CPP1-U7-SB-771",
+        "CPP1-U7-SB-770",
+        "CPP1-U7-SB-767",
+        "CPP1-U7-SB-763",
+        "CPP1-U7-SB-764",
+        "CPP1-U7-SB-765",
+        "CPP1-U7-SB-766"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Mila, Nikos and the Winter Adventure",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "mila"
+            },
+            {
+              "who": "nikos"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is a cold winter morning in the village. Everything is white."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mila",
+              "text": "Look! There is snow everywhere!"
+            },
+            {
+              "id": "p1b",
+              "who": "nikos",
+              "text": "Let's play in the snow before breakfast!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-779"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "mrs_bee"
+            },
+            {
+              "who": "nikos"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "In the forest, Mrs. Bee shows them a reindeer."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mrs_bee",
+              "text": "Look! That reindeer has very big antlers."
+            },
+            {
+              "id": "p2b",
+              "who": "nikos",
+              "text": "Wow! Its fur is so thick. It must be warm!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-777",
+            "CPP1-U7-SB-778",
+            "CPP1-U7-SB-771"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "cave",
+          "characters": [
+            {
+              "who": "mila"
+            },
+            {
+              "who": "mrs_bee"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Inside the cave, a small bat hangs quietly on the wall."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mila",
+              "text": "I can see a bat! Is it sleeping?"
+            },
+            {
+              "id": "p3b",
+              "who": "mrs_bee",
+              "text": "Yes! A bat is a mammal, just like us. Let's be quiet."
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-763",
+            "CPP1-U7-SB-767",
+            "CPP1-U7-SB-764",
+            "CPP1-U7-SB-770"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "nikos"
+            },
+            {
+              "who": "mila"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Nikos wants to take his sleigh back home."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "nikos",
+              "text": "This sleigh is so heavy! Can you help me pull it?"
+            },
+            {
+              "id": "p4b",
+              "who": "mila",
+              "text": "Yes! One, two, three, pull!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-765"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "mila"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "At home, they warm their hands by the fire."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mila",
+              "text": "Phew! What a day. Now I need to rest."
+            }
+          ],
+          "highlight": [
+            "CPP1-U7-SB-766"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-767",
+          "prompt": {
+            "id": "c1q",
+            "text": "A ____ hangs quietly on the cave wall."
+          },
+          "options": [
+            "bucket",
+            "bat",
+            "kite"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A bat is a small animal with wings that flies at night."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U7-SB-777",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point. Which word is an animal with big antlers?"
+          },
+          "options": [
+            "CPP1-U7-SB-767",
+            "CPP1-U7-SB-771",
+            "CPP1-U7-SB-777"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "Reindeer have antlers and live in cold places like the snow."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U7-SB-778",
+          "prompt": {
+            "id": "c3q",
+            "text": "Antlers are hard, branched horns that grow on a deer's head."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Antlers are the big branched horns on a reindeer's head."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U7-SB-770",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is NOT a mammal?"
+          },
+          "options": [
+            "whale",
+            "eagle",
+            "bat",
+            "dog"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "An eagle is a bird, but dogs, bats and whales are mammals."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-771",
+          "prompt": {
+            "id": "c5q",
+            "text": "Reindeer have thick ____ to keep them warm in winter."
+          },
+          "options": [
+            "scales",
+            "fur",
+            "feathers"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "Fur is the soft, thick hair that covers an animal's body."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U7-SB-763",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word means a dark place inside a hill or a rock?"
+          },
+          "options": [
+            "CPP1-U7-SB-764",
+            "CPP1-U7-SB-763",
+            "CPP1-U7-SB-779"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A cave is a large dark hole inside a hill or rock."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-765",
+          "prompt": {
+            "id": "c7q",
+            "text": "Our dog can ____ the heavy sleigh across the snow."
+          },
+          "options": [
+            "kick",
+            "jump",
+            "pull"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "To pull means to move something towards you using force."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U7-SB-764",
+          "prompt": {
+            "id": "c8q",
+            "text": "In the story, Mila can see a bat in the cave."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Mila says, I can see a bat! She uses her eyes to notice it."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U7-SB-766",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word means to stop working and relax?"
+          },
+          "options": [
+            "CPP1-U7-SB-766",
+            "CPP1-U7-SB-764",
+            "CPP1-U7-SB-765"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "When you rest, you relax and take a break from work or play."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U7-SB-779",
+          "prompt": {
+            "id": "c10q",
+            "text": "In winter, the ground is white with ____."
+          },
+          "options": [
+            "snow",
+            "sand",
+            "rain"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Snow is white, cold and soft, and it falls from the sky."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game! Find the matching pairs of pictures."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud when you find a pair. Ready? Go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your favourite animal and where it lives."
+      },
+      "frames": [
+        "I like the ___. It has thick ___.",
+        "I can see a ___ in the ___.",
+        "After school, I like to ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I like reindeer. A reindeer has thick fur and big antlers. I can see one in the snow! After school, I like to rest at home."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, friends! You learned ten brand new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Snow, reindeer, antler, fur, mammal, bat, cave, see, pull and rest."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will discover even more amazing animals together!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Animal Word Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one mammal from the story and one word that describes it."
+        },
+        {
+          "id": "e2",
+          "text": "What word means a dark place inside a hill or a rock?"
+        }
+      ]
+    }
+  ]
+}

@@ -61,5 +61,509 @@
     "errors": [],
     "warnings": 1,
     "at": "2026-10-17T10:07:36.102Z"
+  },
+  "CPP1-U2-BQ": {
+    "status": "ok",
+    "usd": 0.00523,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T10:52:11.342Z"
+  },
+  "CPP1-U2-A": {
+    "status": "ok",
+    "usd": 0.00719,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:53:02.863Z"
+  },
+  "CPP1-U2-B": {
+    "status": "ok",
+    "usd": 0.00753,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:53:58.744Z"
+  },
+  "CPP1-U3-BQ": {
+    "status": "ok",
+    "usd": 0.00458,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T10:54:33.956Z"
+  },
+  "CPP1-U3-A": {
+    "status": "ok",
+    "usd": 0.00692,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:56:49.191Z"
+  },
+  "CPP1-U3-B": {
+    "status": "ok",
+    "usd": 0.00714,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:56:33.508Z"
+  },
+  "CPP1-U4-BQ": {
+    "status": "ok",
+    "usd": 0.00535,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T10:57:14.295Z"
+  },
+  "CPP1-U4-A": {
+    "status": "ok",
+    "usd": 0.01009,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:58:22.456Z"
+  },
+  "CPP1-U4-B": {
+    "status": "ok",
+    "usd": 0.00642,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:59:11.084Z"
+  },
+  "CPP1-U5-BQ": {
+    "status": "ok",
+    "usd": 0.00603,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:59:56.492Z"
+  },
+  "CPP1-U5-A": {
+    "status": "ok",
+    "usd": 0.0069,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:00:48.981Z"
+  },
+  "CPP1-U5-B": {
+    "status": "ok",
+    "usd": 0.0076,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:01:45.660Z"
+  },
+  "CPP1-U6-BQ": {
+    "status": "ok",
+    "usd": 0.00513,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:02:22.757Z"
+  },
+  "CPP1-U6-A": {
+    "status": "ok",
+    "usd": 0.00802,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:03:24.180Z"
+  },
+  "CPP1-U6-B": {
+    "status": "ok",
+    "usd": 0.00797,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:04:22.597Z"
+  },
+  "CPP1-U7-BQ": {
+    "status": "ok",
+    "usd": 0.00497,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T11:05:01.483Z"
+  },
+  "CPP1-U7-A": {
+    "status": "ok",
+    "usd": 0.00646,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T11:05:48.768Z"
+  },
+  "CPP1-U7-B": {
+    "status": "ok",
+    "usd": 0.00754,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T11:06:45.544Z"
+  },
+  "CPP1-U8-BQ": {
+    "status": "ok",
+    "usd": 0.00538,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:07:25.013Z"
+  },
+  "CPP1-U8-A": {
+    "status": "ok",
+    "usd": 0.00711,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:08:18.138Z"
+  },
+  "CPP1-U8-B": {
+    "status": "ok",
+    "usd": 0.00666,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:09:07.628Z"
+  },
+  "CPP1-U9-BQ": {
+    "status": "ok",
+    "usd": 0.0043,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:09:40.091Z"
+  },
+  "CPP1-U9-A": {
+    "status": "ok",
+    "usd": 0.00775,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T11:10:38.792Z"
+  },
+  "CPP1-U9-B": {
+    "status": "ok",
+    "usd": 0.00826,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:11:41.485Z"
+  },
+  "CPP2-U2-BQ": {
+    "status": "ok",
+    "usd": 0.00663,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:12:31.691Z"
+  },
+  "CPP2-U2-A": {
+    "status": "ok",
+    "usd": 0.00834,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:57:52.739Z"
+  },
+  "CPP2-U2-B": {
+    "status": "ok",
+    "usd": 0.00842,
+    "errors": [],
+    "warnings": 3,
+    "at": "2026-10-17T12:00:04.640Z"
+  },
+  "CPP2-U3-BQ": {
+    "status": "ok",
+    "usd": 0.00732,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:15:43.214Z"
+  },
+  "CPP2-U3-A": {
+    "status": "ok",
+    "usd": 0.00679,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T12:02:04.813Z"
+  },
+  "CPP2-U3-B": {
+    "status": "ok",
+    "usd": 0.008,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:17:50.332Z"
+  },
+  "CPP2-U4-BQ": {
+    "status": "ok",
+    "usd": 0.0052,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:18:31.935Z"
+  },
+  "CPP2-U4-A": {
+    "status": "ok",
+    "usd": 0.00803,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:19:32.081Z"
+  },
+  "CPP2-U4-B": {
+    "status": "ok",
+    "usd": 0.00762,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:20:29.274Z"
+  },
+  "CPP2-U5-BQ": {
+    "status": "ok",
+    "usd": 0.00619,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T11:21:16.460Z"
+  },
+  "CPP2-U5-A": {
+    "status": "ok",
+    "usd": 0.00836,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:22:17.491Z"
+  },
+  "CPP2-U5-B": {
+    "status": "ok",
+    "usd": 0.00725,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T12:02:59.362Z"
+  },
+  "CPP2-U6-BQ": {
+    "status": "ok",
+    "usd": 0.00514,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T11:24:02.131Z"
+  },
+  "CPP2-U6-A": {
+    "status": "ok",
+    "usd": 0.00697,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:24:53.768Z"
+  },
+  "CPP2-U6-B": {
+    "status": "ok",
+    "usd": 0.00625,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T12:03:46.498Z"
+  },
+  "CPP2-U7-BQ": {
+    "status": "ok",
+    "usd": 0.0059,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:26:43.841Z"
+  },
+  "CPP2-U7-A": {
+    "status": "ok",
+    "usd": 0.00678,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:27:33.810Z"
+  },
+  "CPP2-U7-B": {
+    "status": "ok",
+    "usd": 0.0082,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:28:36.805Z"
+  },
+  "CPP2-U8-BQ": {
+    "status": "ok",
+    "usd": 0.00585,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T11:29:22.118Z"
+  },
+  "CPP2-U8-A": {
+    "status": "ok",
+    "usd": 0.00771,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:30:20.546Z"
+  },
+  "CPP2-U8-B": {
+    "status": "ok",
+    "usd": 0.00749,
+    "errors": [],
+    "warnings": 3,
+    "at": "2026-10-17T12:05:48.219Z"
+  },
+  "CPP2-U9-BQ": {
+    "status": "ok",
+    "usd": 0.00803,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:32:18.719Z"
+  },
+  "CPP2-U9-A": {
+    "status": "ok",
+    "usd": 0.00701,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:33:10.972Z"
+  },
+  "CPP2-U9-B": {
+    "status": "ok",
+    "usd": 0.00818,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:34:13.368Z"
+  },
+  "CPP3-U2-BQ": {
+    "status": "ok",
+    "usd": 0.00619,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T11:34:59.487Z"
+  },
+  "CPP3-U2-A": {
+    "status": "ok",
+    "usd": 0.01525,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T12:11:03.298Z"
+  },
+  "CPP3-U2-B": {
+    "status": "ok",
+    "usd": 0.00788,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T12:12:00.712Z"
+  },
+  "CPP3-U3-BQ": {
+    "status": "ok",
+    "usd": 0.00684,
+    "errors": [],
+    "warnings": 0,
+    "at": "2026-10-17T11:37:59.116Z"
+  },
+  "CPP3-U3-A": {
+    "status": "ok",
+    "usd": 0.00782,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T12:12:57.993Z"
+  },
+  "CPP3-U3-B": {
+    "status": "ok",
+    "usd": 0.00775,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T11:40:01.939Z"
+  },
+  "CPP3-U4-BQ": {
+    "status": "ok",
+    "usd": 0.00515,
+    "errors": [],
+    "warnings": 3,
+    "at": "2026-10-17T11:40:42.083Z"
+  },
+  "CPP3-U4-A": {
+    "status": "ok",
+    "usd": 0.00687,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:41:33.229Z"
+  },
+  "CPP3-U4-B": {
+    "status": "ok",
+    "usd": 0.00748,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:42:29.039Z"
+  },
+  "CPP3-U5-BQ": {
+    "status": "ok",
+    "usd": 0.00581,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:43:13.037Z"
+  },
+  "CPP3-U5-A": {
+    "status": "ok",
+    "usd": 0.00797,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T12:15:04.520Z"
+  },
+  "CPP3-U5-B": {
+    "status": "ok",
+    "usd": 0.00705,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:45:07.983Z"
+  },
+  "CPP3-U6-BQ": {
+    "status": "ok",
+    "usd": 0.00474,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T11:45:44.682Z"
+  },
+  "CPP3-U6-A": {
+    "status": "ok",
+    "usd": 0.00786,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:46:45.450Z"
+  },
+  "CPP3-U6-B": {
+    "status": "ok",
+    "usd": 0.00694,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T11:47:39.744Z"
+  },
+  "CPP3-U7-BQ": {
+    "status": "ok",
+    "usd": 0.0041,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:48:10.785Z"
+  },
+  "CPP3-U7-A": {
+    "status": "ok",
+    "usd": 0.00745,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:49:07.164Z"
+  },
+  "CPP3-U7-B": {
+    "status": "ok",
+    "usd": 0.00741,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:50:05.646Z"
+  },
+  "CPP3-U8-BQ": {
+    "status": "ok",
+    "usd": 0.00451,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:50:37.963Z"
+  },
+  "CPP3-U8-A": {
+    "status": "ok",
+    "usd": 0.00673,
+    "errors": [],
+    "warnings": 2,
+    "at": "2026-10-17T11:51:27.529Z"
+  },
+  "CPP3-U8-B": {
+    "status": "ok",
+    "usd": 0.00827,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:52:29.335Z"
+  },
+  "CPP3-U9-BQ": {
+    "status": "ok",
+    "usd": 0.00491,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T12:19:10.212Z"
+  },
+  "CPP3-U9-A": {
+    "status": "ok",
+    "usd": 0.00701,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:54:39.928Z"
+  },
+  "CPP3-U9-B": {
+    "status": "ok",
+    "usd": 0.00784,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T11:55:38.763Z"
   }
 }

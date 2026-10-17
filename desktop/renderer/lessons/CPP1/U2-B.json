@@ -1,0 +1,731 @@
+{
+  "schema": 1,
+  "id": "CPP1-U2-B",
+  "bookId": "CPP1",
+  "unit": 2,
+  "section": "B",
+  "title": "Monica's New Schoolbag: Books, Bright Colours and Lunch",
+  "bigQuestion": "What is school like?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "school",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "monica": {
+      "name": "Monica",
+      "emoji": "👧",
+      "persona": "cheerful 9-year-old girl, friendly and curious"
+    },
+    "bob": {
+      "name": "Bob",
+      "emoji": "👦",
+      "persona": "thoughtful 9-year-old boy, a little shy but kind"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U2-SB-217",
+      "emoji": "🎒",
+      "kidDefinition": "A bag you carry books and pencils in to school.",
+      "examples": [
+        "Put your books in your schoolbag.",
+        "My schoolbag is heavy today."
+      ],
+      "distractors": [
+        "playground",
+        "bathroom",
+        "cardboard box"
+      ],
+      "greekHint": "σχολική τσάντα: a school bag for your books",
+      "english": "schoolbag",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-210",
+      "emoji": "🆕",
+      "kidDefinition": "Not old. Just bought or made.",
+      "examples": [
+        "I have a new pencil case.",
+        "Monica has a new schoolbag."
+      ],
+      "distractors": [
+        "old",
+        "sad",
+        "bright"
+      ],
+      "greekHint": "καινούριος: think of 'new' as καινούριος",
+      "english": "new",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U2-SB-211",
+      "emoji": "📜",
+      "kidDefinition": "Used for a long time. Not new.",
+      "examples": [
+        "This old book is very interesting.",
+        "My grandpa has an old bicycle."
+      ],
+      "distractors": [
+        "new",
+        "wonderful",
+        "sad"
+      ],
+      "greekHint": "παλιός: old, like a παλιό βιβλίο",
+      "english": "old",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U2-SB-218",
+      "emoji": "🌈",
+      "kidDefinition": "Full of light or very strong colour.",
+      "examples": [
+        "Sunflowers are bright yellow.",
+        "The classroom is bright and warm."
+      ],
+      "distractors": [
+        "sleepy",
+        "sad",
+        "useful"
+      ],
+      "greekHint": "φωτεινός: bright, like light",
+      "english": "bright",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U2-SB-214",
+      "emoji": "📚",
+      "kidDefinition": "A room with many books you can borrow.",
+      "examples": [
+        "We borrow books from the library on Friday.",
+        "The library is quiet. Please whisper."
+      ],
+      "distractors": [
+        "science lab",
+        "teacher's room",
+        "soccer field"
+      ],
+      "greekHint": "βιβλιοθήκη: library, a room of βιβλία",
+      "english": "library",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-219",
+      "emoji": "🏷️",
+      "kidDefinition": "The name of a book or story.",
+      "examples": [
+        "What is the title of this book?",
+        "The title is on the cover."
+      ],
+      "distractors": [
+        "lunch",
+        "week",
+        "festival"
+      ],
+      "greekHint": "τίτλος: title, the name on the cover",
+      "english": "title",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-216",
+      "emoji": "💬",
+      "kidDefinition": "To say what something or someone is like.",
+      "examples": [
+        "Can you describe your best friend?",
+        "Describe your favourite room at home."
+      ],
+      "distractors": [
+        "sit",
+        "wear",
+        "bring"
+      ],
+      "greekHint": "περιγράφω: describe, say what it looks like",
+      "english": "describe",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U2-SB-231",
+      "emoji": "🤩",
+      "kidDefinition": "Very good, amazing, and makes you happy.",
+      "examples": [
+        "What a wonderful day!",
+        "Your song was wonderful."
+      ],
+      "distractors": [
+        "delicious",
+        "important",
+        "recyclable"
+      ],
+      "greekHint": "υπέροχος: wonderful, very special",
+      "english": "wonderful",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U2-SB-236",
+      "emoji": "🕛",
+      "kidDefinition": "A time in the day when you stop and eat.",
+      "examples": [
+        "At lunch break, we eat in the school yard.",
+        "Our lunch break is at half past twelve."
+      ],
+      "distractors": [
+        "hide-and-seek",
+        "swimming pool",
+        "cardboard box"
+      ],
+      "greekHint": "διάλειμμα για φαγητό: the break for lunch",
+      "english": "lunch break",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U2-SB-224",
+      "emoji": "🥪",
+      "kidDefinition": "Two slices of bread with food inside.",
+      "examples": [
+        "I make a cheese sandwich for lunch.",
+        "Can I have a sandwich, please?"
+      ],
+      "distractors": [
+        "fried rice",
+        "cake",
+        "paintbrush"
+      ],
+      "greekHint": "σάντουιτς: sandwich, the same word in Greek",
+      "english": "sandwich",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U2-SB-212",
+    "CPP1-U2-SB-213",
+    "CPP1-U2-SB-215",
+    "CPP1-U2-SB-220",
+    "CPP1-U2-SB-221",
+    "CPP1-U2-SB-222",
+    "CPP1-U2-SB-223",
+    "CPP1-U2-SB-225",
+    "CPP1-U2-SB-226",
+    "CPP1-U2-SB-227",
+    "CPP1-U2-SB-228",
+    "CPP1-U2-SB-229",
+    "CPP1-U2-SB-230",
+    "CPP1-U2-SB-232",
+    "CPP1-U2-SB-233",
+    "CPP1-U2-SB-234",
+    "CPP1-U2-SB-235",
+    "CPP1-U2-SB-237",
+    "CPP1-U2-SB-238",
+    "CPP1-U2-SB-239",
+    "CPP1-U2-SB-240",
+    "CPP1-U2-SB-241",
+    "CPP1-U2-SB-242",
+    "CPP1-U2-SB-243",
+    "CPP1-U2-SB-244",
+    "CPP1-U2-SB-245",
+    "CPP1-U2-SB-246",
+    "CPP1-U2-SB-247",
+    "CPP1-U2-SB-248",
+    "CPP1-U2-SB-249",
+    "CPP1-U2-SB-250",
+    "CPP1-U2-SB-251",
+    "CPP1-U2-SB-252",
+    "CPP1-U2-SB-253",
+    "CPP1-U2-SB-254",
+    "CPP1-U2-SB-255",
+    "CPP1-U2-SB-256",
+    "CPP1-U2-SB-257",
+    "CPP1-U2-SB-258",
+    "CPP1-U2-SB-259",
+    "CPP1-U2-SB-260",
+    "CPP1-U2-SB-261",
+    "CPP1-U2-SB-262",
+    "CPP1-U2-SB-263"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "school",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hoo hoo! Hello, friends. It's Lingo here!"
+        },
+        {
+          "id": "l2",
+          "text": "Every school has bags, rooms, and lunches to share."
+        },
+        {
+          "id": "l3",
+          "text": "Today we will meet two friends with books and big ideas."
+        },
+        {
+          "id": "l4",
+          "text": "Let's learn some new words together!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is in your schoolbag today?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U2-SB-217",
+        "CPP1-U2-SB-210",
+        "CPP1-U2-SB-211",
+        "CPP1-U2-SB-218",
+        "CPP1-U2-SB-214",
+        "CPP1-U2-SB-219",
+        "CPP1-U2-SB-216",
+        "CPP1-U2-SB-231",
+        "CPP1-U2-SB-236",
+        "CPP1-U2-SB-224"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Monica's New Schoolbag",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "monica"
+            },
+            {
+              "who": "bob"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Monica walks into school with a new bag."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "monica",
+              "text": "Look, Bob! This is my new schoolbag."
+            },
+            {
+              "id": "p1b",
+              "who": "bob",
+              "text": "Wow! It's bright blue. My bag is old."
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-217",
+            "CPP1-U2-SB-210",
+            "CPP1-U2-SB-218",
+            "CPP1-U2-SB-211"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "monica"
+            },
+            {
+              "who": "bob"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "They walk into the school library together."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "bob",
+              "text": "What's the title of this book?"
+            },
+            {
+              "id": "p2b",
+              "who": "monica",
+              "text": "It's The Lion and the Flower. Let's read it!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-214",
+            "CPP1-U2-SB-219"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "monica"
+            },
+            {
+              "who": "bob"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Bob asks Monica to tell him about the pictures."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "bob",
+              "text": "Can you describe the pictures in the book?"
+            },
+            {
+              "id": "p3b",
+              "who": "monica",
+              "text": "The pictures are wonderful and bright!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-216",
+            "CPP1-U2-SB-231",
+            "CPP1-U2-SB-218"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "playground",
+          "characters": [
+            {
+              "who": "monica"
+            },
+            {
+              "who": "bob"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "At lunch break, the friends sit under a big tree."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "bob",
+              "text": "I have a cheese sandwich. What about you?"
+            },
+            {
+              "id": "p4b",
+              "who": "monica",
+              "text": "My lunch is great! Let's share our food!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-236",
+            "CPP1-U2-SB-224"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "school",
+          "characters": [
+            {
+              "who": "lingo"
+            },
+            {
+              "who": "monica"
+            },
+            {
+              "who": "bob"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Lingo smiles from the branch above them."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "lingo",
+              "text": "Hoo hoo! Bags, books and lunch. School is wonderful!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U2-SB-231"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-210",
+          "prompt": {
+            "id": "c1q",
+            "text": "This is my ____ schoolbag. I got it today!"
+          },
+          "options": [
+            "bright",
+            "old",
+            "new"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "Something you got today is new, not old."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-211",
+          "prompt": {
+            "id": "c2q",
+            "text": "Bob's ____ bag has a small hole in it."
+          },
+          "options": [
+            "old",
+            "sad",
+            "wonderful"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A bag with a hole has been used for a long time, so it is old."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U2-SB-217",
+          "prompt": {
+            "id": "c3q",
+            "text": "Find the picture: the bag you carry your books in to school."
+          },
+          "options": [
+            "CPP1-U2-SB-219",
+            "CPP1-U2-SB-217",
+            "CPP1-U2-SB-224",
+            "CPP1-U2-SB-214"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "A schoolbag is the bag you use to carry things to school."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP1-U2-SB-214",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen and choose: which place has many books you can borrow?"
+          },
+          "options": [
+            "CPP1-U2-SB-219",
+            "CPP1-U2-SB-224",
+            "CPP1-U2-SB-217",
+            "CPP1-U2-SB-214"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "You can borrow books at the library, which is a room full of books."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U2-SB-219",
+          "prompt": {
+            "id": "c5q",
+            "text": "The title of a book is its name."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "The title tells you the name of the book or story."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U2-SB-218",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "sandwich",
+            "bright",
+            "library",
+            "title"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Bright is an adjective, while the other three words are nouns."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-216",
+          "prompt": {
+            "id": "c7q",
+            "text": "Can you ____ your favourite room at home?"
+          },
+          "options": [
+            "describe",
+            "wear",
+            "sit"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "To describe something means to say what it is like."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP1-U2-SB-231",
+          "prompt": {
+            "id": "c8q",
+            "text": "What a ____ day! Let's go to the park."
+          },
+          "options": [
+            "old",
+            "wonderful",
+            "sad"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "Wonderful means very good and amazing, which fits a happy day."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U2-SB-236",
+          "prompt": {
+            "id": "c9q",
+            "text": "Lunch break is the time to start school in the morning."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Lunch break is when you stop and eat, not when school starts."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U2-SB-224",
+          "prompt": {
+            "id": "c10q",
+            "text": "Find the picture: two slices of bread with food inside."
+          },
+          "options": [
+            "CPP1-U2-SB-224",
+            "CPP1-U2-SB-214",
+            "CPP1-U2-SB-217",
+            "CPP1-U2-SB-219"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "A sandwich is two slices of bread with food in the middle."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the pairs of pictures and words."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud when you turn a card over."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your schoolbag and your lunch."
+      },
+      "frames": [
+        "I have a new ___.",
+        "My schoolbag is ___.",
+        "At lunch break, I eat a ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I have a new schoolbag. It is bright green. At lunch break, I eat a sandwich. It is wonderful!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You learned lots of new school words today."
+        },
+        {
+          "id": "l2",
+          "text": "Your schoolbags, library books and lunch breaks are all wonderful."
+        },
+        {
+          "id": "l3",
+          "text": "See you next time, friends. Hoo hoo, goodbye!"
+        }
+      ],
+      "badge": {
+        "emoji": "🎒",
+        "name": "Schoolbag Star"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Can you describe your schoolbag in one sentence?"
+        },
+        {
+          "id": "e2",
+          "text": "What is the title of your favourite book?"
+        }
+      ]
+    }
+  ]
+}

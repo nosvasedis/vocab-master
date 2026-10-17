@@ -13,7 +13,12 @@
     `node scripts/audio/build-audio.mjs --only lessons --lessons CPP1-U1-BQ,CPP1-U1-A,CPP1-U1-B,CPP2-U1-BQ,CPP2-U1-A,CPP2-U1-B,CPP3-U1-BQ,CPP3-U1-A,CPP3-U1-B`
   - (2) Word batches were submitted; collect them with `node scripts/audio/build-audio.mjs --only words --collect`. Don't run this while (1) is running, because both write `work/state/audio.json`.
   - (3) Drafting of the remaining 72 lessons is running: `node scripts/lessons/draft-lessons.mjs --all` (resumable).
-  - (4) After that: check that the ledger entries match the clip count (two processes wrote the ledger at once), then project the cost for all 81 lessons from the real pilot spend.
+  - (4) Ledger reconciled after the concurrent run: 90 standard entries = 90 clips. ✔
+- **Decision (2026-10-17, user):** keep the designed Lingo voice.
+  - Narration finishes over several days of the Gemini Tier-1 quota (about 100 requests/day/model). It's chunked, so 81 lessons need about 3 days.
+  - Story characters that use studio voices go to the same model via **OpenRouter** (`voices.json` `"openrouterFor": ["dialogue"]`). No daily cap, about $0.46 per hour of audio, but no style field.
+  - The OpenRouter cap is now $3 total (drafting plus TTS).
+- **Daily routine until narration is done:** `node scripts/audio/build-audio.mjs --only lessons` once per day after the quota resets (around 11:00 UTC). It resumes and stops cleanly at the quota.
 - **Waiting on the user:**
   - **Cloudflare API token:** not created, because the agent's permission system blocked the dashboard. The user can create it (Account → Workers AI: Edit + Workers R2 Storage: Edit) and paste `CF_ACCOUNT_ID` / `CF_API_TOKEN` into `.env.local`, or allow the action. Only needed for Phase 1d/1e.
   - **Pilot review:** the 9 pilot lessons are `status: draft` and need a human read-through before `approved`.

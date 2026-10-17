@@ -1,0 +1,721 @@
+{
+  "schema": 1,
+  "id": "CPP2-U9-B",
+  "bookId": "CPP2",
+  "unit": 9,
+  "section": "B",
+  "title": "Pip's Weather Clues",
+  "bigQuestion": "How do inventions change our lives?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful, curious 10-year-old girl who loves science"
+    },
+    "grandpa": {
+      "name": "Grandpa",
+      "emoji": "👴",
+      "persona": "calm, funny grandfather who gives gentle advice"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U9-SB-1136",
+      "emoji": "🫙",
+      "kidDefinition": "A glass or plastic container with a lid.",
+      "examples": [
+        "Mia kept the seeds in a clear jar.",
+        "The honey jar is empty now."
+      ],
+      "distractors": [
+        "shoe",
+        "sock",
+        "hat"
+      ],
+      "greekHint": "γυάλα: σκέψου γυαλί (glass)",
+      "english": "jar",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1137",
+      "emoji": "🥛",
+      "kidDefinition": "To hit something so that it falls down by accident.",
+      "examples": [
+        "I knocked over my glass of juice at lunch.",
+        "Be careful, or you will knock over the vase."
+      ],
+      "distractors": [
+        "pick up",
+        "turn on",
+        "put on"
+      ],
+      "greekHint": "ρίχνω κατά λάθος",
+      "english": "knock over",
+      "type": "phr. v."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1138",
+      "emoji": "🔮",
+      "kidDefinition": "To say what you think will happen in the future.",
+      "examples": [
+        "Can you predict who will win the race?",
+        "I predict the film will be funny."
+      ],
+      "distractors": [
+        "remember",
+        "forget",
+        "count"
+      ],
+      "greekHint": "προβλέπω: pro = before, βλέπω = I see",
+      "english": "predict",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1139",
+      "emoji": "🔍",
+      "kidDefinition": "Something you notice carefully by looking or watching.",
+      "examples": [
+        "Her observation of the birds was very careful.",
+        "Make an observation and write it in your notebook."
+      ],
+      "distractors": [
+        "invention",
+        "kitchen",
+        "lesson"
+      ],
+      "greekHint": "παρατήρηση",
+      "english": "observation",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1141",
+      "emoji": "🌤️",
+      "kidDefinition": "The weather and other things around us at a time.",
+      "examples": [
+        "The sea conditions are good for swimming today.",
+        "Good conditions help plants grow quickly."
+      ],
+      "distractors": [
+        "pictures",
+        "stories",
+        "numbers"
+      ],
+      "greekHint": "καιρικές συνθήκες",
+      "english": "conditions",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1167",
+      "emoji": "☁️",
+      "kidDefinition": "When the sky is full of clouds.",
+      "examples": [
+        "It is cloudy, so we can't see the sun.",
+        "The morning was cloudy, but the afternoon was sunny."
+      ],
+      "distractors": [
+        "sunny",
+        "windy",
+        "snowy"
+      ],
+      "greekHint": "(που έχει) συννεφιά",
+      "english": "cloudy",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1165",
+      "emoji": "🐾",
+      "kidDefinition": "The foot of an animal, like a cat or a dog.",
+      "examples": [
+        "The puppy has four soft paws.",
+        "My cat washes its paws every day."
+      ],
+      "distractors": [
+        "nose",
+        "tail",
+        "wing"
+      ],
+      "greekHint": "πατούσα",
+      "english": "paw",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1164",
+      "emoji": "👅",
+      "kidDefinition": "To touch something with your tongue.",
+      "examples": [
+        "The dog likes to lick my face.",
+        "Please don't lick the spoon. Use a napkin!"
+      ],
+      "distractors": [
+        "bite",
+        "chew",
+        "sniff"
+      ],
+      "greekHint": "γλείφω",
+      "english": "lick",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1160",
+      "emoji": "🧪",
+      "kidDefinition": "A test you do to learn something new.",
+      "examples": [
+        "We did an experiment with ice and salt today.",
+        "My experiment showed that plants need water."
+      ],
+      "distractors": [
+        "picnic",
+        "holiday",
+        "game"
+      ],
+      "greekHint": "πείραμα",
+      "english": "experiment",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U9-SB-1145",
+      "emoji": "🚀",
+      "kidDefinition": "The time that has not happened yet.",
+      "examples": [
+        "In the future, cars might fly.",
+        "I want to be a doctor in the future."
+      ],
+      "distractors": [
+        "past",
+        "lunch",
+        "garden"
+      ],
+      "greekHint": "μέλλον",
+      "english": "future",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U9-SB-1140",
+    "CPP2-U9-SB-1142",
+    "CPP2-U9-SB-1143",
+    "CPP2-U9-SB-1144",
+    "CPP2-U9-SB-1146",
+    "CPP2-U9-SB-1147",
+    "CPP2-U9-SB-1148",
+    "CPP2-U9-SB-1149",
+    "CPP2-U9-SB-1150",
+    "CPP2-U9-SB-1151",
+    "CPP2-U9-SB-1152",
+    "CPP2-U9-SB-1154",
+    "CPP2-U9-SB-1155",
+    "CPP2-U9-SB-1156",
+    "CPP2-U9-SB-1157",
+    "CPP2-U9-SB-1158",
+    "CPP2-U9-SB-1159",
+    "CPP2-U9-SB-1161",
+    "CPP2-U9-SB-1162",
+    "CPP2-U9-SB-1163",
+    "CPP2-U9-SB-1166",
+    "CPP2-U9-SB-1168",
+    "CPP2-U9-SB-1170",
+    "CPP2-U9-SB-1171",
+    "CPP2-U9-SB-1172",
+    "CPP2-U9-SB-1173",
+    "CPP2-U9-SB-1174",
+    "CPP2-U9-SB-1175"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I'm Lingo, and I love the weather!"
+        },
+        {
+          "id": "l2",
+          "text": "Did you know that cats can give us weather clues?"
+        },
+        {
+          "id": "l3",
+          "text": "Scientists watch nature closely and make clever guesses about tomorrow."
+        },
+        {
+          "id": "l4",
+          "text": "Today we will learn new words about weather and the future."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you do when the sky is cloudy?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U9-SB-1136",
+        "CPP2-U9-SB-1137",
+        "CPP2-U9-SB-1160",
+        "CPP2-U9-SB-1165",
+        "CPP2-U9-SB-1164",
+        "CPP2-U9-SB-1139",
+        "CPP2-U9-SB-1138",
+        "CPP2-U9-SB-1167",
+        "CPP2-U9-SB-1141",
+        "CPP2-U9-SB-1145"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Pip's Weather Clues",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia wants to find out about tomorrow's weather."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "I want to predict tomorrow's weather, Grandpa. I'll do an experiment!"
+            },
+            {
+              "id": "p1b",
+              "who": "grandpa",
+              "text": "Good idea! Let's start with a jar of water."
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1138",
+            "CPP2-U9-SB-1160",
+            "CPP2-U9-SB-1136"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Mia fills the jar. Then Pip the cat jumps onto the table!"
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "grandpa",
+              "text": "Careful, Mia! Don't let Pip knock over the jar."
+            },
+            {
+              "id": "p2b",
+              "who": "mia",
+              "text": "Oops! That was close. Good thing nothing spilled!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1137",
+            "CPP2-U9-SB-1136"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Pip sits in the garden and licks its paw again and again."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mia",
+              "text": "Look, Grandpa! Pip is licking its paw again!"
+            },
+            {
+              "id": "p3b",
+              "who": "grandpa",
+              "text": "That's a clever observation, Mia. Cats notice small changes."
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1165",
+            "CPP2-U9-SB-1164",
+            "CPP2-U9-SB-1139"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "The sky turns grey. The conditions are changing."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "mia",
+              "text": "The sky is cloudy now. The conditions look wet, don't they?"
+            },
+            {
+              "id": "p4b",
+              "who": "grandpa",
+              "text": "Yes, I think rain is coming soon."
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1167",
+            "CPP2-U9-SB-1141"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "garden",
+          "characters": [
+            {
+              "who": "mia"
+            },
+            {
+              "who": "grandpa"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Rain starts to fall. Mia smiles at Pip."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mia",
+              "text": "Pip was right! Its observation helped us predict the rain."
+            },
+            {
+              "id": "p5b",
+              "who": "grandpa",
+              "text": "Maybe Pip can help us predict the weather in the future too."
+            }
+          ],
+          "highlight": [
+            "CPP2-U9-SB-1138",
+            "CPP2-U9-SB-1145"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1136",
+          "prompt": {
+            "id": "c1q",
+            "text": "Mia kept the seeds in a clear glass ____ with a lid."
+          },
+          "options": [
+            "jar",
+            "hat",
+            "sock",
+            "shoe"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A jar is a glass container with a lid, so it is the right choice."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1137",
+          "prompt": {
+            "id": "c2q",
+            "text": "Oops! Pip jumped and ____ the glass of water."
+          },
+          "options": [
+            "turned on",
+            "knocked over",
+            "picked up",
+            "put on"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "When you knock something over by accident, it falls down."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U9-SB-1138",
+          "prompt": {
+            "id": "c3q",
+            "text": "Pick the word. To say what will happen next."
+          },
+          "options": [
+            "CPP2-U9-SB-1137",
+            "CPP2-U9-SB-1164",
+            "CPP2-U9-SB-1160",
+            "CPP2-U9-SB-1138"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "To predict means to say what you think will happen next."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "listen",
+          "wordId": "CPP2-U9-SB-1139",
+          "prompt": {
+            "id": "c4q",
+            "text": "Listen to the word. Which card did you hear?"
+          },
+          "options": [
+            "CPP2-U9-SB-1139",
+            "CPP2-U9-SB-1160",
+            "CPP2-U9-SB-1145",
+            "CPP2-U9-SB-1136"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "An observation is something you notice by carefully watching."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U9-SB-1141",
+          "prompt": {
+            "id": "c5q",
+            "text": "Conditions means the weather and other things around us."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Conditions are the situation around us, such as the weather."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U9-SB-1167",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "cloudy",
+            "sunny",
+            "rainy",
+            "paw"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "Cloudy, sunny and rainy describe weather, but a paw is a part of an animal."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1165",
+          "prompt": {
+            "id": "c7q",
+            "text": "The cat cleaned its ____ after its walk in the garden."
+          },
+          "options": [
+            "wing",
+            "nose",
+            "paw",
+            "tail"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c7e",
+            "text": "A cat's foot is called a paw."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1164",
+          "prompt": {
+            "id": "c8q",
+            "text": "The cat likes to ____ its paws after lunch."
+          },
+          "options": [
+            "sniff",
+            "bite",
+            "chew",
+            "lick"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "To lick means to touch something with your tongue."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U9-SB-1160",
+          "prompt": {
+            "id": "c9q",
+            "text": "An experiment is a game we play with our friends."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "An experiment is a test you do to find out what happens."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U9-SB-1145",
+          "prompt": {
+            "id": "c10q",
+            "text": "I want to be a scientist in the ____."
+          },
+          "options": [
+            "garden",
+            "lunch",
+            "future",
+            "past"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c10e",
+            "text": "The future is the time that has not happened yet."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory with our word cards! Turn over two cards and find a matching pair."
+        },
+        {
+          "id": "l2",
+          "text": "Say each word out loud as you find it. Good luck, detectives!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Ask your partner: What clues can help us predict the weather?"
+      },
+      "frames": [
+        "I think ___ is a good clue for predicting the weather.",
+        "When it is ___, I can ___.",
+        "In the future, I want to ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I think cloudy skies are a good clue. When it is cloudy, I can predict some rain. In the future, I want to do an experiment about the weather."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, weather detectives! You used ten new words today!"
+        },
+        {
+          "id": "l2",
+          "text": "You can now predict, observe, and describe the weather like a scientist!"
+        },
+        {
+          "id": "l3",
+          "text": "Keep your eyes open, just like Pip, and look for clues!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Weather Clue Detective"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What is one weather clue you can observe at home?"
+        },
+        {
+          "id": "e2",
+          "text": "Use the word predict in a sentence about tomorrow's weather."
+        }
+      ]
+    }
+  ]
+}
