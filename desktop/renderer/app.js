@@ -50,10 +50,10 @@ const EXERCISE_FAMILIES = {
   D13: "recognition", D14: "productive", D15: "recognition", D16: "analysis",
   D17: "productive", D18: "recognition", D19: "recognition", D20: "productive",
   D21: "analysis", D22: "productive", D23: "analysis", D24: "recognition",
-  D25: "recognition",
+  D25: "recognition", D26: "productive", D27: "productive", D28: "analysis",
   L01: "productive", L02: "recognition", L03: "recognition", L04: "recognition",
   L05: "productive", L06: "analysis", L07: "productive", L08: "productive",
-  L09: "analysis", L10: "productive",
+  L09: "analysis", L10: "productive", L11: "recognition", L12: "analysis", L13: "recognition",
 };
 
 const EXERCISE_LABELS = {
@@ -65,10 +65,12 @@ const EXERCISE_LABELS = {
   D16: "Category sort", D17: "Collocation pair", D18: "Register choice",
   D19: "Definition (advanced)", D20: "Error correction", D21: "Sequencing",
   D22: "Crossword clue", D23: "Analogy", D24: "Minimal pair", D25: "Picture cue",
+  D26: "Jumbled letters", D27: "Missing letters", D28: "Spelling check",
   L01: "Gap fill with list", L02: "Circle best word", L03: "Synonym match",
   L04: "Opposite pairs", L05: "Collocation match", L06: "Grammar labels",
   L07: "Derivative build", L08: "Sentence order", L09: "Odd one out (light)",
   L10: "Personalize prompt",
+  L11: "Yes / No questions", L12: "Spelling check", L13: "Which sentence is right?",
 };
 
 const EXERCISE_DESCRIPTIONS = {
@@ -97,6 +99,9 @@ const EXERCISE_DESCRIPTIONS = {
   D23: "Complete the analogy (word is to word as…).",
   D24: "Choose between similar-sounding or easily confused words.",
   D25: "Picture or emoji cue — optional paraphrase hint in brackets, never the answer word.",
+  D26: "Unscramble the jumbled letters to make the unit word — a short clue in brackets helps.",
+  D27: "Fill in the missing letters of the unit word (t _ a _ k) — a short clue helps.",
+  D28: "One word in [brackets] is misspelt — students write it correctly.",
   L01: "Sentences with gaps — answers chosen from a shuffled word list.",
   L02: "Each sentence has (option A / option B) choices built in.",
   L03: "Match words to synonyms in brackets. Only for words with synonyms in vocab.",
@@ -107,6 +112,9 @@ const EXERCISE_DESCRIPTIONS = {
   L08: "Reorder words to make a correct sentence.",
   L09: "Odd one out: 4 words per line — exactly 3 share a link, 1 is different.",
   L10: "Personalize prompt using unit vocabulary.",
+  L11: "Yes / No questions that check real understanding of the word (not just its definition).",
+  L12: "One word in [brackets] is misspelt — students write it correctly.",
+  L13: "Two sentences, A and B — only one uses the word correctly.",
 };
 
 const EXERCISE_EXAMPLES = {
@@ -135,6 +143,9 @@ const EXERCISE_EXAMPLES = {
   D23: 'Arm is to limb as stadium path is to ________. → track',
   D24: 'Her story was a great (inspiration / respiration) to us. → inspiration',
   D25: '🏃‍♀️🏟️ (oval path for runners) ________ → track',
+  D26: 'ckrat (a path for running races) → track',
+  D27: 't _ a _ k (a path for running races) → track',
+  D28: 'The runners ran around the [trak]. → track',
   L01: 'You need to run four times around the ________ to finish the mile. → track',
   L02: 'My teacher is a great (inspiration / track) to all her students.',
   L03: 'compete (race / rest / forget) → race',
@@ -145,6 +156,9 @@ const EXERCISE_EXAMPLES = {
   L08: 'around / ran / track / the / they → They ran around the track.',
   L09: 'track, medal, stadium, introduce → introduce',
   L10: 'Who is a big inspiration in your life, and why?',
+  L11: 'Do athletes compete in a stadium? → Yes',
+  L12: 'She won the swimming [competion]. → competition',
+  L13: 'A. They ran around the track.  B. They ran around the tracking. → A',
 };
 
 const BOOK_PRESETS = [
@@ -202,6 +216,9 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D23: "Complete each analogy.",
   D24: "Choose the correct word from the similar options in brackets.",
   D25: "Look at the picture cue and write the correct word.",
+  D26: "Unscramble the letters to make a word from the unit. The clue in brackets will help you.",
+  D27: "Write the missing letters to complete each word. The clue in brackets will help you.",
+  D28: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
   L01: "Fill in the gaps with words from the list.",
   L02: "Circle the best word in each sentence.",
   L03: "Choose the correct synonym from the options in brackets.",
@@ -212,6 +229,9 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   L08: "Put the words in the correct order to make a sentence.",
   L09: "Circle the odd one out in each group of four words.",
   L10: "Answer each question using words from the unit.",
+  L11: "Read each question and write Yes or No.",
+  L12: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
+  L13: "Only one sentence is correct. Write A or B.",
 };
 
 function getStudentExerciseInstruction(ex) {
@@ -225,8 +245,8 @@ const CLASS_PROFILES = {
     id: "A_SENIOR", label: "A Senior", greekGrades: "3η / 4η / 5η Δημοτικού",
     cefr: "Early A1", ageRange: "9–10", defaultVocab: 6, maxSentenceWords: 7,
     minEmojis: 2, maxDerivatives: 1, allowDefinitionsInDictation: false,
-    allowDictation: ["D01", "D03", "D04", "D06", "D13", "D15", "D17", "D25"],
-    allowLingo: ["L01", "L02", "L04", "L05", "L09"],
+    allowDictation: ["D01", "D03", "D04", "D06", "D13", "D15", "D17", "D25", "D26", "D27"],
+    allowLingo: ["L01", "L02", "L04", "L05", "L09", "L11"],
     cognitiveMix: { recognition: 0.6, productive: 0.3, analysis: 0.1 },
     lingoPracticeWeights: [1, 0, 0],
     wordBankSize: 4, itemsPerExercise: 5,
@@ -238,8 +258,8 @@ const CLASS_PROFILES = {
     id: "B_SENIOR", label: "B Senior", greekGrades: "4η / 5η / 6η Δημοτικού",
     cefr: "A1", ageRange: "10–11", defaultVocab: 8, maxSentenceWords: 9,
     minEmojis: 2, maxDerivatives: 2, allowDefinitionsInDictation: false,
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25"],
-    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09"],
+    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25", "D26", "D27", "D28"],
+    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11"],
     cognitiveMix: { recognition: 0.5, productive: 0.35, analysis: 0.15 },
     lingoPracticeWeights: [0.8, 0.2, 0],
     wordBankSize: 5, itemsPerExercise: 5,
@@ -251,8 +271,8 @@ const CLASS_PROFILES = {
     id: "C_SENIOR", label: "C Senior", greekGrades: "5η / 6η Δημοτικού · ίσως 1η Γυμνασίου",
     cefr: "A1–A2", ageRange: "11–12", defaultVocab: 8, maxSentenceWords: 11,
     minEmojis: 1, maxDerivatives: 3, allowDefinitionsInDictation: "simple",
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25"],
-    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09"],
+    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25", "D26", "D27", "D28"],
+    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11", "L12"],
     cognitiveMix: { recognition: 0.45, productive: 0.4, analysis: 0.15 },
     lingoPracticeWeights: [0.5, 0.5, 0],
     wordBankSize: 5, itemsPerExercise: 5,
@@ -264,8 +284,8 @@ const CLASS_PROFILES = {
     id: "D_SENIOR", label: "D Senior", greekGrades: "6η Δημοτικού · 1η / 2α Γυμνασίου",
     cefr: "A2", ageRange: "12–13", defaultVocab: 8, maxSentenceWords: 13,
     minEmojis: 0, maxDerivatives: 4, allowDefinitionsInDictation: "short",
-    allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25"],
-    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09"],
+    allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25","D26","D27","D28"],
+    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L11","L12","L13"],
     cognitiveMix: { recognition: 0.4, productive: 0.4, analysis: 0.2 },
     lingoPracticeWeights: [0.5, 0.5, 0],
     wordBankSize: 6, itemsPerExercise: 6,
@@ -277,8 +297,8 @@ const CLASS_PROFILES = {
     id: "E_SENIOR", label: "E Senior", greekGrades: "1η / 2α / 3η Γυμνασίου",
     cefr: "B1", ageRange: "13–14", defaultVocab: 8, maxSentenceWords: 16,
     minEmojis: 0, maxDerivatives: 99, allowDefinitionsInDictation: true,
-    allowDictation: Array.from({ length: 25 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
-    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L10"],
+    allowDictation: Array.from({ length: 28 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
+    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L10","L11","L12","L13"],
     cognitiveMix: { recognition: 0.35, productive: 0.4, analysis: 0.25 },
     lingoPracticeWeights: [0.3, 0.7, 0],
     wordBankSize: 6, itemsPerExercise: 6,
@@ -943,8 +963,110 @@ function promptRevealsAnswer(prompt, answer, typeId) {
   return promptContainsAnswerText(prompt, answer, typeId);
 }
 
+/** Items are numbered by the layout (circled badge), so a typed "(1)", "1)", "1." or "1 -" prefix is redundant. */
+function stripLeadingItemNumber(text) {
+  return String(text ?? "").replace(/^\s*(?:\(\s*\d{1,2}\s*\)|\[\s*\d{1,2}\s*\]|\d{1,2}\s*[).:\-–])\s+(?![_＿])/, "");
+}
+
+function stripItemNumberPrefixes(data) {
+  const strip = (ex) => ex.items?.forEach((item) => {
+    if (typeof item.prompt === "string") item.prompt = stripLeadingItemNumber(item.prompt);
+  });
+  data?.dictation?.exercises?.forEach(strip);
+  data?.lingoLauncher?.practice?.forEach(strip);
+  return data;
+}
+
+/* ── Newer exercise types: jumbled / missing letters, spelling check, yes-no, A/B ── */
+const SPELLING_CHECK_TYPES = new Set(["D28", "L12"]);
+const letterKey = (w) => String(w || "").toLowerCase().replace(/[^a-z]/g, "").split("").sort().join("");
+
+function splitPromptClue(prompt) {
+  const m = String(prompt || "").match(/^(.*?)\s*(\([^)]*\))?\s*$/);
+  return { head: (m?.[1] || "").trim(), clue: m?.[2] || "" };
+}
+
+function scrambleWord(word) {
+  const letters = word.split("");
+  for (let tries = 0; tries < 12; tries++) {
+    const out = shuffle(letters).join("");
+    if (out.toLowerCase() !== word.toLowerCase()) return out;
+  }
+  return letters.reverse().join("");
+}
+
+function maskWord(word) {
+  const idx = [];
+  for (let i = 1; i < word.length; i++) idx.push(i);
+  const hide = new Set(shuffle(idx).slice(0, Math.max(2, Math.round(idx.length * 0.4))));
+  return word.split("").map((ch, i) => (hide.has(i) ? "_" : ch)).join(" ");
+}
+
+/** Rebuild the letter puzzles from the answer so they are always solvable and never the plain word. */
+function normalizeLetterPuzzles(data) {
+  data?.dictation?.exercises?.forEach((ex) => {
+    if (ex.typeId !== "D26" && ex.typeId !== "D27") return;
+    ex.wordBank = [];
+    ex.items?.forEach((item) => {
+      const answer = String(item.answer || "").trim();
+      if (!/^[A-Za-z]{3,}$/.test(answer)) return;
+      const { head, clue } = splitPromptClue(item.prompt);
+      const squashed = head.replace(/\s+/g, "");
+      if (ex.typeId === "D26") {
+        const ok = head && !/\s/.test(head) && letterKey(head) === letterKey(answer) && head.toLowerCase() !== answer.toLowerCase();
+        if (!ok) item.prompt = scrambleWord(answer.toLowerCase()) + (clue ? " " + clue : "");
+      } else {
+        const fits = squashed.length === answer.length && head.includes("_")
+          && [...squashed].every((c, i) => c === "_" || c.toLowerCase() === answer[i].toLowerCase());
+        const shown = fits ? head.replace(/\s*_\s*/g, " _ ").replace(/\s{2,}/g, " ").trim() : maskWord(answer.toLowerCase());
+        item.prompt = shown + (clue ? " " + clue : "");
+      }
+    });
+  });
+  return data;
+}
+
+function validateExtraTypes(data, issues) {
+  const check = (ex, sheet) => {
+    const t = ex.typeId;
+    const label = sheet + " ex " + ex.number + " (" + t + ")";
+    if (SPELLING_CHECK_TYPES.has(t)) {
+      ex.items?.forEach((item) => {
+        const m = String(item.prompt || "").match(/\[([^\]]+)\]/);
+        if (!m) issues.push(label + " item " + item.number + ": misspelt word must be marked in [square brackets]");
+        else if (normalizeWord(m[1]) === normalizeWord(item.answer)) issues.push(label + " item " + item.number + ": the bracketed word is already spelt correctly");
+      });
+    }
+    if (t === "D26" || t === "D27") {
+      ex.items?.forEach((item) => {
+        if (!/^[A-Za-z]{3,}$/.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be a single unit word");
+      });
+    }
+    if (t === "L11") {
+      ex.items?.forEach((item) => {
+        if (!/^(yes|no)$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be Yes or No");
+        if (!/\?\s*$/.test(String(item.prompt || "").trim())) issues.push(label + " item " + item.number + ": prompt must be a question");
+      });
+      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toLowerCase());
+      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": all answers are \"" + answers[0] + "\" — mix Yes and No");
+    }
+    if (t === "L13") {
+      ex.items?.forEach((item) => {
+        const p = String(item.prompt || "");
+        if (!/A\.\s*\S/.test(p) || !/B\.\s*\S/.test(p)) issues.push(label + " item " + item.number + ": prompt needs \"A. … B. …\" sentences");
+        if (!/^[AB]$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be A or B");
+      });
+      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toUpperCase());
+      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": every answer is \"" + answers[0] + "\" — mix A and B");
+    }
+  };
+  data?.dictation?.exercises?.forEach((ex) => check(ex, "Dictation"));
+  data?.lingoLauncher?.practice?.forEach((ex) => check(ex, "Lingo"));
+}
+
 function normalizeWorksheetPrompts(data) {
   if (!data) return data;
+  stripItemNumberPrefixes(data);
   data.dictation?.exercises?.forEach((ex) => {
     const bracketMode = itemsHaveSlashChoices(ex) || BRACKET_CHOICE_TYPES.has(ex.typeId);
     ex.items?.forEach((item) => {
@@ -996,6 +1118,7 @@ function normalizeWorksheetExercises(data) {
     data.lingoLauncher.vocabulary = normalizeVocabulary(data.lingoLauncher.vocabulary);
   }
   normalizeDictationWordBanks(data);
+  normalizeLetterPuzzles(data);
   normalizeD13Exercises(data);
   normalizeD02Exercises(data);
   normalizeL01Exercises(data);
@@ -1599,31 +1722,31 @@ function riddleBodyLeaksAnswer(prompt, answer) {
 
 function formatDictationItemHtml(item, typeId) {
   if (typeId === "D02" && item.stem) {
-    const prompt = escapeHtml(item.prompt || "");
+    const prompt = escapeHtml(stripLeadingItemNumber(item.prompt) || "");
     const stem = escapeHtml(String(item.stem).toUpperCase());
     return `${prompt}  <strong class="stem-word">${stem}</strong>`;
   }
-  if (typeId === "D08") {
-    return renderD08PromptHtml(item.prompt);
+  if (typeId === "D08" || typeId === "D28") {
+    return renderD08PromptHtml(stripLeadingItemNumber(item.prompt));
   }
   if (typeId === "D11") {
-    const words = parseCommaWordGroup(item.prompt);
+    const words = parseCommaWordGroup(stripLeadingItemNumber(item.prompt));
     if (words.length >= 3) {
       return escapeHtml(words.join(" · "));
     }
   }
-  return escapeHtml(item.prompt || "");
+  return escapeHtml(stripLeadingItemNumber(item.prompt) || "");
 }
 
 function formatDictationItemPlain(item, typeId) {
   if (typeId === "D02" && item.stem) {
-    return `${item.prompt || ""}  ${String(item.stem).toUpperCase()}`;
+    return `${stripLeadingItemNumber(item.prompt) || ""}  ${String(item.stem).toUpperCase()}`;
   }
   if (typeId === "D11") {
-    const words = parseCommaWordGroup(item.prompt);
+    const words = parseCommaWordGroup(stripLeadingItemNumber(item.prompt));
     if (words.length >= 3) return words.join(" · ");
   }
-  return item.prompt || "";
+  return stripLeadingItemNumber(item.prompt) || "";
 }
 
 function collectWordFamilyForms(vocabEntry) {
@@ -2204,6 +2327,8 @@ function validateWorksheet(data) {
     }
   });
 
+  validateExtraTypes(data, issues);
+
   findCrossWorksheetDuplicatePrompts(data).forEach((dup) => {
     issues.push(`Duplicate sentence across worksheets: ${dup.message}`);
   });
@@ -2616,7 +2741,7 @@ function renderLingoLauncher(data, options = {}) {
       practiceHtml += `<div class="word-list">${ex.wordList.map((w) => `<span>${escapeHtml(w)}</span>`).join("")}</div>`;
     }
     ex.items.forEach((item) => {
-      practiceHtml += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${textWithPictures(item.prompt, layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
+      practiceHtml += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${textWithPictures(stripLeadingItemNumber(item.prompt), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
     });
     practiceHtml += `</section>`;
   });
@@ -2728,6 +2853,9 @@ DICTATION FORMATS (never give away answers to students):
 - D20 Error correction: like D08 — each sentence has a deliberate vocabulary mistake; answer = corrected sentence; prompt must NOT already be correct
 - D11 Odd one out: each item = exactly 4 comma-separated words on one line (e.g. "run, jump, swim, apple") — NOT full sentences
 - D25 Picture / emoji cue: each item is mainly emoji(s); add (short paraphrase) ONLY if the emoji is ambiguous — NEVER use the answer word or a close form (FORBIDDEN: "➡️ (arrow pointing farther)" for answer farther/further); paraphrase instead: "➡️ (more distance this way)"
+- D26 Jumbled letters: prompt = "scrambledLetters (short clue)" e.g. "ckrat (a path for running races)"; the scramble MUST be the answer's letters in a different order (single word, lower case); the clue must NOT contain the answer or a close form; answer = the unit word
+- D27 Missing letters: prompt = "t _ a _ k (short clue)" — the answer's letters with 2–3 letters replaced by "_" separated by spaces (never the first letter); clue must NOT contain the answer; answer = the full unit word (single word)
+- D28 Spelling check: sentence with ONE misspelt unit word in [square brackets] (a realistic learner error, e.g. [competion]); answer = the correctly spelt word; the bracketed word must NOT be a real English word
 - GLOBAL: Parentheses with a single vocabulary word matching the answer are FORBIDDEN on D01/D02/D04/D14/D17 — this includes trailing hints like "(blend)" after a gap`;
 
 const LINGO_EXERCISE_FORMAT_RULES = `
@@ -2737,6 +2865,9 @@ LINGO PRACTICE FORMATS (follow exactly per typeId):
 - L03 Synonym match: wordList MUST be [] empty — NO word bank row. ONLY create items for vocabulary words that HAVE synonyms listed in the table. Each prompt = "TARGET ( synonymFromTable / distractor / distractor )"; answer = one of that word's listed synonyms from the vocabulary table — do NOT invent synonyms for words without synonyms in the table
 - L04 Opposite pairs: wordList MUST be [] empty. ONLY for words WITH antonyms in the table. Each prompt = "TARGET ( antonymFromTable / distractor / distractor )"; answer = listed antonym — do NOT invent antonyms
 - L05 Collocation match: wordList = ONLY headwords in THIS exercise (shuffled, ~5). Each prompt = NEW phrase/sentence with gap where the headword goes — use collocation as a pattern only, NOT as the prompt text. GOOD: "She keeps her clothes in the ________________" answer drawer (not copying "open the drawer" from the table). Gap position must match natural word order
+- L11 Yes / No questions: each prompt = a short question testing real understanding of a unit word in context (e.g. "Do athletes compete in a stadium?"); wordList MUST be []; answer = "Yes" or "No"; use a MIX of both (never all Yes); NEVER include the choices in the prompt
+- L12 Spelling check: sentence with ONE misspelt unit word in [square brackets]; wordList MUST be []; answer = the correctly spelt word; the bracketed word must NOT be a real English word; NEW sentences, not copied from dictation
+- L13 Which sentence is right?: wordList MUST be []; each prompt = "A. sentence  B. sentence" on one line — same unit word in both, exactly one uses it correctly (collocation, form or meaning); answer = "A" or "B"; MIX A and B answers; the mistake must be about the unit word, never random grammar
 - L09 Odd one out: each item = exactly 4 comma-separated words. 3 share the SAME part of speech (check vocabulary type); 1 is a different part of speech. answer = the odd word only. NEVER put antonyms or related forms (careful/careless) together. NEVER use 4 nouns with no verb/adjective odd word. GOOD: "artifact, treasure, jewel, excavate" (3 nouns + 1 verb, answer excavate). BAD: "careful, careless, royalty, excavate" (2 adjectives + mixed). BAD: "wagon, tide, audience, mystery" (4 nouns — no clear odd word)`;
 
 function buildSystemPrompt(profileId, plan) {
@@ -2758,7 +2889,7 @@ RULES:
 - DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise: ~${CLASS_PROFILES[profileId]?.itemsPerExercise || 5} items only
 - LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${CLASS_PROFILES[profileId]?.itemsPerExercise || 5} items maximum — NEVER one exercise with every vocabulary word
 - NEVER reuse the same sentence in Lingo practice and Dictation — write different contexts for each worksheet
-- Number items (1), (2)... in each exercise
+- Item "number" is a plain counter (1, 2, 3…) — NEVER type "(1)", "1)" or "1." at the start of any item "prompt"; the app prints the numbered circle itself
 - Dictation titles: "Exercise N" only — no parenthetical subtitles
 - Leave dictation "instruction" field empty — the app prints the student task line automatically
 - No <u> HTML tags
@@ -4199,7 +4330,7 @@ async function buildLingoDocx(data) {
   data.lingoLauncher.practice.forEach((ex) => {
     children.push(...k.exerciseHead(ex));
     if (ex.wordList?.length) children.push(k.chipsBox(ex.wordList), para([], { spacing: { after: 1 * MM } }));
-    ex.items.forEach((it) => children.push(k.item(it.number, textRuns(it.prompt, { pic: 20 }))));
+    ex.items.forEach((it) => children.push(k.item(it.number, textRuns(stripLeadingItemNumber(it.prompt), { pic: 20 }))));
   });
   return d.Packer.toBlob(k.document(children));
 }
@@ -4226,9 +4357,9 @@ async function buildDictationDocx(data) {
     ex.items.forEach((it) => {
       let runs;
       if (ex.typeId === "D02" && it.stem) {
-        runs = [run(`${it.prompt}  `), run(String(it.stem).toUpperCase(), { display: true, bold: true })];
-      } else if (ex.typeId === "D08" && /\[[^\]]+\]/.test(it.prompt || "")) {
-        runs = String(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
+        runs = [run(`${stripLeadingItemNumber(it.prompt)}  `), run(String(it.stem).toUpperCase(), { display: true, bold: true })];
+      } else if ((ex.typeId === "D08" || ex.typeId === "D28") && /\[[^\]]+\]/.test(it.prompt || "")) {
+        runs = stripLeadingItemNumber(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
       } else {
         runs = k.textRuns(formatDictationItemPlain(it, ex.typeId), { pic: 26 });
       }
