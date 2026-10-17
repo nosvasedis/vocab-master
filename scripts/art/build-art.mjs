@@ -2,7 +2,7 @@
 /* Illustrations with Cloudflare Workers AI (free 10k neurons/day). Resumable; stops at the daily budget.
    Output: desktop/renderer/assets/art/{backdrops,units}/*.webp + assets/art/manifest.json
    Usage:
-     node scripts/art/build-art.mjs [--only backdrops|units] [--dry-run] [--redo <id>]
+     node scripts/art/build-art.mjs [--only backdrops|units] [--dry-run] [--redo <id>] [--redo-all]
    Priority: backdrops (16) → unit hero scenes (27). Per-lesson panels and word cards come later. */
 import fs from "node:fs";
 import path from "node:path";
@@ -41,12 +41,15 @@ function items() {
       for (const [u, info] of Object.entries(book.units)) {
         if (Number(u) < 1) continue;
         const id = `${book.id}-U${u}`;
-        out.push({ id: `unit:${id}`, kind: "units", name: id, ...STYLE.unitHero, prompt: `${STYLE.style}. A single inviting picture that captures the big question "${info.title}" for 9 to 12 year olds, inspired by "${info.nonfiction || ""}" and the story "${info.fiction || ""}". Objects and places only, ${STYLE.negativeHints}.` });
+        out.push({ id: `unit:${id}`, kind: "units", name: id, ...STYLE.unitHero, prompt: `${STYLE.style}. A single inviting picture for 9 to 12 year olds about the theme of ${theme(info.title)}, inspired by ${theme(info.nonfiction)} and the children's story ${theme(info.fiction)}. Objects and places only, never write the theme as words, ${STYLE.negativeHints}.` });
       }
     }
   }
   return out;
 }
+
+/** Theme words without quotes or question marks (quoted phrases make the model paint them as text). */
+function theme(t) { return String(t || "").replace(/["“”'‘’?!]/g, "").toLowerCase(); }
 
 async function generate(item, seed) {
   const form = new FormData();
@@ -81,7 +84,8 @@ function toWebp(buf, rel, quality) {
 }
 
 async function main() {
-  const list = items().filter((it) => opt("redo") ? it.id === opt("redo") : state.items[it.id]?.status !== "done");
+  const redoAll = flag("redo-all");
+  const list = items().filter((it) => redoAll ? true : opt("redo") ? it.id === opt("redo") : state.items[it.id]?.status !== "done");
   const cost = list.reduce((s, it) => s + neurons(it.width, it.height), 0);
   console.log(`${list.length} illustration(s) to make ≈ ${cost} neurons · used today ${usedToday()}/${STYLE.dailyNeuronBudget} (free allowance resets 00:00 UTC)`);
   if (flag("dry-run")) return;
@@ -90,7 +94,7 @@ async function main() {
     const n = neurons(it.width, it.height);
     if (usedToday() + n > STYLE.dailyNeuronBudget) { console.log("Daily free budget reached — run again tomorrow; it resumes."); break; }
     const prev = state.items[it.id];
-    const seed = opt("redo") ? Math.floor(Math.random() * 1e9) : prev?.seed ?? Math.floor(Math.random() * 1e9);
+    const seed = opt("redo") || redoAll ? Math.floor(Math.random() * 1e9) : prev?.seed ?? Math.floor(Math.random() * 1e9);
     try {
       const img = await generate(it, seed);
       const rel = `${it.kind}/${it.name}.webp`;

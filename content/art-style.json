@@ -1,12 +1,20 @@
 {
   "_note": "Style bible for every Workers AI illustration. Keep it short, permanent and consistent; scene specifics go in the per-item prompt.",
   "model": "@cf/black-forest-labs/flux-2-klein-4b",
-  "style": "Warm, joyful children's picture-book illustration, soft flat vector shapes with gentle gradients and subtle paper grain, rounded friendly forms, bright pastel palette (sky blue, mint, sunny yellow, coral, lavender), soft daylight, clean composition with open space in the lower third, no text, no letters, no logos, no watermark",
+  "style": "Warm, joyful children's picture-book illustration, soft flat vector shapes with gentle gradients and subtle paper grain, rounded friendly forms, bright pastel palette (sky blue, mint, sunny yellow, coral, lavender), soft daylight. One single continuous full-bleed scene that fills the entire frame edge to edge, with ground and scenery reaching the bottom edge; not a split panel, not a diptych, no borders, no frames, no white margins, no blank areas. Absolutely no text, no letters, no signs or signboards, no labels, no writing on books, no logos, no watermark",
   "negativeHints": "no people in the foreground, no faces, no words",
   "neuronsPerTile": 26.05,
   "dailyNeuronBudget": 9500,
-  "backdrop": { "width": 1344, "height": 768, "quality": 72 },
-  "unitHero": { "width": 1024, "height": 576, "quality": 70 },
+  "backdrop": {
+    "width": 1344,
+    "height": 768,
+    "quality": 72
+  },
+  "unitHero": {
+    "width": 1024,
+    "height": 576,
+    "quality": 70
+  },
   "backdrops": {
     "home": "a cosy family living room with a sofa, plants, a big window and warm lamps",
     "school": "a cheerful primary school building with a playground, trees and a flag",

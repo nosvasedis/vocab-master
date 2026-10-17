@@ -93,7 +93,9 @@ Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
 ## Phase 1d: art (ready to run)
 - [x] `content/art-style.json` (style guide, FLUX.2 klein-4b, sizes) and `scripts/art/build-art.mjs` (resumable, tracks the free daily neuron allowance, WebP output, `assets/art/manifest.json`)
 - [x] The app reads the art manifest: stage backdrops via `artUrl`, unit hero images in the Lessons view. Without the manifest it falls back to the procedural scenes.
-- [ ] **Blocked:** `CF_API_TOKEN` in `.env.local` holds the first line of Cloudflare's curl test snippet instead of the token. The user must paste the real token (the value after "Authorization: Bearer"). Then run `node scripts/art/build-art.mjs`: 16 backdrops and 27 unit heroes ≈ 3,241 neurons, one day of the free allowance.
+- [x] Cloudflare token fixed and verified 2026-10-17. 16 backdrops and 27 unit heroes generated (WebP, about 1 MB total; ≈ 6.7k neurons including one full regeneration with the stricter full-bleed / no-text style). `--redo <id>` and `--redo-all` regenerate with new seeds.
+- [ ] **R2 is not enabled** on the Cloudflare account (API error 10042). The user must enable R2 in the dashboard before Phase 1e packs. Until then, audio and art ship inside the app (about 20 MB).
+- [ ] Next art: per-lesson story panels and focus-word picture cards (free daily allowance, resumable).
 - [x] Desktop installer and portable exe rebuilt 2026-10-17 15:40 (`desktop/release/`); smoke test passes.
 - [x] Daily scheduled task "vocab-master-daily-narration" (10:33 local) voices the remaining Lingo narration, commits and pushes.
 
