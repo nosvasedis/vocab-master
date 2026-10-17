@@ -5,8 +5,34 @@ import { speakAsync, stopSpeaking, audioSettings } from "../arcade/audio.js";
 
 let clipPlayer = null; // { playClip(key, { onLevel }) → Promise<{ played, duration }>, stop(), has(key) } — set by voice.js
 let token = 0;
+// Lesson narration has its own switch (the lesson toolbar), independent of the arcade's "read words aloud".
+let narrationOn = true;
 
 export function setClipPlayer(player) { clipPlayer = player; }
+export function setNarration(on) { narrationOn = !!on; if (!on) stopAll(); }
+export const narrationEnabled = () => narrationOn;
+
+/** Muted: still pace the line (karaoke + reading time) so bubbles don't flash past. */
+function readSilently(my, spans, text, light) {
+  const ms = Math.max(1600, 500 + String(text).length * 55);
+  return new Promise((resolve) => {
+    const t0 = performance.now();
+    const total = String(text).length || 1;
+    const tick = () => {
+      if (my !== token) return resolve();
+      const elapsed = performance.now() - t0;
+      if (spans.length) {
+        const pos = (elapsed / ms) * total;
+        let k = 0;
+        while (k + 1 < spans.length && spans[k + 1].at <= pos) k++;
+        light(k);
+      }
+      if (elapsed >= ms) return resolve();
+      requestAnimationFrame(tick);
+    };
+    tick();
+  });
+}
 
 function personaVoice(persona = "") {
   const p = persona.toLowerCase();
@@ -51,7 +77,7 @@ export async function narrate({ key, text, persona = "", el = null, onLevel = nu
   const light = (k) => spans.forEach((s, idx) => { s.el.classList.toggle("on", idx === k); s.el.classList.toggle("done", idx < k); });
   const finish = () => { if (my === token) spans.forEach((s) => { s.el.classList.remove("on"); s.el.classList.add("done"); }); };
 
-  if (!audioSettings.tts) { finish(); return; }
+  if (!narrationOn) { await readSilently(my, spans, text, light); finish(); return; }
 
   if (clipPlayer && key && clipPlayer.has(key)) {
     // Recorded clip: no word timing, so spread the highlight over the clip duration by character position.

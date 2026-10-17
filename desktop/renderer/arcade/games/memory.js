@@ -29,7 +29,7 @@ export default {
       return !!gapPhrase(w);
     });
     let mode = localStorage.getItem("vm_mem_mode") || "greek";
-    if (available(mode).length < 3) mode = "greek";
+    if (available(mode).length < 3) mode = ["emoji", "greek", "phrase"].find((m) => available(m).length >= 3) || "emoji";
     let pairs = Number(localStorage.getItem("vm_mem_pairs") || 6);
     let tiles = [];
     let open = [];

@@ -49,7 +49,7 @@ export default {
             <div class="rv-meta"><span class="rv-type">${ctx.esc(typeName(w.type))}</span><button type="button" class="rv-say" aria-label="Hear it again">🔊</button></div>
             <p class="rv-def" hidden>${ctx.esc(w.kidDefinition || "")}</p>
             <p class="rv-ex" hidden></p>
-            ${greekMode !== "never" && w.greek ? `<p class="greek rv-greek" hidden>${ctx.esc(w.greek)}${w.greekHint ? ` <small>· ${ctx.esc(w.greekHint)}</small>` : ""}</p>` : ""}
+            ${greekMode !== "never" && w.greek ? `<p class="greek rv-greek">${ctx.esc(w.greek)}${w.greekHint ? ` <small>· ${ctx.esc(w.greekHint)}</small>` : ""}</p>` : ""}
             <div class="rv-repeat" hidden>🗣️ Say it with me!</div>
           </div>
         </div>`;
@@ -73,9 +73,7 @@ export default {
         await ctx.say({ id: w.id, text: example }, { key: w.examples?.[0] ? `lx:${ctx.lesson.id}:${w.id}:0` : `x:${w.id}`, el: ex });
       }
       if (!alive || !live()) return;
-      const gr = $(".rv-greek");
-      if (gr && greekMode === "after") { gr.hidden = false; gr.classList.add("armed"); rise(gr, { y: 10 }); }
-      if (gr && greekMode === "tap") gr.hidden = false;
+      // Greek stays hidden unless the teacher turns it on (ΕΛ button / G key).
       const rep = $(".rv-repeat");
       rep.hidden = false;
       pop(rep);

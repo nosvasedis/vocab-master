@@ -136,7 +136,7 @@
 .ls-btn.primary { background: linear-gradient(135deg, #ff8a4c, #ff5e7a); }
 .ls-btn.ghost { background: rgba(255, 255, 255, 0.92); color: #1d1640; }
 .greek { display: none; font-family: var(--font-display); color: #5b3df5; }
-.greek.armed, .show-greek .greek { display: block; }
+.show-greek .greek { display: block; animation: rise-in 300ms var(--ease-out) both; }
 .rv-tile .greek { display: none; }
 .show-greek .rv-tile .greek { display: block; }
 
@@ -262,12 +262,11 @@
 .sp-model p { font: 600 50px/1.35 var(--font-play); margin-top: 8px; }
 
 /* Recap */
-.rc-parade { position: absolute; left: 470px; right: 60px; top: 90px; display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; }
-.rc-word { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 250px; padding: 20px 10px; border-radius: 34px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 16px 40px rgba(29, 22, 64, 0.16); }
-.rc-word span { font-size: 100px; line-height: 1; }
+.rc-parade { position: absolute; left: 470px; right: 60px; top: 50px; max-height: 540px; overflow: hidden; display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; }
+.rc-word { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 220px; padding: 14px 10px; border-radius: 34px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 16px 40px rgba(29, 22, 64, 0.16); }
+.rc-word span { font-size: 84px; line-height: 1; }
 .rc-word span svg { width: 100px; height: 100px; }
 .rc-word b { font: 700 38px var(--font-play); color: #1d1640; }
-.rc-parade ~ .ls-bubble, .ls-actors .ls-bubble { z-index: 2; }
 .rc-badge { left: 50%; top: 50%; translate: -40% -55%; width: 1000px; padding: 60px; text-align: center; }
 .rc-medal { width: 340px; height: 340px; margin: 0 auto 26px; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 35% 30%, #fff6b0, #ffd23f 55%, #f0a500); box-shadow: 0 0 0 18px #fff2b8, 0 30px 70px rgba(240, 165, 0, 0.45); }
 .rc-medal span { font-size: 200px; line-height: 1; }
@@ -298,3 +297,6 @@
 .lsn-offline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 14px; border-radius: var(--radius); background: rgba(255, 255, 255, 0.18); color: #fff; font: 600 13px var(--font-ui); }
 .lsn-offline:hover { background: rgba(255, 255, 255, 0.3); }
 .lsn-offline:disabled { opacity: 0.8; cursor: progress; }
+
+.pr-lines { font: 600 36px/1.4 var(--font-play); color: #1d1640; margin: -12px 0 30px; }
+.pr-lines p { margin: 0; }

@@ -25,6 +25,12 @@
   4. Phase 2: live Kahoot-style games (no-phones host first, then Firebase phone mode). See PLAN §9.
 - **Known:** the local router (fritz.box) cached a negative DNS answer for the brand-new r2.dev host; it expires by itself. Content was verified through Cloudflare's IP.
 
+## Fixes after the first classroom test (2026-10-17, from the user)
+- **Silent lessons and bubbles skipping:** the lessons obeyed the arcade's "read words aloud" pref, which the user had set off. Lesson narration now has its own toolbar switch (on by default; the arcade pref is restored on close). When muted, lines still pause for reading time (`narrator.readSilently`).
+- **Owl bubble covered the game's Play button:** a z-index put the actors-layer bubble above the UI layer. Removed. Game intro lines are now read inside the game card.
+- **Greek always visible / ΕΛ did nothing:** reveal auto-armed Greek. Greek is now hidden by default and only shown via ΕΛ / G. Games inside lessons get a Greek-free deck unless Greek is on. Memory falls back to picture mode.
+- **Debugging the desktop build:** `work/debug-app` is a copy of desktop/main.js under a different app name (avoids the single-instance lock). Run it with `desktop/node_modules/.bin/electron work/debug-app --remote-debugging-port=9333`, then `node work/tmp/cdp.mjs "<js>"`. Never kill processes by window title (that closes the user's own app).
+
 ## Phase 0: foundation ✅ (checkpoint 86d6938)
 - [x] Branch `feature/lessons-experience` (the earlier WIP was already committed on main as 57a7f53)
 - [x] `docs/roadmap/{PLAN,PROGRESS,RESUME}.md`, `CLAUDE.md`

@@ -9,7 +9,7 @@ import { maskWordInText } from "../arcade/deck.js";
 import { audioKey } from "./schema.js";
 import { createStage } from "./stage.js";
 import { createMascot } from "./mascot.js";
-import { narrate, stopAll } from "./narrator.js";
+import { narrate, stopAll, setNarration } from "./narrator.js";
 import { setCalm, rise, pop, award } from "./motion.js";
 import hook from "./scenes/hook.js";
 import reveal from "./scenes/reveal.js";
@@ -34,6 +34,10 @@ export const isPlayerOpen = () => !!P;
 export function openPlayer(o) {
   if (P) return;
   configureAudio(o.prefs || {});
+  // Lessons always start with the voice on (the arcade's "read words aloud" pref is restored on close).
+  const savedTts = audioSettings.tts;
+  audioSettings.tts = true;
+  setNarration(true);
   setCalm(o.calm);
   const { lesson } = o;
   const scenes = (lesson.scenes || []).filter((s) => SCENES[s.type]);
@@ -74,7 +78,7 @@ export function openPlayer(o) {
 
   P = {
     o, root, stage, scenes, sceneIdx: 0, step: 0, current: null, stars: 0, auto: false, greek: false,
-    keyCapture: null, seq: 0, finished: false,
+    keyCapture: null, seq: 0, finished: false, voice: true, savedTts,
   };
 
   // Focus-word matching for highlights.
@@ -100,6 +104,8 @@ export function openPlayer(o) {
     bookLabel: o.bookLabel,
     ui: stage.layers.ui,
     sfx,
+    /** Greek shown? (toolbar ΕΛ / G). Hidden by default. */
+    greekOn: () => !!P?.greek,
     setBackdrop: (k) => stage.setBackdrop(k || lesson.setting || "park"),
     mascot: {
       el: mascotHost,
@@ -176,10 +182,15 @@ export function openPlayer(o) {
     if (t === "full") toggleFull();
     if (t === "greek") toggleGreek();
     if (t === "auto") toggleAuto();
-    if (t === "tts" || t === "sfx") {
-      audioSettings[t] = !audioSettings[t];
-      if (t === "tts" && !audioSettings.tts) stopAll();
-      o.onPrefs?.({ sfx: audioSettings.sfx, tts: audioSettings.tts });
+    if (t === "tts") {
+      P.voice = !P.voice;
+      audioSettings.tts = P.voice;
+      setNarration(P.voice);
+      syncTools();
+    }
+    if (t === "sfx") {
+      audioSettings.sfx = !audioSettings.sfx;
+      o.onPrefs?.({ sfx: audioSettings.sfx, tts: P.savedTts });
       syncTools();
     }
   });
@@ -197,7 +208,9 @@ function syncTools() {
   const r = P.root;
   r.querySelector('[data-t="greek"]').classList.toggle("on", P.greek);
   r.querySelector('[data-t="auto"]').classList.toggle("on", P.auto);
-  r.querySelector('[data-t="tts"]').classList.toggle("off", !audioSettings.tts);
+  r.querySelector('[data-t="tts"]').classList.toggle("off", !P.voice);
+  r.querySelector('[data-t="tts"]').title = P.voice ? "Voice on — click to mute" : "Voice muted — click to turn on";
+  r.querySelector('[data-t="greek"]').title = P.greek ? "Hide Greek (G)" : "Show Greek (G)";
   r.querySelector('[data-t="sfx"]').innerHTML = svg(audioSettings.sfx ? "volume" : "volume-off");
   r.querySelector('[data-t="sfx"]').classList.toggle("off", !audioSettings.sfx);
   r.classList.toggle("show-greek", P.greek);
@@ -338,6 +351,8 @@ export function closePlayer() {
   const { root, stage, o } = P;
   P.current?.destroy?.();
   stopAll();
+  audioSettings.tts = P.savedTts;
+  setNarration(true);
   window.removeEventListener("keydown", onKey, true);
   if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
   P = null;

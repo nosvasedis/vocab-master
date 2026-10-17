@@ -39,6 +39,7 @@ export default {
           <span class="pr-emoji">${def.emoji}</span>
           <h2>Game time: ${ctx.esc(def.title)}</h2>
           <p>${ctx.esc(def.description)}</p>
+          ${(scene.lines || []).length ? `<div class="pr-lines">${scene.lines.map((l) => `<p>${ctx.karaoke(l.text)}</p>`).join("")}</div>` : ""}
           <button type="button" class="ls-btn primary pr-play">▶ Play with our ${ctx.deck.length} words</button>
         </div>`;
       pop(ctx.ui.querySelector(".pr-card"), { scale: 0.7 });
@@ -65,7 +66,8 @@ export default {
       game = mountGame(def, {
         stage: root.querySelector(".game-stage"),
         root,
-        deck: ctx.deck,
+        // Greek stays out of the games unless the teacher has turned it on.
+        deck: ctx.greekOn() ? ctx.deck : ctx.deck.map((w) => ({ ...w, greek: "" })),
         picture: ctx.picture,
         teams,
         setProgress(html) { const p = root.querySelector("#prProgress"); if (p) p.innerHTML = html; },
@@ -98,7 +100,8 @@ export default {
       async enter() {
         const live = ctx.live();
         intro();
-        for (const l of scene.lines || []) { if (!live() || game) break; await ctx.speakBubble(l, { sceneId: scene.id }); }
+        const els = ctx.ui.querySelectorAll(".pr-lines p");
+        for (let k = 0; k < (scene.lines || []).length; k++) { if (!live() || game) break; await ctx.say(scene.lines[k], { sceneId: scene.id, el: els[k] }); }
         return { auto: false };
       },
       destroy: closeGame,
