@@ -289,3 +289,7 @@
 /* Calm motion — no drifting clouds / pulsing suns */
 .calm-motion .ls-cloud, .calm-motion .ls-sun, .calm-motion .ls-starfield { animation: none; }
 @media (prefers-reduced-motion: reduce) { .ls-cloud, .ls-sun, .ls-starfield { animation: none; } .ls-lingo { transition: none; } }
+
+/* Unit hero illustration (AI art, when generated) */
+.lsn-unit.has-art { padding-top: 0; overflow: hidden; }
+.lsn-art { display: block; width: calc(100% + 32px); max-width: none; margin: 0 -16px 12px; aspect-ratio: 16 / 9; object-fit: cover; }

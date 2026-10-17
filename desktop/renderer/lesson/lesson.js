@@ -5,6 +5,13 @@ import { openPlayer, isPlayerOpen, closePlayer } from "./player.js";
 
 const byId = new Map(CPP_WORDBANK.map((w) => [w.id, w]));
 let catalogPromise = null;
+let artPromise = null;
+
+/** AI illustrations (assets/art/manifest.json) — empty until scripts/art/build-art.mjs has run. */
+export function loadArt() {
+  if (!artPromise) artPromise = fetch("./assets/art/manifest.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+  return artPromise;
+}
 
 export const getWord = (id) => byId.get(id);
 
@@ -72,7 +79,9 @@ export async function openLesson(entryOrId, opts) {
   const words = lessonWords(lesson);
   const deck = lessonDeck(words);
   const label = bookLabel(lesson);
+  const art = await loadArt();
   openPlayer({
+    artUrl: (key) => (art.backdrops?.[key] ? `./assets/art/${art.backdrops[key]}` : null),
     lesson,
     words,
     wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: firstEmoji(w.emojis) } : null; },

@@ -2,7 +2,7 @@
 import { CPP_BOOKS } from "../../app.js";
 import { $, esc, icon, toast } from "../ui.js";
 import { state, BOOK_COLORS } from "../state.js";
-import { loadCatalog } from "../../lesson/lesson.js";
+import { loadCatalog, loadArt } from "../../lesson/lesson.js";
 
 const SECTION_NAMES = { BQ: "Big Question", A: "Part A", B: "Part B" };
 const SECTION_ICONS = { BQ: "❓", A: "📗", B: "📘" };
@@ -26,6 +26,7 @@ export function initLessons({ teach, games }) {
 export async function renderLessons() {
   const host = $("lessonsView");
   const cat = await loadCatalog();
+  const art = await loadArt();
   const lessons = cat.lessons || [];
   book = book || (CPP_BOOKS[state.cpp?.bookId] ? state.cpp.bookId : "CPP1");
   const bookDef = CPP_BOOKS[book];
@@ -50,7 +51,9 @@ export async function renderLessons() {
         const info = bookDef.units[u];
         const mine = ["BQ", "A", "B"].map((s) => lessons.find((l) => l.bookId === book && l.unit === u && l.section === s));
         const hero = mine.find((l) => l?.hero)?.hero || "📚";
-        return `<article class="lsn-unit" style="--book:${BOOK_COLORS[book]};animation-delay:${i * 40}ms">
+        const heroImg = art.units?.[`${book}-U${u}`];
+        return `<article class="lsn-unit${heroImg ? " has-art" : ""}" style="--book:${BOOK_COLORS[book]};animation-delay:${i * 40}ms">
+          ${heroImg ? `<img class="lsn-art" src="./assets/art/${esc(heroImg)}" alt="" loading="lazy">` : ""}
           <header><span class="lsn-hero-emoji">${esc(hero)}</span><div><small>Unit ${u}</small><h3>${esc(info.title)}</h3></div></header>
           <div class="lsn-list">
             ${mine.map((l, k) => {

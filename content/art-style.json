@@ -1,0 +1,28 @@
+{
+  "_note": "Style bible for every Workers AI illustration. Keep it short, permanent and consistent; scene specifics go in the per-item prompt.",
+  "model": "@cf/black-forest-labs/flux-2-klein-4b",
+  "style": "Warm, joyful children's picture-book illustration, soft flat vector shapes with gentle gradients and subtle paper grain, rounded friendly forms, bright pastel palette (sky blue, mint, sunny yellow, coral, lavender), soft daylight, clean composition with open space in the lower third, no text, no letters, no logos, no watermark",
+  "negativeHints": "no people in the foreground, no faces, no words",
+  "neuronsPerTile": 26.05,
+  "dailyNeuronBudget": 9500,
+  "backdrop": { "width": 1344, "height": 768, "quality": 72 },
+  "unitHero": { "width": 1024, "height": 576, "quality": 70 },
+  "backdrops": {
+    "home": "a cosy family living room with a sofa, plants, a big window and warm lamps",
+    "school": "a cheerful primary school building with a playground, trees and a flag",
+    "classroom": "a bright classroom with desks, a whiteboard, bookshelves and colourful posters without writing",
+    "park": "a sunny green park with big trees, a pond with ducks, flowers and a winding path",
+    "city": "a friendly city street with colourful buildings, a bus stop and trees",
+    "street": "a quiet neighbourhood street with small shops, houses and bicycles",
+    "beach": "a sunny beach with soft sand, gentle waves, shells and a palm tree",
+    "forest": "a magical green forest with tall trees, mushrooms, ferns and sunbeams",
+    "farm": "a happy farm with a red barn, fields, a tractor, cows and chickens",
+    "kitchen": "a warm family kitchen with a table, pots, vegetables and a window",
+    "shop": "a little corner shop with fruit boxes, shelves and an awning",
+    "space": "outer space with friendly planets, stars, a small rocket and a glowing moon",
+    "stage": "a school theatre stage with red curtains, spotlights and an empty floor",
+    "village": "a small Greek-style village with white houses, blue doors, olive trees and hills",
+    "garden": "a blooming back garden with sunflowers, butterflies, a fence and a small house",
+    "playground": "a colourful playground with a slide, swings, a sandpit and trees"
+  }
+}

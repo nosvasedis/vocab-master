@@ -90,7 +90,14 @@ Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
   `node scripts/audio/build-audio.mjs --lessons CPP1-U1-BQ,CPP1-U1-A,CPP1-U1-B,CPP2-U1-BQ,CPP2-U1-A,CPP2-U1-B,CPP3-U1-BQ,CPP3-U1-A,CPP3-U1-B --only lessons`
   then `--collect` a few minutes later, then words (`--only words`)
 
-## Phase 1d: art · 1e: packs and delivery · 1f: remaining 72 lessons
+## Phase 1d: art (ready to run)
+- [x] `content/art-style.json` (style guide, FLUX.2 klein-4b, sizes) and `scripts/art/build-art.mjs` (resumable, tracks the free daily neuron allowance, WebP output, `assets/art/manifest.json`)
+- [x] The app reads the art manifest: stage backdrops via `artUrl`, unit hero images in the Lessons view. Without the manifest it falls back to the procedural scenes.
+- [ ] **Blocked:** `CF_API_TOKEN` in `.env.local` holds the first line of Cloudflare's curl test snippet instead of the token. The user must paste the real token (the value after "Authorization: Bearer"). Then run `node scripts/art/build-art.mjs`: 16 backdrops and 27 unit heroes ≈ 3,241 neurons, one day of the free allowance.
+- [x] Desktop installer and portable exe rebuilt 2026-10-17 15:40 (`desktop/release/`); smoke test passes.
+- [x] Daily scheduled task "vocab-master-daily-narration" (10:33 local) voices the remaining Lingo narration, commits and pushes.
+
+## Phase 1e: packs and delivery · 1f: teacher review of lessons
 - [ ] See PLAN.md §4, §6, §10. Remaining lessons: `node scripts/lessons/draft-lessons.mjs --all` (about $0.60)
 
 ## Phase 2: live games
