@@ -2486,6 +2486,96 @@ function exerciseHeadHtml(ex, layout) {
   </div>`;
 }
 
+/* ── Target word inside its phrase (bolded on worksheets) ────────────────── */
+const IRREGULAR_FORMS = {
+  be: ["am", "is", "are", "was", "were", "been", "being"], have: ["has", "had", "having"], do: ["does", "did", "done", "doing"],
+  go: ["goes", "went", "gone"], get: ["got", "gotten"], give: ["gave", "given"], take: ["took", "taken"], make: ["made"],
+  come: ["came"], see: ["saw", "seen"], eat: ["ate", "eaten"], run: ["ran"], swim: ["swam", "swum"], fly: ["flew", "flown", "flies"],
+  write: ["wrote", "written"], ride: ["rode", "ridden"], drive: ["drove", "driven"], break: ["broke", "broken"], speak: ["spoke", "spoken"],
+  choose: ["chose", "chosen"], wake: ["woke", "woken"], wear: ["wore", "worn"], tear: ["tore", "torn"], throw: ["threw", "thrown"],
+  grow: ["grew", "grown"], know: ["knew", "known"], draw: ["drew", "drawn"], blow: ["blew", "blown"], fall: ["fell", "fallen"],
+  forget: ["forgot", "forgotten"], hide: ["hid", "hidden"], bite: ["bit", "bitten"], begin: ["began", "begun"], sing: ["sang", "sung"],
+  drink: ["drank", "drunk"], ring: ["rang", "rung"], sink: ["sank", "sunk"], buy: ["bought"], bring: ["brought"], think: ["thought"],
+  catch: ["caught"], teach: ["taught"], fight: ["fought"], find: ["found"], feel: ["felt"], keep: ["kept"], sleep: ["slept"],
+  leave: ["left"], meet: ["met"], sell: ["sold"], tell: ["told"], hold: ["held"], stand: ["stood"], understand: ["understood"],
+  build: ["built"], send: ["sent"], spend: ["spent"], lose: ["lost"], win: ["won"], sit: ["sat"], hear: ["heard"], say: ["said"],
+  pay: ["paid"], lay: ["laid"], lie: ["lay", "lain", "lying"], die: ["dying"], tie: ["tying"], light: ["lit"], shine: ["shone"],
+  feed: ["fed"], lead: ["led"], dig: ["dug"], hang: ["hung"], stick: ["stuck"], strike: ["struck"], shake: ["shook", "shaken"],
+  steal: ["stole", "stolen"], freeze: ["froze", "frozen"], mean: ["meant"], dream: ["dreamt"], learn: ["learnt"], burn: ["burnt"],
+  good: ["better", "best"], bad: ["worse", "worst"], far: ["further", "farther", "furthest"], child: ["children"], person: ["people"],
+  man: ["men"], woman: ["women"], mouse: ["mice"], foot: ["feet"], tooth: ["teeth"], goose: ["geese"], leaf: ["leaves"], knife: ["knives"],
+  wolf: ["wolves"], life: ["lives"], shelf: ["shelves"], half: ["halves"],
+};
+
+/** Regex source matching one target word in any common form (helps, helped, happier, made, …). */
+function wordFormPattern(word) {
+  const w = word.toLowerCase();
+  const forms = [escapeRegex(w), `${escapeRegex(w)}(?:s|es|ed|ing|er|est|ly|ness)`];
+  if (w.length > 3 && /e$/.test(w)) forms.push(`${escapeRegex(w.slice(0, -1))}(?:ing|ed|er|est|ion|ation)`);
+  if (w.length > 3 && /y$/.test(w)) forms.push(`${escapeRegex(w.slice(0, -1))}(?:ies|ied|ier|iest|ily|iness)`);
+  if (/[aeiou][bcdfghjklmnpqrstvz]$/.test(w)) forms.push(`${escapeRegex(w + w.at(-1))}(?:ed|ing|er|est)`);
+  (IRREGULAR_FORMS[w] || []).forEach((f) => forms.push(escapeRegex(f)));
+  return `(?:${forms.join("|")})`;
+}
+
+/**
+ * Split a phrase into [{ text, bold }] so the vocabulary word stands out:
+ * "she competed in a race" for "compete" → "she ", **competed**, " in a race".
+ * Multi-word targets match as a unit (other words may sit between, e.g. "gave it up"),
+ * then word by word. No match → the phrase as one plain segment.
+ */
+function splitTargetInPhrase(phrase, english) {
+  const text = String(phrase ?? "");
+  const target = String(english ?? "").toLowerCase().replace(/\([^)]*\)/g, " ").replace(/\bsth\b|\bsb\b|\bsomething\b|\bsomebody\b|\bsomeone\b/g, " ");
+  const words = target.split(/[^a-z']+/).filter(Boolean);
+  if (!text.trim() || !words.length) return [{ text, bold: false }];
+  const B = "(?<![A-Za-z])";
+  const E = "(?![A-Za-z])";
+  const ranges = [];
+  // Whole target, allowing up to two words in between (phrasal verbs) and hyphens (ice-cream).
+  if (words.length > 1) {
+    const rx = new RegExp(words.map((w) => `${B}(${wordFormPattern(w)})${E}`).join(`(?:[\\s-]+(?:[A-Za-z']+[\\s-]+){0,2}?)`), "gi");
+    for (const m of text.matchAll(rx)) {
+      let from = m.index;
+      for (let g = 1; g <= words.length; g++) {
+        const at = text.toLowerCase().indexOf(m[g].toLowerCase(), from);
+        ranges.push([at, at + m[g].length]);
+        from = at + m[g].length;
+      }
+    }
+  }
+  // Single word, or the content words of a multi-word target.
+  if (!ranges.length) {
+    const parts = words.length > 1 ? words.filter((w) => w.length > 2 && !["the", "and", "for", "out", "off", "with"].includes(w)) : words;
+    for (const w of parts) {
+      for (const m of text.matchAll(new RegExp(`${B}${wordFormPattern(w)}${E}`, "gi"))) ranges.push([m.index, m.index + m[0].length]);
+    }
+  }
+  if (!ranges.length) return [{ text, bold: false }];
+  ranges.sort((a, b) => a[0] - b[0]);
+  // Join neighbours split only by a space or hyphen ("take care of" → one bold run).
+  for (let i = ranges.length - 1; i > 0; i--) {
+    if (/^[\s-]*$/.test(text.slice(ranges[i - 1][1], ranges[i][0])) && ranges[i][0] >= ranges[i - 1][1]) {
+      ranges[i - 1][1] = ranges[i][1];
+      ranges.splice(i, 1);
+    }
+  }
+  const out = [];
+  let pos = 0;
+  for (const [s, e] of ranges) {
+    if (s < pos) continue;
+    if (s > pos) out.push({ text: text.slice(pos, s), bold: false });
+    out.push({ text: text.slice(s, e), bold: true });
+    pos = e;
+  }
+  if (pos < text.length) out.push({ text: text.slice(pos), bold: false });
+  return out;
+}
+
+function phraseWithTargetHtml(phrase, english) {
+  return splitTargetInPhrase(phrase, english).map((p) => (p.bold ? `<b class="v-target">${escapeHtml(p.text)}</b>` : escapeHtml(p.text))).join("");
+}
+
 function formatVocabCell(v, pictureStyle = "emoji") {
   let html = `<div class="v-top"><span class="v-num">${escapeHtml(v.number)}</span><span class="v-word">${escapeHtml(v.english)}</span>`;
   if (v.type?.trim()) html += `<span class="v-pos">${escapeHtml(v.type.trim())}</span>`;
@@ -2493,7 +2583,7 @@ function formatVocabCell(v, pictureStyle = "emoji") {
   if (pics) html += `<span class="v-emoji">${pics}</span>`;
   html += `</div>`;
   if (v.greek) html += `<div class="v-greek">${escapeHtml(v.greek)}</div>`;
-  if (v.collocation) html += `<div class="vocab-coll v-coll">${escapeHtml(v.collocation)}</div>`;
+  if (v.collocation) html += `<div class="vocab-coll v-coll">${phraseWithTargetHtml(v.collocation, v.english)}</div>`;
   normalizeDerivativesList(v.derivatives).forEach((d) => {
     const line = formatDerivativeLine(d);
     if (line) html += `<div class="vocab-deriv v-rel"><b>→</b>${escapeHtml(line)}</div>`;
@@ -3777,6 +3867,7 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .v-coll { font-size: 9.4pt; font-style: italic; color: var(--ink-2); margin: 0.6mm 0 0 6.2mm; }
 .v-coll::before { content: "“"; }
 .v-coll::after { content: "”"; }
+.v-coll .v-target { font-weight: 800; color: var(--ink); }
 .v-rel { font-size: 9pt; color: var(--ink-2); margin: 0.4mm 0 0 6.2mm; }
 .v-rel b { display: inline-block; width: 4mm; font-weight: 800; color: var(--ink); }
 .vocab-empty { background: transparent !important; }
@@ -4079,7 +4170,10 @@ async function buildLingoDocx(data) {
       lines.push(para(top));
       const sub = (runs) => para(runs, { indent: { left: 6 * MM } });
       if (v.greek) lines.push(sub([run(v.greek, { bold: true, size: 20 })]));
-      if (v.collocation) lines.push(sub([run(`“${v.collocation}”`, { italics: true, size: 19, color: "444444" })]));
+      if (v.collocation) {
+        const phrase = splitTargetInPhrase(v.collocation, v.english).map((p) => run(p.text, p.bold ? { italics: true, bold: true, size: 19, color: k.INK } : { italics: true, size: 19, color: "444444" }));
+        lines.push(sub([run("“", { italics: true, size: 19, color: "444444" }), ...phrase, run("”", { italics: true, size: 19, color: "444444" })]));
+      }
       normalizeDerivativesList(v.derivatives).forEach((dv) => {
         const t = formatDerivativeLine(dv);
         if (t) lines.push(sub([run("→  ", { bold: true, size: 18 }), run(t, { size: 18, color: "444444" })]));
@@ -4513,6 +4607,7 @@ function parseBulkVocabularyText(rawText) {
 }
 
 export {
+  splitTargetInPhrase,
   CLASS_PROFILES,
   configurePictures,
   pictureKey,
