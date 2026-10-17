@@ -1,0 +1,12 @@
+{
+  "_note": "Models used by the build pipelines. Prices are USD per 1M tokens (OpenRouter public list, checked 2026-10-17).",
+  "lessonDraft": { "provider": "openrouter", "model": "anthropic/claude-haiku-5.5", "fallback": "deepseek/deepseek-v4-flash", "temperature": 0.6 },
+  "tts": {
+    "narration": "gemini-3.8-flash-tts",
+    "words": "gemini-3.8-flash-lite-tts",
+    "overflow": "openai/gpt-audio-mini"
+  },
+  "ideas": {
+    "music": "google/lyria-3-clip-preview (free preview on OpenRouter) — lesson jingles / backgrounds, Phase 1d+"
+  }
+}

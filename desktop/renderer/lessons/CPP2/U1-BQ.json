@@ -1,0 +1,552 @@
+{
+  "schema": 1,
+  "id": "CPP2-U1-BQ",
+  "bookId": "CPP2",
+  "unit": 1,
+  "section": "BQ",
+  "title": "Where Do We Live? Meet Our Neighbourhood!",
+  "bigQuestion": "What is in my neighborhood?",
+  "profile": "B_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "street",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "🧒",
+      "persona": "curious, cheerful 10-year-old girl who is new in the neighbourhood"
+    },
+    "lefteris": {
+      "name": "Lefteris",
+      "emoji": "🧑‍🚒",
+      "persona": "calm, friendly adult firefighter who loves helping children"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U1-SB-1",
+      "emoji": "🏘️",
+      "kidDefinition": "The area where you live, with houses and streets",
+      "examples": [
+        "We live in a nice neighbourhood.",
+        "My neighbourhood has a park and a little shop."
+      ],
+      "distractors": [
+        "volcano",
+        "forest",
+        "island"
+      ],
+      "greekHint": "Γειτονιά: the streets around your home.",
+      "english": "neighborhood",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-2",
+      "emoji": "📜",
+      "kidDefinition": "Basic rules that everyone agrees to follow together",
+      "examples": [
+        "Let's agree to the ground rules of the discussion.",
+        "Our class ground rules say: listen, and take turns."
+      ],
+      "distractors": [
+        "tour guide",
+        "school bell",
+        "paper plate"
+      ],
+      "greekHint": "Βασικοί κανόνες: the rules we all agree on.",
+      "english": "ground rules",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP2-U1-SB-3",
+      "emoji": "💬",
+      "kidDefinition": "Talking together about a topic and sharing ideas",
+      "examples": [
+        "Let's have a discussion about our neighbourhoods.",
+        "In our discussion, everyone shared a favourite place."
+      ],
+      "distractors": [
+        "uniform",
+        "kitchen",
+        "dictionary"
+      ],
+      "greekHint": "Συζήτηση: talking and sharing ideas together.",
+      "english": "discussion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-7",
+      "emoji": "🧭",
+      "kidDefinition": "Instructions that show you how to get somewhere",
+      "examples": [
+        "Can you give me directions to the train station, please?",
+        "The directions say: turn left, then walk straight on."
+      ],
+      "distractors": [
+        "timetable",
+        "ticket",
+        "backpack"
+      ],
+      "greekHint": "Οδηγίες: the words that show you the way.",
+      "english": "directions",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-8",
+      "emoji": "🧑‍🚒",
+      "kidDefinition": "A person whose job is putting out fires",
+      "examples": [
+        "Lefteris is a firefighter.",
+        "Firefighters wear special helmets and boots."
+      ],
+      "distractors": [
+        "paramedic",
+        "pilot",
+        "police officer"
+      ],
+      "greekHint": "Πυροσβέστης: the helper with the big red truck.",
+      "english": "firefighter",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-9",
+      "emoji": "🚒",
+      "kidDefinition": "The building where fire engines and firefighters are based",
+      "examples": [
+        "We visited the fire station to learn about what firefighters do.",
+        "The fire engines are parked at the fire station."
+      ],
+      "distractors": [
+        "train station",
+        "petrol station",
+        "bus stop"
+      ],
+      "greekHint": "Πυροσβεστικός σταθμός: the firefighters' building.",
+      "english": "fire station",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-10",
+      "emoji": "🏥",
+      "kidDefinition": "A place where doctors and nurses treat sick people",
+      "examples": [
+        "My mom works in the hospital.",
+        "The hospital has many rooms for people who are ill."
+      ],
+      "distractors": [
+        "library",
+        "market",
+        "museum"
+      ],
+      "greekHint": "Νοσοκομείο: where doctors help sick people.",
+      "english": "hospital",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-11",
+      "emoji": "🩺",
+      "kidDefinition": "A person who helps people when they are ill",
+      "examples": [
+        "My mom is a doctor in a hospital.",
+        "The doctor listens to my heart with a special tool."
+      ],
+      "distractors": [
+        "dentist",
+        "nurse",
+        "teacher"
+      ],
+      "greekHint": "Γιατρός: the helper with a stethoscope.",
+      "english": "doctor",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-12",
+      "emoji": "🚉",
+      "kidDefinition": "A place where people get on and off trains",
+      "examples": [
+        "How can I go to the train station, please?",
+        "The train station is next to the big park."
+      ],
+      "distractors": [
+        "bus stop",
+        "airport",
+        "ticket office"
+      ],
+      "greekHint": "Σιδηροδρομικός σταθμός: where trains stop.",
+      "english": "train station",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U1-SB-4",
+    "CPP2-U1-SB-5",
+    "CPP2-U1-SB-6",
+    "CPP2-U1-SB-13"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "street",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl guide."
+        },
+        {
+          "id": "l2",
+          "text": "Today we ask a big question about where we live."
+        },
+        {
+          "id": "l3",
+          "text": "Every neighbourhood has special places and special helpers."
+        },
+        {
+          "id": "l4",
+          "text": "Let's explore together and find out more!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite place in your neighbourhood?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U1-SB-1",
+        "CPP2-U1-SB-2",
+        "CPP2-U1-SB-3",
+        "CPP2-U1-SB-7",
+        "CPP2-U1-SB-8",
+        "CPP2-U1-SB-9",
+        "CPP2-U1-SB-10",
+        "CPP2-U1-SB-11",
+        "CPP2-U1-SB-12"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Mia Explores Her New Home",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Mia is new in the neighbourhood. She needs help."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "mia",
+              "text": "I am new here. Can you give me directions to the train station, please?"
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-1",
+            "CPP2-U1-SB-12",
+            "CPP2-U1-SB-7"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "city",
+          "characters": [
+            {
+              "who": "lefteris"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Mia visits the fire station and meets a firefighter."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "lefteris",
+              "text": "Welcome! This is the fire station. I am a firefighter."
+            },
+            {
+              "id": "p2b",
+              "who": "mia",
+              "text": "Thank you, Lefteris! Now I know my neighbourhood better."
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-9",
+            "CPP2-U1-SB-8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U1-SB-1",
+          "prompt": {
+            "id": "c1q",
+            "text": "Which word means the area where you live, with its houses and streets?"
+          },
+          "options": [
+            "CPP2-U1-SB-8",
+            "CPP2-U1-SB-10",
+            "CPP2-U1-SB-12",
+            "CPP2-U1-SB-1"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A neighbourhood is the area around your home, with its houses and streets."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U1-SB-12",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to Lingo. Point to the word: train station."
+          },
+          "options": [
+            "CPP2-U1-SB-12",
+            "CPP2-U1-SB-9",
+            "CPP2-U1-SB-3",
+            "CPP2-U1-SB-11"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A train station is the place where people get on and off trains."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-2",
+          "prompt": {
+            "id": "c3q",
+            "text": "Before we start, let's agree on the ____ for our discussion."
+          },
+          "options": [
+            "ground rules",
+            "tour guide",
+            "school bell"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Ground rules are the basic rules everyone agrees to follow together."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-3",
+          "prompt": {
+            "id": "c4q",
+            "text": "Let's have a ____ about our favourite places."
+          },
+          "options": [
+            "dictionary",
+            "kitchen",
+            "discussion"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c4e",
+            "text": "A discussion is when we talk together and share our ideas."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U1-SB-7",
+          "prompt": {
+            "id": "c5q",
+            "text": "Directions tell you how to get to a place."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Directions are instructions, like turn left or walk straight on."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U1-SB-8",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "fire station",
+            "firefighter",
+            "train station",
+            "hospital"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "Firefighter is a person; the other three are places."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-9",
+          "prompt": {
+            "id": "c7q",
+            "text": "We went to the ____ to see the big red trucks and brave helpers."
+          },
+          "options": [
+            "train station",
+            "fire station",
+            "hospital"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "The fire station is the building where fire engines are parked and firefighters work."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U1-SB-10",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word names the place where doctors help sick people?"
+          },
+          "options": [
+            "CPP2-U1-SB-9",
+            "CPP2-U1-SB-10",
+            "CPP2-U1-SB-12",
+            "CPP2-U1-SB-1"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A hospital is where doctors and nurses look after sick people."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-11",
+          "prompt": {
+            "id": "c9q",
+            "text": "My mom is a ____ in a hospital."
+          },
+          "options": [
+            "dancer",
+            "driver",
+            "doctor"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "A doctor is a person who helps people when they are ill."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Turn two cards. Can you find the pairs?"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your neighbourhood. Use the frames."
+      },
+      "frames": [
+        "In my neighbourhood, there is a ___.",
+        "I can go to the ___ by bus.",
+        "Can you give me directions to the ___, please?"
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "In my neighbourhood, there is a hospital and a fire station. Can you give me directions to the train station, please?"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, neighbourhood explorers! You learned nine important words today."
+        },
+        {
+          "id": "l2",
+          "text": "Your neighbourhood has many helpers, like doctors and firefighters."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will meet a security guard. Be ready!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Neighbourhood Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one place in your neighbourhood and say why you like it."
+        },
+        {
+          "id": "e2",
+          "text": "Which place would you visit if you needed a doctor?"
+        }
+      ]
+    }
+  ]
+}

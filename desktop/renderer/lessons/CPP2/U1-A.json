@@ -1,0 +1,706 @@
+{
+  "schema": 1,
+  "id": "CPP2-U1-A",
+  "bookId": "CPP2",
+  "unit": 1,
+  "section": "A",
+  "title": "Night at the Museum: Our Neighbourhood Helpers",
+  "bigQuestion": "What is in my neighborhood?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "city",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nico": {
+      "name": "Nico",
+      "emoji": "🧒",
+      "persona": "cheerful 10-year-old boy, curious and excited"
+    },
+    "carla": {
+      "name": "Ms Carla",
+      "emoji": "👮‍♀️",
+      "persona": "calm, kind adult security guard, friendly and reassuring"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U1-SB-14",
+      "emoji": "📰",
+      "kidDefinition": "A title that tells you what a text is about.",
+      "examples": [
+        "Read the heading and guess what the text is about.",
+        "The heading says Museum Nights, so this is about the museum."
+      ],
+      "distractors": [
+        "picture",
+        "sentence",
+        "paragraph"
+      ],
+      "greekHint": "Το heading είναι σαν τον τίτλο πάνω από ένα κομμάτι κειμένου.",
+      "english": "heading",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-16",
+      "emoji": "📑",
+      "kidDefinition": "One part of a longer text or a building.",
+      "examples": [
+        "The first section of the text is about our town.",
+        "This section of the museum has old wax figures."
+      ],
+      "distractors": [
+        "corner",
+        "letter",
+        "ticket"
+      ],
+      "greekHint": "Section, σε κάθε κείμενο, είναι ένα τμήμα του.",
+      "english": "section",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-32",
+      "emoji": "👮",
+      "kidDefinition": "A person whose job is to protect a building.",
+      "examples": [
+        "My sister works as a security guard in a museum.",
+        "The security guard checks the doors every night."
+      ],
+      "distractors": [
+        "baker",
+        "nurse",
+        "painter"
+      ],
+      "greekHint": "Security guard = φύλακας. Σκέψου την ασφάλεια.",
+      "english": "security guard",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-34",
+      "emoji": "🏛️",
+      "kidDefinition": "A building with interesting things to see.",
+      "examples": [
+        "Our class visits many museums every year.",
+        "Let's go to the museum on Saturday morning."
+      ],
+      "distractors": [
+        "library",
+        "bakery",
+        "station"
+      ],
+      "greekHint": "Museum = μουσείο, όπως στα ελληνικά.",
+      "english": "museum",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-38",
+      "emoji": "🖼️",
+      "kidDefinition": "An object that is shown to people in a museum.",
+      "examples": [
+        "The exhibits in this museum are very interesting.",
+        "We looked at every exhibit in the hall."
+      ],
+      "distractors": [
+        "ticket",
+        "uniform",
+        "shower"
+      ],
+      "greekHint": "Exhibit = έκθεμα, κάτι που βλέπεις σε έκθεση.",
+      "english": "exhibit",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-46",
+      "emoji": "🕯️",
+      "kidDefinition": "A copy of a person made from wax.",
+      "examples": [
+        "I like most the wax figures of famous movie stars.",
+        "This wax figure looks exactly like my teacher!"
+      ],
+      "distractors": [
+        "picture",
+        "puppet",
+        "ticket"
+      ],
+      "greekHint": "Wax = κερί. Wax figure = κέρινο ομοίωμα.",
+      "english": "wax figure",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-37",
+      "emoji": "🔦",
+      "kidDefinition": "A small light that you carry in your hand.",
+      "examples": [
+        "I always have a flashlight in my car.",
+        "Use your flashlight to find the light switch in the dark."
+      ],
+      "distractors": [
+        "candle",
+        "ladder",
+        "umbrella"
+      ],
+      "greekHint": "Flashlight = φακός, ένα φως που κρατάς στο χέρι.",
+      "english": "flashlight",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-36",
+      "emoji": "🚨",
+      "kidDefinition": "A loud sound that warns people of danger.",
+      "examples": [
+        "There is an alarm in the museum to protect the exhibits.",
+        "The alarm rang, and everyone ran outside."
+      ],
+      "distractors": [
+        "doorbell",
+        "notebook",
+        "bottle"
+      ],
+      "greekHint": "Alarm = συναγερμός. Ακούγεται δυνατά!",
+      "english": "alarm",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-49",
+      "emoji": "⚡",
+      "kidDefinition": "Power that makes lights and machines work.",
+      "examples": [
+        "If the electricity goes out, use your flashlight.",
+        "Our house uses a lot of electricity in winter."
+      ],
+      "distractors": [
+        "water",
+        "traffic",
+        "weather"
+      ],
+      "greekHint": "Electricity = ηλεκτρική ενέργεια. Σκέψου το ρεύμα.",
+      "english": "electricity",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-50",
+      "emoji": "🌑",
+      "kidDefinition": "To stop shining or working, like a light.",
+      "examples": [
+        "The electricity goes out very often in the summer.",
+        "Oh no, the lights went out in the museum!"
+      ],
+      "distractors": [
+        "come in",
+        "wake up",
+        "put on"
+      ],
+      "greekHint": "Go out για ρεύμα = κόβεται το ρεύμα.",
+      "english": "go out",
+      "type": "phr. v."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U1-SB-15",
+    "CPP2-U1-SB-17",
+    "CPP2-U1-SB-18",
+    "CPP2-U1-SB-19",
+    "CPP2-U1-SB-20",
+    "CPP2-U1-SB-21",
+    "CPP2-U1-SB-22",
+    "CPP2-U1-SB-23",
+    "CPP2-U1-SB-24",
+    "CPP2-U1-SB-25",
+    "CPP2-U1-SB-26",
+    "CPP2-U1-SB-27",
+    "CPP2-U1-SB-28",
+    "CPP2-U1-SB-29",
+    "CPP2-U1-SB-30",
+    "CPP2-U1-SB-31",
+    "CPP2-U1-SB-33",
+    "CPP2-U1-SB-35",
+    "CPP2-U1-SB-39",
+    "CPP2-U1-SB-40",
+    "CPP2-U1-SB-41",
+    "CPP2-U1-SB-42",
+    "CPP2-U1-SB-43",
+    "CPP2-U1-SB-44",
+    "CPP2-U1-SB-45",
+    "CPP2-U1-SB-47",
+    "CPP2-U1-SB-48",
+    "CPP2-U1-SB-51",
+    "CPP2-U1-SB-52",
+    "CPP2-U1-SB-53",
+    "CPP2-U1-SB-54",
+    "CPP2-U1-SB-55",
+    "CPP2-U1-SB-56",
+    "CPP2-U1-SB-57",
+    "CPP2-U1-SB-58",
+    "CPP2-U1-SB-59",
+    "CPP2-U1-SB-60",
+    "CPP2-U1-SB-61",
+    "CPP2-U1-SB-62",
+    "CPP2-U1-SB-63",
+    "CPP2-U1-SB-64",
+    "CPP2-U1-SB-65",
+    "CPP2-U1-SB-66",
+    "CPP2-U1-SB-67",
+    "CPP2-U1-SB-68",
+    "CPP2-U1-SB-69",
+    "CPP2-U1-SB-70",
+    "CPP2-U1-SB-71"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "classroom",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, everyone! It's Lingo, your owl friend."
+        },
+        {
+          "id": "l2",
+          "text": "Today we go on a visit to a museum."
+        },
+        {
+          "id": "l3",
+          "text": "Museums are full of amazing things to see."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out who helps keep them safe!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite place in your neighbourhood?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U1-SB-14",
+        "CPP2-U1-SB-16",
+        "CPP2-U1-SB-34",
+        "CPP2-U1-SB-32",
+        "CPP2-U1-SB-38",
+        "CPP2-U1-SB-46",
+        "CPP2-U1-SB-37",
+        "CPP2-U1-SB-36",
+        "CPP2-U1-SB-49",
+        "CPP2-U1-SB-50"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Night at the Museum",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "city",
+          "characters": [
+            {
+              "who": "nico"
+            },
+            {
+              "who": "carla"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Nico and his class arrive at the museum in the city."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "carla",
+              "text": "Welcome! I am Ms Carla, the security guard here."
+            },
+            {
+              "id": "p1b",
+              "who": "nico",
+              "text": "Wow, what a big museum!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-32",
+            "CPP2-U1-SB-34"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "stage",
+          "characters": [
+            {
+              "who": "nico"
+            },
+            {
+              "who": "carla"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Inside, Nico stops at a wax figure of a famous singer."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "nico",
+              "text": "Look at this wax figure! It looks so real!"
+            },
+            {
+              "id": "p2b",
+              "who": "carla",
+              "text": "Every exhibit here is special. Please don't touch them."
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-38",
+            "CPP2-U1-SB-46"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "space",
+          "characters": [
+            {
+              "who": "nico"
+            },
+            {
+              "who": "carla"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Later, in the dark, the electricity suddenly goes out."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "carla",
+              "text": "Don't worry, Nico. I always carry a flashlight."
+            },
+            {
+              "id": "p3b",
+              "who": "nico",
+              "text": "Ring, ring! The alarm is ringing!"
+            },
+            {
+              "id": "p3c2",
+              "who": "carla",
+              "text": "It's only a cat. Everything is safe now."
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-49",
+            "CPP2-U1-SB-50",
+            "CPP2-U1-SB-37",
+            "CPP2-U1-SB-36"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "At home, Nico reads the museum leaflet."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "nico",
+              "text": "The heading says Museum Nights. Let's read this section."
+            },
+            {
+              "id": "p4b",
+              "who": "nico",
+              "text": "Now I understand. The security guard is my hero!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-14",
+            "CPP2-U1-SB-16"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U1-SB-14",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the word: heading."
+          },
+          "options": [
+            "CPP2-U1-SB-14",
+            "CPP2-U1-SB-49",
+            "CPP2-U1-SB-37",
+            "CPP2-U1-SB-34"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A heading is the title at the top of a section of text."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-16",
+          "prompt": {
+            "id": "c2q",
+            "text": "The first ____ of the text is about our town."
+          },
+          "options": [
+            "museum",
+            "ticket",
+            "section"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c2e",
+            "text": "A section is one part of a longer text."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP2-U1-SB-38",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen and point: We looked at every exhibit in the hall."
+          },
+          "options": [
+            "CPP2-U1-SB-46",
+            "CPP2-U1-SB-34",
+            "CPP2-U1-SB-38"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "An exhibit is an object that is shown in a museum."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U1-SB-34",
+          "prompt": {
+            "id": "c4q",
+            "text": "A museum is a building with interesting things to see."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Yes, museums are buildings full of interesting exhibits."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U1-SB-32",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "museum",
+            "wax figure",
+            "exhibit",
+            "security guard"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c5e",
+            "text": "A security guard is a person; the others are things or places in a museum."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-37",
+          "prompt": {
+            "id": "c6q",
+            "text": "Use your ____ to see in the dark."
+          },
+          "options": [
+            "alarm",
+            "exhibit",
+            "flashlight"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "A flashlight is a small light you carry in your hand."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-36",
+          "prompt": {
+            "id": "c7q",
+            "text": "The ____ rang loudly, so everyone ran outside."
+          },
+          "options": [
+            "alarm",
+            "section",
+            "exhibit"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "An alarm is a loud sound that warns people of danger."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U1-SB-46",
+          "prompt": {
+            "id": "c8q",
+            "text": "Point to the wax figure."
+          },
+          "options": [
+            "CPP2-U1-SB-38",
+            "CPP2-U1-SB-46",
+            "CPP2-U1-SB-16",
+            "CPP2-U1-SB-36"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A wax figure is a copy of a person made from wax."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U1-SB-49",
+          "prompt": {
+            "id": "c9q",
+            "text": "Electricity is water that flows through the museum."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c9e",
+            "text": "Electricity is power that makes lights and machines work, not water."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-50",
+          "prompt": {
+            "id": "c10q",
+            "text": "If the lights ____, use your flashlight."
+          },
+          "options": [
+            "wake up",
+            "go out",
+            "come in"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "When lights go out, they stop shining or working."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game with our new words!"
+        },
+        {
+          "id": "l2",
+          "text": "Find the word and the picture that match. Say the word out loud."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a place you visited and what you saw there."
+      },
+      "frames": [
+        "I visited a ___ last weekend.",
+        "My favourite ___ was very interesting.",
+        "I always have a ___ in my bag."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I visited a museum last weekend. My favourite exhibit was a wax figure. I always have a flashlight in my bag."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, neighbours! You are learning fast."
+        },
+        {
+          "id": "l2",
+          "text": "You can now read a heading, find a section, and talk about a museum."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will meet more helpers in our neighbourhood."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Museum Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one focus word from today and say what it means in English."
+        },
+        {
+          "id": "e2",
+          "text": "Make a sentence with the words security guard and museum."
+        }
+      ]
+    }
+  ]
+}

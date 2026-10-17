@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "lessons": [
+    {
+      "id": "CPP1-U1-BQ",
+      "bookId": "CPP1",
+      "unit": 1,
+      "section": "BQ",
+      "title": "Who Is in Your Family?",
+      "status": "draft",
+      "durationMin": 12,
+      "focusCount": 8,
+      "setting": "home",
+      "hero": "👨‍👩‍👧‍👦",
+      "path": "CPP1/U1-BQ.json"
+    },
+    {
+      "id": "CPP1-U1-A",
+      "bookId": "CPP1",
+      "unit": 1,
+      "section": "A",
+      "title": "Homes, Farms and Families: Ten New Words",
+      "status": "draft",
+      "durationMin": 22,
+      "focusCount": 10,
+      "setting": "home",
+      "hero": "👨‍👩‍👧",
+      "path": "CPP1/U1-A.json"
+    },
+    {
+      "id": "CPP1-U1-B",
+      "bookId": "CPP1",
+      "unit": 1,
+      "section": "B",
+      "title": "Timmy's Bedtime Story: Ten Words for Bedtime and Family",
+      "status": "draft",
+      "durationMin": 22,
+      "focusCount": 10,
+      "setting": "home",
+      "hero": "🌙",
+      "path": "CPP1/U1-B.json"
+    },
+    {
+      "id": "CPP2-U1-BQ",
+      "bookId": "CPP2",
+      "unit": 1,
+      "section": "BQ",
+      "title": "Where Do We Live? Meet Our Neighbourhood!",
+      "status": "draft",
+      "durationMin": 12,
+      "focusCount": 9,
+      "setting": "street",
+      "hero": "🏘️",
+      "path": "CPP2/U1-BQ.json"
+    },
+    {
+      "id": "CPP2-U1-A",
+      "bookId": "CPP2",
+      "unit": 1,
+      "section": "A",
+      "title": "Night at the Museum: Our Neighbourhood Helpers",
+      "status": "draft",
+      "durationMin": 22,
+      "focusCount": 10,
+      "setting": "city",
+      "hero": "📰",
+      "path": "CPP2/U1-A.json"
+    },
+    {
+      "id": "CPP2-U1-B",
+      "bookId": "CPP2",
+      "unit": 1,
+      "section": "B",
+      "title": "Nico's Big Haircut Day",
+      "status": "draft",
+      "durationMin": 22,
+      "focusCount": 10,
+      "setting": "city",
+      "hero": "🛣️",
+      "path": "CPP2/U1-B.json"
+    },
+    {
+      "id": "CPP3-U1-BQ",
+      "bookId": "CPP3",
+      "unit": 1,
+      "section": "BQ",
+      "title": "Our Special Community: Big Question Opener",
+      "status": "draft",
+      "durationMin": 12,
+      "focusCount": 8,
+      "setting": "street",
+      "hero": "🏘",
+      "path": "CPP3/U1-BQ.json"
+    },
+    {
+      "id": "CPP3-U1-A",
+      "bookId": "CPP3",
+      "unit": 1,
+      "section": "A",
+      "title": "Welcome to Our Neighbourhood!",
+      "status": "draft",
+      "durationMin": 22,
+      "focusCount": 10,
+      "setting": "city",
+      "hero": "🏘️",
+      "path": "CPP3/U1-A.json"
+    },
+    {
+      "id": "CPP3-U1-B",
+      "bookId": "CPP3",
+      "unit": 1,
+      "section": "B",
+      "title": "The Secret Path in the Park",
+      "status": "draft",
+      "durationMin": 22,
+      "focusCount": 10,
+      "setting": "park",
+      "hero": "🙈",
+      "path": "CPP3/U1-B.json"
+    }
+  ]
+}

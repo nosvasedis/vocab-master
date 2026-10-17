@@ -1,0 +1,724 @@
+{
+  "schema": 1,
+  "id": "CPP1-U1-B",
+  "bookId": "CPP1",
+  "unit": 1,
+  "section": "B",
+  "title": "Timmy's Bedtime Story: Ten Words for Bedtime and Family",
+  "bigQuestion": "What is a family?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "timmy": {
+      "name": "Timmy",
+      "emoji": "🧒",
+      "persona": "cheerful 9-year-old boy, curious and sleepy"
+    },
+    "lena": {
+      "name": "Aunt Lena",
+      "emoji": "👩",
+      "persona": "kind, gentle adult aunt, warm and storyteller"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U1-SB-70",
+      "emoji": "🌙",
+      "kidDefinition": "The time when you go to sleep at night.",
+      "examples": [
+        "It is nine o'clock. It is bedtime.",
+        "I read my book before bedtime."
+      ],
+      "distractors": [
+        "bedroom",
+        "lunchtime",
+        "breakfast"
+      ],
+      "greekHint": "bedtime = ώρα για ύπνο",
+      "english": "bedtime",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-71",
+      "emoji": "👕",
+      "kidDefinition": "Soft clothes you wear to sleep in.",
+      "examples": [
+        "Put on your pajamas and go to bed.",
+        "Timmy's pajamas have little stars."
+      ],
+      "distractors": [
+        "toy tiger",
+        "bedroom",
+        "photo album"
+      ],
+      "greekHint": "pajamas = πιτζάμες",
+      "english": "pajamas",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-74",
+      "emoji": "🛏️",
+      "kidDefinition": "To get into bed to sleep.",
+      "examples": [
+        "What time do you go to bed?",
+        "I go to bed at eight o'clock."
+      ],
+      "distractors": [
+        "tell a story",
+        "put on",
+        "spend time"
+      ],
+      "greekHint": "go to bed = πάω για ύπνο",
+      "english": "go to bed",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U1-SB-68",
+      "emoji": "👩",
+      "kidDefinition": "The sister of your mum or dad.",
+      "examples": [
+        "My favourite aunt is my father's sister.",
+        "Aunt Lena visits us on Sunday."
+      ],
+      "distractors": [
+        "uncle",
+        "cousin",
+        "grandfather"
+      ],
+      "greekHint": "aunt = θεία",
+      "english": "aunt",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-87",
+      "emoji": "🥺",
+      "kidDefinition": "To feel sad because someone is not here.",
+      "examples": [
+        "I miss my mother when she travels for work.",
+        "Do you miss your friends on holiday?"
+      ],
+      "distractors": [
+        "sleep",
+        "draw",
+        "fold"
+      ],
+      "greekHint": "miss = (μου) λείπει",
+      "english": "miss",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U1-SB-89",
+      "emoji": "🧣",
+      "kidDefinition": "Not cold, but not hot. Nice and cosy.",
+      "examples": [
+        "Drink some warm milk. It can help you sleep.",
+        "I like my warm woolly jumper."
+      ],
+      "distractors": [
+        "soft",
+        "open",
+        "worried"
+      ],
+      "greekHint": "warm = ζεστό",
+      "english": "warm",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U1-SB-72",
+      "emoji": "😴",
+      "kidDefinition": "To rest with your eyes closed at night.",
+      "examples": [
+        "Shhh! Be quiet! The baby is sleeping.",
+        "I sleep for ten hours every night."
+      ],
+      "distractors": [
+        "miss",
+        "draw",
+        "glue"
+      ],
+      "greekHint": "sleep = κοιμάμαι",
+      "english": "sleep",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U1-SB-85",
+      "emoji": "🐯",
+      "kidDefinition": "A tiger that is a toy, for children to hug.",
+      "examples": [
+        "Tim has a toy tiger and he takes it everywhere.",
+        "My toy tiger is orange and soft."
+      ],
+      "distractors": [
+        "photo album",
+        "sheet of paper",
+        "cottage"
+      ],
+      "greekHint": "toy tiger = τίγρη παιχνίδι",
+      "english": "toy tiger",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-115",
+      "emoji": "🛌",
+      "kidDefinition": "The room in a house where you sleep.",
+      "examples": [
+        "Maria has her own bedroom.",
+        "My bedroom has a big window."
+      ],
+      "distractors": [
+        "kitchen",
+        "garden",
+        "dining room"
+      ],
+      "greekHint": "bedroom = υπνοδωμάτιο",
+      "english": "bedroom",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-75",
+      "emoji": "📖",
+      "kidDefinition": "To say a story out loud for someone to listen.",
+      "examples": [
+        "My grandfather tells me a story every evening.",
+        "Can you tell a story about a dragon?"
+      ],
+      "distractors": [
+        "go to bed",
+        "put on",
+        "spend time"
+      ],
+      "greekHint": "tell a story = λέω μια ιστορία",
+      "english": "tell a story",
+      "type": "phr."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U1-SB-67",
+    "CPP1-U1-SB-69",
+    "CPP1-U1-SB-73",
+    "CPP1-U1-SB-76",
+    "CPP1-U1-SB-77",
+    "CPP1-U1-SB-78",
+    "CPP1-U1-SB-79",
+    "CPP1-U1-SB-80",
+    "CPP1-U1-SB-81",
+    "CPP1-U1-SB-82",
+    "CPP1-U1-SB-83",
+    "CPP1-U1-SB-84",
+    "CPP1-U1-SB-86",
+    "CPP1-U1-SB-88",
+    "CPP1-U1-SB-90",
+    "CPP1-U1-SB-91",
+    "CPP1-U1-SB-92",
+    "CPP1-U1-SB-93",
+    "CPP1-U1-SB-94",
+    "CPP1-U1-SB-95",
+    "CPP1-U1-SB-96",
+    "CPP1-U1-SB-97",
+    "CPP1-U1-SB-98",
+    "CPP1-U1-SB-99",
+    "CPP1-U1-SB-100",
+    "CPP1-U1-SB-101",
+    "CPP1-U1-SB-102",
+    "CPP1-U1-SB-103",
+    "CPP1-U1-SB-104",
+    "CPP1-U1-SB-105",
+    "CPP1-U1-SB-106",
+    "CPP1-U1-SB-107",
+    "CPP1-U1-SB-108",
+    "CPP1-U1-SB-109",
+    "CPP1-U1-SB-110",
+    "CPP1-U1-SB-111",
+    "CPP1-U1-SB-112",
+    "CPP1-U1-SB-113",
+    "CPP1-U1-SB-114",
+    "CPP1-U1-SB-116",
+    "CPP1-U1-SB-117",
+    "CPP1-U1-SB-118",
+    "CPP1-U1-SB-119",
+    "CPP1-U1-SB-120",
+    "CPP1-U1-SB-121",
+    "CPP1-U1-SB-122",
+    "CPP1-U1-SB-123"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, your owl teacher."
+        },
+        {
+          "id": "l2",
+          "text": "Today we visit Timmy at bedtime."
+        },
+        {
+          "id": "l3",
+          "text": "Timmy loves his family, and his family loves him."
+        },
+        {
+          "id": "l4",
+          "text": "Let's find out what happens in his home tonight!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What do you do before you go to bed?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U1-SB-70",
+        "CPP1-U1-SB-71",
+        "CPP1-U1-SB-74",
+        "CPP1-U1-SB-68",
+        "CPP1-U1-SB-87",
+        "CPP1-U1-SB-89",
+        "CPP1-U1-SB-72",
+        "CPP1-U1-SB-85",
+        "CPP1-U1-SB-115",
+        "CPP1-U1-SB-75"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Timmy's Bedtime Story",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "timmy"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "It is bedtime. Timmy wears his pajamas."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "timmy",
+              "text": "I am ready to go to bed. Look at my pajamas!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-70",
+            "CPP1-U1-SB-71",
+            "CPP1-U1-SB-74"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "timmy"
+            },
+            {
+              "who": "lena"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "His aunt Lena arrives at the door."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "lena",
+              "text": "Hello, Timmy! I missed you so much."
+            },
+            {
+              "id": "p2b",
+              "who": "timmy",
+              "text": "I miss you too, Aunt Lena!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-68",
+            "CPP1-U1-SB-87"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "lena"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Aunt Lena makes a drink for Timmy."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "lena",
+              "text": "Here is some warm milk. It will help you sleep."
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-89",
+            "CPP1-U1-SB-72"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "timmy"
+            },
+            {
+              "who": "lena"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "In his bedroom, Timmy hugs his toy tiger."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "timmy",
+              "text": "My toy tiger goes everywhere with me!"
+            },
+            {
+              "id": "p4b",
+              "who": "lena",
+              "text": "He is a lovely friend. Now, let's read together."
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-85",
+            "CPP1-U1-SB-115"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "lena"
+            },
+            {
+              "who": "timmy"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Aunt Lena will tell a story about a princess."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "lena",
+              "text": "Once upon a time, there was a brave princess."
+            },
+            {
+              "id": "p5b",
+              "who": "timmy",
+              "text": "Please tell another story tomorrow, Aunt Lena!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-75"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-68",
+          "prompt": {
+            "id": "c1q",
+            "text": "My mum's sister is my ____."
+          },
+          "options": [
+            "aunt",
+            "uncle",
+            "bedroom",
+            "cousin"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "An aunt is your mum's or dad's sister."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-71",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to the word: pajamas. Which card is it?"
+          },
+          "options": [
+            "CPP1-U1-SB-115",
+            "CPP1-U1-SB-71",
+            "CPP1-U1-SB-85",
+            "CPP1-U1-SB-72"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c2e",
+            "text": "Pajamas are the soft clothes you wear to bed."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-85",
+          "prompt": {
+            "id": "c3q",
+            "text": "Which card shows the toy Timmy takes everywhere?"
+          },
+          "options": [
+            "CPP1-U1-SB-115",
+            "CPP1-U1-SB-89",
+            "CPP1-U1-SB-71",
+            "CPP1-U1-SB-85"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "Timmy's toy tiger goes with him everywhere."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U1-SB-115",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "uncle",
+            "aunt",
+            "cousin",
+            "bedroom"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c4e",
+            "text": "Aunt, uncle and cousin are people, but a bedroom is a place."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-72",
+          "prompt": {
+            "id": "c5q",
+            "text": "Good night! I want to ____ now."
+          },
+          "options": [
+            "glue",
+            "sleep",
+            "miss",
+            "draw"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "When you sleep, you rest with your eyes closed."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-74",
+          "prompt": {
+            "id": "c6q",
+            "text": "It is late. Time to ____."
+          },
+          "options": [
+            "tell a story",
+            "spend time",
+            "put on",
+            "go to bed"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "When it is late, we go to bed to sleep."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-75",
+          "prompt": {
+            "id": "c7q",
+            "text": "Aunt Lena will ____ about a brave princess."
+          },
+          "options": [
+            "tell a story",
+            "put on",
+            "go to bed",
+            "draw a picture"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "To tell a story means to say a story out loud."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U1-SB-87",
+          "prompt": {
+            "id": "c8q",
+            "text": "When you miss someone, you feel happy they are here. True or false?"
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "To miss someone means to feel sad when they are not with you."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-89",
+          "prompt": {
+            "id": "c9q",
+            "text": "Listen to the word: warm. Which card is it?"
+          },
+          "options": [
+            "CPP1-U1-SB-72",
+            "CPP1-U1-SB-70",
+            "CPP1-U1-SB-89",
+            "CPP1-U1-SB-85"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "Warm means not cold, like a warm drink on a winter night."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-70",
+          "prompt": {
+            "id": "c10q",
+            "text": "It is nine o'clock at night. Time for ____."
+          },
+          "options": [
+            "bedtime",
+            "bedroom",
+            "lunchtime",
+            "pajamas"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "Bedtime is the time when you go to sleep at night."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Turn over two cards."
+        },
+        {
+          "id": "l2",
+          "text": "Find the word and its picture. Say it aloud as you match it."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your bedtime. Use the frames."
+      },
+      "frames": [
+        "I put on my ___ at bedtime.",
+        "Before I go to bed, I ___.",
+        "My favourite person can tell a ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I put on my pajamas at bedtime. Before I go to bed, I hug my toy tiger. My favourite person can tell a story about a princess."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You met Timmy and Aunt Lena."
+        },
+        {
+          "id": "l2",
+          "text": "You now know ten new words for bedtime and family."
+        },
+        {
+          "id": "l3",
+          "text": "Sweet dreams, and see you next time!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Bedtime Storyteller"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "What do you put on before you go to bed?"
+        },
+        {
+          "id": "e2",
+          "text": "Who is your favourite person to tell you a story?"
+        }
+      ]
+    }
+  ]
+}

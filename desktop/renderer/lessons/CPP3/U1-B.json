@@ -1,0 +1,720 @@
+{
+  "schema": 1,
+  "id": "CPP3-U1-B",
+  "bookId": "CPP3",
+  "unit": 1,
+  "section": "B",
+  "title": "The Secret Path in the Park",
+  "bigQuestion": "What makes your community special?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "park",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "mia": {
+      "name": "Mia",
+      "emoji": "👧",
+      "persona": "cheerful 11-year-old girl, curious and brave"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "friendly 11-year-old boy, playful and a little bossy"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U1-SB-90",
+      "emoji": "🙈",
+      "kidDefinition": "to put yourself where people cannot see you",
+      "examples": [
+        "When my cat is scared, she hides under the bed.",
+        "Leo hid behind a big tree in the forest."
+      ],
+      "distractors": [
+        "seek",
+        "wander",
+        "shout"
+      ],
+      "greekHint": "κρύβω: hide",
+      "english": "hide - hid - hidden",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U1-SB-99",
+      "emoji": "🔎",
+      "kidDefinition": "a game where one player hides and others find them",
+      "examples": [
+        "Our favourite game in the park is hide-and-seek.",
+        "When we were little, we played hide-and-seek every Sunday."
+      ],
+      "distractors": [
+        "tag",
+        "football",
+        "treasure hunt"
+      ],
+      "greekHint": "κρυφτό",
+      "english": "hide-and-seek",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-93",
+      "emoji": "🧭",
+      "kidDefinition": "to travel around a new place to learn about it",
+      "examples": [
+        "We want to explore the old cave in the hills.",
+        "Let's explore this forest path together!"
+      ],
+      "distractors": [
+        "carry",
+        "measure",
+        "paint"
+      ],
+      "greekHint": "εξερευνώ: explore",
+      "english": "explore",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U1-SB-106",
+      "emoji": "💎",
+      "kidDefinition": "to find something new or unknown for the first time",
+      "examples": [
+        "Mia discovered a secret path behind the trees.",
+        "Scientists discover new animals in the jungle every year."
+      ],
+      "distractors": [
+        "forget",
+        "borrow",
+        "repair"
+      ],
+      "greekHint": "ανακαλύπτω: discover",
+      "english": "discover",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U1-SB-95",
+      "emoji": "💡",
+      "kidDefinition": "to make something new that did not exist before",
+      "examples": [
+        "Leo invented a new game for the park.",
+        "Who invented the first bicycle?"
+      ],
+      "distractors": [
+        "repeat",
+        "copy",
+        "sell"
+      ],
+      "greekHint": "εφευρίσκω: invent",
+      "english": "invent",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U1-SB-91",
+      "emoji": "🤩",
+      "kidDefinition": "happy and full of energy because something good will happen",
+      "examples": [
+        "All the children were excited about the funfair.",
+        "Mia felt excited when she heard about the game."
+      ],
+      "distractors": [
+        "tired",
+        "bored",
+        "sleepy"
+      ],
+      "greekHint": "ενθουσιασμένος: excited",
+      "english": "excited",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U1-SB-97",
+      "emoji": "🦸",
+      "kidDefinition": "a brave person who helps other people",
+      "examples": [
+        "Firefighters are real-life heroes!",
+        "Leo is a hero because he helped the lost dog."
+      ],
+      "distractors": [
+        "guest",
+        "neighbour",
+        "teacher"
+      ],
+      "greekHint": "ήρωας: hero",
+      "english": "hero",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-100",
+      "emoji": "🏆",
+      "kidDefinition": "a person who wins a competition",
+      "examples": [
+        "Marcus is the tennis champion of our school.",
+        "Our team wants to be the champions this year."
+      ],
+      "distractors": [
+        "teacher",
+        "gardener",
+        "driver"
+      ],
+      "greekHint": "πρωταθλητής: champion",
+      "english": "champion",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-112",
+      "emoji": "🤝",
+      "kidDefinition": "to become part of a group or an activity",
+      "examples": [
+        "I want to join the basketball team at my school.",
+        "Would you like to join our game?"
+      ],
+      "distractors": [
+        "leave",
+        "avoid",
+        "refuse"
+      ],
+      "greekHint": "παίρνω μέρος: join",
+      "english": "join",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP3-U1-SB-98",
+      "emoji": "👫",
+      "kidDefinition": "to make people meet and share an activity",
+      "examples": [
+        "Sports bring people together!",
+        "Our street party brings the neighbours together."
+      ],
+      "distractors": [
+        "take apart",
+        "look after",
+        "wake up"
+      ],
+      "greekHint": "ενώνω: bring together",
+      "english": "bring together",
+      "type": "phr. v."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U1-SB-88",
+    "CPP3-U1-SB-89",
+    "CPP3-U1-SB-92",
+    "CPP3-U1-SB-94",
+    "CPP3-U1-SB-96",
+    "CPP3-U1-SB-101",
+    "CPP3-U1-SB-102",
+    "CPP3-U1-SB-103",
+    "CPP3-U1-SB-104",
+    "CPP3-U1-SB-105",
+    "CPP3-U1-SB-107",
+    "CPP3-U1-SB-108",
+    "CPP3-U1-SB-109",
+    "CPP3-U1-SB-110",
+    "CPP3-U1-SB-111",
+    "CPP3-U1-SB-113",
+    "CPP3-U1-SB-114",
+    "CPP3-U1-SB-115",
+    "CPP3-U1-SB-116",
+    "CPP3-U1-SB-117",
+    "CPP3-U1-SB-118",
+    "CPP3-U1-SB-119",
+    "CPP3-U1-SB-120",
+    "CPP3-U1-SB-121",
+    "CPP3-U1-SB-122",
+    "CPP3-U1-SB-123",
+    "CPP3-U1-SB-124",
+    "CPP3-U1-SB-125",
+    "CPP3-U1-SB-126",
+    "CPP3-U1-SB-127",
+    "CPP3-U1-SB-128",
+    "CPP3-U1-SB-129",
+    "CPP3-U1-SB-130",
+    "CPP3-U1-SB-131",
+    "CPP3-U1-KW-21",
+    "CPP3-U1-KW-22",
+    "CPP3-U1-KW-23"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "park",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love my neighbourhood."
+        },
+        {
+          "id": "l2",
+          "text": "Every neighbourhood has special people, games and even secrets."
+        },
+        {
+          "id": "l3",
+          "text": "Today we meet two friends in a park, and they find a big adventure."
+        },
+        {
+          "id": "l4",
+          "text": "Listen carefully, and watch for the new words!"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one thing you love about your neighbourhood?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U1-SB-90",
+        "CPP3-U1-SB-99",
+        "CPP3-U1-SB-93",
+        "CPP3-U1-SB-106",
+        "CPP3-U1-SB-95",
+        "CPP3-U1-SB-91",
+        "CPP3-U1-SB-97",
+        "CPP3-U1-SB-100",
+        "CPP3-U1-SB-112",
+        "CPP3-U1-SB-98"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "The Secret Path",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "On Saturday morning, Leo and Mia met in the park."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "leo",
+              "text": "Let's play hide-and-seek! You can count first, Mia."
+            },
+            {
+              "id": "p1b",
+              "who": "mia",
+              "text": "Okay! I'm so excited to play this game with you!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-99",
+            "CPP3-U1-SB-91"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Leo ran off to hide behind a huge oak tree in the forest."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mia",
+              "text": "Found you, Leo! Wait, what is that little path?"
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "I don't know! Let's explore it together!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-90",
+            "CPP3-U1-SB-93"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "forest",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "At the end of the path, they found a small, hidden cave."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "mia",
+              "text": "I can't believe we discovered this amazing place!"
+            },
+            {
+              "id": "p3b",
+              "who": "leo",
+              "text": "Look! Someone invented a sign with a map on it."
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-106",
+            "CPP3-U1-SB-95"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Back in the park, a crowd of children was playing football."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "leo",
+              "text": "Sam is the football champion of our street!"
+            },
+            {
+              "id": "p4b",
+              "who": "mia",
+              "text": "Let's join them and play together!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-100",
+            "CPP3-U1-SB-112"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "mia"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Soon, the whole park was laughing and playing as one big team."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "mia",
+              "text": "Sport really can bring people together, can't it?"
+            },
+            {
+              "id": "p5b",
+              "who": "leo",
+              "text": "Yes! You are my hero for finding that secret path!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-98",
+            "CPP3-U1-SB-97"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U1-SB-99",
+          "prompt": {
+            "id": "c1q",
+            "text": "Tap the word for the game where one player hides and the others look for them."
+          },
+          "options": [
+            "CPP3-U1-SB-93",
+            "CPP3-U1-SB-99",
+            "CPP3-U1-SB-106",
+            "CPP3-U1-SB-90"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "Hide-and-seek is the game where one player hides and the others seek."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-93",
+          "prompt": {
+            "id": "c2q",
+            "text": "We want to ____ the old cave in the forest."
+          },
+          "options": [
+            "explore",
+            "carry",
+            "measure",
+            "paint"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "To explore means to travel around a new place to learn about it."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U1-SB-106",
+          "prompt": {
+            "id": "c3q",
+            "text": "Mia discovered a secret path behind the trees."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Yes, Mia found the path for the first time, so she discovered it."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U1-SB-97",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "excited",
+            "neighbour",
+            "champion",
+            "hero"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Hero, champion and neighbour are people, but excited is a feeling word."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-100",
+          "prompt": {
+            "id": "c5q",
+            "text": "Leo became the tennis ____ of the park this year."
+          },
+          "options": [
+            "champion",
+            "stranger",
+            "neighbour",
+            "guest"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "A champion is a person who wins a competition."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "listen",
+          "wordId": "CPP3-U1-SB-91",
+          "prompt": {
+            "id": "c6q",
+            "text": "Listen: 'Wow, I can't wait for the trip tomorrow!' Which word shows how the speaker feels?"
+          },
+          "options": [
+            "CPP3-U1-SB-100",
+            "CPP3-U1-SB-97",
+            "CPP3-U1-SB-91",
+            "CPP3-U1-SB-112"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c6e",
+            "text": "Excited means happy and full of energy about something good that will happen."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U1-SB-112",
+          "prompt": {
+            "id": "c7q",
+            "text": "Mia refused to join Leo's game in the park."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "False, because Mia was happy to join the game and the football team."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-98",
+          "prompt": {
+            "id": "c8q",
+            "text": "Sports can ____ people from many families into one team."
+          },
+          "options": [
+            "wake up",
+            "look after",
+            "take apart",
+            "bring together"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "To bring together means to make people meet and share an activity."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-95",
+          "prompt": {
+            "id": "c9q",
+            "text": "Leo ____ a brand new game for the park last summer."
+          },
+          "options": [
+            "joined",
+            "explored",
+            "invented",
+            "hid"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "To invent means to make something new that did not exist before."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U1-SB-90",
+          "prompt": {
+            "id": "c10q",
+            "text": "Tap the word that means to put yourself where nobody can see you."
+          },
+          "options": [
+            "CPP3-U1-SB-91",
+            "CPP3-U1-SB-90",
+            "CPP3-U1-SB-97",
+            "CPP3-U1-SB-112"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "When you hide, you go somewhere that people cannot see you."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "quiz",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time for a quick quiz! Work with your partner and check your answers together."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a place where people come together in your neighbourhood."
+      },
+      "frames": [
+        "In my neighbourhood, I like to ___ with my friends.",
+        "We can explore ___ and discover ___.",
+        "Sports and games bring people ___ and make me feel ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "In my neighbourhood, I like to play football with my friends. We can explore the park and discover new places. Sports bring people together, and I feel excited when we play."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Well done, explorers! You found the secret path and learned ten brilliant words."
+        },
+        {
+          "id": "l2",
+          "text": "Remember, every neighbourhood has heroes, champions and new adventures waiting for you."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Community Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one thing you can explore in your neighbourhood."
+        },
+        {
+          "id": "e2",
+          "text": "Finish this sentence: I feel excited when ___."
+        }
+      ]
+    }
+  ]
+}

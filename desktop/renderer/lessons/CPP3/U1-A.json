@@ -1,0 +1,772 @@
+{
+  "schema": 1,
+  "id": "CPP3-U1-A",
+  "bookId": "CPP3",
+  "unit": 1,
+  "section": "A",
+  "title": "Welcome to Our Neighbourhood!",
+  "bigQuestion": "What makes your community special?",
+  "profile": "C_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "city",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "ella": {
+      "name": "Ella",
+      "emoji": "🧒",
+      "persona": "cheerful 11-year-old girl, proud of her town, friendly and chatty"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "🧑",
+      "persona": "curious 11-year-old boy, new in town, excited and a little shy"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U1-SB-40",
+      "emoji": "🏘️",
+      "kidDefinition": "The area around your home, where you live.",
+      "examples": [
+        "I know everyone in my neighbourhood.",
+        "Our neighbourhood has a quiet little park."
+      ],
+      "distractors": [
+        "stadium",
+        "recess",
+        "swan"
+      ],
+      "greekHint": "γειτονιά",
+      "english": "neighborhood",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-31",
+      "emoji": "🏛️",
+      "kidDefinition": "Very old, from a long time ago.",
+      "examples": [
+        "We visited ancient ruins in Greece.",
+        "Ancient coins are kept in the museum."
+      ],
+      "distractors": [
+        "modern",
+        "shiny",
+        "wooden"
+      ],
+      "greekHint": "αρχαίος",
+      "english": "ancient",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U1-SB-17",
+      "emoji": "🛠️",
+      "kidDefinition": "Helpful for doing something well.",
+      "examples": [
+        "This map is useful when you visit a new town.",
+        "Our teacher gave us useful advice."
+      ],
+      "distractors": [
+        "broken",
+        "empty",
+        "messy"
+      ],
+      "greekHint": "χρήσιμος",
+      "english": "useful",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U1-SB-45",
+      "emoji": "⛴️",
+      "kidDefinition": "A boat that carries people and cars across water.",
+      "examples": [
+        "We took the ferry to the island.",
+        "The ferry leaves the port at nine o'clock."
+      ],
+      "distractors": [
+        "rug",
+        "swan",
+        "award"
+      ],
+      "greekHint": "φέριμποτ",
+      "english": "ferry",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-35",
+      "emoji": "🐘",
+      "kidDefinition": "Very, very big.",
+      "examples": [
+        "They live in a huge house in the countryside.",
+        "A huge crowd came to watch the match."
+      ],
+      "distractors": [
+        "tiny",
+        "thin",
+        "short"
+      ],
+      "greekHint": "τεράστιος",
+      "english": "huge",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U1-SB-49",
+      "emoji": "🚡",
+      "kidDefinition": "A car that moves up a hill on a wire.",
+      "examples": [
+        "We rode the cable car up the mountain.",
+        "The cable car has big windows for the view."
+      ],
+      "distractors": [
+        "rug",
+        "donut",
+        "stadium"
+      ],
+      "greekHint": "τελεφερίκ",
+      "english": "cable car",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-22",
+      "emoji": "⭐",
+      "kidDefinition": "Liked by a lot of people.",
+      "examples": [
+        "Hip hop is a very popular kind of music.",
+        "The cable car is popular with tourists."
+      ],
+      "distractors": [
+        "narrow",
+        "outdoor",
+        "cheap"
+      ],
+      "greekHint": "δημοφιλής",
+      "english": "popular",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U1-SB-19",
+      "emoji": "🎡",
+      "kidDefinition": "A park with rides and games for fun.",
+      "examples": [
+        "We spent the day at the amusement park.",
+        "The big wheel is my favourite ride at the amusement park."
+      ],
+      "distractors": [
+        "museum",
+        "library",
+        "market"
+      ],
+      "greekHint": "λούνα παρκ",
+      "english": "amusement park",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-60",
+      "emoji": "😊",
+      "kidDefinition": "Happy about something good you or others did.",
+      "examples": [
+        "I'm proud of my town!",
+        "My grandma is proud of my school project."
+      ],
+      "distractors": [
+        "shy",
+        "lazy",
+        "angry"
+      ],
+      "greekHint": "περήφανος",
+      "english": "proud",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U1-SB-36",
+      "emoji": "😋",
+      "kidDefinition": "Very tasty to eat.",
+      "examples": [
+        "This apple pie is delicious!",
+        "The soup smells delicious."
+      ],
+      "distractors": [
+        "noisy",
+        "sleepy",
+        "messy"
+      ],
+      "greekHint": "πάρα πολύ νόστιμος",
+      "english": "delicious",
+      "type": "adj."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U1-SB-15",
+    "CPP3-U1-SB-16",
+    "CPP3-U1-SB-18",
+    "CPP3-U1-SB-20",
+    "CPP3-U1-SB-21",
+    "CPP3-U1-SB-23",
+    "CPP3-U1-SB-24",
+    "CPP3-U1-SB-25",
+    "CPP3-U1-SB-26",
+    "CPP3-U1-SB-27",
+    "CPP3-U1-SB-28",
+    "CPP3-U1-SB-29",
+    "CPP3-U1-SB-30",
+    "CPP3-U1-SB-32",
+    "CPP3-U1-SB-33",
+    "CPP3-U1-SB-34",
+    "CPP3-U1-SB-37",
+    "CPP3-U1-SB-38",
+    "CPP3-U1-SB-39",
+    "CPP3-U1-SB-41",
+    "CPP3-U1-SB-42",
+    "CPP3-U1-SB-43",
+    "CPP3-U1-SB-44",
+    "CPP3-U1-SB-46",
+    "CPP3-U1-SB-47",
+    "CPP3-U1-SB-48",
+    "CPP3-U1-SB-50",
+    "CPP3-U1-SB-51",
+    "CPP3-U1-SB-52",
+    "CPP3-U1-SB-53",
+    "CPP3-U1-SB-54",
+    "CPP3-U1-SB-55",
+    "CPP3-U1-SB-56",
+    "CPP3-U1-SB-57",
+    "CPP3-U1-SB-58",
+    "CPP3-U1-SB-59",
+    "CPP3-U1-SB-61",
+    "CPP3-U1-SB-62",
+    "CPP3-U1-SB-63",
+    "CPP3-U1-SB-64",
+    "CPP3-U1-SB-65",
+    "CPP3-U1-SB-66",
+    "CPP3-U1-SB-67",
+    "CPP3-U1-SB-68",
+    "CPP3-U1-SB-69",
+    "CPP3-U1-SB-70",
+    "CPP3-U1-SB-71",
+    "CPP3-U1-SB-72",
+    "CPP3-U1-SB-73",
+    "CPP3-U1-SB-74",
+    "CPP3-U1-SB-75",
+    "CPP3-U1-SB-76",
+    "CPP3-U1-SB-77",
+    "CPP3-U1-SB-78",
+    "CPP3-U1-SB-79",
+    "CPP3-U1-SB-80",
+    "CPP3-U1-SB-81",
+    "CPP3-U1-SB-82",
+    "CPP3-U1-SB-83",
+    "CPP3-U1-SB-84",
+    "CPP3-U1-SB-85",
+    "CPP3-U1-SB-86",
+    "CPP3-U1-SB-87"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "city",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, friends! I am Lingo, and I love exploring towns."
+        },
+        {
+          "id": "l2",
+          "text": "Every place has special people, streets and sights."
+        },
+        {
+          "id": "l3",
+          "text": "Some places are ancient. Some are brand new. Some are simply fun!"
+        },
+        {
+          "id": "l4",
+          "text": "Today we will find out what makes a community special."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is one place in your town that you really love?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U1-SB-40",
+        "CPP3-U1-SB-31",
+        "CPP3-U1-SB-17",
+        "CPP3-U1-SB-45",
+        "CPP3-U1-SB-35",
+        "CPP3-U1-SB-49",
+        "CPP3-U1-SB-22",
+        "CPP3-U1-SB-19",
+        "CPP3-U1-SB-60",
+        "CPP3-U1-SB-36"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Leo's First Week in Town",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "On Monday, Leo moved to a new street."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "ella",
+              "text": "Welcome to our neighbourhood, Leo! Everyone here is friendly."
+            },
+            {
+              "id": "p1b",
+              "who": "leo",
+              "text": "Thanks, Ella. It feels new, but I like it already."
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-40"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "village",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "They walk to the old village with stone walls."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "ella",
+              "text": "Our village has ancient ruins. Do you want to see them?"
+            },
+            {
+              "id": "p2b",
+              "who": "leo",
+              "text": "Yes! Can you give me some useful advice about the visit?"
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-31",
+            "CPP3-U1-SB-17"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "beach",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "A huge ferry sails slowly into the port."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "leo",
+              "text": "Wow, that ferry is huge! Where does it go?"
+            },
+            {
+              "id": "p3b",
+              "who": "ella",
+              "text": "It takes people across the bay to the island. We can ride it on Saturday."
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-45",
+            "CPP3-U1-SB-35"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "city",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "The cable car climbs up the hill above the city."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "ella",
+              "text": "The cable car is very popular with tourists in summer."
+            },
+            {
+              "id": "p4b",
+              "who": "leo",
+              "text": "Let's ride it! I want to see the whole city from the top."
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-49",
+            "CPP3-U1-SB-22"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Later, they walk past the bright lights of the amusement park."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "ella",
+              "text": "I am so proud of our town. It has a great amusement park too!"
+            },
+            {
+              "id": "p5b",
+              "who": "leo",
+              "text": "Thanks, Ella. I think I have found a new best buddy."
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-19",
+            "CPP3-U1-SB-60"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "Back home, Leo tastes a slice of apple pie."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "leo",
+              "text": "This apple pie is delicious! Thank you for showing me around."
+            },
+            {
+              "id": "p6b",
+              "who": "ella",
+              "text": "Welcome to the neighbourhood, Leo!"
+            }
+          ],
+          "highlight": [
+            "CPP3-U1-SB-36"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U1-SB-31",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the word for something very, very old, from long ago."
+          },
+          "options": [
+            "CPP3-U1-SB-22",
+            "CPP3-U1-SB-35",
+            "CPP3-U1-SB-31"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c1e",
+            "text": "Ancient means very old, like the ruins Ella shows Leo."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U1-SB-45",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen: We took the ferry to the island. Point to the word you heard."
+          },
+          "options": [
+            "CPP3-U1-SB-45",
+            "CPP3-U1-SB-49",
+            "CPP3-U1-SB-19"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A ferry is a boat that carries people and cars across the water."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-40",
+          "prompt": {
+            "id": "c3q",
+            "text": "I know everyone in my ____."
+          },
+          "options": [
+            "stadium",
+            "recess",
+            "swan",
+            "neighbourhood"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c3e",
+            "text": "Your neighbourhood is the area around your home where you live."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U1-SB-49",
+          "prompt": {
+            "id": "c4q",
+            "text": "A cable car moves up a hill on a wire."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Yes, the cable car in the story climbs up the hill above the city."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U1-SB-19",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "library",
+            "rug",
+            "museum",
+            "amusement park"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "A library, a museum and an amusement park are places you can visit, but a rug is a thing."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-36",
+          "prompt": {
+            "id": "c6q",
+            "text": "The soup smells ____!"
+          },
+          "options": [
+            "delicious",
+            "sleepy",
+            "noisy",
+            "messy"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Delicious means very tasty, so you want to eat it."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U1-SB-60",
+          "prompt": {
+            "id": "c7q",
+            "text": "If you feel proud, you feel sad about something."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Proud means happy about something good you or others have done."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "listen",
+          "wordId": "CPP3-U1-SB-35",
+          "prompt": {
+            "id": "c8q",
+            "text": "Listen: They live in a huge house. Point to the word you heard."
+          },
+          "options": [
+            "CPP3-U1-SB-35",
+            "CPP3-U1-SB-60",
+            "CPP3-U1-SB-36"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Huge means very, very big, like a house in the countryside."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-17",
+          "prompt": {
+            "id": "c9q",
+            "text": "This map is ____ when you visit a new town."
+          },
+          "options": [
+            "useful",
+            "empty",
+            "messy",
+            "broken"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "Useful means helpful for doing something well."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U1-SB-22",
+          "prompt": {
+            "id": "c10q",
+            "text": "Point to the word that means liked by a lot of people."
+          },
+          "options": [
+            "CPP3-U1-SB-31",
+            "CPP3-U1-SB-22",
+            "CPP3-U1-SB-45"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "Popular means liked by many people, like the cable car in the story."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Match each word with its picture. Say the word out loud as you turn each card."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about a special place near your home. Use at least two of today's words."
+      },
+      "frames": [
+        "My neighbourhood is special because it has a ___.",
+        "I feel proud of my town when I ___.",
+        "A ___ is useful when you visit a new place."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "My neighbourhood is special because it has a huge park. It is popular with families. I feel proud when I play there with my friends!"
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work! You now know ten new words for your town and your adventures."
+        },
+        {
+          "id": "l2",
+          "text": "Next time, look around your neighbourhood and notice what makes it special."
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Community Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one sentence using amusement park or cable car."
+        },
+        {
+          "id": "e2",
+          "text": "Which word from today describes food you love to eat?"
+        }
+      ]
+    }
+  ]
+}

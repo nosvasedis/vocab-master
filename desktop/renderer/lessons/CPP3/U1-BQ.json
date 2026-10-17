@@ -1,0 +1,454 @@
+{
+  "schema": 1,
+  "id": "CPP3-U1-BQ",
+  "bookId": "CPP3",
+  "unit": 1,
+  "section": "BQ",
+  "title": "Our Special Community: Big Question Opener",
+  "bigQuestion": "What makes your community special?",
+  "profile": "C_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "street",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "maya": {
+      "name": "Maya",
+      "emoji": "👧",
+      "persona": "cheerful 11-year-old girl, curious and bubbly"
+    },
+    "leo": {
+      "name": "Leo",
+      "emoji": "👦",
+      "persona": "friendly 11-year-old boy, funny and kind"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP3-U1-SB-1",
+      "emoji": "🏘",
+      "kidDefinition": "A group of people who live and share a place together.",
+      "examples": [
+        "I know all the people in the small community of my village.",
+        "Our school community helps every child feel welcome."
+      ],
+      "distractors": [
+        "garden",
+        "forest",
+        "beach"
+      ],
+      "greekHint": "Κοινότητα: κοινό σημαίνει μαζί, ομάδα ανθρώπων μαζί.",
+      "english": "community",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-9",
+      "emoji": "⭐",
+      "kidDefinition": "Very good, important, or different from everything else.",
+      "examples": [
+        "Our school community is very special! We are all friends.",
+        "My grandmother made a special cake for my birthday."
+      ],
+      "distractors": [
+        "ordinary",
+        "boring",
+        "empty"
+      ],
+      "greekHint": "Special: ξεχωριστός, ειδικός.",
+      "english": "special",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP3-U1-SB-6",
+      "emoji": "🤝",
+      "kidDefinition": "Things that two or more people both have or like.",
+      "examples": [
+        "Maya and Leo have a lot in common. They both love football.",
+        "What do you and your best friend have in common?"
+      ],
+      "distractors": [
+        "in town",
+        "on time",
+        "at home"
+      ],
+      "greekHint": "In common: κοινά στοιχεία, κάτι που έχουμε και οι δύο.",
+      "english": "in common",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP3-U1-SB-11",
+      "emoji": "🏡",
+      "kidDefinition": "A small place with houses, shops, and people.",
+      "examples": [
+        "They live in a small town on Lesbos, but they enjoy life there.",
+        "Our town has a library, a bakery, and a little park."
+      ],
+      "distractors": [
+        "city",
+        "island",
+        "village"
+      ],
+      "greekHint": "Town: μικρή πόλη, μικρότερη από μια μεγάλη πόλη.",
+      "english": "town",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-10",
+      "emoji": "🏠",
+      "kidDefinition": "An area on the edge of a town or city, where houses are.",
+      "examples": [
+        "Harriet lives in a suburb of the town, quiet and green.",
+        "Many families in my suburb walk to school together."
+      ],
+      "distractors": [
+        "centre",
+        "beach",
+        "market"
+      ],
+      "greekHint": "Suburb: προάστιο, έξω από το κέντρο της πόλης.",
+      "english": "suburb",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-12",
+      "emoji": "🏙",
+      "kidDefinition": "The busy centre of a town or city, with shops.",
+      "examples": [
+        "Let's go downtown to look at shops and spend some time at the mall.",
+        "Wendy and Alex went downtown together on Saturday."
+      ],
+      "distractors": [
+        "bedroom",
+        "kitchen",
+        "playground"
+      ],
+      "greekHint": "Downtown: κέντρο της πόλης, εκεί που είναι τα μαγαζιά.",
+      "english": "downtown",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-14",
+      "emoji": "🌾",
+      "kidDefinition": "Land outside towns and cities, with fields and trees.",
+      "examples": [
+        "We've got a small house in the countryside and we love it.",
+        "In the countryside, we can see fields, animals, and big skies."
+      ],
+      "distractors": [
+        "downtown",
+        "market",
+        "shop"
+      ],
+      "greekHint": "Countryside: εξοχή, η ύπαιθρος έξω από την πόλη.",
+      "english": "countryside",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP3-U1-SB-8",
+      "emoji": "🛒",
+      "kidDefinition": "A place where people buy food, like fruit and vegetables.",
+      "examples": [
+        "Dennis went to the market to buy some fruit and vegetables.",
+        "On Sunday morning, we walk to the market with my grandad."
+      ],
+      "distractors": [
+        "bank",
+        "school",
+        "museum"
+      ],
+      "greekHint": "Market: αγορά, εκεί που αγοράζεις φρούτα και λαχανικά.",
+      "english": "market",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP3-U1-SB-2",
+    "CPP3-U1-SB-3",
+    "CPP3-U1-SB-4",
+    "CPP3-U1-SB-5",
+    "CPP3-U1-SB-7",
+    "CPP3-U1-SB-13"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "street",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hoo hoo! Hello, friends! I am Lingo, and I love my community."
+        },
+        {
+          "id": "l2",
+          "text": "Look at this busy street. Can you see the shops, the trees, and the people?"
+        },
+        {
+          "id": "l3",
+          "text": "Maya lives in a quiet suburb. Leo lives downtown, near the big shops."
+        },
+        {
+          "id": "l4",
+          "text": "Today we ask a big question: What makes your community special?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite place in your town?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP3-U1-SB-1",
+        "CPP3-U1-SB-9",
+        "CPP3-U1-SB-6",
+        "CPP3-U1-SB-11",
+        "CPP3-U1-SB-10",
+        "CPP3-U1-SB-12",
+        "CPP3-U1-SB-14",
+        "CPP3-U1-SB-8"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U1-SB-1",
+          "prompt": {
+            "id": "c1q",
+            "text": "Point to the word for a group of people who live and help each other in one place."
+          },
+          "options": [
+            "CPP3-U1-SB-1",
+            "CPP3-U1-SB-10",
+            "CPP3-U1-SB-8",
+            "CPP3-U1-SB-12"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "A community is a group of people who share a place and help each other."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP3-U1-SB-9",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and point to the word you hear: special."
+          },
+          "options": [
+            "CPP3-U1-SB-14",
+            "CPP3-U1-SB-12",
+            "CPP3-U1-SB-11",
+            "CPP3-U1-SB-9"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "Special means very good or different from everything else."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-6",
+          "prompt": {
+            "id": "c3q",
+            "text": "We both like football, so we have a lot ____."
+          },
+          "options": [
+            "at home",
+            "on time",
+            "in common",
+            "in town"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "Have something in common means you both share the same thing."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U1-SB-11",
+          "prompt": {
+            "id": "c4q",
+            "text": "A town is a place where people live, with shops and streets."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "A town is a small place with houses, shops, and streets for people."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "oddOneOut",
+          "wordId": "CPP3-U1-SB-14",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "countryside",
+            "market",
+            "downtown",
+            "shop"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c5e",
+            "text": "Countryside is outside the town; market, downtown, and shop are all in town."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP3-U1-SB-12",
+          "prompt": {
+            "id": "c6q",
+            "text": "Let's go ____ to look at the shops in the city centre."
+          },
+          "options": [
+            "downtown",
+            "playground",
+            "kitchen",
+            "bedroom"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Downtown is the busy centre of a town, where the shops are."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP3-U1-SB-8",
+          "prompt": {
+            "id": "c7q",
+            "text": "Point to the word for a place where people buy fruit and vegetables."
+          },
+          "options": [
+            "CPP3-U1-SB-8",
+            "CPP3-U1-SB-14",
+            "CPP3-U1-SB-11",
+            "CPP3-U1-SB-10"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A market is a place where you buy fresh food, like fruit and vegetables."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "trueFalse",
+          "wordId": "CPP3-U1-SB-10",
+          "prompt": {
+            "id": "c8q",
+            "text": "A suburb is the busy centre of a city."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A suburb is an area on the edge of a town or city, away from the busy centre."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Time to play memory! Match each word with its picture."
+        },
+        {
+          "id": "l2",
+          "text": "Say the word out loud as you turn over each card. Ready? Go!"
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your community. Use the frames to help you."
+      },
+      "frames": [
+        "I live in a ___.",
+        "My town has a ___ and a ___.",
+        "We have ___ in common."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I live in a small town. My town has a big market and a park. My friend and I have a lot in common, because we both love the countryside."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, friends! You now know eight Big Question words."
+        },
+        {
+          "id": "l2",
+          "text": "Your community is special, and you can talk about it in English!"
+        },
+        {
+          "id": "l3",
+          "text": "Next time, Maya and Leo will meet in a new story. See you soon!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Community Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Name one word from today that describes your community."
+        },
+        {
+          "id": "e2",
+          "text": "Finish the sentence: My community is special because ___."
+        }
+      ]
+    }
+  ]
+}

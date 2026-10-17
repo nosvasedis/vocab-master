@@ -1,0 +1,714 @@
+{
+  "schema": 1,
+  "id": "CPP2-U1-B",
+  "bookId": "CPP2",
+  "unit": 1,
+  "section": "B",
+  "title": "Nico's Big Haircut Day",
+  "bigQuestion": "What is in my neighborhood?",
+  "profile": "B_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "city",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "nico": {
+      "name": "Nico",
+      "emoji": "👦",
+      "persona": "cheerful 9-year-old boy, new in the neighbourhood, a little nervous, funny"
+    },
+    "mr_stavros": {
+      "name": "Mr Stavros",
+      "emoji": "💈",
+      "persona": "warm, chatty older barber with a big laugh, kind and patient"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP2-U1-SB-73",
+      "emoji": "🛣️",
+      "kidDefinition": "A road in a town, with houses or shops along it.",
+      "examples": [
+        "Our school is on a quiet street.",
+        "Children play on the street near my home."
+      ],
+      "distractors": [
+        "garden",
+        "pillow",
+        "bridge"
+      ],
+      "greekHint": "Το δρόμος έχει σπίτια και μαγαζιά.",
+      "english": "street",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-72",
+      "emoji": "💈",
+      "kidDefinition": "A shop where men go to get their hair cut.",
+      "examples": [
+        "My dad goes to the barbershop on Friday.",
+        "The barbershop has a red and white pole outside."
+      ],
+      "distractors": [
+        "bakery",
+        "library",
+        "pharmacy"
+      ],
+      "greekHint": "Στο κουρείο κόβουμε τα μαλλιά.",
+      "english": "barbershop",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-77",
+      "emoji": "✂️",
+      "kidDefinition": "When someone cuts your hair to make it shorter.",
+      "examples": [
+        "I want a short haircut for the summer.",
+        "Your haircut looks really neat today."
+      ],
+      "distractors": [
+        "toothbrush",
+        "hairbrush",
+        "shampoo"
+      ],
+      "english": "haircut",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-99",
+      "emoji": "🌱",
+      "kidDefinition": "To get bigger over time.",
+      "examples": [
+        "Trees grow very tall in the forest.",
+        "My little brother is growing fast this year."
+      ],
+      "distractors": [
+        "shrink",
+        "sleep",
+        "sing"
+      ],
+      "english": "grow",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP2-U1-SB-100",
+      "emoji": "👤",
+      "kidDefinition": "The part of your face above your eyes.",
+      "examples": [
+        "Put a cold cloth on your forehead when you are hot.",
+        "She has a small star on her forehead."
+      ],
+      "distractors": [
+        "elbow",
+        "knee",
+        "ankle"
+      ],
+      "english": "forehead",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-104",
+      "emoji": "↔️",
+      "kidDefinition": "In the middle space of two things.",
+      "examples": [
+        "The cat sleeps between the two pillows.",
+        "The shop is between the school and the park."
+      ],
+      "distractors": [
+        "under",
+        "above",
+        "inside"
+      ],
+      "english": "between",
+      "type": "prep."
+    },
+    {
+      "wordId": "CPP2-U1-SB-105",
+      "emoji": "🧍",
+      "kidDefinition": "On the front side of something, facing it.",
+      "examples": [
+        "The bus stops in front of the bakery.",
+        "Stand in front of the mirror and smile."
+      ],
+      "distractors": [
+        "under",
+        "above",
+        "inside"
+      ],
+      "english": "in front of",
+      "type": "prep."
+    },
+    {
+      "wordId": "CPP2-U1-SB-103",
+      "emoji": "🐕",
+      "kidDefinition": "On the far side of something, not in front.",
+      "examples": [
+        "The ball rolled behind the sofa.",
+        "My dog hides behind the door when he is shy."
+      ],
+      "distractors": [
+        "under",
+        "above",
+        "inside"
+      ],
+      "english": "behind",
+      "type": "prep."
+    },
+    {
+      "wordId": "CPP2-U1-SB-95",
+      "emoji": "🩺",
+      "kidDefinition": "A visit to the doctor to check that you are healthy.",
+      "examples": [
+        "Dr Ana does my check-up every June.",
+        "After your check-up, the doctor says you are healthy."
+      ],
+      "distractors": [
+        "holiday",
+        "breakfast",
+        "football"
+      ],
+      "english": "check-up",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP2-U1-SB-96",
+      "emoji": "💊",
+      "kidDefinition": "A drug or liquid that helps you feel better when you are ill.",
+      "examples": [
+        "Take your medicine after breakfast.",
+        "This medicine will help your sore throat."
+      ],
+      "distractors": [
+        "sandwich",
+        "pencil",
+        "blanket"
+      ],
+      "english": "medicine",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP2-U1-SB-74",
+    "CPP2-U1-SB-75",
+    "CPP2-U1-SB-76",
+    "CPP2-U1-SB-78",
+    "CPP2-U1-SB-79",
+    "CPP2-U1-SB-80",
+    "CPP2-U1-SB-81",
+    "CPP2-U1-SB-82",
+    "CPP2-U1-SB-83",
+    "CPP2-U1-SB-84",
+    "CPP2-U1-SB-85",
+    "CPP2-U1-SB-86",
+    "CPP2-U1-SB-87",
+    "CPP2-U1-SB-88",
+    "CPP2-U1-SB-89",
+    "CPP2-U1-SB-90",
+    "CPP2-U1-SB-91",
+    "CPP2-U1-SB-92",
+    "CPP2-U1-SB-93",
+    "CPP2-U1-SB-94",
+    "CPP2-U1-SB-97",
+    "CPP2-U1-SB-98",
+    "CPP2-U1-SB-101",
+    "CPP2-U1-SB-102",
+    "CPP2-U1-SB-106",
+    "CPP2-U1-SB-107",
+    "CPP2-U1-SB-108",
+    "CPP2-U1-SB-109",
+    "CPP2-U1-SB-110",
+    "CPP2-U1-SB-111",
+    "CPP2-U1-SB-112",
+    "CPP2-U1-SB-113",
+    "CPP2-U1-SB-114",
+    "CPP2-U1-SB-115",
+    "CPP2-U1-SB-116",
+    "CPP2-U1-SB-117",
+    "CPP2-U1-SB-118",
+    "CPP2-U1-SB-119"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "street",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo, and I love exploring neighbourhoods!"
+        },
+        {
+          "id": "l2",
+          "text": "Every street has shops, parks and friendly people."
+        },
+        {
+          "id": "l3",
+          "text": "Today we visit a barbershop and a doctor's clinic."
+        },
+        {
+          "id": "l4",
+          "text": "Are you ready to listen, look and join in?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Have you ever had a haircut? Where did you go?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP2-U1-SB-73",
+        "CPP2-U1-SB-72",
+        "CPP2-U1-SB-77",
+        "CPP2-U1-SB-99",
+        "CPP2-U1-SB-100",
+        "CPP2-U1-SB-104",
+        "CPP2-U1-SB-105",
+        "CPP2-U1-SB-103",
+        "CPP2-U1-SB-95",
+        "CPP2-U1-SB-96"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Nico's Big Haircut Day",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Nico walks down the street. His hair is very long."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "nico",
+              "text": "My hair is too long! I can't even see the bus."
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-73"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "shop",
+          "characters": [
+            {
+              "who": "nico"
+            },
+            {
+              "who": "mr_stavros"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Nico goes into the barbershop. Mr Stavros smiles at him."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "mr_stavros",
+              "text": "Welcome, Nico! Do you need a haircut today?"
+            },
+            {
+              "id": "p2b",
+              "who": "nico",
+              "text": "Yes, please. My hair grows so fast!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-72",
+            "CPP2-U1-SB-77",
+            "CPP2-U1-SB-99"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "shop",
+          "characters": [
+            {
+              "who": "nico"
+            },
+            {
+              "who": "mr_stavros"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Mr Stavros stands in front of Nico. A mirror hangs between two windows."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "nico",
+              "text": "Wow, my hair looks short and neat!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-105",
+            "CPP2-U1-SB-104"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "shop",
+          "characters": [
+            {
+              "who": "nico"
+            },
+            {
+              "who": "mr_stavros"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Nico's dog, Rex, is hiding behind the chair."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "nico",
+              "text": "Rex, where are you? Oh, there you are, behind the chair!"
+            },
+            {
+              "id": "p4b",
+              "who": "mr_stavros",
+              "text": "Your forehead looks great, Nico. Very smart!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-103",
+            "CPP2-U1-SB-100"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "city",
+          "characters": [
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Two weeks later, Nico has a check-up at the doctor's."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "nico",
+              "text": "I have a check-up today. Am I healthy?"
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-95"
+          ]
+        },
+        {
+          "id": "p6",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "nico"
+            }
+          ],
+          "caption": {
+            "id": "p6c",
+            "text": "The doctor gives Nico some medicine for his cold."
+          },
+          "speech": [
+            {
+              "id": "p6a",
+              "who": "nico",
+              "text": "Thank you! I will take this medicine every day."
+            }
+          ],
+          "highlight": [
+            "CPP2-U1-SB-96"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "pickPicture",
+          "wordId": "CPP2-U1-SB-72",
+          "prompt": {
+            "id": "c1q",
+            "text": "Find the picture of a barbershop."
+          },
+          "options": [
+            "CPP2-U1-SB-100",
+            "CPP2-U1-SB-73",
+            "CPP2-U1-SB-96",
+            "CPP2-U1-SB-72"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c1e",
+            "text": "A barbershop is where men go to get their hair cut."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP2-U1-SB-77",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen to Nico: 'I need a haircut.' Which word did you hear?"
+          },
+          "options": [
+            "CPP2-U1-SB-77",
+            "CPP2-U1-SB-99",
+            "CPP2-U1-SB-95"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A haircut is when someone cuts your hair to make it shorter."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-73",
+          "prompt": {
+            "id": "c3q",
+            "text": "We walk down the busy ____ to school every morning."
+          },
+          "options": [
+            "garden",
+            "pillow",
+            "street"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c3e",
+            "text": "A street is a road with houses and shops along it."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U1-SB-104",
+          "prompt": {
+            "id": "c4q",
+            "text": "Between means on top of something."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "Between means in the middle space of two things, not on top."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-105",
+          "prompt": {
+            "id": "c5q",
+            "text": "The bus stop is ____ the school gate."
+          },
+          "options": [
+            "under",
+            "inside",
+            "in front of",
+            "above"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "In front of means on the front side of something, facing it."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "oddOneOut",
+          "wordId": "CPP2-U1-SB-103",
+          "prompt": {
+            "id": "c6q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "forehead",
+            "behind",
+            "between",
+            "in front of"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c6e",
+            "text": "Behind, between and in front of are place words, but forehead is a part of your body."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-95",
+          "prompt": {
+            "id": "c7q",
+            "text": "I have a ____ with the doctor every year to check I am healthy."
+          },
+          "options": [
+            "check-up",
+            "breakfast",
+            "holiday"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c7e",
+            "text": "A check-up is a visit to the doctor to make sure you are healthy."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "gap",
+          "wordId": "CPP2-U1-SB-96",
+          "prompt": {
+            "id": "c8q",
+            "text": "Take this ____ and you will feel better soon."
+          },
+          "options": [
+            "medicine",
+            "pencil",
+            "blanket",
+            "sandwich"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c8e",
+            "text": "Medicine helps you feel better when you are ill."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "listen",
+          "wordId": "CPP2-U1-SB-100",
+          "prompt": {
+            "id": "c9q",
+            "text": "Which word means the part of your face above your eyes?"
+          },
+          "options": [
+            "CPP2-U1-SB-99",
+            "CPP2-U1-SB-96",
+            "CPP2-U1-SB-100"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c9e",
+            "text": "Your forehead is the part of your face above your eyes."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "trueFalse",
+          "wordId": "CPP2-U1-SB-99",
+          "prompt": {
+            "id": "c10q",
+            "text": "To grow means to get bigger over time."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c10e",
+            "text": "When you grow, your body or hair gets bigger over time."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Match each word with its picture."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your neighbourhood."
+      },
+      "frames": [
+        "I walk down the ___ to school.",
+        "There is a ___ between my home and the park.",
+        "I go to the ___ in front of my school."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I walk down the street to school. There is a barbershop between my home and the park. I go to the bakery in front of my school."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, neighbourhood explorers!"
+        },
+        {
+          "id": "l2",
+          "text": "You can now talk about streets, haircuts and check-ups."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will explore a brand-new place together!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Neighbourhood Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means a shop where men get their hair cut?"
+        },
+        {
+          "id": "e2",
+          "text": "Write one sentence about your room using between or behind."
+        }
+      ]
+    }
+  ]
+}

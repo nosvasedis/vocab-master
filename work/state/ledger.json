@@ -1,0 +1,124 @@
+{
+  "entries": [
+    {
+      "t": "2026-10-17T09:58:37.219Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2898,
+      "outTok": 11659,
+      "usd": 0.006119,
+      "job": "draft CPP1-U1-BQ #1"
+    },
+    {
+      "t": "2026-10-17T09:59:46.569Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2898,
+      "outTok": 10889,
+      "usd": 0.005734,
+      "job": "draft CPP1-U1-BQ #1"
+    },
+    {
+      "t": "2026-10-17T10:00:03.583Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6407,
+      "outTok": 5209,
+      "usd": 0.003245,
+      "job": "draft CPP1-U1-BQ #2"
+    },
+    {
+      "t": "2026-10-17T10:00:55.538Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4582,
+      "outTok": 12951,
+      "usd": 0.006934,
+      "job": "draft CPP1-U1-A #1"
+    },
+    {
+      "t": "2026-10-17T10:01:53.595Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4961,
+      "outTok": 14592,
+      "usd": 0.007792,
+      "job": "draft CPP1-U1-B #1"
+    },
+    {
+      "t": "2026-10-17T10:02:37.424Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3054,
+      "outTok": 11098,
+      "usd": 0.005854,
+      "job": "draft CPP2-U1-BQ #1"
+    },
+    {
+      "t": "2026-10-17T10:02:55.077Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6987,
+      "outTok": 5485,
+      "usd": 0.003441,
+      "job": "draft CPP2-U1-BQ #2"
+    },
+    {
+      "t": "2026-10-17T10:03:53.571Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5313,
+      "outTok": 14506,
+      "usd": 0.007784,
+      "job": "draft CPP2-U1-A #1"
+    },
+    {
+      "t": "2026-10-17T10:04:57.930Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4818,
+      "outTok": 15689,
+      "usd": 0.008326,
+      "job": "draft CPP2-U1-B #1"
+    },
+    {
+      "t": "2026-10-17T10:05:34.739Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3077,
+      "outTok": 8761,
+      "usd": 0.004688,
+      "job": "draft CPP3-U1-BQ #1"
+    },
+    {
+      "t": "2026-10-17T10:06:37.001Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6156,
+      "outTok": 15794,
+      "usd": 0.008513,
+      "job": "draft CPP3-U1-A #1"
+    },
+    {
+      "t": "2026-10-17T10:07:36.094Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4726,
+      "outTok": 14748,
+      "usd": 0.007847,
+      "job": "draft CPP3-U1-B #1"
+    }
+  ]
+}

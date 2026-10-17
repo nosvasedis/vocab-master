@@ -1,0 +1,725 @@
+{
+  "schema": 1,
+  "id": "CPP1-U1-A",
+  "bookId": "CPP1",
+  "unit": 1,
+  "section": "A",
+  "title": "Homes, Farms and Families: Ten New Words",
+  "bigQuestion": "What is a family?",
+  "profile": "A_SENIOR",
+  "durationMin": 22,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher"
+    },
+    "timmy": {
+      "name": "Timmy",
+      "emoji": "👦",
+      "persona": "cheerful 9-year-old boy, curious and excited"
+    },
+    "grandparent": {
+      "name": "Grandma Eleni",
+      "emoji": "👵",
+      "persona": "warm, funny older adult, gentle and proud of her family"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U1-SB-28",
+      "emoji": "👨‍👩‍👧",
+      "kidDefinition": "A mother or a father.",
+      "examples": [
+        "Timmy's parent works on a farm.",
+        "My parents make pancakes on Sunday."
+      ],
+      "distractors": [
+        "planet",
+        "bag",
+        "toy"
+      ],
+      "greekHint": "Ο γονιός είναι μαμά ή μπαμπάς.",
+      "english": "parent",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-32",
+      "emoji": "👵",
+      "kidDefinition": "The mother or father of your mum or dad.",
+      "examples": [
+        "My grandparents live near the sea.",
+        "My grandparent tells me funny stories."
+      ],
+      "distractors": [
+        "parent",
+        "house",
+        "toy"
+      ],
+      "greekHint": "Ο παππούς ή η γιαγιά.",
+      "english": "grandparent",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-29",
+      "emoji": "🏠",
+      "kidDefinition": "A building where people live with their family.",
+      "examples": [
+        "We have a big house.",
+        "Our house has a red door."
+      ],
+      "distractors": [
+        "tent",
+        "city",
+        "planet"
+      ],
+      "greekHint": "Το σπίτι είναι εκεί που ζεις.",
+      "english": "house",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-34",
+      "emoji": "🏡",
+      "kidDefinition": "To have your home in a place.",
+      "examples": [
+        "Where do you live?",
+        "We live near the park."
+      ],
+      "distractors": [
+        "share",
+        "remember",
+        "follow"
+      ],
+      "greekHint": "Το ζω είναι ρήμα: εγώ ζω, εσύ ζεις.",
+      "english": "live",
+      "type": "v."
+    },
+    {
+      "wordId": "CPP1-U1-SB-20",
+      "emoji": "🚜",
+      "kidDefinition": "A place with animals, fields and crops.",
+      "examples": [
+        "I like living on a farm.",
+        "The farm has ten cows and two horses."
+      ],
+      "distractors": [
+        "park",
+        "school",
+        "city"
+      ],
+      "greekHint": "Η φάρμα έχει ζώα και χωράφια.",
+      "english": "farm",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-23",
+      "emoji": "🐾",
+      "kidDefinition": "A living thing, like a dog or a cow.",
+      "examples": [
+        "What's your favourite animal?",
+        "A goat is a farm animal."
+      ],
+      "distractors": [
+        "toy",
+        "carrot",
+        "story"
+      ],
+      "greekHint": "Το ζώο είναι ζωντανό, όπως ο σκύλος.",
+      "english": "animal",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-25",
+      "emoji": "🔀",
+      "kidDefinition": "Not the same as something else.",
+      "examples": [
+        "My house is very different from your house.",
+        "Our hamsters are very different colours."
+      ],
+      "distractors": [
+        "fat",
+        "happy",
+        "cold"
+      ],
+      "greekHint": "Διαφορετικός σημαίνει όχι ίδιος.",
+      "english": "different",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U1-SB-26",
+      "emoji": "🧸",
+      "kidDefinition": "Something children play with.",
+      "examples": [
+        "Children play with toys.",
+        "My toy car is blue."
+      ],
+      "distractors": [
+        "bag",
+        "cap",
+        "bat"
+      ],
+      "greekHint": "Το παιχνίδι είναι για να παίζεις.",
+      "english": "toy",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-16",
+      "emoji": "🐹",
+      "kidDefinition": "A small furry pet that likes to run.",
+      "examples": [
+        "My pet hamster is very fat!",
+        "The hamster runs on its little wheel."
+      ],
+      "distractors": [
+        "rat",
+        "bat",
+        "cap"
+      ],
+      "greekHint": "Το χάμστερ είναι μικρό κατοικίδιο.",
+      "english": "hamster",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-17",
+      "emoji": "🥕",
+      "kidDefinition": "A long orange vegetable that rabbits like.",
+      "examples": [
+        "Rabbits like eating carrots.",
+        "This carrot is orange and sweet."
+      ],
+      "distractors": [
+        "dinner",
+        "bag",
+        "fan"
+      ],
+      "greekHint": "Το καρότο είναι πορτοκαλί λαχανικό.",
+      "english": "carrot",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U1-SB-14",
+    "CPP1-U1-SB-15",
+    "CPP1-U1-SB-18",
+    "CPP1-U1-SB-19",
+    "CPP1-U1-SB-21",
+    "CPP1-U1-SB-22",
+    "CPP1-U1-SB-24",
+    "CPP1-U1-SB-27",
+    "CPP1-U1-SB-30",
+    "CPP1-U1-SB-31",
+    "CPP1-U1-SB-33",
+    "CPP1-U1-SB-35",
+    "CPP1-U1-SB-36",
+    "CPP1-U1-SB-37",
+    "CPP1-U1-SB-38",
+    "CPP1-U1-SB-39",
+    "CPP1-U1-SB-40",
+    "CPP1-U1-SB-41",
+    "CPP1-U1-SB-42",
+    "CPP1-U1-SB-43",
+    "CPP1-U1-SB-44",
+    "CPP1-U1-SB-45",
+    "CPP1-U1-SB-46",
+    "CPP1-U1-SB-47",
+    "CPP1-U1-SB-48",
+    "CPP1-U1-SB-49",
+    "CPP1-U1-SB-50",
+    "CPP1-U1-SB-51",
+    "CPP1-U1-SB-52",
+    "CPP1-U1-SB-53",
+    "CPP1-U1-SB-54",
+    "CPP1-U1-SB-55",
+    "CPP1-U1-SB-56",
+    "CPP1-U1-SB-57",
+    "CPP1-U1-SB-58",
+    "CPP1-U1-SB-59",
+    "CPP1-U1-SB-60",
+    "CPP1-U1-SB-61",
+    "CPP1-U1-SB-62",
+    "CPP1-U1-SB-63",
+    "CPP1-U1-SB-64",
+    "CPP1-U1-SB-65",
+    "CPP1-U1-SB-66",
+    "CPP1-U1-KW-1"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello, I am Lingo, your owl teacher!"
+        },
+        {
+          "id": "l2",
+          "text": "Today we learn about families and homes."
+        },
+        {
+          "id": "l3",
+          "text": "Some families live in big cities."
+        },
+        {
+          "id": "l4",
+          "text": "Some families live on farms with many animals."
+        },
+        {
+          "id": "l5",
+          "text": "Every family is special in its own way."
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "What is your favourite animal?"
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U1-SB-28",
+        "CPP1-U1-SB-32",
+        "CPP1-U1-SB-29",
+        "CPP1-U1-SB-34",
+        "CPP1-U1-SB-20",
+        "CPP1-U1-SB-23",
+        "CPP1-U1-SB-25",
+        "CPP1-U1-SB-26",
+        "CPP1-U1-SB-16",
+        "CPP1-U1-SB-17"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "A Visit to Timmy's Farm",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "timmy"
+            },
+            {
+              "who": "grandparent"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Timmy and his grandparent live in a happy house."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "timmy",
+              "text": "Grandma, can we visit the farm today?"
+            },
+            {
+              "id": "p1b",
+              "who": "grandparent",
+              "text": "Yes, Timmy! Let's go together."
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-29",
+            "CPP1-U1-SB-34",
+            "CPP1-U1-SB-32"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "timmy"
+            },
+            {
+              "who": "grandparent"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "The farm is big, green and full of life."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "timmy",
+              "text": "Look! My parent works on this farm."
+            },
+            {
+              "id": "p2b",
+              "who": "grandparent",
+              "text": "The farm has cows, horses and many animals."
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-28",
+            "CPP1-U1-SB-20",
+            "CPP1-U1-SB-23"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "farm",
+          "characters": [
+            {
+              "who": "timmy"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Timmy gives a carrot to a friendly horse."
+          },
+          "speech": [
+            {
+              "id": "p3a",
+              "who": "timmy",
+              "text": "This horse loves carrots! It is very different from my hamster."
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-17",
+            "CPP1-U1-SB-25",
+            "CPP1-U1-SB-16"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "timmy"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Back at home, Timmy shows his favourite toy."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "timmy",
+              "text": "Look, my toy hamster lives here too!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-26",
+            "CPP1-U1-SB-16"
+          ]
+        },
+        {
+          "id": "p5",
+          "backdrop": "kitchen",
+          "characters": [
+            {
+              "who": "timmy"
+            },
+            {
+              "who": "grandparent"
+            }
+          ],
+          "caption": {
+            "id": "p5c",
+            "text": "Lingo the owl smiles at the happy family."
+          },
+          "speech": [
+            {
+              "id": "p5a",
+              "who": "grandparent",
+              "text": "Every family is different, and every family is special."
+            },
+            {
+              "id": "p5b",
+              "who": "timmy",
+              "text": "I love my family and my farm visit!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-25"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-28",
+          "prompt": {
+            "id": "c1q",
+            "text": "Timmy's ____ works on a farm every day."
+          },
+          "options": [
+            "toy",
+            "parent",
+            "planet",
+            "bag"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c1e",
+            "text": "A parent is a mum or a dad, so it fits the sentence."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "listen",
+          "wordId": "CPP1-U1-SB-32",
+          "prompt": {
+            "id": "c2q",
+            "text": "Listen and find the word: grandparent."
+          },
+          "options": [
+            "CPP1-U1-SB-29",
+            "CPP1-U1-SB-28",
+            "CPP1-U1-SB-26",
+            "CPP1-U1-SB-32"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c2e",
+            "text": "A grandparent is the mum or dad of your mum or dad."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U1-SB-29",
+          "prompt": {
+            "id": "c3q",
+            "text": "A house is a place where people live."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c3e",
+            "text": "Yes, people live in houses with their families."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U1-SB-17",
+          "prompt": {
+            "id": "c4q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "carrot",
+            "cat",
+            "hamster",
+            "dog"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c4e",
+            "text": "Cat, hamster and dog are animals, but a carrot is a vegetable."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-23",
+          "prompt": {
+            "id": "c5q",
+            "text": "Which word means a living thing, like a dog or a cow?"
+          },
+          "options": [
+            "CPP1-U1-SB-29",
+            "CPP1-U1-SB-23",
+            "CPP1-U1-SB-26",
+            "CPP1-U1-SB-20"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c5e",
+            "text": "An animal is a living thing, and a cow is an animal."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-34",
+          "prompt": {
+            "id": "c6q",
+            "text": "Timmy and his family ____ in a house near a farm."
+          },
+          "options": [
+            "remember",
+            "follow",
+            "share",
+            "live"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c6e",
+            "text": "We use live to say where we have our home."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U1-SB-25",
+          "prompt": {
+            "id": "c7q",
+            "text": "Every family is the same."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c7e",
+            "text": "Every family is different, and that makes each one special."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-20",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word is a place with cows, horses and fields?"
+          },
+          "options": [
+            "CPP1-U1-SB-29",
+            "CPP1-U1-SB-20",
+            "CPP1-U1-SB-16",
+            "CPP1-U1-SB-26"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c8e",
+            "text": "A farm has animals, fields and crops."
+          }
+        },
+        {
+          "id": "c9",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-26",
+          "prompt": {
+            "id": "c9q",
+            "text": "Timmy plays with his soft ____ every night."
+          },
+          "options": [
+            "toy",
+            "bag",
+            "bat",
+            "cap"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c9e",
+            "text": "A toy is something children play with."
+          }
+        },
+        {
+          "id": "c10",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-16",
+          "prompt": {
+            "id": "c10q",
+            "text": "Which word is a small furry pet that likes to run?"
+          },
+          "options": [
+            "CPP1-U1-SB-17",
+            "CPP1-U1-SB-16",
+            "CPP1-U1-SB-26",
+            "CPP1-U1-SB-28"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c10e",
+            "text": "A hamster is a small pet that runs on a wheel."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play a memory game with our new words!"
+        },
+        {
+          "id": "l2",
+          "text": "Find each word and its picture, then say the word aloud."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Tell your partner about your home and your favourite animal."
+      },
+      "frames": [
+        "I live in a ___.",
+        "My favourite animal is a ___.",
+        "My ___ is different from yours."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "I live in a house with my parents. My favourite animal is a hamster. My hamster is different from a farm animal."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, everyone! You learned ten new words today."
+        },
+        {
+          "id": "l2",
+          "text": "Now you can talk about your home, your animals and your family."
+        },
+        {
+          "id": "l3",
+          "text": "Keep learning, and I will see you next time!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Family Word Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Write one sentence with the word house."
+        },
+        {
+          "id": "e2",
+          "text": "What does the word different mean?"
+        }
+      ]
+    }
+  ]
+}

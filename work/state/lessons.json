@@ -1,0 +1,65 @@
+{
+  "CPP1-U1-BQ": {
+    "status": "ok",
+    "usd": 0.00898,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:00:03.586Z"
+  },
+  "CPP1-U1-A": {
+    "status": "ok",
+    "usd": 0.00693,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:00:55.541Z"
+  },
+  "CPP1-U1-B": {
+    "status": "ok",
+    "usd": 0.00779,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:01:53.598Z"
+  },
+  "CPP2-U1-BQ": {
+    "status": "ok",
+    "usd": 0.0093,
+    "errors": [],
+    "warnings": 3,
+    "at": "2026-10-17T10:02:55.081Z"
+  },
+  "CPP2-U1-A": {
+    "status": "ok",
+    "usd": 0.00778,
+    "errors": [],
+    "warnings": 3,
+    "at": "2026-10-17T10:03:53.577Z"
+  },
+  "CPP2-U1-B": {
+    "status": "ok",
+    "usd": 0.00833,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:04:57.936Z"
+  },
+  "CPP3-U1-BQ": {
+    "status": "ok",
+    "usd": 0.00469,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:05:34.744Z"
+  },
+  "CPP3-U1-A": {
+    "status": "ok",
+    "usd": 0.00851,
+    "errors": [],
+    "warnings": 3,
+    "at": "2026-10-17T10:06:37.007Z"
+  },
+  "CPP3-U1-B": {
+    "status": "ok",
+    "usd": 0.00785,
+    "errors": [],
+    "warnings": 1,
+    "at": "2026-10-17T10:07:36.102Z"
+  }
+}

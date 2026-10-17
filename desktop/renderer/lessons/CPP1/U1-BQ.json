@@ -1,0 +1,531 @@
+{
+  "schema": 1,
+  "id": "CPP1-U1-BQ",
+  "bookId": "CPP1",
+  "unit": 1,
+  "section": "BQ",
+  "title": "Who Is in Your Family?",
+  "bigQuestion": "What is a family?",
+  "profile": "A_SENIOR",
+  "durationMin": 12,
+  "status": "draft",
+  "locked": [],
+  "generatedBy": {
+    "provider": "openrouter",
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17"
+  },
+  "setting": "home",
+  "cast": {
+    "lingo": {
+      "name": "Lingo",
+      "emoji": "🦉",
+      "persona": "warm, playful owl teacher, encouraging and a little silly"
+    },
+    "timmy": {
+      "name": "Timmy",
+      "emoji": "👦",
+      "persona": "cheerful 9-year-old boy, curious and proud of his family"
+    },
+    "mrs_brown": {
+      "name": "Mrs Brown",
+      "emoji": "👵",
+      "persona": "kind, warm neighbour, gentle and friendly, speaks slowly"
+    }
+  },
+  "focusWords": [
+    {
+      "wordId": "CPP1-U1-SB-1",
+      "emoji": "👨‍👩‍👧‍👦",
+      "kidDefinition": "A group of people who live together or are related.",
+      "examples": [
+        "My family has five people.",
+        "We eat dinner together as a family."
+      ],
+      "distractors": [
+        "bicycle",
+        "football",
+        "village"
+      ],
+      "greekHint": "Οικογένεια: think of 'οίκος', the home where your family lives.",
+      "english": "family",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-5",
+      "emoji": "🏡",
+      "kidDefinition": "A person who lives near your home.",
+      "examples": [
+        "My neighbour has a big dog.",
+        "Our neighbours are very kind."
+      ],
+      "distractors": [
+        "teacher",
+        "doctor",
+        "driver"
+      ],
+      "greekHint": "Γείτονας: the person next door, γειτονιά is the neighbourhood.",
+      "english": "neighbor",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-6",
+      "emoji": "🤝",
+      "kidDefinition": "Things that two people or groups both have.",
+      "examples": [
+        "Timmy and Sam have a lot in common.",
+        "We have one thing in common: we love music."
+      ],
+      "distractors": [
+        "in a hurry",
+        "on time",
+        "at last"
+      ],
+      "english": "in common",
+      "type": "phr."
+    },
+    {
+      "wordId": "CPP1-U1-SB-7",
+      "emoji": "👯",
+      "kidDefinition": "Not different. Alike in some way.",
+      "examples": [
+        "Your bag and my bag are the same.",
+        "We are the same age."
+      ],
+      "distractors": [
+        "different",
+        "happy",
+        "tired"
+      ],
+      "english": "the same",
+      "type": "adj."
+    },
+    {
+      "wordId": "CPP1-U1-SB-10",
+      "emoji": "👩",
+      "kidDefinition": "A woman who is a parent. Mum.",
+      "examples": [
+        "This is my mother.",
+        "My mother makes lovely soup."
+      ],
+      "distractors": [
+        "aunt",
+        "uncle",
+        "cousin"
+      ],
+      "greekHint": "Μητέρα: the mother who cares for you.",
+      "english": "mother",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-8",
+      "emoji": "👨",
+      "kidDefinition": "A man who is a parent. Dad.",
+      "examples": [
+        "What is your father's name?",
+        "My father likes to cook on Sundays."
+      ],
+      "distractors": [
+        "uncle",
+        "cousin",
+        "nephew"
+      ],
+      "greekHint": "Πατέρας: the father, also called dad.",
+      "english": "father",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-9",
+      "emoji": "👦",
+      "kidDefinition": "A boy or man with the same parents as you.",
+      "examples": [
+        "This is my big brother.",
+        "My brother and I play football together."
+      ],
+      "distractors": [
+        "cousin",
+        "uncle",
+        "friend"
+      ],
+      "greekHint": "Αδερφός: a brother, a boy from your family.",
+      "english": "brother",
+      "type": "n."
+    },
+    {
+      "wordId": "CPP1-U1-SB-11",
+      "emoji": "👧",
+      "kidDefinition": "A girl or woman with the same parents as you.",
+      "examples": [
+        "This is my small sister.",
+        "My sister likes drawing pictures."
+      ],
+      "distractors": [
+        "aunt",
+        "teacher",
+        "friend"
+      ],
+      "greekHint": "Αδερφή: a sister, a girl from your family.",
+      "english": "sister",
+      "type": "n."
+    }
+  ],
+  "extensionWords": [
+    "CPP1-U1-SB-2",
+    "CPP1-U1-SB-3",
+    "CPP1-U1-SB-4",
+    "CPP1-U1-SB-12",
+    "CPP1-U1-SB-13"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "backdrop": "home",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Hello! I am Lingo, and I love families!"
+        },
+        {
+          "id": "l2",
+          "text": "Every family is different, and every family is special."
+        },
+        {
+          "id": "l3",
+          "text": "Some families are big. Some families are small."
+        },
+        {
+          "id": "l4",
+          "text": "Today, we ask one big question: what is a family?"
+        }
+      ],
+      "question": {
+        "id": "q",
+        "text": "Who is in your family? Tell me one person."
+      }
+    },
+    {
+      "id": "reveal",
+      "type": "reveal",
+      "words": [
+        "CPP1-U1-SB-1",
+        "CPP1-U1-SB-5",
+        "CPP1-U1-SB-6",
+        "CPP1-U1-SB-7",
+        "CPP1-U1-SB-10",
+        "CPP1-U1-SB-8",
+        "CPP1-U1-SB-9",
+        "CPP1-U1-SB-11"
+      ],
+      "greek": "after"
+    },
+    {
+      "id": "story",
+      "type": "story",
+      "title": "Timmy's Family",
+      "panels": [
+        {
+          "id": "p1",
+          "backdrop": "street",
+          "characters": [
+            {
+              "who": "timmy"
+            },
+            {
+              "who": "mrs_brown"
+            }
+          ],
+          "caption": {
+            "id": "p1c",
+            "text": "Timmy meets his neighbour on the street."
+          },
+          "speech": [
+            {
+              "id": "p1a",
+              "who": "timmy",
+              "text": "Hi, I'm Timmy! This is my family."
+            },
+            {
+              "id": "p1b",
+              "who": "mrs_brown",
+              "text": "Hello, Timmy! We are good neighbours."
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-1",
+            "CPP1-U1-SB-5"
+          ]
+        },
+        {
+          "id": "p2",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "timmy"
+            },
+            {
+              "who": "mrs_brown"
+            }
+          ],
+          "caption": {
+            "id": "p2c",
+            "text": "Timmy shows a family photo at home."
+          },
+          "speech": [
+            {
+              "id": "p2a",
+              "who": "timmy",
+              "text": "This is my mother, and this is my father."
+            },
+            {
+              "id": "p2b",
+              "who": "timmy",
+              "text": "This is my brother. This is my sister!"
+            },
+            {
+              "id": "p2d",
+              "who": "mrs_brown",
+              "text": "Oh, Timmy! Your hat and my hat are the same!"
+            },
+            {
+              "id": "p2e",
+              "who": "timmy",
+              "text": "Yes! We have a lot in common!"
+            }
+          ],
+          "highlight": [
+            "CPP1-U1-SB-10",
+            "CPP1-U1-SB-8",
+            "CPP1-U1-SB-9",
+            "CPP1-U1-SB-11",
+            "CPP1-U1-SB-6",
+            "CPP1-U1-SB-7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "check",
+      "items": [
+        {
+          "id": "c1",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-1",
+          "prompt": {
+            "id": "c1q",
+            "text": "Mum, Dad and I are a happy ____."
+          },
+          "options": [
+            "family",
+            "bicycle",
+            "football"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c1e",
+            "text": "Mum, Dad and I together make a family."
+          }
+        },
+        {
+          "id": "c2",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-5",
+          "prompt": {
+            "id": "c2q",
+            "text": "Which picture shows a neighbour?"
+          },
+          "options": [
+            "CPP1-U1-SB-5",
+            "CPP1-U1-SB-10",
+            "CPP1-U1-SB-8",
+            "CPP1-U1-SB-9"
+          ],
+          "answer": 0,
+          "explain": {
+            "id": "c2e",
+            "text": "A neighbour lives next door to you."
+          }
+        },
+        {
+          "id": "c3",
+          "kind": "listen",
+          "wordId": "CPP1-U1-SB-6",
+          "prompt": {
+            "id": "c3q",
+            "text": "Listen and point: we have a lot in common."
+          },
+          "options": [
+            "CPP1-U1-SB-7",
+            "CPP1-U1-SB-6",
+            "CPP1-U1-SB-11",
+            "CPP1-U1-SB-10"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c3e",
+            "text": "In common means you both have the same things."
+          }
+        },
+        {
+          "id": "c4",
+          "kind": "trueFalse",
+          "wordId": "CPP1-U1-SB-7",
+          "prompt": {
+            "id": "c4q",
+            "text": "If two things are the same, they are different."
+          },
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c4e",
+            "text": "The same means alike, so it is not different."
+          }
+        },
+        {
+          "id": "c5",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-10",
+          "prompt": {
+            "id": "c5q",
+            "text": "My ____ is a woman, and she is my mum."
+          },
+          "options": [
+            "father",
+            "pencil",
+            "mother"
+          ],
+          "answer": 2,
+          "explain": {
+            "id": "c5e",
+            "text": "A mother is a woman who is a parent."
+          }
+        },
+        {
+          "id": "c6",
+          "kind": "gap",
+          "wordId": "CPP1-U1-SB-8",
+          "prompt": {
+            "id": "c6q",
+            "text": "My ____ is a man, and he is my dad."
+          },
+          "options": [
+            "mother",
+            "father",
+            "pencil"
+          ],
+          "answer": 1,
+          "explain": {
+            "id": "c6e",
+            "text": "A father is a man who is a parent."
+          }
+        },
+        {
+          "id": "c7",
+          "kind": "pickPicture",
+          "wordId": "CPP1-U1-SB-11",
+          "prompt": {
+            "id": "c7q",
+            "text": "Which picture shows a sister?"
+          },
+          "options": [
+            "CPP1-U1-SB-8",
+            "CPP1-U1-SB-1",
+            "CPP1-U1-SB-9",
+            "CPP1-U1-SB-11"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c7e",
+            "text": "A sister is a girl from your family."
+          }
+        },
+        {
+          "id": "c8",
+          "kind": "oddOneOut",
+          "wordId": "CPP1-U1-SB-9",
+          "prompt": {
+            "id": "c8q",
+            "text": "Which word is the odd one out?"
+          },
+          "options": [
+            "brother",
+            "sister",
+            "cousin",
+            "bicycle"
+          ],
+          "answer": 3,
+          "explain": {
+            "id": "c8e",
+            "text": "Brother, sister and cousin are family, but a bicycle is not."
+          }
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "type": "practice",
+      "game": "memory",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Let's play memory! Find the matching pairs of family words and pictures."
+        }
+      ]
+    },
+    {
+      "id": "speak",
+      "type": "speak",
+      "prompt": {
+        "id": "q",
+        "text": "Who is in your family? What do you have in common with your partner?"
+      },
+      "frames": [
+        "In my family, I have a ___.",
+        "My neighbour has a ___.",
+        "My ___ and I have a lot in common: ___."
+      ],
+      "partner": true,
+      "timerSec": 60,
+      "model": {
+        "id": "m",
+        "text": "In my family, I have a sister. My neighbour has a cat. My sister and I have a lot in common: we both love drawing."
+      }
+    },
+    {
+      "id": "recap",
+      "type": "recap",
+      "lines": [
+        {
+          "id": "l1",
+          "text": "Brilliant work, explorers! You met a whole family today."
+        },
+        {
+          "id": "l2",
+          "text": "You learned words for mother, father, brother and sister."
+        },
+        {
+          "id": "l3",
+          "text": "Next time, we will read about families around the world!"
+        }
+      ],
+      "badge": {
+        "emoji": "🏅",
+        "name": "Family Explorer"
+      },
+      "exitTicket": [
+        {
+          "id": "e1",
+          "text": "Which word means a person who lives next door?"
+        },
+        {
+          "id": "e2",
+          "text": "Tell your partner one thing you have in common with them."
+        }
+      ]
+    }
+  ]
+}
