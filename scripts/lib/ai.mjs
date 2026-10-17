@@ -66,7 +66,7 @@ export async function chatJson({ model, system, user, temperature = 0.6, maxToke
     } catch (e) {
       if (e instanceof BudgetError) throw e;
       lastErr = e;
-      if (!e.retry && !/not JSON/.test(e.message)) throw e;
+      if (!e.retry && !(e instanceof SyntaxError) && !/not JSON/.test(e.message)) throw e;
       await sleep(1500 * (attempt + 1) ** 2);
     }
   }

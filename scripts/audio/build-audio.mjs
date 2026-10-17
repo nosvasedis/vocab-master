@@ -12,7 +12,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import ffmpegPath from "ffmpeg-static";
 import { ROOT, requireEnv } from "../lib/env.mjs";
 import { synthesize, wavSeconds, ledger } from "../lib/gemini-tts.mjs";
@@ -52,6 +52,15 @@ function roleFor(line, lesson) {
   return "adultMan";
 }
 
+/** Stable voice for a story character: same name → same voice in every lesson; pools keep casts varied. */
+function characterVoice(role, name) {
+  const pool = VOICES.pools?.[role] || [];
+  if (!pool.length) return VOICES.cast.narrator.voice;
+  let h = 0;
+  for (const ch of `${role}:${String(name).toLowerCase()}`) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return pool[h % pool.length];
+}
+
 const STYLE = {
   word: VOICES.cast.words?.style || "",
   hook: "warm, playful and welcoming storyteller",
@@ -79,7 +88,9 @@ function collectJobs() {
       for (const line of lessonLines(lesson)) {
         if (line.key.startsWith("lx:") && !line.key.endsWith(":0")) continue; // only the example the player uses
         const role = roleFor(line, lesson);
-        const cast = VOICES.cast[role] || VOICES.cast.narrator;
+        const cast = role === "narrator"
+          ? VOICES.cast.narrator
+          : { voice: characterVoice(role, lesson.cast?.[line.who]?.name || line.who), model: VOICES.cast.dialogueModel || "gemini-3.8-flash-tts" };
         let style = line.style || "";
         if (line.kind === "dialogue") style = style || lesson.cast?.[line.who]?.persona || "";
         else if (VOICES.styleNarration && line.sceneId === "hook") style = style || STYLE.hook;
@@ -147,6 +158,11 @@ function registerClip(job, rel, seconds) {
 function linkDone(jobs) {
   let n = 0;
   for (const j of jobs) {
+    // A clip encoded before an interrupted run saved its state is still on disk: adopt it.
+    const rel = `${j.hash.slice(0, 2)}/${j.hash}.ogg`;
+    if (state.clips[j.hash]?.status !== "done" && fs.existsSync(path.join(AUDIO_DIR, rel))) {
+      state.clips[j.hash] = { status: "done", f: rel, d: Number(j.estSec.toFixed(2)), model: j.model, voice: j.voice, adopted: true };
+    }
     const c = state.clips[j.hash];
     if (c?.status === "done" && fs.existsSync(path.join(AUDIO_DIR, c.f))) {
       if (!manifest.entries[j.key] || manifest.entries[j.key].f !== c.f) { manifest.entries[j.key] = { f: c.f, d: c.d }; n++; }
@@ -157,25 +173,130 @@ function linkDone(jobs) {
   return n;
 }
 
-/* ── Standard (Interactions) ─────────────────────────────────────── */
+/* ── Standard (Interactions), chunked ────────────────────────────────
+   Tier-1 keys allow ~100 TTS requests/day/model, so lines that share a voice + style + model are
+   voiced together in one request, separated by <long pause>, and cut apart at the longest silences.
+   A chunk whose cut doesn't validate is retried line by line on a later run. */
+class QuotaError extends Error {}
+const PAUSE = " <long pause> ";
+
+function makeChunks(list, { maxLines = 18, maxChars = 1100 } = {}) {
+  const groups = new Map();
+  for (const j of list) {
+    const k = `${j.model}|${j.voice}|${j.style}|${j.lesson || "-"}`;
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(j);
+  }
+  const chunks = [];
+  for (const jobs of groups.values()) {
+    let cur = [];
+    let chars = 0;
+    for (const j of jobs) {
+      const single = state.clips[j.hash]?.single; // previous cut failed → voice alone
+      if (single) { chunks.push([j]); continue; }
+      if (cur.length && (cur.length >= maxLines || chars + j.spoken.length > maxChars)) { chunks.push(cur); cur = []; chars = 0; }
+      cur.push(j);
+      chars += j.spoken.length;
+    }
+    if (cur.length) chunks.push(cur);
+  }
+  return chunks;
+}
+
+/** Silences in a WAV file: [{ start, end }] (ffmpeg silencedetect). */
+function silences(file) {
+  const out = String(spawnSync(ffmpegPath, ["-hide_banner", "-i", file, "-af", "silencedetect=noise=-38dB:d=0.3", "-f", "null", "-"], { encoding: "utf8" }).stderr || "");
+  const res = [];
+  let start = null;
+  for (const line of out.split(/\r?\n/)) {
+    const s = line.match(/silence_start: ([\d.]+)/);
+    const e = line.match(/silence_end: ([\d.]+)/);
+    if (s) start = Number(s[1]);
+    if (e && start != null) { res.push({ start, end: Number(e[1]) }); start = null; }
+  }
+  return res;
+}
+
+/** Cut points for n lines: the n-1 longest silences, in time order; null if the cut looks wrong. */
+function cutPoints(sil, n, total, jobs) {
+  if (n === 1) return [[0, total]];
+  const inner = sil.filter((s) => s.start > 0.15 && s.end < total - 0.15);
+  if (inner.length < n - 1) return null;
+  const longest = [...inner].sort((a, b) => (b.end - b.start) - (a.end - a.start)).slice(0, n - 1).sort((a, b) => a.start - b.start);
+  const bounds = [0, ...longest.map((s) => (s.start + s.end) / 2), total];
+  const segs = bounds.slice(0, -1).map((b, i) => [b, bounds[i + 1]]);
+  const chars = jobs.map((j) => j.spoken.length);
+  const sum = chars.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < n; i++) {
+    const exp = (chars[i] / sum) * total;
+    const got = segs[i][1] - segs[i][0];
+    if (got < 0.35 || got < exp * 0.4 || got > exp * 2.4 + 0.8) return null;
+  }
+  return segs;
+}
+
+function encodeSegment(srcFile, [a, b], hash) {
+  const rel = `${hash.slice(0, 2)}/${hash}.ogg`;
+  const out = path.join(AUDIO_DIR, rel);
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  const trim = "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05";
+  execFileSync(ffmpegPath, ["-y", "-loglevel", "error", "-ss", a.toFixed(3), "-to", b.toFixed(3), "-i", srcFile, "-af", `${trim},areverse,${trim},areverse,loudnorm=I=-18:TP=-2:LRA=11`, "-ac", "1", "-ar", "24000", "-c:a", "libopus", "-b:a", "20k", "-application", "voip", out]);
+  return rel;
+}
+
+async function voiceChunk(jobs) {
+  const text = jobs.map((j) => j.spoken).join(PAUSE);
+  const est = jobs.reduce((s, j) => s + j.estSec, 0) + (jobs.length - 1) * 1.2;
+  let r;
+  try {
+    r = await synthesize({ model: jobs[0].model, voice: jobs[0].voice, text, style: jobs[0].style, job: `audio ×${jobs.length} ${jobs[0].key}`, estimateSeconds: est });
+  } catch (e) {
+    if (/requests per day|per day/i.test(e.message)) throw new QuotaError(e.message.match(/retry in [^.]+/i)?.[0] || "daily quota reached");
+    throw e;
+  }
+  fs.mkdirSync(TMP, { recursive: true });
+  const src = path.join(TMP, `chunk-${jobs[0].hash}.wav`);
+  fs.writeFileSync(src, r.wav);
+  const segs = cutPoints(silences(src), jobs.length, r.seconds, jobs);
+  if (!segs) {
+    for (const j of jobs) state.clips[j.hash] = { status: "error", single: true, error: "chunk cut failed — will voice alone", key: j.key };
+    fs.rmSync(src, { force: true });
+    return 0;
+  }
+  jobs.forEach((j, i) => registerClip(j, encodeSegment(src, segs[i], j.hash), segs[i][1] - segs[i][0]));
+  fs.rmSync(src, { force: true });
+  return jobs.length;
+}
+
 async function runStandard(list) {
+  const chunks = makeChunks(list);
+  const perModel = {};
+  for (const c of chunks) perModel[c[0].model] = (perModel[c[0].model] || 0) + 1;
+  console.log(`  ${list.length} lines in ${chunks.length} requests (${Object.entries(perModel).map(([m, n]) => `${m.replace("gemini-3.8-", "")}: ${n}`).join(", ")}) — Tier 1 allows ~100 requests/day per model`);
+  if (flag("dry-run")) return;
   let i = 0;
+  let budgetStop = null;
+  const exhausted = new Map(); // model → retry message
   const worker = async () => {
-    while (i < list.length) {
-      const job = list[i++];
+    while (i < chunks.length && !budgetStop) {
+      const chunk = chunks[i++];
+      if (exhausted.has(chunk[0].model)) continue;
       try {
-        const r = await synthesize({ model: job.model, voice: job.voice, text: job.spoken, style: job.style, job: `audio ${job.key}`, estimateSeconds: job.estSec });
-        registerClip(job, encode(r.wav, job.hash), r.seconds);
-        if (i % 10 === 0) { saveState(); saveManifest(); }
-        process.stdout.write(".");
+        const n = await voiceChunk(chunk);
+        process.stdout.write(n ? "." : "~");
+        saveState(); saveManifest();
       } catch (e) {
-        if (e instanceof BudgetError) throw e;
-        state.clips[job.hash] = { status: "error", error: e.message.slice(0, 200), key: job.key };
+        if (e instanceof BudgetError) { budgetStop = e; break; }
+        if (e instanceof QuotaError) { exhausted.set(chunk[0].model, e.message); continue; }
+        for (const j of chunk) state.clips[j.hash] = { status: "error", error: e.message.slice(0, 200), key: j.key };
         process.stdout.write("x");
       }
     }
   };
-  try { await Promise.all([worker(), worker(), worker()]); } finally { saveState(); saveManifest(); }
+  try { await Promise.all([worker(), worker()]); } finally { saveState(); saveManifest(); }
+  for (const [m, msg] of exhausted) console.log(`
+Daily quota reached for ${m} (${msg}). Run the same command again after the reset; it resumes.`);
+  if (budgetStop) throw budgetStop;
 }
 
 /* ── Batch (generateContent) ─────────────────────────────────────── */
@@ -269,7 +390,7 @@ async function main() {
   const secs = unique.reduce((s, j) => s + j.estSec, 0);
   console.log(`${jobs.length} keys → ${unique.length} new clips (${std.length} standard, ${bat.length} batch) ≈ ${(secs / 60).toFixed(1)} min audio ≈ ${((secs * 20000) / 8 / 1e6).toFixed(1)} MB`);
   console.log(`Estimated cost: standard $${estStd.toFixed(3)} + batch $${estBat.toFixed(3)} = $${(estStd + estBat).toFixed(3)} · Gemini cap left $${ledger.remaining("gemini").toFixed(3)} (pending batches ~$${pendingBatchEstimate().toFixed(3)})`);
-  if (flag("dry-run")) return;
+  if (flag("dry-run")) { if (std.length) await runStandard(std); return; }
   ledger.assertCanSpend("gemini", estStd + estBat + pendingBatchEstimate(), "audio build");
   if (bat.length) await submitBatches(bat);
   if (std.length) { console.log(`Voicing ${std.length} styled/designed-voice clips now`); await runStandard(std); console.log(""); }

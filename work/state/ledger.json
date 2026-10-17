@@ -609,6 +609,1446 @@
       "outTok": 109,
       "usd": 0.00033,
       "job": "batch probe"
+    },
+    {
+      "t": "2026-10-17T10:49:48.805Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 112,
+      "usd": 0.000677,
+      "job": "audio l:CPP1-U1-A:hook:l2"
+    },
+    {
+      "t": "2026-10-17T10:49:49.083Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 116,
+      "usd": 0.000702,
+      "job": "audio l:CPP1-U1-A:hook:l1"
+    },
+    {
+      "t": "2026-10-17T10:49:49.268Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 78,
+      "usd": 0.000472,
+      "job": "audio l:CPP1-U1-A:hook:l3"
+    },
+    {
+      "t": "2026-10-17T10:49:52.411Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 7,
+      "outTok": 86,
+      "usd": 0.000519,
+      "job": "audio l:CPP1-U1-A:hook:q"
+    },
+    {
+      "t": "2026-10-17T10:49:53.167Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 99,
+      "usd": 0.000599,
+      "job": "audio l:CPP1-U1-A:hook:l5"
+    },
+    {
+      "t": "2026-10-17T10:49:53.324Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 105,
+      "usd": 0.000635,
+      "job": "audio l:CPP1-U1-A:hook:l4"
+    },
+    {
+      "t": "2026-10-17T10:49:56.895Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 73,
+      "usd": 0.000663,
+      "job": "audio l:CPP1-U1-A:story:p1a"
+    },
+    {
+      "t": "2026-10-17T10:49:57.056Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 117,
+      "usd": 0.000708,
+      "job": "audio l:CPP1-U1-A:story:p1c"
+    },
+    {
+      "t": "2026-10-17T10:49:57.459Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 68,
+      "usd": 0.000618,
+      "job": "audio l:CPP1-U1-A:story:p1b"
+    },
+    {
+      "t": "2026-10-17T10:50:00.566Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 81,
+      "usd": 0.000734,
+      "job": "audio l:CPP1-U1-A:story:p2a"
+    },
+    {
+      "t": "2026-10-17T10:50:01.284Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 113,
+      "usd": 0.000684,
+      "job": "audio l:CPP1-U1-A:story:p2c"
+    },
+    {
+      "t": "2026-10-17T10:50:02.294Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 144,
+      "usd": 0.001301,
+      "job": "audio l:CPP1-U1-A:story:p2b"
+    },
+    {
+      "t": "2026-10-17T10:50:05.221Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 118,
+      "usd": 0.000714,
+      "job": "audio l:CPP1-U1-A:story:p3c"
+    },
+    {
+      "t": "2026-10-17T10:50:06.543Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 157,
+      "usd": 0.00142,
+      "job": "audio l:CPP1-U1-A:story:p3a"
+    },
+    {
+      "t": "2026-10-17T10:50:06.747Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 100,
+      "usd": 0.000606,
+      "job": "audio l:CPP1-U1-A:story:p4c"
+    },
+    {
+      "t": "2026-10-17T10:50:09.166Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 76,
+      "usd": 0.000689,
+      "job": "audio l:CPP1-U1-A:story:p4a"
+    },
+    {
+      "t": "2026-10-17T10:50:10.085Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 94,
+      "usd": 0.00057,
+      "job": "audio l:CPP1-U1-A:story:p5c"
+    },
+    {
+      "t": "2026-10-17T10:50:12.367Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 132,
+      "usd": 0.001194,
+      "job": "audio l:CPP1-U1-A:story:p5a"
+    },
+    {
+      "t": "2026-10-17T10:50:13.068Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 82,
+      "usd": 0.000743,
+      "job": "audio l:CPP1-U1-A:story:p5b"
+    },
+    {
+      "t": "2026-10-17T10:51:15.506Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 113,
+      "usd": 0.000684,
+      "job": "audio l:CPP1-U1-A:check:c1q"
+    },
+    {
+      "t": "2026-10-17T10:51:16.859Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 16,
+      "outTok": 128,
+      "usd": 0.000776,
+      "job": "audio l:CPP1-U1-A:check:c1e"
+    },
+    {
+      "t": "2026-10-17T10:51:17.906Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 107,
+      "usd": 0.000647,
+      "job": "audio l:CPP1-U1-A:check:c2q"
+    },
+    {
+      "t": "2026-10-17T10:51:19.257Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 140,
+      "usd": 0.000847,
+      "job": "audio l:CPP1-U1-A:check:c2e"
+    },
+    {
+      "t": "2026-10-17T10:51:20.826Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 83,
+      "usd": 0.000503,
+      "job": "audio l:CPP1-U1-A:check:c3q"
+    },
+    {
+      "t": "2026-10-17T10:51:21.102Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 97,
+      "usd": 0.000588,
+      "job": "audio l:CPP1-U1-A:check:c3e"
+    },
+    {
+      "t": "2026-10-17T10:51:22.475Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 90,
+      "usd": 0.000544,
+      "job": "audio l:CPP3-U1-BQ:check:c5q"
+    },
+    {
+      "t": "2026-10-17T10:51:24.943Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 16,
+      "outTok": 219,
+      "usd": 0.001322,
+      "job": "audio l:CPP1-U1-A:check:c4e"
+    },
+    {
+      "t": "2026-10-17T10:51:26.219Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 15,
+      "outTok": 143,
+      "usd": 0.000865,
+      "job": "audio l:CPP1-U1-A:check:c5q"
+    },
+    {
+      "t": "2026-10-17T10:51:27.065Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 15,
+      "outTok": 137,
+      "usd": 0.00083,
+      "job": "audio l:CPP1-U1-A:check:c5e"
+    },
+    {
+      "t": "2026-10-17T10:51:29.787Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 133,
+      "usd": 0.000805,
+      "job": "audio l:CPP1-U1-A:check:c6q"
+    },
+    {
+      "t": "2026-10-17T10:51:58.917Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 118,
+      "usd": 0.000714,
+      "job": "audio l:CPP1-U1-A:check:c6e"
+    },
+    {
+      "t": "2026-10-17T10:51:59.089Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 7,
+      "outTok": 67,
+      "usd": 0.000405,
+      "job": "audio l:CPP1-U1-A:check:c7q"
+    },
+    {
+      "t": "2026-10-17T10:52:02.323Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 110,
+      "usd": 0.000665,
+      "job": "audio l:CPP1-U1-A:check:c8e"
+    },
+    {
+      "t": "2026-10-17T10:52:02.727Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 140,
+      "usd": 0.000847,
+      "job": "audio l:CPP1-U1-A:check:c7e"
+    },
+    {
+      "t": "2026-10-17T10:52:02.921Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 142,
+      "usd": 0.000858,
+      "job": "audio l:CPP1-U1-A:check:c8q"
+    },
+    {
+      "t": "2026-10-17T10:52:05.639Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 95,
+      "usd": 0.000575,
+      "job": "audio l:CPP1-U1-A:check:c9q"
+    },
+    {
+      "t": "2026-10-17T10:52:06.130Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 81,
+      "usd": 0.000491,
+      "job": "audio l:CPP1-U1-A:check:c9e"
+    },
+    {
+      "t": "2026-10-17T10:52:07.767Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 129,
+      "usd": 0.000781,
+      "job": "audio l:CPP1-U1-A:check:c10q"
+    },
+    {
+      "t": "2026-10-17T10:52:08.940Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 114,
+      "usd": 0.000691,
+      "job": "audio l:CPP1-U1-A:check:c10e"
+    },
+    {
+      "t": "2026-10-17T10:52:10.789Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 89,
+      "usd": 0.00054,
+      "job": "audio l:CPP2-U1-A:practice:l1"
+    },
+    {
+      "t": "2026-10-17T10:52:11.332Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2778,
+      "outTok": 9912,
+      "usd": 0.005234,
+      "job": "draft CPP1-U2-BQ #1"
+    },
+    {
+      "t": "2026-10-17T10:52:12.400Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 138,
+      "usd": 0.000835,
+      "job": "audio l:CPP1-U1-A:practice:l2"
+    },
+    {
+      "t": "2026-10-17T10:53:02.859Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5012,
+      "outTok": 13383,
+      "usd": 0.007193,
+      "job": "draft CPP1-U2-A #1"
+    },
+    {
+      "t": "2026-10-17T10:53:14.707Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 127,
+      "usd": 0.000768,
+      "job": "audio l:CPP1-U1-A:speak:q"
+    },
+    {
+      "t": "2026-10-17T10:53:15.802Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 26,
+      "outTok": 219,
+      "usd": 0.001327,
+      "job": "audio l:CPP1-U1-A:speak:m"
+    },
+    {
+      "t": "2026-10-17T10:53:17.732Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 130,
+      "usd": 0.000787,
+      "job": "audio l:CPP1-U1-A:recap:l1"
+    },
+    {
+      "t": "2026-10-17T10:53:18.836Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 15,
+      "outTok": 149,
+      "usd": 0.000901,
+      "job": "audio l:CPP1-U1-A:recap:l2"
+    },
+    {
+      "t": "2026-10-17T10:53:19.057Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 93,
+      "usd": 0.000564,
+      "job": "audio l:CPP1-U1-A:recap:l3"
+    },
+    {
+      "t": "2026-10-17T10:53:21.902Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 94,
+      "usd": 0.000568,
+      "job": "audio l:CPP1-U1-A:recap:e1"
+    },
+    {
+      "t": "2026-10-17T10:53:22.307Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 84,
+      "usd": 0.000508,
+      "job": "audio l:CPP1-U1-A:recap:e2"
+    },
+    {
+      "t": "2026-10-17T10:53:22.741Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 7,
+      "outTok": 66,
+      "usd": 0.0004,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-28"
+    },
+    {
+      "t": "2026-10-17T10:53:25.649Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 76,
+      "usd": 0.000461,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-28:0"
+    },
+    {
+      "t": "2026-10-17T10:53:26.574Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 101,
+      "usd": 0.000611,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-32"
+    },
+    {
+      "t": "2026-10-17T10:53:54.767Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 74,
+      "usd": 0.000448,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-32:0"
+    },
+    {
+      "t": "2026-10-17T10:53:57.800Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 73,
+      "usd": 0.000443,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-34"
+    },
+    {
+      "t": "2026-10-17T10:53:58.166Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 86,
+      "usd": 0.000521,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-29"
+    },
+    {
+      "t": "2026-10-17T10:53:58.738Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4877,
+      "outTok": 14080,
+      "usd": 0.007528,
+      "job": "draft CPP1-U2-B #1"
+    },
+    {
+      "t": "2026-10-17T10:53:59.515Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 7,
+      "outTok": 57,
+      "usd": 0.000345,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-29:0"
+    },
+    {
+      "t": "2026-10-17T10:54:01.013Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 6,
+      "outTok": 44,
+      "usd": 0.000267,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-34:0"
+    },
+    {
+      "t": "2026-10-17T10:54:02.459Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 124,
+      "usd": 0.000749,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-20"
+    },
+    {
+      "t": "2026-10-17T10:54:03.260Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 64,
+      "usd": 0.000388,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-20:0"
+    },
+    {
+      "t": "2026-10-17T10:54:04.204Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 107,
+      "usd": 0.000648,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-23"
+    },
+    {
+      "t": "2026-10-17T10:54:06.478Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 70,
+      "usd": 0.000424,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-23:0"
+    },
+    {
+      "t": "2026-10-17T10:54:07.072Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 76,
+      "usd": 0.00046,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-25"
+    },
+    {
+      "t": "2026-10-17T10:54:08.158Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 100,
+      "usd": 0.000605,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-25:0"
+    },
+    {
+      "t": "2026-10-17T10:54:33.954Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2706,
+      "outTok": 8613,
+      "usd": 0.004577,
+      "job": "draft CPP1-U3-BQ #1"
+    },
+    {
+      "t": "2026-10-17T10:55:11.032Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 6,
+      "outTok": 65,
+      "usd": 0.000393,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-26"
+    },
+    {
+      "t": "2026-10-17T10:55:11.472Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 6,
+      "outTok": 54,
+      "usd": 0.000327,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-26:0"
+    },
+    {
+      "t": "2026-10-17T10:55:12.329Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 91,
+      "usd": 0.000551,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-16"
+    },
+    {
+      "t": "2026-10-17T10:55:14.226Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 101,
+      "usd": 0.00061,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-16:0"
+    },
+    {
+      "t": "2026-10-17T10:55:14.601Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 100,
+      "usd": 0.000605,
+      "job": "audio d:CPP1-U1-A:CPP1-U1-SB-17"
+    },
+    {
+      "t": "2026-10-17T10:55:15.492Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 8,
+      "outTok": 74,
+      "usd": 0.000448,
+      "job": "audio lx:CPP1-U1-A:CPP1-U1-SB-17:0"
+    },
+    {
+      "t": "2026-10-17T10:55:18.912Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 137,
+      "usd": 0.000829,
+      "job": "audio l:CPP1-U1-B:hook:l1"
+    },
+    {
+      "t": "2026-10-17T10:55:19.101Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 86,
+      "usd": 0.000521,
+      "job": "audio l:CPP1-U1-B:hook:l2"
+    },
+    {
+      "t": "2026-10-17T10:55:19.724Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 114,
+      "usd": 0.000691,
+      "job": "audio l:CPP1-U1-B:hook:l3"
+    },
+    {
+      "t": "2026-10-17T10:55:23.210Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 102,
+      "usd": 0.000619,
+      "job": "audio l:CPP1-U1-B:hook:l4"
+    },
+    {
+      "t": "2026-10-17T10:55:23.408Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 69,
+      "usd": 0.00042,
+      "job": "audio l:CPP1-U1-B:hook:q"
+    },
+    {
+      "t": "2026-10-17T10:55:27.427Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 112,
+      "usd": 0.001015,
+      "job": "audio l:CPP1-U1-B:story:p1a"
+    },
+    {
+      "t": "2026-10-17T10:55:32.196Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 108,
+      "usd": 0.000978,
+      "job": "audio l:CPP1-U1-B:story:p2a"
+    },
+    {
+      "t": "2026-10-17T10:55:35.740Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 52,
+      "usd": 0.000472,
+      "job": "audio l:CPP1-U1-B:story:p2b"
+    },
+    {
+      "t": "2026-10-17T10:55:38.617Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4203,
+      "outTok": 16000,
+      "usd": 0.00842,
+      "job": "draft CPP1-U3-A #1"
+    },
+    {
+      "t": "2026-10-17T10:55:50.527Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 84,
+      "usd": 0.000509,
+      "job": "audio l:CPP1-U1-B:story:p3c"
+    },
+    {
+      "t": "2026-10-17T10:55:53.026Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 118,
+      "usd": 0.000714,
+      "job": "audio l:CPP1-U1-B:story:p1c"
+    },
+    {
+      "t": "2026-10-17T10:55:54.317Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 100,
+      "usd": 0.000906,
+      "job": "audio l:CPP1-U1-B:story:p3a"
+    },
+    {
+      "t": "2026-10-17T10:55:55.991Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 92,
+      "usd": 0.000557,
+      "job": "audio l:CPP1-U1-B:story:p2c"
+    },
+    {
+      "t": "2026-10-17T10:55:57.413Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 115,
+      "usd": 0.000696,
+      "job": "audio l:CPP1-U1-B:story:p4c"
+    },
+    {
+      "t": "2026-10-17T10:55:59.496Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 9,
+      "outTok": 85,
+      "usd": 0.00077,
+      "job": "audio l:CPP1-U1-B:story:p4a"
+    },
+    {
+      "t": "2026-10-17T10:56:00.760Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 15,
+      "outTok": 132,
+      "usd": 0.001195,
+      "job": "audio l:CPP1-U1-B:story:p4b"
+    },
+    {
+      "t": "2026-10-17T10:56:02.145Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 106,
+      "usd": 0.000642,
+      "job": "audio l:CPP1-U1-B:story:p5c"
+    },
+    {
+      "t": "2026-10-17T10:56:03.362Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 114,
+      "usd": 0.001032,
+      "job": "audio l:CPP1-U1-B:story:p5a"
+    },
+    {
+      "t": "2026-10-17T10:56:05.454Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 92,
+      "usd": 0.000833,
+      "job": "audio l:CPP1-U1-B:story:p5b"
+    },
+    {
+      "t": "2026-10-17T10:56:05.950Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 87,
+      "usd": 0.000527,
+      "job": "audio l:CPP1-U1-B:check:c1q"
+    },
+    {
+      "t": "2026-10-17T10:56:33.502Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5602,
+      "outTok": 13167,
+      "usd": 0.007144,
+      "job": "draft CPP1-U3-B #1"
+    },
+    {
+      "t": "2026-10-17T10:57:14.288Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2853,
+      "outTok": 10138,
+      "usd": 0.005354,
+      "job": "draft CPP1-U4-BQ #1"
+    },
+    {
+      "t": "2026-10-17T10:57:56.638Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3543,
+      "outTok": 10449,
+      "usd": 0.005579,
+      "job": "draft CPP1-U4-A #1"
+    },
+    {
+      "t": "2026-10-17T10:57:59.476Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 11,
+      "outTok": 111,
+      "usd": 0.000672,
+      "job": "audio l:CPP1-U1-B:check:c3q"
+    },
+    {
+      "t": "2026-10-17T10:58:02.811Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 10,
+      "outTok": 89,
+      "usd": 0.000539,
+      "job": "audio l:CPP1-U1-B:check:c5q"
+    },
+    {
+      "t": "2026-10-17T10:58:06.298Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 127,
+      "usd": 0.000768,
+      "job": "audio l:CPP1-U1-B:check:c5e"
+    },
+    {
+      "t": "2026-10-17T10:58:22.451Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 8210,
+      "outTok": 7376,
+      "usd": 0.004509,
+      "job": "draft CPP1-U4-A #2"
+    },
+    {
+      "t": "2026-10-17T10:59:11.078Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4631,
+      "outTok": 11922,
+      "usd": 0.006424,
+      "job": "draft CPP1-U4-B #1"
+    },
+    {
+      "t": "2026-10-17T10:59:56.486Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2859,
+      "outTok": 11493,
+      "usd": 0.006032,
+      "job": "draft CPP1-U5-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:00:48.976Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4189,
+      "outTok": 12962,
+      "usd": 0.0069,
+      "job": "draft CPP1-U5-A #1"
+    },
+    {
+      "t": "2026-10-17T11:01:45.656Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5204,
+      "outTok": 14152,
+      "usd": 0.007596,
+      "job": "draft CPP1-U5-B #1"
+    },
+    {
+      "t": "2026-10-17T11:02:22.754Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2844,
+      "outTok": 9696,
+      "usd": 0.005132,
+      "job": "draft CPP1-U6-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:03:24.175Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3800,
+      "outTok": 15278,
+      "usd": 0.008019,
+      "job": "draft CPP1-U6-A #1"
+    },
+    {
+      "t": "2026-10-17T11:04:22.593Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4499,
+      "outTok": 15036,
+      "usd": 0.007968,
+      "job": "draft CPP1-U6-B #1"
+    },
+    {
+      "t": "2026-10-17T11:05:01.481Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2797,
+      "outTok": 9384,
+      "usd": 0.004972,
+      "job": "draft CPP1-U7-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:05:48.765Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4646,
+      "outTok": 11999,
+      "usd": 0.006464,
+      "job": "draft CPP1-U7-A #1"
+    },
+    {
+      "t": "2026-10-17T11:06:45.538Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4543,
+      "outTok": 14178,
+      "usd": 0.007543,
+      "job": "draft CPP1-U7-B #1"
+    },
+    {
+      "t": "2026-10-17T11:07:01.471Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 941,
+      "outTok": 11619,
+      "usd": 0.035092,
+      "job": "batch batches/5e5cx6yttv43tzbjqmnwtmkxrjapjltjc12r (400/400)"
+    },
+    {
+      "t": "2026-10-17T11:07:25.010Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2858,
+      "outTok": 10192,
+      "usd": 0.005382,
+      "job": "draft CPP1-U8-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:07:38.495Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 991,
+      "outTok": 11719,
+      "usd": 0.035405,
+      "job": "batch batches/ynpxbeaggok1ek5bcux6iww0ffiwx0v26maz (400/400)"
+    },
+    {
+      "t": "2026-10-17T11:08:15.455Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 1019,
+      "outTok": 11884,
+      "usd": 0.035907,
+      "job": "batch batches/49vc1qts59mioe34l314v4w6t2vs8sv7s6oz (400/400)"
+    },
+    {
+      "t": "2026-10-17T11:08:18.134Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4868,
+      "outTok": 13242,
+      "usd": 0.007108,
+      "job": "draft CPP1-U8-A #1"
+    },
+    {
+      "t": "2026-10-17T11:08:53.525Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 1026,
+      "outTok": 12127,
+      "usd": 0.036638,
+      "job": "batch batches/jmigjedygs623sutt6pnmcbkks4hslbez48t (400/400)"
+    },
+    {
+      "t": "2026-10-17T11:09:07.625Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4214,
+      "outTok": 12481,
+      "usd": 0.006662,
+      "job": "draft CPP1-U8-B #1"
+    },
+    {
+      "t": "2026-10-17T11:09:29.434Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 1073,
+      "outTok": 12444,
+      "usd": 0.0376,
+      "job": "batch batches/6pqx7zvahnkq59bbxw2mzo32agi3ifr0hos9 (400/400)"
+    },
+    {
+      "t": "2026-10-17T11:09:40.088Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2903,
+      "outTok": 8019,
+      "usd": 0.0043,
+      "job": "draft CPP1-U9-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:10:05.799Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 1100,
+      "outTok": 12643,
+      "usd": 0.038204,
+      "job": "batch batches/qcqeoadgqsscnzdn26pm195d2s775q92rslk (400/400)"
+    },
+    {
+      "t": "2026-10-17T11:10:25.487Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 628,
+      "outTok": 7296,
+      "usd": 0.022045,
+      "job": "batch batches/91h9fymm8eq5fncykx1iaihz9ruoxz6tgrxz (217/217)"
+    },
+    {
+      "t": "2026-10-17T11:10:38.787Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4051,
+      "outTok": 14684,
+      "usd": 0.007747,
+      "job": "draft CPP1-U9-A #1"
+    },
+    {
+      "t": "2026-10-17T11:11:41.482Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4064,
+      "outTok": 15708,
+      "usd": 0.00826,
+      "job": "draft CPP1-U9-B #1"
+    },
+    {
+      "t": "2026-10-17T11:12:31.686Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3076,
+      "outTok": 12651,
+      "usd": 0.006633,
+      "job": "draft CPP2-U2-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:13:38.814Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4932,
+      "outTok": 16000,
+      "usd": 0.008493,
+      "job": "draft CPP2-U2-A #1"
+    },
+    {
+      "t": "2026-10-17T11:14:13.157Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 29,
+      "outTok": 307,
+      "usd": 0.002778,
+      "job": "audio ×2 l:CPP1-U1-BQ:story:p1b"
+    },
+    {
+      "t": "2026-10-17T11:14:13.584Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 56,
+      "outTok": 441,
+      "usd": 0.003997,
+      "job": "audio ×4 l:CPP1-U1-BQ:story:p1a"
+    },
+    {
+      "t": "2026-10-17T11:14:20.995Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 63,
+      "outTok": 480,
+      "usd": 0.004352,
+      "job": "audio ×4 l:CPP2-U1-A:story:p1a"
+    },
+    {
+      "t": "2026-10-17T11:14:23.086Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 68,
+      "outTok": 593,
+      "usd": 0.005371,
+      "job": "audio ×5 l:CPP2-U1-A:story:p1b"
+    },
+    {
+      "t": "2026-10-17T11:14:30.042Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 26,
+      "outTok": 353,
+      "usd": 0.00319,
+      "job": "audio ×2 l:CPP2-U1-B:story:p2a"
+    },
+    {
+      "t": "2026-10-17T11:14:30.617Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 94,
+      "outTok": 638,
+      "usd": 0.005789,
+      "job": "audio ×6 l:CPP2-U1-B:story:p1a"
+    },
+    {
+      "t": "2026-10-17T11:14:35.218Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 114,
+      "usd": 0.001033,
+      "job": "audio ×1 l:CPP2-U1-BQ:story:p2a"
+    },
+    {
+      "t": "2026-10-17T11:14:36.307Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 303,
+      "usd": 0.002745,
+      "job": "audio ×2 l:CPP2-U1-BQ:story:p1a"
+    },
+    {
+      "t": "2026-10-17T11:14:46.069Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5384,
+      "outTok": 16000,
+      "usd": 0.008538,
+      "job": "draft CPP2-U2-B #1"
+    },
+    {
+      "t": "2026-10-17T11:14:47.212Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 97,
+      "outTok": 948,
+      "usd": 0.00858,
+      "job": "audio ×6 l:CPP3-U1-A:story:p1a"
+    },
+    {
+      "t": "2026-10-17T11:14:48.066Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 104,
+      "outTok": 812,
+      "usd": 0.00736,
+      "job": "audio ×6 l:CPP3-U1-A:story:p1b"
+    },
+    {
+      "t": "2026-10-17T11:14:59.793Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 80,
+      "outTok": 924,
+      "usd": 0.008356,
+      "job": "audio ×5 l:CPP3-U1-B:story:p1a"
+    },
+    {
+      "t": "2026-10-17T11:15:26.184Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 76,
+      "outTok": 647,
+      "usd": 0.005861,
+      "job": "audio ×5 l:CPP3-U1-B:story:p1b"
+    },
+    {
+      "t": "2026-10-17T11:15:43.212Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2827,
+      "outTok": 14065,
+      "usd": 0.007315,
+      "job": "draft CPP2-U3-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:16:48.487Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5676,
+      "outTok": 16000,
+      "usd": 0.008568,
+      "job": "draft CPP2-U3-A #1"
+    },
+    {
+      "t": "2026-10-17T11:17:50.328Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3713,
+      "outTok": 15253,
+      "usd": 0.007998,
+      "job": "draft CPP2-U3-B #1"
+    },
+    {
+      "t": "2026-10-17T11:18:31.933Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2941,
+      "outTok": 9804,
+      "usd": 0.005196,
+      "job": "draft CPP2-U4-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:19:32.078Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5234,
+      "outTok": 15010,
+      "usd": 0.008028,
+      "job": "draft CPP2-U4-A #1"
+    },
+    {
+      "t": "2026-10-17T11:20:29.270Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4030,
+      "outTok": 14424,
+      "usd": 0.007615,
+      "job": "draft CPP2-U4-B #1"
+    },
+    {
+      "t": "2026-10-17T11:21:16.455Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2956,
+      "outTok": 11780,
+      "usd": 0.006186,
+      "job": "draft CPP2-U5-BQ #1"
     }
   ]
 }

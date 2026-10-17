@@ -6,39 +6,72 @@
     "grandma": "voice_d9qz2iin5da8"
   },
   "designPrompts": {},
-  "picked": false,
+  "picked": true,
   "cast": {
     "narrator": {
       "voice": "voice_66japla7cydg",
-      "model": "gemini-3.8-flash-tts"
+      "model": "gemini-3.8-flash-lite-tts"
     },
     "words": {
-      "voice": "voice_66japla7cydg",
+      "voice": "en-gb-tutor-6",
       "model": "gemini-3.8-flash-lite-tts",
-      "style": "clear, warm teacher modelling a new word for young learners, slightly slow, natural falling intonation"
+      "style": ""
     },
     "examples": {
-      "voice": "voice_66japla7cydg",
+      "voice": "en-gb-tutor-6",
       "model": "gemini-3.8-flash-lite-tts"
-    },
-    "childBoy": {
-      "voice": "Puck"
-    },
-    "childGirl": {
-      "voice": "Leda"
-    },
-    "grandparent": {
-      "voice": "voice_d9qz2iin5da8"
-    },
-    "adultMan": {
-      "voice": "Charon"
-    },
-    "adultWoman": {
-      "voice": "Kore"
     },
     "greek": {
-      "voice": "el-gr-tutor-6",
+      "voice": "el-gr-assistant-5",
       "model": "gemini-3.8-flash-lite-tts"
-    }
+    },
+    "dialogueModel": "gemini-3.8-flash-tts"
+  },
+  "pickedAt": "2026-10-17",
+  "userPicks": {
+    "narrator": "lingo_f (designed)",
+    "designedPreviewFavourite": "lingo_m (designed)",
+    "words": "en-gb-tutor-6 · Flash-Lite · empty style",
+    "story": "Leda + Gacrux — and use a wide variety of voices",
+    "greek": "el-gr-assistant-5"
+  },
+  "styleNarration": false,
+  "styleWords": false,
+  "pools": {
+    "_note": "Story characters: each named character gets a stable voice from its role pool (hash of the name), so Timmy sounds the same in every lesson while casts stay varied.",
+    "childBoy": [
+      "Puck",
+      "Fenrir",
+      "Sadachbia",
+      "Zubenelgenubi"
+    ],
+    "childGirl": [
+      "Leda",
+      "Laomedeia",
+      "Autonoe",
+      "Zephyr"
+    ],
+    "grandparent": [
+      "Gacrux",
+      "voice_d9qz2iin5da8",
+      "Algenib",
+      "Vindemiatrix"
+    ],
+    "adultMan": [
+      "voice_4rdqc20aq05l",
+      "Charon",
+      "Orus",
+      "Iapetus",
+      "en-gb-storyteller-1",
+      "en-gb-tutor-9"
+    ],
+    "adultWoman": [
+      "Kore",
+      "Aoede",
+      "Achird",
+      "Despina",
+      "en-gb-tutor-13",
+      "en-gb-storyteller-2"
+    ]
   }
 }

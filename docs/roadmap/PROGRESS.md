@@ -3,8 +3,17 @@
 **Branch:** `feature/lessons-experience` · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
 ## Current state
-- **Phase:** 1c (voice) in progress. The pipeline is built; the next step waits on the user's voice picks.
-- **Next step:** read the user's picks (pasted from the audition page) into `content/voices.json`, then run the pilot audio build (see Phase 1c).
+- **Phase:** 1c (voice). The user's picks are applied in `content/voices.json`:
+  - Lingo = designed lingo_f (Flash-Lite, standard API);
+  - words = en-gb-tutor-6 (batch);
+  - Greek = el-gr-assistant-5;
+  - story characters come from varied role pools, with a stable voice per character name (the user asked for many voices, not just two).
+- **Running / next:**
+  - (1) Pilot lesson audio: rerun the same command if it was interrupted; it resumes:
+    `node scripts/audio/build-audio.mjs --only lessons --lessons CPP1-U1-BQ,CPP1-U1-A,CPP1-U1-B,CPP2-U1-BQ,CPP2-U1-A,CPP2-U1-B,CPP3-U1-BQ,CPP3-U1-A,CPP3-U1-B`
+  - (2) Word batches were submitted; collect them with `node scripts/audio/build-audio.mjs --only words --collect`. Don't run this while (1) is running, because both write `work/state/audio.json`.
+  - (3) Drafting of the remaining 72 lessons is running: `node scripts/lessons/draft-lessons.mjs --all` (resumable).
+  - (4) After that: check that the ledger entries match the clip count (two processes wrote the ledger at once), then project the cost for all 81 lessons from the real pilot spend.
 - **Waiting on the user:**
   - **Cloudflare API token:** not created, because the agent's permission system blocked the dashboard. The user can create it (Account → Workers AI: Edit + Workers R2 Storage: Edit) and paste `CF_ACCOUNT_ID` / `CF_API_TOKEN` into `.env.local`, or allow the action. Only needed for Phase 1d/1e.
   - **Pilot review:** the 9 pilot lessons are `status: draft` and need a human read-through before `approved`.
