@@ -24782,6 +24782,4374 @@
    "voice": "Zephyr",
    "at": "2026-10-17T11:15:26.841Z",
    "qa": ""
+  },
+  "9c6c6cddcfa77c5e": {
+   "status": "done",
+   "f": "9c/9c6c6cddcfa77c5e.ogg",
+   "d": 2.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:29.546Z",
+   "qa": ""
+  },
+  "671695eced4987a3": {
+   "status": "done",
+   "f": "67/671695eced4987a3.ogg",
+   "d": 2.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:19:30.999Z",
+   "qa": ""
+  },
+  "71785cb41903718f": {
+   "status": "done",
+   "f": "71/71785cb41903718f.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:19:31.135Z",
+   "qa": ""
+  },
+  "987acd34d1a73a80": {
+   "status": "done",
+   "f": "98/987acd34d1a73a80.ogg",
+   "d": 3.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:31.724Z",
+   "qa": ""
+  },
+  "b85fe5ade9a06f49": {
+   "status": "done",
+   "f": "b8/b85fe5ade9a06f49.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:33.154Z",
+   "qa": ""
+  },
+  "290782ee7406f1ed": {
+   "status": "done",
+   "f": "29/290782ee7406f1ed.ogg",
+   "d": 2.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:19:33.350Z",
+   "qa": ""
+  },
+  "39b8e1fbf3217007": {
+   "status": "done",
+   "f": "39/39b8e1fbf3217007.ogg",
+   "d": 3.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:19:33.959Z",
+   "qa": ""
+  },
+  "d54d893fa48b67ae": {
+   "status": "done",
+   "f": "d5/d54d893fa48b67ae.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:35.389Z",
+   "qa": ""
+  },
+  "596377d749b01c4a": {
+   "status": "done",
+   "f": "59/596377d749b01c4a.ogg",
+   "d": 3.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:19:36.178Z",
+   "qa": ""
+  },
+  "9004d1d3c830034c": {
+   "status": "done",
+   "f": "90/9004d1d3c830034c.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:19:36.297Z",
+   "qa": ""
+  },
+  "abd7a4d682e89762": {
+   "status": "done",
+   "f": "ab/abd7a4d682e89762.ogg",
+   "d": 4.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:19:38.074Z",
+   "qa": ""
+  },
+  "fa4276c692656a55": {
+   "status": "done",
+   "f": "fa/fa4276c692656a55.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:19:38.505Z",
+   "qa": ""
+  },
+  "91b21e9aa30c8ae0": {
+   "status": "done",
+   "f": "91/91b21e9aa30c8ae0.ogg",
+   "d": 1.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:19:38.597Z",
+   "qa": ""
+  },
+  "c6629222e34913ea": {
+   "status": "done",
+   "f": "c6/c6629222e34913ea.ogg",
+   "d": 2.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:19:40.813Z",
+   "qa": ""
+  },
+  "29821bacbe92d2d0": {
+   "status": "done",
+   "f": "29/29821bacbe92d2d0.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:19:40.920Z",
+   "qa": ""
+  },
+  "8fcdacd444863c01": {
+   "status": "done",
+   "f": "8f/8fcdacd444863c01.ogg",
+   "d": 2.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:19:41.354Z",
+   "qa": ""
+  },
+  "3f6389ec42924069": {
+   "status": "done",
+   "f": "3f/3f6389ec42924069.ogg",
+   "d": 2.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:19:43.044Z",
+   "qa": ""
+  },
+  "e6fb3590af256dc7": {
+   "status": "done",
+   "f": "e6/e6fb3590af256dc7.ogg",
+   "d": 2.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:19:43.158Z",
+   "qa": ""
+  },
+  "28856a0cadef4095": {
+   "status": "done",
+   "f": "28/28856a0cadef4095.ogg",
+   "d": 2.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:43.260Z",
+   "qa": ""
+  },
+  "dae63c5c6a9ac9bf": {
+   "status": "done",
+   "f": "da/dae63c5c6a9ac9bf.ogg",
+   "d": 2.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:44.866Z",
+   "qa": ""
+  },
+  "8548763f4487bedd": {
+   "status": "done",
+   "f": "85/8548763f4487bedd.ogg",
+   "d": 3.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:19:45.051Z",
+   "qa": ""
+  },
+  "1f6d31adfede2985": {
+   "status": "done",
+   "f": "1f/1f6d31adfede2985.ogg",
+   "d": 2.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:19:45.379Z",
+   "qa": ""
+  },
+  "dc3a928e47798544": {
+   "status": "done",
+   "f": "dc/dc3a928e47798544.ogg",
+   "d": 2.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:47.115Z",
+   "qa": ""
+  },
+  "dd877993a8001311": {
+   "status": "done",
+   "f": "dd/dd877993a8001311.ogg",
+   "d": 2.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:19:47.236Z",
+   "qa": ""
+  },
+  "8cc16d5b43e331dc": {
+   "status": "done",
+   "f": "8c/8cc16d5b43e331dc.ogg",
+   "d": 4.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:19:48.019Z",
+   "qa": ""
+  },
+  "51e06821c3958aba": {
+   "status": "done",
+   "f": "51/51e06821c3958aba.ogg",
+   "d": 2.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:19:49.062Z",
+   "qa": ""
+  },
+  "e47254065723b94c": {
+   "status": "done",
+   "f": "e4/e47254065723b94c.ogg",
+   "d": 2.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:19:50.001Z",
+   "qa": ""
+  },
+  "6edf5ea1e282dcde": {
+   "status": "done",
+   "f": "6e/6edf5ea1e282dcde.ogg",
+   "d": 3.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:50.673Z",
+   "qa": ""
+  },
+  "5b6cc4d85e2cbed0": {
+   "status": "done",
+   "f": "5b/5b6cc4d85e2cbed0.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:52.210Z",
+   "qa": ""
+  },
+  "ac690a935c2bb284": {
+   "status": "done",
+   "f": "ac/ac690a935c2bb284.ogg",
+   "d": 2.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:52.429Z",
+   "qa": ""
+  },
+  "800b4826a1f2feb0": {
+   "status": "done",
+   "f": "80/800b4826a1f2feb0.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:52.819Z",
+   "qa": ""
+  },
+  "e2bb2ae8ac732f14": {
+   "status": "done",
+   "f": "e2/e2bb2ae8ac732f14.ogg",
+   "d": 3.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:55.050Z",
+   "qa": ""
+  },
+  "cb623a86ff311035": {
+   "status": "done",
+   "f": "cb/cb623a86ff311035.ogg",
+   "d": 3.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:55.237Z",
+   "qa": ""
+  },
+  "8a55568276d2572f": {
+   "status": "done",
+   "f": "8a/8a55568276d2572f.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:19:55.410Z",
+   "qa": ""
+  },
+  "56e34864a20c7c35": {
+   "status": "done",
+   "f": "56/56e34864a20c7c35.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:57.554Z",
+   "qa": ""
+  },
+  "057eb83cc870afbb": {
+   "status": "done",
+   "f": "05/057eb83cc870afbb.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:58.004Z",
+   "qa": ""
+  },
+  "ee2210c799bd2a2a": {
+   "status": "done",
+   "f": "ee/ee2210c799bd2a2a.ogg",
+   "d": 4.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:19:58.272Z",
+   "qa": ""
+  },
+  "55d1b35bbe52a126": {
+   "status": "done",
+   "f": "55/55d1b35bbe52a126.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:19:59.728Z",
+   "qa": ""
+  },
+  "3f4c15898d62866b": {
+   "status": "done",
+   "f": "3f/3f4c15898d62866b.ogg",
+   "d": 3.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Iapetus",
+   "at": "2026-10-17T12:20:00.664Z",
+   "qa": ""
+  },
+  "0c69a8170a8ee57b": {
+   "status": "done",
+   "f": "0c/0c69a8170a8ee57b.ogg",
+   "d": 4.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:20:00.835Z",
+   "qa": ""
+  },
+  "2bd8d1ca7aafd6cd": {
+   "status": "done",
+   "f": "2b/2bd8d1ca7aafd6cd.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:02.094Z",
+   "qa": ""
+  },
+  "e2f2f45d7a25542a": {
+   "status": "done",
+   "f": "e2/e2f2f45d7a25542a.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:20:03.002Z",
+   "qa": ""
+  },
+  "b78cdb867323ec4f": {
+   "status": "done",
+   "f": "b7/b78cdb867323ec4f.ogg",
+   "d": 3.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:03.129Z",
+   "qa": ""
+  },
+  "a061b649cd930438": {
+   "status": "done",
+   "f": "a0/a061b649cd930438.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:20:04.916Z",
+   "qa": ""
+  },
+  "8653bb6c00e0374a": {
+   "status": "done",
+   "f": "86/8653bb6c00e0374a.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:05.670Z",
+   "qa": ""
+  },
+  "3087ca29b7db1dc6": {
+   "status": "done",
+   "f": "30/3087ca29b7db1dc6.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:06.329Z",
+   "qa": ""
+  },
+  "96c02d2703e6da52": {
+   "status": "done",
+   "f": "96/96c02d2703e6da52.ogg",
+   "d": 2.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:07.152Z",
+   "qa": ""
+  },
+  "5dccc24ae1c85ab1": {
+   "status": "done",
+   "f": "5d/5dccc24ae1c85ab1.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:08.731Z",
+   "qa": ""
+  },
+  "ecf708ed393910d1": {
+   "status": "done",
+   "f": "ec/ecf708ed393910d1.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:20:08.877Z",
+   "qa": ""
+  },
+  "acab44eb02c84da7": {
+   "status": "done",
+   "f": "ac/acab44eb02c84da7.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:09.417Z",
+   "qa": ""
+  },
+  "11652e1e9fb62b44": {
+   "status": "done",
+   "f": "11/11652e1e9fb62b44.ogg",
+   "d": 3.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:10.742Z",
+   "qa": ""
+  },
+  "28c2c5ee8fb8536e": {
+   "status": "done",
+   "f": "28/28c2c5ee8fb8536e.ogg",
+   "d": 2.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:11.030Z",
+   "qa": ""
+  },
+  "455219b0bb271d83": {
+   "status": "done",
+   "f": "45/455219b0bb271d83.ogg",
+   "d": 3.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:11.701Z",
+   "qa": ""
+  },
+  "8a3c02ba2f800dd1": {
+   "status": "done",
+   "f": "8a/8a3c02ba2f800dd1.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:13.234Z",
+   "qa": ""
+  },
+  "22ff611a401223c3": {
+   "status": "done",
+   "f": "22/22ff611a401223c3.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:13.379Z",
+   "qa": ""
+  },
+  "cf3e01add2c677b2": {
+   "status": "done",
+   "f": "cf/cf3e01add2c677b2.ogg",
+   "d": 2.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:13.966Z",
+   "qa": ""
+  },
+  "b3ed9a6b666b5949": {
+   "status": "done",
+   "f": "b3/b3ed9a6b666b5949.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:15.728Z",
+   "qa": ""
+  },
+  "6e18de97613098fa": {
+   "status": "done",
+   "f": "6e/6e18de97613098fa.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:16.496Z",
+   "qa": ""
+  },
+  "7912984cbabde2b6": {
+   "status": "done",
+   "f": "79/7912984cbabde2b6.ogg",
+   "d": 2.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:16.619Z",
+   "qa": ""
+  },
+  "dae6ea5dd5b341aa": {
+   "status": "done",
+   "f": "da/dae6ea5dd5b341aa.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:18.211Z",
+   "qa": ""
+  },
+  "62590d0b60a34197": {
+   "status": "done",
+   "f": "62/62590d0b60a34197.ogg",
+   "d": 3.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:18.894Z",
+   "qa": ""
+  },
+  "723af0744575ca4a": {
+   "status": "done",
+   "f": "72/723af0744575ca4a.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:19.035Z",
+   "qa": ""
+  },
+  "2203139210fff418": {
+   "status": "done",
+   "f": "22/2203139210fff418.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:20.406Z",
+   "qa": ""
+  },
+  "22908dd2f0a12134": {
+   "status": "done",
+   "f": "22/22908dd2f0a12134.ogg",
+   "d": 2.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:21.219Z",
+   "qa": ""
+  },
+  "0028095f29e124db": {
+   "status": "done",
+   "f": "00/0028095f29e124db.ogg",
+   "d": 2.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:21.834Z",
+   "qa": ""
+  },
+  "afab1f173eb35dd7": {
+   "status": "done",
+   "f": "af/afab1f173eb35dd7.ogg",
+   "d": 3.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:22.907Z",
+   "qa": ""
+  },
+  "4805b531b246742b": {
+   "status": "done",
+   "f": "48/4805b531b246742b.ogg",
+   "d": 2.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:23.397Z",
+   "qa": ""
+  },
+  "22f3cbc1f6babb5b": {
+   "status": "done",
+   "f": "22/22f3cbc1f6babb5b.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:24.050Z",
+   "qa": ""
+  },
+  "7f28d68e1e5ece28": {
+   "status": "done",
+   "f": "7f/7f28d68e1e5ece28.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:20:25.498Z",
+   "qa": ""
+  },
+  "3da3744884ae4749": {
+   "status": "done",
+   "f": "3d/3da3744884ae4749.ogg",
+   "d": 2.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:26.182Z",
+   "qa": ""
+  },
+  "02534656d75ea41c": {
+   "status": "done",
+   "f": "02/02534656d75ea41c.ogg",
+   "d": 2.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:26.403Z",
+   "qa": ""
+  },
+  "a02f1536e65d6c28": {
+   "status": "done",
+   "f": "a0/a02f1536e65d6c28.ogg",
+   "d": 3.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:27.776Z",
+   "qa": ""
+  },
+  "f5b84b50590e3c0b": {
+   "status": "done",
+   "f": "f5/f5b84b50590e3c0b.ogg",
+   "d": 2.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:28.319Z",
+   "qa": ""
+  },
+  "7e676e8e0bd977bf": {
+   "status": "done",
+   "f": "7e/7e676e8e0bd977bf.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:28.919Z",
+   "qa": ""
+  },
+  "64d46165245048d8": {
+   "status": "done",
+   "f": "64/64d46165245048d8.ogg",
+   "d": 2.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:30.106Z",
+   "qa": ""
+  },
+  "5c87ea12905163cf": {
+   "status": "done",
+   "f": "5c/5c87ea12905163cf.ogg",
+   "d": 2.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:30.371Z",
+   "qa": ""
+  },
+  "7c5df97cf7dcaf88": {
+   "status": "done",
+   "f": "7c/7c5df97cf7dcaf88.ogg",
+   "d": 2.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:20:31.977Z",
+   "qa": ""
+  },
+  "66ec5695855c05e6": {
+   "status": "done",
+   "f": "66/66ec5695855c05e6.ogg",
+   "d": 3.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:32.129Z",
+   "qa": ""
+  },
+  "acc9ac0cdaa5d5b2": {
+   "status": "done",
+   "f": "ac/acc9ac0cdaa5d5b2.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:20:33.773Z",
+   "qa": ""
+  },
+  "62e4ba64fcab73e7": {
+   "status": "done",
+   "f": "62/62e4ba64fcab73e7.ogg",
+   "d": 2.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:34.045Z",
+   "qa": ""
+  },
+  "03b3171405f5070a": {
+   "status": "done",
+   "f": "03/03b3171405f5070a.ogg",
+   "d": 4.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:20:34.396Z",
+   "qa": ""
+  },
+  "9883b54c6fc03bac": {
+   "status": "done",
+   "f": "98/9883b54c6fc03bac.ogg",
+   "d": 4.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:20:36.322Z",
+   "qa": ""
+  },
+  "a3a2c29ebd832bcc": {
+   "status": "done",
+   "f": "a3/a3a2c29ebd832bcc.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:20:37.339Z",
+   "qa": ""
+  },
+  "7853dca0c9417d80": {
+   "status": "done",
+   "f": "78/7853dca0c9417d80.ogg",
+   "d": 4.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:38.466Z",
+   "qa": ""
+  },
+  "138c9454d7cfe4e2": {
+   "status": "done",
+   "f": "13/138c9454d7cfe4e2.ogg",
+   "d": 4.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:39.375Z",
+   "qa": ""
+  },
+  "5668d330de38ac61": {
+   "status": "done",
+   "f": "56/5668d330de38ac61.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:39.560Z",
+   "qa": ""
+  },
+  "e352f4f2d159aa68": {
+   "status": "done",
+   "f": "e3/e352f4f2d159aa68.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:40.955Z",
+   "qa": ""
+  },
+  "63c72607fd2218bf": {
+   "status": "done",
+   "f": "63/63c72607fd2218bf.ogg",
+   "d": 3.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:20:41.559Z",
+   "qa": ""
+  },
+  "e1a093f401e435bc": {
+   "status": "done",
+   "f": "e1/e1a093f401e435bc.ogg",
+   "d": 5.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:20:43.135Z",
+   "qa": ""
+  },
+  "b3acfbcb7250e6d4": {
+   "status": "done",
+   "f": "b3/b3acfbcb7250e6d4.ogg",
+   "d": 2.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:43.549Z",
+   "qa": ""
+  },
+  "627a058649c3a919": {
+   "status": "done",
+   "f": "62/627a058649c3a919.ogg",
+   "d": 4.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:20:44.231Z",
+   "qa": ""
+  },
+  "496616217d765f6a": {
+   "status": "done",
+   "f": "49/496616217d765f6a.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:45.201Z",
+   "qa": ""
+  },
+  "81d3cedee7ec9e79": {
+   "status": "done",
+   "f": "81/81d3cedee7ec9e79.ogg",
+   "d": 2.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:46.333Z",
+   "qa": ""
+  },
+  "75635a43227bea28": {
+   "status": "done",
+   "f": "75/75635a43227bea28.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:20:46.507Z",
+   "qa": ""
+  },
+  "71ee86392f8c23fe": {
+   "status": "done",
+   "f": "71/71ee86392f8c23fe.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:47.581Z",
+   "qa": ""
+  },
+  "fcffae08d3c0a9e1": {
+   "status": "done",
+   "f": "fc/fcffae08d3c0a9e1.ogg",
+   "d": 2.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:48.369Z",
+   "qa": ""
+  },
+  "1a88d2c1bc3ea29a": {
+   "status": "done",
+   "f": "1a/1a88d2c1bc3ea29a.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:49.221Z",
+   "qa": ""
+  },
+  "4abf87832744ec7a": {
+   "status": "done",
+   "f": "4a/4abf87832744ec7a.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:49.792Z",
+   "qa": ""
+  },
+  "33a16bc718eaeafc": {
+   "status": "done",
+   "f": "33/33a16bc718eaeafc.ogg",
+   "d": 2.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:51.042Z",
+   "qa": ""
+  },
+  "83a79edc597cb419": {
+   "status": "done",
+   "f": "83/83a79edc597cb419.ogg",
+   "d": 2.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:51.158Z",
+   "qa": ""
+  },
+  "72047973f0fdfa21": {
+   "status": "done",
+   "f": "72/72047973f0fdfa21.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:52.306Z",
+   "qa": ""
+  },
+  "e5ba13c4cad6bf4e": {
+   "status": "done",
+   "f": "e5/e5ba13c4cad6bf4e.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:53.658Z",
+   "qa": ""
+  },
+  "f717c1ec55eba365": {
+   "status": "done",
+   "f": "f7/f717c1ec55eba365.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:53.824Z",
+   "qa": ""
+  },
+  "0e4ea76f219b3f45": {
+   "status": "done",
+   "f": "0e/0e4ea76f219b3f45.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:54.607Z",
+   "qa": ""
+  },
+  "20a9480abd32f578": {
+   "status": "done",
+   "f": "20/20a9480abd32f578.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:56.014Z",
+   "qa": ""
+  },
+  "29f9c24f180f851b": {
+   "status": "done",
+   "f": "29/29f9c24f180f851b.ogg",
+   "d": 2.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:56.884Z",
+   "qa": ""
+  },
+  "d3cade41351ac886": {
+   "status": "done",
+   "f": "d3/d3cade41351ac886.ogg",
+   "d": 3.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:57.154Z",
+   "qa": ""
+  },
+  "200bdc067d0ede28": {
+   "status": "done",
+   "f": "20/200bdc067d0ede28.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:58.188Z",
+   "qa": ""
+  },
+  "a0964f54fca93e5c": {
+   "status": "done",
+   "f": "a0/a0964f54fca93e5c.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:20:59.239Z",
+   "qa": ""
+  },
+  "c6bb58d98861fc05": {
+   "status": "done",
+   "f": "c6/c6bb58d98861fc05.ogg",
+   "d": 2.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:20:59.617Z",
+   "qa": ""
+  },
+  "7899322868389eb3": {
+   "status": "done",
+   "f": "78/7899322868389eb3.ogg",
+   "d": 3.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:01.061Z",
+   "qa": ""
+  },
+  "178385bb05822dff": {
+   "status": "done",
+   "f": "17/178385bb05822dff.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:21:01.660Z",
+   "qa": ""
+  },
+  "458b779348edde03": {
+   "status": "done",
+   "f": "45/458b779348edde03.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:21:03.117Z",
+   "qa": ""
+  },
+  "446007bbddef1fd9": {
+   "status": "done",
+   "f": "44/446007bbddef1fd9.ogg",
+   "d": 3.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:21:03.905Z",
+   "qa": ""
+  },
+  "4dd237f0b66fdfb7": {
+   "status": "done",
+   "f": "4d/4dd237f0b66fdfb7.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:21:05.290Z",
+   "qa": ""
+  },
+  "3244889682fb69bd": {
+   "status": "done",
+   "f": "32/3244889682fb69bd.ogg",
+   "d": 2.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:21:06.085Z",
+   "qa": ""
+  },
+  "f21eecd5ab4bcbe5": {
+   "status": "done",
+   "f": "f2/f21eecd5ab4bcbe5.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:06.703Z",
+   "qa": ""
+  },
+  "fc85dfa8cd26e8b1": {
+   "status": "done",
+   "f": "fc/fc85dfa8cd26e8b1.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:07.747Z",
+   "qa": ""
+  },
+  "884f5ae6231b1ad7": {
+   "status": "done",
+   "f": "88/884f5ae6231b1ad7.ogg",
+   "d": 4.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:09.444Z",
+   "qa": ""
+  },
+  "56dc123b4cfd1503": {
+   "status": "done",
+   "f": "56/56dc123b4cfd1503.ogg",
+   "d": 3.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:21:09.714Z",
+   "qa": ""
+  },
+  "8ae15f67be7fcfa2": {
+   "status": "done",
+   "f": "8a/8ae15f67be7fcfa2.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:10.437Z",
+   "qa": ""
+  },
+  "8e29d6324fe4643d": {
+   "status": "done",
+   "f": "8e/8e29d6324fe4643d.ogg",
+   "d": 3.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:21:12.006Z",
+   "qa": ""
+  },
+  "80ad702c22e37cd3": {
+   "status": "done",
+   "f": "80/80ad702c22e37cd3.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:21:12.757Z",
+   "qa": ""
+  },
+  "9c62e71c2fbdb442": {
+   "status": "done",
+   "f": "9c/9c62e71c2fbdb442.ogg",
+   "d": 5.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:13.422Z",
+   "qa": ""
+  },
+  "97d0a9bf67d66d1a": {
+   "status": "done",
+   "f": "97/97d0a9bf67d66d1a.ogg",
+   "d": 4.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:14.561Z",
+   "qa": ""
+  },
+  "e97e8b494c71a0bb": {
+   "status": "done",
+   "f": "e9/e97e8b494c71a0bb.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:21:15.165Z",
+   "qa": ""
+  },
+  "61c9dc9abf056fee": {
+   "status": "done",
+   "f": "61/61c9dc9abf056fee.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:16.066Z",
+   "qa": ""
+  },
+  "98ad3cf6d124342c": {
+   "status": "done",
+   "f": "98/98ad3cf6d124342c.ogg",
+   "d": 3,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:17.566Z",
+   "qa": ""
+  },
+  "b1a47e18640922de": {
+   "status": "done",
+   "f": "b1/b1a47e18640922de.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:18.637Z",
+   "qa": ""
+  },
+  "a2fdb588370647ca": {
+   "status": "done",
+   "f": "a2/a2fdb588370647ca.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:18.819Z",
+   "qa": ""
+  },
+  "ff8f7ff4838703f4": {
+   "status": "done",
+   "f": "ff/ff8f7ff4838703f4.ogg",
+   "d": 2.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:20.098Z",
+   "qa": ""
+  },
+  "30883a8615a493f4": {
+   "status": "done",
+   "f": "30/30883a8615a493f4.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:21.674Z",
+   "qa": ""
+  },
+  "19f20ad37dc07aec": {
+   "status": "done",
+   "f": "19/19f20ad37dc07aec.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:21.827Z",
+   "qa": ""
+  },
+  "b85b482b6655b8d3": {
+   "status": "done",
+   "f": "b8/b85b482b6655b8d3.ogg",
+   "d": 3.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:23.001Z",
+   "qa": ""
+  },
+  "e255676abec36e67": {
+   "status": "done",
+   "f": "e2/e255676abec36e67.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:21:24.281Z",
+   "qa": ""
+  },
+  "c06667854b793eeb": {
+   "status": "done",
+   "f": "c0/c06667854b793eeb.ogg",
+   "d": 4.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:21:25.138Z",
+   "qa": ""
+  },
+  "eab8a8782cf7d686": {
+   "status": "done",
+   "f": "ea/eab8a8782cf7d686.ogg",
+   "d": 2.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:21:26.262Z",
+   "qa": ""
+  },
+  "9c6b875c748195fb": {
+   "status": "done",
+   "f": "9c/9c6b875c748195fb.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:21:27.053Z",
+   "qa": ""
+  },
+  "94cf17ed032535fd": {
+   "status": "done",
+   "f": "94/94cf17ed032535fd.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:27.365Z",
+   "qa": ""
+  },
+  "b307555653aacb9a": {
+   "status": "done",
+   "f": "b3/b307555653aacb9a.ogg",
+   "d": 3.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:21:28.607Z",
+   "qa": ""
+  },
+  "966993581d0a1c2d": {
+   "status": "done",
+   "f": "96/966993581d0a1c2d.ogg",
+   "d": 2.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:29.353Z",
+   "qa": ""
+  },
+  "ed9afb7a6c6bcd06": {
+   "status": "done",
+   "f": "ed/ed9afb7a6c6bcd06.ogg",
+   "d": 4.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:21:29.874Z",
+   "qa": ""
+  },
+  "7b335599368a7208": {
+   "status": "done",
+   "f": "7b/7b335599368a7208.ogg",
+   "d": 3.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:21:30.974Z",
+   "qa": ""
+  },
+  "08558663e2adeea3": {
+   "status": "done",
+   "f": "08/08558663e2adeea3.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:21:31.920Z",
+   "qa": ""
+  },
+  "be6c605453fd2520": {
+   "status": "done",
+   "f": "be/be6c605453fd2520.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:21:33.167Z",
+   "qa": ""
+  },
+  "5f0a6ca1be21c9fc": {
+   "status": "done",
+   "f": "5f/5f0a6ca1be21c9fc.ogg",
+   "d": 4.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:21:33.642Z",
+   "qa": ""
+  },
+  "dc6933a51f437cfa": {
+   "status": "done",
+   "f": "dc/dc6933a51f437cfa.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:21:34.342Z",
+   "qa": ""
+  },
+  "8a86477d9f90f8f8": {
+   "status": "done",
+   "f": "8a/8a86477d9f90f8f8.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:21:35.445Z",
+   "qa": ""
+  },
+  "973c027ab691c406": {
+   "status": "done",
+   "f": "97/973c027ab691c406.ogg",
+   "d": 2.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:21:36.368Z",
+   "qa": ""
+  },
+  "ece67abed798c0c0": {
+   "status": "done",
+   "f": "ec/ece67abed798c0c0.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:21:36.974Z",
+   "qa": ""
+  },
+  "7c328f391f696de6": {
+   "status": "done",
+   "f": "7c/7c328f391f696de6.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:21:38.714Z",
+   "qa": ""
+  },
+  "9515a01e52f02671": {
+   "status": "done",
+   "f": "95/9515a01e52f02671.ogg",
+   "d": 4.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:21:38.910Z",
+   "qa": ""
+  },
+  "26ec63bdbc8a17a6": {
+   "status": "done",
+   "f": "26/26ec63bdbc8a17a6.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:21:39.900Z",
+   "qa": ""
+  },
+  "31e22c245df8f6ab": {
+   "status": "done",
+   "f": "31/31e22c245df8f6ab.ogg",
+   "d": 2.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:21:40.566Z",
+   "qa": ""
+  },
+  "c21709df6effd70c": {
+   "status": "done",
+   "f": "c2/c21709df6effd70c.ogg",
+   "d": 4.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:21:41.767Z",
+   "qa": ""
+  },
+  "81ec6713131e25f6": {
+   "status": "done",
+   "f": "81/81ec6713131e25f6.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:42.079Z",
+   "qa": ""
+  },
+  "f14fd3897f00f5e0": {
+   "status": "done",
+   "f": "f1/f14fd3897f00f5e0.ogg",
+   "d": 2.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:21:42.683Z",
+   "qa": ""
+  },
+  "56da2536a8059d33": {
+   "status": "done",
+   "f": "56/56da2536a8059d33.ogg",
+   "d": 3.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:44.362Z",
+   "qa": ""
+  },
+  "187215fcbc47a1cf": {
+   "status": "done",
+   "f": "18/187215fcbc47a1cf.ogg",
+   "d": 4.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:21:44.772Z",
+   "qa": ""
+  },
+  "4819eaf00b1f1981": {
+   "status": "done",
+   "f": "48/4819eaf00b1f1981.ogg",
+   "d": 3.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:45.653Z",
+   "qa": ""
+  },
+  "fac09e069db978e2": {
+   "status": "done",
+   "f": "fa/fac09e069db978e2.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:46.740Z",
+   "qa": ""
+  },
+  "3953d81f59c025f3": {
+   "status": "done",
+   "f": "39/3953d81f59c025f3.ogg",
+   "d": 2.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:46.849Z",
+   "qa": ""
+  },
+  "b8a34fba989e8e13": {
+   "status": "done",
+   "f": "b8/b8a34fba989e8e13.ogg",
+   "d": 3,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:48.438Z",
+   "qa": ""
+  },
+  "58f7c77d40573a33": {
+   "status": "done",
+   "f": "58/58f7c77d40573a33.ogg",
+   "d": 3.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:21:49.079Z",
+   "qa": ""
+  },
+  "0a54f5c56a751ffc": {
+   "status": "done",
+   "f": "0a/0a54f5c56a751ffc.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:50.845Z",
+   "qa": ""
+  },
+  "09e16c5858b4d240": {
+   "status": "done",
+   "f": "09/09e16c5858b4d240.ogg",
+   "d": 2.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:50.976Z",
+   "qa": ""
+  },
+  "dd0b5a5036e0b0ea": {
+   "status": "done",
+   "f": "dd/dd0b5a5036e0b0ea.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:21:51.673Z",
+   "qa": ""
+  },
+  "4dee8076210d3b9c": {
+   "status": "done",
+   "f": "4d/4dee8076210d3b9c.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:21:53.700Z",
+   "qa": ""
+  },
+  "0f49fd51a7283dbe": {
+   "status": "done",
+   "f": "0f/0f49fd51a7283dbe.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:21:53.851Z",
+   "qa": ""
+  },
+  "5a10f7c7cdd000dd": {
+   "status": "done",
+   "f": "5a/5a10f7c7cdd000dd.ogg",
+   "d": 2.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:21:54.953Z",
+   "qa": ""
+  },
+  "cbce620f76f5c3a9": {
+   "status": "done",
+   "f": "cb/cbce620f76f5c3a9.ogg",
+   "d": 5.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:21:56.457Z",
+   "qa": ""
+  },
+  "d704a62762a22e71": {
+   "status": "done",
+   "f": "d7/d704a62762a22e71.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:21:56.612Z",
+   "qa": ""
+  },
+  "2641517bea6cb8ec": {
+   "status": "done",
+   "f": "26/2641517bea6cb8ec.ogg",
+   "d": 2.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:21:56.986Z",
+   "qa": ""
+  },
+  "508c62e376ac557d": {
+   "status": "done",
+   "f": "50/508c62e376ac557d.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:21:58.926Z",
+   "qa": ""
+  },
+  "d211f6120eee3d3e": {
+   "status": "done",
+   "f": "d2/d211f6120eee3d3e.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:21:59.123Z",
+   "qa": ""
+  },
+  "8f9966801821d536": {
+   "status": "done",
+   "f": "8f/8f9966801821d536.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:21:59.329Z",
+   "qa": ""
+  },
+  "93206e9f01f998df": {
+   "status": "done",
+   "f": "93/93206e9f01f998df.ogg",
+   "d": 3.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:22:01.472Z",
+   "qa": ""
+  },
+  "ca29fb52966c83d5": {
+   "status": "done",
+   "f": "ca/ca29fb52966c83d5.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:22:01.611Z",
+   "qa": ""
+  },
+  "ff439731b1b0b21e": {
+   "status": "done",
+   "f": "ff/ff439731b1b0b21e.ogg",
+   "d": 5.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:02.920Z",
+   "qa": ""
+  },
+  "5750dd8e5b11fb04": {
+   "status": "done",
+   "f": "57/5750dd8e5b11fb04.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:04.592Z",
+   "qa": ""
+  },
+  "b57105a4430bc4f5": {
+   "status": "done",
+   "f": "b5/b57105a4430bc4f5.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:22:04.707Z",
+   "qa": ""
+  },
+  "1a74f97ed4d71589": {
+   "status": "done",
+   "f": "1a/1a74f97ed4d71589.ogg",
+   "d": 3.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:04.926Z",
+   "qa": ""
+  },
+  "8eea26bfaf35c86a": {
+   "status": "done",
+   "f": "8e/8eea26bfaf35c86a.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:07.229Z",
+   "qa": ""
+  },
+  "6d032adfda078db1": {
+   "status": "done",
+   "f": "6d/6d032adfda078db1.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:22:07.439Z",
+   "qa": ""
+  },
+  "6fe8d52644df415e": {
+   "status": "done",
+   "f": "6f/6fe8d52644df415e.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:22:07.582Z",
+   "qa": ""
+  },
+  "83f3187667fc0260": {
+   "status": "done",
+   "f": "83/83f3187667fc0260.ogg",
+   "d": 2.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:22:09.673Z",
+   "qa": ""
+  },
+  "b73db69d0606e58a": {
+   "status": "done",
+   "f": "b7/b73db69d0606e58a.ogg",
+   "d": 3.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:10.299Z",
+   "qa": ""
+  },
+  "5231268a9ca56b4e": {
+   "status": "done",
+   "f": "52/5231268a9ca56b4e.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:11.436Z",
+   "qa": ""
+  },
+  "84c0444bb4b135a8": {
+   "status": "done",
+   "f": "84/84c0444bb4b135a8.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:12.696Z",
+   "qa": ""
+  },
+  "c073091bed45d936": {
+   "status": "done",
+   "f": "c0/c073091bed45d936.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:22:13.059Z",
+   "qa": ""
+  },
+  "b8278941ee4859ee": {
+   "status": "done",
+   "f": "b8/b8278941ee4859ee.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:22:13.773Z",
+   "qa": ""
+  },
+  "52ed2803fe3e4332": {
+   "status": "done",
+   "f": "52/52ed2803fe3e4332.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:15.161Z",
+   "qa": ""
+  },
+  "9b231a2df8e16585": {
+   "status": "done",
+   "f": "9b/9b231a2df8e16585.ogg",
+   "d": 4.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:15.717Z",
+   "qa": ""
+  },
+  "718781b2952dfd24": {
+   "status": "done",
+   "f": "71/718781b2952dfd24.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:22:17.121Z",
+   "qa": ""
+  },
+  "e6b278eb70bc8611": {
+   "status": "done",
+   "f": "e6/e6b278eb70bc8611.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:17.847Z",
+   "qa": ""
+  },
+  "44915b6f8f508785": {
+   "status": "done",
+   "f": "44/44915b6f8f508785.ogg",
+   "d": 3.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:18.744Z",
+   "qa": ""
+  },
+  "1fde63f6f946b96a": {
+   "status": "done",
+   "f": "1f/1fde63f6f946b96a.ogg",
+   "d": 2.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:19.167Z",
+   "qa": ""
+  },
+  "16f77e236778ddfc": {
+   "status": "done",
+   "f": "16/16f77e236778ddfc.ogg",
+   "d": 4.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:20.328Z",
+   "qa": ""
+  },
+  "da647b92bb2a7a4a": {
+   "status": "done",
+   "f": "da/da647b92bb2a7a4a.ogg",
+   "d": 3.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:20.865Z",
+   "qa": ""
+  },
+  "0dcc9d987f13c42d": {
+   "status": "done",
+   "f": "0d/0dcc9d987f13c42d.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:21.387Z",
+   "qa": ""
+  },
+  "892e3fd34dedc630": {
+   "status": "done",
+   "f": "89/892e3fd34dedc630.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:23.243Z",
+   "qa": ""
+  },
+  "caff96fe9e9a4231": {
+   "status": "done",
+   "f": "ca/caff96fe9e9a4231.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:22:23.874Z",
+   "qa": ""
+  },
+  "6874e01435b283bb": {
+   "status": "done",
+   "f": "68/6874e01435b283bb.ogg",
+   "d": 4.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:24.398Z",
+   "qa": ""
+  },
+  "71b37c79577752eb": {
+   "status": "done",
+   "f": "71/71b37c79577752eb.ogg",
+   "d": 3.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:26.048Z",
+   "qa": ""
+  },
+  "c74adc1af9d6df94": {
+   "status": "done",
+   "f": "c7/c74adc1af9d6df94.ogg",
+   "d": 5.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:22:26.723Z",
+   "qa": ""
+  },
+  "43a0a64b940aaf4f": {
+   "status": "done",
+   "f": "43/43a0a64b940aaf4f.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:27.355Z",
+   "qa": ""
+  },
+  "c68a2398cd502e46": {
+   "status": "done",
+   "f": "c6/c68a2398cd502e46.ogg",
+   "d": 5.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:22:29.259Z",
+   "qa": ""
+  },
+  "0db1cbae9950f173": {
+   "status": "done",
+   "f": "0d/0db1cbae9950f173.ogg",
+   "d": 3.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:22:29.607Z",
+   "qa": ""
+  },
+  "f4f9d5796ef94c27": {
+   "status": "done",
+   "f": "f4/f4f9d5796ef94c27.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:30.173Z",
+   "qa": ""
+  },
+  "3343f47b15ae3bcf": {
+   "status": "done",
+   "f": "33/3343f47b15ae3bcf.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:31.750Z",
+   "qa": ""
+  },
+  "f17273dd80d24437": {
+   "status": "done",
+   "f": "f1/f17273dd80d24437.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Vindemiatrix",
+   "at": "2026-10-17T12:22:32.148Z",
+   "qa": ""
+  },
+  "b3fe03058492666c": {
+   "status": "done",
+   "f": "b3/b3fe03058492666c.ogg",
+   "d": 3.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:32.616Z",
+   "qa": ""
+  },
+  "a9ccbe108d59fc30": {
+   "status": "done",
+   "f": "a9/a9ccbe108d59fc30.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:34.631Z",
+   "qa": ""
+  },
+  "fe33b4229d9b38be": {
+   "status": "done",
+   "f": "fe/fe33b4229d9b38be.ogg",
+   "d": 5,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:34.797Z",
+   "qa": ""
+  },
+  "59db8c7d884a0b7c": {
+   "status": "done",
+   "f": "59/59db8c7d884a0b7c.ogg",
+   "d": 5.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Iapetus",
+   "at": "2026-10-17T12:22:35.802Z",
+   "qa": ""
+  },
+  "a99e5af96c0a7c43": {
+   "status": "done",
+   "f": "a9/a99e5af96c0a7c43.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:36.616Z",
+   "qa": ""
+  },
+  "de8c9c6c00b81bba": {
+   "status": "done",
+   "f": "de/de8c9c6c00b81bba.ogg",
+   "d": 3,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Iapetus",
+   "at": "2026-10-17T12:22:36.908Z",
+   "qa": ""
+  },
+  "6359b790bba216af": {
+   "status": "done",
+   "f": "63/6359b790bba216af.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:38.054Z",
+   "qa": ""
+  },
+  "23936a33736b82b9": {
+   "status": "done",
+   "f": "23/23936a33736b82b9.ogg",
+   "d": 2.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:38.815Z",
+   "qa": ""
+  },
+  "84ca4549734f5163": {
+   "status": "done",
+   "f": "84/84ca4549734f5163.ogg",
+   "d": 4.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:22:39.774Z",
+   "qa": ""
+  },
+  "6fac231abcbd07fc": {
+   "status": "done",
+   "f": "6f/6fac231abcbd07fc.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Iapetus",
+   "at": "2026-10-17T12:22:41.019Z",
+   "qa": ""
+  },
+  "c2404c6ea6164fe5": {
+   "status": "done",
+   "f": "c2/c2404c6ea6164fe5.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:41.728Z",
+   "qa": ""
+  },
+  "fb4e3a4e62e28e4f": {
+   "status": "done",
+   "f": "fb/fb4e3a4e62e28e4f.ogg",
+   "d": 5.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:42.403Z",
+   "qa": ""
+  },
+  "7f6fb42bbe557830": {
+   "status": "done",
+   "f": "7f/7f6fb42bbe557830.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:43.280Z",
+   "qa": ""
+  },
+  "274d4ef4534af0d1": {
+   "status": "done",
+   "f": "27/274d4ef4534af0d1.ogg",
+   "d": 3.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:43.717Z",
+   "qa": ""
+  },
+  "e85ddff54047386d": {
+   "status": "done",
+   "f": "e8/e85ddff54047386d.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:22:45.320Z",
+   "qa": ""
+  },
+  "64fc0f0eb373bd23": {
+   "status": "done",
+   "f": "64/64fc0f0eb373bd23.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:45.998Z",
+   "qa": ""
+  },
+  "72ee720186398e8b": {
+   "status": "done",
+   "f": "72/72ee720186398e8b.ogg",
+   "d": 3.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:46.374Z",
+   "qa": ""
+  },
+  "fd6d1bd223d963f7": {
+   "status": "done",
+   "f": "fd/fd6d1bd223d963f7.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:48.493Z",
+   "qa": ""
+  },
+  "e2a3b450b2b40153": {
+   "status": "done",
+   "f": "e2/e2a3b450b2b40153.ogg",
+   "d": 3,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:48.600Z",
+   "qa": ""
+  },
+  "ad5bfcd41f6f535b": {
+   "status": "done",
+   "f": "ad/ad5bfcd41f6f535b.ogg",
+   "d": 3.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:22:48.748Z",
+   "qa": ""
+  },
+  "d8cae2ada9306a46": {
+   "status": "done",
+   "f": "d8/d8cae2ada9306a46.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:22:50.774Z",
+   "qa": ""
+  },
+  "e34d1ed8f813cd75": {
+   "status": "done",
+   "f": "e3/e34d1ed8f813cd75.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:50.965Z",
+   "qa": ""
+  },
+  "8d852e487f4b3236": {
+   "status": "done",
+   "f": "8d/8d852e487f4b3236.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:22:51.324Z",
+   "qa": ""
+  },
+  "7e9da232d67a5f5a": {
+   "status": "done",
+   "f": "7e/7e9da232d67a5f5a.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:22:53.508Z",
+   "qa": ""
+  },
+  "30b22af791d6b9a8": {
+   "status": "done",
+   "f": "30/30b22af791d6b9a8.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:22:53.761Z",
+   "qa": ""
+  },
+  "ceecef612914a37a": {
+   "status": "done",
+   "f": "ce/ceecef612914a37a.ogg",
+   "d": 3.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:22:54.011Z",
+   "qa": ""
+  },
+  "a07de3673e20f77f": {
+   "status": "done",
+   "f": "a0/a07de3673e20f77f.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:22:56.756Z",
+   "qa": ""
+  },
+  "1654a46e7b66b95e": {
+   "status": "done",
+   "f": "16/1654a46e7b66b95e.ogg",
+   "d": 5.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:22:57.636Z",
+   "qa": ""
+  },
+  "35d92e7eb2fd33e5": {
+   "status": "done",
+   "f": "35/35d92e7eb2fd33e5.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:57.994Z",
+   "qa": ""
+  },
+  "826abcb9077cd216": {
+   "status": "done",
+   "f": "82/826abcb9077cd216.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:22:58.845Z",
+   "qa": ""
+  },
+  "d160a13e2ebac5a4": {
+   "status": "done",
+   "f": "d1/d160a13e2ebac5a4.ogg",
+   "d": 4.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:22:59.947Z",
+   "qa": ""
+  },
+  "f362d133280a1152": {
+   "status": "done",
+   "f": "f3/f362d133280a1152.ogg",
+   "d": 2.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:00.142Z",
+   "qa": ""
+  },
+  "dcf4b3c6e532c574": {
+   "status": "done",
+   "f": "dc/dcf4b3c6e532c574.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:23:01.772Z",
+   "qa": ""
+  },
+  "9466d7c46f8cbe2f": {
+   "status": "done",
+   "f": "94/9466d7c46f8cbe2f.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:23:02.060Z",
+   "qa": ""
+  },
+  "0b602ae840036e15": {
+   "status": "done",
+   "f": "0b/0b602ae840036e15.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:02.308Z",
+   "qa": ""
+  },
+  "53e88be4d0333ae2": {
+   "status": "done",
+   "f": "53/53e88be4d0333ae2.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:04.540Z",
+   "qa": ""
+  },
+  "a16f4eb625ff8e30": {
+   "status": "done",
+   "f": "a1/a16f4eb625ff8e30.ogg",
+   "d": 2.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:23:04.934Z",
+   "qa": ""
+  },
+  "3a5a6ac9cb59837a": {
+   "status": "done",
+   "f": "3a/3a5a6ac9cb59837a.ogg",
+   "d": 3.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:05.440Z",
+   "qa": ""
+  },
+  "006f2631d2a3afc3": {
+   "status": "done",
+   "f": "00/006f2631d2a3afc3.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:23:06.961Z",
+   "qa": ""
+  },
+  "67b34807589fbea9": {
+   "status": "done",
+   "f": "67/67b34807589fbea9.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:23:07.393Z",
+   "qa": ""
+  },
+  "758fe1d6400516e0": {
+   "status": "done",
+   "f": "75/758fe1d6400516e0.ogg",
+   "d": 4.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:08.096Z",
+   "qa": ""
+  },
+  "41dcb5fb3fa3acd3": {
+   "status": "done",
+   "f": "41/41dcb5fb3fa3acd3.ogg",
+   "d": 3.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:09.160Z",
+   "qa": ""
+  },
+  "cdf54f674d73c55a": {
+   "status": "done",
+   "f": "cd/cdf54f674d73c55a.ogg",
+   "d": 2.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:23:09.813Z",
+   "qa": ""
+  },
+  "07cc23c1f2a9fe18": {
+   "status": "done",
+   "f": "07/07cc23c1f2a9fe18.ogg",
+   "d": 2.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:23:10.950Z",
+   "qa": ""
+  },
+  "9c16267f492b4ced": {
+   "status": "done",
+   "f": "9c/9c16267f492b4ced.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:23:12.353Z",
+   "qa": ""
+  },
+  "cc7d74a125181d12": {
+   "status": "done",
+   "f": "cc/cc7d74a125181d12.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:23:12.968Z",
+   "qa": ""
+  },
+  "062fe57043a2030a": {
+   "status": "done",
+   "f": "06/062fe57043a2030a.ogg",
+   "d": 2.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:23:14.191Z",
+   "qa": ""
+  },
+  "f0c965aa8502e833": {
+   "status": "done",
+   "f": "f0/f0c965aa8502e833.ogg",
+   "d": 4.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:23:15.338Z",
+   "qa": ""
+  },
+  "59243268c62860d8": {
+   "status": "done",
+   "f": "59/59243268c62860d8.ogg",
+   "d": 5.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:23:15.847Z",
+   "qa": ""
+  },
+  "529bd52855a0a7b8": {
+   "status": "done",
+   "f": "52/529bd52855a0a7b8.ogg",
+   "d": 2.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:16.392Z",
+   "qa": ""
+  },
+  "7ce50c0c3a711fba": {
+   "status": "done",
+   "f": "7c/7ce50c0c3a711fba.ogg",
+   "d": 3.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:17.655Z",
+   "qa": ""
+  },
+  "64de85f714b9f9c8": {
+   "status": "done",
+   "f": "64/64de85f714b9f9c8.ogg",
+   "d": 2.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:18.204Z",
+   "qa": ""
+  },
+  "0263d87d20ec577d": {
+   "status": "done",
+   "f": "02/0263d87d20ec577d.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:19.031Z",
+   "qa": ""
+  },
+  "4b3407e0e1ad3de9": {
+   "status": "done",
+   "f": "4b/4b3407e0e1ad3de9.ogg",
+   "d": 3.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:19.896Z",
+   "qa": ""
+  },
+  "e51621895ef02993": {
+   "status": "done",
+   "f": "e5/e51621895ef02993.ogg",
+   "d": 3.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:20.743Z",
+   "qa": ""
+  },
+  "d166156646374b1d": {
+   "status": "done",
+   "f": "d1/d166156646374b1d.ogg",
+   "d": 3.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:21.953Z",
+   "qa": ""
+  },
+  "ba914dec3364b079": {
+   "status": "done",
+   "f": "ba/ba914dec3364b079.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:22.088Z",
+   "qa": ""
+  },
+  "aa34b469a611b77b": {
+   "status": "done",
+   "f": "aa/aa34b469a611b77b.ogg",
+   "d": 3.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:23.561Z",
+   "qa": ""
+  },
+  "3ce017405c3aaa72": {
+   "status": "done",
+   "f": "3c/3ce017405c3aaa72.ogg",
+   "d": 2.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:24.057Z",
+   "qa": ""
+  },
+  "ea59efb13fb0c657": {
+   "status": "done",
+   "f": "ea/ea59efb13fb0c657.ogg",
+   "d": 3.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:24.501Z",
+   "qa": ""
+  },
+  "90308bf731f2c091": {
+   "status": "done",
+   "f": "90/90308bf731f2c091.ogg",
+   "d": 4.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:23:26.804Z",
+   "qa": ""
+  },
+  "785cffd1798fb978": {
+   "status": "done",
+   "f": "78/785cffd1798fb978.ogg",
+   "d": 5.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:23:27.417Z",
+   "qa": ""
+  },
+  "18464db196bad805": {
+   "status": "done",
+   "f": "18/18464db196bad805.ogg",
+   "d": 3.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:27.796Z",
+   "qa": ""
+  },
+  "b09cadb5ab319e8e": {
+   "status": "done",
+   "f": "b0/b09cadb5ab319e8e.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:29.925Z",
+   "qa": ""
+  },
+  "e2a3ec78b5894896": {
+   "status": "done",
+   "f": "e2/e2a3ec78b5894896.ogg",
+   "d": 4.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:30.242Z",
+   "qa": ""
+  },
+  "16d8759878f7a928": {
+   "status": "done",
+   "f": "16/16d8759878f7a928.ogg",
+   "d": 4.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:30.407Z",
+   "qa": ""
+  },
+  "dd8f69670e6f8c5e": {
+   "status": "done",
+   "f": "dd/dd8f69670e6f8c5e.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:32.455Z",
+   "qa": ""
+  },
+  "802ec513709567f9": {
+   "status": "done",
+   "f": "80/802ec513709567f9.ogg",
+   "d": 3.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:33.118Z",
+   "qa": ""
+  },
+  "7486b56a19493b5f": {
+   "status": "done",
+   "f": "74/7486b56a19493b5f.ogg",
+   "d": 4.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:33.865Z",
+   "qa": ""
+  },
+  "69dbd6df3b27884a": {
+   "status": "done",
+   "f": "69/69dbd6df3b27884a.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:34.755Z",
+   "qa": ""
+  },
+  "1ee1ebd21e7e8d10": {
+   "status": "done",
+   "f": "1e/1ee1ebd21e7e8d10.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:36.216Z",
+   "qa": ""
+  },
+  "6fb7563a7cf9667c": {
+   "status": "done",
+   "f": "6f/6fb7563a7cf9667c.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:36.816Z",
+   "qa": ""
+  },
+  "a50ba84b1ff45d34": {
+   "status": "done",
+   "f": "a5/a50ba84b1ff45d34.ogg",
+   "d": 4.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:37.539Z",
+   "qa": ""
+  },
+  "3a74d22f4c6fed3f": {
+   "status": "done",
+   "f": "3a/3a74d22f4c6fed3f.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:38.686Z",
+   "qa": ""
+  },
+  "59ee6efc1f0f3744": {
+   "status": "done",
+   "f": "59/59ee6efc1f0f3744.ogg",
+   "d": 3.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:39.224Z",
+   "qa": ""
+  },
+  "e0363d45a1aecd9b": {
+   "status": "done",
+   "f": "e0/e0363d45a1aecd9b.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:40.019Z",
+   "qa": ""
+  },
+  "8347e39f068d45ca": {
+   "status": "done",
+   "f": "83/8347e39f068d45ca.ogg",
+   "d": 3.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:41.235Z",
+   "qa": ""
+  },
+  "372c8d892885bc27": {
+   "status": "done",
+   "f": "37/372c8d892885bc27.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:41.644Z",
+   "qa": ""
+  },
+  "dc2a6ec381476eb5": {
+   "status": "done",
+   "f": "dc/dc2a6ec381476eb5.ogg",
+   "d": 4.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:42.655Z",
+   "qa": ""
+  },
+  "40b6d38998c9205b": {
+   "status": "done",
+   "f": "40/40b6d38998c9205b.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:44.912Z",
+   "qa": ""
+  },
+  "2a057e0655981a38": {
+   "status": "done",
+   "f": "2a/2a057e0655981a38.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:45.039Z",
+   "qa": ""
+  },
+  "9cf29aad8932f779": {
+   "status": "done",
+   "f": "9c/9cf29aad8932f779.ogg",
+   "d": 6.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:45.222Z",
+   "qa": ""
+  },
+  "9e1fa6b7f66a9c6f": {
+   "status": "done",
+   "f": "9e/9e1fa6b7f66a9c6f.ogg",
+   "d": 3.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:47.008Z",
+   "qa": ""
+  },
+  "735ce4e6f0787660": {
+   "status": "done",
+   "f": "73/735ce4e6f0787660.ogg",
+   "d": 2.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:47.406Z",
+   "qa": ""
+  },
+  "122f0ad85080d6f2": {
+   "status": "done",
+   "f": "12/122f0ad85080d6f2.ogg",
+   "d": 3.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:48.284Z",
+   "qa": ""
+  },
+  "5ba295d09de52ea6": {
+   "status": "done",
+   "f": "5b/5ba295d09de52ea6.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:49.277Z",
+   "qa": ""
+  },
+  "5cd1f0554eb64ed8": {
+   "status": "done",
+   "f": "5c/5cd1f0554eb64ed8.ogg",
+   "d": 2.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:49.501Z",
+   "qa": ""
+  },
+  "df2d4b815cdaef75": {
+   "status": "done",
+   "f": "df/df2d4b815cdaef75.ogg",
+   "d": 3.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:23:51.615Z",
+   "qa": ""
+  },
+  "33769b958f64d0b3": {
+   "status": "done",
+   "f": "33/33769b958f64d0b3.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Laomedeia",
+   "at": "2026-10-17T12:23:51.764Z",
+   "qa": ""
+  },
+  "5e1abb35daa2b895": {
+   "status": "done",
+   "f": "5e/5e1abb35daa2b895.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Charon",
+   "at": "2026-10-17T12:23:52.041Z",
+   "qa": ""
+  },
+  "f96c32b09cc96539": {
+   "status": "done",
+   "f": "f9/f96c32b09cc96539.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:23:54.150Z",
+   "qa": ""
+  },
+  "cce7a8023417e160": {
+   "status": "done",
+   "f": "cc/cce7a8023417e160.ogg",
+   "d": 4.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:54.940Z",
+   "qa": ""
+  },
+  "c969f223703ed2f9": {
+   "status": "done",
+   "f": "c9/c969f223703ed2f9.ogg",
+   "d": 4.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:23:55.140Z",
+   "qa": ""
+  },
+  "7dce02f11c26a8b9": {
+   "status": "done",
+   "f": "7d/7dce02f11c26a8b9.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:56.393Z",
+   "qa": ""
+  },
+  "a66632d959e8bd94": {
+   "status": "done",
+   "f": "a6/a66632d959e8bd94.ogg",
+   "d": 3.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:23:57.353Z",
+   "qa": ""
+  },
+  "be298a95bb1506ed": {
+   "status": "done",
+   "f": "be/be298a95bb1506ed.ogg",
+   "d": 4.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:23:57.645Z",
+   "qa": ""
+  },
+  "f8a4907884b33b96": {
+   "status": "done",
+   "f": "f8/f8a4907884b33b96.ogg",
+   "d": 4.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:23:59.168Z",
+   "qa": ""
+  },
+  "de0ac3940febf109": {
+   "status": "done",
+   "f": "de/de0ac3940febf109.ogg",
+   "d": 3.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:00.452Z",
+   "qa": ""
+  },
+  "705a24b8a0cdbecc": {
+   "status": "done",
+   "f": "70/705a24b8a0cdbecc.ogg",
+   "d": 4.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:00.604Z",
+   "qa": ""
+  },
+  "cbb3c450443859b0": {
+   "status": "done",
+   "f": "cb/cbb3c450443859b0.ogg",
+   "d": 3.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:01.693Z",
+   "qa": ""
+  },
+  "5a81e5d82fec359b": {
+   "status": "done",
+   "f": "5a/5a81e5d82fec359b.ogg",
+   "d": 3.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:03.280Z",
+   "qa": ""
+  },
+  "28e07ea95948b2bc": {
+   "status": "done",
+   "f": "28/28e07ea95948b2bc.ogg",
+   "d": 3.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:04.104Z",
+   "qa": ""
+  },
+  "2468e0e2cd67ea6f": {
+   "status": "done",
+   "f": "24/2468e0e2cd67ea6f.ogg",
+   "d": 4.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:04.490Z",
+   "qa": ""
+  },
+  "71ed3d63b8ccfc18": {
+   "status": "done",
+   "f": "71/71ed3d63b8ccfc18.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:06.345Z",
+   "qa": ""
+  },
+  "5120e74916efa3e0": {
+   "status": "done",
+   "f": "51/5120e74916efa3e0.ogg",
+   "d": 5.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:07.888Z",
+   "qa": ""
+  },
+  "89a108ce51545bf8": {
+   "status": "done",
+   "f": "89/89a108ce51545bf8.ogg",
+   "d": 6.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:08.083Z",
+   "qa": ""
+  },
+  "cf225d9d2fddcbe7": {
+   "status": "done",
+   "f": "cf/cf225d9d2fddcbe7.ogg",
+   "d": 5.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:24:09.774Z",
+   "qa": ""
+  },
+  "037d4aa6ffd836c0": {
+   "status": "done",
+   "f": "03/037d4aa6ffd836c0.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:11.222Z",
+   "qa": ""
+  },
+  "493dd725f5f8f0e9": {
+   "status": "done",
+   "f": "49/493dd725f5f8f0e9.ogg",
+   "d": 7.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:24:11.581Z",
+   "qa": ""
+  },
+  "0697b5cf665e828f": {
+   "status": "done",
+   "f": "06/0697b5cf665e828f.ogg",
+   "d": 3.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:12.637Z",
+   "qa": ""
+  },
+  "3692e37fa4aa9c44": {
+   "status": "done",
+   "f": "36/3692e37fa4aa9c44.ogg",
+   "d": 4.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:14.188Z",
+   "qa": ""
+  },
+  "7ab9ba67d3eb11f5": {
+   "status": "done",
+   "f": "7a/7ab9ba67d3eb11f5.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:14.474Z",
+   "qa": ""
+  },
+  "58ed46e1a48b97b1": {
+   "status": "done",
+   "f": "58/58ed46e1a48b97b1.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:15.080Z",
+   "qa": ""
+  },
+  "44ee0e2a8d74c0cf": {
+   "status": "done",
+   "f": "44/44ee0e2a8d74c0cf.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:16.293Z",
+   "qa": ""
+  },
+  "56282f83db52fa5f": {
+   "status": "done",
+   "f": "56/56282f83db52fa5f.ogg",
+   "d": 4.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:17.527Z",
+   "qa": ""
+  },
+  "594113658f8c10ef": {
+   "status": "done",
+   "f": "59/594113658f8c10ef.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:18.008Z",
+   "qa": ""
+  },
+  "ed685366a564032a": {
+   "status": "done",
+   "f": "ed/ed685366a564032a.ogg",
+   "d": 5,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:19.103Z",
+   "qa": ""
+  },
+  "4ecb7a10e1548bd6": {
+   "status": "done",
+   "f": "4e/4ecb7a10e1548bd6.ogg",
+   "d": 4.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:20.655Z",
+   "qa": ""
+  },
+  "7c69d595ea7e7d5e": {
+   "status": "done",
+   "f": "7c/7c69d595ea7e7d5e.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:20.795Z",
+   "qa": ""
+  },
+  "473e1ce7d9283ec4": {
+   "status": "done",
+   "f": "47/473e1ce7d9283ec4.ogg",
+   "d": 5.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:21.825Z",
+   "qa": ""
+  },
+  "636cea3b57e86bb6": {
+   "status": "done",
+   "f": "63/636cea3b57e86bb6.ogg",
+   "d": 3.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:23.012Z",
+   "qa": ""
+  },
+  "7828087b3b2382a5": {
+   "status": "done",
+   "f": "78/7828087b3b2382a5.ogg",
+   "d": 4.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:23.481Z",
+   "qa": ""
+  },
+  "970f38837b37c3f4": {
+   "status": "done",
+   "f": "97/970f38837b37c3f4.ogg",
+   "d": 3,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:23.772Z",
+   "qa": ""
+  },
+  "c516f288b31db43e": {
+   "status": "done",
+   "f": "c5/c516f288b31db43e.ogg",
+   "d": 3.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:25.995Z",
+   "qa": ""
+  },
+  "5d9ca07a413e7671": {
+   "status": "done",
+   "f": "5d/5d9ca07a413e7671.ogg",
+   "d": 4.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:24:26.148Z",
+   "qa": ""
+  },
+  "e82245b6ffaea36d": {
+   "status": "done",
+   "f": "e8/e82245b6ffaea36d.ogg",
+   "d": 4.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:24:26.702Z",
+   "qa": ""
+  },
+  "28d52846ae1e100b": {
+   "status": "done",
+   "f": "28/28d52846ae1e100b.ogg",
+   "d": 4.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:28.688Z",
+   "qa": ""
+  },
+  "28ec4c561b0d57b4": {
+   "status": "done",
+   "f": "28/28ec4c561b0d57b4.ogg",
+   "d": 3,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:28.798Z",
+   "qa": ""
+  },
+  "f8e367df3e6f29b8": {
+   "status": "done",
+   "f": "f8/f8e367df3e6f29b8.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:29.226Z",
+   "qa": ""
+  },
+  "5ff312621e770bfb": {
+   "status": "done",
+   "f": "5f/5ff312621e770bfb.ogg",
+   "d": 3.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:24:30.913Z",
+   "qa": ""
+  },
+  "5342e0702c693d0c": {
+   "status": "done",
+   "f": "53/5342e0702c693d0c.ogg",
+   "d": 3.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:31.050Z",
+   "qa": ""
+  },
+  "c4fa3d00686246df": {
+   "status": "done",
+   "f": "c4/c4fa3d00686246df.ogg",
+   "d": 3.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:31.716Z",
+   "qa": ""
+  },
+  "64ae062f3263cd67": {
+   "status": "done",
+   "f": "64/64ae062f3263cd67.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:33.229Z",
+   "qa": ""
+  },
+  "e8a9af8d5ce6cc4b": {
+   "status": "done",
+   "f": "e8/e8a9af8d5ce6cc4b.ogg",
+   "d": 3.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:33.694Z",
+   "qa": ""
+  },
+  "01503c47b84c7fa1": {
+   "status": "done",
+   "f": "01/01503c47b84c7fa1.ogg",
+   "d": 3.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Gacrux",
+   "at": "2026-10-17T12:24:35.150Z",
+   "qa": ""
+  },
+  "bbb0f4daf4f5419e": {
+   "status": "done",
+   "f": "bb/bbb0f4daf4f5419e.ogg",
+   "d": 4.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:36.076Z",
+   "qa": ""
+  },
+  "9224a3ced168f246": {
+   "status": "done",
+   "f": "92/9224a3ced168f246.ogg",
+   "d": 4.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:36.890Z",
+   "qa": ""
+  },
+  "b9b812534ea7479a": {
+   "status": "done",
+   "f": "b9/b9b812534ea7479a.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:38.641Z",
+   "qa": ""
+  },
+  "83bdbba2de806e68": {
+   "status": "done",
+   "f": "83/83bdbba2de806e68.ogg",
+   "d": 5.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:38.813Z",
+   "qa": ""
+  },
+  "2dd5b7025b79cc98": {
+   "status": "done",
+   "f": "2d/2dd5b7025b79cc98.ogg",
+   "d": 4.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:40.385Z",
+   "qa": ""
+  },
+  "9b097b10462c467b": {
+   "status": "done",
+   "f": "9b/9b097b10462c467b.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:24:41.168Z",
+   "qa": ""
+  },
+  "1f401bba52c0ebaf": {
+   "status": "done",
+   "f": "1f/1f401bba52c0ebaf.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:41.300Z",
+   "qa": ""
+  },
+  "4df8628393886fd1": {
+   "status": "done",
+   "f": "4d/4df8628393886fd1.ogg",
+   "d": 4.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:42.717Z",
+   "qa": ""
+  },
+  "544d4b4f11f40e4e": {
+   "status": "done",
+   "f": "54/544d4b4f11f40e4e.ogg",
+   "d": 4.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:43.601Z",
+   "qa": ""
+  },
+  "ac964e927258f6cf": {
+   "status": "done",
+   "f": "ac/ac964e927258f6cf.ogg",
+   "d": 5.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:44.565Z",
+   "qa": ""
+  },
+  "5811f5b480fb1deb": {
+   "status": "done",
+   "f": "58/5811f5b480fb1deb.ogg",
+   "d": 5.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:45.894Z",
+   "qa": ""
+  },
+  "70244292c56aaa92": {
+   "status": "done",
+   "f": "70/70244292c56aaa92.ogg",
+   "d": 4.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:46.099Z",
+   "qa": ""
+  },
+  "c863e76e69c6bc76": {
+   "status": "done",
+   "f": "c8/c863e76e69c6bc76.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:47.718Z",
+   "qa": ""
+  },
+  "172f57384f82549a": {
+   "status": "done",
+   "f": "17/172f57384f82549a.ogg",
+   "d": 4.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:24:48.533Z",
+   "qa": ""
+  },
+  "d01f67f5624393de": {
+   "status": "done",
+   "f": "d0/d01f67f5624393de.ogg",
+   "d": 5.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:24:49.253Z",
+   "qa": ""
+  },
+  "e15140d923429ea9": {
+   "status": "done",
+   "f": "e1/e15140d923429ea9.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:50.638Z",
+   "qa": ""
+  },
+  "e7be2aa326482c77": {
+   "status": "done",
+   "f": "e7/e7be2aa326482c77.ogg",
+   "d": 5.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:51.523Z",
+   "qa": ""
+  },
+  "2ced0f73298d5622": {
+   "status": "done",
+   "f": "2c/2ced0f73298d5622.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:24:51.630Z",
+   "qa": ""
+  },
+  "23c15701eee1692c": {
+   "status": "done",
+   "f": "23/23c15701eee1692c.ogg",
+   "d": 6.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:53.848Z",
+   "qa": ""
+  },
+  "a2be55dc32e397dd": {
+   "status": "done",
+   "f": "a2/a2be55dc32e397dd.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:24:54.341Z",
+   "qa": ""
+  },
+  "588714fb1d31f39d": {
+   "status": "done",
+   "f": "58/588714fb1d31f39d.ogg",
+   "d": 5,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:54.506Z",
+   "qa": ""
+  },
+  "82bee1e8eac91df0": {
+   "status": "done",
+   "f": "82/82bee1e8eac91df0.ogg",
+   "d": 5.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:24:56.672Z",
+   "qa": ""
+  },
+  "1b870173ea48acd6": {
+   "status": "done",
+   "f": "1b/1b870173ea48acd6.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:24:56.820Z",
+   "qa": ""
+  },
+  "2f162c519e339aca": {
+   "status": "done",
+   "f": "2f/2f162c519e339aca.ogg",
+   "d": 4.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:24:57.157Z",
+   "qa": ""
+  },
+  "5c18413e8db153f0": {
+   "status": "done",
+   "f": "5c/5c18413e8db153f0.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:24:59.368Z",
+   "qa": ""
+  },
+  "197b175273fe21e0": {
+   "status": "done",
+   "f": "19/197b175273fe21e0.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:24:59.804Z",
+   "qa": ""
+  },
+  "4a897441f766a041": {
+   "status": "done",
+   "f": "4a/4a897441f766a041.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:24:59.938Z",
+   "qa": ""
+  },
+  "19047c552bd1610b": {
+   "status": "done",
+   "f": "19/19047c552bd1610b.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:25:01.849Z",
+   "qa": ""
+  },
+  "6bfe0c77bc9fde89": {
+   "status": "done",
+   "f": "6b/6bfe0c77bc9fde89.ogg",
+   "d": 4.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:02.671Z",
+   "qa": ""
+  },
+  "fc1d9f7e1eab6084": {
+   "status": "done",
+   "f": "fc/fc1d9f7e1eab6084.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:03.183Z",
+   "qa": ""
+  },
+  "9f742e39912dcec8": {
+   "status": "done",
+   "f": "9f/9f742e39912dcec8.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Leda",
+   "at": "2026-10-17T12:25:05.135Z",
+   "qa": ""
+  },
+  "80005c9b3e7e6a90": {
+   "status": "done",
+   "f": "80/80005c9b3e7e6a90.ogg",
+   "d": 4.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Orus",
+   "at": "2026-10-17T12:25:05.923Z",
+   "qa": ""
+  },
+  "da1a8953357ebe12": {
+   "status": "done",
+   "f": "da/da1a8953357ebe12.ogg",
+   "d": 3.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:25:06.044Z",
+   "qa": ""
+  },
+  "38fbf6b3d16bacf6": {
+   "status": "done",
+   "f": "38/38fbf6b3d16bacf6.ogg",
+   "d": 4.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:25:07.664Z",
+   "qa": ""
+  },
+  "036b79f4cadf46d9": {
+   "status": "done",
+   "f": "03/036b79f4cadf46d9.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zubenelgenubi",
+   "at": "2026-10-17T12:25:08.011Z",
+   "qa": ""
+  },
+  "14bd57fd0fe1c070": {
+   "status": "done",
+   "f": "14/14bd57fd0fe1c070.ogg",
+   "d": 3.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Fenrir",
+   "at": "2026-10-17T12:25:08.350Z",
+   "qa": ""
+  },
+  "ba89cc5e8504cdf5": {
+   "status": "done",
+   "f": "ba/ba89cc5e8504cdf5.ogg",
+   "d": 3.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:25:10.209Z",
+   "qa": ""
+  },
+  "638e31c36af4e0b8": {
+   "status": "done",
+   "f": "63/638e31c36af4e0b8.ogg",
+   "d": 5.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:10.442Z",
+   "qa": ""
+  },
+  "b6933d5691d9a640": {
+   "status": "done",
+   "f": "b6/b6933d5691d9a640.ogg",
+   "d": 4.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:25:11.775Z",
+   "qa": ""
+  },
+  "495c79b922ce7a1b": {
+   "status": "done",
+   "f": "49/495c79b922ce7a1b.ogg",
+   "d": 2.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:12.286Z",
+   "qa": ""
+  },
+  "edd7865cbd6e9318": {
+   "status": "done",
+   "f": "ed/edd7865cbd6e9318.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:25:12.897Z",
+   "qa": ""
+  },
+  "69b3085f3c929097": {
+   "status": "done",
+   "f": "69/69b3085f3c929097.ogg",
+   "d": 3.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:14.528Z",
+   "qa": ""
+  },
+  "b3585deeb6ff57a4": {
+   "status": "done",
+   "f": "b3/b3585deeb6ff57a4.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:14.683Z",
+   "qa": ""
+  },
+  "8bb7e9e2d9e789b1": {
+   "status": "done",
+   "f": "8b/8bb7e9e2d9e789b1.ogg",
+   "d": 4.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Zephyr",
+   "at": "2026-10-17T12:25:15.937Z",
+   "qa": ""
+  },
+  "2f2200593191f79a": {
+   "status": "done",
+   "f": "2f/2f2200593191f79a.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:16.926Z",
+   "qa": ""
+  },
+  "7e3be85e818eb6bb": {
+   "status": "done",
+   "f": "7e/7e3be85e818eb6bb.ogg",
+   "d": 4.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:17.164Z",
+   "qa": ""
+  },
+  "4cbbd75fd08d104a": {
+   "status": "done",
+   "f": "4c/4cbbd75fd08d104a.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:18.842Z",
+   "qa": ""
+  },
+  "ba89ed5ed9c8262f": {
+   "status": "done",
+   "f": "ba/ba89ed5ed9c8262f.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:19.691Z",
+   "qa": ""
+  },
+  "576a02669032c0a3": {
+   "status": "done",
+   "f": "57/576a02669032c0a3.ogg",
+   "d": 4.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:19.848Z",
+   "qa": ""
+  },
+  "b74101e00d2a873d": {
+   "status": "done",
+   "f": "b7/b74101e00d2a873d.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:21.074Z",
+   "qa": ""
+  },
+  "3d25340b1b51d289": {
+   "status": "done",
+   "f": "3d/3d25340b1b51d289.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:22.265Z",
+   "qa": ""
+  },
+  "b4b057a00b935d4d": {
+   "status": "done",
+   "f": "b4/b4b057a00b935d4d.ogg",
+   "d": 4.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:22.624Z",
+   "qa": ""
+  },
+  "420c694fb8ab7702": {
+   "status": "done",
+   "f": "42/420c694fb8ab7702.ogg",
+   "d": 3.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:23.152Z",
+   "qa": ""
+  },
+  "55bb4fe82d824a14": {
+   "status": "done",
+   "f": "55/55bb4fe82d824a14.ogg",
+   "d": 3.64,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:24.453Z",
+   "qa": ""
+  },
+  "8a0f77b41009964e": {
+   "status": "done",
+   "f": "8a/8a0f77b41009964e.ogg",
+   "d": 3.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:24.969Z",
+   "qa": ""
+  },
+  "f54154d336b92e29": {
+   "status": "done",
+   "f": "f5/f54154d336b92e29.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:25.496Z",
+   "qa": ""
+  },
+  "07df7121d3d4471c": {
+   "status": "done",
+   "f": "07/07df7121d3d4471c.ogg",
+   "d": 4.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:26.985Z",
+   "qa": ""
+  },
+  "5acf83203006b6c9": {
+   "status": "done",
+   "f": "5a/5acf83203006b6c9.ogg",
+   "d": 3.12,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:27.177Z",
+   "qa": ""
+  },
+  "e2f91783ba5954b4": {
+   "status": "done",
+   "f": "e2/e2f91783ba5954b4.ogg",
+   "d": 3.56,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:27.839Z",
+   "qa": ""
+  },
+  "af595327021e88ed": {
+   "status": "done",
+   "f": "af/af595327021e88ed.ogg",
+   "d": 3.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Sadachbia",
+   "at": "2026-10-17T12:25:29.460Z",
+   "qa": ""
+  },
+  "a8a0ffdc6be5333f": {
+   "status": "done",
+   "f": "a8/a8a0ffdc6be5333f.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:29.598Z",
+   "qa": ""
+  },
+  "9ecf3e6568549fbc": {
+   "status": "done",
+   "f": "9e/9ecf3e6568549fbc.ogg",
+   "d": 3.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:30.149Z",
+   "qa": ""
+  },
+  "03b7b55b9eeaf166": {
+   "status": "done",
+   "f": "03/03b7b55b9eeaf166.ogg",
+   "d": 3.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:32.075Z",
+   "qa": ""
+  },
+  "31fe17852dc4dcf1": {
+   "status": "done",
+   "f": "31/31fe17852dc4dcf1.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:32.401Z",
+   "qa": ""
+  },
+  "bd7cc2159ddfa1d9": {
+   "status": "done",
+   "f": "bd/bd7cc2159ddfa1d9.ogg",
+   "d": 5.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:32.675Z",
+   "qa": ""
+  },
+  "ec0b9f94c5278992": {
+   "status": "done",
+   "f": "ec/ec0b9f94c5278992.ogg",
+   "d": 4.04,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:34.855Z",
+   "qa": ""
+  },
+  "0d5d5acea25114f8": {
+   "status": "done",
+   "f": "0d/0d5d5acea25114f8.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:35.836Z",
+   "qa": ""
+  },
+  "389c0157c13face4": {
+   "status": "done",
+   "f": "38/389c0157c13face4.ogg",
+   "d": 5.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:36.002Z",
+   "qa": ""
+  },
+  "70549d36af714257": {
+   "status": "done",
+   "f": "70/70549d36af714257.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:38.125Z",
+   "qa": ""
+  },
+  "13bc60ff8c06f69b": {
+   "status": "done",
+   "f": "13/13bc60ff8c06f69b.ogg",
+   "d": 6.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:38.319Z",
+   "qa": ""
+  },
+  "7c0f6969ba00124a": {
+   "status": "done",
+   "f": "7c/7c0f6969ba00124a.ogg",
+   "d": 3.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:38.446Z",
+   "qa": ""
+  },
+  "b0d77a0ef238b8de": {
+   "status": "done",
+   "f": "b0/b0d77a0ef238b8de.ogg",
+   "d": 4.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:40.301Z",
+   "qa": ""
+  },
+  "73b9cc799f1cd62b": {
+   "status": "done",
+   "f": "73/73b9cc799f1cd62b.ogg",
+   "d": 4.16,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:41.047Z",
+   "qa": ""
+  },
+  "396d7fee031f8057": {
+   "status": "done",
+   "f": "39/396d7fee031f8057.ogg",
+   "d": 4.88,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:42.081Z",
+   "qa": ""
+  },
+  "845c4c52fcbf43ab": {
+   "status": "done",
+   "f": "84/845c4c52fcbf43ab.ogg",
+   "d": 4.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:43.028Z",
+   "qa": ""
+  },
+  "ca73a73956c3720a": {
+   "status": "done",
+   "f": "ca/ca73a73956c3720a.ogg",
+   "d": 3.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:44.187Z",
+   "qa": ""
+  },
+  "63a81aa7ce6f9c1c": {
+   "status": "done",
+   "f": "63/63a81aa7ce6f9c1c.ogg",
+   "d": 4.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:44.911Z",
+   "qa": ""
+  },
+  "1f3590f4110f8244": {
+   "status": "done",
+   "f": "1f/1f3590f4110f8244.ogg",
+   "d": 4.4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Autonoe",
+   "at": "2026-10-17T12:25:45.450Z",
+   "qa": ""
+  },
+  "9880f171c49c1cd9": {
+   "status": "done",
+   "f": "98/9880f171c49c1cd9.ogg",
+   "d": 2.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:46.468Z",
+   "qa": ""
+  },
+  "6024db6d3c340809": {
+   "status": "done",
+   "f": "60/6024db6d3c340809.ogg",
+   "d": 4.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:25:47.278Z",
+   "qa": ""
+  },
+  "d20f1c420f661b57": {
+   "status": "done",
+   "f": "d2/d20f1c420f661b57.ogg",
+   "d": 3.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:47.762Z",
+   "qa": ""
+  },
+  "602788a0d92e0c54": {
+   "status": "done",
+   "f": "60/602788a0d92e0c54.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:49.033Z",
+   "qa": ""
+  },
+  "96d3e609e6bc8f79": {
+   "status": "done",
+   "f": "96/96d3e609e6bc8f79.ogg",
+   "d": 3.52,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:50.088Z",
+   "qa": ""
+  },
+  "7b9385c38a18201e": {
+   "status": "done",
+   "f": "7b/7b9385c38a18201e.ogg",
+   "d": 4.92,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:25:50.623Z",
+   "qa": ""
+  },
+  "94158aedd12e777c": {
+   "status": "done",
+   "f": "94/94158aedd12e777c.ogg",
+   "d": 2.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:25:51.007Z",
+   "qa": ""
+  },
+  "27867cbb6b7b89d3": {
+   "status": "done",
+   "f": "27/27867cbb6b7b89d3.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:52.754Z",
+   "qa": ""
+  },
+  "a11b3aea21f412bb": {
+   "status": "done",
+   "f": "a1/a11b3aea21f412bb.ogg",
+   "d": 3.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Achird",
+   "at": "2026-10-17T12:25:52.872Z",
+   "qa": ""
+  },
+  "13b7df34daedf9f2": {
+   "status": "done",
+   "f": "13/13b7df34daedf9f2.ogg",
+   "d": 4.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:53.609Z",
+   "qa": ""
+  },
+  "836311d10582fd8b": {
+   "status": "done",
+   "f": "83/836311d10582fd8b.ogg",
+   "d": 3.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:55.243Z",
+   "qa": ""
+  },
+  "a8834d04ed0119d9": {
+   "status": "done",
+   "f": "a8/a8834d04ed0119d9.ogg",
+   "d": 3.96,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:55.842Z",
+   "qa": ""
+  },
+  "66c59bff8320931f": {
+   "status": "done",
+   "f": "66/66c59bff8320931f.ogg",
+   "d": 4.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:56.171Z",
+   "qa": ""
+  },
+  "921ce7cd5bdbfdbb": {
+   "status": "done",
+   "f": "92/921ce7cd5bdbfdbb.ogg",
+   "d": 3.2,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:57.214Z",
+   "qa": ""
+  },
+  "64594c32265cc97b": {
+   "status": "done",
+   "f": "64/64594c32265cc97b.ogg",
+   "d": 4.32,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:25:58.409Z",
+   "qa": ""
+  },
+  "ec4b5bac6947115a": {
+   "status": "done",
+   "f": "ec/ec4b5bac6947115a.ogg",
+   "d": 3.72,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Aoede",
+   "at": "2026-10-17T12:25:58.911Z",
+   "qa": ""
+  },
+  "439a15d813e63a6d": {
+   "status": "done",
+   "f": "43/439a15d813e63a6d.ogg",
+   "d": 4.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "Puck",
+   "at": "2026-10-17T12:26:00.243Z",
+   "qa": ""
+  },
+  "53dbdb57ace27436": {
+   "status": "done",
+   "f": "53/53dbdb57ace27436.ogg",
+   "d": 4,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:27:56.586Z",
+   "qa": ""
+  },
+  "cce779be6c5c07a8": {
+   "status": "done",
+   "f": "cc/cce779be6c5c07a8.ogg",
+   "d": 5.59,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-tutor-9",
+   "at": "2026-10-17T12:27:57.951Z",
+   "qa": ""
+  },
+  "e430352c92e17e1a": {
+   "status": "done",
+   "f": "e4/e430352c92e17e1a.ogg",
+   "d": 5.21,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-tutor-9",
+   "at": "2026-10-17T12:27:58.080Z",
+   "qa": ""
+  },
+  "1ca0148a354cf4df": {
+   "status": "done",
+   "f": "1c/1ca0148a354cf4df.ogg",
+   "d": 5.62,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:04.679Z",
+   "qa": ""
+  },
+  "206b1388f89e2d9e": {
+   "status": "done",
+   "f": "20/206b1388f89e2d9e.ogg",
+   "d": 2.79,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:04.793Z",
+   "qa": ""
+  },
+  "f25271273d18838b": {
+   "status": "done",
+   "f": "f2/f25271273d18838b.ogg",
+   "d": 4.7,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:04.987Z",
+   "qa": ""
+  },
+  "3c8177b78f107e1a": {
+   "status": "done",
+   "f": "3c/3c8177b78f107e1a.ogg",
+   "d": 4.61,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:05.198Z",
+   "qa": ""
+  },
+  "99792c2b0358672f": {
+   "status": "done",
+   "f": "99/99792c2b0358672f.ogg",
+   "d": 4.44,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:06.495Z",
+   "qa": ""
+  },
+  "c3d864240be8115e": {
+   "status": "done",
+   "f": "c3/c3d864240be8115e.ogg",
+   "d": 6.61,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:06.663Z",
+   "qa": ""
+  },
+  "31cd764ed70d573c": {
+   "status": "done",
+   "f": "31/31cd764ed70d573c.ogg",
+   "d": 3.66,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:06.770Z",
+   "qa": ""
+  },
+  "ea7410fa168947ef": {
+   "status": "done",
+   "f": "ea/ea7410fa168947ef.ogg",
+   "d": 3.69,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:06.875Z",
+   "qa": ""
+  },
+  "f053ff2b65ecee7c": {
+   "status": "done",
+   "f": "f0/f053ff2b65ecee7c.ogg",
+   "d": 3.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-storyteller-1",
+   "at": "2026-10-17T12:28:09.823Z",
+   "qa": ""
+  },
+  "a1614ad71bbb5bbd": {
+   "status": "done",
+   "f": "a1/a1614ad71bbb5bbd.ogg",
+   "d": 5.84,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:12.905Z",
+   "qa": ""
+  },
+  "ca274fb66dfdef8d": {
+   "status": "done",
+   "f": "ca/ca274fb66dfdef8d.ogg",
+   "d": 6.08,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:13.077Z",
+   "qa": ""
+  },
+  "2d12f83ecf16d9c4": {
+   "status": "done",
+   "f": "2d/2d12f83ecf16d9c4.ogg",
+   "d": 6.76,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:18.413Z",
+   "qa": ""
+  },
+  "a104b545cbaa75ff": {
+   "status": "done",
+   "f": "a1/a104b545cbaa75ff.ogg",
+   "d": 6.26,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:18.540Z",
+   "qa": ""
+  },
+  "86c20bf43f582498": {
+   "status": "done",
+   "f": "86/86c20bf43f582498.ogg",
+   "d": 10.87,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:28:18.743Z",
+   "qa": ""
+  },
+  "a2b308db1d372b7a": {
+   "status": "done",
+   "f": "a2/a2b308db1d372b7a.ogg",
+   "d": 5.47,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-storyteller-2",
+   "at": "2026-10-17T12:28:20.282Z",
+   "qa": ""
+  },
+  "bf60f1f3b22d0229": {
+   "status": "done",
+   "f": "bf/bf60f1f3b22d0229.ogg",
+   "d": 6.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-storyteller-2",
+   "at": "2026-10-17T12:28:20.418Z",
+   "qa": ""
+  },
+  "dcc8b8e8a29992e5": {
+   "status": "done",
+   "f": "dc/dcc8b8e8a29992e5.ogg",
+   "d": 4.77,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-storyteller-2",
+   "at": "2026-10-17T12:28:20.548Z",
+   "qa": ""
+  },
+  "7c3c97a4a57c9e40": {
+   "status": "done",
+   "f": "7c/7c3c97a4a57c9e40.ogg",
+   "d": 4.8,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-storyteller-1",
+   "at": "2026-10-17T12:28:25.463Z",
+   "qa": ""
+  },
+  "083ad7769d48e9e0": {
+   "status": "error",
+   "single": true,
+   "error": "chunk cut failed — will voice alone",
+   "key": "l:CPP2-U5-BQ:story:p1a"
+  },
+  "ca626cf0bf9bb210": {
+   "status": "error",
+   "single": true,
+   "error": "chunk cut failed — will voice alone",
+   "key": "l:CPP2-U5-BQ:story:p2b"
+  },
+  "091d67883ed75a90": {
+   "status": "done",
+   "f": "09/091d67883ed75a90.ogg",
+   "d": 5.68,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:35.328Z",
+   "qa": ""
+  },
+  "2581f060a44f2cea": {
+   "status": "done",
+   "f": "25/2581f060a44f2cea.ogg",
+   "d": 5.22,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:35.468Z",
+   "qa": ""
+  },
+  "3f4d6efb31e7b85e": {
+   "status": "done",
+   "f": "3f/3f4d6efb31e7b85e.ogg",
+   "d": 5.23,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:35.602Z",
+   "qa": ""
+  },
+  "a55eff63d67e9dd1": {
+   "status": "done",
+   "f": "a5/a55eff63d67e9dd1.ogg",
+   "d": 7.55,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:35.782Z",
+   "qa": ""
+  },
+  "614f33ac83e83129": {
+   "status": "done",
+   "f": "61/614f33ac83e83129.ogg",
+   "d": 12.34,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:44.337Z",
+   "qa": "too long"
+  },
+  "1d2661a7c1751862": {
+   "status": "done",
+   "f": "1d/1d2661a7c1751862.ogg",
+   "d": 14.28,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:44.516Z",
+   "qa": "too long"
+  },
+  "d77e14a3c692e724": {
+   "status": "done",
+   "f": "d7/d77e14a3c692e724.ogg",
+   "d": 12.43,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:44.703Z",
+   "qa": ""
+  },
+  "b447708085cf3e42": {
+   "status": "done",
+   "f": "b4/b447708085cf3e42.ogg",
+   "d": 8.91,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:44.817Z",
+   "qa": ""
+  },
+  "31d60e1264fe0956": {
+   "status": "done",
+   "f": "31/31d60e1264fe0956.ogg",
+   "d": 7.95,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:28:44.995Z",
+   "qa": ""
+  },
+  "d1d8a3d2c33be6bd": {
+   "status": "done",
+   "f": "d1/d1d8a3d2c33be6bd.ogg",
+   "d": 6.36,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:29:04.074Z",
+   "qa": ""
+  },
+  "7034cc192b579c75": {
+   "status": "done",
+   "f": "70/7034cc192b579c75.ogg",
+   "d": 9.05,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:29:04.278Z",
+   "qa": ""
+  },
+  "9aa2fd31235e0eb2": {
+   "status": "done",
+   "f": "9a/9aa2fd31235e0eb2.ogg",
+   "d": 5.55,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:29:04.426Z",
+   "qa": ""
+  },
+  "d2df86e41d01b60d": {
+   "status": "done",
+   "f": "d2/d2df86e41d01b60d.ogg",
+   "d": 5.48,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-tutor-9",
+   "at": "2026-10-17T12:29:09.312Z",
+   "qa": ""
+  },
+  "8dc7dea8048db16a": {
+   "status": "done",
+   "f": "8d/8dc7dea8048db16a.ogg",
+   "d": 5.25,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:29:13.501Z",
+   "qa": ""
+  },
+  "db0ad833e72af219": {
+   "status": "done",
+   "f": "db/db0ad833e72af219.ogg",
+   "d": 5.3,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:29:13.628Z",
+   "qa": ""
+  },
+  "92acaa38e062c76e": {
+   "status": "done",
+   "f": "92/92acaa38e062c76e.ogg",
+   "d": 7.75,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:29:13.811Z",
+   "qa": ""
+  },
+  "39839da8028825c6": {
+   "status": "done",
+   "f": "39/39839da8028825c6.ogg",
+   "d": 4.53,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:29:13.935Z",
+   "qa": ""
+  },
+  "b4aa8a1e312a3d23": {
+   "status": "done",
+   "f": "b4/b4aa8a1e312a3d23.ogg",
+   "d": 4.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_4rdqc20aq05l",
+   "at": "2026-10-17T12:29:14.891Z",
+   "qa": ""
+  },
+  "f4f8817c81384253": {
+   "status": "done",
+   "f": "f4/f4f8817c81384253.ogg",
+   "d": 7.24,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "en-gb-tutor-9",
+   "at": "2026-10-17T12:29:19.719Z",
+   "qa": ""
+  },
+  "66954f7a815aca49": {
+   "status": "error",
+   "single": true,
+   "error": "chunk cut failed — will voice alone",
+   "key": "l:CPP3-U7-B:story:p2b"
+  },
+  "4f67341ec480569b": {
+   "status": "error",
+   "single": true,
+   "error": "chunk cut failed — will voice alone",
+   "key": "l:CPP3-U7-B:story:p4b"
+  },
+  "5020f888dd30cb6e": {
+   "status": "error",
+   "single": true,
+   "error": "chunk cut failed — will voice alone",
+   "key": "l:CPP3-U7-B:story:p5b"
+  },
+  "0121ca22464db8d8": {
+   "status": "done",
+   "f": "01/0121ca22464db8d8.ogg",
+   "d": 6.6,
+   "model": "gemini-3.8-flash-tts",
+   "voice": "voice_d9qz2iin5da8",
+   "at": "2026-10-17T12:29:24.929Z",
+   "qa": ""
   }
  },
  "batches": {

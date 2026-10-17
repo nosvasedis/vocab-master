@@ -2109,6 +2109,5226 @@
       "outTok": 0,
       "usd": 0.0015,
       "job": "tts probes (2 calls, measured)"
+    },
+    {
+      "t": "2026-10-17T11:26:43.835Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3002,
+      "outTok": 11205,
+      "usd": 0.005903,
+      "job": "draft CPP2-U7-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:27:33.807Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5025,
+      "outTok": 12555,
+      "usd": 0.00678,
+      "job": "draft CPP2-U7-A #1"
+    },
+    {
+      "t": "2026-10-17T11:28:36.802Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4013,
+      "outTok": 15597,
+      "usd": 0.0082,
+      "job": "draft CPP2-U7-B #1"
+    },
+    {
+      "t": "2026-10-17T11:29:22.115Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2872,
+      "outTok": 11133,
+      "usd": 0.005854,
+      "job": "draft CPP2-U8-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:30:20.539Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4709,
+      "outTok": 14479,
+      "usd": 0.00771,
+      "job": "draft CPP2-U8-A #1"
+    },
+    {
+      "t": "2026-10-17T11:31:24.683Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4524,
+      "outTok": 16000,
+      "usd": 0.008452,
+      "job": "draft CPP2-U8-B #1"
+    },
+    {
+      "t": "2026-10-17T11:32:00.222Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2705,
+      "outTok": 8673,
+      "usd": 0.004607,
+      "job": "draft CPP2-U9-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:32:18.714Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5989,
+      "outTok": 5642,
+      "usd": 0.00342,
+      "job": "draft CPP2-U9-BQ #2"
+    },
+    {
+      "t": "2026-10-17T11:33:10.969Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4846,
+      "outTok": 13053,
+      "usd": 0.007011,
+      "job": "draft CPP2-U9-A #1"
+    },
+    {
+      "t": "2026-10-17T11:34:13.364Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4281,
+      "outTok": 15506,
+      "usd": 0.008181,
+      "job": "draft CPP2-U9-B #1"
+    },
+    {
+      "t": "2026-10-17T11:34:59.483Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3259,
+      "outTok": 11737,
+      "usd": 0.006194,
+      "job": "draft CPP3-U2-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:36:04.349Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6052,
+      "outTok": 16000,
+      "usd": 0.008605,
+      "job": "draft CPP3-U2-A #1"
+    },
+    {
+      "t": "2026-10-17T11:37:08.719Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5114,
+      "outTok": 16000,
+      "usd": 0.008511,
+      "job": "draft CPP3-U2-B #1"
+    },
+    {
+      "t": "2026-10-17T11:37:59.113Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3210,
+      "outTok": 13029,
+      "usd": 0.006836,
+      "job": "draft CPP3-U3-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:39:03.573Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5410,
+      "outTok": 16000,
+      "usd": 0.008541,
+      "job": "draft CPP3-U3-A #1"
+    },
+    {
+      "t": "2026-10-17T11:40:01.935Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5756,
+      "outTok": 14355,
+      "usd": 0.007753,
+      "job": "draft CPP3-U3-B #1"
+    },
+    {
+      "t": "2026-10-17T11:40:42.081Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2889,
+      "outTok": 9731,
+      "usd": 0.005154,
+      "job": "draft CPP3-U4-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:41:33.226Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4244,
+      "outTok": 12900,
+      "usd": 0.006874,
+      "job": "draft CPP3-U4-A #1"
+    },
+    {
+      "t": "2026-10-17T11:42:29.037Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5103,
+      "outTok": 13940,
+      "usd": 0.00748,
+      "job": "draft CPP3-U4-B #1"
+    },
+    {
+      "t": "2026-10-17T11:43:13.034Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2963,
+      "outTok": 11030,
+      "usd": 0.005811,
+      "job": "draft CPP3-U5-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:44:15.464Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5282,
+      "outTok": 16000,
+      "usd": 0.008528,
+      "job": "draft CPP3-U5-A #1"
+    },
+    {
+      "t": "2026-10-17T11:45:07.979Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5553,
+      "outTok": 12990,
+      "usd": 0.00705,
+      "job": "draft CPP3-U5-B #1"
+    },
+    {
+      "t": "2026-10-17T11:45:44.676Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2910,
+      "outTok": 8896,
+      "usd": 0.004739,
+      "job": "draft CPP3-U6-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:46:45.447Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5290,
+      "outTok": 14655,
+      "usd": 0.007857,
+      "job": "draft CPP3-U6-A #1"
+    },
+    {
+      "t": "2026-10-17T11:47:39.737Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5295,
+      "outTok": 12817,
+      "usd": 0.006938,
+      "job": "draft CPP3-U6-B #1"
+    },
+    {
+      "t": "2026-10-17T11:48:10.782Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2709,
+      "outTok": 7668,
+      "usd": 0.004105,
+      "job": "draft CPP3-U7-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:49:07.160Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4462,
+      "outTok": 14011,
+      "usd": 0.007452,
+      "job": "draft CPP3-U7-A #1"
+    },
+    {
+      "t": "2026-10-17T11:50:05.642Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3790,
+      "outTok": 14056,
+      "usd": 0.007407,
+      "job": "draft CPP3-U7-B #1"
+    },
+    {
+      "t": "2026-10-17T11:50:37.959Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 3016,
+      "outTok": 8422,
+      "usd": 0.004513,
+      "job": "draft CPP3-U8-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:51:27.523Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4628,
+      "outTok": 12537,
+      "usd": 0.006731,
+      "job": "draft CPP3-U8-A #1"
+    },
+    {
+      "t": "2026-10-17T11:52:29.330Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4193,
+      "outTok": 15706,
+      "usd": 0.008272,
+      "job": "draft CPP3-U8-B #1"
+    },
+    {
+      "t": "2026-10-17T11:53:09.496Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2845,
+      "outTok": 10099,
+      "usd": 0.005334,
+      "job": "draft CPP3-U9-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:53:30.912Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6831,
+      "outTok": 6450,
+      "usd": 0.003908,
+      "job": "draft CPP3-U9-BQ #2"
+    },
+    {
+      "t": "2026-10-17T11:53:47.727Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6825,
+      "outTok": 5291,
+      "usd": 0.003328,
+      "job": "draft CPP3-U9-BQ #3"
+    },
+    {
+      "t": "2026-10-17T11:54:39.924Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4262,
+      "outTok": 13173,
+      "usd": 0.007013,
+      "job": "draft CPP3-U9-A #1"
+    },
+    {
+      "t": "2026-10-17T11:55:38.758Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4204,
+      "outTok": 14847,
+      "usd": 0.007844,
+      "job": "draft CPP3-U9-B #1"
+    },
+    {
+      "t": "2026-10-17T11:56:49.178Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4224,
+      "outTok": 13000,
+      "usd": 0.006922,
+      "job": "draft CPP1-U3-A #1"
+    },
+    {
+      "t": "2026-10-17T11:57:52.736Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4932,
+      "outTok": 15699,
+      "usd": 0.008343,
+      "job": "draft CPP2-U2-A #1"
+    },
+    {
+      "t": "2026-10-17T11:58:59.448Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5394,
+      "outTok": 16000,
+      "usd": 0.008539,
+      "job": "draft CPP2-U2-B #1"
+    },
+    {
+      "t": "2026-10-17T12:00:04.636Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5394,
+      "outTok": 15752,
+      "usd": 0.008415,
+      "job": "draft CPP2-U2-B #1"
+    },
+    {
+      "t": "2026-10-17T12:01:12.860Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5692,
+      "outTok": 16000,
+      "usd": 0.008569,
+      "job": "draft CPP2-U3-A #1"
+    },
+    {
+      "t": "2026-10-17T12:02:04.806Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5692,
+      "outTok": 12434,
+      "usd": 0.006786,
+      "job": "draft CPP2-U3-A #1"
+    },
+    {
+      "t": "2026-10-17T12:02:59.357Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4823,
+      "outTok": 13531,
+      "usd": 0.007248,
+      "job": "draft CPP2-U5-B #1"
+    },
+    {
+      "t": "2026-10-17T12:03:46.492Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4205,
+      "outTok": 11667,
+      "usd": 0.006254,
+      "job": "draft CPP2-U6-B #1"
+    },
+    {
+      "t": "2026-10-17T12:04:50.156Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4524,
+      "outTok": 16000,
+      "usd": 0.008452,
+      "job": "draft CPP2-U8-B #1"
+    },
+    {
+      "t": "2026-10-17T12:05:48.212Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4524,
+      "outTok": 14069,
+      "usd": 0.007487,
+      "job": "draft CPP2-U8-B #1"
+    },
+    {
+      "t": "2026-10-17T12:06:51.315Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6052,
+      "outTok": 16000,
+      "usd": 0.008605,
+      "job": "draft CPP3-U2-A #1"
+    },
+    {
+      "t": "2026-10-17T12:08:00.461Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6052,
+      "outTok": 16000,
+      "usd": 0.008605,
+      "job": "draft CPP3-U2-A #1"
+    },
+    {
+      "t": "2026-10-17T12:09:09.907Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6052,
+      "outTok": 14155,
+      "usd": 0.007683,
+      "job": "draft CPP3-U2-A #1"
+    },
+    {
+      "t": "2026-10-17T12:10:11.769Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 7556,
+      "outTok": 16000,
+      "usd": 0.008756,
+      "job": "draft CPP3-U2-A #2"
+    },
+    {
+      "t": "2026-10-17T12:11:03.293Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 7556,
+      "outTok": 13620,
+      "usd": 0.007566,
+      "job": "draft CPP3-U2-A #2"
+    },
+    {
+      "t": "2026-10-17T12:12:00.708Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5134,
+      "outTok": 14739,
+      "usd": 0.007883,
+      "job": "draft CPP3-U2-B #1"
+    },
+    {
+      "t": "2026-10-17T12:12:57.990Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5427,
+      "outTok": 14560,
+      "usd": 0.007823,
+      "job": "draft CPP3-U3-A #1"
+    },
+    {
+      "t": "2026-10-17T12:14:03.567Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5294,
+      "outTok": 16000,
+      "usd": 0.008529,
+      "job": "draft CPP3-U5-A #1"
+    },
+    {
+      "t": "2026-10-17T12:15:04.516Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 5294,
+      "outTok": 14882,
+      "usd": 0.00797,
+      "job": "draft CPP3-U5-A #1"
+    },
+    {
+      "t": "2026-10-17T12:15:57.276Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2894,
+      "outTok": 13322,
+      "usd": 0.00695,
+      "job": "draft CPP3-U9-BQ #1"
+    },
+    {
+      "t": "2026-10-17T12:16:16.722Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6897,
+      "outTok": 5810,
+      "usd": 0.003595,
+      "job": "draft CPP3-U9-BQ #2"
+    },
+    {
+      "t": "2026-10-17T12:16:34.107Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6902,
+      "outTok": 5447,
+      "usd": 0.003414,
+      "job": "draft CPP3-U9-BQ #3"
+    },
+    {
+      "t": "2026-10-17T12:17:33.549Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2894,
+      "outTok": 11514,
+      "usd": 0.006046,
+      "job": "draft CPP3-U9-BQ #1"
+    },
+    {
+      "t": "2026-10-17T12:17:51.245Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6697,
+      "outTok": 5343,
+      "usd": 0.003341,
+      "job": "draft CPP3-U9-BQ #2"
+    },
+    {
+      "t": "2026-10-17T12:18:11.455Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 6709,
+      "outTok": 6119,
+      "usd": 0.00373,
+      "job": "draft CPP3-U9-BQ #3"
+    },
+    {
+      "t": "2026-10-17T12:19:10.206Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2894,
+      "outTok": 9232,
+      "usd": 0.004905,
+      "job": "draft CPP3-U9-BQ #1"
+    },
+    {
+      "t": "2026-10-17T12:19:29.430Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 65,
+      "usd": 0.000433,
+      "job": "audio l:CPP1-U2-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:30.899Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 52,
+      "usd": 0.000347,
+      "job": "audio l:CPP1-U2-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:31.007Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP1-U2-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:31.625Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 76,
+      "usd": 0.000507,
+      "job": "audio l:CPP1-U2-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:33.037Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP1-U2-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:33.239Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 66,
+      "usd": 0.00044,
+      "job": "audio l:CPP1-U2-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:33.830Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 86,
+      "usd": 0.000573,
+      "job": "audio l:CPP1-U2-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:35.296Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP1-U2-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:36.060Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 84,
+      "usd": 0.00056,
+      "job": "audio l:CPP1-U2-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:36.184Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP1-U2-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:37.922Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 117,
+      "usd": 0.00078,
+      "job": "audio l:CPP1-U2-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:38.393Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP1-U2-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:38.513Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 46,
+      "usd": 0.000307,
+      "job": "audio l:CPP1-U2-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:40.701Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 69,
+      "usd": 0.00046,
+      "job": "audio l:CPP1-U2-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:40.818Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP1-U2-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:41.250Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 74,
+      "usd": 0.000493,
+      "job": "audio l:CPP1-U2-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:42.939Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 73,
+      "usd": 0.000487,
+      "job": "audio l:CPP1-U2-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:43.048Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 72,
+      "usd": 0.00048,
+      "job": "audio l:CPP1-U3-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:43.171Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 54,
+      "usd": 0.00036,
+      "job": "audio l:CPP1-U3-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:44.782Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 52,
+      "usd": 0.000347,
+      "job": "audio l:CPP1-U3-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:44.954Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 76,
+      "usd": 0.000507,
+      "job": "audio l:CPP1-U3-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:45.268Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 67,
+      "usd": 0.000447,
+      "job": "audio l:CPP1-U3-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:47.013Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 64,
+      "usd": 0.000427,
+      "job": "audio l:CPP1-U3-A:story:p6b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:47.136Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 61,
+      "usd": 0.000407,
+      "job": "audio l:CPP1-U3-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:47.864Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 117,
+      "usd": 0.00078,
+      "job": "audio l:CPP1-U3-A:story:p6a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:48.971Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 60,
+      "usd": 0.0004,
+      "job": "audio l:CPP1-U3-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:49.896Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 72,
+      "usd": 0.00048,
+      "job": "audio l:CPP1-U3-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:50.563Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 77,
+      "usd": 0.000513,
+      "job": "audio l:CPP1-U4-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:52.083Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP1-U4-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:52.332Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 65,
+      "usd": 0.000433,
+      "job": "audio l:CPP1-U4-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:52.690Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP1-U4-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:54.888Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 92,
+      "usd": 0.000613,
+      "job": "audio l:CPP1-U4-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:55.086Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 98,
+      "usd": 0.000653,
+      "job": "audio l:CPP1-U4-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:55.259Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP1-U4-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:57.445Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP1-U4-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:57.879Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP1-U4-A:story:p4d (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:58.116Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 106,
+      "usd": 0.000707,
+      "job": "audio l:CPP1-U4-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:19:59.589Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP1-U4-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:00.537Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 80,
+      "usd": 0.000533,
+      "job": "audio l:CPP1-U4-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:00.671Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 119,
+      "usd": 0.000793,
+      "job": "audio l:CPP1-U4-A:story:p5d (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:01.974Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP1-U4-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:02.864Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP1-U4-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:03.006Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 79,
+      "usd": 0.000527,
+      "job": "audio l:CPP1-U4-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:04.811Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP1-U5-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:05.517Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP1-U5-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:06.181Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP1-U5-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:07.062Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 56,
+      "usd": 0.000367,
+      "job": "audio l:CPP1-U5-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:08.606Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP1-U5-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:08.749Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP1-U5-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:09.302Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP1-U5-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:10.627Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 79,
+      "usd": 0.000527,
+      "job": "audio l:CPP1-U5-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:10.922Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 64,
+      "usd": 0.000427,
+      "job": "audio l:CPP1-U5-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:11.554Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 94,
+      "usd": 0.000627,
+      "job": "audio l:CPP1-U5-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:13.110Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP1-U5-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:13.239Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP1-U5-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:13.861Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 69,
+      "usd": 0.00046,
+      "job": "audio l:CPP1-U5-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:15.582Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP1-U5-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:16.342Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP1-U5-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:16.509Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 74,
+      "usd": 0.000493,
+      "job": "audio l:CPP1-U5-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:18.071Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP1-U5-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:18.759Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 93,
+      "usd": 0.00062,
+      "job": "audio l:CPP1-U5-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:18.900Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP1-U5-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:20.259Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP1-U6-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:21.127Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 59,
+      "usd": 0.000393,
+      "job": "audio l:CPP1-U6-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:21.719Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 67,
+      "usd": 0.000447,
+      "job": "audio l:CPP1-U6-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:22.793Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 77,
+      "usd": 0.000513,
+      "job": "audio l:CPP1-U6-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:23.298Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 64,
+      "usd": 0.000427,
+      "job": "audio l:CPP1-U6-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:23.942Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP1-U6-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:25.330Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 115,
+      "usd": 0.000767,
+      "job": "audio l:CPP1-U6-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:26.077Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 63,
+      "usd": 0.00042,
+      "job": "audio l:CPP1-U6-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:26.289Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 71,
+      "usd": 0.000473,
+      "job": "audio l:CPP1-U6-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:27.667Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 77,
+      "usd": 0.000513,
+      "job": "audio l:CPP1-U6-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:28.215Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 67,
+      "usd": 0.000447,
+      "job": "audio l:CPP1-U6-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:28.767Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP1-U6-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:29.993Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 67,
+      "usd": 0.000447,
+      "job": "audio l:CPP1-U6-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:30.258Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 67,
+      "usd": 0.000447,
+      "job": "audio l:CPP1-U6-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:31.860Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 61,
+      "usd": 0.000407,
+      "job": "audio l:CPP1-U7-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:31.984Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 84,
+      "usd": 0.00056,
+      "job": "audio l:CPP1-U7-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:33.618Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP1-U7-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:33.928Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 73,
+      "usd": 0.000487,
+      "job": "audio l:CPP1-U7-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:34.233Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 120,
+      "usd": 0.0008,
+      "job": "audio l:CPP1-U7-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:36.153Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 119,
+      "usd": 0.000793,
+      "job": "audio l:CPP1-U7-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:37.172Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 115,
+      "usd": 0.000767,
+      "job": "audio l:CPP1-U7-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:38.310Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 114,
+      "usd": 0.00076,
+      "job": "audio l:CPP1-U7-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:39.222Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 112,
+      "usd": 0.00074,
+      "job": "audio l:CPP1-U7-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:39.446Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP1-U7-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:40.803Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP1-U7-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:41.443Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 79,
+      "usd": 0.000527,
+      "job": "audio l:CPP1-U7-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:42.939Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 142,
+      "usd": 0.000947,
+      "job": "audio l:CPP1-U7-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:43.446Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 57,
+      "usd": 0.00038,
+      "job": "audio l:CPP1-U7-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:44.069Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 111,
+      "usd": 0.000733,
+      "job": "audio l:CPP1-U7-B:story:p3d (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:45.078Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP1-U7-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:46.219Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 71,
+      "usd": 0.000473,
+      "job": "audio l:CPP1-U7-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:46.348Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP1-U7-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:47.457Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP1-U8-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:48.246Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 66,
+      "usd": 0.00044,
+      "job": "audio l:CPP1-U8-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:49.106Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP1-U8-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:49.650Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP1-U8-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:50.927Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 65,
+      "usd": 0.000433,
+      "job": "audio l:CPP1-U8-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:51.047Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 61,
+      "usd": 0.000407,
+      "job": "audio l:CPP1-U8-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:52.141Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP1-U8-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:53.497Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP1-U8-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:53.667Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP1-U8-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:54.473Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP1-U8-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:55.897Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP1-U8-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:56.759Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 65,
+      "usd": 0.000433,
+      "job": "audio l:CPP1-U8-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:57.025Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 80,
+      "usd": 0.000533,
+      "job": "audio l:CPP1-U8-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:58.043Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP1-U8-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:59.084Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP1-U8-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:20:59.496Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 72,
+      "usd": 0.00048,
+      "job": "audio l:CPP1-U8-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:00.919Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 80,
+      "usd": 0.000533,
+      "job": "audio l:CPP1-U8-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:01.518Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP1-U8-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:02.978Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP1-U8-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:03.757Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 86,
+      "usd": 0.000573,
+      "job": "audio l:CPP1-U8-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:05.056Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP1-U8-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:05.923Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 66,
+      "usd": 0.00044,
+      "job": "audio l:CPP1-U9-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:06.446Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP1-U9-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:07.524Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP1-U9-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:09.234Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 117,
+      "usd": 0.00078,
+      "job": "audio l:CPP1-U9-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:09.454Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 90,
+      "usd": 0.0006,
+      "job": "audio l:CPP1-U9-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:10.275Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP1-U9-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:11.848Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 94,
+      "usd": 0.000627,
+      "job": "audio l:CPP1-U9-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:12.603Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP1-U9-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:13.230Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 131,
+      "usd": 0.000873,
+      "job": "audio l:CPP1-U9-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:14.373Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000753,
+      "job": "audio l:CPP1-U9-A:story:p6a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:15.017Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP1-U9-A:story:p6b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:15.901Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP1-U9-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:17.447Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 75,
+      "usd": 0.0005,
+      "job": "audio l:CPP1-U9-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:18.447Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP1-U9-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:18.643Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP1-U9-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:19.995Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 54,
+      "usd": 0.00036,
+      "job": "audio l:CPP1-U9-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:21.500Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP1-U9-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:21.689Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP1-U9-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:22.863Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 76,
+      "usd": 0.000507,
+      "job": "audio l:CPP1-U9-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:24.096Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP2-U2-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:24.958Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 111,
+      "usd": 0.000733,
+      "job": "audio l:CPP2-U2-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:26.159Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 56,
+      "usd": 0.000367,
+      "job": "audio l:CPP2-U2-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:26.867Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP2-U2-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:27.195Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP2-U2-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:28.485Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 86,
+      "usd": 0.000573,
+      "job": "audio l:CPP2-U2-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:29.223Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 64,
+      "usd": 0.000427,
+      "job": "audio l:CPP2-U2-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:29.679Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000747,
+      "job": "audio l:CPP2-U2-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:30.805Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 94,
+      "usd": 0.000627,
+      "job": "audio l:CPP2-U2-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:31.760Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP2-U2-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:32.991Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP2-U2-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:33.463Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000753,
+      "job": "audio l:CPP2-U2-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:34.205Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP2-U2-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:35.285Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP2-U2-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:36.232Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 69,
+      "usd": 0.00046,
+      "job": "audio l:CPP2-U2-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:36.824Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP2-U2-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:38.528Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP2-U2-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:38.722Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 106,
+      "usd": 0.000707,
+      "job": "audio l:CPP2-U2-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:39.704Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP2-U2-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:40.430Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 51,
+      "usd": 0.00034,
+      "job": "audio l:CPP2-U2-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:41.565Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 114,
+      "usd": 0.00076,
+      "job": "audio l:CPP2-U2-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:41.960Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP2-U2-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:42.553Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 73,
+      "usd": 0.000487,
+      "job": "audio l:CPP2-U2-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:44.218Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 92,
+      "usd": 0.000613,
+      "job": "audio l:CPP2-U2-BQ:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:44.600Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 105,
+      "usd": 0.0007,
+      "job": "audio l:CPP2-U2-BQ:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:45.509Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 92,
+      "usd": 0.000613,
+      "job": "audio l:CPP2-U3-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:46.594Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP2-U3-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:46.745Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 72,
+      "usd": 0.00048,
+      "job": "audio l:CPP2-U3-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:48.311Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 75,
+      "usd": 0.0005,
+      "job": "audio l:CPP2-U3-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:48.929Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 98,
+      "usd": 0.000653,
+      "job": "audio l:CPP2-U3-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:50.695Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP2-U3-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:50.849Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 74,
+      "usd": 0.000493,
+      "job": "audio l:CPP2-U3-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:51.513Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP2-U3-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:53.550Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP2-U3-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:53.720Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP2-U3-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:54.840Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 60,
+      "usd": 0.0004,
+      "job": "audio l:CPP2-U3-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:56.224Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 128,
+      "usd": 0.000853,
+      "job": "audio l:CPP2-U3-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:56.465Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP2-U3-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:56.855Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 66,
+      "usd": 0.00044,
+      "job": "audio l:CPP2-U3-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:58.737Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP2-U3-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:58.936Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP2-U3-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:21:59.163Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP2-U3-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:01.339Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 92,
+      "usd": 0.000613,
+      "job": "audio l:CPP2-U3-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:01.479Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP2-U4-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:02.759Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 126,
+      "usd": 0.00084,
+      "job": "audio l:CPP2-U4-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:04.446Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP2-U4-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:04.596Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP2-U4-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:04.818Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 79,
+      "usd": 0.000527,
+      "job": "audio l:CPP2-U4-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:07.102Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP2-U4-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:07.301Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP2-U4-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:07.442Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP2-U4-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:09.562Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 72,
+      "usd": 0.00048,
+      "job": "audio l:CPP2-U4-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:10.198Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 79,
+      "usd": 0.000527,
+      "job": "audio l:CPP2-U4-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:11.331Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP2-U4-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:12.562Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP2-U4-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:12.934Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP2-U4-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:13.642Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP2-U4-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:15.033Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP2-U4-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:15.574Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 114,
+      "usd": 0.00076,
+      "job": "audio l:CPP2-U4-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:16.995Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP2-U4-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:17.697Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP2-U5-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:18.634Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 86,
+      "usd": 0.000573,
+      "job": "audio l:CPP2-U5-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:19.079Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 58,
+      "usd": 0.000387,
+      "job": "audio l:CPP2-U5-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:20.178Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 106,
+      "usd": 0.000707,
+      "job": "audio l:CPP2-U5-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:20.748Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 86,
+      "usd": 0.000573,
+      "job": "audio l:CPP2-U5-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:21.258Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP2-U5-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:23.084Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 115,
+      "usd": 0.000767,
+      "job": "audio l:CPP2-U5-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:23.730Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP2-U5-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:24.254Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 118,
+      "usd": 0.000787,
+      "job": "audio l:CPP2-U5-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:25.927Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 76,
+      "usd": 0.000507,
+      "job": "audio l:CPP2-U5-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:26.571Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 135,
+      "usd": 0.0009,
+      "job": "audio l:CPP2-U5-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:27.219Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP2-U5-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:29.094Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 147,
+      "usd": 0.00098,
+      "job": "audio l:CPP2-U5-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:29.480Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 86,
+      "usd": 0.000573,
+      "job": "audio l:CPP2-U5-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:30.025Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 115,
+      "usd": 0.000767,
+      "job": "audio l:CPP2-U5-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:31.573Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP2-U5-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:31.992Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP2-U5-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:32.479Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 94,
+      "usd": 0.000627,
+      "job": "audio l:CPP2-U5-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:34.518Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP2-U6-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:34.638Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 125,
+      "usd": 0.000833,
+      "job": "audio l:CPP2-U6-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:35.644Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 137,
+      "usd": 0.000913,
+      "job": "audio l:CPP2-U6-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:36.506Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP2-U6-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:36.803Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 75,
+      "usd": 0.0005,
+      "job": "audio l:CPP2-U6-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:37.917Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP2-U6-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:38.717Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 72,
+      "usd": 0.00048,
+      "job": "audio l:CPP2-U6-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:39.629Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 121,
+      "usd": 0.000807,
+      "job": "audio l:CPP2-U6-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:40.873Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP2-U6-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:41.614Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP2-U6-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:42.239Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 126,
+      "usd": 0.00084,
+      "job": "audio l:CPP2-U6-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:43.145Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP2-U6-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:43.610Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 84,
+      "usd": 0.00056,
+      "job": "audio l:CPP2-U6-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:45.179Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP2-U6-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:45.851Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP2-U6-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:46.240Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 96,
+      "usd": 0.00064,
+      "job": "audio l:CPP2-U6-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:48.384Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP2-U6-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:48.498Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 75,
+      "usd": 0.0005,
+      "job": "audio l:CPP2-U6-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:48.605Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 96,
+      "usd": 0.00064,
+      "job": "audio l:CPP2-U6-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:50.659Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP2-U6-BQ:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:50.835Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP2-U6-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:51.223Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP2-U6-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:53.382Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP2-U7-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:53.658Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP2-U6-BQ:story:p2c2 (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:53.871Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 98,
+      "usd": 0.000653,
+      "job": "audio l:CPP2-U6-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:56.627Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP2-U7-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:57.469Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 134,
+      "usd": 0.000893,
+      "job": "audio l:CPP2-U7-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:57.881Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP2-U7-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:58.697Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP2-U7-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:22:59.786Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 118,
+      "usd": 0.000787,
+      "job": "audio l:CPP2-U7-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:00.047Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 67,
+      "usd": 0.000447,
+      "job": "audio l:CPP2-U7-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:01.620Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP2-U7-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:01.934Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP2-U7-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:02.196Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP2-U7-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:04.402Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP2-U7-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:04.826Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 74,
+      "usd": 0.000493,
+      "job": "audio l:CPP2-U7-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:05.326Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 76,
+      "usd": 0.000507,
+      "job": "audio l:CPP2-U7-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:06.808Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP2-U7-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:07.248Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP2-U7-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:07.955Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 105,
+      "usd": 0.0007,
+      "job": "audio l:CPP2-U7-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:09.016Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 98,
+      "usd": 0.000653,
+      "job": "audio l:CPP2-U7-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:09.712Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 59,
+      "usd": 0.000393,
+      "job": "audio l:CPP2-U7-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:10.831Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 74,
+      "usd": 0.000493,
+      "job": "audio l:CPP2-U8-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:12.205Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP2-U8-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:12.816Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP2-U8-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:14.086Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 71,
+      "usd": 0.000473,
+      "job": "audio l:CPP2-U8-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:15.182Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 106,
+      "usd": 0.000707,
+      "job": "audio l:CPP2-U8-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:15.666Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 133,
+      "usd": 0.000887,
+      "job": "audio l:CPP2-U8-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:16.306Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 57,
+      "usd": 0.000373,
+      "job": "audio l:CPP2-U8-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:17.521Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 90,
+      "usd": 0.0006,
+      "job": "audio l:CPP2-U8-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:18.109Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 59,
+      "usd": 0.000393,
+      "job": "audio l:CPP2-U8-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:18.925Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP2-U8-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:19.789Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 79,
+      "usd": 0.000527,
+      "job": "audio l:CPP2-U8-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:20.606Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 96,
+      "usd": 0.00064,
+      "job": "audio l:CPP2-U8-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:21.805Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 90,
+      "usd": 0.0006,
+      "job": "audio l:CPP2-U8-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:21.975Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP2-U8-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:23.454Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 76,
+      "usd": 0.000507,
+      "job": "audio l:CPP2-U8-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:23.952Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 73,
+      "usd": 0.000487,
+      "job": "audio l:CPP2-U8-B:story:p6b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:24.354Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 96,
+      "usd": 0.00064,
+      "job": "audio l:CPP2-U8-B:story:p6a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:26.644Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 111,
+      "usd": 0.000733,
+      "job": "audio l:CPP2-U8-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:27.243Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 128,
+      "usd": 0.000853,
+      "job": "audio l:CPP2-U8-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:27.652Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 98,
+      "usd": 0.000653,
+      "job": "audio l:CPP2-U9-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:29.778Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 115,
+      "usd": 0.000767,
+      "job": "audio l:CPP2-U9-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:30.087Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 112,
+      "usd": 0.00074,
+      "job": "audio l:CPP2-U9-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:30.248Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 112,
+      "usd": 0.00074,
+      "job": "audio l:CPP2-U9-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:32.342Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP2-U9-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:32.989Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 90,
+      "usd": 0.0006,
+      "job": "audio l:CPP2-U9-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:33.720Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 106,
+      "usd": 0.000707,
+      "job": "audio l:CPP2-U9-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:34.614Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP2-U9-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:36.071Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP2-U9-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:36.671Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP3-U2-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:37.386Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 120,
+      "usd": 0.0008,
+      "job": "audio l:CPP3-U2-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:38.547Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP3-U2-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:39.095Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 93,
+      "usd": 0.00062,
+      "job": "audio l:CPP3-U2-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:39.878Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP3-U2-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:41.134Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 77,
+      "usd": 0.000513,
+      "job": "audio l:CPP3-U2-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:41.534Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP3-U2-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:42.507Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 116,
+      "usd": 0.000773,
+      "job": "audio l:CPP3-U2-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:44.779Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP3-U2-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:44.916Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP3-U2-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:45.051Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 160,
+      "usd": 0.001067,
+      "job": "audio l:CPP3-U2-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:46.903Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 77,
+      "usd": 0.000513,
+      "job": "audio l:CPP3-U2-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:47.312Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 68,
+      "usd": 0.000453,
+      "job": "audio l:CPP3-U2-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:48.164Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 92,
+      "usd": 0.000613,
+      "job": "audio l:CPP3-U2-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:49.152Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP3-U2-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:49.396Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 64,
+      "usd": 0.000427,
+      "job": "audio l:CPP3-U2-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:51.477Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 98,
+      "usd": 0.000653,
+      "job": "audio l:CPP3-U2-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:51.623Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP3-U2-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:51.888Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 115,
+      "usd": 0.000767,
+      "job": "audio l:CPP3-U2-B:story:p6a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:53.997Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP3-U3-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:54.788Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000753,
+      "job": "audio l:CPP3-U3-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:54.973Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 114,
+      "usd": 0.00076,
+      "job": "audio l:CPP3-U3-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:56.284Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP3-U3-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:57.216Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 93,
+      "usd": 0.00062,
+      "job": "audio l:CPP3-U3-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:57.494Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 114,
+      "usd": 0.00076,
+      "job": "audio l:CPP3-U3-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:23:59.001Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 114,
+      "usd": 0.00076,
+      "job": "audio l:CPP3-U3-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:00.309Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 92,
+      "usd": 0.000613,
+      "job": "audio l:CPP3-U3-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:00.456Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 103,
+      "usd": 0.000687,
+      "job": "audio l:CPP3-U3-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:01.556Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 97,
+      "usd": 0.000647,
+      "job": "audio l:CPP3-U3-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:03.132Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 98,
+      "usd": 0.000653,
+      "job": "audio l:CPP3-U3-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:03.960Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 99,
+      "usd": 0.00066,
+      "job": "audio l:CPP3-U3-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:04.338Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 122,
+      "usd": 0.000813,
+      "job": "audio l:CPP3-U3-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:06.217Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP3-U3-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:07.710Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 141,
+      "usd": 0.00094,
+      "job": "audio l:CPP3-U3-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:07.893Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 162,
+      "usd": 0.00108,
+      "job": "audio l:CPP3-U3-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:09.612Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 129,
+      "usd": 0.00086,
+      "job": "audio l:CPP3-U3-BQ:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:11.041Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 115,
+      "usd": 0.000767,
+      "job": "audio l:CPP3-U3-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:11.348Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 193,
+      "usd": 0.001287,
+      "job": "audio l:CPP3-U3-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:12.451Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 93,
+      "usd": 0.00062,
+      "job": "audio l:CPP3-U4-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:14.003Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 124,
+      "usd": 0.000827,
+      "job": "audio l:CPP3-U4-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:14.371Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP3-U4-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:14.939Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP3-U4-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:16.190Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP3-U4-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:17.373Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 103,
+      "usd": 0.000687,
+      "job": "audio l:CPP3-U4-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:17.872Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP3-U4-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:18.933Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 125,
+      "usd": 0.000833,
+      "job": "audio l:CPP3-U4-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:20.500Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 117,
+      "usd": 0.00078,
+      "job": "audio l:CPP3-U4-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:20.658Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP3-U4-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:21.625Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 127,
+      "usd": 0.000847,
+      "job": "audio l:CPP3-U4-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:22.885Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 94,
+      "usd": 0.000627,
+      "job": "audio l:CPP3-U4-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:23.346Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000747,
+      "job": "audio l:CPP3-U4-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:23.660Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 75,
+      "usd": 0.0005,
+      "job": "audio l:CPP3-U4-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:25.863Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 94,
+      "usd": 0.000627,
+      "job": "audio l:CPP3-U4-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:26.006Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000747,
+      "job": "audio l:CPP3-U4-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:26.571Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 105,
+      "usd": 0.0007,
+      "job": "audio l:CPP3-U4-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:28.548Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000747,
+      "job": "audio l:CPP3-U4-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:28.700Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 75,
+      "usd": 0.0005,
+      "job": "audio l:CPP3-U5-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:29.124Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP3-U5-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:30.786Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 92,
+      "usd": 0.000613,
+      "job": "audio l:CPP3-U5-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:30.918Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 90,
+      "usd": 0.0006,
+      "job": "audio l:CPP3-U5-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:31.588Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 93,
+      "usd": 0.00062,
+      "job": "audio l:CPP3-U5-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:33.100Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP3-U5-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:33.587Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 84,
+      "usd": 0.00056,
+      "job": "audio l:CPP3-U5-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:35.012Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 99,
+      "usd": 0.00066,
+      "job": "audio l:CPP3-U5-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:35.931Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 106,
+      "usd": 0.000707,
+      "job": "audio l:CPP3-U5-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:36.731Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 116,
+      "usd": 0.000773,
+      "job": "audio l:CPP3-U5-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:38.490Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP3-U5-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:38.645Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 138,
+      "usd": 0.00092,
+      "job": "audio l:CPP3-U5-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:40.241Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 114,
+      "usd": 0.00076,
+      "job": "audio l:CPP3-U5-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:41.026Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP3-U5-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:41.171Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP3-U5-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:42.573Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 111,
+      "usd": 0.000733,
+      "job": "audio l:CPP3-U5-BQ:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:43.461Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 105,
+      "usd": 0.0007,
+      "job": "audio l:CPP3-U5-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:44.406Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 127,
+      "usd": 0.000847,
+      "job": "audio l:CPP3-U5-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:45.721Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 143,
+      "usd": 0.000953,
+      "job": "audio l:CPP3-U5-BQ:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:45.949Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 112,
+      "usd": 0.00074,
+      "job": "audio l:CPP3-U5-BQ:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:47.576Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP3-U6-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:48.375Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 119,
+      "usd": 0.000793,
+      "job": "audio l:CPP3-U6-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:49.083Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 133,
+      "usd": 0.000887,
+      "job": "audio l:CPP3-U6-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:50.527Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP3-U6-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:51.360Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 132,
+      "usd": 0.00088,
+      "job": "audio l:CPP3-U6-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:51.528Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP3-U6-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:53.667Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 156,
+      "usd": 0.00104,
+      "job": "audio l:CPP3-U6-A:story:p3c2 (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:54.207Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP3-U6-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:54.345Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 125,
+      "usd": 0.000833,
+      "job": "audio l:CPP3-U6-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:56.501Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 131,
+      "usd": 0.000873,
+      "job": "audio l:CPP3-U6-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:56.684Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP3-U6-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:57.024Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 103,
+      "usd": 0.000687,
+      "job": "audio l:CPP3-U6-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:59.262Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP3-U6-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:59.668Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP3-U6-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:24:59.807Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP3-U6-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:01.722Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP3-U6-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:02.517Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 123,
+      "usd": 0.00082,
+      "job": "audio l:CPP3-U6-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:03.067Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP3-U6-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:04.988Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP3-U6-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:05.777Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 117,
+      "usd": 0.00078,
+      "job": "audio l:CPP3-U6-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:05.935Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 80,
+      "usd": 0.000533,
+      "job": "audio l:CPP3-U6-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:07.514Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000753,
+      "job": "audio l:CPP3-U6-BQ:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:07.918Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP3-U6-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:08.217Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 96,
+      "usd": 0.00064,
+      "job": "audio l:CPP3-U6-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:10.095Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 82,
+      "usd": 0.000547,
+      "job": "audio l:CPP3-U7-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:10.290Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 128,
+      "usd": 0.000853,
+      "job": "audio l:CPP3-U7-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:11.619Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000753,
+      "job": "audio l:CPP3-U7-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:12.187Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 70,
+      "usd": 0.000467,
+      "job": "audio l:CPP3-U7-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:12.795Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP3-U7-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:14.388Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 94,
+      "usd": 0.000627,
+      "job": "audio l:CPP3-U7-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:14.542Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP3-U7-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:15.800Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 105,
+      "usd": 0.0007,
+      "job": "audio l:CPP3-U7-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:16.824Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP3-U7-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:17.010Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 121,
+      "usd": 0.000807,
+      "job": "audio l:CPP3-U7-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:18.698Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP3-U7-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:19.552Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP3-U7-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:19.695Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 122,
+      "usd": 0.000813,
+      "job": "audio l:CPP3-U7-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:20.941Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 100,
+      "usd": 0.000667,
+      "job": "audio l:CPP3-U7-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:22.153Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP3-U7-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:22.478Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000747,
+      "job": "audio l:CPP3-U7-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:23.041Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 79,
+      "usd": 0.000527,
+      "job": "audio l:CPP3-U8-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:24.323Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 91,
+      "usd": 0.000607,
+      "job": "audio l:CPP3-U8-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:24.862Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 80,
+      "usd": 0.000533,
+      "job": "audio l:CPP3-U8-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:25.398Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP3-U8-A:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:26.838Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 118,
+      "usd": 0.000787,
+      "job": "audio l:CPP3-U8-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:27.068Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 78,
+      "usd": 0.00052,
+      "job": "audio l:CPP3-U8-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:27.720Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 89,
+      "usd": 0.000593,
+      "job": "audio l:CPP3-U8-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:29.326Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 95,
+      "usd": 0.000633,
+      "job": "audio l:CPP3-U8-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:29.464Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP3-U8-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:30.036Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 84,
+      "usd": 0.00056,
+      "job": "audio l:CPP3-U8-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:31.946Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 90,
+      "usd": 0.0006,
+      "job": "audio l:CPP3-U8-B:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:32.297Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP3-U8-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:32.503Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 144,
+      "usd": 0.00096,
+      "job": "audio l:CPP3-U8-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:34.717Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 101,
+      "usd": 0.000673,
+      "job": "audio l:CPP3-U8-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:35.696Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP3-U8-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:35.842Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 131,
+      "usd": 0.000873,
+      "job": "audio l:CPP3-U8-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:37.999Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP3-U8-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:38.130Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 154,
+      "usd": 0.001027,
+      "job": "audio l:CPP3-U8-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:38.329Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 85,
+      "usd": 0.000567,
+      "job": "audio l:CPP3-U8-B:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:40.145Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000747,
+      "job": "audio l:CPP3-U8-B:story:p6a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:40.896Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 104,
+      "usd": 0.000693,
+      "job": "audio l:CPP3-U8-BQ:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:41.927Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 122,
+      "usd": 0.000813,
+      "job": "audio l:CPP3-U8-B:story:p6b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:42.871Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 118,
+      "usd": 0.000787,
+      "job": "audio l:CPP3-U8-BQ:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:44.054Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 99,
+      "usd": 0.00066,
+      "job": "audio l:CPP3-U8-BQ:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:44.756Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 118,
+      "usd": 0.000787,
+      "job": "audio l:CPP3-U8-BQ:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:45.314Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 111,
+      "usd": 0.000733,
+      "job": "audio l:CPP3-U8-BQ:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:46.372Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 69,
+      "usd": 0.00046,
+      "job": "audio l:CPP3-U9-A:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:47.145Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 102,
+      "usd": 0.00068,
+      "job": "audio l:CPP3-U9-A:story:p1b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:47.629Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 96,
+      "usd": 0.00064,
+      "job": "audio l:CPP3-U9-A:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:48.885Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP3-U9-A:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:49.984Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 88,
+      "usd": 0.000587,
+      "job": "audio l:CPP3-U9-A:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:50.473Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 123,
+      "usd": 0.00082,
+      "job": "audio l:CPP3-U9-A:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:50.908Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 71,
+      "usd": 0.000473,
+      "job": "audio l:CPP3-U9-A:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:52.640Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 87,
+      "usd": 0.00058,
+      "job": "audio l:CPP3-U9-A:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:52.759Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 83,
+      "usd": 0.000553,
+      "job": "audio l:CPP3-U9-A:story:p5b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:53.458Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 110,
+      "usd": 0.000727,
+      "job": "audio l:CPP3-U9-B:story:p1a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:55.139Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 81,
+      "usd": 0.00054,
+      "job": "audio l:CPP3-U9-B:story:p2b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:55.716Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 99,
+      "usd": 0.00066,
+      "job": "audio l:CPP3-U9-B:story:p3a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:56.033Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 107,
+      "usd": 0.000713,
+      "job": "audio l:CPP3-U9-B:story:p2a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:57.107Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 80,
+      "usd": 0.000533,
+      "job": "audio l:CPP3-U9-B:story:p3b (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:58.260Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 108,
+      "usd": 0.00072,
+      "job": "audio l:CPP3-U9-B:story:p4a (est)"
+    },
+    {
+      "t": "2026-10-17T12:25:58.783Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 93,
+      "usd": 0.00062,
+      "job": "audio l:CPP3-U9-B:story:p4b (est)"
+    },
+    {
+      "t": "2026-10-17T12:26:00.099Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 113,
+      "usd": 0.000747,
+      "job": "audio l:CPP3-U9-B:story:p5a (est)"
+    },
+    {
+      "t": "2026-10-17T12:27:56.406Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 12,
+      "outTok": 100,
+      "usd": 0.000906,
+      "job": "audio ×1 l:CPP1-U3-B:story:p2a"
+    },
+    {
+      "t": "2026-10-17T12:27:57.731Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 29,
+      "outTok": 270,
+      "usd": 0.002445,
+      "job": "audio ×2 l:CPP1-U3-B:story:p1a"
+    },
+    {
+      "t": "2026-10-17T12:28:04.450Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 54,
+      "outTok": 443,
+      "usd": 0.004014,
+      "job": "audio ×4 l:CPP1-U4-B:story:p1a"
+    },
+    {
+      "t": "2026-10-17T12:28:06.303Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 62,
+      "outTok": 460,
+      "usd": 0.004171,
+      "job": "audio ×4 l:CPP1-U4-B:story:p2a"
+    },
+    {
+      "t": "2026-10-17T12:28:09.661Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 15,
+      "outTok": 87,
+      "usd": 0.00079,
+      "job": "audio ×1 l:CPP1-U6-B:story:p4a"
+    },
+    {
+      "t": "2026-10-17T12:28:12.674Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 38,
+      "outTok": 298,
+      "usd": 0.002701,
+      "job": "audio ×2 l:CPP1-U9-B:story:p4a"
+    },
+    {
+      "t": "2026-10-17T12:28:18.195Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 42,
+      "outTok": 597,
+      "usd": 0.005394,
+      "job": "audio ×3 l:CPP2-U4-A:story:p3b"
+    },
+    {
+      "t": "2026-10-17T12:28:20.089Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 39,
+      "outTok": 418,
+      "usd": 0.003782,
+      "job": "audio ×3 l:CPP2-U5-A:story:p1a"
+    },
+    {
+      "t": "2026-10-17T12:28:25.257Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 14,
+      "outTok": 120,
+      "usd": 0.001087,
+      "job": "audio ×1 l:CPP2-U5-BQ:story:p1b"
+    },
+    {
+      "t": "2026-10-17T12:28:26.563Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 31,
+      "outTok": 506,
+      "usd": 0.004569,
+      "job": "audio ×2 l:CPP2-U5-BQ:story:p1a"
+    },
+    {
+      "t": "2026-10-17T12:28:35.113Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 66,
+      "outTok": 592,
+      "usd": 0.005361,
+      "job": "audio ×4 l:CPP2-U9-A:story:p1b"
+    },
+    {
+      "t": "2026-10-17T12:28:44.058Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 80,
+      "outTok": 1398,
+      "usd": 0.012622,
+      "job": "audio ×5 l:CPP2-U9-B:story:p1b"
+    },
+    {
+      "t": "2026-10-17T12:29:03.837Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 47,
+      "outTok": 524,
+      "usd": 0.004739,
+      "job": "audio ×3 l:CPP3-U3-B:story:p2a"
+    },
+    {
+      "t": "2026-10-17T12:29:09.101Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 137,
+      "usd": 0.001239,
+      "job": "audio ×1 l:CPP3-U3-A:story:p5a"
+    },
+    {
+      "t": "2026-10-17T12:29:13.298Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 71,
+      "outTok": 571,
+      "usd": 0.005175,
+      "job": "audio ×4 l:CPP3-U5-B:story:p2a"
+    },
+    {
+      "t": "2026-10-17T12:29:14.709Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 115,
+      "usd": 0.001042,
+      "job": "audio ×1 l:CPP3-U6-B:story:p2a"
+    },
+    {
+      "t": "2026-10-17T12:29:19.486Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 15,
+      "outTok": 181,
+      "usd": 0.001636,
+      "job": "audio ×1 l:CPP3-U7-A:story:p5a"
+    },
+    {
+      "t": "2026-10-17T12:29:24.127Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 57,
+      "outTok": 576,
+      "usd": 0.005213,
+      "job": "audio ×3 l:CPP3-U7-B:story:p2b"
+    },
+    {
+      "t": "2026-10-17T12:29:24.696Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 17,
+      "outTok": 165,
+      "usd": 0.001494,
+      "job": "audio ×1 l:CPP3-U8-B:story:p5a"
     }
   ]
 }

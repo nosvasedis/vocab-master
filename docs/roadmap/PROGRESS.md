@@ -18,6 +18,12 @@
   - Narration finishes over several days of the Gemini Tier-1 quota (about 100 requests/day/model). It's chunked, so 81 lessons need about 3 days.
   - Story characters that use studio voices go to the same model via **OpenRouter** (`voices.json` `"openrouterFor": ["dialogue"]`). No daily cap, about $0.46 per hour of audio, but no style field.
   - The OpenRouter cap is now $3 total (drafting plus TTS).
+- **Status 2026-10-17 evening:**
+  - all 81 lessons drafted and valid;
+  - all words (batch) and all story dialogue (441 clips via OpenRouter, $0.28) are voiced;
+  - pilot dialogue is on Gemini Flash;
+  - remaining: Lingo narration, 292 Flash-Lite requests ≈ 3 quota days ≈ $2.85;
+  - spend so far: Gemini $0.48 of $3.60, OpenRouter ≈ $1.05 of $3.00.
 - **Daily routine until narration is done:** `node scripts/audio/build-audio.mjs --only lessons` once per day after the quota resets (around 11:00 UTC). It resumes and stops cleanly at the quota.
 - **Waiting on the user:**
   - **Cloudflare API token:** not created, because the agent's permission system blocked the dashboard. The user can create it (Account → Workers AI: Edit + Workers R2 Storage: Edit) and paste `CF_ACCOUNT_ID` / `CF_API_TOKEN` into `.env.local`, or allow the action. Only needed for Phase 1d/1e.

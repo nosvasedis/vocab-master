@@ -14996,6 +14996,2130 @@
   "l:CPP3-U1-B:story:p5a": {
    "f": "87/87d0a239c8a070ed.ogg",
    "d": 4.65
+  },
+  "l:CPP1-U3-A:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U7-B:hook:l1": {
+   "f": "91/91ce25edaf7cbf66.ogg",
+   "d": 5.48
+  },
+  "l:CPP1-U7-B:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U8-A:hook:l1": {
+   "f": "91/91ce25edaf7cbf66.ogg",
+   "d": 5.48
+  },
+  "l:CPP1-U8-A:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U8-B:hook:l1": {
+   "f": "91/91ce25edaf7cbf66.ogg",
+   "d": 5.48
+  },
+  "l:CPP1-U8-B:check:c4q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U8-BQ:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U9-B:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U9-BQ:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U2-A:hook:l1": {
+   "f": "91/91ce25edaf7cbf66.ogg",
+   "d": 5.48
+  },
+  "l:CPP2-U2-A:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "d:CPP2-U2-A:CPP2-U2-SB-162": {
+   "f": "6d/6d6ddad57600b4e8.ogg",
+   "d": 3.04
+  },
+  "l:CPP2-U2-B:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U3-A:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U3-BQ:hook:l1": {
+   "f": "91/91ce25edaf7cbf66.ogg",
+   "d": 5.48
+  },
+  "l:CPP2-U4-A:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U4-B:check:c4q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U4-BQ:check:c4q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U5-B:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U5-BQ:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U6-B:check:c4q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U6-BQ:check:c7q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U7-A:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U7-B:check:c9q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U7-B:practice:l1": {
+   "f": "c0/c0c47290146ae9ea.ogg",
+   "d": 3.56
+  },
+  "l:CPP2-U7-BQ:check:c8q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U8-A:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U8-B:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U8-BQ:check:c4q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U9-B:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U9-BQ:check:c8q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U2-A:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U2-B:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U2-BQ:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U3-A:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U3-BQ:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U4-B:check:c10q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U4-BQ:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U5-A:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U6-A:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U6-B:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U6-BQ:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U7-A:check:c6q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U7-BQ:check:c7q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U8-A:check:c7q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U8-B:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U8-BQ:check:c5q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U9-A:check:c7q": {
+   "f": "da/da423aa6434af34a.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U2-A:story:p1b": {
+   "f": "9c/9c6c6cddcfa77c5e.ogg",
+   "d": 2.6
+  },
+  "l:CPP1-U2-A:story:p1a": {
+   "f": "67/671695eced4987a3.ogg",
+   "d": 2.08
+  },
+  "l:CPP1-U2-A:story:p2a": {
+   "f": "71/71785cb41903718f.ogg",
+   "d": 3.8
+  },
+  "l:CPP1-U2-A:story:p2b": {
+   "f": "98/987acd34d1a73a80.ogg",
+   "d": 3.04
+  },
+  "l:CPP1-U2-A:story:p3a": {
+   "f": "b8/b85fe5ade9a06f49.ogg",
+   "d": 3.4
+  },
+  "l:CPP1-U2-A:story:p3b": {
+   "f": "29/290782ee7406f1ed.ogg",
+   "d": 2.64
+  },
+  "l:CPP1-U2-A:story:p4a": {
+   "f": "39/39b8e1fbf3217007.ogg",
+   "d": 3.44
+  },
+  "l:CPP1-U2-A:story:p5a": {
+   "f": "d5/d54d893fa48b67ae.ogg",
+   "d": 2.8
+  },
+  "l:CPP1-U2-A:story:p5b": {
+   "f": "59/596377d749b01c4a.ogg",
+   "d": 3.36
+  },
+  "l:CPP1-U2-B:story:p1a": {
+   "f": "90/9004d1d3c830034c.ogg",
+   "d": 3.12
+  },
+  "l:CPP1-U2-B:story:p1b": {
+   "f": "ab/abd7a4d682e89762.ogg",
+   "d": 4.68
+  },
+  "l:CPP1-U2-B:story:p2b": {
+   "f": "fa/fa4276c692656a55.ogg",
+   "d": 3.12
+  },
+  "l:CPP1-U2-B:story:p2a": {
+   "f": "91/91b21e9aa30c8ae0.ogg",
+   "d": 1.84
+  },
+  "l:CPP1-U2-B:story:p3a": {
+   "f": "c6/c6629222e34913ea.ogg",
+   "d": 2.76
+  },
+  "l:CPP1-U2-B:story:p4a": {
+   "f": "29/29821bacbe92d2d0.ogg",
+   "d": 2.8
+  },
+  "l:CPP1-U2-B:story:p3b": {
+   "f": "8f/8fcdacd444863c01.ogg",
+   "d": 2.96
+  },
+  "l:CPP1-U2-B:story:p4b": {
+   "f": "3f/3f6389ec42924069.ogg",
+   "d": 2.92
+  },
+  "l:CPP1-U3-A:story:p1a": {
+   "f": "e6/e6fb3590af256dc7.ogg",
+   "d": 2.88
+  },
+  "l:CPP1-U3-A:story:p2a": {
+   "f": "28/28856a0cadef4095.ogg",
+   "d": 2.16
+  },
+  "l:CPP1-U3-A:story:p4a": {
+   "f": "da/dae63c5c6a9ac9bf.ogg",
+   "d": 2.08
+  },
+  "l:CPP1-U3-A:story:p3a": {
+   "f": "85/8548763f4487bedd.ogg",
+   "d": 3.04
+  },
+  "l:CPP1-U3-A:story:p5a": {
+   "f": "1f/1f6d31adfede2985.ogg",
+   "d": 2.68
+  },
+  "l:CPP1-U3-A:story:p6b": {
+   "f": "dc/dc3a928e47798544.ogg",
+   "d": 2.56
+  },
+  "l:CPP1-U3-B:story:p2b": {
+   "f": "dd/dd877993a8001311.ogg",
+   "d": 2.44
+  },
+  "l:CPP1-U3-A:story:p6a": {
+   "f": "8c/8cc16d5b43e331dc.ogg",
+   "d": 4.68
+  },
+  "l:CPP1-U3-B:story:p4a": {
+   "f": "51/51e06821c3958aba.ogg",
+   "d": 2.4
+  },
+  "l:CPP1-U3-B:story:p3a": {
+   "f": "e4/e47254065723b94c.ogg",
+   "d": 2.88
+  },
+  "l:CPP1-U4-A:story:p1a": {
+   "f": "6e/6edf5ea1e282dcde.ogg",
+   "d": 3.08
+  },
+  "l:CPP1-U4-A:story:p1b": {
+   "f": "5b/5b6cc4d85e2cbed0.ogg",
+   "d": 4
+  },
+  "l:CPP1-U4-A:story:p2a": {
+   "f": "ac/ac690a935c2bb284.ogg",
+   "d": 2.6
+  },
+  "l:CPP1-U4-A:story:p2b": {
+   "f": "80/800b4826a1f2feb0.ogg",
+   "d": 3.24
+  },
+  "l:CPP1-U4-A:story:p3a": {
+   "f": "e2/e2bb2ae8ac732f14.ogg",
+   "d": 3.68
+  },
+  "l:CPP1-U4-A:story:p3b": {
+   "f": "cb/cb623a86ff311035.ogg",
+   "d": 3.92
+  },
+  "l:CPP1-U4-A:story:p4a": {
+   "f": "8a/8a55568276d2572f.ogg",
+   "d": 4.32
+  },
+  "l:CPP1-U4-A:story:p5a": {
+   "f": "56/56e34864a20c7c35.ogg",
+   "d": 3.24
+  },
+  "l:CPP1-U4-A:story:p4d": {
+   "f": "05/057eb83cc870afbb.ogg",
+   "d": 3.32
+  },
+  "l:CPP1-U4-A:story:p4b": {
+   "f": "ee/ee2210c799bd2a2a.ogg",
+   "d": 4.24
+  },
+  "l:CPP1-U4-A:story:p5b": {
+   "f": "55/55d1b35bbe52a126.ogg",
+   "d": 3.52
+  },
+  "l:CPP1-U4-B:story:p3a": {
+   "f": "3f/3f4c15898d62866b.ogg",
+   "d": 3.2
+  },
+  "l:CPP1-U4-A:story:p5d": {
+   "f": "0c/0c69a8170a8ee57b.ogg",
+   "d": 4.76
+  },
+  "l:CPP1-U4-BQ:story:p1a": {
+   "f": "2b/2bd8d1ca7aafd6cd.ogg",
+   "d": 3.28
+  },
+  "l:CPP1-U4-BQ:story:p2a": {
+   "f": "e2/e2f2f45d7a25542a.ogg",
+   "d": 3.48
+  },
+  "l:CPP1-U4-BQ:story:p2b": {
+   "f": "b7/b78cdb867323ec4f.ogg",
+   "d": 3.16
+  },
+  "l:CPP1-U5-A:story:p1a": {
+   "f": "a0/a061b649cd930438.ogg",
+   "d": 2.8
+  },
+  "l:CPP1-U5-A:story:p2a": {
+   "f": "86/8653bb6c00e0374a.ogg",
+   "d": 4.36
+  },
+  "l:CPP1-U5-A:story:p2b": {
+   "f": "30/3087ca29b7db1dc6.ogg",
+   "d": 4.16
+  },
+  "l:CPP1-U5-A:story:p3a": {
+   "f": "96/96c02d2703e6da52.ogg",
+   "d": 2.2
+  },
+  "l:CPP1-U5-A:story:p3b": {
+   "f": "5d/5dccc24ae1c85ab1.ogg",
+   "d": 3.48
+  },
+  "l:CPP1-U5-A:story:p4a": {
+   "f": "ec/ecf708ed393910d1.ogg",
+   "d": 3.64
+  },
+  "l:CPP1-U5-A:story:p5a": {
+   "f": "ac/acab44eb02c84da7.ogg",
+   "d": 3.24
+  },
+  "l:CPP1-U5-B:story:p1a": {
+   "f": "11/11652e1e9fb62b44.ogg",
+   "d": 3.16
+  },
+  "l:CPP1-U5-B:story:p1b": {
+   "f": "28/28c2c5ee8fb8536e.ogg",
+   "d": 2.56
+  },
+  "l:CPP1-U5-B:story:p2a": {
+   "f": "45/455219b0bb271d83.ogg",
+   "d": 3.76
+  },
+  "l:CPP1-U5-B:story:p2b": {
+   "f": "8a/8a3c02ba2f800dd1.ogg",
+   "d": 3.4
+  },
+  "l:CPP1-U5-B:story:p3a": {
+   "f": "22/22ff611a401223c3.ogg",
+   "d": 3.64
+  },
+  "l:CPP1-U5-B:story:p3b": {
+   "f": "cf/cf3e01add2c677b2.ogg",
+   "d": 2.76
+  },
+  "l:CPP1-U5-B:story:p4a": {
+   "f": "b3/b3ed9a6b666b5949.ogg",
+   "d": 4.08
+  },
+  "l:CPP1-U5-B:story:p4b": {
+   "f": "6e/6e18de97613098fa.ogg",
+   "d": 4.28
+  },
+  "l:CPP1-U5-B:story:p5a": {
+   "f": "79/7912984cbabde2b6.ogg",
+   "d": 2.96
+  },
+  "l:CPP1-U5-B:story:p5b": {
+   "f": "da/dae6ea5dd5b341aa.ogg",
+   "d": 3.56
+  },
+  "l:CPP1-U5-BQ:story:p1a": {
+   "f": "62/62590d0b60a34197.ogg",
+   "d": 3.72
+  },
+  "l:CPP1-U5-BQ:story:p2a": {
+   "f": "72/723af0744575ca4a.ogg",
+   "d": 3.8
+  },
+  "l:CPP1-U6-A:story:p1a": {
+   "f": "22/2203139210fff418.ogg",
+   "d": 3.88
+  },
+  "l:CPP1-U6-A:story:p2a": {
+   "f": "22/22908dd2f0a12134.ogg",
+   "d": 2.36
+  },
+  "l:CPP1-U6-A:story:p1b": {
+   "f": "00/0028095f29e124db.ogg",
+   "d": 2.68
+  },
+  "l:CPP1-U6-A:story:p2b": {
+   "f": "af/afab1f173eb35dd7.ogg",
+   "d": 3.08
+  },
+  "l:CPP1-U6-A:story:p3a": {
+   "f": "48/4805b531b246742b.ogg",
+   "d": 2.56
+  },
+  "l:CPP1-U6-A:story:p3b": {
+   "f": "22/22f3cbc1f6babb5b.ogg",
+   "d": 3.12
+  },
+  "l:CPP1-U6-A:story:p4a": {
+   "f": "7f/7f28d68e1e5ece28.ogg",
+   "d": 4.6
+  },
+  "l:CPP1-U6-A:story:p5a": {
+   "f": "3d/3da3744884ae4749.ogg",
+   "d": 2.52
+  },
+  "l:CPP1-U6-A:story:p4b": {
+   "f": "02/02534656d75ea41c.ogg",
+   "d": 2.84
+  },
+  "l:CPP1-U6-A:story:p5b": {
+   "f": "a0/a02f1536e65d6c28.ogg",
+   "d": 3.08
+  },
+  "l:CPP1-U6-B:story:p2a": {
+   "f": "f5/f5b84b50590e3c0b.ogg",
+   "d": 2.68
+  },
+  "l:CPP1-U6-B:story:p1a": {
+   "f": "7e/7e676e8e0bd977bf.ogg",
+   "d": 3.4
+  },
+  "l:CPP1-U6-B:story:p3a": {
+   "f": "64/64d46165245048d8.ogg",
+   "d": 2.68
+  },
+  "l:CPP1-U6-B:story:p5a": {
+   "f": "5c/5c87ea12905163cf.ogg",
+   "d": 2.68
+  },
+  "l:CPP1-U7-A:story:p1b": {
+   "f": "7c/7c5df97cf7dcaf88.ogg",
+   "d": 2.44
+  },
+  "l:CPP1-U7-A:story:p1a": {
+   "f": "66/66ec5695855c05e6.ogg",
+   "d": 3.36
+  },
+  "l:CPP1-U7-A:story:p2a": {
+   "f": "ac/acc9ac0cdaa5d5b2.ogg",
+   "d": 3.64
+  },
+  "l:CPP1-U7-A:story:p3a": {
+   "f": "62/62e4ba64fcab73e7.ogg",
+   "d": 2.92
+  },
+  "l:CPP1-U7-A:story:p2b": {
+   "f": "03/03b3171405f5070a.ogg",
+   "d": 4.8
+  },
+  "l:CPP1-U7-A:story:p3b": {
+   "f": "98/9883b54c6fc03bac.ogg",
+   "d": 4.76
+  },
+  "l:CPP1-U7-A:story:p4a": {
+   "f": "a3/a3a2c29ebd832bcc.ogg",
+   "d": 4.6
+  },
+  "l:CPP1-U7-A:story:p4b": {
+   "f": "78/7853dca0c9417d80.ogg",
+   "d": 4.56
+  },
+  "l:CPP1-U7-A:story:p5a": {
+   "f": "13/138c9454d7cfe4e2.ogg",
+   "d": 4.44
+  },
+  "l:CPP1-U7-B:story:p1a": {
+   "f": "56/5668d330de38ac61.ogg",
+   "d": 3.24
+  },
+  "l:CPP1-U7-B:story:p2a": {
+   "f": "e3/e352f4f2d159aa68.ogg",
+   "d": 4.04
+  },
+  "l:CPP1-U7-B:story:p3a": {
+   "f": "63/63c72607fd2218bf.ogg",
+   "d": 3.16
+  },
+  "l:CPP1-U7-B:story:p2b": {
+   "f": "e1/e1a093f401e435bc.ogg",
+   "d": 5.68
+  },
+  "l:CPP1-U7-B:story:p3b": {
+   "f": "b3/b3acfbcb7250e6d4.ogg",
+   "d": 2.28
+  },
+  "l:CPP1-U7-B:story:p3d": {
+   "f": "62/627a058649c3a919.ogg",
+   "d": 4.4
+  },
+  "l:CPP1-U7-B:story:p4a": {
+   "f": "49/496616217d765f6a.ogg",
+   "d": 3.24
+  },
+  "l:CPP1-U7-B:story:p5a": {
+   "f": "81/81d3cedee7ec9e79.ogg",
+   "d": 2.84
+  },
+  "l:CPP1-U7-B:story:p4b": {
+   "f": "75/75635a43227bea28.ogg",
+   "d": 4
+  },
+  "l:CPP1-U8-A:story:p1a": {
+   "f": "71/71ee86392f8c23fe.ogg",
+   "d": 3.32
+  },
+  "l:CPP1-U8-A:story:p2a": {
+   "f": "fc/fcffae08d3c0a9e1.ogg",
+   "d": 2.64
+  },
+  "l:CPP1-U8-A:story:p1b": {
+   "f": "1a/1a88d2c1bc3ea29a.ogg",
+   "d": 2.8
+  },
+  "l:CPP1-U8-A:story:p2b": {
+   "f": "4a/4abf87832744ec7a.ogg",
+   "d": 3.28
+  },
+  "l:CPP1-U8-A:story:p3a": {
+   "f": "33/33a16bc718eaeafc.ogg",
+   "d": 2.6
+  },
+  "l:CPP1-U8-A:story:p3b": {
+   "f": "83/83a79edc597cb419.ogg",
+   "d": 2.44
+  },
+  "l:CPP1-U8-A:story:p4a": {
+   "f": "72/72047973f0fdfa21.ogg",
+   "d": 4.04
+  },
+  "l:CPP1-U8-A:story:p5a": {
+   "f": "e5/e5ba13c4cad6bf4e.ogg",
+   "d": 4.16
+  },
+  "l:CPP1-U8-B:story:p1a": {
+   "f": "f7/f717c1ec55eba365.ogg",
+   "d": 3.64
+  },
+  "l:CPP1-U8-B:story:p1b": {
+   "f": "0e/0e4ea76f219b3f45.ogg",
+   "d": 3.28
+  },
+  "l:CPP1-U8-B:story:p2a": {
+   "f": "20/20a9480abd32f578.ogg",
+   "d": 3.32
+  },
+  "l:CPP1-U8-B:story:p2b": {
+   "f": "29/29f9c24f180f851b.ogg",
+   "d": 2.6
+  },
+  "l:CPP1-U8-B:story:p3a": {
+   "f": "d3/d3cade41351ac886.ogg",
+   "d": 3.2
+  },
+  "l:CPP1-U8-B:story:p3b": {
+   "f": "20/200bdc067d0ede28.ogg",
+   "d": 3.56
+  },
+  "l:CPP1-U8-B:story:p4a": {
+   "f": "a0/a0964f54fca93e5c.ogg",
+   "d": 3.8
+  },
+  "l:CPP1-U8-B:story:p4b": {
+   "f": "c6/c6bb58d98861fc05.ogg",
+   "d": 2.88
+  },
+  "l:CPP1-U8-B:story:p5a": {
+   "f": "78/7899322868389eb3.ogg",
+   "d": 3.2
+  },
+  "l:CPP1-U8-B:story:p5b": {
+   "f": "17/178385bb05822dff.ogg",
+   "d": 3.28
+  },
+  "l:CPP1-U8-BQ:story:p1a": {
+   "f": "45/458b779348edde03.ogg",
+   "d": 3.56
+  },
+  "l:CPP1-U8-BQ:story:p2a": {
+   "f": "44/446007bbddef1fd9.ogg",
+   "d": 3.44
+  },
+  "l:CPP1-U8-BQ:story:p2b": {
+   "f": "4d/4dd237f0b66fdfb7.ogg",
+   "d": 3.88
+  },
+  "l:CPP1-U9-A:story:p1b": {
+   "f": "32/3244889682fb69bd.ogg",
+   "d": 2.64
+  },
+  "l:CPP1-U9-A:story:p1a": {
+   "f": "f2/f21eecd5ab4bcbe5.ogg",
+   "d": 4.28
+  },
+  "l:CPP1-U9-A:story:p2a": {
+   "f": "fc/fc85dfa8cd26e8b1.ogg",
+   "d": 4.08
+  },
+  "l:CPP1-U9-A:story:p3a": {
+   "f": "88/884f5ae6231b1ad7.ogg",
+   "d": 4.68
+  },
+  "l:CPP1-U9-A:story:p2b": {
+   "f": "56/56dc123b4cfd1503.ogg",
+   "d": 3.6
+  },
+  "l:CPP1-U9-A:story:p4a": {
+   "f": "8a/8ae15f67be7fcfa2.ogg",
+   "d": 3.52
+  },
+  "l:CPP1-U9-A:story:p4b": {
+   "f": "8e/8e29d6324fe4643d.ogg",
+   "d": 3.76
+  },
+  "l:CPP1-U9-A:story:p5b": {
+   "f": "80/80ad702c22e37cd3.ogg",
+   "d": 3.56
+  },
+  "l:CPP1-U9-A:story:p5a": {
+   "f": "9c/9c62e71c2fbdb442.ogg",
+   "d": 5.24
+  },
+  "l:CPP1-U9-A:story:p6a": {
+   "f": "97/97d0a9bf67d66d1a.ogg",
+   "d": 4.52
+  },
+  "l:CPP1-U9-A:story:p6b": {
+   "f": "e9/e97e8b494c71a0bb.ogg",
+   "d": 3.4
+  },
+  "l:CPP1-U9-B:story:p1a": {
+   "f": "61/61c9dc9abf056fee.ogg",
+   "d": 3.8
+  },
+  "l:CPP1-U9-B:story:p2a": {
+   "f": "98/98ad3cf6d124342c.ogg",
+   "d": 3
+  },
+  "l:CPP1-U9-B:story:p1b": {
+   "f": "b1/b1a47e18640922de.ogg",
+   "d": 4.28
+  },
+  "l:CPP1-U9-B:story:p2b": {
+   "f": "a2/a2fdb588370647ca.ogg",
+   "d": 3.8
+  },
+  "l:CPP1-U9-B:story:p3a": {
+   "f": "ff/ff8f7ff4838703f4.ogg",
+   "d": 2.16
+  },
+  "l:CPP1-U9-B:story:p3b": {
+   "f": "30/30883a8615a493f4.ogg",
+   "d": 3.8
+  },
+  "l:CPP1-U9-B:story:p4b": {
+   "f": "19/19f20ad37dc07aec.ogg",
+   "d": 3.32
+  },
+  "l:CPP1-U9-B:story:p5b": {
+   "f": "b8/b85b482b6655b8d3.ogg",
+   "d": 3.04
+  },
+  "l:CPP2-U2-A:story:p1b": {
+   "f": "e2/e255676abec36e67.ogg",
+   "d": 4.32
+  },
+  "l:CPP2-U2-A:story:p1a": {
+   "f": "c0/c06667854b793eeb.ogg",
+   "d": 4.4
+  },
+  "l:CPP2-U2-A:story:p2b": {
+   "f": "ea/eab8a8782cf7d686.ogg",
+   "d": 2.2
+  },
+  "l:CPP2-U2-A:story:p2a": {
+   "f": "9c/9c6b875c748195fb.ogg",
+   "d": 4.36
+  },
+  "l:CPP2-U2-A:story:p3a": {
+   "f": "94/94cf17ed032535fd.ogg",
+   "d": 4
+  },
+  "l:CPP2-U2-A:story:p3b": {
+   "f": "b3/b307555653aacb9a.ogg",
+   "d": 3.44
+  },
+  "l:CPP2-U2-A:story:p4b": {
+   "f": "96/966993581d0a1c2d.ogg",
+   "d": 2.56
+  },
+  "l:CPP2-U2-A:story:p4a": {
+   "f": "ed/ed9afb7a6c6bcd06.ogg",
+   "d": 4.48
+  },
+  "l:CPP2-U2-A:story:p5a": {
+   "f": "7b/7b335599368a7208.ogg",
+   "d": 3.76
+  },
+  "l:CPP2-U2-A:story:p5b": {
+   "f": "08/08558663e2adeea3.ogg",
+   "d": 3.56
+  },
+  "l:CPP2-U2-B:story:p1a": {
+   "f": "be/be6c605453fd2520.ogg",
+   "d": 3.88
+  },
+  "l:CPP2-U2-B:story:p1b": {
+   "f": "5f/5f0a6ca1be21c9fc.ogg",
+   "d": 4.52
+  },
+  "l:CPP2-U2-B:story:p2a": {
+   "f": "dc/dc6933a51f437cfa.ogg",
+   "d": 3.56
+  },
+  "l:CPP2-U2-B:story:p2b": {
+   "f": "8a/8a86477d9f90f8f8.ogg",
+   "d": 3.88
+  },
+  "l:CPP2-U2-B:story:p3b": {
+   "f": "97/973c027ab691c406.ogg",
+   "d": 2.76
+  },
+  "l:CPP2-U2-B:story:p3a": {
+   "f": "ec/ece67abed798c0c0.ogg",
+   "d": 3.64
+  },
+  "l:CPP2-U2-B:story:p4a": {
+   "f": "7c/7c328f391f696de6.ogg",
+   "d": 4.28
+  },
+  "l:CPP2-U2-B:story:p4b": {
+   "f": "95/9515a01e52f02671.ogg",
+   "d": 4.24
+  },
+  "l:CPP2-U2-B:story:p5a": {
+   "f": "26/26ec63bdbc8a17a6.ogg",
+   "d": 3.88
+  },
+  "l:CPP2-U2-B:story:p5b": {
+   "f": "31/31e22c245df8f6ab.ogg",
+   "d": 2.04
+  },
+  "l:CPP2-U2-BQ:story:p1a": {
+   "f": "c2/c21709df6effd70c.ogg",
+   "d": 4.56
+  },
+  "l:CPP2-U2-BQ:story:p2a": {
+   "f": "81/81ec6713131e25f6.ogg",
+   "d": 2.8
+  },
+  "l:CPP2-U2-BQ:story:p2b": {
+   "f": "f1/f14fd3897f00f5e0.ogg",
+   "d": 2.92
+  },
+  "l:CPP2-U2-BQ:story:p3b": {
+   "f": "56/56da2536a8059d33.ogg",
+   "d": 3.68
+  },
+  "l:CPP2-U2-BQ:story:p3a": {
+   "f": "18/187215fcbc47a1cf.ogg",
+   "d": 4.2
+  },
+  "l:CPP2-U3-A:story:p1a": {
+   "f": "48/4819eaf00b1f1981.ogg",
+   "d": 3.68
+  },
+  "l:CPP2-U3-A:story:p1b": {
+   "f": "fa/fac09e069db978e2.ogg",
+   "d": 3.88
+  },
+  "l:CPP2-U3-A:story:p2a": {
+   "f": "39/3953d81f59c025f3.ogg",
+   "d": 2.88
+  },
+  "l:CPP2-U3-A:story:p2b": {
+   "f": "b8/b8a34fba989e8e13.ogg",
+   "d": 3
+  },
+  "l:CPP2-U3-A:story:p3a": {
+   "f": "58/58f7c77d40573a33.ogg",
+   "d": 3.92
+  },
+  "l:CPP2-U3-A:story:p4a": {
+   "f": "0a/0a54f5c56a751ffc.ogg",
+   "d": 4.04
+  },
+  "l:CPP2-U3-A:story:p3b": {
+   "f": "09/09e16c5858b4d240.ogg",
+   "d": 2.96
+  },
+  "l:CPP2-U3-A:story:p5b": {
+   "f": "dd/dd0b5a5036e0b0ea.ogg",
+   "d": 3.52
+  },
+  "l:CPP2-U3-B:story:p1a": {
+   "f": "4d/4dee8076210d3b9c.ogg",
+   "d": 3.56
+  },
+  "l:CPP2-U3-B:story:p1b": {
+   "f": "0f/0f49fd51a7283dbe.ogg",
+   "d": 3.28
+  },
+  "l:CPP2-U3-B:story:p2a": {
+   "f": "5a/5a10f7c7cdd000dd.ogg",
+   "d": 2.4
+  },
+  "l:CPP2-U3-B:story:p2b": {
+   "f": "cb/cbce620f76f5c3a9.ogg",
+   "d": 5.12
+  },
+  "l:CPP2-U3-B:story:p3a": {
+   "f": "d7/d704a62762a22e71.ogg",
+   "d": 3.12
+  },
+  "l:CPP2-U3-B:story:p3b": {
+   "f": "26/2641517bea6cb8ec.ogg",
+   "d": 2.64
+  },
+  "l:CPP2-U3-B:story:p4b": {
+   "f": "50/508c62e376ac557d.ogg",
+   "d": 4.16
+  },
+  "l:CPP2-U3-B:story:p4a": {
+   "f": "d2/d211f6120eee3d3e.ogg",
+   "d": 4.16
+  },
+  "l:CPP2-U3-B:story:p5a": {
+   "f": "8f/8f9966801821d536.ogg",
+   "d": 3.52
+  },
+  "l:CPP2-U3-B:story:p5b": {
+   "f": "93/93206e9f01f998df.ogg",
+   "d": 3.68
+  },
+  "l:CPP2-U4-A:story:p1b": {
+   "f": "ca/ca29fb52966c83d5.ogg",
+   "d": 3.8
+  },
+  "l:CPP2-U4-A:story:p1a": {
+   "f": "ff/ff439731b1b0b21e.ogg",
+   "d": 5.04
+  },
+  "l:CPP2-U4-A:story:p2b": {
+   "f": "57/5750dd8e5b11fb04.ogg",
+   "d": 4.32
+  },
+  "l:CPP2-U4-A:story:p2a": {
+   "f": "b5/b57105a4430bc4f5.ogg",
+   "d": 3.4
+  },
+  "l:CPP2-U4-A:story:p3a": {
+   "f": "1a/1a74f97ed4d71589.ogg",
+   "d": 3.16
+  },
+  "l:CPP2-U4-A:story:p4a": {
+   "f": "8e/8eea26bfaf35c86a.ogg",
+   "d": 4.04
+  },
+  "l:CPP2-U4-B:story:p1a": {
+   "f": "6d/6d032adfda078db1.ogg",
+   "d": 4.08
+  },
+  "l:CPP2-U4-A:story:p5a": {
+   "f": "6f/6fe8d52644df415e.ogg",
+   "d": 4.32
+  },
+  "l:CPP2-U4-B:story:p2b": {
+   "f": "83/83f3187667fc0260.ogg",
+   "d": 2.88
+  },
+  "l:CPP2-U4-B:story:p2a": {
+   "f": "b7/b73db69d0606e58a.ogg",
+   "d": 3.16
+  },
+  "l:CPP2-U4-B:story:p1b": {
+   "f": "52/5231268a9ca56b4e.ogg",
+   "d": 3.32
+  },
+  "l:CPP2-U4-B:story:p3a": {
+   "f": "84/84c0444bb4b135a8.ogg",
+   "d": 4.04
+  },
+  "l:CPP2-U4-B:story:p3b": {
+   "f": "c0/c073091bed45d936.ogg",
+   "d": 3.64
+  },
+  "l:CPP2-U4-B:story:p4a": {
+   "f": "b8/b8278941ee4859ee.ogg",
+   "d": 4.04
+  },
+  "l:CPP2-U4-B:story:p4b": {
+   "f": "52/52ed2803fe3e4332.ogg",
+   "d": 3.8
+  },
+  "l:CPP2-U4-B:story:p5a": {
+   "f": "9b/9b231a2df8e16585.ogg",
+   "d": 4.56
+  },
+  "l:CPP2-U4-B:story:p5b": {
+   "f": "71/718781b2952dfd24.ogg",
+   "d": 3.88
+  },
+  "l:CPP2-U5-A:story:p1b": {
+   "f": "e6/e6b278eb70bc8611.ogg",
+   "d": 4.36
+  },
+  "l:CPP2-U5-A:story:p2a": {
+   "f": "44/44915b6f8f508785.ogg",
+   "d": 3.44
+  },
+  "l:CPP2-U5-A:story:p3a": {
+   "f": "1f/1fde63f6f946b96a.ogg",
+   "d": 2.32
+  },
+  "l:CPP2-U5-A:story:p3b": {
+   "f": "16/16f77e236778ddfc.ogg",
+   "d": 4.24
+  },
+  "l:CPP2-U5-A:story:p4a": {
+   "f": "da/da647b92bb2a7a4a.ogg",
+   "d": 3.44
+  },
+  "l:CPP2-U5-A:story:p4b": {
+   "f": "0d/0dcc9d987f13c42d.ogg",
+   "d": 3.12
+  },
+  "l:CPP2-U5-A:story:p5b": {
+   "f": "89/892e3fd34dedc630.ogg",
+   "d": 4.6
+  },
+  "l:CPP2-U5-B:story:p1b": {
+   "f": "ca/caff96fe9e9a4231.ogg",
+   "d": 4.08
+  },
+  "l:CPP2-U5-B:story:p1a": {
+   "f": "68/6874e01435b283bb.ogg",
+   "d": 4.72
+  },
+  "l:CPP2-U5-B:story:p2b": {
+   "f": "71/71b37c79577752eb.ogg",
+   "d": 3.04
+  },
+  "l:CPP2-U5-B:story:p2a": {
+   "f": "c7/c74adc1af9d6df94.ogg",
+   "d": 5.4
+  },
+  "l:CPP2-U5-B:story:p3a": {
+   "f": "43/43a0a64b940aaf4f.ogg",
+   "d": 4.32
+  },
+  "l:CPP2-U5-B:story:p3b": {
+   "f": "c6/c68a2398cd502e46.ogg",
+   "d": 5.88
+  },
+  "l:CPP2-U5-B:story:p4b": {
+   "f": "0d/0db1cbae9950f173.ogg",
+   "d": 3.44
+  },
+  "l:CPP2-U5-B:story:p4a": {
+   "f": "f4/f4f9d5796ef94c27.ogg",
+   "d": 4.6
+  },
+  "l:CPP2-U5-B:story:p5a": {
+   "f": "33/3343f47b15ae3bcf.ogg",
+   "d": 4.16
+  },
+  "l:CPP2-U5-B:story:p5b": {
+   "f": "f1/f17273dd80d24437.ogg",
+   "d": 4.16
+  },
+  "l:CPP2-U5-BQ:story:p2a": {
+   "f": "b3/b3fe03058492666c.ogg",
+   "d": 3.76
+  },
+  "l:CPP2-U6-A:story:p1a": {
+   "f": "a9/a9ccbe108d59fc30.ogg",
+   "d": 3.48
+  },
+  "l:CPP2-U6-A:story:p1b": {
+   "f": "fe/fe33b4229d9b38be.ogg",
+   "d": 5
+  },
+  "l:CPP2-U6-A:story:p2a": {
+   "f": "59/59db8c7d884a0b7c.ogg",
+   "d": 5.48
+  },
+  "l:CPP2-U6-A:story:p2b": {
+   "f": "a9/a99e5af96c0a7c43.ogg",
+   "d": 3.24
+  },
+  "l:CPP2-U6-A:story:p3a": {
+   "f": "de/de8c9c6c00b81bba.ogg",
+   "d": 3
+  },
+  "l:CPP2-U6-A:story:p3b": {
+   "f": "63/6359b790bba216af.ogg",
+   "d": 4.04
+  },
+  "l:CPP2-U6-A:story:p4b": {
+   "f": "23/23936a33736b82b9.ogg",
+   "d": 2.88
+  },
+  "l:CPP2-U6-A:story:p5a": {
+   "f": "84/84ca4549734f5163.ogg",
+   "d": 4.84
+  },
+  "l:CPP2-U6-A:story:p5b": {
+   "f": "6f/6fac231abcbd07fc.ogg",
+   "d": 4.16
+  },
+  "l:CPP2-U6-B:story:p1a": {
+   "f": "c2/c2404c6ea6164fe5.ogg",
+   "d": 3.28
+  },
+  "l:CPP2-U6-B:story:p1b": {
+   "f": "fb/fb4e3a4e62e28e4f.ogg",
+   "d": 5.04
+  },
+  "l:CPP2-U6-B:story:p2a": {
+   "f": "7f/7f6fb42bbe557830.ogg",
+   "d": 3.52
+  },
+  "l:CPP2-U6-B:story:p2b": {
+   "f": "27/274d4ef4534af0d1.ogg",
+   "d": 3.36
+  },
+  "l:CPP2-U6-B:story:p3a": {
+   "f": "e8/e85ddff54047386d.ogg",
+   "d": 4.32
+  },
+  "l:CPP2-U6-B:story:p4a": {
+   "f": "64/64fc0f0eb373bd23.ogg",
+   "d": 4.36
+  },
+  "l:CPP2-U6-B:story:p3b": {
+   "f": "72/72ee720186398e8b.ogg",
+   "d": 3.84
+  },
+  "l:CPP2-U6-B:story:p4b": {
+   "f": "fd/fd6d1bd223d963f7.ogg",
+   "d": 3.24
+  },
+  "l:CPP2-U6-B:story:p5b": {
+   "f": "e2/e2a3b450b2b40153.ogg",
+   "d": 3
+  },
+  "l:CPP2-U6-B:story:p5a": {
+   "f": "ad/ad5bfcd41f6f535b.ogg",
+   "d": 3.84
+  },
+  "l:CPP2-U6-BQ:story:p1b": {
+   "f": "d8/d8cae2ada9306a46.ogg",
+   "d": 3.12
+  },
+  "l:CPP2-U6-BQ:story:p1a": {
+   "f": "e3/e34d1ed8f813cd75.ogg",
+   "d": 3.64
+  },
+  "l:CPP2-U6-BQ:story:p2a": {
+   "f": "8d/8d852e487f4b3236.ogg",
+   "d": 3.24
+  },
+  "l:CPP2-U7-A:story:p1a": {
+   "f": "7e/7e9da232d67a5f5a.ogg",
+   "d": 3.48
+  },
+  "l:CPP2-U6-BQ:story:p2c2": {
+   "f": "30/30b22af791d6b9a8.ogg",
+   "d": 3.32
+  },
+  "l:CPP2-U6-BQ:story:p2b": {
+   "f": "ce/ceecef612914a37a.ogg",
+   "d": 3.92
+  },
+  "l:CPP2-U7-A:story:p2b": {
+   "f": "a0/a07de3673e20f77f.ogg",
+   "d": 4
+  },
+  "l:CPP2-U7-A:story:p3a": {
+   "f": "16/1654a46e7b66b95e.ogg",
+   "d": 5.36
+  },
+  "l:CPP2-U7-A:story:p2a": {
+   "f": "35/35d92e7eb2fd33e5.ogg",
+   "d": 3.28
+  },
+  "l:CPP2-U7-A:story:p3b": {
+   "f": "82/826abcb9077cd216.ogg",
+   "d": 4
+  },
+  "l:CPP2-U7-A:story:p4a": {
+   "f": "d1/d160a13e2ebac5a4.ogg",
+   "d": 4.72
+  },
+  "l:CPP2-U7-A:story:p5a": {
+   "f": "f3/f362d133280a1152.ogg",
+   "d": 2.68
+  },
+  "l:CPP2-U7-A:story:p5b": {
+   "f": "dc/dcf4b3c6e532c574.ogg",
+   "d": 4.04
+  },
+  "l:CPP2-U7-B:story:p1a": {
+   "f": "94/9466d7c46f8cbe2f.ogg",
+   "d": 3.8
+  },
+  "l:CPP2-U7-B:story:p1b": {
+   "f": "0b/0b602ae840036e15.ogg",
+   "d": 3.24
+  },
+  "l:CPP2-U7-B:story:p3a": {
+   "f": "53/53e88be4d0333ae2.ogg",
+   "d": 3.52
+  },
+  "l:CPP2-U7-B:story:p2b": {
+   "f": "a1/a16f4eb625ff8e30.ogg",
+   "d": 2.96
+  },
+  "l:CPP2-U7-B:story:p2a": {
+   "f": "3a/3a5a6ac9cb59837a.ogg",
+   "d": 3.04
+  },
+  "l:CPP2-U7-B:story:p3b": {
+   "f": "00/006f2631d2a3afc3.ogg",
+   "d": 4
+  },
+  "l:CPP2-U7-B:story:p4a": {
+   "f": "67/67b34807589fbea9.ogg",
+   "d": 3.24
+  },
+  "l:CPP2-U7-B:story:p4b": {
+   "f": "75/758fe1d6400516e0.ogg",
+   "d": 4.2
+  },
+  "l:CPP2-U7-B:story:p5a": {
+   "f": "41/41dcb5fb3fa3acd3.ogg",
+   "d": 3.92
+  },
+  "l:CPP2-U7-B:story:p5b": {
+   "f": "cd/cdf54f674d73c55a.ogg",
+   "d": 2.36
+  },
+  "l:CPP2-U8-A:story:p1a": {
+   "f": "07/07cc23c1f2a9fe18.ogg",
+   "d": 2.96
+  },
+  "l:CPP2-U8-A:story:p2a": {
+   "f": "9c/9c16267f492b4ced.ogg",
+   "d": 4.08
+  },
+  "l:CPP2-U8-A:story:p3a": {
+   "f": "cc/cc7d74a125181d12.ogg",
+   "d": 4.32
+  },
+  "l:CPP2-U8-A:story:p4a": {
+   "f": "06/062fe57043a2030a.ogg",
+   "d": 2.84
+  },
+  "l:CPP2-U8-A:story:p5a": {
+   "f": "f0/f0c965aa8502e833.ogg",
+   "d": 4.24
+  },
+  "l:CPP2-U8-A:story:p4b": {
+   "f": "59/59243268c62860d8.ogg",
+   "d": 5.32
+  },
+  "l:CPP2-U8-B:story:p1a": {
+   "f": "52/529bd52855a0a7b8.ogg",
+   "d": 2.24
+  },
+  "l:CPP2-U8-B:story:p1b": {
+   "f": "7c/7ce50c0c3a711fba.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U8-B:story:p2a": {
+   "f": "64/64de85f714b9f9c8.ogg",
+   "d": 2.36
+  },
+  "l:CPP2-U8-B:story:p3a": {
+   "f": "02/0263d87d20ec577d.ogg",
+   "d": 3.28
+  },
+  "l:CPP2-U8-B:story:p3b": {
+   "f": "4b/4b3407e0e1ad3de9.ogg",
+   "d": 3.16
+  },
+  "l:CPP2-U8-B:story:p4a": {
+   "f": "e5/e51621895ef02993.ogg",
+   "d": 3.84
+  },
+  "l:CPP2-U8-B:story:p4b": {
+   "f": "d1/d166156646374b1d.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U8-B:story:p5a": {
+   "f": "ba/ba914dec3364b079.ogg",
+   "d": 3.4
+  },
+  "l:CPP2-U8-B:story:p5b": {
+   "f": "aa/aa34b469a611b77b.ogg",
+   "d": 3.04
+  },
+  "l:CPP2-U8-B:story:p6b": {
+   "f": "3c/3ce017405c3aaa72.ogg",
+   "d": 2.92
+  },
+  "l:CPP2-U8-B:story:p6a": {
+   "f": "ea/ea59efb13fb0c657.ogg",
+   "d": 3.84
+  },
+  "l:CPP2-U8-BQ:story:p1a": {
+   "f": "90/90308bf731f2c091.ogg",
+   "d": 4.4
+  },
+  "l:CPP2-U8-BQ:story:p2a": {
+   "f": "78/785cffd1798fb978.ogg",
+   "d": 5.12
+  },
+  "l:CPP2-U9-A:story:p1a": {
+   "f": "18/18464db196bad805.ogg",
+   "d": 3.92
+  },
+  "l:CPP2-U9-A:story:p3a": {
+   "f": "b0/b09cadb5ab319e8e.ogg",
+   "d": 4.6
+  },
+  "l:CPP2-U9-A:story:p4b": {
+   "f": "e2/e2a3ec78b5894896.ogg",
+   "d": 4.44
+  },
+  "l:CPP2-U9-A:story:p5b": {
+   "f": "16/16d8759878f7a928.ogg",
+   "d": 4.44
+  },
+  "l:CPP2-U9-B:story:p3a": {
+   "f": "dd/dd8f69670e6f8c5e.ogg",
+   "d": 3.24
+  },
+  "l:CPP2-U9-B:story:p2b": {
+   "f": "80/802ec513709567f9.ogg",
+   "d": 3.6
+  },
+  "l:CPP2-U9-B:story:p1a": {
+   "f": "74/7486b56a19493b5f.ogg",
+   "d": 4.24
+  },
+  "l:CPP2-U9-B:story:p4a": {
+   "f": "69/69dbd6df3b27884a.ogg",
+   "d": 3.8
+  },
+  "l:CPP2-U9-B:story:p5a": {
+   "f": "1e/1ee1ebd21e7e8d10.ogg",
+   "d": 4.36
+  },
+  "l:CPP3-U2-A:story:p1a": {
+   "f": "6f/6fb7563a7cf9667c.ogg",
+   "d": 4
+  },
+  "l:CPP3-U2-A:story:p1b": {
+   "f": "a5/a50ba84b1ff45d34.ogg",
+   "d": 4.8
+  },
+  "l:CPP3-U2-A:story:p2a": {
+   "f": "3a/3a74d22f4c6fed3f.ogg",
+   "d": 4.28
+  },
+  "l:CPP3-U2-A:story:p2b": {
+   "f": "59/59ee6efc1f0f3744.ogg",
+   "d": 3.72
+  },
+  "l:CPP3-U2-A:story:p3a": {
+   "f": "e0/e0363d45a1aecd9b.ogg",
+   "d": 4.16
+  },
+  "l:CPP3-U2-A:story:p3b": {
+   "f": "83/8347e39f068d45ca.ogg",
+   "d": 3.08
+  },
+  "l:CPP3-U2-A:story:p4a": {
+   "f": "37/372c8d892885bc27.ogg",
+   "d": 3.32
+  },
+  "l:CPP3-U2-A:story:p4b": {
+   "f": "dc/dc2a6ec381476eb5.ogg",
+   "d": 4.64
+  },
+  "l:CPP3-U2-A:story:p5b": {
+   "f": "40/40b6d38998c9205b.ogg",
+   "d": 3.8
+  },
+  "l:CPP3-U2-B:story:p1a": {
+   "f": "2a/2a057e0655981a38.ogg",
+   "d": 3.48
+  },
+  "l:CPP3-U2-A:story:p5a": {
+   "f": "9c/9cf29aad8932f779.ogg",
+   "d": 6.4
+  },
+  "l:CPP3-U2-B:story:p1b": {
+   "f": "9e/9e1fa6b7f66a9c6f.ogg",
+   "d": 3.08
+  },
+  "l:CPP3-U2-B:story:p2b": {
+   "f": "73/735ce4e6f0787660.ogg",
+   "d": 2.72
+  },
+  "l:CPP3-U2-B:story:p2a": {
+   "f": "12/122f0ad85080d6f2.ogg",
+   "d": 3.68
+  },
+  "l:CPP3-U2-B:story:p3a": {
+   "f": "5b/5ba295d09de52ea6.ogg",
+   "d": 3.48
+  },
+  "l:CPP3-U2-B:story:p3b": {
+   "f": "5c/5cd1f0554eb64ed8.ogg",
+   "d": 2.56
+  },
+  "l:CPP3-U2-B:story:p5a": {
+   "f": "df/df2d4b815cdaef75.ogg",
+   "d": 3.92
+  },
+  "l:CPP3-U2-B:story:p4a": {
+   "f": "33/33769b958f64d0b3.ogg",
+   "d": 4.08
+  },
+  "l:CPP3-U2-B:story:p6a": {
+   "f": "5e/5e1abb35daa2b895.ogg",
+   "d": 4.6
+  },
+  "l:CPP3-U3-A:story:p1b": {
+   "f": "f9/f96c32b09cc96539.ogg",
+   "d": 3.4
+  },
+  "l:CPP3-U3-A:story:p1a": {
+   "f": "cc/cce7a8023417e160.ogg",
+   "d": 4.52
+  },
+  "l:CPP3-U3-A:story:p2a": {
+   "f": "c9/c969f223703ed2f9.ogg",
+   "d": 4.56
+  },
+  "l:CPP3-U3-A:story:p2b": {
+   "f": "7d/7dce02f11c26a8b9.ogg",
+   "d": 3.12
+  },
+  "l:CPP3-U3-A:story:p3a": {
+   "f": "a6/a66632d959e8bd94.ogg",
+   "d": 3.72
+  },
+  "l:CPP3-U3-A:story:p3b": {
+   "f": "be/be298a95bb1506ed.ogg",
+   "d": 4.56
+  },
+  "l:CPP3-U3-A:story:p4a": {
+   "f": "f8/f8a4907884b33b96.ogg",
+   "d": 4.56
+  },
+  "l:CPP3-U3-B:story:p1a": {
+   "f": "de/de0ac3940febf109.ogg",
+   "d": 3.68
+  },
+  "l:CPP3-U3-A:story:p4b": {
+   "f": "70/705a24b8a0cdbecc.ogg",
+   "d": 4.12
+  },
+  "l:CPP3-U3-B:story:p1b": {
+   "f": "cb/cbb3c450443859b0.ogg",
+   "d": 3.88
+  },
+  "l:CPP3-U3-B:story:p2b": {
+   "f": "5a/5a81e5d82fec359b.ogg",
+   "d": 3.92
+  },
+  "l:CPP3-U3-B:story:p3b": {
+   "f": "28/28e07ea95948b2bc.ogg",
+   "d": 3.96
+  },
+  "l:CPP3-U3-B:story:p4a": {
+   "f": "24/2468e0e2cd67ea6f.ogg",
+   "d": 4.88
+  },
+  "l:CPP3-U3-B:story:p5a": {
+   "f": "71/71ed3d63b8ccfc18.ogg",
+   "d": 3.56
+  },
+  "l:CPP3-U3-B:story:p5b": {
+   "f": "51/5120e74916efa3e0.ogg",
+   "d": 5.64
+  },
+  "l:CPP3-U3-BQ:story:p1a": {
+   "f": "89/89a108ce51545bf8.ogg",
+   "d": 6.48
+  },
+  "l:CPP3-U3-BQ:story:p1b": {
+   "f": "cf/cf225d9d2fddcbe7.ogg",
+   "d": 5.16
+  },
+  "l:CPP3-U3-BQ:story:p2b": {
+   "f": "03/037d4aa6ffd836c0.ogg",
+   "d": 4.6
+  },
+  "l:CPP3-U3-BQ:story:p2a": {
+   "f": "49/493dd725f5f8f0e9.ogg",
+   "d": 7.72
+  },
+  "l:CPP3-U4-A:story:p1a": {
+   "f": "06/0697b5cf665e828f.ogg",
+   "d": 3.72
+  },
+  "l:CPP3-U4-A:story:p1b": {
+   "f": "36/3692e37fa4aa9c44.ogg",
+   "d": 4.96
+  },
+  "l:CPP3-U4-A:story:p2a": {
+   "f": "7a/7ab9ba67d3eb11f5.ogg",
+   "d": 3.28
+  },
+  "l:CPP3-U4-A:story:p2b": {
+   "f": "58/58ed46e1a48b97b1.ogg",
+   "d": 3.64
+  },
+  "l:CPP3-U4-A:story:p3a": {
+   "f": "44/44ee0e2a8d74c0cf.ogg",
+   "d": 3.24
+  },
+  "l:CPP3-U4-A:story:p3b": {
+   "f": "56/56282f83db52fa5f.ogg",
+   "d": 4.12
+  },
+  "l:CPP3-U4-A:story:p4a": {
+   "f": "59/594113658f8c10ef.ogg",
+   "d": 3.52
+  },
+  "l:CPP3-U4-A:story:p4b": {
+   "f": "ed/ed685366a564032a.ogg",
+   "d": 5
+  },
+  "l:CPP3-U4-A:story:p5b": {
+   "f": "4e/4ecb7a10e1548bd6.ogg",
+   "d": 4.68
+  },
+  "l:CPP3-U4-A:story:p5a": {
+   "f": "7c/7c69d595ea7e7d5e.ogg",
+   "d": 3.8
+  },
+  "l:CPP3-U4-B:story:p1a": {
+   "f": "47/473e1ce7d9283ec4.ogg",
+   "d": 5.08
+  },
+  "l:CPP3-U4-B:story:p2b": {
+   "f": "63/636cea3b57e86bb6.ogg",
+   "d": 3.76
+  },
+  "l:CPP3-U4-B:story:p2a": {
+   "f": "78/7828087b3b2382a5.ogg",
+   "d": 4.48
+  },
+  "l:CPP3-U4-B:story:p3a": {
+   "f": "97/970f38837b37c3f4.ogg",
+   "d": 3
+  },
+  "l:CPP3-U4-B:story:p4b": {
+   "f": "c5/c516f288b31db43e.ogg",
+   "d": 3.76
+  },
+  "l:CPP3-U4-B:story:p4a": {
+   "f": "5d/5d9ca07a413e7671.ogg",
+   "d": 4.48
+  },
+  "l:CPP3-U4-B:story:p5a": {
+   "f": "e8/e82245b6ffaea36d.ogg",
+   "d": 4.2
+  },
+  "l:CPP3-U4-B:story:p5b": {
+   "f": "28/28d52846ae1e100b.ogg",
+   "d": 4.48
+  },
+  "l:CPP3-U5-A:story:p1b": {
+   "f": "28/28ec4c561b0d57b4.ogg",
+   "d": 3
+  },
+  "l:CPP3-U5-A:story:p1a": {
+   "f": "f8/f8e367df3e6f29b8.ogg",
+   "d": 2.8
+  },
+  "l:CPP3-U5-A:story:p2a": {
+   "f": "5f/5ff312621e770bfb.ogg",
+   "d": 3.68
+  },
+  "l:CPP3-U5-A:story:p2b": {
+   "f": "53/5342e0702c693d0c.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U5-A:story:p3a": {
+   "f": "c4/c4fa3d00686246df.ogg",
+   "d": 3.72
+  },
+  "l:CPP3-U5-A:story:p3b": {
+   "f": "64/64ae062f3263cd67.ogg",
+   "d": 3.48
+  },
+  "l:CPP3-U5-A:story:p4a": {
+   "f": "e8/e8a9af8d5ce6cc4b.ogg",
+   "d": 3.36
+  },
+  "l:CPP3-U5-A:story:p4b": {
+   "f": "01/01503c47b84c7fa1.ogg",
+   "d": 3.96
+  },
+  "l:CPP3-U5-A:story:p5a": {
+   "f": "bb/bbb0f4daf4f5419e.ogg",
+   "d": 4.24
+  },
+  "l:CPP3-U5-B:story:p1a": {
+   "f": "92/9224a3ced168f246.ogg",
+   "d": 4.64
+  },
+  "l:CPP3-U5-B:story:p3a": {
+   "f": "b9/b9b812534ea7479a.ogg",
+   "d": 4.36
+  },
+  "l:CPP3-U5-B:story:p2b": {
+   "f": "83/83bdbba2de806e68.ogg",
+   "d": 5.52
+  },
+  "l:CPP3-U5-B:story:p4b": {
+   "f": "2d/2dd5b7025b79cc98.ogg",
+   "d": 4.56
+  },
+  "l:CPP3-U5-B:story:p5b": {
+   "f": "9b/9b097b10462c467b.ogg",
+   "d": 4.36
+  },
+  "l:CPP3-U5-BQ:story:p1a": {
+   "f": "1f/1f401bba52c0ebaf.ogg",
+   "d": 4
+  },
+  "l:CPP3-U5-BQ:story:p1b": {
+   "f": "4d/4df8628393886fd1.ogg",
+   "d": 4.4
+  },
+  "l:CPP3-U5-BQ:story:p2b": {
+   "f": "54/544d4b4f11f40e4e.ogg",
+   "d": 4.2
+  },
+  "l:CPP3-U5-BQ:story:p2a": {
+   "f": "ac/ac964e927258f6cf.ogg",
+   "d": 5.08
+  },
+  "l:CPP3-U5-BQ:story:p3a": {
+   "f": "58/5811f5b480fb1deb.ogg",
+   "d": 5.72
+  },
+  "l:CPP3-U5-BQ:story:p3b": {
+   "f": "70/70244292c56aaa92.ogg",
+   "d": 4.44
+  },
+  "l:CPP3-U6-A:story:p1a": {
+   "f": "c8/c863e76e69c6bc76.ogg",
+   "d": 4.28
+  },
+  "l:CPP3-U6-A:story:p1b": {
+   "f": "17/172f57384f82549a.ogg",
+   "d": 4.76
+  },
+  "l:CPP3-U6-A:story:p2a": {
+   "f": "d0/d01f67f5624393de.ogg",
+   "d": 5.32
+  },
+  "l:CPP3-U6-A:story:p2b": {
+   "f": "e1/e15140d923429ea9.ogg",
+   "d": 3.4
+  },
+  "l:CPP3-U6-A:story:p3a": {
+   "f": "e7/e7be2aa326482c77.ogg",
+   "d": 5.28
+  },
+  "l:CPP3-U6-A:story:p3b": {
+   "f": "2c/2ced0f73298d5622.ogg",
+   "d": 3.24
+  },
+  "l:CPP3-U6-A:story:p3c2": {
+   "f": "23/23c15701eee1692c.ogg",
+   "d": 6.24
+  },
+  "l:CPP3-U6-A:story:p4b": {
+   "f": "a2/a2be55dc32e397dd.ogg",
+   "d": 3.8
+  },
+  "l:CPP3-U6-A:story:p4a": {
+   "f": "58/588714fb1d31f39d.ogg",
+   "d": 5
+  },
+  "l:CPP3-U6-A:story:p5a": {
+   "f": "82/82bee1e8eac91df0.ogg",
+   "d": 5.24
+  },
+  "l:CPP3-U6-B:story:p1a": {
+   "f": "1b/1b870173ea48acd6.ogg",
+   "d": 4.08
+  },
+  "l:CPP3-U6-A:story:p5b": {
+   "f": "2f/2f162c519e339aca.ogg",
+   "d": 4.12
+  },
+  "l:CPP3-U6-B:story:p2b": {
+   "f": "5c/5c18413e8db153f0.ogg",
+   "d": 3.32
+  },
+  "l:CPP3-U6-B:story:p1b": {
+   "f": "19/197b175273fe21e0.ogg",
+   "d": 4.04
+  },
+  "l:CPP3-U6-B:story:p3a": {
+   "f": "4a/4a897441f766a041.ogg",
+   "d": 3.52
+  },
+  "l:CPP3-U6-B:story:p4a": {
+   "f": "19/19047c552bd1610b.ogg",
+   "d": 3.64
+  },
+  "l:CPP3-U6-B:story:p4b": {
+   "f": "6b/6bfe0c77bc9fde89.ogg",
+   "d": 4.92
+  },
+  "l:CPP3-U6-B:story:p3b": {
+   "f": "fc/fc1d9f7e1eab6084.ogg",
+   "d": 3.52
+  },
+  "l:CPP3-U6-B:story:p5a": {
+   "f": "9f/9f742e39912dcec8.ogg",
+   "d": 4.08
+  },
+  "l:CPP3-U6-B:story:p5b": {
+   "f": "80/80005c9b3e7e6a90.ogg",
+   "d": 4.68
+  },
+  "l:CPP3-U6-BQ:story:p1a": {
+   "f": "da/da1a8953357ebe12.ogg",
+   "d": 3.2
+  },
+  "l:CPP3-U6-BQ:story:p1b": {
+   "f": "38/38fbf6b3d16bacf6.ogg",
+   "d": 4.52
+  },
+  "l:CPP3-U6-BQ:story:p2b": {
+   "f": "03/036b79f4cadf46d9.ogg",
+   "d": 2.8
+  },
+  "l:CPP3-U6-BQ:story:p2a": {
+   "f": "14/14bd57fd0fe1c070.ogg",
+   "d": 3.84
+  },
+  "l:CPP3-U7-A:story:p1b": {
+   "f": "ba/ba89cc5e8504cdf5.ogg",
+   "d": 3.28
+  },
+  "l:CPP3-U7-A:story:p1a": {
+   "f": "63/638e31c36af4e0b8.ogg",
+   "d": 5.12
+  },
+  "l:CPP3-U7-A:story:p2a": {
+   "f": "b6/b6933d5691d9a640.ogg",
+   "d": 4.52
+  },
+  "l:CPP3-U7-A:story:p2b": {
+   "f": "49/495c79b922ce7a1b.ogg",
+   "d": 2.8
+  },
+  "l:CPP3-U7-A:story:p3a": {
+   "f": "ed/edd7865cbd6e9318.ogg",
+   "d": 3.52
+  },
+  "l:CPP3-U7-A:story:p4a": {
+   "f": "69/69b3085f3c929097.ogg",
+   "d": 3.76
+  },
+  "l:CPP3-U7-A:story:p3b": {
+   "f": "b3/b3585deeb6ff57a4.ogg",
+   "d": 4.08
+  },
+  "l:CPP3-U7-A:story:p4b": {
+   "f": "8b/8bb7e9e2d9e789b1.ogg",
+   "d": 4.2
+  },
+  "l:CPP3-U7-A:story:p5b": {
+   "f": "2f/2f2200593191f79a.ogg",
+   "d": 3.12
+  },
+  "l:CPP3-U7-B:story:p1a": {
+   "f": "7e/7e3be85e818eb6bb.ogg",
+   "d": 4.84
+  },
+  "l:CPP3-U7-B:story:p1b": {
+   "f": "4c/4cbbd75fd08d104a.ogg",
+   "d": 4.04
+  },
+  "l:CPP3-U7-B:story:p3a": {
+   "f": "ba/ba89ed5ed9c8262f.ogg",
+   "d": 4.04
+  },
+  "l:CPP3-U7-B:story:p2a": {
+   "f": "57/576a02669032c0a3.ogg",
+   "d": 4.88
+  },
+  "l:CPP3-U7-B:story:p3b": {
+   "f": "b7/b74101e00d2a873d.ogg",
+   "d": 4
+  },
+  "l:CPP3-U7-B:story:p4a": {
+   "f": "3d/3d25340b1b51d289.ogg",
+   "d": 3.24
+  },
+  "l:CPP3-U7-B:story:p5a": {
+   "f": "b4/b4b057a00b935d4d.ogg",
+   "d": 4.48
+  },
+  "l:CPP3-U8-A:story:p1a": {
+   "f": "42/420c694fb8ab7702.ogg",
+   "d": 3.16
+  },
+  "l:CPP3-U8-A:story:p1b": {
+   "f": "55/55bb4fe82d824a14.ogg",
+   "d": 3.64
+  },
+  "l:CPP3-U8-A:story:p2a": {
+   "f": "8a/8a0f77b41009964e.ogg",
+   "d": 3.2
+  },
+  "l:CPP3-U8-A:story:p2b": {
+   "f": "f5/f54154d336b92e29.ogg",
+   "d": 3.12
+  },
+  "l:CPP3-U8-A:story:p3a": {
+   "f": "07/07df7121d3d4471c.ogg",
+   "d": 4.72
+  },
+  "l:CPP3-U8-A:story:p3b": {
+   "f": "5a/5acf83203006b6c9.ogg",
+   "d": 3.12
+  },
+  "l:CPP3-U8-A:story:p4a": {
+   "f": "e2/e2f91783ba5954b4.ogg",
+   "d": 3.56
+  },
+  "l:CPP3-U8-A:story:p5a": {
+   "f": "af/af595327021e88ed.ogg",
+   "d": 3.8
+  },
+  "l:CPP3-U8-A:story:p4b": {
+   "f": "a8/a8a0ffdc6be5333f.ogg",
+   "d": 4.04
+  },
+  "l:CPP3-U8-A:story:p5b": {
+   "f": "9e/9ecf3e6568549fbc.ogg",
+   "d": 3.36
+  },
+  "l:CPP3-U8-B:story:p1b": {
+   "f": "03/03b7b55b9eeaf166.ogg",
+   "d": 3.6
+  },
+  "l:CPP3-U8-B:story:p2a": {
+   "f": "31/31fe17852dc4dcf1.ogg",
+   "d": 3.24
+  },
+  "l:CPP3-U8-B:story:p1a": {
+   "f": "bd/bd7cc2159ddfa1d9.ogg",
+   "d": 5.76
+  },
+  "l:CPP3-U8-B:story:p3a": {
+   "f": "ec/ec0b9f94c5278992.ogg",
+   "d": 4.04
+  },
+  "l:CPP3-U8-B:story:p3b": {
+   "f": "0d/0d5d5acea25114f8.ogg",
+   "d": 4.32
+  },
+  "l:CPP3-U8-B:story:p2b": {
+   "f": "38/389c0157c13face4.ogg",
+   "d": 5.24
+  },
+  "l:CPP3-U8-B:story:p4b": {
+   "f": "70/70549d36af714257.ogg",
+   "d": 3.48
+  },
+  "l:CPP3-U8-B:story:p4a": {
+   "f": "13/13bc60ff8c06f69b.ogg",
+   "d": 6.16
+  },
+  "l:CPP3-U8-B:story:p5b": {
+   "f": "7c/7c0f6969ba00124a.ogg",
+   "d": 3.4
+  },
+  "l:CPP3-U8-B:story:p6a": {
+   "f": "b0/b0d77a0ef238b8de.ogg",
+   "d": 4.48
+  },
+  "l:CPP3-U8-BQ:story:p1a": {
+   "f": "73/73b9cc799f1cd62b.ogg",
+   "d": 4.16
+  },
+  "l:CPP3-U8-B:story:p6b": {
+   "f": "39/396d7fee031f8057.ogg",
+   "d": 4.88
+  },
+  "l:CPP3-U8-BQ:story:p1b": {
+   "f": "84/845c4c52fcbf43ab.ogg",
+   "d": 4.72
+  },
+  "l:CPP3-U8-BQ:story:p2a": {
+   "f": "ca/ca73a73956c3720a.ogg",
+   "d": 3.96
+  },
+  "l:CPP3-U8-BQ:story:p2b": {
+   "f": "63/63a81aa7ce6f9c1c.ogg",
+   "d": 4.72
+  },
+  "l:CPP3-U8-BQ:story:p3b": {
+   "f": "1f/1f3590f4110f8244.ogg",
+   "d": 4.4
+  },
+  "l:CPP3-U9-A:story:p1a": {
+   "f": "98/9880f171c49c1cd9.ogg",
+   "d": 2.76
+  },
+  "l:CPP3-U9-A:story:p1b": {
+   "f": "60/6024db6d3c340809.ogg",
+   "d": 4.08
+  },
+  "l:CPP3-U9-A:story:p2a": {
+   "f": "d2/d20f1c420f661b57.ogg",
+   "d": 3.84
+  },
+  "l:CPP3-U9-A:story:p3a": {
+   "f": "60/602788a0d92e0c54.ogg",
+   "d": 4.28
+  },
+  "l:CPP3-U9-A:story:p3b": {
+   "f": "96/96d3e609e6bc8f79.ogg",
+   "d": 3.52
+  },
+  "l:CPP3-U9-A:story:p4a": {
+   "f": "7b/7b9385c38a18201e.ogg",
+   "d": 4.92
+  },
+  "l:CPP3-U9-A:story:p4b": {
+   "f": "94/94158aedd12e777c.ogg",
+   "d": 2.84
+  },
+  "l:CPP3-U9-A:story:p5a": {
+   "f": "27/27867cbb6b7b89d3.ogg",
+   "d": 3.48
+  },
+  "l:CPP3-U9-A:story:p5b": {
+   "f": "a1/a11b3aea21f412bb.ogg",
+   "d": 3.32
+  },
+  "l:CPP3-U9-B:story:p1a": {
+   "f": "13/13b7df34daedf9f2.ogg",
+   "d": 4.36
+  },
+  "l:CPP3-U9-B:story:p2b": {
+   "f": "83/836311d10582fd8b.ogg",
+   "d": 3.24
+  },
+  "l:CPP3-U9-B:story:p3a": {
+   "f": "a8/a8834d04ed0119d9.ogg",
+   "d": 3.96
+  },
+  "l:CPP3-U9-B:story:p2a": {
+   "f": "66/66c59bff8320931f.ogg",
+   "d": 4.28
+  },
+  "l:CPP3-U9-B:story:p3b": {
+   "f": "92/921ce7cd5bdbfdbb.ogg",
+   "d": 3.2
+  },
+  "l:CPP3-U9-B:story:p4a": {
+   "f": "64/64594c32265cc97b.ogg",
+   "d": 4.32
+  },
+  "l:CPP3-U9-B:story:p4b": {
+   "f": "ec/ec4b5bac6947115a.ogg",
+   "d": 3.72
+  },
+  "l:CPP3-U9-B:story:p5a": {
+   "f": "43/439a15d813e63a6d.ogg",
+   "d": 4.48
+  },
+  "l:CPP1-U3-B:story:p2a": {
+   "f": "53/53dbdb57ace27436.ogg",
+   "d": 4
+  },
+  "l:CPP1-U3-B:story:p1a": {
+   "f": "cc/cce779be6c5c07a8.ogg",
+   "d": 5.59
+  },
+  "l:CPP1-U3-B:story:p5a": {
+   "f": "e4/e430352c92e17e1a.ogg",
+   "d": 5.21
+  },
+  "l:CPP1-U4-B:story:p1a": {
+   "f": "1c/1ca0148a354cf4df.ogg",
+   "d": 5.62
+  },
+  "l:CPP1-U4-B:story:p2b": {
+   "f": "20/206b1388f89e2d9e.ogg",
+   "d": 2.79
+  },
+  "l:CPP1-U4-B:story:p5a": {
+   "f": "f2/f25271273d18838b.ogg",
+   "d": 4.7
+  },
+  "l:CPP1-U4-B:story:p6a": {
+   "f": "3c/3c8177b78f107e1a.ogg",
+   "d": 4.61
+  },
+  "l:CPP1-U4-B:story:p2a": {
+   "f": "99/99792c2b0358672f.ogg",
+   "d": 4.44
+  },
+  "l:CPP1-U4-B:story:p4a": {
+   "f": "c3/c3d864240be8115e.ogg",
+   "d": 6.61
+  },
+  "l:CPP1-U4-B:story:p4b": {
+   "f": "31/31cd764ed70d573c.ogg",
+   "d": 3.66
+  },
+  "l:CPP1-U4-B:story:p6b": {
+   "f": "ea/ea7410fa168947ef.ogg",
+   "d": 3.69
+  },
+  "l:CPP1-U6-B:story:p4a": {
+   "f": "f0/f053ff2b65ecee7c.ogg",
+   "d": 3.48
+  },
+  "l:CPP1-U9-B:story:p4a": {
+   "f": "a1/a1614ad71bbb5bbd.ogg",
+   "d": 5.84
+  },
+  "l:CPP1-U9-B:story:p5a": {
+   "f": "ca/ca274fb66dfdef8d.ogg",
+   "d": 6.08
+  },
+  "l:CPP2-U4-A:story:p3b": {
+   "f": "2d/2d12f83ecf16d9c4.ogg",
+   "d": 6.76
+  },
+  "l:CPP2-U4-A:story:p3c2": {
+   "f": "a1/a104b545cbaa75ff.ogg",
+   "d": 6.26
+  },
+  "l:CPP2-U4-A:story:p4b": {
+   "f": "86/86c20bf43f582498.ogg",
+   "d": 10.87
+  },
+  "l:CPP2-U5-A:story:p1a": {
+   "f": "a2/a2b308db1d372b7a.ogg",
+   "d": 5.47
+  },
+  "l:CPP2-U5-A:story:p2b": {
+   "f": "bf/bf60f1f3b22d0229.ogg",
+   "d": 6.48
+  },
+  "l:CPP2-U5-A:story:p5a": {
+   "f": "dc/dcc8b8e8a29992e5.ogg",
+   "d": 4.77
+  },
+  "l:CPP2-U5-BQ:story:p1b": {
+   "f": "7c/7c3c97a4a57c9e40.ogg",
+   "d": 4.8
+  },
+  "l:CPP2-U9-A:story:p1b": {
+   "f": "09/091d67883ed75a90.ogg",
+   "d": 5.68
+  },
+  "l:CPP2-U9-A:story:p2a": {
+   "f": "25/2581f060a44f2cea.ogg",
+   "d": 5.22
+  },
+  "l:CPP2-U9-A:story:p4a": {
+   "f": "3f/3f4d6efb31e7b85e.ogg",
+   "d": 5.23
+  },
+  "l:CPP2-U9-A:story:p5a": {
+   "f": "a5/a55eff63d67e9dd1.ogg",
+   "d": 7.55
+  },
+  "l:CPP2-U9-B:story:p1b": {
+   "f": "61/614f33ac83e83129.ogg",
+   "d": 12.34
+  },
+  "l:CPP2-U9-B:story:p2a": {
+   "f": "1d/1d2661a7c1751862.ogg",
+   "d": 14.28
+  },
+  "l:CPP2-U9-B:story:p3b": {
+   "f": "d7/d77e14a3c692e724.ogg",
+   "d": 12.43
+  },
+  "l:CPP2-U9-B:story:p4b": {
+   "f": "b4/b447708085cf3e42.ogg",
+   "d": 8.91
+  },
+  "l:CPP2-U9-B:story:p5b": {
+   "f": "31/31d60e1264fe0956.ogg",
+   "d": 7.95
+  },
+  "l:CPP3-U3-B:story:p2a": {
+   "f": "d1/d1d8a3d2c33be6bd.ogg",
+   "d": 6.36
+  },
+  "l:CPP3-U3-B:story:p3a": {
+   "f": "70/7034cc192b579c75.ogg",
+   "d": 9.05
+  },
+  "l:CPP3-U3-B:story:p4b": {
+   "f": "9a/9aa2fd31235e0eb2.ogg",
+   "d": 5.55
+  },
+  "l:CPP3-U3-A:story:p5a": {
+   "f": "d2/d2df86e41d01b60d.ogg",
+   "d": 5.48
+  },
+  "l:CPP3-U5-B:story:p2a": {
+   "f": "8d/8dc7dea8048db16a.ogg",
+   "d": 5.25
+  },
+  "l:CPP3-U5-B:story:p3b": {
+   "f": "db/db0ad833e72af219.ogg",
+   "d": 5.3
+  },
+  "l:CPP3-U5-B:story:p4a": {
+   "f": "92/92acaa38e062c76e.ogg",
+   "d": 7.75
+  },
+  "l:CPP3-U5-B:story:p5a": {
+   "f": "39/39839da8028825c6.ogg",
+   "d": 4.53
+  },
+  "l:CPP3-U6-B:story:p2a": {
+   "f": "b4/b4aa8a1e312a3d23.ogg",
+   "d": 4.6
+  },
+  "l:CPP3-U7-A:story:p5a": {
+   "f": "f4/f4f8817c81384253.ogg",
+   "d": 7.24
+  },
+  "l:CPP3-U8-B:story:p5a": {
+   "f": "01/0121ca22464db8d8.ogg",
+   "d": 6.6
   }
  },
  "text": {
@@ -17751,6 +19875,488 @@
   "found you, leo! wait, what is that little path": "l:CPP3-U1-B:story:p2a",
   "i can't believe we discovered this amazing place": "l:CPP3-U1-B:story:p3a",
   "let's join them and play together": "l:CPP3-U1-B:story:p4b",
-  "sport really can bring people together, can't it": "l:CPP3-U1-B:story:p5a"
+  "sport really can bring people together, can't it": "l:CPP3-U1-B:story:p5a",
+  "good idea! my coat is wet": "l:CPP1-U2-A:story:p1b",
+  "hang your coat on the rack, nick": "l:CPP1-U2-A:story:p1a",
+  "welcome to the art room! we draw and paint here": "l:CPP1-U2-A:story:p2a",
+  "put on your apron. it will protect your clothes": "l:CPP1-U2-A:story:p2b",
+  "my pencil is dull. i need a pencil sharpener": "l:CPP1-U2-A:story:p3a",
+  "here you go! use my pencil sharpener": "l:CPP1-U2-A:story:p3b",
+  "we play basketball in the gym. let's go": "l:CPP1-U2-A:story:p4a",
+  "we learn about music in the music room": "l:CPP1-U2-A:story:p5a",
+  "i love music! let's sing a song": "l:CPP1-U2-A:story:p5b",
+  "look, bob! this is my new schoolbag": "l:CPP1-U2-B:story:p1a",
+  "wow! it's bright blue. my bag is old": "l:CPP1-U2-B:story:p1b",
+  "it's the lion and the flower. let's read it": "l:CPP1-U2-B:story:p2b",
+  "what's the title of this book": "l:CPP1-U2-B:story:p2a",
+  "can you describe the pictures in the book": "l:CPP1-U2-B:story:p3a",
+  "i have a cheese sandwich. what about you": "l:CPP1-U2-B:story:p4a",
+  "the pictures are wonderful and bright": "l:CPP1-U2-B:story:p3b",
+  "my lunch is great! let's share our food": "l:CPP1-U2-B:story:p4b",
+  "wow, look! a big pond": "l:CPP1-U3-A:story:p1a",
+  "look at that frog on the rock": "l:CPP1-U3-A:story:p2a",
+  "what is that little black thing": "l:CPP1-U3-A:story:p4a",
+  "i can hear a noise! is it a fish": "l:CPP1-U3-A:story:p3a",
+  "dragonflies can catch mosquitoes": "l:CPP1-U3-A:story:p5a",
+  "great job! you figured it out": "l:CPP1-U3-A:story:p6b",
+  "maybe one day, pino. let's see": "l:CPP1-U3-B:story:p2b",
+  "this rock does not move or eat. so it is not alive": "l:CPP1-U3-A:story:p6a",
+  "clean hands make me happy": "l:CPP1-U3-B:story:p4a",
+  "look! now my hands are dirty": "l:CPP1-U3-B:story:p3a",
+  "look, ben! we both have red backpacks": "l:CPP1-U4-A:story:p1a",
+  "yes! we have a similarity. we like the same colours": "l:CPP1-U4-A:story:p1b",
+  "ben, can you lend me your pencil, please": "l:CPP1-U4-A:story:p2a",
+  "of course! here you are. friends help each other": "l:CPP1-U4-A:story:p2b",
+  "i love the swings. you love the slide, mia": "l:CPP1-U4-A:story:p3a",
+  "that is a difference between us. but we both have fun": "l:CPP1-U4-A:story:p3b",
+  "sometimes i feel lonely here. can i play with you": "l:CPP1-U4-A:story:p4a",
+  "i think a good friend is someone who helps you": "l:CPP1-U4-A:story:p5a",
+  "i agree! let's play after lunch, all together": "l:CPP1-U4-A:story:p4d",
+  "of course! we can help each other. come and play": "l:CPP1-U4-A:story:p4b",
+  "i disagree! a good friend shares pizza with you": "l:CPP1-U4-A:story:p5b",
+  "stop, hare! i am going to catch you": "l:CPP1-U4-B:story:p3a",
+  "ha! maybe we agree on this: friends make the day better": "l:CPP1-U4-A:story:p5d",
+  "nico is my best friend. we ride bikes together": "l:CPP1-U4-BQ:story:p1a",
+  "i draw pictures for you, ellie. do you like them": "l:CPP1-U4-BQ:story:p2a",
+  "in my opinion, they are beautiful": "l:CPP1-U4-BQ:story:p2b",
+  "this is a gift for you, mia. open it": "l:CPP1-U5-A:story:p1a",
+  "look! a teddy bear! it is very special": "l:CPP1-U5-A:story:p2a",
+  "oh no! the teddy bear does not fit in the box": "l:CPP1-U5-A:story:p2b",
+  "let's play a guessing game with our group": "l:CPP1-U5-A:story:p3a",
+  "great idea! sometimes i like to play alone, too": "l:CPP1-U5-A:story:p3b",
+  "i collect old toys. let's make a new game together": "l:CPP1-U5-A:story:p4a",
+  "i can do it on my own! watch me": "l:CPP1-U5-A:story:p5a",
+  "let's build a big sandcastle": "l:CPP1-U5-B:story:p1a",
+  "wait, i need to tie my shoelace first": "l:CPP1-U5-B:story:p1b",
+  "look, there is trash on the sand": "l:CPP1-U5-B:story:p2a",
+  "let's pick up the trash. we must keep the beach clean": "l:CPP1-U5-B:story:p2b",
+  "wow! this shell is amazing": "l:CPP1-U5-B:story:p3a",
+  "let's put it on top of our sandcastle": "l:CPP1-U5-B:story:p3b",
+  "ready, set, go! race you to the swings": "l:CPP1-U5-B:story:p4a",
+  "wait! my shoelace is tied, so i am ready too": "l:CPP1-U5-B:story:p4b",
+  "try it! you roll it down and pull it up": "l:CPP1-U5-B:story:p5a",
+  "amazing! this yo-yo is so much fun": "l:CPP1-U5-B:story:p5b",
+  "look! a stick puppet! let's play with it": "l:CPP1-U5-BQ:story:p1a",
+  "yummy! can we dance and paint after that": "l:CPP1-U5-BQ:story:p2a",
+  "look, leo! bottles and cans everywhere": "l:CPP1-U6-A:story:p1a",
+  "let's clean up the park together": "l:CPP1-U6-A:story:p2a",
+  "our community needs our help today": "l:CPP1-U6-A:story:p1b",
+  "great suggestion, mia. let's make a list first": "l:CPP1-U6-A:story:p2b",
+  "bottles and cans go in the recycling bin": "l:CPP1-U6-A:story:p3a",
+  "the park looks so much better already": "l:CPP1-U6-A:story:p3b",
+  "welcome, children! every resident loves your visits": "l:CPP1-U6-A:story:p4a",
+  "who wants to take this dog for a walk": "l:CPP1-U6-A:story:p5a",
+  "we are happy to help our community": "l:CPP1-U6-A:story:p4b",
+  "let's go! the dogs need our help too": "l:CPP1-U6-A:story:p5b",
+  "come back here, naughty dog": "l:CPP1-U6-B:story:p2a",
+  "oh no! our picnic is so messy": "l:CPP1-U6-B:story:p1a",
+  "look! that little kitten can't get down": "l:CPP1-U6-B:story:p3a",
+  "hooray! the kitten is safe": "l:CPP1-U6-B:story:p5a",
+  "let's play in the snow before breakfast": "l:CPP1-U7-A:story:p1b",
+  "look! there is snow everywhere": "l:CPP1-U7-A:story:p1a",
+  "look! that reindeer has very big antlers": "l:CPP1-U7-A:story:p2a",
+  "i can see a bat! is it sleeping": "l:CPP1-U7-A:story:p3a",
+  "wow! its fur is so thick. it must be warm": "l:CPP1-U7-A:story:p2b",
+  "yes! a bat is a mammal, just like us. let's be quiet": "l:CPP1-U7-A:story:p3b",
+  "this sleigh is so heavy! can you help me pull it": "l:CPP1-U7-A:story:p4a",
+  "yes! one, two, three, pull": "l:CPP1-U7-A:story:p4b",
+  "phew! what a day. now i need to rest": "l:CPP1-U7-A:story:p5a",
+  "this tree shades me. it feels so cool": "l:CPP1-U7-B:story:p1a",
+  "what a lovely breeze! i can breathe fresh air": "l:CPP1-U7-B:story:p2a",
+  "welcome to my hive! we make honey here": "l:CPP1-U7-B:story:p3a",
+  "yes, the air is clean today. breathe slowly and relax": "l:CPP1-U7-B:story:p2b",
+  "can i taste some honey, please": "l:CPP1-U7-B:story:p3b",
+  "yes, but be gentle. bees can sting if they feel scared": "l:CPP1-U7-B:story:p3d",
+  "listen! the cows moo at the gate": "l:CPP1-U7-B:story:p4a",
+  "thank you, mrs. bee! i loved our visit": "l:CPP1-U7-B:story:p5a",
+  "cows cannot dance, but lambs can prance": "l:CPP1-U7-B:story:p4b",
+  "i dream i am an astronaut in space": "l:CPP1-U8-A:story:p1a",
+  "are you ready, tom? let's start": "l:CPP1-U8-A:story:p2a",
+  "wow! let's make a space helmet together, ling": "l:CPP1-U8-A:story:p1b",
+  "first, we need a big piece of cardboard": "l:CPP1-U8-A:story:p2b",
+  "next, i will cut out the helmet shape": "l:CPP1-U8-A:story:p3a",
+  "then i will glue the tissue paper on it": "l:CPP1-U8-A:story:p3b",
+  "crumple the tissue paper into a soft cloud, like this": "l:CPP1-U8-A:story:p4a",
+  "look! i am a happy astronaut in my helmet": "l:CPP1-U8-A:story:p5a",
+  "i want to sketch a dream about a flying horse": "l:CPP1-U8-B:story:p1a",
+  "your dream is amazing, ling. can i see": "l:CPP1-U8-B:story:p1b",
+  "i am so thirsty. my bottle is empty now": "l:CPP1-U8-B:story:p2a",
+  "let's fill it at the shop. come on": "l:CPP1-U8-B:story:p2b",
+  "be careful! the path is near the river": "l:CPP1-U8-B:story:p3a",
+  "wow, the river is so blue and calm": "l:CPP1-U8-B:story:p3b",
+  "it is hot! please turn on the fan, leo": "l:CPP1-U8-B:story:p4a",
+  "my glass is full of cold lemonade now": "l:CPP1-U8-B:story:p4b",
+  "i will be a superhero in my costume": "l:CPP1-U8-B:story:p5a",
+  "and i will be a painter with a magic paintbrush": "l:CPP1-U8-B:story:p5b",
+  "look! i can see an imaginary dragon in the clouds": "l:CPP1-U8-BQ:story:p1a",
+  "your imagination is amazing, ling": "l:CPP1-U8-BQ:story:p2a",
+  "thank you! i want to create a clay sculpture next": "l:CPP1-U8-BQ:story:p2b",
+  "put on your jacket, eleni. stay warm": "l:CPP1-U9-A:story:p1b",
+  "brr! it is very cold today": "l:CPP1-U9-A:story:p1a",
+  "oh, it is windy! hold your scarf tight": "l:CPP1-U9-A:story:p2a",
+  "oh no, it is rainy now. where is my umbrella": "l:CPP1-U9-A:story:p3a",
+  "ha! good idea. my scarf is flying away": "l:CPP1-U9-A:story:p2b",
+  "look at the snowy garden! let's build a snowman": "l:CPP1-U9-A:story:p4a",
+  "first, put on your gloves. your hands will be cold": "l:CPP1-U9-A:story:p4b",
+  "oops! i forgot my jacket. ha, ha": "l:CPP1-U9-A:story:p5b",
+  "nasreddin! why are you wearing shorts? it is snowy": "l:CPP1-U9-A:story:p5a",
+  "my favourite season is fall. the leaves are beautiful": "l:CPP1-U9-A:story:p6a",
+  "yes! fall is my favourite season too. hooray": "l:CPP1-U9-A:story:p6b",
+  "i'm wearing my comfortable pants today. they're great for running": "l:CPP1-U9-B:story:p1a",
+  "look at the sky! there's a big storm coming": "l:CPP1-U9-B:story:p2a",
+  "nice! my jacket has a big pocket for my snacks": "l:CPP1-U9-B:story:p1b",
+  "keep your phone safe in your pocket, leo. let's run": "l:CPP1-U9-B:story:p2b",
+  "lightning! did you see that": "l:CPP1-U9-B:story:p3a",
+  "yes! now listen. thunder is coming next": "l:CPP1-U9-B:story:p3b",
+  "thanks, grandpa. my pants are wet too": "l:CPP1-U9-B:story:p4b",
+  "yes, please! can you shine the lamp over here": "l:CPP1-U9-B:story:p5b",
+  "yes, it is round. we cut it on new year's day": "l:CPP2-U2-A:story:p1b",
+  "yiayia, this cake is round! it looks delicious": "l:CPP2-U2-A:story:p1a",
+  "i love our tradition, yiayia": "l:CPP2-U2-A:story:p2b",
+  "in greece, cutting a cake is a tradition. we do it every year": "l:CPP2-U2-A:story:p2a",
+  "my birthday cake is square! let's compare our cakes": "l:CPP2-U2-A:story:p3a",
+  "our cakes are different shapes, but both are tasty": "l:CPP2-U2-A:story:p3b",
+  "a coin! i hope i find it": "l:CPP2-U2-A:story:p4b",
+  "look, our cakes are similar. each one has a coin inside": "l:CPP2-U2-A:story:p4a",
+  "i found the coin! i think i will have good luck": "l:CPP2-U2-A:story:p5a",
+  "make a wish first, emilia. then we eat the cake": "l:CPP2-U2-A:story:p5b",
+  "emilia, my mum's diamond necklace is missing": "l:CPP2-U2-B:story:p1a",
+  "oh no! this is a mystery. let's investigate together": "l:CPP2-U2-B:story:p1b",
+  "it's so dark in here. i'm a little scared": "l:CPP2-U2-B:story:p2a",
+  "don't worry. detectives are brave, so let's keep looking": "l:CPP2-U2-B:story:p2b",
+  "quick, turn on the light. i can't see anything": "l:CPP2-U2-B:story:p3b",
+  "what's that noise? i think there's a thief in the kitchen": "l:CPP2-U2-B:story:p3a",
+  "i'm a detective, so i will solve this mystery": "l:CPP2-U2-B:story:p4a",
+  "look! the thief is a small cat with a shiny necklace": "l:CPP2-U2-B:story:p4b",
+  "case closed! now let's turn off the lights and go to bed": "l:CPP2-U2-B:story:p5a",
+  "happy new year, detective helen": "l:CPP2-U2-B:story:p5b",
+  "look! a big cake and ten candles! it is new year's": "l:CPP2-U2-BQ:story:p1a",
+  "here is an invitation to my new year's party": "l:CPP2-U2-BQ:story:p2a",
+  "thank you! i will bring a gift for you": "l:CPP2-U2-BQ:story:p2b",
+  "your ideas are positive! please respond to my message": "l:CPP2-U2-BQ:story:p3b",
+  "this celebration is wonderful! let's celebrate together": "l:CPP2-U2-BQ:story:p3a",
+  "leo, can you help me? let's cut this onion": "l:CPP2-U3-A:story:p1a",
+  "onions are so smelly! ugh, i don't like it": "l:CPP2-U3-A:story:p1b",
+  "look! some oil comes out of the onion": "l:CPP2-U3-A:story:p2a",
+  "oh no! my eyes start to water up": "l:CPP2-U3-A:story:p2b",
+  "this gas is making me cry! quick, wash away the gas": "l:CPP2-U3-A:story:p3a",
+  "look, leo! the oil can float on the water": "l:CPP2-U3-A:story:p4a",
+  "good idea. let's use some water right now": "l:CPP2-U3-A:story:p3b",
+  "then our salad will be healthy and delicious": "l:CPP2-U3-A:story:p5b",
+  "grandma, this wheat is so tall and golden": "l:CPP2-U3-B:story:p1a",
+  "we grind the wheat into flour for our bread": "l:CPP2-U3-B:story:p1b",
+  "can i help? i love to mix": "l:CPP2-U3-B:story:p2a",
+  "yes! mix it slowly. now it is a soft dough": "l:CPP2-U3-B:story:p2b",
+  "these buns look like tiny clouds": "l:CPP2-U3-B:story:p3a",
+  "now they go into the hot oven to bake": "l:CPP2-U3-B:story:p3b",
+  "ants collect food all summer to eat in winter": "l:CPP2-U3-B:story:p4b",
+  "look! that ant is carrying a grain of wheat": "l:CPP2-U3-B:story:p4a",
+  "yum! warm bread smells wonderful": "l:CPP2-U3-B:story:p5a",
+  "we can share. maybe the ant wants a crumb too": "l:CPP2-U3-B:story:p5b",
+  "in summer, the snow melts and the water comes down": "l:CPP2-U4-A:story:p1b",
+  "wow! that snowy mountain is so beautiful": "l:CPP2-U4-A:story:p1a",
+  "it is becoming a river! that is amazing": "l:CPP2-U4-A:story:p2b",
+  "look! the water flows down the hill like a river": "l:CPP2-U4-A:story:p2a",
+  "leo, the ground is shaking! is it an earthquake": "l:CPP2-U4-A:story:p3a",
+  "look at the ash in the sky! it covers everything": "l:CPP2-U4-A:story:p4a",
+  "the savanna has tall grass, but not many trees": "l:CPP2-U4-B:story:p1a",
+  "our planet changes slowly, and sometimes very fast": "l:CPP2-U4-A:story:p5a",
+  "they are going to the waterhole to drink": "l:CPP2-U4-B:story:p2b",
+  "look, dimitris! a herd of elephants": "l:CPP2-U4-B:story:p2a",
+  "let's summarize the text in two sentences": "l:CPP2-U4-B:story:p1b",
+  "i'm worried. there isn't enough water anymore": "l:CPP2-U4-B:story:p3a",
+  "maybe the herd must migrate to find a new waterhole": "l:CPP2-U4-B:story:p3b",
+  "she can lead them to water. elephants have great memories": "l:CPP2-U4-B:story:p4a",
+  "yes! she remembers where the water was last year": "l:CPP2-U4-B:story:p4b",
+  "here is my summary: the herd walks far to find water": "l:CPP2-U4-B:story:p5a",
+  "great! your summary keeps the most important ideas": "l:CPP2-U4-B:story:p5b",
+  "i can hear it! the rhythm is steady and fast": "l:CPP2-U5-A:story:p1b",
+  "my grandpa is a musician. he taught me this melody": "l:CPP2-U5-A:story:p2a",
+  "can you move your feet to the beat": "l:CPP2-U5-A:story:p3a",
+  "yes! i can move my whole body with the rhythm": "l:CPP2-U5-A:story:p3b",
+  "music helps me feel relaxed after a busy day": "l:CPP2-U5-A:story:p4a",
+  "it also helps me share my feelings with my friends": "l:CPP2-U5-A:story:p4b",
+  "yes! music is a special way to learn about each other's culture": "l:CPP2-U5-A:story:p5b",
+  "yes, she is old. she cannot pull the cart anymore": "l:CPP2-U5-B:story:p1b",
+  "grandpa, dora looks very weak today": "l:CPP2-U5-B:story:p1a",
+  "okay, grandpa! i will help dora feel better": "l:CPP2-U5-B:story:p2b",
+  "nora, my advice is simple: rest, water and warm food": "l:CPP2-U5-B:story:p2a",
+  "grandpa, i will play my drum. it will be very loud": "l:CPP2-U5-B:story:p3a",
+  "yes! i cannot hear it, but i feel the vibration in the floor": "l:CPP2-U5-B:story:p3b",
+  "oops! okay, i will put on my helmet now": "l:CPP2-U5-B:story:p4b",
+  "leo, that is dangerous! wear a helmet to protect your head": "l:CPP2-U5-B:story:p4a",
+  "dora, follow me. let us go home now": "l:CPP2-U5-B:story:p5a",
+  "listen! nora is singing a lullaby to dora": "l:CPP2-U5-B:story:p5b",
+  "my playlist is ready! let's play some folk music": "l:CPP2-U5-BQ:story:p2a",
+  "what is the main idea of this text": "l:CPP2-U6-A:story:p1a",
+  "i think the main idea is that dinosaurs disappeared. this detail helps": "l:CPP2-U6-A:story:p1b",
+  "hello, friends! i am very gentle. please don't be afraid": "l:CPP2-U6-A:story:p2a",
+  "look! a reptile is sleeping on that log": "l:CPP2-U6-A:story:p2b",
+  "look! a dinosaur footprint in the mud": "l:CPP2-U6-A:story:p3a",
+  "wow! your feet are enormous, gus": "l:CPP2-U6-A:story:p3b",
+  "did that asteroid cause everything to change": "l:CPP2-U6-A:story:p4b",
+  "some dinosaurs are extinct now. scientists study their extinction": "l:CPP2-U6-A:story:p5a",
+  "but lizards are reptiles, and they are still here today": "l:CPP2-U6-A:story:p5b",
+  "look! a path into the jungle. let's go explore": "l:CPP2-U6-B:story:p1a",
+  "wait for me! i love the daylight shining through the trees": "l:CPP2-U6-B:story:p1b",
+  "whoa! i bumped into a tree. ouch": "l:CPP2-U6-B:story:p2a",
+  "be careful. the ground is very slippery here": "l:CPP2-U6-B:story:p2b",
+  "hello there! who is walking on my path": "l:CPP2-U6-B:story:p3a",
+  "don't stand near the edge! it's a long way down": "l:CPP2-U6-B:story:p4a",
+  "we are sorry! we did not know it was yours": "l:CPP2-U6-B:story:p3b",
+  "i'm a little nervous, but i'm also curious": "l:CPP2-U6-B:story:p4b",
+  "thank you! your cave is amazing": "l:CPP2-U6-B:story:p5b",
+  "don't be scared. i am friendly, and i love visitors": "l:CPP2-U6-B:story:p5a",
+  "i think it is a herbivore. it only eats leaves": "l:CPP2-U6-BQ:story:p1b",
+  "look! that giant has a very long neck": "l:CPP2-U6-BQ:story:p1a",
+  "herbivores chew their food for a long time": "l:CPP2-U6-BQ:story:p2a",
+  "look at my collection of stickers! i love them all": "l:CPP2-U7-A:story:p1a",
+  "the giant bird had big wings, too": "l:CPP2-U6-BQ:story:p2c2",
+  "but a carnivore eats meat. it has sharp teeth": "l:CPP2-U6-BQ:story:p2b",
+  "it is my scrapbook. i stick photos and drawings in it": "l:CPP2-U7-A:story:p2b",
+  "look! ancient egyptians built this pyramid. it is thousands of years old": "l:CPP2-U7-A:story:p3a",
+  "wow! what is that big book": "l:CPP2-U7-A:story:p2a",
+  "they used hieroglyphics for writing, right? pictures, not letters": "l:CPP2-U7-A:story:p3b",
+  "i use cardboard and yarn. cardboard is a great material for models": "l:CPP2-U7-A:story:p4a",
+  "is your scrapbook inside that box": "l:CPP2-U7-A:story:p5a",
+  "yes! the lock keeps it safe. here is the key": "l:CPP2-U7-A:story:p5b",
+  "my robot is broken! can you help me fix it": "l:CPP2-U7-B:story:p1a",
+  "let me look. i think we can fix it together": "l:CPP2-U7-B:story:p1b",
+  "hold it carefully, troy. don't drop it": "l:CPP2-U7-B:story:p3a",
+  "good idea! the instructions are right here": "l:CPP2-U7-B:story:p2b",
+  "let's read the instruction sheet first": "l:CPP2-U7-B:story:p2a",
+  "here is the cable. it connects the robot to my tablet": "l:CPP2-U7-B:story:p3b",
+  "i can use my imagination to solve this": "l:CPP2-U7-B:story:p4a",
+  "wow, what a brilliant idea, troy": "l:CPP2-U7-B:story:p4b",
+  "your robot works again! let's fly the hover kite": "l:CPP2-U7-B:story:p5a",
+  "hooray! thanks for your help, caren": "l:CPP2-U7-B:story:p5b",
+  "good morning, lulu. let's have breakfast together": "l:CPP2-U8-A:story:p1a",
+  "lulu, you are so smart! what can you smell": "l:CPP2-U8-A:story:p2a",
+  "lulu, stay with me. i need help. please, help": "l:CPP2-U8-A:story:p3a",
+  "i am a paramedic. are you both safe": "l:CPP2-U8-A:story:p4a",
+  "good girl, lulu. you were heroic today": "l:CPP2-U8-A:story:p5a",
+  "yes, we are. lulu found the smoke. she is so smart": "l:CPP2-U8-A:story:p4b",
+  "i love picnics in the park": "l:CPP2-U8-B:story:p1a",
+  "me too! look at those pretty flowers": "l:CPP2-U8-B:story:p1b",
+  "ouch! a bee stung me": "l:CPP2-U8-B:story:p2a",
+  "my arm is swelling, and it feels so itchy": "l:CPP2-U8-B:story:p3a",
+  "don't scratch it, ben. you'll make it worse": "l:CPP2-U8-B:story:p3b",
+  "mia, i have hives all over my arms": "l:CPP2-U8-B:story:p4a",
+  "stay calm, ben. sit down. i will help you": "l:CPP2-U8-B:story:p4b",
+  "i think this is an allergic reaction. lie on your side": "l:CPP2-U8-B:story:p5a",
+  "okay. i'm trying to breathe slowly": "l:CPP2-U8-B:story:p5b",
+  "thank you, mia. you were a real hero": "l:CPP2-U8-B:story:p6b",
+  "hello? please send an ambulance to the park. quickly": "l:CPP2-U8-B:story:p6a",
+  "oh no! this is an emergency! someone must save the cat": "l:CPP2-U8-BQ:story:p1a",
+  "don't worry, ben. you are very caring. let's save the cat together": "l:CPP2-U8-BQ:story:p2a",
+  "grandpa, the bread is burnt! it's black": "l:CPP2-U9-A:story:p1a",
+  "i need a new pair of jeans for school. these are great": "l:CPP2-U9-A:story:p3a",
+  "wow! it looks so close. what a clever tool": "l:CPP2-U9-A:story:p4b",
+  "really? i would love to invent something amazing one day": "l:CPP2-U9-A:story:p5b",
+  "look, grandpa! pip is licking its paw again": "l:CPP2-U9-B:story:p3a",
+  "oops! that was close. good thing nothing spilled": "l:CPP2-U9-B:story:p2b",
+  "i want to predict tomorrow's weather, grandpa. i'll do an experiment": "l:CPP2-U9-B:story:p1a",
+  "the sky is cloudy now. the conditions look wet, don't they": "l:CPP2-U9-B:story:p4a",
+  "pip was right! its observation helped us predict the rain": "l:CPP2-U9-B:story:p5a",
+  "dad, look! i found a recipe for birthday pancakes": "l:CPP3-U2-A:story:p1a",
+  "great! read the recipe first. use the clues in the pictures to help you": "l:CPP3-U2-A:story:p1b",
+  "i will underline the important steps. then we can cook them in order": "l:CPP3-U2-A:story:p2a",
+  "good idea! follow the flow chart, one box at a time": "l:CPP3-U2-A:story:p2b",
+  "step one is always the butter, jan. let's melt it slowly": "l:CPP3-U2-A:story:p3a",
+  "mmm, the butter smells lovely": "l:CPP3-U2-A:story:p3b",
+  "can i add garlic and onion for a special taste": "l:CPP3-U2-A:story:p4a",
+  "no way! garlic and onion are not for birthday pancakes": "l:CPP3-U2-A:story:p4b",
+  "happy birthday, jan! let's eat our pancakes together": "l:CPP3-U2-A:story:p5b",
+  "dad, we need all the ingredients on this list": "l:CPP3-U2-B:story:p1a",
+  "the dictionary says a pancake is a thin, round cake. happy birthday, dad": "l:CPP3-U2-A:story:p5a",
+  "good idea. let's check the cupboard first": "l:CPP3-U2-B:story:p1b",
+  "can we add sausages for the guests too": "l:CPP3-U2-B:story:p2b",
+  "we need honey for the cake. grandma loves it": "l:CPP3-U2-B:story:p2a",
+  "oh no! this mixture tastes too salty": "l:CPP3-U2-B:story:p3a",
+  "don't worry. we can fix it together": "l:CPP3-U2-B:story:p3b",
+  "what a lovely surprise! thank you, everyone": "l:CPP3-U2-B:story:p5a",
+  "look, dad! i can decorate the top with strawberries": "l:CPP3-U2-B:story:p4a",
+  "we celebrate family and good food together. happy birthday, grandma": "l:CPP3-U2-B:story:p6a",
+  "some people are careless. let's pick it up together": "l:CPP3-U3-A:story:p1b",
+  "look at all this trash! why would anyone dump it here": "l:CPP3-U3-A:story:p1a",
+  "mia, can you identify that creature? i think it is a jellyfish": "l:CPP3-U3-A:story:p2a",
+  "yes, it is! let's be careful and not touch it": "l:CPP3-U3-A:story:p2b",
+  "oh no! the turtle got stuck in a fishing net": "l:CPP3-U3-A:story:p3a",
+  "be gentle. if we pull too hard, we might damage its shell": "l:CPP3-U3-A:story:p3b",
+  "oops, i used the wrong scissors by mistake. hold still, little turtle": "l:CPP3-U3-A:story:p4a",
+  "leo, look at the sky! it is getting very dark": "l:CPP3-U3-B:story:p1a",
+  "hooray! it can escape now and swim back to the sea": "l:CPP3-U3-A:story:p4b",
+  "grandpa warned us. he said a storm is coming this afternoon": "l:CPP3-U3-B:story:p1b",
+  "oh no! a big branch just fell across the path": "l:CPP3-U3-B:story:p2b",
+  "i will help! our boots will be covered in mud, though": "l:CPP3-U3-B:story:p3b",
+  "our house is a safe shelter. the storm sounds so loud": "l:CPP3-U3-B:story:p4a",
+  "maya, stay still! there is a caterpillar on that leaf": "l:CPP3-U3-B:story:p5a",
+  "a caterpillar! one day it will turn into a beautiful butterfly": "l:CPP3-U3-B:story:p5b",
+  "look! a honeybee is sitting on that flower. this rainforest is full of life": "l:CPP3-U3-BQ:story:p1a",
+  "yes, and this is the habitat of many animals. we must take care of it": "l:CPP3-U3-BQ:story:p1b",
+  "then let us protect them. together we can protect nature": "l:CPP3-U3-BQ:story:p2b",
+  "orangutans are endangered. pollution is harming their home, and some animals are in danger of extinction": "l:CPP3-U3-BQ:story:p2a",
+  "look, mia! this sculpture is made of shiny metal": "l:CPP3-U4-A:story:p1a",
+  "wow! i think a talented artist spent weeks on it": "l:CPP3-U4-A:story:p1b",
+  "this blue vase has a lovely star pattern": "l:CPP3-U4-A:story:p2a",
+  "it looks very light, but the label says it is clay": "l:CPP3-U4-A:story:p2b",
+  "let's make our own vases in pottery class": "l:CPP3-U4-A:story:p3a",
+  "great idea. first, we shape the clay with our hands": "l:CPP3-U4-A:story:p3b",
+  "look at my sandcastle! it has three towers": "l:CPP3-U4-A:story:p4a",
+  "your sandcastle is amazing. maybe you are an artist too": "l:CPP3-U4-A:story:p4b",
+  "it's wonderful, mia. you are a real artist": "l:CPP3-U4-A:story:p5b",
+  "i made this vase, and i drew a pattern on it too": "l:CPP3-U4-A:story:p5a",
+  "look! a hummingbird! it is so small and so fast": "l:CPP3-U4-B:story:p1a",
+  "good idea! we can make art from this bottle cap": "l:CPP3-U4-B:story:p2b",
+  "this plastic is bad for the sea. let's start recycling today": "l:CPP3-U4-B:story:p2a",
+  "first, i will sketch a bird with this feather": "l:CPP3-U4-B:story:p3a",
+  "thank you, ms costa! i feel like a real model": "l:CPP3-U4-B:story:p4b",
+  "this portrait is wonderful, mia! leo looks so happy": "l:CPP3-U4-B:story:p4a",
+  "this year's award goes to mia, for her wonderful art": "l:CPP3-U4-B:story:p5a",
+  "mia, you won! congratulations, my friend": "l:CPP3-U4-B:story:p5b",
+  "okay, but what is the purpose of our trip": "l:CPP3-U5-A:story:p1b",
+  "let's go backpacking in the mountains this summer": "l:CPP3-U5-A:story:p1a",
+  "welcome, everyone! let me describe our route for today": "l:CPP3-U5-A:story:p2a",
+  "great! our tour guide already knows every path in these hills": "l:CPP3-U5-A:story:p2b",
+  "wow! this view is incredible": "l:CPP3-U5-A:story:p3a",
+  "let's paddle a canoe across the lake to the waterfall": "l:CPP3-U5-A:story:p3b",
+  "come on, maya! can i persuade you to jump in with me": "l:CPP3-U5-A:story:p4a",
+  "be a responsible traveller. take your rubbish home with you": "l:CPP3-U5-A:story:p4b",
+  "grandma, the waterfall was amazing. come and see it next year": "l:CPP3-U5-A:story:p5a",
+  "this village is so peaceful. i love the quiet streets": "l:CPP3-U5-B:story:p1a",
+  "this slope is very steep! i will hold this vine": "l:CPP3-U5-B:story:p3a",
+  "wow! the jungle is so green and noisy": "l:CPP3-U5-B:story:p2b",
+  "amazing! who built this structure a long time ago": "l:CPP3-U5-B:story:p4b",
+  "the local people here are so kind. i want to come back": "l:CPP3-U5-B:story:p5b",
+  "look! there is a cabin near the river. we can sleep there tonight": "l:CPP3-U5-BQ:story:p1a",
+  "great! let's go hiking first, then find wood for the campfire": "l:CPP3-U5-BQ:story:p1b",
+  "i love to travel and learn. i will buy a souvenir for my grandma": "l:CPP3-U5-BQ:story:p2b",
+  "wow, look at that castle! many tourists come here to take photos": "l:CPP3-U5-BQ:story:p2a",
+  "our questionnaire asked: why do you travel? most people said to learn": "l:CPP3-U5-BQ:story:p3a",
+  "the result is clear. travel makes people happy and curious": "l:CPP3-U5-BQ:story:p3b",
+  "i want to be a gymnast one day. i train hard every week": "l:CPP3-U6-A:story:p1a",
+  "you are a real athlete, ella! your gymnastics is amazing": "l:CPP3-U6-A:story:p1b",
+  "i run a sprint every morning. i exercise regularly to stay strong": "l:CPP3-U6-A:story:p2a",
+  "great plan! regular practice helps you get better": "l:CPP3-U6-A:story:p2b",
+  "first we warm up. then we stretch. then we practise in the right order": "l:CPP3-U6-A:story:p3a",
+  "and what is your sequence of moves for the competition": "l:CPP3-U6-A:story:p3b",
+  "five moves: jump, turn, balance, land and smile": "l:CPP3-U6-A:story:p3c2",
+  "look! you got a bronze medal. that is brilliant": "l:CPP3-U6-A:story:p4b",
+  "i did my routine perfectly! my legs were shaking, but i did it": "l:CPP3-U6-A:story:p4a",
+  "thank you, sam. this medal is for every training session": "l:CPP3-U6-A:story:p5a",
+  "i feel a little nervous, nina. what if i miss the ball": "l:CPP3-U6-B:story:p1a",
+  "now it is my turn to train. same time next saturday": "l:CPP3-U6-A:story:p5b",
+  "good luck, team! listen carefully and stay calm": "l:CPP3-U6-B:story:p2b",
+  "let's do a quick warm-up first. then you will feel better, theo": "l:CPP3-U6-B:story:p1b",
+  "great pass, sam! that is our first goal": "l:CPP3-U6-B:story:p3a",
+  "nina, stay still. let me check your ankle, please": "l:CPP3-U6-B:story:p4a",
+  "wow, what a save! i am so happy to be our goalkeeper today": "l:CPP3-U6-B:story:p4b",
+  "brilliant! now i just need to keep our goal safe": "l:CPP3-U6-B:story:p3b",
+  "a tie is not bad, but i really wanted to win": "l:CPP3-U6-B:story:p5a",
+  "you played well together. practise hard, and we will try again next week": "l:CPP3-U6-B:story:p5b",
+  "our team is ready to compete in the big race": "l:CPP3-U6-BQ:story:p1a",
+  "yes! but first we need training, so let's stay in shape": "l:CPP3-U6-BQ:story:p1b",
+  "then we can win the trophy together, rosa": "l:CPP3-U6-BQ:story:p2b",
+  "remember, safety comes first. helmets on, please": "l:CPP3-U6-BQ:story:p2a",
+  "i think the treasure is buried near that big rock": "l:CPP3-U7-A:story:p1b",
+  "look, mia! it is an old map, and it shows a treasure": "l:CPP3-U7-A:story:p1a",
+  "let's dig here! a pirate probably hid it long ago": "l:CPP3-U7-A:story:p2a",
+  "good idea. please pass me the spade": "l:CPP3-U7-A:story:p2b",
+  "wait! i can see a shiny jewel in the dirt": "l:CPP3-U7-A:story:p3a",
+  "look, a rusty helmet! it must come from a shipwreck": "l:CPP3-U7-A:story:p4a",
+  "wow, let's keep going carefully, so we do not break it": "l:CPP3-U7-A:story:p3b",
+  "the ship probably sank long ago, near these rocks": "l:CPP3-U7-A:story:p4b",
+  "next time, we will look for another tomb": "l:CPP3-U7-A:story:p5b",
+  "wow, this furniture is so dusty! we need a lot of cloths": "l:CPP3-U7-B:story:p1a",
+  "look, there is an old drawer under the bed. let's open it": "l:CPP3-U7-B:story:p1b",
+  "i can see footsteps in the mud. they lead to the old tree": "l:CPP3-U7-B:story:p3a",
+  "this envelope is still sealed. grandma, who wrote this letter": "l:CPP3-U7-B:story:p2a",
+  "look at these tracks. someone walked here very recently": "l:CPP3-U7-B:story:p3b",
+  "i can't solve this riddle. can you help me, grandma": "l:CPP3-U7-B:story:p4a",
+  "these old photos are precious. they are a treasure for our family": "l:CPP3-U7-B:story:p5a",
+  "mum, listen! that was really loud thunder": "l:CPP3-U8-A:story:p1a",
+  "yes, nikos. there is a thunderstorm outside tonight": "l:CPP3-U8-A:story:p1b",
+  "wow! that lightning was so powerful": "l:CPP3-U8-A:story:p2a",
+  "stay away from the window. lightning can be dangerous": "l:CPP3-U8-A:story:p2b",
+  "oh no! the thunderstorm cut the power. can you switch on the torch": "l:CPP3-U8-A:story:p3a",
+  "got it! i hope the milk in the fridge stays cold": "l:CPP3-U8-A:story:p3b",
+  "mum, the wind power turbines are spinning really fast": "l:CPP3-U8-A:story:p4a",
+  "clean energy is important, so we never run out of power": "l:CPP3-U8-A:story:p5a",
+  "yes. we burn less coal now, because solar power is cleaner": "l:CPP3-U8-A:story:p4b",
+  "exactly! now let's switch on the lamp together": "l:CPP3-U8-A:story:p5b",
+  "even the light in the kitchen? i am making a snack": "l:CPP3-U8-B:story:p1b",
+  "i want a banana smoothie. i'll use the blender for it": "l:CPP3-U8-B:story:p2a",
+  "today is our big switch-off! we must switch off every light we don't need": "l:CPP3-U8-B:story:p1a",
+  "my hair dryer is noisy, but it dries my hair really fast": "l:CPP3-U8-B:story:p3a",
+  "use it for two minutes only, then switch off the hair dryer, please": "l:CPP3-U8-B:story:p3b",
+  "good! then switch it off. don't waste food or water, leo": "l:CPP3-U8-B:story:p2b",
+  "can grandma help? she knows lots of old tricks": "l:CPP3-U8-B:story:p4b",
+  "oh no! the vacuum cleaner is broken. now i must clean the rug by hand": "l:CPP3-U8-B:story:p4a",
+  "our washing machine is working today, grandma. we can use it": "l:CPP3-U8-B:story:p5b",
+  "my torch battery is empty! what can we use to see in the dark": "l:CPP3-U8-B:story:p6a",
+  "ana, the micro-wave oven is not working! my soup is still cold": "l:CPP3-U8-BQ:story:p1a",
+  "light a candle! it gives soft light, and it needs no electricity": "l:CPP3-U8-B:story:p6b",
+  "maybe the power is off. let's find a light bulb and check the lights": "l:CPP3-U8-BQ:story:p1b",
+  "this tablet is great, but it needs a battery. can you charge it here": "l:CPP3-U8-BQ:story:p2a",
+  "yes! our phones need to charge too. let's buy a small charger": "l:CPP3-U8-BQ:story:p2b",
+  "sun and wind are renewable. we should save energy and use them more": "l:CPP3-U8-BQ:story:p3b",
+  "i want to create a song for my class today": "l:CPP3-U9-A:story:p1a",
+  "good idea! try a hollow tube with some dried beans inside": "l:CPP3-U9-A:story:p1b",
+  "look! my tube is decorated with shiny stars": "l:CPP3-U9-A:story:p2a",
+  "this tune is soft, like a lullaby, so you can sleep": "l:CPP3-U9-A:story:p3a",
+  "music helps me express how i feel inside": "l:CPP3-U9-A:story:p3b",
+  "this is the double bass. its sound is deep and warm": "l:CPP3-U9-A:story:p4a",
+  "now listen to the piccolo and the harmonica, too": "l:CPP3-U9-A:story:p4b",
+  "i created this tune with my own tube": "l:CPP3-U9-A:story:p5a",
+  "what a lively tune, mason! well done": "l:CPP3-U9-A:story:p5b",
+  "look! this is sheet music, and a famous composer wrote it": "l:CPP3-U9-B:story:p1a",
+  "can i play in the school orchestra, please": "l:CPP3-U9-B:story:p2b",
+  "please stand on the podium, mason. the orchestra is waiting": "l:CPP3-U9-B:story:p3a",
+  "welcome, mason! tonight is our big school performance": "l:CPP3-U9-B:story:p2a",
+  "i can already feel the rhythm of the drums": "l:CPP3-U9-B:story:p3b",
+  "i need to tune my violin first. then i am ready": "l:CPP3-U9-B:story:p4a",
+  "you are a real musician, mason. well done": "l:CPP3-U9-B:story:p4b",
+  "what a wonderful performance! music connects all of us": "l:CPP3-U9-B:story:p5a",
+  "why can't i move my arms like you": "l:CPP1-U3-B:story:p2a",
+  "i make a puppet from wood. hello, pino": "l:CPP1-U3-B:story:p1a",
+  "don't move, pino! something is going to happen": "l:CPP1-U3-B:story:p5a",
+  "what a lovely day for a walk. i love this forest": "l:CPP1-U4-B:story:p1a",
+  "oh no! i have to go": "l:CPP1-U4-B:story:p2b",
+  "phew! that was a lucky escape": "l:CPP1-U4-B:story:p5a",
+  "thank you, chip. you are my best friend": "l:CPP1-U4-B:story:p6a",
+  "hetty! rex the hound is coming. run away, quick": "l:CPP1-U4-B:story:p2a",
+  "come in! i am a chipmunk, and this is my home": "l:CPP1-U4-B:story:p4a",
+  "hide behind my furry tail. shh": "l:CPP1-U4-B:story:p4b",
+  "friends help each other. that is what friends do": "l:CPP1-U4-B:story:p6b",
+  "don't worry, little kitten. i will rescue you now": "l:CPP1-U6-B:story:p4a",
+  "you're soaking wet! take off your wet coat, please, leo": "l:CPP1-U9-B:story:p4a",
+  "shall i tell you a folktale while we wait for the storm to end": "l:CPP1-U9-B:story:p5a",
+  "yes! plates under the earth's crust are moving": "l:CPP2-U4-A:story:p3b",
+  "the plates move and push against each other": "l:CPP2-U4-A:story:p3c2",
+  "lava flows from the volcano, and scientists observe it carefully": "l:CPP2-U4-A:story:p4b",
+  "today, listen carefully to the rhythm of this song": "l:CPP2-U5-A:story:p1a",
+  "let's learn this traditional song from my village": "l:CPP2-U5-A:story:p2b",
+  "music can connect people of different cultures": "l:CPP2-U5-A:story:p5a",
+  "i like your suggestion! let's play the trumpet too": "l:CPP2-U5-BQ:story:p1b",
+  "oops! i forgot to watch the toaster. sorry, mia": "l:CPP2-U9-A:story:p1b",
+  "look! the bread pops out when it is ready. perfect": "l:CPP2-U9-A:story:p2a",
+  "look through the telescope, mia. you can see the moon": "l:CPP2-U9-A:story:p4a",
+  "every inventor starts with one new idea. maybe you will invent something": "l:CPP2-U9-A:story:p5a",
+  "good idea! let's start with a jar of water": "l:CPP2-U9-B:story:p1b",
+  "careful, mia! don't let pip knock over the jar": "l:CPP2-U9-B:story:p2a",
+  "that's a clever observation, mia. cats notice small changes": "l:CPP2-U9-B:story:p3b",
+  "yes, i think rain is coming soon": "l:CPP2-U9-B:story:p4b",
+  "maybe pip can help us predict the weather in the future too": "l:CPP2-U9-B:story:p5b",
+  "walk carefully, children. the wind is very strong today": "l:CPP3-U3-B:story:p2a",
+  "the water may flood the street, so we need sandbags now": "l:CPP3-U3-B:story:p3a",
+  "stay with me, maya. we are safe here together": "l:CPP3-U3-B:story:p4b",
+  "trash and old nets can endanger many sea animals every year": "l:CPP3-U3-A:story:p5a",
+  "stay on the trail. it is easy to get lost in the jungle": "l:CPP3-U5-B:story:p2a",
+  "be careful! the vine is strong, but the ground is wet": "l:CPP3-U5-B:story:p3b",
+  "i am an archeologist. this is an important site, and that is an old ruin": "l:CPP3-U5-B:story:p4a",
+  "travelling is a wonderful opportunity to learn about people": "l:CPP3-U5-B:story:p5a",
+  "players, take your places! fair play for everyone today": "l:CPP3-U6-B:story:p2a",
+  "this tomb is thousands of years old. you two are real explorers": "l:CPP3-U7-A:story:p5a",
+  "before the washing machine, we washed all our clothes by hand, my dear": "l:CPP3-U8-B:story:p5a"
  }
 }
