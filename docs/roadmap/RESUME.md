@@ -39,7 +39,8 @@ State lives in `work/state/*.json` (committed). Re-running the same command cont
 | Voice audition | `node scripts/audio/audition.mjs` | `work/audition/` (listen to `index.html`) |
 | Audio build | `node scripts/audio/build-audio.mjs --dry-run` then without `--dry-run` | `work/state/audio.json` |
 | Art (daily free quota) | `node scripts/art/build-art.mjs` | `work/state/art.json` |
-| Packs | `node scripts/packs/build-packs.mjs` then `publish.mjs` | `build/packs/` |
+| Publish clips to R2 | `node scripts/packs/publish.mjs` | `work/state/publish.json` |
+| Desktop build | `npm run dist` then `npm run smoke` | `desktop/release/` |
 
 (Scripts are added phase by phase; PROGRESS.md lists which exist.)
 

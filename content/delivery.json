@@ -1,0 +1,5 @@
+{
+  "_note": "Media delivery. Clips live in R2 and stream into the app (cached for offline). The renderer reads the same base from desktop/renderer/assets/remote.json.",
+  "bucket": "vocab-master-media",
+  "publicBase": "https://pub-44cecc4f3b0c44f58928fed87ba9ddbf.r2.dev/"
+}

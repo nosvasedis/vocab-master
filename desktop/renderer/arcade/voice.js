@@ -30,15 +30,55 @@ function audioCtx() {
   return ctx;
 }
 
+/* Clip bytes: bundled file → offline cache → R2 (then cached). Installers ship without clips. */
+let remoteBase = "";
+const CACHE_NAME = "vm-voice-v1";
+async function clipBytes(f) {
+  try { const res = await fetch(BASE + f); if (res.ok) return await res.arrayBuffer(); } catch { /* not bundled */ }
+  if (!remoteBase) return null;
+  const url = remoteBase + f;
+  let store = null;
+  try { store = await caches.open(CACHE_NAME); const hit = await store.match(url); if (hit) return await hit.arrayBuffer(); } catch { store = null; }
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  try { await store?.put(url, res.clone()); } catch { /* cache full or unavailable */ }
+  return await res.arrayBuffer();
+}
+
+/** Download every clip for offline use. onProgress(done, total). Returns { done, total, failed }. */
+export async function downloadAllForOffline(onProgress) {
+  const files = [...new Set(Object.values(manifestEntries).map((e) => e.f))];
+  let done = 0;
+  let failed = 0;
+  let i = 0;
+  const worker = async () => {
+    while (i < files.length) {
+      const f = files[i++];
+      try { if (!(await clipBytes(f))) failed++; } catch { failed++; }
+      onProgress?.(++done, files.length);
+    }
+  };
+  await Promise.all(Array.from({ length: 6 }, worker));
+  return { done, total: files.length, failed };
+}
+
+/** How many clips are already stored for offline use (bundled clips count as available). */
+export async function offlineStatus() {
+  const total = new Set(Object.values(manifestEntries).map((e) => e.f)).size;
+  try { const store = await caches.open(CACHE_NAME); return { cached: (await store.keys()).length, total }; } catch { return { cached: 0, total }; }
+}
+
+let manifestEntries = {};
+
 async function buffer(key) {
   if (cache.has(key)) { const b = cache.get(key); cache.delete(key); cache.set(key, b); return b; }
   const entry = index.get(key);
   if (!entry) return null;
   const c = audioCtx();
   if (!c) return null;
-  const res = await fetch(BASE + entry.f);
-  if (!res.ok) return null;
-  const buf = await c.decodeAudioData(await res.arrayBuffer());
+  const bytes = await clipBytes(entry.f);
+  if (!bytes) return null;
+  const buf = await c.decodeAudioData(bytes);
   cache.set(key, buf);
   if (cache.size > MAX_CACHE) cache.delete(cache.keys().next().value);
   return buf;
@@ -92,10 +132,25 @@ export const clipCount = () => index.size;
 
 /** Load the manifest and wire the recorded voice into lessons and games. Safe to call when no audio exists. */
 export async function initVoice() {
+  // Bundled manifest first, then the published one (newer narration arrives without an app update).
+  let manifest = { entries: {}, text: {} };
   try {
     const res = await fetch(`${BASE}manifest.json`, { cache: "no-cache" });
-    if (res.ok) index = createVoiceIndex(await res.json());
-  } catch { /* no recorded voice yet */ }
+    if (res.ok) manifest = await res.json();
+  } catch { /* no bundled manifest */ }
+  try {
+    const remote = await fetch("./assets/remote.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {}));
+    remoteBase = remote.audioBase || "";
+    if (remoteBase) {
+      const res = await fetch(`${remoteBase}manifest.json`, { cache: "no-cache" });
+      if (res.ok) {
+        const m = await res.json();
+        manifest = { ...manifest, entries: { ...manifest.entries, ...m.entries }, text: { ...manifest.text, ...m.text } };
+      }
+    }
+  } catch { /* offline: bundled/cached clips still play */ }
+  manifestEntries = manifest.entries || {};
+  index = createVoiceIndex(manifest);
   setClipPlayer({ has: hasClip, playClip, stop: stopVoice });
   setSpeakDelegate((text) => {
     if (!audioSettings.tts) return false;

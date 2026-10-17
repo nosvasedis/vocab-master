@@ -2,33 +2,28 @@
 
 **Branch:** `feature/lessons-experience` · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-## Current state
-- **Phase:** 1c (voice). The user's picks are applied in `content/voices.json`:
-  - Lingo = designed lingo_f (Flash-Lite, standard API);
+## Current state (2026-10-17, end of session 1)
+- **Done:**
+  - 81 draft lessons, all valid;
+  - lesson player, Lessons view and the arcade games;
+  - audio for all words and all story dialogue, plus the pilot dialogue;
+  - 43 AI illustrations;
+  - R2 delivery (`vocab-master-media`, public base in `content/delivery.json` and `desktop/renderer/assets/remote.json`);
+  - desktop installer and portable exe rebuilt 17:18 (smoke test passes).
+- **Automatic:** the scheduled task "Vocab Master: daily Lingo narration" runs daily at 10:33 local. Each run voices about one day's quota of Lingo narration, publishes it to R2, commits and pushes. Installed apps pick up the new clips through the remote manifest, with no rebuild. Narration should finish in about 3 days (≈ $2.85 of the remaining Gemini cap).
+- **Voices:**
+  - Lingo = designed lingo_f (Flash-Lite, standard API, chunked);
   - words = en-gb-tutor-6 (batch);
-  - Greek = el-gr-assistant-5;
-  - story characters come from varied role pools, with a stable voice per character name (the user asked for many voices, not just two).
-- **Running / next:**
-  - (1) Pilot lesson audio: rerun the same command if it was interrupted; it resumes:
-    `node scripts/audio/build-audio.mjs --only lessons --lessons CPP1-U1-BQ,CPP1-U1-A,CPP1-U1-B,CPP2-U1-BQ,CPP2-U1-A,CPP2-U1-B,CPP3-U1-BQ,CPP3-U1-A,CPP3-U1-B`
-  - (2) Word batches were submitted; collect them with `node scripts/audio/build-audio.mjs --only words --collect`. Don't run this while (1) is running, because both write `work/state/audio.json`.
-  - (3) Drafting of the remaining 72 lessons is running: `node scripts/lessons/draft-lessons.mjs --all` (resumable).
-  - (4) Ledger reconciled after the concurrent run: 90 standard entries = 90 clips. ✔
-- **Decision (2026-10-17, user):** keep the designed Lingo voice.
-  - Narration finishes over several days of the Gemini Tier-1 quota (about 100 requests/day/model). It's chunked, so 81 lessons need about 3 days.
-  - Story characters that use studio voices go to the same model via **OpenRouter** (`voices.json` `"openrouterFor": ["dialogue"]`). No daily cap, about $0.46 per hour of audio, but no style field.
-  - The OpenRouter cap is now $3 total (drafting plus TTS).
-- **Status 2026-10-17 evening:**
-  - all 81 lessons drafted and valid;
-  - all words (batch) and all story dialogue (441 clips via OpenRouter, $0.28) are voiced;
-  - pilot dialogue is on Gemini Flash;
-  - remaining: Lingo narration, 292 Flash-Lite requests ≈ 3 quota days ≈ $2.85;
-  - spend so far: Gemini $0.48 of $3.60, OpenRouter ≈ $1.05 of $3.00.
-- **Daily routine until narration is done:** `node scripts/audio/build-audio.mjs --only lessons` once per day after the quota resets (around 11:00 UTC). It resumes and stops cleanly at the quota.
-- **Waiting on the user:**
-  - **Cloudflare API token:** not created, because the agent's permission system blocked the dashboard. The user can create it (Account → Workers AI: Edit + Workers R2 Storage: Edit) and paste `CF_ACCOUNT_ID` / `CF_API_TOKEN` into `.env.local`, or allow the action. Only needed for Phase 1d/1e.
-  - **Pilot review:** the 9 pilot lessons are `status: draft` and need a human read-through before `approved`.
-  - **Voice audition (Phase 1c):** the user picks the voices.
+  - characters = varied role pools; studio-voice dialogue goes through OpenRouter;
+  - Greek = el-gr-assistant-5 (Greek glosses not voiced yet).
+- **Spend:** Gemini $0.48 of $3.60 · OpenRouter ≈ $1.05 of $3.00 · Cloudflare free tier.
+- **Waiting on the user:** a teacher read-through of the lessons (all are `status: draft`; set `approved` when happy).
+- **Next work for an agent (in order):**
+  1. After narration completes: rebuild the app, and optionally exclude bundled `.ogg` from the installer (`desktop/package.json` files: `"!renderer/assets/audio/**/*.ogg"`), since clips stream from R2 and are cached.
+  2. Per-lesson story-panel art and focus-word picture cards (`build-art.mjs`, free daily neurons).
+  3. Settings toggle "Calm motion"; voice Greek glosses (`--only greek`, batch, cheap).
+  4. Phase 2: live Kahoot-style games (no-phones host first, then Firebase phone mode). See PLAN §9.
+- **Known:** the local router (fritz.box) cached a negative DNS answer for the brand-new r2.dev host; it expires by itself. Content was verified through Cloudflare's IP.
 
 ## Phase 0: foundation ✅ (checkpoint 86d6938)
 - [x] Branch `feature/lessons-experience` (the earlier WIP was already committed on main as 57a7f53)
@@ -99,7 +94,12 @@ Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
 - [x] Desktop installer and portable exe rebuilt 2026-10-17 15:40 (`desktop/release/`); smoke test passes.
 - [x] Daily scheduled task "vocab-master-daily-narration" (10:33 local) voices the remaining Lingo narration, commits and pushes.
 
-## Phase 1e: packs and delivery · 1f: teacher review of lessons
+## Phase 1e: delivery ✅ (simplified design)
+- [x] R2 bucket with a public r2.dev URL and CORS; `scripts/packs/publish.mjs` uploads each clip as its own object (immutable cache) plus the manifest (no-cache). Resumable via `work/state/publish.json`.
+- [x] `arcade/voice.js` plays clips from: the bundled file, then the offline cache (Cache Storage), then R2 (and caches it). It merges the remote manifest at start-up. The Lessons view has a "Download voices for offline" button. CSP allows `https://*.r2.dev`.
+- Per-unit zip packs were replaced by per-file streaming: simpler, and new clips need no app update.
+
+## Phase 1f: teacher review of lessons
 - [ ] See PLAN.md §4, §6, §10. Remaining lessons: `node scripts/lessons/draft-lessons.mjs --all` (about $0.60)
 
 ## Phase 2: live games

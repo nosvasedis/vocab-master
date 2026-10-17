@@ -3,6 +3,7 @@ import { CPP_BOOKS } from "../../app.js";
 import { $, esc, icon, toast } from "../ui.js";
 import { state, BOOK_COLORS } from "../state.js";
 import { loadCatalog, loadArt } from "../../lesson/lesson.js";
+import { downloadAllForOffline, offlineStatus } from "../../arcade/voice.js";
 
 const SECTION_NAMES = { BQ: "Big Question", A: "Part A", B: "Part B" };
 const SECTION_ICONS = { BQ: "❓", A: "📗", B: "📘" };
@@ -11,7 +12,16 @@ let handlers = { teach: () => {}, games: () => {} };
 
 export function initLessons({ teach, games }) {
   handlers = { teach, games };
-  $("lessonsView").addEventListener("click", (e) => {
+  $("lessonsView").addEventListener("click", async (e) => {
+    const off = e.target.closest("[data-offline]");
+    if (off) {
+      off.disabled = true;
+      const label = off.querySelector("span");
+      const res = await downloadAllForOffline((d, t) => { label.textContent = `Downloading voices… ${Math.round((d / t) * 100)}%`; });
+      label.textContent = res.failed ? `Saved ${res.done - res.failed}/${res.total} — try again for the rest` : "All voices saved for offline ✓";
+      off.disabled = false;
+      return;
+    }
     const tab = e.target.closest("[data-book]");
     if (tab) { book = tab.dataset.book; renderLessons(); return; }
     const act = e.target.closest("[data-lesson-act]");
@@ -41,7 +51,10 @@ export async function renderLessons() {
         <h2>Teach a unit like a story</h2>
         <p>Animated, voiced lessons for every Primary Path unit: a warm-up, new words, a story, quick checks, a game, speaking and a badge. Click <b>Teach</b>, go full screen and use the arrow keys or a clicker.</p>
       </div>
-      <div class="lsn-hero-stats"><div><b>${total}</b><span>lessons</span></div><div><b>${ready}</b><span>approved</span></div></div>
+      <div class="lsn-hero-side">
+        <div class="lsn-hero-stats"><div><b>${total}</b><span>lessons</span></div><div><b>${ready}</b><span>approved</span></div></div>
+        <button type="button" class="lsn-offline" data-offline title="Store every recorded voice on this computer so lessons work without internet">${icon("download", "i-sm")}<span>Download voices for offline</span></button>
+      </div>
     </div>
     <div class="lsn-tabs" role="tablist">
       ${Object.values(CPP_BOOKS).map((b) => `<button type="button" role="tab" class="lsn-tab${b.id === book ? " on" : ""}" data-book="${b.id}" style="--book:${BOOK_COLORS[b.id]}"><b>${esc(b.title.replace("Cambridge Primary Paths", "Primary Path"))}</b><small>${esc(b.cefr)}</small></button>`).join("")}
