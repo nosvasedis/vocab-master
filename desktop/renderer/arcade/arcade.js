@@ -4,7 +4,8 @@
    ══════════════════════════════════════════════════════════════════ */
 import { sfx, speak, stopSpeaking, configureAudio, audioSettings } from "./audio.js";
 import { confetti, floatText } from "./fx.js";
-import { shuffle } from "./deck.js";
+import { mountGame, esc, svg } from "./host.js";
+import { firstEmoji } from "./deck.js";
 import flashcards from "./games/flashcards.js";
 import memory from "./games/memory.js";
 import spelling from "./games/spelling.js";
@@ -13,15 +14,13 @@ import taboo from "./games/taboo.js";
 
 export const GAMES = [flashcards, memory, spelling, quiz, taboo];
 
-const TEAM_PRESETS = [
+export const TEAM_PRESETS = [
   { name: "Rockets", emoji: "🚀", color: "#7b6bff" },
   { name: "Tigers", emoji: "🐯", color: "#ff8a4c" },
   { name: "Dolphins", emoji: "🐬", color: "#22c3ee" },
   { name: "Dragons", emoji: "🐉", color: "#34d399" },
 ];
 
-const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const svg = (name, cls = "") => `<svg class="i ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 
 let session = null;
 
@@ -178,7 +177,7 @@ function teamApi() {
 
 /** The first emoji of a word, drawn in the chosen picture style. */
 function firstPicture(emojis) {
-  const first = String(emojis || "").trim().split(/s+/)[0] || "";
+  const first = firstEmoji(emojis);
   return first ? session.picture(first) : "";
 }
 
@@ -274,25 +273,16 @@ function startGame(id) {
   session.root.querySelector("[data-back]").addEventListener("click", () => showHub());
   main.innerHTML = `<div class="arc-game g-${def.id}"><div class="game-stage" id="gameStage"></div></div>`;
   const stage = main.querySelector("#gameStage");
-  const ctx = {
-    deck: shuffle(session.deck),
-    fullDeck: session.deck,
+  session.game = mountGame(def, {
     stage,
     root: session.root,
-    sfx,
-    speak: (t, o) => speak(t, o),
-    // Pictures for a word's emojis in the chosen style ("" when switched off); picText keeps other text.
-    pic: (t) => session.picture(t || ""),
-    picText: (t) => session.picture(t || "", true),
+    deck: session.deck,
+    picture: session.picture,
     teams: teamApi(),
     setProgress(html) { const p = session.root.querySelector("#arcProgress"); if (p) p.innerHTML = html; },
-    confetti: (o) => confetti(session.root, o),
-    finish: (o) => showFinish(def, o),
-    restart: () => startGame(id),
-    esc,
-    svg,
-  };
-  session.game = def.create(ctx) || {};
+    onFinish: (o) => showFinish(def, o),
+    onRestart: () => startGame(id),
+  });
 }
 
 function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extraAction = null } = {}) {

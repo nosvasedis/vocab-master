@@ -18,3 +18,13 @@ _structure.txt
 *.log
 .DS_Store
 Thumbs.db
+
+# Lessons & assets pipeline
+.env.local
+.env
+work/audition/
+work/review/
+work/tmp/
+build/packs/
+desktop/renderer/assets/audio/**/*.ogg
+picture-samples/

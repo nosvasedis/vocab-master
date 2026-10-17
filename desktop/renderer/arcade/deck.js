@@ -194,3 +194,8 @@ export function buildTabooCard(target, deck = [], count = 3) {
   }
   return { ...target, forbiddenWords: [...words].slice(0, count) };
 }
+
+/** The first space-separated picture in an emojis field ("🐶 🐱" → "🐶"). */
+export function firstEmoji(emojis) {
+  return String(emojis || "").trim().split(/\s+/)[0] || "";
+}
