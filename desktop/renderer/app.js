@@ -2716,9 +2716,12 @@ function formatVocabCell(v, pictureStyle = "emoji") {
     if (line) html += `<div class="vocab-deriv v-rel"><b>→</b>${escapeHtml(line)}</div>`;
   });
   const syn = normalizeWordList(v.synonyms);
-  if (syn.length) html += `<div class="vocab-related v-rel"><b>≈</b>${escapeHtml(syn.join(", "))}</div>`;
   const ant = normalizeAntonymList(v.antonyms);
-  if (ant.length) html += `<div class="vocab-related v-rel"><b>≠</b>${escapeHtml(ant.map(formatAntonymLine).join(", "))}</div>`;
+  // Synonyms and opposites share one row: "≈ clever   ≠ silly - ανόητος" (wraps only if too long).
+  const rel = [];
+  if (syn.length) rel.push(`<span class="vocab-related"><b>≈</b>${escapeHtml(syn.join(", "))}</span>`);
+  if (ant.length) rel.push(`<span class="vocab-related"><b>≠</b>${escapeHtml(ant.map(formatAntonymLine).join(", "))}</span>`);
+  if (rel.length) html += `<div class="v-rel">${rel.join("")}</div>`;
   return html;
 }
 
@@ -4004,6 +4007,8 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .v-coll::after { content: "”"; }
 .v-coll .v-target { font-weight: 800; color: var(--ink); }
 .v-rel { font-size: 9pt; color: var(--ink-2); margin: 0.4mm 0 0 6.2mm; }
+.v-rel .vocab-related { display: inline-block; margin-right: 5mm; }
+.v-rel .vocab-related:last-child { margin-right: 0; }
 .v-rel b { display: inline-block; width: 4mm; font-weight: 800; color: var(--ink); }
 .vocab-empty { background: transparent !important; }
 
@@ -4314,9 +4319,13 @@ async function buildLingoDocx(data) {
         if (t) lines.push(sub([run("→  ", { bold: true, size: 18 }), run(t, { size: 18, color: "444444" })]));
       });
       const syn = normalizeWordList(v.synonyms);
-      if (syn.length) lines.push(sub([run("≈  ", { bold: true, size: 18 }), run(syn.join(", "), { size: 18, color: "444444" })]));
       const ant = normalizeAntonymList(v.antonyms);
-      if (ant.length) lines.push(sub([run("≠  ", { bold: true, size: 18 }), run(ant.map(formatAntonymLine).join(", "), { size: 18, color: "444444" })]));
+      // Synonyms and opposites share one line: "≈ clever     ≠ silly - ανόητος".
+      const relRuns = [];
+      if (syn.length) relRuns.push(run("≈  ", { bold: true, size: 18 }), run(syn.join(", "), { size: 18, color: "444444" }));
+      if (syn.length && ant.length) relRuns.push(run("       ", { size: 18 }));
+      if (ant.length) relRuns.push(run("≠  ", { bold: true, size: 18 }), run(ant.map(formatAntonymLine).join(", "), { size: 18, color: "444444" }));
+      if (relRuns.length) lines.push(sub(relRuns));
     }
     return new d.TableCell({
       width: { size: 50, type: d.WidthType.PERCENTAGE },

@@ -49,3 +49,14 @@ test('Greek translation sits on the headword line: "be born phr. = γεννιέ�
   assert.ok(paras.some((t) => t.includes('be born') && t.includes('phr.') && t.includes('=') && t.includes('γεννιέμαι')));
   assert.ok(!paras.includes('γεννιέμαι'));
 });
+
+test('synonyms and opposites share one row', async () => {
+  const d = { meta: { bookTitle: 'Layout', unit: 1 }, lingoLauncher: { vocabulary: [{ number: 1, english: 'clever', type: 'adj.', greek: 'έξυπνος', synonyms: ['smart'], antonyms: 'silly - ανόητος' }], practice: [] } };
+  const html = renderLingoLauncher(d);
+  assert.equal(html.split('class="v-rel"').length - 1, 1);
+  assert.match(html, /<div class="v-rel"><span class="vocab-related"><b>≈<\/b>smart<\/span><span class="vocab-related"><b>≠<\/b>silly - ανόητος<\/span><\/div>/);
+  const zip = await JSZip.loadAsync(await (await buildLingoDocx(d)).arrayBuffer());
+  const xml = await zip.file('word/document.xml').async('string');
+  const paras = [...xml.matchAll(/<w:p[ >][\s\S]*?<\/w:p>/g)].map((m) => [...m[0].matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)].map((t) => t[1]).join(''));
+  assert.ok(paras.some((t) => t.includes('≈') && t.includes('smart') && t.includes('≠') && t.includes('silly - ανόητος')));
+});
