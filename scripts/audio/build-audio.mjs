@@ -15,7 +15,7 @@ import crypto from "node:crypto";
 import { execFileSync, spawnSync } from "node:child_process";
 import ffmpegPath from "ffmpeg-static";
 import { ROOT, requireEnv } from "../lib/env.mjs";
-import { synthesize, wavSeconds, ledger } from "../lib/gemini-tts.mjs";
+import { synthesize, synthesizeOpenRouter, OPENROUTER_TTS_VOICES, wavSeconds, ledger } from "../lib/gemini-tts.mjs";
 import { geminiCost, BudgetError, PRICING } from "../lib/ledger.mjs";
 import { lessonLines, normText } from "../../desktop/renderer/lesson/schema.js";
 import { allLessonFiles, CPP_WORDBANK } from "../lessons/lib/catalog.mjs";
@@ -121,6 +121,8 @@ function collectJobs() {
     j.spoken = spoken(j.text);
     j.hash = crypto.createHash("sha1").update(`${j.model}|${j.voice}|${j.style}|${j.spoken}`).digest("hex").slice(0, 16);
     j.route = j.style || String(j.voice).startsWith("voice_") ? "standard" : "batch";
+    // voices.json "openrouterFor": ["dialogue", …] sends those lines to the same model via OpenRouter (studio voices, no style, no daily cap).
+    if ((VOICES.openrouterFor || []).includes(j.kind) && OPENROUTER_TTS_VOICES.includes(j.voice)) j.route = "openrouter";
     j.estSec = Math.max(0.8, j.spoken.length / 13 + (j.kind === "word" ? 0.4 : 0.3));
   }
   return jobs;
@@ -299,6 +301,27 @@ Daily quota reached for ${m} (${msg}). Run the same command again after the rese
   if (budgetStop) throw budgetStop;
 }
 
+/* ── OpenRouter (same model, studio voices, line by line) ───────────── */
+async function runOpenRouter(list) {
+  let i = 0;
+  const worker = async () => {
+    while (i < list.length) {
+      const job = list[i++];
+      try {
+        const r = await synthesizeOpenRouter({ voice: job.voice, text: job.spoken, job: `audio ${job.key}`, estimateSeconds: job.estSec });
+        registerClip(job, encode(r.wav, job.hash), r.seconds);
+        if (i % 10 === 0) { saveState(); saveManifest(); }
+        process.stdout.write(".");
+      } catch (e) {
+        if (e instanceof BudgetError) throw e;
+        state.clips[job.hash] = { status: "error", error: e.message.slice(0, 200), key: job.key };
+        process.stdout.write("x");
+      }
+    }
+  };
+  try { await Promise.all([worker(), worker(), worker()]); } finally { saveState(); saveManifest(); }
+}
+
 /* ── Batch (generateContent) ─────────────────────────────────────── */
 async function api(method, url, body) {
   const res = await fetch(url, { method, headers: { "x-goog-api-key": requireEnv("GEMINI_API_KEY"), "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
@@ -383,16 +406,18 @@ async function main() {
   linkDone(jobs);
   const unique = [...new Map(jobs.filter((j) => !["done", "batch"].includes(state.clips[j.hash]?.status)).map((j) => [j.hash, j])).values()];
   const std = unique.filter((j) => j.route === "standard");
+  const orl = unique.filter((j) => j.route === "openrouter");
   const bat = unique.filter((j) => j.route === "batch");
   const cost = (list, mode) => list.reduce((s, j) => s + geminiCost(j.model, { inTok: 20 + j.spoken.length / 4 + j.style.length / 4, outTok: j.estSec * PRICING.audioTokensPerSecond, mode }), 0);
   const estStd = cost(std, "standard");
   const estBat = cost(bat, "batch");
   const secs = unique.reduce((s, j) => s + j.estSec, 0);
-  console.log(`${jobs.length} keys → ${unique.length} new clips (${std.length} standard, ${bat.length} batch) ≈ ${(secs / 60).toFixed(1)} min audio ≈ ${((secs * 20000) / 8 / 1e6).toFixed(1)} MB`);
+  console.log(`${jobs.length} keys → ${unique.length} new clips (${std.length} standard, ${bat.length} batch, ${orl.length} openrouter) ≈ ${(secs / 60).toFixed(1)} min audio ≈ ${((secs * 20000) / 8 / 1e6).toFixed(1)} MB`);
   console.log(`Estimated cost: standard $${estStd.toFixed(3)} + batch $${estBat.toFixed(3)} = $${(estStd + estBat).toFixed(3)} · Gemini cap left $${ledger.remaining("gemini").toFixed(3)} (pending batches ~$${pendingBatchEstimate().toFixed(3)})`);
   if (flag("dry-run")) { if (std.length) await runStandard(std); return; }
   ledger.assertCanSpend("gemini", estStd + estBat + pendingBatchEstimate(), "audio build");
   if (bat.length) await submitBatches(bat);
+  if (orl.length) { console.log(`Voicing ${orl.length} clips via OpenRouter (≈ ${(orl.reduce((s, j) => s + j.estSec, 0) * 0.6 / 3600).toFixed(3)})`); await runOpenRouter(orl); console.log(""); }
   if (std.length) { console.log(`Voicing ${std.length} styled/designed-voice clips now`); await runStandard(std); console.log(""); }
   saveManifest();
   report(jobs);

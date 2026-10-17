@@ -2049,6 +2049,66 @@
       "outTok": 11780,
       "usd": 0.006186,
       "job": "draft CPP2-U5-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:22:17.488Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4834,
+      "outTok": 15762,
+      "usd": 0.008364,
+      "job": "draft CPP2-U5-A #1"
+    },
+    {
+      "t": "2026-10-17T11:23:22.676Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4823,
+      "outTok": 16000,
+      "usd": 0.008482,
+      "job": "draft CPP2-U5-B #1"
+    },
+    {
+      "t": "2026-10-17T11:24:02.125Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 2721,
+      "outTok": 9726,
+      "usd": 0.005135,
+      "job": "draft CPP2-U6-BQ #1"
+    },
+    {
+      "t": "2026-10-17T11:24:53.766Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4515,
+      "outTok": 13032,
+      "usd": 0.006967,
+      "job": "draft CPP2-U6-A #1"
+    },
+    {
+      "t": "2026-10-17T11:25:59.963Z",
+      "provider": "openrouter",
+      "model": "anthropic/claude-haiku-5.5",
+      "mode": "standard",
+      "inTok": 4205,
+      "outTok": 16000,
+      "usd": 0.00842,
+      "job": "draft CPP2-U6-B #1"
+    },
+    {
+      "t": "2026-10-17T11:26:02.145Z",
+      "provider": "openrouter",
+      "model": "google/gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 0,
+      "usd": 0.0015,
+      "job": "tts probes (2 calls, measured)"
     }
   ]
 }

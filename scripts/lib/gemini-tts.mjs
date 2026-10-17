@@ -100,6 +100,46 @@ export async function synthesize({ model, voice, text, style = "", turns, speake
   return { wav, seconds, usd, raw };
 }
 
+/* Same Gemini 3.8 Flash TTS model through OpenRouter (/api/v1/audio/speech): studio voices only,
+   no style field, raw 24 kHz PCM back. No Tier-1 daily cap. Measured ≈ $0.46 per hour of audio;
+   we record a conservative $0.60/h estimate per clip in the ledger under "openrouter". */
+export const OPENROUTER_TTS_VOICES = ["Zephyr", "Puck", "Charon", "Kore", "Fenrir", "Leda", "Orus", "Aoede", "Callirrhoe", "Autonoe", "Enceladus", "Iapetus", "Umbriel", "Algieba", "Despina", "Erinome", "Algenib", "Rasalgethi", "Laomedeia", "Achernar", "Alnilam", "Schedar", "Gacrux", "Pulcherrima", "Achird", "Zubenelgenubi", "Vindemiatrix", "Sadachbia", "Sadaltager", "Sulafat"];
+const OR_USD_PER_SEC = 0.6 / 3600;
+
+function pcmToWav(pcm, rate = 24000) {
+  const h = Buffer.alloc(44);
+  h.write("RIFF", 0); h.writeUInt32LE(36 + pcm.length, 4); h.write("WAVE", 8); h.write("fmt ", 12);
+  h.writeUInt32LE(16, 16); h.writeUInt16LE(1, 20); h.writeUInt16LE(1, 22); h.writeUInt32LE(rate, 24);
+  h.writeUInt32LE(rate * 2, 28); h.writeUInt16LE(2, 32); h.writeUInt16LE(16, 34); h.write("data", 36); h.writeUInt32LE(pcm.length, 40);
+  return Buffer.concat([h, pcm]);
+}
+
+export async function synthesizeOpenRouter({ voice, text, job = "", estimateSeconds = 4 }) {
+  if (!OPENROUTER_TTS_VOICES.includes(voice)) throw new Error(`${voice} is not an OpenRouter studio voice`);
+  ledger.assertCanSpend("openrouter", estimateSeconds * OR_USD_PER_SEC * 1.5, job);
+  let last;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const res = await fetch("https://openrouter.ai/api/v1/audio/speech", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${requireEnv("OPENROUTER_API_KEY")}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "google/gemini-3.8-flash-tts", input: text, voice, response_format: "pcm" }),
+    });
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (res.ok) {
+      const rate = Number((res.headers.get("content-type") || "").match(/rate=(\d+)/)?.[1] || 24000);
+      const wav = pcmToWav(buf, rate);
+      const seconds = buf.length / (rate * 2);
+      const usd = seconds * OR_USD_PER_SEC;
+      ledger.record({ provider: "openrouter", model: "google/gemini-3.8-flash-tts", inTok: 0, outTok: Math.ceil(seconds * 25), usd, job: `${job} (est)` });
+      return { wav, seconds, usd };
+    }
+    last = new Error(`OpenRouter TTS HTTP ${res.status}: ${buf.toString().slice(0, 300)}`);
+    if (res.status !== 429 && res.status < 500) throw last;
+    await sleep(2000 * (attempt + 1) ** 2);
+  }
+  throw last;
+}
+
 /** GET /v1beta/voices with repeatable filters, e.g. { language_code: ["en-GB"], type: ["prebuilt"] }. */
 export async function listVoices(filters = {}) {
   const qs = new URLSearchParams();
