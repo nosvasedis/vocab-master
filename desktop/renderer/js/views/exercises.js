@@ -2,9 +2,9 @@
 import {
   CLASS_PROFILES, EXERCISE_LABELS, EXERCISE_DESCRIPTIONS, EXERCISE_EXAMPLES, EXERCISE_FAMILIES,
   pickGenerationPlan, analyzeVocabFeatures, generateWorksheets, regenerateDictationOnly,
-  regenerateLingoPracticeOnly, normalizeWorksheetExercises, validateWorksheet, saveWorksheetSession,
+  regenerateLingoPracticeOnly, normalizeWorksheetExercises, validateWorksheet, saveWorksheetSession, findVocabGaps,
 } from "../../app.js";
-import { $, $$, esc, icon, plural, toast, segmented } from "../ui.js";
+import { $, $$, esc, icon, plural, toast, segmented, confirmDialog } from "../ui.js";
 import { state, emit, on, buildForm, filledWords, bookTitle, unitNumber, pageRange } from "../state.js";
 import { getApiKey } from "../bridge.js";
 import { actions } from "../actions.js";
@@ -296,6 +296,18 @@ export async function runGenerate(mode = "full") {
   }
   if (!state.plan) refreshPlan();
   const form = buildForm();
+  // The worksheet's word table is exactly the Step 2 table, so empty fields stay empty — say so first.
+  const gaps = Object.entries(findVocabGaps(form));
+  if (mode === "full" && gaps.length) {
+    const label = { type: "Part of speech", greek: "Greek", emojis: "Emojis", collocation: "Phrase" };
+    const list = gaps.map(([k, w]) => `${label[k]}: ${w.slice(0, 3).join(", ")}${w.length > 3 ? ` +${w.length - 3}` : ""}`).join("  ·  ");
+    const ok = await confirmDialog({
+      title: "Some fields are empty",
+      body: `${list}. The worksheet uses exactly what is in Step 2, so these will stay blank. Fill them in Step 2 (✨ Fill with AI) or generate anyway.`,
+      okLabel: "Generate anyway", cancelLabel: "Back to Step 2", tone: "primary", iconName: "alert",
+    });
+    if (!ok) { actions.go("words"); return; }
+  }
   const customPlan = state.ex.mode === "custom" ? state.plan : null;
   const title = mode === "dictation" ? "Rewriting the Dictation…" : mode === "lingo" ? "Rewriting the Lingo practice…" : "Writing your worksheets…";
   setBusy(true, title);

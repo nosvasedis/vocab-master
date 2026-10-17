@@ -2052,20 +2052,21 @@ function validateWorksheet(data) {
   const vocab = data.lingoLauncher?.vocabulary || [];
   if (!profile) issues.push("Invalid class profile");
 
+  const teacherOwned = !!data.meta?.vocabFromTeacher;
   vocab.forEach((v, i) => {
-    if (!v.greek?.trim()) issues.push(`Vocab #${i + 1}: missing Greek translation`);
-    if (profile?.minEmojis > 0 && !(v.emojis || "").trim()) {
+    if (!teacherOwned && !v.greek?.trim()) issues.push(`Vocab #${i + 1}: missing Greek translation`);
+    if (!teacherOwned && profile?.minEmojis > 0 && !(v.emojis || "").trim()) {
       issues.push(`Vocab "${v.english}": needs at least one emoji for ${profile.label}`);
     }
     normalizeDerivativesList(v.derivatives).forEach((d) => {
       const text = typeof d === "string" ? d : d?.text;
       const greek = typeof d === "object" ? d?.greek : "";
-      if (text?.trim() && !greek?.trim()) {
+      if (!teacherOwned && text?.trim() && !greek?.trim()) {
         issues.push(`Vocab "${v.english}" derivative "${text}": missing Greek translation`);
       }
     });
     normalizeAntonymList(v.antonyms).forEach((a) => {
-      if (a.text && !a.greek?.trim()) {
+      if (!teacherOwned && a.text && !a.greek?.trim()) {
         issues.push(`Vocab "${v.english}" antonym "${a.text}": missing Greek translation`);
       }
     });
@@ -3051,14 +3052,69 @@ ${JSON.stringify(types)}`;
   return block;
 }
 
+/** Fields a teacher edits per word in Step 2. */
+const TEACHER_VOCAB_FIELDS = ["type", "greek", "emojis", "collocation", "derivatives", "synonyms", "antonyms"];
+
+/**
+ * The vocabulary table on the worksheet IS the teacher's Step 2 table — the AI only writes exercises.
+ * Whatever the AI put in the table is replaced with the teacher's values word by word: a field the
+ * teacher emptied, deleted or switched off stays blank (never invented), a filled one is copied
+ * exactly (Greek, emojis, phrase, family, synonyms, opposites). Freeform mode has no teacher rows
+ * and is left alone. Returns the same data object.
+ */
+function enforceTeacherVocabulary(data, form) {
+  const rows = form?.inputMode === "structured" ? form.vocabRows : null;
+  if (!rows?.length || !data?.lingoLauncher) return data;
+  const vocab = data.lingoLauncher.vocabulary || [];
+  const used = new Set();
+  const rowFor = (v, i) => {
+    const key = normEnglish(v?.english);
+    let j = rows.findIndex((r, idx) => !used.has(idx) && normEnglish(r.english) === key);
+    if (j < 0 && rows[i] && !used.has(i) && !vocab.some((o) => normEnglish(o?.english) === normEnglish(rows[i].english))) j = i;
+    if (j < 0) return null;
+    used.add(j);
+    return rows[j];
+  };
+  data.lingoLauncher.vocabulary = vocab.map((v, i) => {
+    const row = rowFor(v, i);
+    if (!row) return v;
+    const on = (k) => row.fieldToggles?.[k] !== false;
+    const text = (k) => (on(k) ? String(row[k] ?? "").trim() : "");
+    return {
+      ...v,
+      english: row.english || v.english,
+      type: text("type"),
+      greek: text("greek"),
+      emojis: text("emojis"),
+      collocation: text("collocation"),
+      derivatives: normalizeDerivativesList(text("derivatives")),
+      synonyms: normalizeWordList(text("synonyms")),
+      antonyms: normalizeAntonymList(text("antonyms")),
+    };
+  });
+  data.meta = { ...(data.meta || {}), vocabFromTeacher: true };
+  return data;
+}
+
+/** Core fields (not the optional family / synonyms / opposites) the teacher switched on but left empty. */
+function findVocabGaps(form) {
+  const gaps = {};
+  if (form?.inputMode !== "structured") return gaps;
+  for (const r of form.vocabRows || []) {
+    for (const k of ["type", "greek", "emojis", "collocation"]) {
+      if (r.fieldToggles?.[k] !== false && !String(r[k] ?? "").trim()) (gaps[k] ||= []).push(r.english);
+    }
+  }
+  return gaps;
+}
+
 function buildUserPrompt(form, plan, teacherHints) {
   let vocabSection = "";
   if (form.inputMode === "structured" && form.vocabRows?.length) {
     const n = form.vocabRows.length;
     vocabSection = `STRUCTURED VOCABULARY (${n} words — vocabulary array MUST have exactly ${n} items, numbered 1–${n}):
-Each row includes fieldToggles — only populate fields the teacher enabled. Respect teacher values for derivatives, synonyms, antonyms.
-If synonyms/antonyms toggles are OFF for a word, leave synonyms/antonyms arrays EMPTY — do not fill them.
-For enabled optional fields (derivatives/synonyms/antonyms), add content only when natural for the level; leave empty arrays when none fit.
+THE TEACHER OWNS THE VOCABULARY TABLE: copy each row's type, greek, emojis, collocation, derivatives, synonyms and antonyms into the vocabulary array EXACTLY as written.
+A field that is empty in the row, or whose fieldToggles entry is false, was deliberately left blank or deleted by the teacher: keep it EMPTY ("" or []) — never invent, fill in or "improve" it. Do not add synonyms, antonyms, derivatives, emojis or Greek the row does not contain, and do not use such invented material in the exercises.
 Parse teacher derivative strings into derivatives: [{ "text", "type", "greek" }]. Format "word (type) - Greek" in teacher input → split into fields. Every derivative in the Lingo table MUST have greek.
 Parse teacher antonym strings into antonyms: [{ "text", "greek" }]. Format "word - Greek" in teacher input → split into fields. Every antonym in the Lingo table MUST have greek. Put synonyms in string arrays.
 ${VOCAB_SENSE_DISAMBIGUATION_RULES}
@@ -3340,6 +3396,7 @@ async function generateWorksheets(form, apiKey, options = {}) {
           };
         }
       }
+      enforceTeacherVocabulary(data, form);
       return null;
     },
   });
@@ -3376,6 +3433,7 @@ async function regenerateDictationOnly(form, apiKey, existingData, options = {})
       data.generationPlan = plan;
       data.lingoLauncher = { ...existingData.lingoLauncher, vocabulary: vocab };
       data.meta = buildWorksheetMeta(form, profileId, { ...existingData.meta, ...data.meta });
+      enforceTeacherVocabulary(data, form);
       return null;
     },
   });
@@ -3416,6 +3474,7 @@ async function regenerateLingoPracticeOnly(form, apiKey, existingData, options =
       };
       data.dictation = existingData.dictation;
       data.meta = buildWorksheetMeta(form, profileId, { ...existingData.meta, ...data.meta });
+      enforceTeacherVocabulary(data, form);
       return null;
     },
   });
@@ -4934,6 +4993,8 @@ function parseBulkVocabularyText(rawText) {
 }
 
 export {
+  enforceTeacherVocabulary,
+  findVocabGaps,
   sanitizeVocabField,
   splitTargetInPhrase,
   CLASS_PROFILES,
