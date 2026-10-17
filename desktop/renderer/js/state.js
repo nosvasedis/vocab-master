@@ -1,7 +1,7 @@
 /* Vocab Master — application state, derived values and draft persistence. */
 import {
   CLASS_PROFILES, CPP_BOOKS, resolveCoursebookId, getCppUnitStructure,
-  queryCoursebookWords, selectSmartCoursebookWords,
+  queryCoursebookWords, selectSmartCoursebookWords, trustedBankEmoji,
 } from "../app.js";
 import { readJSON, writeJSON } from "./bridge.js";
 import { uid, debounce } from "./ui.js";
@@ -114,7 +114,9 @@ export function pickFromQuery(query, limit = state.cpp.limit) {
 
 export function coursebookEntryToWord(entry) {
   return makeWord({
-    english: entry.english, type: entry.type, greek: entry.greek, emojis: entry.emojis,
+    english: entry.english, type: entry.type, greek: entry.greek,
+    // The word bank reuses one emoji for dozens of unrelated words: only the specific ones are kept, AI picks the rest.
+    emojis: trustedBankEmoji(entry),
     collocation: entry.collocation,
   });
 }

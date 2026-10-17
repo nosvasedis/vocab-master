@@ -1,6 +1,6 @@
 /* Step 2 — Vocabulary studio: editable word rows, AI fill, bulk paste, freeform brief. */
 import {
-  CLASS_PROFILES, CPP_BOOKS, autofillVocabulary, lookupCoursebookWord, parseBulkVocabularyText,
+  CLASS_PROFILES, CPP_BOOKS, autofillVocabulary, lookupCoursebookWord, parseBulkVocabularyText, emojiHead, isJunkBankEmoji,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, confirmDialog, segmented, el } from "../ui.js";
 import {
@@ -291,8 +291,21 @@ function wireList() {
 /* ── AI fill ─────────────────────────────────────────────────────── */
 const AI_FIELDS = ["emojis", "collocation", "derivatives", "synonyms", "antonyms"];
 
-function wordNeedsFill(w) {
-  return FIELD_KEYS.some((k) => state.fields[k] && !String(w[k] || "").trim());
+/** Words whose picture is the word bank's generic filler, or is already used by an earlier word. */
+function suspectEmojiIds() {
+  const ids = new Set();
+  const seen = new Set();
+  for (const w of filledWords()) {
+    const k = emojiHead(w.emojis);
+    if (!k) continue;
+    if (isJunkBankEmoji(w.english, w.emojis) || seen.has(k)) ids.add(w.id);
+    else seen.add(k);
+  }
+  return ids;
+}
+
+function wordNeedsFill(w, suspect = suspectEmojiIds()) {
+  return FIELD_KEYS.some((k) => state.fields[k] && !String(w[k] || "").trim()) || (state.fields.emojis && suspect.has(w.id));
 }
 
 /**
@@ -304,7 +317,8 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
   if (!state.profileId) { toast("Choose a class level in Step 1 first.", "warn"); actions.go("setup"); return; }
   let words = (targets || filledWords()).filter((w) => w.english.trim());
   if (!words.length) { toast("Add at least one English word first.", "warn"); return; }
-  if (!regenerate) words = words.filter(wordNeedsFill);
+  const suspect = suspectEmojiIds();
+  if (!regenerate) words = words.filter((w) => wordNeedsFill(w, suspect));
   if (!words.length) {
     toast("Every visible field is already filled. Use ✨ on a row to rewrite it.", "info");
     return;
@@ -324,7 +338,7 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
     const provided = {};
     if (w.type.trim()) provided.type = w.type.trim();
     if (w.greek.trim()) provided.greek = w.greek.trim();
-    if (!regenerate) AI_FIELDS.forEach((k) => { if (w[k]?.trim()) provided[k] = w[k].trim(); });
+    if (!regenerate) AI_FIELDS.forEach((k) => { if (w[k]?.trim() && !(k === "emojis" && suspect.has(w.id))) provided[k] = w[k].trim(); });
     return provided;
   };
   words = words.filter((w) => {
@@ -365,8 +379,11 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
   try {
     const requests = words.map((w) => ({ english: w.english.trim(), fields: { ...state.fields }, provided: lockedKeys(w) }));
     const emojiDrawable = await emojiDrawableCheck().catch(() => null);
+    const fillIds = new Set(words.map((w) => w.id));
     const items = await autofillVocabulary(apiKey, state.profileId, requests, {
       emojiDrawable: emojiDrawable || undefined,
+      // Pictures the other words already use — a word must never get the same one.
+      siblingEmojis: filledWords().filter((w) => !fillIds.has(w.id)).map((w) => ({ english: w.english, emojis: w.emojis })),
       onStage: (msg) => { stage = msg; },
     });
     words.forEach((w, i) => {
@@ -377,7 +394,7 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
         const v = String(item[k] ?? "").trim();
         if (!v) return;
         const locked = k === "type" || k === "greek";
-        if (locked ? !w[k].trim() : (regenerate || !w[k].trim())) w[k] = v;
+        if (locked ? !w[k].trim() : (regenerate || !w[k].trim() || (k === "emojis" && suspect.has(w.id)))) w[k] = v;
       });
     });
     actions.setAiState("on");

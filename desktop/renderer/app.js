@@ -4566,6 +4566,7 @@ const normEnglish = (s) => String(s || "").toLowerCase().replace(/[’']/g, "'")
 const VOCAB_CHECKED_FIELDS = ["emojis", "derivatives", "synonyms", "antonyms"];
 
 const AUTOFILL_EMOJI_GUIDE = `PICKING THE EMOJI (the picture a student sees next to the word — it must make them think of THIS word):
+- Every word in a unit gets a DIFFERENT emoji — two words must never share one, even related ones (run and jog must not both be 🏃: pick another image for the second).
 - First decide the sense (use provided greek / type / collocation), then in "picture" describe in a few words the single clearest thing to draw, THEN choose the emoji for that picture.
 - Concrete nouns → the thing itself (apple 🍎, helmet ⛑️, lighthouse 🗼 not 🏠). Animals/plants/foods → that exact animal/plant/food.
 - Verbs → the action or its tell-tale object (climb 🧗, cut ✂️, swim 🏊, hide 🙈, whisper 🤫, rescue 🛟, explore 🧭, invent 💡).
@@ -4596,7 +4597,7 @@ function vocabFieldLimits(profile) {
   return { derivatives: max, synonyms: max <= 1 ? 1 : max <= 2 ? 2 : 3, antonyms: max <= 1 ? 1 : 2 };
 }
 
-async function autofillBatch(apiKey, profileId, requests, { strict = false } = {}) {
+async function autofillBatch(apiKey, profileId, requests, { strict = false, taken = [] } = {}) {
   const profile = CLASS_PROFILES[profileId];
   const limits = vocabFieldLimits(profile);
   const allFields = VOCAB_AUTOFILL_FIELDS;
@@ -4637,7 +4638,8 @@ Examples:
 - { "english": "compete", "provided": {"type":"v."}, "fill": ["derivatives"] } → derivatives "competition (n.) - διαγωνισμός, competitor (n.) - αντίπαλος, competitive (adj.) - ανταγωνιστικός" (NOT "compete", "competing" or "competes")
 - { "english": "pencil", "fill": ["derivatives","antonyms"] } → derivatives "", antonyms "", none ["derivatives","antonyms"]`;
 
-  const userPrompt = `Return json items for these words. Respect "fill", "provided" and "avoid" on each:\n${JSON.stringify(requests, null, 2)}`;
+  const takenNote = taken.length ? `\nEmojis ALREADY USED by other words in this unit — every word needs its OWN emoji, never reuse these: ${taken.join(" ")}\n` : "";
+  const userPrompt = `Return json items for these words. Respect "fill", "provided" and "avoid" on each:${takenNote}\n${JSON.stringify(requests, null, 2)}`;
   const result = await callDeepSeek(apiKey, systemPrompt, userPrompt);
   const items = Array.isArray(result.items) ? result.items : [];
   const byEnglish = new Map(items.filter((it) => it?.english).map((it) => [normEnglish(it.english), it]));
@@ -4657,11 +4659,12 @@ async function reviewBatch(apiKey, profileId, rows) {
   const limits = vocabFieldLimits(profile);
   const systemPrompt = `You are a strict English teacher for Greek ${profile.label} students (${profile.cefr}) checking AI-written vocabulary cards. Return valid json only.
 
-Schema: { "items": [ { "english": string, "emojis"?: string, "derivatives"?: string, "synonyms"?: string, "antonyms"?: string } ] }
+Schema: { "items": [ { "english": string, "shows"?: string, "emojis"?: string, "derivatives"?: string, "synonyms"?: string, "antonyms"?: string } ] }
 
 For each row, audit ONLY the fields present in "check". Return the row with a key ONLY for a field that is wrong and needs replacing, containing the corrected value. Return just { "english": ... } when everything is correct. Never touch fields outside "check". The sense is fixed by "sense", "type", "greek" and "collocation".
 
 How to audit:
+- shows: for every row that has "emojis" in "check", first write in "shows" what the emoji literally depicts, in plain words (for example a lion's face). Judge from that, not from what you hoped it would be.
 - emojis: Imagine a student who sees ONLY the emoji (no text). Would they think of THIS word in THIS sense? Replace it if it shows a different meaning or a homograph, is too vague, is a placeholder, or is a poor stand-in when a clearer emoji exists. Keep a good one. Never return an empty emoji.
 - derivatives: every entry must be a different, real word from the same root (different spelling from the headword and not merely an inflection of it). Remove the headword, plurals/-s/-ed/-ing/-er/-est forms of it, invented words, look-alikes with a different root, and entries without the right Greek. Add the most useful genuine derivatives if the list is thin (up to ${limits.derivatives}). Return "" if none truly exist.
 - synonyms: same meaning in THIS sense and same part of speech, simple and level-appropriate, up to ${limits.synonyms}. Remove the headword, inflections, definitions, opposites and loosely related words.
@@ -4678,6 +4681,54 @@ ${AUTOFILL_FAMILY_GUIDE}`;
   return rows.map((r, i) => byEnglish.get(normEnglish(r.english)) || (items.length === rows.length ? items[i] : null) || {});
 }
 
+/** First emoji of a field (without variation selectors / skin tones): the picture a word is known by. */
+function emojiHead(text) {
+  const first = splitEmojiText(text).find((p) => p.emoji);
+  return first ? first.text.replace(/\uFE0F/g, "").replace(/[\u{1F3FB}-\u{1F3FF}]/gu, "") : "";
+}
+
+/** Words that were given the same picture as another word get a new, distinct one. */
+async function distinctEmojiBatch(apiKey, profileId, rows, taken) {
+  const profile = CLASS_PROFILES[profileId];
+  const systemPrompt = `You pick emojis for vocabulary cards for Greek ${profile.label} students (${profile.cefr}). Return valid json only.
+
+Schema: { "items": [ { "english": string, "picture": string, "emojis": string } ] }
+
+Each row below was given an emoji that ANOTHER word in the unit already uses (see "sameEmojiAs"). Give each row a DIFFERENT emoji that clearly shows ITS OWN meaning ("sense", "type", "greek", "collocation") and is not in the "taken" list. Return one item per row, in the same order. "picture": 2–6 words naming what the new emoji shows.
+
+${AUTOFILL_EMOJI_GUIDE}`;
+  const userPrompt = `taken emojis (never use): ${taken.join(" ")}\n${JSON.stringify(rows, null, 2)}`;
+  const result = await callDeepSeek(apiKey, systemPrompt, userPrompt);
+  const items = Array.isArray(result.items) ? result.items : [];
+  const byEnglish = new Map(items.filter((it) => it?.english).map((it) => [normEnglish(it.english), it]));
+  return rows.map((r, i) => byEnglish.get(normEnglish(r.english)) || (items.length === rows.length ? items[i] : null) || {});
+}
+
+/* ── Coursebook word-bank emojis: only a few hundred are specific, the rest are generic fillers ── */
+let bankEmojiUsage = null;
+function bankUsage() {
+  if (bankEmojiUsage) return bankEmojiUsage;
+  bankEmojiUsage = new Map();
+  for (const e of CPP_WORDBANK) {
+    if (!e.emojis) continue;
+    if (!bankEmojiUsage.has(e.emojis)) bankEmojiUsage.set(e.emojis, new Set());
+    bankEmojiUsage.get(e.emojis).add(String(e.english).toLowerCase());
+  }
+  return bankEmojiUsage;
+}
+/** The word bank reuses one emoji for dozens of unrelated words (✨ predict, live, respect…). Keep it only when 2 words or fewer share it. */
+function trustedBankEmoji(entry) {
+  const em = entry?.emojis || "";
+  return em && (bankUsage().get(em)?.size || 0) <= 2 ? em : "";
+}
+/** True when `emojis` is the word bank's own generic filler for this word. */
+function isJunkBankEmoji(english, emojis) {
+  const key = String(english || "").trim().toLowerCase();
+  if (!key || !emojis) return false;
+  const usage = bankUsage().get(emojis);
+  return !!usage && usage.size > 2 && usage.has(key);
+}
+
 /**
  * AI-fill vocabulary rows. Every requested field is filled unless the AI says it has no genuine
  * answer (then it is listed in the result's `unavailable` map: english → [fields]).
@@ -4688,6 +4739,7 @@ ${AUTOFILL_FAMILY_GUIDE}`;
  * @param {object} [options]
  * @param {(emoji: string) => boolean} [options.emojiDrawable] true when every picture style can draw this emoji
  * @param {(message: string) => void} [options.onStage] progress text for the UI
+ * @param {{english: string, emojis: string}[]} [options.siblingEmojis] pictures other words in the unit already use (never reused)
  */
 async function autofillVocabulary(apiKey, profileId, wordRequests, options = {}) {
   const profile = CLASS_PROFILES[profileId];
@@ -4730,6 +4782,15 @@ async function autofillVocabulary(apiKey, profileId, wordRequests, options = {})
     return true;
   };
 
+  // Emojis the rest of the unit already uses (other rows not being filled + words answered so far).
+  const siblingEmojis = (options.siblingEmojis || []).filter((e) => e?.emojis);
+  const firstEmoji = (text) => emojiHead(text);
+  const takenFor = (slice) => {
+    const mine = new Set(slice);
+    const all = [...siblingEmojis.map((e) => e.emojis), ...requests.map((_, i) => (mine.has(i) ? "" : merged[i].emojis || ""))];
+    return [...new Set(all.map(firstEmoji).filter(Boolean))];
+  };
+
   const runPass = async (indexes, strict) => {
     for (let b = 0; b < indexes.length; b += BATCH) {
       const slice = indexes.slice(b, b + BATCH);
@@ -4743,7 +4804,7 @@ async function autofillVocabulary(apiKey, profileId, wordRequests, options = {})
           ...(Object.keys(avoid).length ? { avoid } : {}),
         };
       });
-      const answers = await autofillBatch(apiKey, profileId, batch, { strict });
+      const answers = await autofillBatch(apiKey, profileId, batch, { strict, taken: takenFor(slice) });
       answers.forEach((item, j) => {
         const i = slice[j];
         if (item.sense) notes[i].sense = String(item.sense).trim();
@@ -4809,6 +4870,39 @@ async function autofillVocabulary(apiKey, profileId, wordRequests, options = {})
     }
   };
 
+  // Two words must never share a picture. Keep the first owner, ask again for the others.
+  const distinctPass = async () => {
+    for (let round = 0; round < 2; round++) {
+      const owner = new Map(); // emoji → who owns it
+      siblingEmojis.forEach((e) => { const k = firstEmoji(e.emojis); if (k && !owner.has(k)) owner.set(k, e.english); });
+      const clashing = [];
+      requests.forEach((r, i) => {
+        const k = firstEmoji(merged[i].emojis);
+        if (!k) return;
+        if (!owner.has(k)) { owner.set(k, r.english); return; }
+        if (aiMade[i].has("emojis")) clashing.push({ i, with: owner.get(k) });
+      });
+      if (!clashing.length) return;
+      stage("Giving every word its own picture…");
+      for (let b = 0; b < clashing.length; b += BATCH) {
+        const slice = clashing.slice(b, b + BATCH);
+        const taken = [...new Set([...owner.keys()])];
+        const rows = slice.map(({ i, with: other }) => ({
+          english: requests[i].english, sense: notes[i].sense || undefined, type: merged[i].type || undefined, greek: merged[i].greek || undefined,
+          collocation: merged[i].collocation || undefined, currentEmoji: merged[i].emojis, sameEmojiAs: other,
+        }));
+        let fixes;
+        try { fixes = await distinctEmojiBatch(apiKey, profileId, rows, taken); } catch (err) { if (err?.fatal) throw err; return; }
+        fixes.forEach((fix, j) => {
+          const i = slice[j].i;
+          const { value } = sanitizeVocabField("emojis", autofillValueText(fix?.emojis), ctxFor(i, "emojis"));
+          const k = firstEmoji(value);
+          if (value && k && !taken.includes(k)) { rejected[i].emojis = [...new Set([...(rejected[i].emojis || []), merged[i].emojis])]; merged[i].emojis = value; taken.push(k); owner.set(k, requests[i].english); }
+        });
+      }
+    }
+  };
+
   const allIdx = requests.map((_, i) => i);
   const missingIdx = () => allIdx.filter((i) => requests[i].fill.some((k) => !merged[i][k] && !none[i].has(k)));
 
@@ -4823,6 +4917,7 @@ async function autofillVocabulary(apiKey, profileId, wordRequests, options = {})
     stage("Checking pictures, word families, synonyms and opposites…");
     await reviewPass();
   }
+  if (allIdx.some((i) => aiMade[i].has("emojis"))) await distinctPass();
   // The reviewer may have emptied a field; ask once more for anything still missing without a "none".
   const stillMissing = missingIdx();
   if (stillMissing.length) {
@@ -4993,6 +5088,9 @@ function parseBulkVocabularyText(rawText) {
 }
 
 export {
+  trustedBankEmoji,
+  isJunkBankEmoji,
+  emojiHead,
   enforceTeacherVocabulary,
   findVocabGaps,
   sanitizeVocabField,
