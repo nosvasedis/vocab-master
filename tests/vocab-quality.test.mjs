@@ -110,3 +110,42 @@ test('AI fill pipeline: rejects same-word families, retries, and applies the rev
     globalThis.fetch = original;
   }
 });
+
+test('worksheet vocabulary table is exactly the Step 2 table (deleted fields stay deleted)', async () => {
+  const { generateWorksheets, enforceTeacherVocabulary, findVocabGaps, renderLingoLauncher, validateWorksheet } = await import('../desktop/renderer/app.js');
+  const on = { type: true, greek: true, emojis: true, collocation: true, derivatives: true, synonyms: true, antonyms: true };
+  const form = {
+    bookTitle: 'Test', unit: '1', pageRange: '', classProfile: 'B_SENIOR', inputMode: 'structured', freeform: '', teacherHints: [],
+    vocabRows: [
+      { english: 'brave', type: 'adj.', greek: 'γενναίος', emojis: '🦁', collocation: 'a brave boy', derivatives: 'bravery (n.) - θάρρος', synonyms: '', antonyms: '', fieldToggles: on },
+      { english: 'clever', type: 'adj.', greek: '', emojis: '', collocation: '', derivatives: '', synonyms: 'smart', antonyms: 'silly - ανόητος', fieldToggles: { ...on, synonyms: false, antonyms: false } },
+    ],
+  };
+  // The AI invents synonyms, emojis, Greek and families the teacher deleted or switched off.
+  const aiVocab = [
+    { number: 1, english: 'brave', type: 'adj.', greek: 'τολμηρός', emojis: '🦸', collocation: 'brave soldier', derivatives: [{ text: 'bravely', type: 'adv.', greek: 'γενναία' }], synonyms: ['bold'], antonyms: [{ text: 'afraid', greek: 'φοβισμένος' }] },
+    { number: 2, english: 'Clever', type: 'adj.', greek: 'έξυπνος', emojis: '🧠', collocation: 'a clever idea', derivatives: [], synonyms: ['smart'], antonyms: [{ text: 'silly', greek: 'ανόητος' }] },
+  ];
+  const data = enforceTeacherVocabulary({ meta: {}, lingoLauncher: { vocabulary: aiVocab, practice: [] } }, form);
+  const [brave, clever] = data.lingoLauncher.vocabulary;
+  assert.equal(brave.greek, 'γενναίος'); assert.equal(brave.emojis, '🦁'); assert.equal(brave.collocation, 'a brave boy');
+  assert.deepEqual(brave.derivatives, [{ text: 'bravery', type: 'n.', greek: 'θάρρος' }]);
+  assert.deepEqual(brave.synonyms, []); assert.deepEqual(brave.antonyms, []);
+  assert.equal(clever.english, 'clever'); assert.equal(clever.greek, ''); assert.equal(clever.emojis, ''); assert.equal(clever.collocation, '');
+  assert.deepEqual(clever.synonyms, []); assert.deepEqual(clever.antonyms, []);
+  assert.ok(!renderLingoLauncher(data).includes('smart'));
+  assert.equal(validateWorksheet({ ...data, meta: { ...data.meta, classProfile: 'B_SENIOR' } }).issues.some((i) => /missing Greek|needs at least one emoji/.test(i)), false);
+  assert.deepEqual(findVocabGaps(form), { greek: ['clever'], emojis: ['clever'], collocation: ['clever'] });
+  // Freeform mode has no teacher rows: untouched.
+  const free = { meta: {}, lingoLauncher: { vocabulary: aiVocab, practice: [] } };
+  assert.equal(enforceTeacherVocabulary(free, { inputMode: 'freeform', vocabRows: [] }).lingoLauncher.vocabulary, aiVocab);
+
+  // Through the real generator, with an AI that ignores the instructions.
+  const original = globalThis.fetch;
+  globalThis.fetch = async () => ({ ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify({ meta: {}, lingoLauncher: { vocabulary: aiVocab, practice: [] }, dictation: { exercises: [] } }) } }] }) });
+  try {
+    const out = await generateWorksheets(form, 'key', {});
+    const v = out.data.lingoLauncher.vocabulary;
+    assert.equal(v[1].greek, ''); assert.deepEqual(v[1].synonyms, []); assert.equal(v[0].greek, 'γενναίος');
+  } finally { globalThis.fetch = original; }
+});
