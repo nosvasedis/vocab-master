@@ -1,5 +1,5 @@
 /* Spell Bee — hear it, see the clue, build the word from letter tiles (or type it). */
-import { shuffle, maskWordInText } from "../deck.js";
+import { shuffle, maskWordInText, typeName } from "../deck.js";
 
 const isLetter = (ch) => /[a-z]/i.test(ch);
 
@@ -41,12 +41,15 @@ export default {
     }
 
     function clueHtml(w) {
-      const phrase = maskWordInText(w.collocation, w.english, "_____");
+      // Clues that work without Greek: the picture, then a short gapped sentence; Greek only when it's on.
+      const coll = w.collocation && w.collocation.toLowerCase() !== w.english.toLowerCase() ? maskWordInText(w.collocation, w.english, "_____") : null;
+      const phrase = coll || (String(w.example || "").length <= 90 ? maskWordInText(w.example, w.english, "_____") : null);
       return `
         ${pic(w.emojis) ? `<div class="sp-emoji">${pic(w.emojis)}</div>` : ""}
-        ${w.greek ? `<div class="sp-greek" lang="el">${esc(w.greek)}</div>` : ""}
         ${phrase ? `<div class="sp-phrase">“${esc(phrase)}”</div>` : ""}
-        <div class="sp-meta">${w.type ? `<span>${esc(w.type)}</span>` : ""}<span>${[...w.english].filter(isLetter).length} letters</span></div>`;
+        ${w.greek ? `<div class="sp-greek gk" lang="el">${esc(w.greek)}</div>` : ""}
+        <div class="sp-meta">${w.type ? `<span>${esc(typeName(w.type))}</span>` : ""}<span>${[...w.english].filter(isLetter).length} letters</span>
+          <button type="button" class="sp-hear" data-hear>${svg("volume", "i-sm")}<span>Hear it</span></button></div>`;
     }
 
     function render() {
@@ -57,7 +60,6 @@ export default {
           ${teams.solo ? "" : `<div class="turn-banner" style="--team:${teams.active().color}">${teams.active().emoji} ${esc(teams.active().name)}, spell it!</div>`}
           <div class="sp-clue">
             ${clueHtml(w)}
-            <button type="button" class="sp-hear" data-hear>${svg("volume")}<span>Hear it</span></button>
           </div>
           <div class="sp-slots" id="spSlots">${slotHtml()}</div>
           <div class="sp-tiles" id="spTiles">${tileHtml()}</div>
@@ -249,6 +251,7 @@ export default {
     startRound();
 
     return {
+      capturesLetters: true, // typing a "g" spells, it does not toggle Greek
       onKey(e) {
         if (e.ctrlKey || e.metaKey || e.altKey) return;
         if (/^[a-z]$/i.test(e.key)) { e.preventDefault(); typeLetter(e.key); }

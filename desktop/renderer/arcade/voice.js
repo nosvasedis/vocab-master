@@ -128,6 +128,8 @@ export async function playClip(key, { onLevel, onStart } = {}) {
 
 export function preload(keys) { keys.filter((k) => index.has(k)).slice(0, 40).forEach((k) => buffer(k).catch(() => {})); }
 export const hasClip = (key) => index.has(key);
+/** Is there a recorded clip for this exact text? (Lets a game stay silent rather than use the system voice.) */
+export const hasVoiceFor = (text) => !!index.keyForText(text);
 export const clipCount = () => index.size;
 
 /** Load the manifest and wire the recorded voice into lessons and games. Safe to call when no audio exists. */

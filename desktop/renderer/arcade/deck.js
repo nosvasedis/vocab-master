@@ -118,7 +118,7 @@ const FALLBACK_DISTRACTORS = [
   "neighbour", "invent", "brave", "careful", "village", "machine", "ocean", "healthy",
 ];
 
-function distractorsFor(target, deck, count = 3) {
+export function distractorsFor(target, deck, count = 3) {
   const t = target.english.toLowerCase();
   const sameType = (w) => (w.type || "").replace(/\W/g, "") === (target.type || "").replace(/\W/g, "");
   const others = deck.filter((w) => w.english.toLowerCase() !== t);
@@ -132,13 +132,21 @@ function distractorsFor(target, deck, count = 3) {
   return out;
 }
 
+/** Full name of a word-bank part-of-speech tag ("phr. v." → "phrasal verb"). */
+export function typeName(t) {
+  const m = { "n.": "noun", "v.": "verb", "adj.": "adjective", "adv.": "adverb", "phr.": "phrase", "prep.": "preposition", "phr. v.": "phrasal verb", "pron.": "pronoun", "conj.": "conjunction", "excl.": "exclamation", "det.": "determiner" };
+  const k = String(t || "").trim();
+  return m[k] || k;
+}
+
 /**
  * Quiz Show questions — three rotating rounds:
  *  • Context gap (collocation / example with the word removed)
- *  • Meaning (Greek + emoji → English)
+ *  • Meaning (Greek → English, only when Greek is on) or picture (emoji → English)
  *  • Word family (synonym / opposite / derivative clue)
+ * The clue never carries Greek; `greekClue` is shown separately and only when Greek is on.
  */
-export function buildDetectiveQuestions(deck = [], maxQuestions = 10) {
+export function buildDetectiveQuestions(deck = [], maxQuestions = 10, { greek = true } = {}) {
   if (!Array.isArray(deck) || deck.length < 2) return [];
   const pool = shuffle(deck).slice(0, maxQuestions);
   return pool.map((target, idx) => {
@@ -147,17 +155,20 @@ export function buildDetectiveQuestions(deck = [], maxQuestions = 10) {
     const family = [];
     if (target.synonyms) family.push({ label: "means the same as", value: englishParts(target.synonyms).slice(0, 2).join(", ") });
     if (target.antonyms) family.push({ label: "is the opposite of", value: englishParts(target.antonyms).slice(0, 2).join(", ") });
-    const base = { id: `q${idx + 1}`, answer: target.english, options, target };
+    const base = { id: `q${idx + 1}`, answer: target.english, options, target, greekClue: target.greek || "" };
     const round = idx % 3;
     if (round === 0 && gapped) {
-      return { ...base, kind: "context", kindLabel: "Fill the gap", prompt: gapped, clue: [target.emojis, target.greek].filter(Boolean).join("  ") };
+      return { ...base, kind: "context", kindLabel: "Fill the gap", prompt: gapped, clue: target.emojis || "" };
     }
     if (round === 2 && family.length && family[0].value) {
       const f = family[0];
       return { ...base, kind: "family", kindLabel: "Word family", prompt: `Which word ${f.label} “${f.value}”?`, clue: target.emojis || "" };
     }
-    if (target.greek) {
-      return { ...base, kind: "meaning", kindLabel: "What's the English?", prompt: target.greek, clue: target.emojis || "", promptLang: "el" };
+    if (greek && target.greek) {
+      return { ...base, kind: "meaning", kindLabel: "What's the English?", prompt: target.greek, clue: target.emojis || "", promptLang: "el", greekClue: "" };
+    }
+    if (firstEmoji(target.emojis)) {
+      return { ...base, kind: "picture", kindLabel: "What's this?", prompt: "", clue: target.emojis, bigClue: true };
     }
     if (gapped) {
       return { ...base, kind: "context", kindLabel: "Fill the gap", prompt: gapped, clue: target.emojis || "" };

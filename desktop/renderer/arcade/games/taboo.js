@@ -1,5 +1,5 @@
 /* Hot Seat — one student faces away; the team describes words without the forbidden ones. Timed rounds. */
-import { buildTabooCard, shuffle } from "../deck.js";
+import { buildTabooCard, shuffle, typeName } from "../deck.js";
 
 export default {
   id: "taboo",
@@ -11,7 +11,6 @@ export default {
   create(ctx) {
     const { stage, esc, svg, sfx, teams, pic } = ctx;
     let seconds = Number(localStorage.getItem("vm_taboo_secs") || 60);
-    let showGreek = false;
     let queue = shuffle(ctx.deck);
     let card = null;
     let left = seconds;
@@ -88,8 +87,8 @@ export default {
       return `
         <span class="ts-describe">Describe…</span>
         <div class="ts-word">${esc(card.english)}</div>
-        <div class="ts-sub">${card.type ? `<span>${esc(card.type)}</span>` : ""}${pic(card.emojis) ? `<span class="ts-pic">${pic(card.emojis)}</span>` : ""}
-          ${card.greek ? `<button type="button" class="ts-greek-toggle" data-greek lang="el">${showGreek ? esc(card.greek) : "Show Greek"}</button>` : ""}</div>
+        <div class="ts-sub">${card.type ? `<span>${esc(typeName(card.type))}</span>` : ""}${pic(card.emojis) ? `<span class="ts-pic">${pic(card.emojis)}</span>` : ""}
+          ${card.greek ? `<span class="ts-greek gk" lang="el">${esc(card.greek)}</span>` : ""}</div>
         <div class="ts-forbid">
           <span class="ts-forbid-label">${svg("x", "i-xs")}Don't say</span>
           ${card.forbiddenWords.map((f) => `<span class="ts-no">${esc(f)}</span>`).join("")}
@@ -173,10 +172,6 @@ export default {
       if (e.target.closest("[data-skip]")) nextCard("skip");
       if (e.target.closest("[data-pause]")) togglePause();
       if (e.target.closest("[data-continue]")) cont();
-      if (e.target.closest("[data-greek]")) {
-        showGreek = !showGreek;
-        e.target.closest("[data-greek]").textContent = showGreek ? card.greek : "Show Greek";
-      }
     });
 
     lobby();

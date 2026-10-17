@@ -10,6 +10,12 @@ export function configureAudio({ sfx, tts } = {}) {
 }
 export const audioSettings = settings;
 
+/** The shared Web Audio output (for the live-show music), or null when sound effects are off. */
+export function audioOut() {
+  const c = ensure();
+  return c ? { ctx: c, out: master } : null;
+}
+
 function ensure() {
   if (!settings.sfx) return null;
   try {

@@ -1,5 +1,5 @@
 /* Flashcards — flip, swipe right "I know it", swipe left "Still learning". */
-import { englishParts } from "../deck.js";
+import { englishParts, typeName, maskWordInText } from "../deck.js";
 
 export default {
   id: "flashcards",
@@ -13,7 +13,8 @@ export default {
     let deck = ctx.deck;
     let i = 0;
     let flipped = false;
-    let front = localStorage.getItem("vm_fc_front") || "english";
+    // "english" = word first; "picture" = picture (and Greek, when it's on) first.
+    let front = localStorage.getItem("vm_fc_front") === "english" ? "english" : localStorage.getItem("vm_fc_front") ? "picture" : "english";
     const status = new Map(); // english → "know" | "learn"
 
     stage.innerHTML = `
@@ -21,7 +22,7 @@ export default {
         <div class="fc-bar">
           <div class="arc-seg sm" id="fcFront">
             <button type="button" data-front="english">English first</button>
-            <button type="button" data-front="greek">Greek & emoji first</button>
+            <button type="button" data-front="picture" id="fcPicFirst">Picture first</button>
           </div>
           <div class="fc-dots" id="fcDots"></div>
         </div>
@@ -51,23 +52,27 @@ export default {
       const emoji = pic(w.emojis);
       const englishFace = `
         <div class="fc-face-inner">
-          <span class="fc-pos">${esc(w.type || "")}</span>
+          ${w.type ? `<span class="fc-pos">${esc(typeName(w.type))}</span>` : ""}
           <div class="fc-word">${esc(w.english)}</div>
           <button type="button" class="fc-say" data-say aria-label="Hear it">${svg("volume")}</button>
           <span class="fc-tap">Tap to flip</span>
         </div>`;
-      const greekFace = `
+      const gap = maskWordInText(w.example, w.english, "_____") || maskWordInText(w.collocation, w.english, "_____");
+      const pictureFace = `
         <div class="fc-face-inner">
-          ${emoji ? `<div class="fc-emoji">${emoji}</div>` : ""}
-          <div class="fc-greek" lang="el">${esc(w.greek || "—")}</div>
+          ${emoji ? `<div class="fc-emoji xl">${emoji}</div>` : ""}
+          ${w.greek ? `<div class="fc-greek gk" lang="el">${esc(w.greek)}</div>` : ""}
+          ${!emoji && gap ? `<div class="fc-gap">“${esc(gap)}”</div>` : ""}
           <span class="fc-tap">What's the English word?</span>
         </div>`;
+      // A picture-first card needs something to show: a picture, a gapped sentence, or Greek when it's on.
+      const canPicture = !!(emoji || gap || (ctx.greek() && w.greek));
       const fam = family(w);
       const back = `
         <div class="fc-face-inner back">
-          <div class="fc-back-top">${emoji ? `<span class="fc-emoji sm">${emoji}</span>` : ""}<span class="fc-pos">${esc(w.type || "")}</span></div>
+          <div class="fc-back-top">${emoji ? `<span class="fc-emoji sm">${emoji}</span>` : ""}${w.type ? `<span class="fc-pos">${esc(typeName(w.type))}</span>` : ""}</div>
           <div class="fc-word sm">${esc(w.english)}</div>
-          ${w.greek ? `<div class="fc-greek sm" lang="el">${esc(w.greek)}</div>` : ""}
+          ${w.greek ? `<div class="fc-greek sm gk" lang="el">${esc(w.greek)}</div>` : ""}
           ${w.collocation && w.collocation.toLowerCase() !== w.english.toLowerCase() ? `<div class="fc-phrase">“${esc(w.collocation)}”</div>` : ""}
           ${fam.length ? `<div class="fc-family">${fam.map(([s, t]) => `<span><b>${s}</b>${esc(t)}</span>`).join("")}</div>` : ""}
           <div class="fc-oracy">${svg("mic", "i-sm")}<span>${esc(w.oracyPrompt)}</span></div>
@@ -75,7 +80,7 @@ export default {
         </div>`;
       return `<div class="fc-card" tabindex="0" aria-label="Flashcard ${i + 1} of ${deck.length}">
         <div class="fc-inner">
-          <div class="fc-face fc-front">${front === "english" ? englishFace : greekFace}</div>
+          <div class="fc-face fc-front">${front === "picture" && canPicture ? pictureFace : englishFace}</div>
           <div class="fc-face fc-back">${back}</div>
         </div>
         <div class="fc-stamp know">I KNOW IT</div>
@@ -98,7 +103,7 @@ export default {
       wireCard(card);
       renderDots();
       stage.querySelectorAll("[data-front]").forEach((b) => b.classList.toggle("on", b.dataset.front === front));
-      if (front === "english") speak(w.english);
+      if (front === "english" || !stack.querySelector(".fc-greek, .fc-emoji.xl, .fc-gap")) speak(w.english);
     }
 
     function flip() {
@@ -107,7 +112,7 @@ export default {
       flipped = !flipped;
       card.classList.toggle("flipped", flipped);
       sfx.flip();
-      if (flipped && front === "greek") speak(deck[i].english);
+      if (flipped && front === "picture") speak(deck[i].english);
     }
 
     function go(delta) {
@@ -226,6 +231,7 @@ export default {
         else if (e.key === "2") mark("know");
         else if (e.key.toLowerCase() === "s") speak(deck[i].english, { force: true });
       },
+      onGreek() { render(); },
       destroy() {},
     };
   },

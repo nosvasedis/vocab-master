@@ -25,6 +25,7 @@ export default {
         floatText(from || pill, `+${points}`, { color: "#ffd23f" });
         ctx.sfx.points();
       },
+      awardTo(_i, points, o) { this.award(points, o); },
       nextTurn() {},
     };
 
@@ -62,6 +63,7 @@ export default {
           <div class="arc-main"><div class="arc-game g-${def.id}"><div class="game-stage"></div></div></div>
         </div>`;
       const root = ctx.ui.querySelector(".arc-embed");
+      root.classList.toggle("show-greek", ctx.greekOn());
       ctx.ui.querySelector(".pr-done").addEventListener("click", () => { closeGame(); ctx.next(); });
       game = mountGame(def, {
         stage: root.querySelector(".game-stage"),
@@ -70,6 +72,7 @@ export default {
         deck: ctx.greekOn() ? ctx.deck : ctx.deck.map((w) => ({ ...w, greek: "" })),
         picture: ctx.picture,
         teams,
+        greek: () => ctx.greekOn(),
         setProgress(html) { const p = root.querySelector("#prProgress"); if (p) p.innerHTML = html; },
         onFinish: (o) => finished(o),
         onRestart: () => play(),

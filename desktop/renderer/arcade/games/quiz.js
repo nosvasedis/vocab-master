@@ -1,5 +1,5 @@
 /* Quiz Show — four-option questions with a countdown, streaks and a 50:50 lifeline per team. */
-import { buildDetectiveQuestions } from "../deck.js";
+import { buildDetectiveQuestions, typeName } from "../deck.js";
 
 const LETTERS = ["A", "B", "C", "D"];
 const TIME = 20;
@@ -13,7 +13,7 @@ export default {
   minWords: 4,
   create(ctx) {
     const { stage, esc, svg, sfx, speak, teams, picText } = ctx;
-    const questions = buildDetectiveQuestions(ctx.deck, Math.min(10, ctx.deck.length));
+    let questions = buildDetectiveQuestions(ctx.deck, Math.min(10, ctx.deck.length), { greek: ctx.greek() });
     let q = 0;
     let answered = false;
     let timerOn = localStorage.getItem("vm_quiz_timer") !== "off";
@@ -46,7 +46,8 @@ export default {
             ${item.speakOnly
               ? `<button type="button" class="qz-listen" data-hear>${svg("volume", "i-lg")}<span>Play the word</span></button>`
               : `<div class="qz-prompt" ${item.promptLang ? `lang="${item.promptLang}"` : ""}>${esc(item.prompt)}</div>`}
-            ${item.clue && picText(item.clue) ? `<div class="qz-clue">${picText(item.clue)}</div>` : ""}
+            ${item.clue && picText(item.clue) ? `<div class="qz-clue${item.bigClue ? " big" : ""}">${picText(item.clue)}</div>` : ""}
+            ${item.greekClue ? `<div class="qz-greek gk" lang="el">${esc(item.greekClue)}</div>` : ""}
           </div>
           <div class="qz-options">
             ${item.options.map((o, k) => `<button type="button" class="qz-opt o${k}" data-opt="${esc(o)}" style="animation-delay:${80 + k * 60}ms"><span class="qz-letter">${LETTERS[k]}</span><span class="qz-text">${esc(o)}</span></button>`).join("")}
@@ -109,7 +110,7 @@ export default {
       foot.innerHTML = `
         <div class="qz-explain ${right ? "ok" : "no"}">
           <span class="qz-verdict">${right ? "Correct!" : choice == null ? "Time's up!" : "Not quite!"}</span>
-          <span><b>${esc(w.english)}</b>${w.type ? ` <i>${esc(w.type)}</i>` : ""}${w.greek ? ` — <span lang="el">${esc(w.greek)}</span>` : ""}${w.collocation && w.collocation.toLowerCase() !== w.english.toLowerCase() ? ` · “${esc(w.collocation)}”` : ""}</span>
+          <span><b>${esc(w.english)}</b>${w.type ? ` <i>${esc(typeName(w.type))}</i>` : ""}${w.greek ? `<span class="gk" lang="el"> — ${esc(w.greek)}</span>` : ""}${w.collocation && w.collocation.toLowerCase() !== w.english.toLowerCase() ? ` · “${esc(w.collocation)}”` : ""}</span>
         </div>
         <button type="button" class="arc-btn primary" data-next>${q + 1 < questions.length ? "Next question" : "See results"}${svg("arrow-right", "i-sm")}<kbd>Enter</kbd></button>`;
       document.activeElement?.blur?.();
@@ -170,6 +171,12 @@ export default {
           e.preventDefault();
           next();
         }
+      },
+      onGreek(on) {
+        // Greek-prompt questions only while Greek is on: rebuild the questions still to come.
+        if (answered) return;
+        const rest = buildDetectiveQuestions(ctx.deck, questions.length - q, { greek: on });
+        if (rest.length) { questions = [...questions.slice(0, q), ...rest]; clearInterval(tick); render(); }
       },
       destroy() { clearInterval(tick); timers.forEach(clearTimeout); },
     };

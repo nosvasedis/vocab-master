@@ -11,8 +11,9 @@ import memory from "./games/memory.js";
 import spelling from "./games/spelling.js";
 import quiz from "./games/quiz.js";
 import taboo from "./games/taboo.js";
+import live from "./games/live.js";
 
-export const GAMES = [flashcards, memory, spelling, quiz, taboo];
+export const GAMES = [live, flashcards, memory, spelling, quiz, taboo];
 
 export const TEAM_PRESETS = [
   { name: "Rockets", emoji: "🚀", color: "#7b6bff" },
@@ -43,6 +44,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
     game: null,
     gameDef: null,
     names: savedNames,
+    greek: localStorage.getItem("vm_arcade_greek") === "on", // hidden by default, like the lessons
     picture: picture || ((t) => esc(t)),
   };
   buildTeams();
@@ -61,6 +63,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
       <div class="arc-crumb" id="arcCrumb"></div>
       <div class="arc-teams" id="arcTeams"></div>
       <div class="arc-tools">
+        <button type="button" class="arc-icon arc-greek" data-greek-toggle aria-label="Show Greek" title="Greek (G)">ΕΛ</button>
         <button type="button" class="arc-icon" data-toggle="sfx" aria-label="Sound effects">${svg(audioSettings.sfx ? "volume" : "volume-off")}</button>
         <button type="button" class="arc-icon" data-toggle="tts" aria-label="Read words aloud">${svg("mic")}</button>
         <button type="button" class="arc-icon" data-full aria-label="Full screen">${svg("maximize")}</button>
@@ -73,6 +76,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
   syncToggles();
 
   root.querySelector("[data-hub]").addEventListener("click", () => showHub());
+  root.querySelector("[data-greek-toggle]").addEventListener("click", toggleGreek);
   root.querySelector("[data-close]").addEventListener("click", closeArcade);
   root.querySelector("[data-full]").addEventListener("click", () => {
     if (document.fullscreenElement) document.exitFullscreen?.();
@@ -120,8 +124,21 @@ function safeJSON(raw, fallback) {
   try { return raw ? JSON.parse(raw) : fallback; } catch { return fallback; }
 }
 
+function toggleGreek() {
+  session.greek = !session.greek;
+  try { localStorage.setItem("vm_arcade_greek", session.greek ? "on" : "off"); } catch { /* ignore */ }
+  syncToggles();
+  sfx.tap();
+  session.game?.onGreek?.(session.greek);
+}
+
 function syncToggles() {
   const r = session.root;
+  r.classList.toggle("show-greek", session.greek);
+  const gk = r.querySelector("[data-greek-toggle]");
+  gk.classList.toggle("on", session.greek);
+  gk.setAttribute("aria-pressed", String(session.greek));
+  gk.title = session.greek ? "Greek is showing (G)" : "Greek is hidden (G)";
   const sfxBtn = r.querySelector('[data-toggle="sfx"]');
   sfxBtn.innerHTML = svg(audioSettings.sfx ? "volume" : "volume-off");
   sfxBtn.classList.toggle("off", !audioSettings.sfx);
@@ -166,6 +183,17 @@ function teamApi() {
       setTimeout(() => pill?.classList.remove("bump"), 600);
       floatText(from || pill, `+${points}`, { color: team.color });
       sfx.points();
+    },
+    /** Points for a specific team (live show: several teams score on the same question). */
+    awardTo(index, points, { from = null, quiet = false } = {}) {
+      const team = session.teams[index];
+      if (!team) return;
+      team.score += points;
+      renderTeams();
+      const pill = session.root.querySelector(`[data-team="${index}"]`);
+      pill?.classList.add("bump");
+      setTimeout(() => pill?.classList.remove("bump"), 600);
+      if (!quiet) floatText(from || pill, `+${points}`, { color: team.color });
     },
     nextTurn() {
       if (session.teams.length < 2) return;
@@ -218,6 +246,19 @@ function showHub() {
 
       <section class="hub-games">
         ${GAMES.map((g, i) => {
+          if (g.featured) {
+            const locked = deck.length < g.minWords;
+            return `<button type="button" class="game-card featured g-${g.id}${locked ? " locked" : ""}" data-game="${g.id}" ${locked ? "disabled" : ""}>
+              <span class="gc-art"><span class="gc-shapes" aria-hidden="true"><i class="s-tri"></i><i class="s-dia"></i><i class="s-cir"></i><i class="s-sq"></i></span><span class="gc-emoji">${g.emoji}</span></span>
+              <span class="gc-body">
+                <span class="gc-badge">NEW · Live show</span>
+                <span class="gc-title">${esc(g.title)}</span>
+                <span class="gc-desc">${esc(g.description)}</span>
+                <span class="gc-tags">${g.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</span>
+              </span>
+              <span class="gc-play">${locked ? `Needs ${g.minWords}+ words` : `${svg("play", "i-sm")}Start the show`}</span>
+            </button>`;
+          }
           const locked = deck.length < g.minWords;
           return `<button type="button" class="game-card g-${g.id}${locked ? " locked" : ""}" data-game="${g.id}" style="animation-delay:${i * 70}ms" ${locked ? "disabled" : ""}>
             <span class="gc-art"><span class="gc-emoji">${g.emoji}</span></span>
@@ -279,9 +320,11 @@ function startGame(id) {
     deck: session.deck,
     picture: session.picture,
     teams: teamApi(),
+    greek: () => session.greek,
     setProgress(html) { const p = session.root.querySelector("#arcProgress"); if (p) p.innerHTML = html; },
     onFinish: (o) => showFinish(def, o),
     onRestart: () => startGame(id),
+    onHub: () => showHub(),
   });
 }
 
@@ -330,6 +373,7 @@ function onKey(e) {
     return;
   }
   if (typing) return;
+  if ((e.key === "g" || e.key === "G") && !session.game?.capturesLetters) { e.preventDefault(); toggleGreek(); return; }
   if (session.game?.onKey) {
     session.game.onKey(e);
     e.stopPropagation();

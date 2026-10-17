@@ -507,3 +507,41 @@
 .arcade .ts-pic { display: inline-flex; gap: 4px; font-size: 30px; color: #1b1640; }
 .arcade .qz-clue .pic { width: 1.3em; height: 1.3em; vertical-align: -0.3em; }
 .arcade .mm-sub .pic { width: 1.2em; height: 1.2em; }
+
+/* ── Revamp (2026-10-17): one Greek switch, sturdier hub cards ─────── */
+/* Greek is hidden everywhere in the arcade unless the ΕΛ switch (or G) is on. */
+.arcade:not(.show-greek) .gk, .arc-embed:not(.show-greek) .gk { display: none !important; }
+.arc-greek { font: 800 13px var(--font-ui); letter-spacing: 0.02em; }
+.arc-greek.on { color: #1b1640; background: #ffd23f; box-shadow: 0 4px 14px rgba(255, 210, 63, 0.4); }
+
+/* Hub cards: art, body and Play button span the whole card. */
+.game-card > .gc-art, .game-card > .gc-body, .game-card > .gc-play { align-self: stretch; }
+.gc-play { white-space: nowrap; }
+.game-card.featured { grid-column: 1 / -1; min-height: 0; display: grid; grid-template-columns: 340px 1fr auto; align-items: stretch; --g1: #4b2bbd; --g2: #e8364f; background: linear-gradient(120deg, rgba(91, 61, 245, 0.28), rgba(232, 54, 79, 0.18)); border: 1.5px solid rgba(255, 255, 255, 0.22); }
+.game-card.featured .gc-art { height: auto; min-height: 210px; background: radial-gradient(circle at 40% 40%, #5b3df5, #2a1474); }
+.game-card.featured .gc-emoji { font-size: 96px; }
+.game-card.featured .gc-body { padding: 22px 26px; justify-content: center; }
+.game-card.featured .gc-title { font-size: 40px; }
+.game-card.featured .gc-desc { font-size: 16px; max-width: 640px; }
+.game-card.featured .gc-play { align-self: center; margin: 0 28px; height: 64px; padding: 0 30px; font-size: 20px; border-radius: 20px; background: linear-gradient(135deg, #ffd23f, #ff8a4c); color: #2a1474; box-shadow: 0 8px 0 #c97a1a, 0 16px 30px rgba(255, 138, 76, 0.35); }
+.gc-badge { align-self: flex-start; font: 800 11.5px var(--font-ui); letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; color: #2a1474; background: #ffd23f; }
+.gc-shapes { position: absolute; inset: 0; }
+.gc-shapes i { position: absolute; width: 54px; height: 54px; opacity: 0.85; }
+.gc-shapes .s-tri { left: 26px; top: 22px; background: #e8364f; clip-path: polygon(50% 8%, 94% 88%, 6% 88%); }
+.gc-shapes .s-dia { right: 30px; top: 26px; background: #2f6fe4; clip-path: polygon(50% 4%, 96% 50%, 50% 96%, 4% 50%); }
+.gc-shapes .s-cir { left: 34px; bottom: 26px; background: #f2a900; border-radius: 50%; }
+.gc-shapes .s-sq { right: 34px; bottom: 30px; background: #1aa260; border-radius: 8px; }
+
+/* Word types written in full; pictures as the main clue when Greek is off. */
+.fc-emoji.xl { font-size: clamp(90px, 12vw, 170px); }
+.fc-gap { font: 600 clamp(22px, 2.6vw, 34px)/1.35 var(--font-display); color: #3b356b; max-width: 640px; }
+.qz-clue.big { font-size: 120px; line-height: 1; }
+.qz-greek { font: 600 26px var(--font-display); color: #6b6890; }
+.ts-greek { font: 600 18px var(--font-display); padding: 4px 12px; border-radius: 99px; color: #6b6890; background: #f3f1f9; }
+.sp-meta { align-items: center; flex-wrap: wrap; justify-content: center; }
+.sp-hear { position: static; height: 34px; }
+.sp-phrase { font-size: 24px; max-width: 760px; }
+/* Header never wraps the team pills; long progress text truncates instead. */
+.arc-teams { flex-wrap: nowrap; min-width: 0; }
+.arc-crumb { flex-shrink: 1; }
+.arc-progress { overflow: hidden; text-overflow: ellipsis; min-width: 0; }

@@ -14,7 +14,7 @@ export const svg = (name, cls = "") => `<svg class="i ${cls}" aria-hidden="true"
  *   setProgress?: Function, onFinish: Function, onRestart: Function }} opts
  * @returns {{ onKey?: Function, destroy?: Function }}
  */
-export function mountGame(def, { stage, root, deck, picture = (t) => esc(t), teams, setProgress = () => {}, onFinish, onRestart }) {
+export function mountGame(def, { stage, root, deck, picture = (t) => esc(t), teams, greek = () => false, setProgress = () => {}, onFinish, onRestart, onHub = null }) {
   const ctx = {
     deck: shuffle(deck),
     fullDeck: deck,
@@ -26,10 +26,13 @@ export function mountGame(def, { stage, root, deck, picture = (t) => esc(t), tea
     pic: (t) => picture(t || ""),
     picText: (t) => picture(t || "", true),
     teams,
+    // Is Greek showing? Greek UI also carries class "gk", hidden by CSS unless the host has .show-greek.
+    greek,
     setProgress,
     confetti: (o) => confetti(root, o),
     finish: (o) => onFinish(o),
     restart: () => onRestart(),
+    hub: onHub,
     esc,
     svg,
   };

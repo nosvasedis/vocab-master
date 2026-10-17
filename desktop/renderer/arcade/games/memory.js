@@ -1,17 +1,18 @@
 /* Memory Match — numbered tiles; find each English word's partner. Teams keep their turn on a match. */
-import { shuffle } from "../deck.js";
+import { shuffle, maskWordInText } from "../deck.js";
 
 const MODES = {
-  greek: { label: "Greek", partner: (w) => ({ main: w.greek, sub: w.emojis, lang: "el" }) },
   emoji: { label: "Picture", partner: (w) => ({ main: w.emojis, sub: "", big: true }) },
-  phrase: { label: "Phrase", partner: (w) => ({ main: w.maskedPhrase, sub: w.emojis }) },
+  phrase: { label: "Sentence", partner: (w) => ({ main: w.maskedPhrase, sub: "" }) },
+  greek: { label: "Greek", partner: (w) => ({ main: w.greek, sub: "", lang: "el" }) },
 };
 
+/** A short sentence with the word gapped: the collocation if it has the word, else the example. */
 function gapPhrase(w) {
   const c = String(w.collocation || "");
-  if (!c || c.toLowerCase() === w.english.toLowerCase()) return "";
-  const rx = new RegExp(w.english.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\w*", "i");
-  return rx.test(c) ? c.replace(rx, "____") : "";
+  const fromColl = c && c.toLowerCase() !== w.english.toLowerCase() ? maskWordInText(c, w.english, "____") : null;
+  const fromEx = String(w.example || "").length <= 70 ? maskWordInText(w.example, w.english, "____") : null;
+  return fromColl || fromEx || "";
 }
 
 export default {
@@ -24,12 +25,13 @@ export default {
   create(ctx) {
     const { stage, esc, svg, sfx, speak, teams, pic } = ctx;
     const available = (mode) => ctx.deck.filter((w) => {
-      if (mode === "greek") return !!w.greek;
+      if (mode === "greek") return ctx.greek() && !!w.greek;
       if (mode === "emoji") return !!pic(w.emojis);
       return !!gapPhrase(w);
     });
-    let mode = localStorage.getItem("vm_mem_mode") || "greek";
-    if (available(mode).length < 3) mode = ["emoji", "greek", "phrase"].find((m) => available(m).length >= 3) || "emoji";
+    let mode = localStorage.getItem("vm_mem_mode") || "emoji";
+    const fallback = () => { if (available(mode).length < 3) mode = ["emoji", "phrase", "greek"].find((m) => available(m).length >= 3) || "emoji"; };
+    fallback();
     let pairs = Number(localStorage.getItem("vm_mem_pairs") || 6);
     let tiles = [];
     let open = [];
@@ -68,7 +70,7 @@ export default {
       stage.innerHTML = `
         <div class="mm">
           <div class="mm-bar">
-            <span class="mm-label">Match words with</span><div class="arc-seg sm" id="mmMode">${Object.entries(MODES).map(([k, m]) => `<button type="button" data-mode="${k}" class="${k === mode ? "on" : ""}" ${available(k).length < 3 ? "disabled" : ""}>${m.label}</button>`).join("")}</div>
+            <span class="mm-label">Match words with</span><div class="arc-seg sm" id="mmMode">${Object.entries(MODES).map(([k, m]) => `<button type="button" data-mode="${k}" class="${k === mode ? "on" : ""}${k === "greek" ? " gk" : ""}" ${available(k).length < 3 ? "disabled" : ""}>${m.label}</button>`).join("")}</div>
             <div class="arc-seg sm" id="mmPairs">${[6, 8, 10].map((n) => `<button type="button" data-pairs="${n}" class="${n === pairs ? "on" : ""}" ${available(mode).length < n && n !== 6 ? "disabled" : ""}>${n * 2} tiles</button>`).join("")}</div>
             <span class="mm-turn" id="mmTurn"></span>
           </div>
@@ -183,6 +185,11 @@ export default {
           if (Number(typed) * 10 > tiles.length) commit();
           else typedTimer = setTimeout(commit, 650);
         }
+      },
+      onGreek() {
+        // Greek pairs only exist while Greek is on; otherwise fall back to pictures or sentences.
+        if (mode === "greek" && !ctx.greek()) { fallback(); setup(); return; }
+        stage.querySelectorAll("[data-mode]").forEach((b) => { b.disabled = available(b.dataset.mode).length < 3; });
       },
       destroy() { clearInterval(clock); clearTimeout(typedTimer); },
     };
