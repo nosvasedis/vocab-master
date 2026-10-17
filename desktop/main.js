@@ -18,6 +18,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RENDERER_DIR = path.join(__dirname, "renderer");
 const APP_SCHEME = "app";
 const DEEPSEEK_HOST = "api.deepseek.com";
+const GEMINI_HOST = "generativelanguage.googleapis.com";
 const MAX_REQUEST_MS = 240_000;
 
 const APP_NAME = "Vocab Master";
@@ -101,12 +102,14 @@ const STORE = {
   },
 };
 
-const KEYCHAIN_FILE = () => dataFile("keychain.bin");
+// One encrypted file per AI provider (DeepSeek keeps the original file name).
+const KEYCHAIN_FILES = { deepseek: "keychain.bin", gemini: "keychain-gemini.bin" };
+const KEYCHAIN_FILE = (name = "deepseek") => dataFile(KEYCHAIN_FILES[name] || KEYCHAIN_FILES.deepseek);
 
-function keychainGet() {
+function keychainGet(name) {
   try {
-    if (!fs.existsSync(KEYCHAIN_FILE())) return null;
-    const buf = fs.readFileSync(KEYCHAIN_FILE());
+    if (!fs.existsSync(KEYCHAIN_FILE(name))) return null;
+    const buf = fs.readFileSync(KEYCHAIN_FILE(name));
     if (safeStorage.isEncryptionAvailable()) {
       return safeStorage.decryptString(buf);
     }
@@ -117,16 +120,16 @@ function keychainGet() {
   }
 }
 
-function keychainSet(value) {
+function keychainSet(value, name) {
   try {
     if (!value) {
-      if (fs.existsSync(KEYCHAIN_FILE())) fs.unlinkSync(KEYCHAIN_FILE());
+      if (fs.existsSync(KEYCHAIN_FILE(name))) fs.unlinkSync(KEYCHAIN_FILE(name));
       return;
     }
     const data = safeStorage.isEncryptionAvailable()
       ? safeStorage.encryptString(value)
       : Buffer.from(value, "utf8");
-    fs.writeFileSync(KEYCHAIN_FILE(), data);
+    fs.writeFileSync(KEYCHAIN_FILE(name), data);
   } catch (err) {
     console.error("keychain set failed", err);
   }
@@ -152,17 +155,29 @@ function proxyDeepSeek(body, authHeader) {
 }
 
 function deepSeekRequest(method, apiPath, authHeader, body, timeoutMs) {
+  return apiRequest(DEEPSEEK_HOST, method, apiPath, authHeader ? { Authorization: authHeader } : {}, body, timeoutMs);
+}
+
+/** Google Gemini — only the generativelanguage v1beta API is reachable through this bridge. */
+function geminiRequest(method, apiPath, apiKey, body) {
+  if (!/^\/v1beta\/models(\/[\w.-]+:generateContent)?$/.test(apiPath)) {
+    return Promise.resolve({ status: 400, body: JSON.stringify({ error: { message: "Unsupported Gemini path" } }) });
+  }
+  return apiRequest(GEMINI_HOST, method, apiPath, { "x-goog-api-key": String(apiKey || "").trim() }, body, MAX_REQUEST_MS);
+}
+
+function apiRequest(hostname, method, apiPath, authHeaders, body, timeoutMs) {
   return new Promise((resolve) => {
     const payload = body ? Buffer.from(body, "utf8") : null;
     const req = https.request(
       {
-        hostname: DEEPSEEK_HOST,
+        hostname,
         path: apiPath,
         method,
         headers: {
           Accept: "application/json",
           ...(payload ? { "Content-Type": "application/json", "Content-Length": payload.length } : {}),
-          ...(authHeader ? { Authorization: authHeader } : {}),
+          ...authHeaders,
         },
         timeout: timeoutMs,
       },
@@ -349,7 +364,8 @@ async function runSmokeTest() {
       })()
     `);
     results.title = await mainWindow.webContents.executeJavaScript("document.title");
-    // Drive the real UI end-to-end: sample unit, live editors, projector, coursebook auto-pick, arcade games.
+    // Drive the real UI end-to-end: a fixture unit, live editors, projector, coursebook auto-pick, arcade games.
+    const fixture = fs.readFileSync(path.join(__dirname, "smoke-fixture.json"), "utf8");
     const editorFlow = await mainWindow.webContents.executeJavaScript(`
       (async () => {
         const dbg = {};
@@ -359,8 +375,9 @@ async function runSmokeTest() {
         const VM = window.__VM__;
         const E = window.__LINGO_ENGINE__;
 
-        // Sample unit opens straight into the preview with editable lines and word boxes.
-        VM.loadSample();
+        // A complete unit opens straight into the preview with editable lines and word boxes.
+        const FIXTURE = ${fixture};
+        VM.openUnit(FIXTURE);
         await wait(300);
         const paper = document.getElementById("paper").shadowRoot;
         dbg.view = VM.state.view;
@@ -400,12 +417,13 @@ async function runSmokeTest() {
 
         // Engine checks: bulk parser, DOCX via IPC, coursebook word bank.
         dbg.bulk = E.parseBulkVocabularyText("1. explore (v.) - εξερευνώ | explore a cave > explorer (n.) ≈ discover\\n2. brave (adj.) - γενναίος").length;
-        const docx = await window.desktop.exportDocx({ type: "lingo", data: E.getSampleUnitData().data });
+        const docx = await window.desktop.exportDocx({ type: "lingo", data: FIXTURE.data });
         dbg.docxOk = !!(docx && docx.ok && docx.base64 && docx.base64.length > 1000);
-        const cpp1 = E.queryCoursebookWords({ bookId: "CPP1", unit: 1, includeSb: true, includeWb: true, includeEnriched: true });
-        const cpp2 = E.queryCoursebookWords({ bookId: "CPP2", unit: 5, includeSb: true, includeWb: false, includeEnriched: true });
-        const cpp3 = E.queryCoursebookWords({ bookId: "CPP3", pageRange: "118-120", includeSb: true, includeWb: true, wbScope: "unit", includeEnriched: true });
-        const cbOk = cpp1.counts.total > 50 && cpp1.counts.wb > 5 && cpp2.counts.wb === 0 && cpp3.unit === 6 && cpp3.counts.wb > 10 && cpp3.counts.enriched >= 4;
+        const cpp1 = E.queryCoursebookWords({ bookId: "CPP1", unit: 1, includeSb: true, includeWb: true });
+        const cpp2 = E.queryCoursebookWords({ bookId: "CPP2", unit: 5, includeSb: true, includeWb: false });
+        const cpp3 = E.queryCoursebookWords({ bookId: "CPP3", pageRange: "118-120", includeSb: true, includeWb: true, wbScope: "unit" });
+        const cbOk = cpp1.counts.total > 50 && cpp1.counts.wb > 5 && cpp2.counts.wb === 0 && cpp3.unit === 6 && cpp3.counts.wb > 10
+          && E.CPP_WORDBANK.filter((e) => !e.origin).length === 3554 && !E.CPP_WORDBANK.some((e) => e.source === "enriched" || e.synonyms || e.isBasic);
 
         // Setup: choose Primary Path 2, type pages 74–76 → unit 4 is inferred and its words load.
         VM.go("setup");
@@ -533,6 +551,38 @@ function friendlyFsError(err) {
   return err?.message || String(err);
 }
 
+/**
+ * Load a standalone HTML document from a temp file. (Large data: URLs — worksheets with
+ * embedded fonts — can fail to load, so they are never used.)
+ */
+async function loadHtmlDocument(win, html) {
+  const file = path.join(app.getPath("temp"), `vocab-master-${process.pid}-${Date.now()}.html`);
+  fs.writeFileSync(file, html, "utf8");
+  try {
+    await win.loadFile(file);
+    await new Promise((r) => setTimeout(r, 250)); // let the embedded fonts finish loading
+  } finally {
+    fs.rm(file, { force: true }, () => {});
+  }
+}
+
+/** printToPDF options; a non-empty `footer` adds "footer text · Page X of Y" to every page. */
+function pdfOptions(footer) {
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[c]));
+  return {
+    pageSize: "A4",
+    printBackground: true,
+    // The worksheet's own @page rules set the margins, so PDF, print and preview match.
+    preferCSSPageSize: true,
+    margins: { top: 0, bottom: 0, left: 0, right: 0 },
+    ...(footer ? {
+      displayHeaderFooter: true,
+      headerTemplate: "<span></span>",
+      footerTemplate: `<div style="width:100%;margin:0 14mm 5mm;padding-top:1.6mm;border-top:0.5pt solid #c9c9c9;display:flex;justify-content:space-between;font:7.5pt Segoe UI,Arial,sans-serif;color:#6f6f6f"><span>${esc(footer)}</span><span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span></div>`,
+    } : {}),
+  };
+}
+
 /* ── IPC handlers ─────────────────────────────────────────────────────────── */
 
 function registerIpc() {
@@ -573,22 +623,15 @@ function registerIpc() {
     }
   });
 
-  ipcMain.handle("pdf:export", async (_event, { html, filename }) => {
+  ipcMain.handle("pdf:export", async (_event, { html, filename, footer }) => {
     let pdfWin = null;
     try {
       pdfWin = new BrowserWindow({
         show: false,
         webPreferences: { sandbox: true, javascript: false },
       });
-      await pdfWin.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(html));
-      const pdf = await pdfWin.webContents.printToPDF({
-        pageSize: "A4",
-        printBackground: true,
-        // Let the worksheet's own @page rules control margins (15mm in PRINT_CSS),
-        // so the PDF matches the on-screen and printed layout.
-        preferCSSPageSize: true,
-        margins: { top: 0, bottom: 0, left: 0, right: 0 },
-      });
+      await loadHtmlDocument(pdfWin, html);
+      const pdf = await pdfWin.webContents.printToPDF(pdfOptions(footer));
       const filePath = await askSavePath(filename || "worksheet.pdf", "Save worksheet PDF", { name: "PDF", extensions: ["pdf"] });
       if (!filePath) return { ok: false, canceled: true };
       fs.writeFileSync(filePath, pdf);
@@ -602,7 +645,7 @@ function registerIpc() {
     }
   });
 
-  ipcMain.handle("pack:export", async (_event, { data, baseSlug, htmlPages }) => {
+  ipcMain.handle("pack:export", async (_event, { data, baseSlug, htmlPages, footers = {} }) => {
     let pdfWin = null;
     try {
       const prefs = readJsonFile("prefs.json", {});
@@ -652,13 +695,8 @@ function registerIpc() {
         for (const pt of pdfTargets) {
           const html = htmlPages[pt.key];
           if (!html) continue;
-          await pdfWin.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(html));
-          const pdfBuf = await pdfWin.webContents.printToPDF({
-            pageSize: "A4",
-            printBackground: true,
-            preferCSSPageSize: true,
-            margins: { top: 0, bottom: 0, left: 0, right: 0 },
-          });
+          await loadHtmlDocument(pdfWin, html);
+          const pdfBuf = await pdfWin.webContents.printToPDF(pdfOptions(footers[pt.key]));
           const outPath = path.join(packFolder, `${baseSlug}_${pt.suffix}`);
           fs.writeFileSync(outPath, pdfBuf);
           savedPaths.add(outPath);
@@ -684,8 +722,9 @@ function registerIpc() {
   ipcMain.handle("storage:set", (_e, { key, value }) => { STORE.set(key, value); return true; });
   ipcMain.handle("storage:remove", (_e, { key }) => { STORE.remove(key); return true; });
 
-  ipcMain.handle("keychain:get", () => keychainGet());
-  ipcMain.handle("keychain:set", (_e, { value }) => { keychainSet(value); return true; });
+  ipcMain.handle("keychain:get", (_e, { name } = {}) => keychainGet(name));
+  ipcMain.handle("keychain:set", (_e, { value, name }) => { keychainSet(value, name); return true; });
+  ipcMain.handle("gemini:request", (_e, { method = "POST", path: apiPath, apiKey, body }) => geminiRequest(method, apiPath, apiKey, body));
 
   ipcMain.handle("app:info", () => ({
     version: app.getVersion(),

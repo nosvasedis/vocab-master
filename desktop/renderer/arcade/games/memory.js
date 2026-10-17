@@ -3,7 +3,7 @@ import { shuffle } from "../deck.js";
 
 const MODES = {
   greek: { label: "Greek", partner: (w) => ({ main: w.greek, sub: w.emojis, lang: "el" }) },
-  emoji: { label: "Emoji", partner: (w) => ({ main: w.emojis, sub: "", big: true }) },
+  emoji: { label: "Picture", partner: (w) => ({ main: w.emojis, sub: "", big: true }) },
   phrase: { label: "Phrase", partner: (w) => ({ main: w.maskedPhrase, sub: w.emojis }) },
 };
 
@@ -22,10 +22,10 @@ export default {
   tags: ["Teams", "Memory", "Meaning"],
   minWords: 3,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak, teams } = ctx;
+    const { stage, esc, svg, sfx, speak, teams, pic } = ctx;
     const available = (mode) => ctx.deck.filter((w) => {
       if (mode === "greek") return !!w.greek;
-      if (mode === "emoji") return !!w.emojis;
+      if (mode === "emoji") return !!pic(w.emojis);
       return !!gapPhrase(w);
     });
     let mode = localStorage.getItem("vm_mem_mode") || "greek";
@@ -58,7 +58,9 @@ export default {
     function tileFace(t) {
       if (t.kind === "word") return `<span class="mm-en">${esc(t.word.english)}</span>`;
       const p = MODES[mode].partner(t.word);
-      return `<span class="mm-mean${p.big ? " big" : ""}" ${p.lang ? `lang="${p.lang}"` : ""}>${esc(p.main || "")}</span>${p.sub ? `<span class="mm-sub">${esc(p.sub)}</span>` : ""}`;
+      const main = mode === "emoji" ? pic(p.main) : esc(p.main || "");
+      const sub = p.sub ? pic(p.sub) : "";
+      return `<span class="mm-mean${p.big ? " big" : ""}" ${p.lang ? `lang="${p.lang}"` : ""}>${main}</span>${sub ? `<span class="mm-sub">${sub}</span>` : ""}`;
     }
 
     function render() {

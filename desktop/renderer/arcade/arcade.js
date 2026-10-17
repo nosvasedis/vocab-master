@@ -29,7 +29,7 @@ let session = null;
  * Open the arcade.
  * @param {{ deck: object[], title: string, prefs: {sfx:boolean, tts:boolean}, onPrefs?: Function }} opts
  */
-export function openArcade({ deck, title, prefs = {}, onPrefs } = {}) {
+export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
   if (session) return;
   configureAudio(prefs);
   const teamCount = Number(localStorage.getItem("vm_arcade_teams") ?? 2);
@@ -44,6 +44,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs } = {}) {
     game: null,
     gameDef: null,
     names: savedNames,
+    picture: picture || ((t) => esc(t)),
   };
   buildTeams();
 
@@ -175,6 +176,12 @@ function teamApi() {
   };
 }
 
+/** The first emoji of a word, drawn in the chosen picture style. */
+function firstPicture(emojis) {
+  const first = String(emojis || "").trim().split(/s+/)[0] || "";
+  return first ? session.picture(first) : "";
+}
+
 /* ── Hub ─────────────────────────────────────────────────────────── */
 function clearFx() {
   session.root?.querySelectorAll(".arc-confetti").forEach((c) => c.remove());
@@ -227,7 +234,7 @@ function showHub() {
 
       <section class="hub-deck">
         <span class="hd-label">In this deck</span>
-        <div class="hd-words">${deck.map((w) => `<button type="button" class="hd-word" data-say="${esc(w.english)}">${w.emojis ? `<span>${esc(w.emojis.split(/\s+/)[0])}</span>` : ""}${esc(w.english)}</button>`).join("")}</div>
+        <div class="hd-words">${deck.map((w) => `<button type="button" class="hd-word" data-say="${esc(w.english)}">${firstPicture(w.emojis) ? `<span class="hd-pic">${firstPicture(w.emojis)}</span>` : ""}${esc(w.english)}</button>`).join("")}</div>
       </section>
     </div>`;
 
@@ -274,6 +281,9 @@ function startGame(id) {
     root: session.root,
     sfx,
     speak: (t, o) => speak(t, o),
+    // Pictures for a word's emojis in the chosen style ("" when switched off); picText keeps other text.
+    pic: (t) => session.picture(t || ""),
+    picText: (t) => session.picture(t || "", true),
     teams: teamApi(),
     setProgress(html) { const p = session.root.querySelector("#arcProgress"); if (p) p.innerHTML = html; },
     confetti: (o) => confetti(session.root, o),

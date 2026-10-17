@@ -1,11 +1,11 @@
 /* ══════════════════════════════════════════════════════════════════
    Vocab Master — app shell: boot, navigation, top bar, sidebar, shortcuts.
    ══════════════════════════════════════════════════════════════════ */
-import { desktop, hydrateStorage, getApiKey } from "./bridge.js";
+import { desktop, hydrateStorage, getApiKey, getProvider, PROVIDERS } from "./bridge.js";
 import * as engine from "../app.js";
 import {
-  CLASS_PROFILES, CPP_BOOKS, getSampleUnitData, getSavedSession, normalizeWorksheetExercises,
-  validateWorksheet, saveWorksheetSession, lookupCoursebookWord,
+  CLASS_PROFILES, CPP_BOOKS, getSavedSession, normalizeWorksheetExercises,
+  validateWorksheet, saveWorksheetSession, lookupCoursebookWord, splitEmojiText,
 } from "../app.js";
 import { $, $$, esc, icon, plural, toast, confirmDialog, closeTopDialog, hasOpenDialog } from "./ui.js";
 import {
@@ -23,6 +23,7 @@ import { openSettings, openHelp, applyTheme } from "./dialogs.js";
 import { openArcade, isArcadeOpen } from "../arcade/arcade.js";
 import { buildArcadeDeck } from "../arcade/deck.js";
 import { configureAudio } from "../arcade/audio.js";
+import { ensurePictureStyle, pictureSvg } from "./pictures.js";
 
 const FLOW = ["setup", "words", "exercises", "preview"];
 const VIEW_META = {
@@ -45,7 +46,7 @@ function go(view, { force = false, silent = false } = {}) {
     }
   }
   if (!force && view === "preview" && !state.data) {
-    if (!silent) toast("Generate the worksheets first — or open the sample unit.", "info");
+    if (!silent) toast("Generate the worksheets first — or open a unit from Saved units.", "info");
     view = "exercises";
   }
   state.view = view;
@@ -137,7 +138,8 @@ function setAiState(next = "auto", message = "") {
   const hasKey = !!getApiKey();
   let cls = hasKey ? "on" : "off";
   let title = hasKey ? "AI ready" : "AI not connected";
-  let sub = hasKey ? "DeepSeek key saved" : "Add your DeepSeek key";
+  const providerName = PROVIDERS[getProvider()].name;
+  let sub = hasKey ? `${providerName} key saved` : `Add a ${providerName} key`;
   if (next === "busy") { cls = "busy"; title = "AI is working…"; sub = "This can take a minute"; }
   if (next === "error") { cls = "error"; title = "Last AI request failed"; sub = message || "Check your key or connection"; }
   dot.className = `ai-dot ${cls}`;
@@ -146,21 +148,18 @@ function setAiState(next = "auto", message = "") {
   $("aiStatusCard").title = message || sub;
 }
 
-/* ── Sample, new unit, games ─────────────────────────────────────── */
-function loadSample() {
-  const sample = getSampleUnitData();
-  applyForm(sample.form, sample.plan);
-  state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(sample.data)));
-  state.plan = sample.plan;
+/* ── Units, new unit, games ──────────────────────────────────────── */
+/** Open a complete unit ({ form, data, plan }) in the preview and save it (used by the desktop self-test). */
+function openUnit({ form, data, plan }) {
+  applyForm(form, plan);
+  state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(data)));
+  state.plan = plan;
   state.sessionId = null;
   try {
-    state.sessionId = saveWorksheetSession(sample.form, state.data, state.plan, { validation: validateWorksheet(state.data) });
+    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { validation: validateWorksheet(state.data) });
   } catch { /* storage unavailable */ }
-  prefs.welcomeDismissed = true;
-  savePrefs();
   emit("setup", "words", "level", "data", "library");
   go("preview", { force: true });
-  toast("Sample C Senior unit loaded — click any line to edit, or try Projector mode and the games.", "ok", { ms: 6000 });
 }
 
 async function newUnit() {
@@ -194,16 +193,31 @@ function deckContext() {
     const picked = pickFromQuery(coursebookQuery());
     if (picked.length >= 3) return { deck: buildArcadeDeck(picked, lookup), title: `${CPP_BOOKS[state.cpp.bookId].title} · Unit ${state.cpp.unit}` };
   }
-  const sample = getSampleUnitData();
-  return { deck: buildArcadeDeck(sample.data.lingoLauncher.vocabulary, lookup), title: `${sample.form.bookTitle} · Unit ${sample.form.unit} (sample)` };
+  return null;
 }
 
 function openGames() {
-  const { deck, title } = deckContext();
+  const ctx = deckContext();
+  if (!ctx) {
+    toast("Add at least 3 words first — pick a coursebook unit or type your words.", "info", { actions: [{ label: "Choose a unit", run: () => go("setup") }] });
+    return;
+  }
+  const { deck, title } = ctx;
   openArcade({
     deck,
     title,
     prefs: { sfx: prefs.sfx, tts: prefs.tts },
+    // Draw a word's emojis in the chosen picture style (games use the same style as the worksheets).
+    // keepText: also keep (escaped) the non-emoji text around the pictures.
+    picture: (text, keepText = false) => {
+      const style = prefs.pictureStyle || "emoji";
+      return splitEmojiText(text || "").map((p) => {
+        if (!p.emoji) return keepText ? esc(p.text) : "";
+        if (style === "none") return "";
+        if (style === "emoji") return esc(p.text);
+        return pictureSvg(p.text, style) || "";
+      }).join("").trim();
+    },
     onPrefs: ({ sfx, tts }) => { prefs.sfx = sfx; prefs.tts = tts; savePrefs(); },
   });
 }
@@ -215,12 +229,10 @@ function wire() {
     const a = e.target.closest("[data-action]");
     if (a?.dataset.action === "open-arcade") openGames();
     if (a?.dataset.action === "open-projector") openProjector();
-    if (a?.dataset.action === "load-sample") loadSample();
     const g = e.target.closest("[data-goto]");
     if (g) go(g.dataset.goto);
   });
   $("btnNew").addEventListener("click", newUnit);
-  $("btnSample").addEventListener("click", loadSample);
   $("btnPlayTop").addEventListener("click", openGames);
   $("btnSettings").addEventListener("click", () => openSettings());
   $("aiStatusCard").addEventListener("click", () => openSettings());
@@ -267,6 +279,7 @@ async function boot() {
     await hydrateStorage();
     applyTheme();
     configureAudio({ sfx: prefs.sfx, tts: prefs.tts });
+    await ensurePictureStyle(prefs.pictureStyle);
 
     const hadDraft = loadDraft();
     if (state.sessionId) {
@@ -276,7 +289,7 @@ async function boot() {
     }
     if (!hadDraft && isCpp()) loadPoolWords({ silent: true });
 
-    Object.assign(actions, { go, openSettings, openArcade: openGames, openProjector, loadSample, setAiState });
+    Object.assign(actions, { go, openSettings, openArcade: openGames, openProjector, setAiState, settingsSaved: async () => { await ensurePictureStyle(prefs.pictureStyle); if (state.view === "preview") renderPreview(); } });
     initSetup();
     initWords();
     initExercises();
@@ -305,7 +318,7 @@ async function boot() {
   }
   // Hooks for the desktop smoke test.
   window.__LINGO_ENGINE__ = engine;
-  window.__VM__ = { state, go, emit, loadSample, openGames, openProjector, actions };
+  window.__VM__ = { state, go, emit, openUnit, openGames, openProjector, actions };
 }
 
 boot();

@@ -274,7 +274,7 @@ function setBusy(on, title = "") {
 }
 
 function showGenError(message) {
-  const keyIssue = /api key|401|unauthor/i.test(message);
+  const keyIssue = /api key|401|unauthor|quota|429/i.test(message);
   $("genError").classList.remove("hidden");
   $("genError").innerHTML = `<div class="callout danger">${icon("alert")}<div><strong>Generation didn't finish.</strong> ${esc(message)}
     <div style="margin-top:8px;display:flex;gap:6px">
@@ -290,7 +290,7 @@ export async function runGenerate(mode = "full") {
   if (err) { toast(err, "warn"); return; }
   const apiKey = getApiKey();
   if (!apiKey) {
-    toast("Add your DeepSeek API key to generate worksheets.", "warn", { actions: [{ label: "Open settings", run: () => actions.openSettings() }] });
+    toast("Add an AI key in Settings (Google Gemini is free) to generate worksheets.", "warn", { actions: [{ label: "Open settings", run: () => actions.openSettings() }] });
     actions.openSettings();
     return;
   }

@@ -36,9 +36,12 @@ contextBridge.exposeInMainWorld("desktop", {
 
   /** Encrypted API key storage (safeStorage when available). */
   keychain: {
-    get: () => ipcRenderer.invoke("keychain:get"),
-    set: (value) => ipcRenderer.invoke("keychain:set", { value }),
+    get: (name) => ipcRenderer.invoke("keychain:get", { name }),
+    set: (value, name) => ipcRenderer.invoke("keychain:set", { value, name }),
   },
+
+  /** Google Gemini API (v1beta generateContent / model list). Returns { status, body }. */
+  gemini: (payload) => ipcRenderer.invoke("gemini:request", payload),
 
   /** App metadata + folder helpers. */
   info: () => ipcRenderer.invoke("app:info"),

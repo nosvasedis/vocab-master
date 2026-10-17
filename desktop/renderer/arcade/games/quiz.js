@@ -12,7 +12,7 @@ export default {
   tags: ["Teams", "Meaning", "Fast"],
   minWords: 4,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak, teams } = ctx;
+    const { stage, esc, svg, sfx, speak, teams, picText } = ctx;
     const questions = buildDetectiveQuestions(ctx.deck, Math.min(10, ctx.deck.length));
     let q = 0;
     let answered = false;
@@ -46,7 +46,7 @@ export default {
             ${item.speakOnly
               ? `<button type="button" class="qz-listen" data-hear>${svg("volume", "i-lg")}<span>Play the word</span></button>`
               : `<div class="qz-prompt" ${item.promptLang ? `lang="${item.promptLang}"` : ""}>${esc(item.prompt)}</div>`}
-            ${item.clue ? `<div class="qz-clue">${esc(item.clue)}</div>` : ""}
+            ${item.clue && picText(item.clue) ? `<div class="qz-clue">${picText(item.clue)}</div>` : ""}
           </div>
           <div class="qz-options">
             ${item.options.map((o, k) => `<button type="button" class="qz-opt o${k}" data-opt="${esc(o)}" style="animation-delay:${80 + k * 60}ms"><span class="qz-letter">${LETTERS[k]}</span><span class="qz-text">${esc(o)}</span></button>`).join("")}

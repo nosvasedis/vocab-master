@@ -9,7 +9,7 @@ export default {
   tags: ["Whole class", "Speaking", "Warm-up"],
   minWords: 1,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak } = ctx;
+    const { stage, esc, svg, sfx, speak, pic } = ctx;
     let deck = ctx.deck;
     let i = 0;
     let flipped = false;
@@ -48,7 +48,7 @@ export default {
     };
 
     function cardHtml(w) {
-      const emoji = (w.emojis || "").trim();
+      const emoji = pic(w.emojis);
       const englishFace = `
         <div class="fc-face-inner">
           <span class="fc-pos">${esc(w.type || "")}</span>
@@ -58,14 +58,14 @@ export default {
         </div>`;
       const greekFace = `
         <div class="fc-face-inner">
-          ${emoji ? `<div class="fc-emoji">${esc(emoji)}</div>` : ""}
+          ${emoji ? `<div class="fc-emoji">${emoji}</div>` : ""}
           <div class="fc-greek" lang="el">${esc(w.greek || "—")}</div>
           <span class="fc-tap">What's the English word?</span>
         </div>`;
       const fam = family(w);
       const back = `
         <div class="fc-face-inner back">
-          <div class="fc-back-top">${emoji ? `<span class="fc-emoji sm">${esc(emoji)}</span>` : ""}<span class="fc-pos">${esc(w.type || "")}</span></div>
+          <div class="fc-back-top">${emoji ? `<span class="fc-emoji sm">${emoji}</span>` : ""}<span class="fc-pos">${esc(w.type || "")}</span></div>
           <div class="fc-word sm">${esc(w.english)}</div>
           ${w.greek ? `<div class="fc-greek sm" lang="el">${esc(w.greek)}</div>` : ""}
           ${w.collocation && w.collocation.toLowerCase() !== w.english.toLowerCase() ? `<div class="fc-phrase">“${esc(w.collocation)}”</div>` : ""}

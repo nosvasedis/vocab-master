@@ -1,0 +1,562 @@
+{
+ "form": {
+  "bookTitle": "Cambridge Primary Paths 3",
+  "unit": "6",
+  "pageRange": "118–120",
+  "classProfile": "C_SENIOR",
+  "inputMode": "structured",
+  "vocabRows": [
+   {
+    "english": "stay in shape",
+    "type": "phr. v.",
+    "greek": "διατηρούμαι σε φόρμα",
+    "emojis": "🏃💪",
+    "collocation": "exercise to stay in shape",
+    "derivatives": "",
+    "synonyms": "keep fit",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": false,
+     "synonyms": true,
+     "antonyms": false
+    }
+   },
+   {
+    "english": "compete",
+    "type": "v.",
+    "greek": "συναγωνίζομαι / αγωνίζομαι",
+    "emojis": "🏁🏆",
+    "collocation": "compete for a gold medal",
+    "derivatives": "competition (n.) - αγώνας / διαγωνισμός",
+    "synonyms": "",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": true,
+     "synonyms": false,
+     "antonyms": false
+    }
+   },
+   {
+    "english": "sequence",
+    "type": "n.",
+    "greek": "σειρά / αλληλουχία",
+    "emojis": "🔢",
+    "collocation": "follow a logical sequence",
+    "derivatives": "",
+    "synonyms": "order",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": false,
+     "synonyms": true,
+     "antonyms": false
+    }
+   },
+   {
+    "english": "inspiration",
+    "type": "n.",
+    "greek": "έμπνευση",
+    "emojis": "✨💡",
+    "collocation": "be a great inspiration",
+    "derivatives": "inspiring (adj.) - εμπνευστικός, inspired (adj.) - εμπνευσμένος",
+    "synonyms": "",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": true,
+     "synonyms": false,
+     "antonyms": false
+    }
+   },
+   {
+    "english": "introduce",
+    "type": "v.",
+    "greek": "συστήνω / παρουσιάζω",
+    "emojis": "👋🤝",
+    "collocation": "introduce my new coach",
+    "derivatives": "",
+    "synonyms": "",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": false,
+     "synonyms": false,
+     "antonyms": false
+    }
+   },
+   {
+    "english": "disability",
+    "type": "n.",
+    "greek": "αναπηρία",
+    "emojis": "♿",
+    "collocation": "overcome a physical disability",
+    "derivatives": "disabled (adj.) - ανάπηρος / με αναπηρία",
+    "synonyms": "",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": true,
+     "synonyms": false,
+     "antonyms": false
+    }
+   },
+   {
+    "english": "limb",
+    "type": "n.",
+    "greek": "άκρο σώματος (χέρι / πόδι)",
+    "emojis": "🦾",
+    "collocation": "an artificial limb",
+    "derivatives": "",
+    "synonyms": "",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": false,
+     "synonyms": false,
+     "antonyms": false
+    }
+   },
+   {
+    "english": "track",
+    "type": "n.",
+    "greek": "στίβος / πίστα αγώνων",
+    "emojis": "🏟️",
+    "collocation": "run around the track",
+    "derivatives": "",
+    "synonyms": "",
+    "antonyms": "",
+    "fieldToggles": {
+     "type": true,
+     "greek": true,
+     "emojis": true,
+     "collocation": true,
+     "derivatives": false,
+     "synonyms": false,
+     "antonyms": false
+    }
+   }
+  ],
+  "freeform": ""
+ },
+ "plan": {
+  "dictationExerciseCount": 4,
+  "dictationTypes": [
+   "D01",
+   "D02",
+   "D03",
+   "D06"
+  ],
+  "lingoTypes": [
+   "L01",
+   "L02"
+  ],
+  "lingoPracticeCount": 2,
+  "signature": "D01+D02+D03+D06|L01+L02",
+  "exerciseMode": "custom"
+ },
+ "data": {
+  "meta": {
+   "bookTitle": "Cambridge Primary Paths 3",
+   "unit": 6,
+   "pageRange": "118–120",
+   "classProfile": "C_SENIOR",
+   "classLabel": "C Senior",
+   "greekGrades": "5η / 6η Δημοτικού · ίσως 1η Γυμνασίου",
+   "cefr": "A1–A2",
+   "ageRange": "11–12"
+  },
+  "generationPlan": {
+   "dictationExerciseCount": 4,
+   "dictationTypes": [
+    "D01",
+    "D02",
+    "D03",
+    "D06"
+   ],
+   "lingoTypes": [
+    "L01",
+    "L02"
+   ],
+   "lingoPracticeCount": 2,
+   "signature": "D01+D02+D03+D06|L01+L02",
+   "exerciseMode": "custom"
+  },
+  "lingoLauncher": {
+   "vocabulary": [
+    {
+     "number": 1,
+     "english": "stay in shape",
+     "type": "phr. v.",
+     "greek": "διατηρούμαι σε φόρμα",
+     "emojis": "🏃💪",
+     "collocation": "exercise to stay in shape",
+     "derivatives": [],
+     "synonyms": [
+      "keep fit"
+     ],
+     "antonyms": []
+    },
+    {
+     "number": 2,
+     "english": "compete",
+     "type": "v.",
+     "greek": "συναγωνίζομαι / αγωνίζομαι",
+     "emojis": "🏁🏆",
+     "collocation": "compete for a gold medal",
+     "derivatives": [
+      {
+       "text": "competition",
+       "type": "n.",
+       "greek": "αγώνας / διαγωνισμός"
+      }
+     ],
+     "synonyms": [],
+     "antonyms": []
+    },
+    {
+     "number": 3,
+     "english": "sequence",
+     "type": "n.",
+     "greek": "σειρά / αλληλουχία",
+     "emojis": "🔢",
+     "collocation": "follow a logical sequence",
+     "derivatives": [],
+     "synonyms": [
+      "order"
+     ],
+     "antonyms": []
+    },
+    {
+     "number": 4,
+     "english": "inspiration",
+     "type": "n.",
+     "greek": "έμπνευση",
+     "emojis": "✨💡",
+     "collocation": "be a great inspiration",
+     "derivatives": [
+      {
+       "text": "inspiring",
+       "type": "adj.",
+       "greek": "εμπνευστικός"
+      },
+      {
+       "text": "inspired",
+       "type": "adj.",
+       "greek": "εμπνευσμένος"
+      }
+     ],
+     "synonyms": [],
+     "antonyms": []
+    },
+    {
+     "number": 5,
+     "english": "introduce",
+     "type": "v.",
+     "greek": "συστήνω / παρουσιάζω",
+     "emojis": "👋🤝",
+     "collocation": "introduce my new coach",
+     "derivatives": [],
+     "synonyms": [],
+     "antonyms": []
+    },
+    {
+     "number": 6,
+     "english": "disability",
+     "type": "n.",
+     "greek": "αναπηρία",
+     "emojis": "♿",
+     "collocation": "overcome a physical disability",
+     "derivatives": [
+      {
+       "text": "disabled",
+       "type": "adj.",
+       "greek": "ανάπηρος / με αναπηρία"
+      }
+     ],
+     "synonyms": [],
+     "antonyms": []
+    },
+    {
+     "number": 7,
+     "english": "limb",
+     "type": "n.",
+     "greek": "άκρο σώματος (χέρι / πόδι)",
+     "emojis": "🦾",
+     "collocation": "an artificial limb",
+     "derivatives": [],
+     "synonyms": [],
+     "antonyms": []
+    },
+    {
+     "number": 8,
+     "english": "track",
+     "type": "n.",
+     "greek": "στίβος / πίστα αγώνων",
+     "emojis": "🏟️",
+     "collocation": "run around the track",
+     "derivatives": [],
+     "synonyms": [],
+     "antonyms": []
+    }
+   ],
+   "practice": [
+    {
+     "number": 1,
+     "typeId": "L01",
+     "instruction": "",
+     "wordList": [
+      "sequence",
+      "track",
+      "stay in shape",
+      "compete"
+     ],
+     "items": [
+      {
+       "number": 1,
+       "prompt": "You need to run four times around the ________________ to finish the mile.",
+       "answer": "track"
+      },
+      {
+       "number": 2,
+       "prompt": "I try to eat healthy food and go swimming to ________________.",
+       "answer": "stay in shape"
+      },
+      {
+       "number": 3,
+       "prompt": "Every summer, young swimmers ________________ in the national finals.",
+       "answer": "compete"
+      },
+      {
+       "number": 4,
+       "prompt": "The lights on the board flashed in a special ________________.",
+       "answer": "sequence"
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "typeId": "L02",
+     "instruction": "",
+     "wordList": [],
+     "items": [
+      {
+       "number": 1,
+       "prompt": "My coach is a great (track / inspiration) to everyone on our team.",
+       "answer": "inspiration"
+      },
+      {
+       "number": 2,
+       "prompt": "Let me (compete / introduce) you to our new classmate from Athens.",
+       "answer": "introduce"
+      },
+      {
+       "number": 3,
+       "prompt": "An arm or a leg is called a (sequence / limb) of the body.",
+       "answer": "limb"
+      },
+      {
+       "number": 4,
+       "prompt": "The Paralympic Games celebrate athletes with a physical (shape / disability).",
+       "answer": "disability"
+      }
+     ]
+    }
+   ]
+  },
+  "dictation": {
+   "exercises": [
+    {
+     "number": 1,
+     "typeId": "D01",
+     "instruction": "",
+     "wordBank": [
+      "track",
+      "introduce",
+      "limb",
+      "sequence",
+      "compete"
+     ],
+     "items": [
+      {
+       "number": 1,
+       "prompt": "To tell someone another person's name when they meet: ________",
+       "answer": "introduce",
+       "testsWords": [
+        "introduce"
+       ]
+      },
+      {
+       "number": 2,
+       "prompt": "A path or stadium ring used for running races: ________",
+       "answer": "track",
+       "testsWords": [
+        "track"
+       ]
+      },
+      {
+       "number": 3,
+       "prompt": "To take part in a race or sports contest: ________",
+       "answer": "compete",
+       "testsWords": [
+        "compete"
+       ]
+      },
+      {
+       "number": 4,
+       "prompt": "A particular order in which events or numbers follow each other: ________",
+       "answer": "sequence",
+       "testsWords": [
+        "sequence"
+       ]
+      },
+      {
+       "number": 5,
+       "prompt": "An arm or a leg of a person: ________",
+       "answer": "limb",
+       "testsWords": [
+        "limb"
+       ]
+      }
+     ]
+    },
+    {
+     "number": 2,
+     "typeId": "D02",
+     "instruction": "",
+     "wordBank": [],
+     "items": [
+      {
+       "number": 1,
+       "prompt": "Did your school win the basketball ________________?",
+       "stem": "COMPETE",
+       "answer": "competition",
+       "testsWords": [
+        "compete",
+        "competition"
+       ]
+      },
+      {
+       "number": 2,
+       "prompt": "The stadium has special ramps for ________________ visitors.",
+       "stem": "DISABILITY",
+       "answer": "disabled",
+       "testsWords": [
+        "disability",
+        "disabled"
+       ]
+      },
+      {
+       "number": 3,
+       "prompt": "Her story was very ________________ for the young players.",
+       "stem": "INSPIRATION",
+       "answer": "inspiring",
+       "testsWords": [
+        "inspiration",
+        "inspiring"
+       ]
+      },
+      {
+       "number": 4,
+       "prompt": "We all felt ________________ after watching the champion speak.",
+       "stem": "INSPIRATION",
+       "answer": "inspired",
+       "testsWords": [
+        "inspiration",
+        "inspired"
+       ]
+      }
+     ]
+    },
+    {
+     "number": 3,
+     "typeId": "D03",
+     "instruction": "",
+     "wordBank": [],
+     "items": [
+      {
+       "number": 1,
+       "prompt": "Athletes train every afternoon to ________. (introduce / stay in shape / limb)",
+       "answer": "stay in shape",
+       "testsWords": [
+        "stay in shape"
+       ]
+      },
+      {
+       "number": 2,
+       "prompt": "He uses a modern artificial ________ to help him run fast. (sequence / limb / track)",
+       "answer": "limb",
+       "testsWords": [
+        "limb"
+       ]
+      },
+      {
+       "number": 3,
+       "prompt": "A physical ________ did not stop her from winning gold. (track / disability / sequence)",
+       "answer": "disability",
+       "testsWords": [
+        "disability"
+       ]
+      },
+      {
+       "number": 4,
+       "prompt": "The runner gave us great ________ before the match. (limb / inspiration / track)",
+       "answer": "inspiration",
+       "testsWords": [
+        "inspiration"
+       ]
+      }
+     ]
+    },
+    {
+     "number": 4,
+     "typeId": "D06",
+     "instruction": "",
+     "wordBank": [],
+     "items": [
+      {
+       "number": 1,
+       "prompt": "stay in shape: (introduce / keep fit / compete)",
+       "answer": "keep fit",
+       "testsWords": [
+        "stay in shape",
+        "keep fit"
+       ]
+      },
+      {
+       "number": 2,
+       "prompt": "sequence: (limb / order / track)",
+       "answer": "order",
+       "testsWords": [
+        "sequence",
+        "order"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

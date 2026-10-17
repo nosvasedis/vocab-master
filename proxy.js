@@ -99,16 +99,31 @@ async function handleDocxExport(res, body) {
 
 function proxyDeepSeek(req, res, method, apiPath, body) {
   const auth = req.headers.authorization || "";
+  proxyApi(res, TARGET, method, apiPath, auth ? { Authorization: auth } : {}, body);
+}
+
+/** Google Gemini — only the v1beta model list and generateContent are forwarded. */
+const GEMINI_HOST = "generativelanguage.googleapis.com";
+function proxyGemini(req, res, method, apiPath, body) {
+  if (!/^\/v1beta\/models(\/[\w.-]+:generateContent)?$/.test(apiPath)) {
+    res.writeHead(400, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({ error: { message: "Unsupported Gemini path" } }));
+  }
+  const key = String(req.headers["x-goog-api-key"] || "");
+  proxyApi(res, GEMINI_HOST, method, apiPath, key ? { "x-goog-api-key": key } : {}, body);
+}
+
+function proxyApi(res, hostname, method, apiPath, authHeaders, body) {
   const payload = body ? Buffer.from(body, "utf8") : null;
   const proxyReq = https.request(
     {
-      hostname: TARGET,
+      hostname,
       path: apiPath,
       method,
       headers: {
         Accept: "application/json",
         ...(payload ? { "Content-Type": "application/json", "Content-Length": payload.length } : {}),
-        ...(auth ? { Authorization: auth } : {}),
+        ...authHeaders,
       },
     },
     (proxyRes) => {
@@ -138,7 +153,7 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204, {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization, x-goog-api-key",
     });
     return res.end();
   }
@@ -151,6 +166,11 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "POST" && urlPath === "/chat/completions") {
     const body = await readBody(req);
     return proxyDeepSeek(req, res, "POST", "/chat/completions", body);
+  }
+
+  if (urlPath.startsWith("/gemini/") && (req.method === "POST" || req.method === "GET")) {
+    const body = req.method === "POST" ? await readBody(req) : null;
+    return proxyGemini(req, res, req.method, urlPath.slice("/gemini".length), body);
   }
 
   if (req.method === "GET" && urlPath === "/app-info") {

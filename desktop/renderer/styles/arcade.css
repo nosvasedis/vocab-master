@@ -498,3 +498,12 @@
   .ts-clock small { bottom: 34px; }
 }
 .mm-label { font-size: 13px; font-weight: 600; color: var(--ink-3); }
+
+/* Pictures (outline / bold / line styles) scale with the text around them and take its colour. */
+.arcade .pic { display: inline-block; width: 1em; height: 1em; vertical-align: -0.12em; }
+.arcade .fc-emoji .pic, .arcade .sp-emoji .pic, .arcade .mm-mean.big .pic { width: 1.05em; height: 1.05em; }
+.arcade .fc-emoji, .arcade .sp-emoji { display: flex; gap: 0.15em; justify-content: center; }
+.arcade .hd-pic { display: inline-flex; gap: 2px; font-size: 18px; }
+.arcade .ts-pic { display: inline-flex; gap: 4px; font-size: 30px; color: #1b1640; }
+.arcade .qz-clue .pic { width: 1.3em; height: 1.3em; vertical-align: -0.3em; }
+.arcade .mm-sub .pic { width: 1.2em; height: 1.2em; }

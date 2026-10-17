@@ -2,11 +2,14 @@
 import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
   renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
-  saveWorksheetSession, applyQuickWorksheetFixes, countQuickFixIssues, fixWorksheetValidationIssues,
+  saveWorksheetSession, applyQuickWorksheetFixes, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
   fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
-import { state, emit, on, buildForm, makeWord } from "../state.js";
+import { state, emit, on, buildForm, makeWord, prefs } from "../state.js";
+import { worksheetFontCss } from "../fonts.js";
+import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictures.js";
+import { savePrefs } from "../state.js";
 import { desktop, getApiKey } from "../bridge.js";
 import { actions } from "../actions.js";
 
@@ -39,14 +42,28 @@ export function initPreview() {
   shadow = $("paper").attachShadow({ mode: "open" });
   sheetSeg = segmented($("sheetSeg"), {
     value: state.preview.sheet,
-    onChange: (v) => { state.preview.sheet = v; emit("preview"); renderPaper(); },
+    onChange: (v) => { state.preview.sheet = v; emit("preview"); renderLayoutControls(); renderPaper(); },
   });
   densitySeg = segmented($("densitySeg"), {
     value: state.preview.density,
     onChange: (v) => { state.preview.density = v; emit("preview"); renderPaper(); },
   });
   $("optAnswers").addEventListener("change", (e) => { state.preview.showAnswers = e.target.checked; emit("preview"); renderPaper(); });
-  $("optHeader").addEventListener("change", (e) => { state.preview.studentHeader = e.target.checked; emit("preview"); renderPaper(); });
+  document.querySelectorAll("[data-layout]").forEach((cb) => cb.addEventListener("change", () => {
+    const sheet = state.preview.sheet;
+    state.preview.layout[sheet] = { ...sheetLayout(sheet), [cb.dataset.layout]: cb.checked };
+    emit("preview");
+    renderPaper();
+  }));
+  $("picStyle").innerHTML = Object.entries(PICTURE_STYLES).map(([id, s]) => `<option value="${id}">${esc(s.label)}</option>`).join("");
+  $("picStyle").addEventListener("change", async (e) => {
+    prefs.pictureStyle = e.target.value;
+    savePrefs();
+    await ensurePictureStyle(prefs.pictureStyle);
+    renderLayoutControls();
+    renderPaper();
+  });
+  $("schoolNote").addEventListener("click", (e) => { if (e.target.closest("[data-open-settings]")) actions.openSettings({ focusKey: false }); });
   $("zoomIn").addEventListener("click", () => setZoom(+0.1));
   $("zoomOut").addEventListener("click", () => setZoom(-0.1));
   new ResizeObserver(() => applyZoom()).observe($("paperStage"));
@@ -74,7 +91,7 @@ export function renderPreview() {
   sheetSeg.set(state.preview.sheet);
   densitySeg.set(state.preview.density);
   $("optAnswers").checked = state.preview.showAnswers;
-  $("optHeader").checked = state.preview.studentHeader;
+  renderLayoutControls();
   const has = !!state.data;
   ["btnExportPack", "btnDocx", "btnPdf", "btnPrint", "btnDuplicate"].forEach((id) => { $(id).disabled = !has; });
   if (!has) {
@@ -89,14 +106,40 @@ export function renderPreview() {
   renderQuality();
 }
 
+/* ── Layout options ──────────────────────────────────────────────── */
+function sheetLayout(sheet) {
+  return { ...WORKSHEET_LAYOUT_DEFAULTS[sheet], ...(state.preview.layout?.[sheet] || {}) };
+}
+
+/** Everything the worksheet renderers and Word builders need (saved in data.meta.layout). */
+function layoutPayload() {
+  return { lingo: sheetLayout("lingo"), dictation: sheetLayout("dictation"), answer: sheetLayout("answer"), schoolName: prefs.schoolName || "", pictureStyle: prefs.pictureStyle || "emoji" };
+}
+
+const LAYOUT_ROWS = { lingo: ["studentHeader", "scoreBoxes", "footer"], dictation: ["studentHeader", "scoreBoxes", "reuseNote", "footer"], answer: ["footer"] };
+
+function renderLayoutControls() {
+  const sheet = state.preview.sheet;
+  const layout = sheetLayout(sheet);
+  $("layoutFor").textContent = `· ${SHEET_NAME[sheet]}`;
+  $("picStyle").value = prefs.pictureStyle || "emoji";
+  $("picHint").textContent = `${PICTURE_STYLES[prefs.pictureStyle || "emoji"].hint} — all sheets, Word files and games.`;
+  document.querySelectorAll("[data-layout-row]").forEach((row) => row.classList.toggle("hidden", !LAYOUT_ROWS[sheet].includes(row.dataset.layoutRow)));
+  document.querySelectorAll("[data-layout]").forEach((cb) => { cb.checked = !!layout[cb.dataset.layout]; });
+  $("schoolNote").innerHTML = prefs.schoolName
+    ? `School name on every sheet: <b>${esc(prefs.schoolName)}</b> · <a data-open-settings>change</a>`
+    : `Add your school’s name in <a data-open-settings>Settings</a> to print it on every sheet.`;
+}
+
 /* ── Paper ───────────────────────────────────────────────────────── */
 function renderOpts() {
-  return { showAnswers: state.preview.showAnswers, studentHeader: state.preview.studentHeader, density: state.preview.density };
+  return { showAnswers: state.preview.showAnswers, density: state.preview.density, layout: layoutPayload() };
 }
 
 function syncMeta() {
   if (!state.data?.meta) return;
-  state.data.meta.includeStudentHeader = !!state.preview.studentHeader;
+  state.data.meta.layout = layoutPayload();
+  state.data.meta.includeStudentHeader = !!sheetLayout("lingo").studentHeader;
   state.data.meta.density = state.preview.density;
 }
 
@@ -447,11 +490,32 @@ function savedToast(filePath, label) {
   });
 }
 
-function pdfHtml(sheet) {
-  const opts = { showAnswers: false, studentHeader: state.preview.studentHeader, density: state.preview.density };
+/** Standalone A4 document for PDF export, with the worksheet fonts embedded. */
+async function pdfHtml(sheet) {
+  const opts = { showAnswers: false, density: state.preview.density, layout: layoutPayload() };
   const body = sheet === "lingo" ? renderLingoLauncher(state.data, opts)
     : sheet === "dictation" ? renderDictation(state.data, opts) : renderAnswerKey(state.data, opts);
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>${esc(SHEET_NAME[sheet])}</title><style>${WORKSHEET_PRINT_CSS}</style></head><body>${body}</body></html>`;
+  return buildWorksheetPrintDocument(body, SHEET_NAME[sheet], await worksheetFontCss());
+}
+
+/** Footer text for PDF pages (page numbers are added by the PDF renderer), or "" when switched off. */
+function pdfFooter(sheet) {
+  if (!sheetLayout(sheet).footer) return "";
+  const m = state.data.meta || {};
+  return [SHEET_NAME[sheet], m.bookTitle, m.unit ? `Unit ${m.unit}` : ""].filter(Boolean).join(" · ");
+}
+
+/** The worksheet plus PNG copies of its pictures, for Word files (never saved into the library). */
+async function wordData() {
+  const style = prefs.pictureStyle || "emoji";
+  if (style === "emoji" || style === "none") return state.data;
+  const d = state.data;
+  const texts = [
+    ...(d.lingoLauncher?.vocabulary || []).map((v) => v.emojis),
+    ...[...(d.lingoLauncher?.practice || []), ...(d.dictation?.exercises || [])].flatMap((ex) => (ex.items || []).map((it) => it.prompt)),
+  ];
+  const emojis = texts.flatMap((t) => splitEmojiText(t || "").filter((p) => p.emoji).map((p) => p.text));
+  return { ...d, meta: { ...d.meta, pictures: await rasterisePictures(emojis, style) } };
 }
 
 async function exportWord(sheet, btn) {
@@ -462,11 +526,11 @@ async function exportWord(sheet, btn) {
     try {
       const d = desktop();
       if (d?.saveDocx) {
-        const res = await d.saveDocx({ type: sheet, data: state.data, filename });
+        const res = await d.saveDocx({ type: sheet, data: await wordData(), filename });
         if (res.ok) savedToast(res.path);
         else if (!res.canceled) toast(`Word export failed: ${res.error || "unknown error"}`, "error");
       } else {
-        await exportDocx(sheet, state.data, filename);
+        await exportDocx(sheet, await wordData(), filename);
         toast(`Downloaded ${filename}`, "ok");
       }
     } catch (e) {
@@ -481,7 +545,7 @@ async function exportPdf(sheet, btn) {
   if (!d?.exportPdf) { printSheet(sheet); toast("Choose “Save as PDF” in the print dialog.", "info"); return; }
   await withBusy(btn, async () => {
     try {
-      const res = await d.exportPdf({ html: pdfHtml(sheet), filename: safeName(`${SHEET_NAME[sheet]}, ${fileBaseName(state.data.meta)}.pdf`) });
+      const res = await d.exportPdf({ html: await pdfHtml(sheet), footer: pdfFooter(sheet), filename: safeName(`${SHEET_NAME[sheet]}, ${fileBaseName(state.data.meta)}.pdf`) });
       if (res.ok) savedToast(res.path);
       else if (!res.canceled) toast(res.error || "PDF export failed.", "error");
     } catch (e) {
@@ -490,10 +554,10 @@ async function exportPdf(sheet, btn) {
   });
 }
 
-export function printSheet(sheet = state.preview.sheet) {
+export async function printSheet(sheet = state.preview.sheet) {
   if (!state.data) { toast("Generate or open a unit first.", "warn"); return; }
   try {
-    openWorksheetPrint(state.data, sheet, { studentHeader: state.preview.studentHeader, density: state.preview.density });
+    openWorksheetPrint(state.data, sheet, { density: state.preview.density, layout: layoutPayload(), fontCss: await worksheetFontCss() });
   } catch (e) {
     toast(e.message || String(e), "error");
   }
@@ -508,15 +572,17 @@ async function exportPack(btn) {
       const d = desktop();
       if (d?.exportPack) {
         const res = await d.exportPack({
-          data: state.data,
+          data: await wordData(),
           baseSlug: base,
-          htmlPages: { lingo: pdfHtml("lingo"), dictation: pdfHtml("dictation"), answer: pdfHtml("answer") },
+          htmlPages: { lingo: await pdfHtml("lingo"), dictation: await pdfHtml("dictation"), answer: await pdfHtml("answer") },
+          footers: { lingo: pdfFooter("lingo"), dictation: pdfFooter("dictation"), answer: pdfFooter("answer") },
         });
         if (res.ok) savedToast(res.folder, `unit pack (${plural(res.files.length, "file")})`);
         else if (!res.canceled) toast(`Pack export failed: ${res.error || "unknown error"}`, "error");
       } else {
+        const data = await wordData();
         for (const sheet of ["lingo", "dictation", "answer"]) {
-          await exportDocx(sheet, state.data, safeName(`${SHEET_NAME[sheet]}, ${base}.docx`));
+          await exportDocx(sheet, data, safeName(`${SHEET_NAME[sheet]}, ${base}.docx`));
         }
         toast("Downloaded Lingo Launcher, Dictation and Answer Key.", "ok");
       }

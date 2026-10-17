@@ -14,7 +14,7 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 2. Choose either download option:
    - **💿 `Vocab-Master-Setup-3.0.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
    - **🧳 `Vocab-Master-Portable-3.0.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
-3. On first launch, click **Sample unit** in the top bar to explore a complete unit right away, or open **Settings** (bottom of the sidebar) to paste your [DeepSeek API key](https://platform.deepseek.com/api_keys) (stored encrypted on your PC via Windows DPAPI).
+3. On first launch, open **Settings** (bottom of the sidebar), choose **Google Gemini** (free — get a key at [aistudio.google.com](https://aistudio.google.com/apikey)) or **DeepSeek** ([platform.deepseek.com](https://platform.deepseek.com/api_keys)), and paste your key. It is stored encrypted on your PC via Windows DPAPI.
 
 ---
 
@@ -24,8 +24,8 @@ Vocab Master is a calm, four-step studio with a sidebar that always shows where 
 
 ### 1 · Unit setup
 - **Class level cards (A–E Senior)** with CEFR level, Greek school grades, sentence-length limit and a recommended word count.
-- **Cambridge Primary Path 1–3 word bank (3,769 entries).** Pick a book and a unit, tap a section (Big Question, A/B reading…) or type any pages — the unit is detected from the page numbers and the official Student's Book, Workbook and 2nd-edition words load instantly, with Greek meanings.
-- **Word pool:** tap words in or out, filter by source, hide basic sight words, or reload a smart pick. Every automatic change can be undone from the notification.
+- **Cambridge Primary Path 1–3 (2nd Edition) word bank — the 3,554 rows of the official wordlists, plus 29 official Key Words from Cambridge's 2nd-edition Scope and Sequence that the lists lack.** Units show their official Big Question and reading titles. Pick a book and a unit, tap a section (Big Question, A, B) or type any pages — the unit is detected from the page numbers and the official Student's Book and Workbook words load instantly, with their Greek meanings and example sentences.
+- **Word pool:** tap words in or out, filter Student's Book / Workbook, or reload a smart pick spread across the whole unit. Every automatic change can be undone from the notification.
 - **Any other coursebook** works too: type the title, unit and (optional) pages.
 
 ### 2 · Vocabulary
@@ -40,10 +40,18 @@ Vocab Master is a calm, four-step studio with a sidebar that always shows where 
 - **Generate** writes the Lingo Launcher study sheet, the Dictation test and the answer key — every unit word is guaranteed to be tested. You can rewrite only the Dictation or only the Lingo practice later.
 
 ### 4 · Preview & export
+- **Ink-saving black-and-white design** — outlines and type only, no filled areas; fonts are embedded so PDFs look the same on any PC.
+- **Per-sheet switches:** student name box, score per exercise, footer with page numbers, a “shared sheet — answer in your notebook” note (on by default for Dictation, which classes reuse), and your school name (Settings).
 - A true **A4 preview** (identical to the PDF). Click any word box or exercise line to edit it in a side panel with live checking; add or delete lines with undo.
 - **Quality check** with one-click quick fixes or AI rewrites, and a **word coverage** map.
 - Export the **full unit pack** (Word + PDF for all three sheets), or the current sheet as Word, PDF or print. Toggle the student name header, answer preview and spacing.
 - **Duplicate** a unit to adapt it for another class.
+
+### 🖼️ Pictures
+Each word’s emoji can be drawn in four looks — **colour emoji**, **outline drawings** (OpenMoji, lightest on toner), **bold outline** (Microsoft Fluent high contrast) or **line icons** (Lucide, with outline drawings where Lucide has no match) — or switched off. One choice in the Preview’s Layout panel or in Settings applies to worksheets, PDFs, Word files and the games. Credits: OpenMoji (CC BY-SA 4.0), Fluent Emoji (MIT), Lucide (ISC).
+
+### 🤖 AI services
+Choose in **Settings**: **Google Gemini** (free tier with a Google AI Studio key — daily limits apply; the app picks the newest Flash model and falls back to Flash-Lite when the free quota runs out) or **DeepSeek** (pay-as-you-go, very cheap). Keys are stored encrypted on your PC.
 
 ### 🖥️ Projector mode
 Full-screen worksheet for the interactive whiteboard. Tap a line — or press <kbd>Space</kbd> — to reveal answers one by one; zoom for the back row.

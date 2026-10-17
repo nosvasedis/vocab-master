@@ -105,7 +105,7 @@ function renderBanner() {
     <span class="book-cover lb-cover" style="--bk:${BOOK_COLORS[id]}">${esc(id.slice(-1))}</span>
     <div class="lb-text">
       <strong>${esc(CPP_BOOKS[id].title)} · Unit ${us.unit}: ${esc(us.unitTitle)}</strong>
-      <span>${state.cpp.pages ? `Pages ${esc(state.cpp.pages)}` : `Full unit · p. ${us.sbStart}–${us.sbEnd}`} · words come with official Greek meanings — AI adds phrases &amp; word families.</span>
+      <span>${state.cpp.pages ? `Pages ${esc(state.cpp.pages)}` : `Full unit · p. ${us.sbStart}–${us.sbEnd}`} · official words with their Greek meanings — AI adds phrases &amp; word families.</span>
     </div>
     <button type="button" class="btn btn-ghost btn-sm" data-action="reload-unit">${icon("refresh", "i-sm")}Reset to unit words</button>
     <button type="button" class="btn btn-secondary btn-sm" data-action="change-unit">${icon("book-open", "i-sm")}Change unit</button>`;
@@ -339,7 +339,7 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
   const apiKey = getApiKey();
   if (!apiKey) {
     if (fromBook) emit("words");
-    toast(fromBook ? "Filled meanings from the coursebook. Add your DeepSeek key to generate phrases and word families." : "Add your DeepSeek API key to fill words with AI.", "warn", {
+    toast(fromBook ? "Filled meanings from the coursebook. Add an AI key in Settings (Google Gemini is free) for phrases and word families." : "Add an AI key in Settings (Google Gemini is free) to fill words with AI.", "warn", {
       actions: [{ label: "Open settings", run: () => actions.openSettings() }],
     });
     return;

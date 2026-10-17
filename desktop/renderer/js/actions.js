@@ -4,6 +4,5 @@ export const actions = {
   openSettings: () => {},
   openArcade: () => {},
   openProjector: () => {},
-  loadSample: () => {},
   setAiState: () => {},
 };

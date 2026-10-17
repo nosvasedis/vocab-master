@@ -24,9 +24,11 @@ const MAX_SAVES = 100;
 
 /** Worksheet typography — preview, print, and .docx (Segoe UI covers Latin + Greek on Windows) */
 const WORKSHEET_FONTS = {
-  family: "Segoe UI",
-  css: '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
+  family: "Inter",
+  css: '"Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+  display: '"Manrope", "Inter", "Segoe UI", Arial, sans-serif',
   docx: "Segoe UI",
+  docxDisplay: "Segoe UI Black",
 };
 
 function worksheetDocxStyles() {
@@ -821,20 +823,7 @@ function chunkWordBank(words, maxPerRow = 5) {
   return rows;
 }
 
-function renderWordBankTable(words) {
-  const rows = chunkWordBank(words);
-  return `<table class="word-bank">${rows.map((row) =>
-    `<tr>${row.map((w) => `<td>${escapeHtml(w)}</td>`).join("")}</tr>`
-  ).join("")}</table>`;
-}
 
-function renderMatchDefinitionsList(entries) {
-  if (!entries?.length) return "";
-  return `<div class="match-defs">
-    <p class="match-defs-heading">Definitions:</p>
-    ${entries.map((entry) => `<p class="match-def-line">${escapeHtml(entry)}</p>`).join("")}
-  </div>`;
-}
 
 function stripMatchLetter(entry) {
   return String(entry || "").replace(/^[A-Z]\.\s*/i, "").trim();
@@ -2251,26 +2240,6 @@ function subtitleLine(meta) {
   return `${meta.bookTitle || "Worksheet"}${unit}${pages ? ` (p. ${pages})` : ""}`;
 }
 
-function formatVocabCell(v) {
-  let line1 = `${v.number}. ${v.english}`;
-  if (v.type?.trim()) line1 += ` (${v.type.trim()})`;
-  if (v.greek) line1 += ` - ${v.greek}`;
-  if (v.emojis) line1 += ` ${v.emojis}`;
-  let html = `<div class="vocab-head">${escapeHtml(line1)}</div>`;
-  if (v.collocation) html += `<div class="vocab-coll">${escapeHtml(v.collocation)}</div>`;
-  const derivs = normalizeDerivativesList(v.derivatives);
-  if (derivs.length) {
-    derivs.forEach((d) => {
-      const line = formatDerivativeLine(d);
-      if (line) html += `<div class="vocab-deriv">&gt; ${escapeHtml(line)}</div>`;
-    });
-  }
-  const syn = normalizeWordList(v.synonyms);
-  if (syn.length) html += `<div class="vocab-related">≈ ${escapeHtml(syn.join(", "))}</div>`;
-  const ant = normalizeAntonymList(v.antonyms);
-  if (ant.length) html += `<div class="vocab-related">≠ ${escapeHtml(ant.map(formatAntonymLine).join(", "))}</div>`;
-  return html;
-}
 
 function normalizeWordList(value) {
   if (!value) return [];
@@ -2389,85 +2358,225 @@ function normalizeVocabulary(vocabulary) {
   return sorted.map((v, i) => normalizeVocabEntry({ ...v, number: i + 1 }));
 }
 
-function renderStudentHeaderHtml(meta, options = {}) {
-  const show = options.studentHeader ?? meta?.includeStudentHeader ?? false;
-  if (!show) return "";
-  return `<div class="ws-student-header">
-    <span><strong>Name:</strong> ___________________________</span>
-    <span><strong>Date:</strong> _______________</span>
-    <span><strong>Class:</strong> ${escapeHtml(meta?.classLabel || "__________")}</span>
-    <span><strong>Score:</strong> _____ / _____</span>
+
+
+
+
+/* ── Pictures (emoji drawn in the chosen style) ─────────────────────────── */
+// The renderer registers how to draw an emoji (see js/pictures.js). Without it — e.g. when
+// Word files are built in Node — worksheets fall back to plain emoji text.
+let pictureSource = null;
+function configurePictures(source) {
+  pictureSource = source || null;
+}
+
+const EMOJI_GRAPHEME = /\p{Extended_Pictographic}|\p{Regional_Indicator}|⃣/u;
+
+/** Split text into graphemes, flagging the emoji ones. */
+function splitEmojiText(text) {
+  const str = String(text ?? "");
+  const seg = typeof Intl !== "undefined" && Intl.Segmenter ? new Intl.Segmenter("en", { granularity: "grapheme" }) : null;
+  const parts = seg ? [...seg.segment(str)].map((s) => s.segment) : Array.from(str);
+  return parts.map((p) => ({ text: p, emoji: EMOJI_GRAPHEME.test(p) }));
+}
+
+/** Pack key for an emoji: lower-case code points joined by "-", without FE0F or skin tones. */
+function pictureKey(emoji) {
+  return Array.from(String(emoji || ""))
+    .map((c) => c.codePointAt(0).toString(16))
+    .filter((h) => h !== "fe0f" && !/^1f3f[b-f]$/.test(h))
+    .join("-");
+}
+
+/** HTML for a run of text: emojis drawn in `style` (or kept / removed), everything else escaped. */
+/** Same as textWithPictures, for HTML that is already escaped (emoji never occur inside tags). */
+function picturesInHtml(html, style = "emoji") {
+  if (style === "emoji" || !style) return html;
+  return splitEmojiText(html).map((p) => (!p.emoji ? p.text : style === "none" ? "" : pictureSource?.svg(p.text, style) || "")).join("");
+}
+
+function textWithPictures(text, style = "emoji") {
+  if (style === "emoji" || !style) return escapeHtml(text);
+  return splitEmojiText(text).map((p) => {
+    if (!p.emoji) return escapeHtml(p.text);
+    if (style === "none") return "";
+    return pictureSource?.svg(p.text, style) || "";
+  }).join("").replace(/\s{2,}/g, " ");
+}
+
+/* ── Worksheet layout options (per sheet, all switchable) ─────────────── */
+const WORKSHEET_LAYOUT_DEFAULTS = {
+  // Lingo Launcher stays with the student as a study sheet.
+  lingo: { studentHeader: true, scoreBoxes: false, footer: true, reuseNote: false },
+  // Dictation sheets are printed once and reused by several classes.
+  dictation: { studentHeader: false, scoreBoxes: false, footer: true, reuseNote: true },
+  answer: { studentHeader: false, scoreBoxes: false, footer: true, reuseNote: false },
+};
+
+/** Effective layout for one sheet: defaults ← saved meta.layout ← explicit options. */
+function resolveWorksheetLayout(sheet, meta = {}, options = {}) {
+  const saved = meta.layout || {};
+  const layout = { ...WORKSHEET_LAYOUT_DEFAULTS[sheet], ...(saved[sheet] || {}), ...(options.layout?.[sheet] || {}) };
+  // Older saves and callers used a single student-header flag.
+  if (typeof options.studentHeader === "boolean" && !options.layout) layout.studentHeader = options.studentHeader;
+  layout.schoolName = String(options.layout?.schoolName ?? saved.schoolName ?? "").trim();
+  layout.pictureStyle = options.layout?.pictureStyle ?? saved.pictureStyle ?? "emoji";
+  return layout;
+}
+
+/** Official unit title (Big Question) for Cambridge Primary Path units, if known. */
+function worksheetUnitTitle(meta = {}) {
+  const id = resolveCoursebookId(meta.bookTitle || "");
+  return (id && CPP_BOOKS[id]?.units?.[Number(meta.unit)]?.title) || "";
+}
+
+function worksheetMetaParts(meta = {}) {
+  const pages = String(meta.pageRange || "").trim();
+  return {
+    book: meta.bookTitle || "",
+    unitLine: [meta.unit ? `Unit ${meta.unit}` : "", worksheetUnitTitle(meta)].filter(Boolean).join(" · "),
+    detail: [pages ? `pp. ${pages}` : "", meta.classLabel || ""].filter(Boolean).join(" · "),
+  };
+}
+
+function worksheetHeaderHtml(meta, { title, kind, layout }) {
+  const m = worksheetMetaParts(meta);
+  return `<header class="ws-head">
+    <div class="ws-band">
+      <div class="ws-band-title">
+        ${layout.schoolName ? `<div class="ws-school">${escapeHtml(layout.schoolName)}</div>` : ""}
+        <h1 class="ws-title ws-heading">${escapeHtml(title)}</h1>
+        <div class="ws-kind">${escapeHtml(kind)}</div>
+      </div>
+      <div class="ws-band-meta">
+        ${m.book ? `<div class="ws-book">${escapeHtml(m.book)}</div>` : ""}
+        ${m.unitLine ? `<div class="ws-unit">${escapeHtml(m.unitLine)}</div>` : ""}
+        ${m.detail ? `<div class="ws-detail">${escapeHtml(m.detail)}</div>` : ""}
+      </div>
+    </div>
+    ${layout.studentHeader ? `<div class="ws-student">
+      <span class="ws-field grow"><b>Name</b><i></i></span>
+      <span class="ws-field"><b>Class</b><i></i></span>
+      <span class="ws-field"><b>Date</b><i></i></span>
+      <span class="ws-field score"><b>Score</b><i></i><em>/</em><i></i></span>
+    </div>` : ""}
+    ${layout.reuseNote ? `<div class="ws-reuse">✎ This sheet is shared — please don’t write on it. Write your answers in your notebook.</div>` : ""}
+  </header>`;
+}
+
+// Kept for older callers; the header now renders the student box itself.
+function renderStudentHeaderHtml() {
+  return "";
+}
+
+function worksheetSectionHtml(label) {
+  return `<div class="ws-section"><span>${escapeHtml(label)}</span></div>`;
+}
+
+/** "Exercise N" in an outlined squircle, followed by the instruction as the heading. */
+function exerciseHeadHtml(ex, layout) {
+  const instr = getStudentExerciseInstruction(ex);
+  const n = (ex.items || []).length;
+  return `<div class="ex-head">
+    <span class="ex-num">Exercise ${escapeHtml(ex.number)}</span>
+    <div class="ex-title">
+      ${instr ? `<h3 class="ex-heading ex-instruction ws-heading">${escapeHtml(instr)}</h3>` : ""}
+    </div>
+    ${layout.scoreBoxes && n ? `<span class="ex-score"><i></i>/ ${n}</span>` : ""}
   </div>`;
+}
+
+function formatVocabCell(v, pictureStyle = "emoji") {
+  let html = `<div class="v-top"><span class="v-num">${escapeHtml(v.number)}</span><span class="v-word">${escapeHtml(v.english)}</span>`;
+  if (v.type?.trim()) html += `<span class="v-pos">${escapeHtml(v.type.trim())}</span>`;
+  const pics = v.emojis ? textWithPictures(v.emojis, pictureStyle).trim() : "";
+  if (pics) html += `<span class="v-emoji">${pics}</span>`;
+  html += `</div>`;
+  if (v.greek) html += `<div class="v-greek">${escapeHtml(v.greek)}</div>`;
+  if (v.collocation) html += `<div class="vocab-coll v-coll">${escapeHtml(v.collocation)}</div>`;
+  normalizeDerivativesList(v.derivatives).forEach((d) => {
+    const line = formatDerivativeLine(d);
+    if (line) html += `<div class="vocab-deriv v-rel"><b>→</b>${escapeHtml(line)}</div>`;
+  });
+  const syn = normalizeWordList(v.synonyms);
+  if (syn.length) html += `<div class="vocab-related v-rel"><b>≈</b>${escapeHtml(syn.join(", "))}</div>`;
+  const ant = normalizeAntonymList(v.antonyms);
+  if (ant.length) html += `<div class="vocab-related v-rel"><b>≠</b>${escapeHtml(ant.map(formatAntonymLine).join(", "))}</div>`;
+  return html;
+}
+
+function answerPill(item, showAnswers) {
+  return showAnswers && item.answer
+    ? ` <span class="teacher-ans-pill" title="Answer">✓ ${escapeHtml(item.answer)}</span>`
+    : "";
 }
 
 function renderLingoLauncher(data, options = {}) {
   const meta = data.meta || {};
   const density = options.density || meta.density || "standard";
-  const showAnswers = !!options.showAnswers;
+  const layout = resolveWorksheetLayout("lingo", meta, options);
   const vocab = normalizeVocabulary(data.lingoLauncher.vocabulary);
-  const rows = buildVocabTablePairs(vocab).map(
-    ({ left, right }) =>
-      `<tr><td class="${left ? "vocab-cell" : ""}" ${left ? `data-vocab-num="${left.number}"` : ""}>${left ? formatVocabCell(left) : ""}</td><td class="${right ? "vocab-cell" : ""}" ${right ? `data-vocab-num="${right.number}"` : ""}>${right ? formatVocabCell(right) : ""}</td></tr>`
-  );
+  const rows = buildVocabTablePairs(vocab).map(({ left, right }) =>
+    `<tr><td class="${left ? "vocab-cell" : "vocab-empty"}" ${left ? `data-vocab-num="${left.number}"` : ""}>${left ? formatVocabCell(left, layout.pictureStyle) : ""}</td><td class="${right ? "vocab-cell" : "vocab-empty"}" ${right ? `data-vocab-num="${right.number}"` : ""}>${right ? formatVocabCell(right, layout.pictureStyle) : ""}</td></tr>`);
 
   let practiceHtml = "";
   data.lingoLauncher.practice.forEach((ex) => {
-    practiceHtml += `<div class="ex-block">`;
-    practiceHtml += `<h3 class="ex-heading ws-heading">Exercise ${ex.number}</h3>`;
-    const instr = getStudentExerciseInstruction(ex);
-    if (instr) practiceHtml += `<p class="ex-instruction">${escapeHtml(instr)}</p>`;
+    practiceHtml += `<section class="ex-block">${exerciseHeadHtml(ex, layout)}`;
     if (ex.wordList?.length) {
-      practiceHtml += `<p class="word-list">${ex.wordList.map(escapeHtml).join(" · ")}</p>`;
+      practiceHtml += `<div class="word-list">${ex.wordList.map((w) => `<span>${escapeHtml(w)}</span>`).join("")}</div>`;
     }
     ex.items.forEach((item) => {
-      const ansPill = showAnswers && item.answer
-        ? ` <span class="teacher-ans-pill" title="Answer">✓ ${escapeHtml(item.answer)}</span>`
-        : "";
-      practiceHtml += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">(${item.number})</span> ${escapeHtml(item.prompt)}${ansPill}</p>`;
+      practiceHtml += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${textWithPictures(item.prompt, layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
     });
-    practiceHtml += `</div>`;
+    practiceHtml += `</section>`;
   });
 
   return `
     <div class="worksheet lingo-sheet density-${escapeHtml(density)}">
-      <h1 class="ws-title ws-heading">🚀 Lingo Launcher</h1>
-      <p class="ws-subtitle">${escapeHtml(subtitleLine(meta))}</p>
-      ${renderStudentHeaderHtml(meta, options)}
+      ${worksheetHeaderHtml(meta, { title: "Lingo Launcher", kind: "Vocabulary study sheet", layout })}
+      ${worksheetSectionHtml(`Words to learn · ${vocab.length}`)}
       <table class="vocab-table"><tbody>${rows.join("")}</tbody></table>
-      <h2 class="practice-heading ws-heading">Let's Practice! ✍️</h2>
+      ${worksheetSectionHtml("Let’s practise")}
       ${practiceHtml}
     </div>`;
+}
+
+function renderWordBankTable(words) {
+  return `<div class="word-bank">${(words || []).map((w) => `<span>${escapeHtml(w)}</span>`).join("")}</div>`;
+}
+
+function renderMatchDefinitionsList(entries) {
+  if (!entries?.length) return "";
+  return `<div class="match-defs">
+    ${entries.map((entry) => {
+      const m = String(entry).match(/^([A-Z])\.\s*(.*)$/i);
+      return m
+        ? `<p class="match-def-line"><b>${escapeHtml(m[1].toUpperCase())}</b><span>${escapeHtml(m[2])}</span></p>`
+        : `<p class="match-def-line"><span>${escapeHtml(entry)}</span></p>`;
+    }).join("")}
+  </div>`;
 }
 
 function renderDictation(data, options = {}) {
   const meta = data.meta || {};
   const density = options.density || meta.density || "standard";
-  const showAnswers = !!options.showAnswers;
+  const layout = resolveWorksheetLayout("dictation", meta, options);
   let body = "";
   data.dictation.exercises.forEach((ex) => {
-    body += `<div class="ex-block">`;
-    body += `<h3 class="ex-heading ws-heading">Exercise ${ex.number}</h3>`;
-    const instr = getStudentExerciseInstruction(ex);
-    if (instr) body += `<p class="ex-instruction">${escapeHtml(instr)}</p>`;
+    body += `<section class="ex-block">${exerciseHeadHtml(ex, layout)}`;
     if (ex.wordBank?.length) {
-      if (ex.typeId === "D13") body += renderMatchDefinitionsList(ex.wordBank);
-      else body += renderWordBankTable(ex.wordBank);
+      body += ex.typeId === "D13" ? renderMatchDefinitionsList(ex.wordBank) : renderWordBankTable(ex.wordBank);
     }
     if (ex.stemHeader) body += `<p class="stem-header">${escapeHtml(ex.stemHeader)}</p>`;
     ex.items.forEach((item) => {
-      const ansPill = showAnswers && item.answer
-        ? ` <span class="teacher-ans-pill" title="Answer">✓ ${escapeHtml(item.answer)}</span>`
-        : "";
-      body += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">(${item.number})</span> ${formatDictationItemHtml(item, ex.typeId)}${ansPill}</p>`;
+      body += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${picturesInHtml(formatDictationItemHtml(item, ex.typeId), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
     });
-    body += `</div>`;
+    body += `</section>`;
   });
 
   return `
     <div class="worksheet dictation-sheet density-${escapeHtml(density)}">
-      <h1 class="ws-title ws-heading">📝 Dictation</h1>
-      <p class="ws-subtitle">${escapeHtml(subtitleLine(meta))}</p>
-      ${renderStudentHeaderHtml(meta, options)}
+      ${worksheetHeaderHtml(meta, { title: "Dictation", kind: "Vocabulary test", layout })}
       ${body}
     </div>`;
 }
@@ -2475,25 +2584,26 @@ function renderDictation(data, options = {}) {
 function renderAnswerKey(data, options = {}) {
   const meta = data.meta || {};
   const density = options.density || meta.density || "standard";
-  let body = "";
+  const layout = resolveWorksheetLayout("answer", meta, options);
   const exBlock = (ex, sheetLabel) => {
-    const typeName = EXERCISE_LABELS[ex.typeId] ? ` · ${EXERCISE_LABELS[ex.typeId]} (${ex.typeId})` : "";
-    let h = `<div class="ex-block"><h3 class="ex-heading ws-heading">${escapeHtml(sheetLabel)} — Exercise ${ex.number}${escapeHtml(typeName)}</h3>`;
+    const typeName = EXERCISE_LABELS[ex.typeId] || "";
+    let h = `<section class="ex-block key-block"><div class="key-head"><h3 class="ex-heading ws-heading">${escapeHtml(sheetLabel)} · Exercise ${escapeHtml(ex.number)}</h3>${typeName ? `<span class="key-type">${escapeHtml(typeName)}</span>` : ""}</div>`;
     (ex.items || []).forEach((item) => {
-      const words = (item.testsWords || []).join(", ");
-      h += `<p class="ex-item"><span class="item-num">(${item.number})</span> <strong>${escapeHtml(item.answer || "—")}</strong>${words ? ` <span class="ans-tests-tag">[tests: ${escapeHtml(words)}]</span>` : ""}</p>`;
+      // Only show tested words when they add something beyond the answer itself.
+      const words = (item.testsWords || []).filter((w) => String(w).trim().toLowerCase() !== String(item.answer || "").trim().toLowerCase()).join(", ");
+      h += `<p class="ex-item"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text"><strong>${escapeHtml(item.answer || "—")}</strong>${words ? ` <span class="ans-tests-tag">${escapeHtml(words)}</span>` : ""}</span></p>`;
     });
-    return h + `</div>`;
+    return h + `</section>`;
   };
-  body += `<h2 class="practice-heading ws-heading">🚀 Lingo Launcher Practice</h2>`;
+  let body = worksheetSectionHtml("Lingo Launcher practice") + `<div class="key-grid">`;
   (data.lingoLauncher?.practice || []).forEach((ex) => { body += exBlock(ex, "Lingo"); });
-  body += `<h2 class="practice-heading ws-heading">📝 Dictation Exercises</h2>`;
+  body += `</div>` + worksheetSectionHtml("Dictation") + `<div class="key-grid">`;
   (data.dictation?.exercises || []).forEach((ex) => { body += exBlock(ex, "Dictation"); });
+  body += `</div>`;
 
   return `
     <div class="worksheet answer-key-sheet density-${escapeHtml(density)}">
-      <h1 class="ws-title ws-heading">📋 Teacher Answer Key</h1>
-      <p class="ws-subtitle">${escapeHtml(subtitleLine(meta))}</p>
+      ${worksheetHeaderHtml(meta, { title: "Answer Key", kind: "Teacher’s copy", layout })}
       ${body}
     </div>`;
 }
@@ -2757,7 +2867,114 @@ Use generationPlan exactly:
 ${JSON.stringify(plan, null, 2)}`;
 }
 
+/* ── AI provider (DeepSeek or Google Gemini) ─────────────────────────────── */
+const AI_PROVIDERS = {
+  deepseek: { id: "deepseek", name: "DeepSeek" },
+  gemini: { id: "gemini", name: "Google Gemini" },
+};
+let activeProvider = "deepseek";
+
+/** Choose which AI service every generation call uses. */
+function configureAi({ provider } = {}) {
+  if (AI_PROVIDERS[provider]) activeProvider = provider;
+}
+function aiProviderName() {
+  return AI_PROVIDERS[activeProvider].name;
+}
+
+// Used only if the live model list can't be read. Google renames models often.
+const GEMINI_FALLBACK_MODELS = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-flash-latest", "gemini-2.5-flash"];
+const geminiModelCache = new Map();
+
+/**
+ * Ask Google which models this key can use (listing is free and uses no quota), then order
+ * them: newest Flash first, newest Flash-Lite next (larger free daily quota), then fallbacks.
+ */
+async function geminiModelsFor(apiKey) {
+  if (geminiModelCache.has(apiKey)) return geminiModelCache.get(apiKey);
+  let live = [];
+  try {
+    const res = await fetch("/gemini/v1beta/models", { headers: { "x-goog-api-key": apiKey } });
+    if (res.ok) {
+      const json = await res.json();
+      live = (json.models || [])
+        .filter((m) => (m.supportedGenerationMethods || []).includes("generateContent"))
+        .map((m) => String(m.name || "").replace(/^models\//, ""))
+        .filter((id) => /^gemini-[\d.]+-flash(-lite)?$/.test(id));
+    }
+  } catch { /* offline or blocked — use the fallbacks */ }
+  const version = (id) => parseFloat(id.match(/gemini-([\d.]+)/)?.[1] || "0");
+  const byNewest = (a, b) => version(b) - version(a);
+  const flash = live.filter((id) => !id.endsWith("-lite")).sort(byNewest);
+  const lite = live.filter((id) => id.endsWith("-lite")).sort(byNewest);
+  const ordered = [...new Set([...flash.slice(0, 2), ...lite.slice(0, 1), ...GEMINI_FALLBACK_MODELS])];
+  if (live.length) geminiModelCache.set(apiKey, ordered);
+  return ordered;
+}
+
+async function callGemini(apiKey, systemPrompt, userPrompt, retryHint) {
+  const body = JSON.stringify({
+    systemInstruction: { parts: [{ text: systemPrompt }] },
+    contents: [{ role: "user", parts: [{ text: userPrompt + (retryHint ? "\n\nFIX:\n" + retryHint : "") }] }],
+    // maxOutputTokens covers the model's thinking as well as the answer.
+    generationConfig: { responseMimeType: "application/json", temperature: 0.35, maxOutputTokens: 32768 },
+  });
+  let lastErr;
+  for (const model of await geminiModelsFor(apiKey)) {
+    try {
+      const res = await fetch(`/gemini/v1beta/models/${model}:generateContent`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+        body,
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        const err = new Error(friendlyGeminiError(res.status, errText));
+        // Unknown model → next one. Free quotas are per model, so on 429 try the next model too.
+        // A bad key fails the same way on every model.
+        if (res.status !== 404 && res.status !== 429) throw Object.assign(err, { fatal: true });
+        throw err;
+      }
+      const json = await res.json();
+      const cand = json.candidates?.[0];
+      const content = (cand?.content?.parts || []).map((p) => p.text || "").join("").trim();
+      if (!content) {
+        const why = cand?.finishReason || json.promptFeedback?.blockReason;
+        throw new Error(`Gemini returned an empty response${why ? ` (${why})` : ""} — please try again.`);
+      }
+      try {
+        return JSON.parse(content.replace(/^```(?:json)?\s*|\s*```$/g, ""));
+      } catch {
+        throw new Error(cand?.finishReason === "MAX_TOKENS"
+          ? "Gemini's reply was too long and got cut off — try fewer words or exercises."
+          : "Gemini's reply was not valid JSON — please try again.");
+      }
+    } catch (e) {
+      lastErr = e;
+      if (e.fatal) break;
+    }
+  }
+  throw lastErr || new Error("Could not reach Google Gemini — check your internet connection.");
+}
+
+function friendlyGeminiError(status, bodyText) {
+  let detail = "";
+  try {
+    detail = JSON.parse(bodyText)?.error?.message || "";
+  } catch {
+    detail = String(bodyText || "").slice(0, 160);
+  }
+  if (/API key not valid|API_KEY_INVALID/i.test(detail) || status === 401) return "Google rejected the Gemini API key. Check it in Settings.";
+  if (status === 403) return `Google refused the request (403)${detail ? `: ${detail}` : ""}. Check the key's permissions in Google AI Studio.`;
+  if (status === 429) return "The free Gemini quota is used up for now (429). Wait a minute and try again — daily limits reset overnight.";
+  if (status === 502 && detail) return `Could not reach Google Gemini — ${detail}. Check your internet connection.`;
+  if (status >= 500) return `Google Gemini is having trouble right now (${status}). Please try again shortly.`;
+  return `Gemini error ${status}${detail ? `: ${detail}` : ""}`;
+}
+
+/** Every AI call goes through here; routes to the provider chosen in Settings. */
 async function callDeepSeek(apiKey, systemPrompt, userPrompt, retryHint) {
+  if (activeProvider === "gemini") return callGemini(apiKey, systemPrompt, userPrompt, retryHint);
   const url = "http://localhost:8787/chat/completions";
   const messages = [
     { role: "system", content: systemPrompt },
@@ -3489,91 +3706,136 @@ async function fixAllWorksheetIssues(form, apiKey, existingData, validation) {
 
 /* ─── Print export ─── */
 const WORKSHEET_PRINT_CSS = `
-@page { size: A4; margin: 15mm; }
-html, body { margin: 0; padding: 0; background: #fff; color: #000; }
+@page { size: A4; margin: 13mm 14mm 15mm; }
+html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .worksheet {
+  --ink: #111;
+  --ink-2: #444;
+  --ink-3: #777;
+  --rule: #c9c9c9;
+  --tint: #f1f1f1;
+  --tint-2: #e6e6e6;
   background: #fff;
   max-width: 210mm;
   margin: 0 auto;
-  padding: 0;
   font-family: ${WORKSHEET_FONTS.css};
   font-size: 11pt;
-  color: #000;
+  line-height: 1.45;
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
-.worksheet.density-compact { font-size: 9.8pt; }
-.worksheet.density-compact .ws-title { font-size: 17pt; }
-.worksheet.density-compact .ex-heading { font-size: 11pt; }
-.worksheet.density-compact .ex-item { margin: 0.18rem 0; font-size: 9.8pt; line-height: 1.32; }
-.worksheet.density-compact .vocab-table td { padding: 0.25rem 0.45rem; }
-.worksheet.density-compact .vocab-coll, .worksheet.density-compact .vocab-deriv, .worksheet.density-compact .vocab-related { font-size: 9.3pt; }
-.worksheet.density-comfortable { font-size: 12pt; }
-.worksheet.density-comfortable .ex-item { margin: 0.42rem 0; font-size: 12pt; line-height: 1.55; }
-.ws-title { font-size: 20pt; font-weight: 700; margin: 0 0 0.25rem; line-height: 1.2; }
-.ws-heading {
-  font-family: ${WORKSHEET_FONTS.css};
-  color: #1a6b5c;
-  font-weight: 700;
+.worksheet * { box-sizing: border-box; }
+.ws-heading { font-family: ${WORKSHEET_FONTS.display}; }
+
+/* Title band */
+.ws-head { margin: 0 0 5mm; }
+.ws-band {
+  display: flex; align-items: stretch; justify-content: space-between; gap: 0;
+  border: 1pt solid var(--ink); border-radius: 3mm; overflow: hidden;
 }
-.ws-subtitle { margin: 0 0 0.85rem; font-size: 11pt; color: #444; }
-.ws-student-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-  padding: 0.4rem 0.6rem;
-  margin: 0 0 0.9rem;
-  border: 1px solid #888;
-  border-radius: 4px;
-  font-size: 9.8pt;
-  color: #222;
-}
-.vocab-table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; border: 1px solid #000; }
-.vocab-table td {
-  vertical-align: top;
-  width: 50%;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #000;
-}
-.vocab-head { font-weight: normal; margin-bottom: 0.15rem; }
-.vocab-coll, .vocab-deriv, .vocab-related { font-size: 10.5pt; }
-.practice-heading { font-size: 14pt; margin: 1rem 0 0.5rem; }
-.ex-block { margin-bottom: 1.15rem; }
+.ws-band-title { padding: 3mm 5mm 3.2mm 5.4mm; display: flex; flex-direction: column; justify-content: center; min-width: 56%; border-left: 2.2mm solid var(--ink); }
+.ws-school { font: 700 7.4pt/1.2 ${WORKSHEET_FONTS.display}; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 1mm; }
+.ws-title { font-size: 22pt; font-weight: 800; letter-spacing: -0.015em; line-height: 1.05; margin: 0; color: var(--ink); }
+.ws-kind { font: 700 8.4pt/1.3 ${WORKSHEET_FONTS.display}; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-top: 1.2mm; }
+.ws-band-meta { padding: 2.6mm 5mm 2.6mm 6mm; border-left: 0.6pt solid var(--rule); display: flex; flex-direction: column; justify-content: center; align-items: flex-end; text-align: right; position: relative; z-index: 1; }
+.ws-book { font: 700 9.6pt/1.25 ${WORKSHEET_FONTS.display}; }
+.ws-unit { font-size: 9pt; line-height: 1.3; color: var(--ink-2); margin-top: 0.6mm; }
+.ws-detail { font-size: 8pt; color: var(--ink-3); margin-top: 0.6mm; letter-spacing: 0.02em; }
+
+/* Student box */
+.ws-student { display: flex; gap: 5mm; align-items: flex-end; margin-top: 3mm; padding: 2.6mm 4mm 2.4mm; border: 0.8pt solid var(--ink); border-radius: 2.4mm; }
+.ws-field { display: flex; align-items: flex-end; gap: 2mm; font-size: 8.4pt; flex: 0 0 auto; }
+.ws-field.grow { flex: 1; }
+.ws-field b { font: 700 7.6pt ${WORKSHEET_FONTS.display}; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+.ws-field i { display: inline-block; height: 4.6mm; border-bottom: 0.8pt solid var(--ink-3); width: 20mm; }
+.ws-field.grow i { flex: 1; width: auto; }
+.ws-field.score i { width: 8mm; }
+.ws-field em { font-style: normal; color: var(--ink-3); }
+.ws-reuse { margin-top: 2.6mm; padding: 1.8mm 3.4mm; border: 0.8pt dashed var(--ink-3); border-radius: 2mm; font-size: 8.6pt; color: var(--ink-2); text-align: center; }
+
+/* Section labels */
+.ws-section { display: flex; align-items: center; gap: 3mm; margin: 5mm 0 2.6mm; font: 800 8.4pt/1 ${WORKSHEET_FONTS.display}; letter-spacing: 0.16em; text-transform: uppercase; }
+.ws-section::after { content: ""; flex: 1; border-top: 0.8pt solid var(--ink); }
+.ws-head + .ws-section { margin-top: 0; }
+
+/* Vocabulary table */
+.vocab-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 0 0 2mm; border: 1pt solid var(--ink); border-radius: 2.6mm; overflow: hidden; table-layout: fixed; }
+.vocab-table td { vertical-align: top; width: 50%; padding: 2.2mm 3.2mm 2.4mm; border-bottom: 0.6pt solid var(--rule); }
+.vocab-table td + td { border-left: 0.6pt solid var(--rule); }
+.vocab-table tr:last-child td { border-bottom: 0; }
+.vocab-table tr { break-inside: avoid; page-break-inside: avoid; }
+.v-top { display: flex; align-items: baseline; gap: 1.6mm; flex-wrap: wrap; }
+.v-num { flex: none; align-self: center; display: inline-flex; align-items: center; justify-content: center; min-width: 4.6mm; height: 4.6mm; padding: 0 1mm; border-radius: 2.3mm; border: 0.8pt solid var(--ink); color: var(--ink); font: 800 7.4pt/1 ${WORKSHEET_FONTS.display}; }
+.v-word { font: 800 11.6pt/1.2 ${WORKSHEET_FONTS.display}; letter-spacing: -0.005em; }
+.v-pos { font-size: 8.6pt; font-style: italic; color: var(--ink-3); }
+.v-emoji { font-size: 10pt; margin-left: auto; display: inline-flex; gap: 1mm; align-items: center; }
+.pic { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: -0.28em; color: var(--ink); }
+.v-emoji .pic { width: 7.5mm; height: 7.5mm; }
+.item-text .pic { width: 1.6em; height: 1.6em; vertical-align: -0.45em; margin: 0 0.1em; }
+.v-greek { font-size: 10.4pt; font-weight: 600; margin: 0.4mm 0 0 6.2mm; }
+.v-coll { font-size: 9.4pt; font-style: italic; color: var(--ink-2); margin: 0.6mm 0 0 6.2mm; }
+.v-coll::before { content: "“"; }
+.v-coll::after { content: "”"; }
+.v-rel { font-size: 9pt; color: var(--ink-2); margin: 0.4mm 0 0 6.2mm; }
+.v-rel b { display: inline-block; width: 4mm; font-weight: 800; color: var(--ink); }
+.vocab-empty { background: transparent !important; }
+
+/* Exercises */
+.ex-block { margin: 0 0 4.6mm; break-inside: avoid-page; }
 .ex-block:last-child { margin-bottom: 0; }
-.ex-heading { font-size: 12.5pt; font-weight: 700; margin: 0 0 0.2rem; color: #1a6b5c; }
-.ex-instruction {
-  margin: 0 0 0.4rem;
-  font-size: 8.5pt;
-  font-weight: 400;
-  color: #777;
-  line-height: 1.35;
-}
-.ex-item { margin: 0.3rem 0; font-size: 11pt; color: #000; line-height: 1.45; page-break-inside: avoid; }
-.item-num { font-weight: bold; margin-right: 0.25rem; }
-.stem-word { font-weight: 700; }
-.d08-wrong { font-weight: 700; }
-.word-list { margin: 0.35rem 0 0.5rem; font-weight: bold; }
-.match-defs { margin: 0.35rem 0 0.75rem; }
-.match-defs-heading { font-weight: 600; font-size: 10pt; margin: 0 0 0.25rem; }
-.match-def-line { margin: 0.15rem 0; font-size: 10.5pt; line-height: 1.35; }
-.word-bank { width: 100%; border-collapse: collapse; margin: 0.35rem 0 0.5rem; table-layout: fixed; }
-.word-bank td {
-  border: 1px solid #999;
-  padding: 0.2rem 0.35rem;
-  text-align: center;
-  font-weight: bold;
-  font-size: 9pt;
-  word-break: break-word;
-}
-.ans-tests-tag { color: #666; font-size: 9pt; margin-left: 0.35rem; }
+.ex-head { display: flex; align-items: center; gap: 3.2mm; margin-bottom: 2mm; break-after: avoid; page-break-after: avoid; }
+.ex-num { flex: none; display: inline-flex; align-items: center; justify-content: center; height: 7mm; min-width: 25mm; padding: 0 2.8mm; border-radius: 2.6mm; border: 1.2pt solid var(--ink); color: var(--ink); font: 800 9.6pt/1 ${WORKSHEET_FONTS.display}; letter-spacing: 0.01em; white-space: nowrap; }
+.ex-title { flex: 1; min-width: 0; }
+.ex-instruction { font: 700 11pt/1.35 ${WORKSHEET_FONTS.display}; margin: 0; color: var(--ink); }
+.key-head .ex-heading { font-size: 8pt; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin: 0; line-height: 1.2; }
+.ex-score { flex: none; display: inline-flex; align-items: flex-end; gap: 1.2mm; margin-top: 0.8mm; padding: 1.2mm 2.4mm; border: 0.8pt solid var(--ink); border-radius: 2mm; font: 700 9pt/1 ${WORKSHEET_FONTS.display}; }
+.ex-score i { display: inline-block; width: 6mm; border-bottom: 0.8pt solid var(--ink-3); height: 3.6mm; }
+.ex-item { display: flex; gap: 2.6mm; margin: 0 0 1.5mm; padding-left: 0.6mm; font-size: 11pt; line-height: 1.7; break-inside: avoid; page-break-inside: avoid; }
+.item-num { flex: none; width: 5.4mm; height: 5.4mm; margin-top: 0.7mm; display: inline-flex; align-items: center; justify-content: center; border: 0.8pt solid var(--ink); border-radius: 50%; font: 700 8pt/1 ${WORKSHEET_FONTS.display}; }
+.item-text { flex: 1; min-width: 0; }
+.stem-word { font-weight: 800; letter-spacing: 0.04em; }
+.d08-wrong { font-weight: 800; }
+.stem-header { font-size: 9.4pt; color: var(--ink-2); margin: 0 0 2mm 9.8mm; }
+
+/* Word bank / word list */
+.word-bank, .word-list { display: flex; flex-wrap: wrap; gap: 1.6mm 2mm; margin: 0 0 2.6mm 9.8mm; padding: 2mm 2.6mm; border: 0.8pt solid var(--ink); border-radius: 2.4mm; }
+.word-bank span, .word-list span { display: inline-block; padding: 0.5mm 2.4mm; border-radius: 1.6mm; border: 0.6pt solid var(--rule); font: 700 9.6pt/1.3 ${WORKSHEET_FONTS.display}; }
+.match-defs { margin: 0 0 2.6mm 9.8mm; padding: 2mm 3mm; border: 0.8pt solid var(--ink); border-radius: 2.4mm; }
+.match-def-line { display: flex; gap: 2.4mm; margin: 0.8mm 0; font-size: 10pt; line-height: 1.4; }
+.match-def-line b { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 5mm; height: 5mm; border-radius: 1.4mm; border: 0.8pt solid var(--ink); color: var(--ink); font: 800 8pt/1 ${WORKSHEET_FONTS.display}; margin-top: 0.2mm; }
+
+/* Answer key */
+.key-grid { columns: 2; column-gap: 7mm; }
+.key-block { break-inside: avoid; margin-bottom: 4mm; padding: 2.6mm 3.2mm; border: 0.8pt solid var(--rule); border-radius: 2.4mm; }
+.key-head { display: flex; align-items: center; gap: 2.2mm; margin-bottom: 1.6mm; flex-wrap: wrap; }
+.key-head .ex-num { width: 5.6mm; height: 5.6mm; font-size: 8pt; }
+.key-head .ex-heading { color: var(--ink); }
+.key-type { font-size: 8pt; color: var(--ink-3); width: 100%; margin-top: -1mm; }
+.key-block .ex-item { font-size: 10pt; line-height: 1.45; margin-bottom: 0.8mm; }
+.key-block .item-num { width: 4.6mm; height: 4.6mm; margin-top: 0.4mm; font-size: 7pt; }
+.ans-tests-tag { color: var(--ink-3); font-size: 8.4pt; margin-left: 1.6mm; }
+
+/* Density */
+.worksheet.density-compact { font-size: 10pt; }
+.worksheet.density-compact .ex-item { font-size: 10pt; line-height: 1.45; margin-bottom: 0.6mm; }
+.worksheet.density-compact .ex-block { margin-bottom: 3.4mm; }
+.worksheet.density-compact .vocab-table td { padding: 1.4mm 2.6mm 1.6mm; }
+.worksheet.density-comfortable .ex-item { font-size: 12pt; line-height: 2; margin-bottom: 2.4mm; }
+.worksheet.density-comfortable .ex-block { margin-bottom: 6mm; }
+.worksheet.density-comfortable .vocab-table td { padding: 3mm 3.6mm; }
+
 .teacher-ans-pill { display: none; }
 `;
 
-function buildWorksheetPrintDocument(html, title) {
+/** Standalone print/PDF document. `fontCss` inlines the worksheet fonts (see js/fonts.js). */
+function buildWorksheetPrintDocument(html, title, fontCss = "") {
   return `<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
 <title>${escapeHtml(title)}</title>
-<style>${WORKSHEET_PRINT_CSS}</style>
+<style>${fontCss}
+${WORKSHEET_PRINT_CSS}</style>
 </head><body>${html}</body></html>`;
 }
 
@@ -3586,7 +3848,7 @@ function openWorksheetPrint(data, sheet, options = {}) {
     : sheet === "answer"
       ? renderAnswerKey(data, renderOpts)
       : renderDictation(data, renderOpts);
-  const printDoc = buildWorksheetPrintDocument(html, title);
+  const printDoc = buildWorksheetPrintDocument(html, title, options.fontCss || "");
 
   let iframe = document.getElementById("worksheet-print-frame");
   if (!iframe) {
@@ -3606,8 +3868,11 @@ function openWorksheetPrint(data, sheet, options = {}) {
   doc.close();
 
   const runPrint = () => {
-    win.focus();
-    win.print();
+    // Wait for the embedded fonts so the first print never falls back to system fonts.
+    Promise.resolve(doc.fonts?.ready).catch(() => {}).then(() => {
+      win.focus();
+      win.print();
+    });
   };
   if (doc.readyState === "complete") {
     setTimeout(runPrint, 150);
@@ -3625,173 +3890,277 @@ async function loadDocxLibs() {
 }
 
 
-async function buildLingoDocx(data) {
-  const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun, WidthType, BorderStyle } = await loadDocxLibs();
-  const W = (text, opts = {}) => wTextRun(TextRun, text, opts);
-  const meta = data.meta || {};
-  const cellBorders = {
-    top: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-    bottom: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-    left: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
-    right: { style: BorderStyle.SINGLE, size: 1, color: "000000" },
+
+
+
+/* ── Word (.docx) worksheets — same design as the PDF, built from Word-native parts ── */
+const MM = 56.7; // twips per millimetre
+
+async function docxKit(meta, sheet) {
+  const d = await loadDocxLibs();
+  const F = WORKSHEET_FONTS;
+  const layout = resolveWorksheetLayout(sheet, meta);
+  const INK = "111111";
+  const GREY = "6F6F6F";
+  const RULE = "C9C9C9";
+  const TINT = "F1F1F1";
+  const none = { style: d.BorderStyle.NONE, size: 0, color: "FFFFFF" };
+  const line = (size, color = INK, style = d.BorderStyle.SINGLE) => ({ style, size, color });
+
+  const run = (text, o = {}) => new d.TextRun({
+    text: String(text ?? ""),
+    font: o.display ? F.docxDisplay : F.docx,
+    size: o.size || 22,
+    bold: o.bold,
+    italics: o.italics,
+    color: o.color,
+    allCaps: o.caps,
+    characterSpacing: o.spacing,
+    border: o.boxed ? { style: d.BorderStyle.SINGLE, size: 6, color: INK, space: 1 } : undefined,
+  });
+  // A number in an outlined box — no filled areas anywhere, to save toner.
+  const badge = (n, size = 18) => run(` ${n} `, { display: true, bold: true, size, color: INK, boxed: true });
+  const para = (children, o = {}) => new d.Paragraph({ children, ...o });
+
+  // Text with its emojis drawn in the chosen picture style (PNG copies prepared by the app in meta.pictures).
+  const pics = meta.pictures || {};
+  const toBytes = (b64) => (typeof Buffer !== "undefined" ? Buffer.from(b64, "base64") : Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
+  const textRuns = (text, o = {}) => {
+    const style = layout.pictureStyle || "emoji";
+    if (style === "emoji") return [run(text, o)];
+    const out = [];
+    let buf = "";
+    for (const p of splitEmojiText(text)) {
+      if (!p.emoji) { buf += p.text; continue; }
+      if (buf) { out.push(run(buf, o)); buf = ""; }
+      if (style === "none") continue;
+      const key = pictureKey(p.text);
+      const b64 = pics[key] || pics[key.split("-")[0]];
+      if (b64) out.push(new d.ImageRun({ data: toBytes(b64), transformation: { width: o.pic || 18, height: o.pic || 18 } }));
+    }
+    if (buf.trim()) out.push(run(buf, o));
+    return out;
   };
-  const children = [
-    new Paragraph({ children: [W("🚀 Lingo Launcher", { bold: true, size: 40, color: "1A6B5C" })] }),
-    new Paragraph({ children: [W(subtitleLine(meta), { size: 24 })] }),
-  ];
-  if (meta.includeStudentHeader) {
-    children.push(new Paragraph({
-      children: [W(`Name: ___________________________    Date: _______________    Class: ${meta.classLabel || "_______"}    Score: ____ / ____`, { size: 20, color: "333333" })],
-    }));
+
+  function header(title, kind) {
+    const m = worksheetMetaParts(meta);
+    const band = new d.Table({
+      width: { size: 100, type: d.WidthType.PERCENTAGE },
+      borders: { top: line(8), bottom: line(8), left: line(8), right: line(8), insideHorizontal: none, insideVertical: line(4, RULE) },
+      rows: [new d.TableRow({
+        children: [
+          new d.TableCell({
+            width: { size: 60, type: d.WidthType.PERCENTAGE },
+            borders: { left: line(48) },
+            margins: { top: 3 * MM, bottom: 3 * MM, left: 5 * MM, right: 4 * MM },
+            verticalAlign: d.VerticalAlign.CENTER,
+            children: [
+              ...(layout.schoolName ? [para([run(layout.schoolName, { display: true, bold: true, size: 15, color: "444444", caps: true, spacing: 20 })])] : []),
+              para([run(title, { display: true, bold: true, size: 44, color: INK })]),
+              para([run(kind, { display: true, bold: true, size: 16, color: GREY, caps: true, spacing: 24 })]),
+            ],
+          }),
+          new d.TableCell({
+            width: { size: 40, type: d.WidthType.PERCENTAGE },
+            margins: { top: 2.4 * MM, bottom: 2.4 * MM, left: 4 * MM, right: 5 * MM },
+            verticalAlign: d.VerticalAlign.CENTER,
+            children: [
+              para([run(m.book, { display: true, bold: true, size: 19 })], { alignment: d.AlignmentType.RIGHT }),
+              ...(m.unitLine ? [para([run(m.unitLine, { size: 18, color: "444444" })], { alignment: d.AlignmentType.RIGHT })] : []),
+              ...(m.detail ? [para([run(m.detail, { size: 16, color: GREY })], { alignment: d.AlignmentType.RIGHT })] : []),
+            ],
+          }),
+        ],
+      })],
+    });
+    const out = [band];
+    if (layout.studentHeader) {
+      const field = (label, blank) => [run(`${label} `, { display: true, bold: true, size: 15, color: "444444", caps: true, spacing: 16 }), run(blank, { size: 18, color: "8A8A8A" })];
+      out.push(para([
+        ...field("Name", "_______________________________"), run("    "),
+        ...field("Class", "__________"), run("    "),
+        ...field("Date", "__________"), run("    "),
+        ...field("Score", "____ / ____"),
+      ], {
+        spacing: { before: 3 * MM },
+        border: { top: line(6), bottom: line(6), left: line(6), right: line(6) },
+        indent: { left: 2 * MM, right: 2 * MM },
+      }));
+    }
+    if (layout.reuseNote) {
+      out.push(para([run("✎ This sheet is shared — please don’t write on it. Write your answers in your notebook.", { size: 17, color: "444444" })], {
+        alignment: d.AlignmentType.CENTER,
+        spacing: { before: 2.4 * MM },
+        border: { top: line(4, "8A8A8A", d.BorderStyle.DASHED), bottom: line(4, "8A8A8A", d.BorderStyle.DASHED), left: line(4, "8A8A8A", d.BorderStyle.DASHED), right: line(4, "8A8A8A", d.BorderStyle.DASHED) },
+      }));
+    }
+    return out;
   }
-  children.push(new Paragraph({ text: "" }));
 
-  const vocab = normalizeVocabulary(data.lingoLauncher.vocabulary);
-  const vocabToCell = (v) => {
-    if (!v) return new TableCell({ borders: cellBorders, children: [new Paragraph("")] });
-    const lines = [
-      `${v.number}. ${v.english}${v.type?.trim() ? ` (${v.type.trim()})` : ""}${v.greek ? " - " + v.greek : ""} ${v.emojis || ""}`.trim(),
-      v.collocation || "",
-    ];
-    normalizeDerivativesList(v.derivatives).forEach((d) => {
-      const line = formatDerivativeLine(d);
-      if (line) lines.push(`> ${line}`);
-    });
-    const syn = normalizeWordList(v.synonyms);
-    if (syn.length) lines.push(`≈ ${syn.join(", ")}`);
-    const ant = normalizeAntonymList(v.antonyms);
-    if (ant.length) lines.push(`≠ ${ant.map(formatAntonymLine).join(", ")}`);
-    return new TableCell({
-      borders: cellBorders,
-      children: lines.filter(Boolean).map((l) => new Paragraph({ children: [W(l, { size: 22 })] })),
-    });
-  };
-  const tableRows = buildVocabTablePairs(vocab).map(
-    ({ left, right }) => new TableRow({ children: [vocabToCell(left), vocabToCell(right)] })
-  );
-  children.push(new Table({
-    rows: tableRows,
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    borders: cellBorders,
-  }));
-  children.push(new Paragraph({ children: [W("Let's Practice! ✍️", { bold: true, size: 28, color: "1A6B5C" })] }));
-
-  data.lingoLauncher.practice.forEach((ex) => {
-    children.push(new Paragraph({ children: [W(`Exercise ${ex.number}`, { bold: true, size: 26, color: "1A6B5C" })] }));
-    const instr = getStudentExerciseInstruction(ex);
-    if (instr) {
-      children.push(new Paragraph({ children: [W(instr, { size: 17, color: "777777" })] }));
-    }
-    if (ex.wordList?.length) {
-      children.push(new Paragraph({ children: [W(ex.wordList.join("  ·  "), { bold: true, size: 22 })] }));
-    }
-    ex.items.forEach((item) => {
-      children.push(new Paragraph({ children: [W(`(${item.number}) ${item.prompt}`, { size: 22 })] }));
-    });
-    children.push(new Paragraph({ text: "" }));
+  const section = (label) => para([run(label, { display: true, bold: true, size: 17, caps: true, spacing: 30 })], {
+    spacing: { before: 5 * MM, after: 2.4 * MM },
+    border: { bottom: line(10) },
+    keepNext: true,
   });
 
-  const doc = new Document({ styles: worksheetDocxStyles(), sections: [{ children }] });
-  return Packer.toBlob(doc);
+  function exerciseHead(ex, label = "Exercise") {
+    const n = (ex.items || []).length;
+    const instr = getStudentExerciseInstruction(ex);
+    // "Exercise N" in an outlined box, then its instruction as the heading.
+    const head = [badge(`${label} ${ex.number}`, 19), ...(instr ? [new d.TextRun({ text: "\t" }), run(instr, { display: true, bold: true, size: 22 })] : [])];
+    if (layout.scoreBoxes && n) head.push(new d.TextRun({ text: "\t" }), run(`____ / ${n}`, { display: true, bold: true, size: 18 }));
+    return [para(head, {
+      keepNext: true,
+      spacing: { before: 3 * MM, after: 1.6 * MM },
+      indent: { left: 27 * MM, hanging: 27 * MM },
+      tabStops: [{ type: d.TabStopType.LEFT, position: 27 * MM }, { type: d.TabStopType.RIGHT, position: 180 * MM }],
+    })];
+  }
+
+  const chipsBox = (words) => new d.Table({
+    width: { size: 100, type: d.WidthType.PERCENTAGE },
+    borders: { top: line(6), bottom: line(6), left: line(6), right: line(6), insideHorizontal: none, insideVertical: none },
+    rows: [new d.TableRow({
+      children: [new d.TableCell({
+        margins: { top: 1.6 * MM, bottom: 1.6 * MM, left: 3 * MM, right: 3 * MM },
+        children: [para(words.flatMap((w, i) => [...(i ? [run("   •   ", { size: 18, color: GREY })] : []), run(w, { display: true, bold: true, size: 20 })]))],
+      })],
+    })],
+  });
+
+  const item = (n, runs) => para([run(`${n}.`, { display: true, bold: true, size: 19 }), new d.TextRun({ text: "\t" }), ...runs], {
+    tabStops: [{ type: d.TabStopType.LEFT, position: 8 * MM }],
+    indent: { left: 8 * MM, hanging: 8 * MM },
+    spacing: { after: 1.4 * MM, line: meta.density === "compact" ? 276 : meta.density === "comfortable" ? 420 : 360 },
+    keepLines: true,
+  });
+
+  function footer() {
+    if (!layout.footer) return undefined;
+    const m = worksheetMetaParts(meta);
+    const left = [m.book, m.unitLine].filter(Boolean).join(" · ");
+    return new d.Footer({
+      children: [para([
+        run(left, { size: 15, color: GREY }),
+        new d.TextRun({ text: "\t" }),
+        new d.TextRun({ children: ["Page ", d.PageNumber.CURRENT, " of ", d.PageNumber.TOTAL_PAGES], font: F.docx, size: 15, color: GREY }),
+      ], { tabStops: [{ type: d.TabStopType.RIGHT, position: 182 * MM }], border: { top: line(4, RULE) } })],
+    });
+  }
+
+  function document(children) {
+    const ft = footer();
+    return new d.Document({
+      styles: worksheetDocxStyles(),
+      sections: [{
+        properties: { page: { margin: { top: 13 * MM, bottom: 15 * MM, left: 14 * MM, right: 14 * MM } } },
+        ...(ft ? { footers: { default: ft } } : {}),
+        children,
+      }],
+    });
+  }
+
+  return { d, run, textRuns, badge, para, header, section, exerciseHead, chipsBox, item, document, line, none, INK, GREY, RULE, TINT, layout };
+}
+
+async function buildLingoDocx(data) {
+  const meta = data.meta || {};
+  const k = await docxKit(meta, "lingo");
+  const { d, run, textRuns, badge, para } = k;
+  const vocab = normalizeVocabulary(data.lingoLauncher.vocabulary);
+  const children = [...k.header("Lingo Launcher", "Vocabulary study sheet"), k.section(`Words to learn · ${vocab.length}`)];
+
+  const cell = (v, shaded) => {
+    const lines = [];
+    if (v) {
+      const top = [badge(v.number, 16), run(`  ${v.english}`, { display: true, bold: true, size: 23 })];
+      if (v.type?.trim()) top.push(run(`  ${v.type.trim()}`, { italics: true, size: 17, color: k.GREY }));
+      if (v.emojis) top.push(run("  "), ...textRuns(v.emojis, { size: 19, pic: 22 }));
+      lines.push(para(top));
+      const sub = (runs) => para(runs, { indent: { left: 6 * MM } });
+      if (v.greek) lines.push(sub([run(v.greek, { bold: true, size: 20 })]));
+      if (v.collocation) lines.push(sub([run(`“${v.collocation}”`, { italics: true, size: 19, color: "444444" })]));
+      normalizeDerivativesList(v.derivatives).forEach((dv) => {
+        const t = formatDerivativeLine(dv);
+        if (t) lines.push(sub([run("→  ", { bold: true, size: 18 }), run(t, { size: 18, color: "444444" })]));
+      });
+      const syn = normalizeWordList(v.synonyms);
+      if (syn.length) lines.push(sub([run("≈  ", { bold: true, size: 18 }), run(syn.join(", "), { size: 18, color: "444444" })]));
+      const ant = normalizeAntonymList(v.antonyms);
+      if (ant.length) lines.push(sub([run("≠  ", { bold: true, size: 18 }), run(ant.map(formatAntonymLine).join(", "), { size: 18, color: "444444" })]));
+    }
+    return new d.TableCell({
+      width: { size: 50, type: d.WidthType.PERCENTAGE },
+      margins: { top: 2 * MM, bottom: 2 * MM, left: 3 * MM, right: 3 * MM },
+      children: lines.length ? lines : [para([])],
+    });
+  };
+  children.push(new d.Table({
+    width: { size: 100, type: d.WidthType.PERCENTAGE },
+    borders: { top: k.line(8), bottom: k.line(8), left: k.line(8), right: k.line(8), insideHorizontal: k.line(4, k.RULE), insideVertical: k.line(4, k.RULE) },
+    rows: buildVocabTablePairs(vocab).map(({ left, right }, i) => new d.TableRow({ cantSplit: true, children: [cell(left, i % 2 === 1), cell(right, i % 2 === 1)] })),
+  }));
+
+  children.push(k.section("Let’s practise"));
+  data.lingoLauncher.practice.forEach((ex) => {
+    children.push(...k.exerciseHead(ex));
+    if (ex.wordList?.length) children.push(k.chipsBox(ex.wordList), para([], { spacing: { after: 1 * MM } }));
+    ex.items.forEach((it) => children.push(k.item(it.number, textRuns(it.prompt, { pic: 20 }))));
+  });
+  return d.Packer.toBlob(k.document(children));
 }
 
 async function buildDictationDocx(data) {
-  const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun, WidthType } = await loadDocxLibs();
-  const W = (text, opts = {}) => wTextRun(TextRun, text, opts);
   const meta = data.meta || {};
-  const children = [
-    new Paragraph({ children: [W("📝 Dictation", { bold: true, size: 40, color: "1A6B5C" })] }),
-    new Paragraph({ children: [W(subtitleLine(meta), { size: 24 })] }),
-  ];
-  if (meta.includeStudentHeader) {
-    children.push(new Paragraph({
-      children: [W(`Name: ___________________________    Date: _______________    Class: ${meta.classLabel || "_______"}    Score: ____ / ____`, { size: 20, color: "333333" })],
-    }));
-  }
-  children.push(new Paragraph({ text: "" }));
-
+  const k = await docxKit(meta, "dictation");
+  const { d, run, para } = k;
+  const children = [...k.header("Dictation", "Vocabulary test")];
   data.dictation.exercises.forEach((ex) => {
-    children.push(new Paragraph({ children: [W(`Exercise ${ex.number}`, { bold: true, size: 26, color: "1A6B5C" })] }));
-    const instr = getStudentExerciseInstruction(ex);
-    if (instr) {
-      children.push(new Paragraph({ children: [W(instr, { size: 17, color: "777777" })] }));
-    }
+    children.push(...k.exerciseHead(ex));
     if (ex.wordBank?.length) {
       if (ex.typeId === "D13") {
-        children.push(new Paragraph({ children: [W("Definitions:", { bold: true, size: 22 })] }));
         ex.wordBank.forEach((entry) => {
-          children.push(new Paragraph({ children: [W(entry, { size: 22 })] }));
+          const m = String(entry).match(/^([A-Z])\.\s*(.*)$/i);
+          children.push(para(m ? [k.badge(m[1].toUpperCase(), 16), run(`  ${m[2]}`, { size: 20 })] : [run(entry, { size: 20 })], { indent: { left: 8 * MM }, spacing: { after: 0.8 * MM } }));
         });
+        children.push(para([], { spacing: { after: 1 * MM } }));
       } else {
-        const rows = chunkWordBank(ex.wordBank);
-        children.push(new Table({
-          rows: rows.map((row) => new TableRow({
-            children: row.map((w) => new TableCell({ children: [new Paragraph({ children: [W(w)] })] })),
-          })),
-          width: { size: 100, type: WidthType.PERCENTAGE },
-        }));
+        children.push(k.chipsBox(ex.wordBank), para([], { spacing: { after: 1 * MM } }));
       }
     }
-    ex.items.forEach((item) => {
-      const line = formatDictationItemPlain(item, ex.typeId);
-      if (ex.typeId === "D02" && item.stem) {
-        children.push(new Paragraph({
-          children: [
-            W(`(${item.number}) ${item.prompt}  `, { size: 22 }),
-            W(String(item.stem).toUpperCase(), { bold: true, size: 22 }),
-          ],
-        }));
-      } else if (ex.typeId === "D08" && /\[[^\]]+\]/.test(item.prompt || "")) {
-        // Bold the [wrong word], matching the on-screen / PDF worksheet.
-        const runs = [W(`(${item.number}) `, { size: 22 })];
-        String(item.prompt).split(/(\[[^\]]+\])/).filter(Boolean).forEach((part) => {
-          runs.push(W(part, { size: 22, bold: /^\[[^\]]+\]$/.test(part) }));
-        });
-        children.push(new Paragraph({ children: runs }));
+    if (ex.stemHeader) children.push(para([run(ex.stemHeader, { size: 19, color: "444444" })], { indent: { left: 8 * MM } }));
+    ex.items.forEach((it) => {
+      let runs;
+      if (ex.typeId === "D02" && it.stem) {
+        runs = [run(`${it.prompt}  `), run(String(it.stem).toUpperCase(), { display: true, bold: true })];
+      } else if (ex.typeId === "D08" && /\[[^\]]+\]/.test(it.prompt || "")) {
+        runs = String(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
       } else {
-        children.push(new Paragraph({ children: [W(`(${item.number}) ${line}`, { size: 22 })] }));
+        runs = k.textRuns(formatDictationItemPlain(it, ex.typeId), { pic: 26 });
       }
+      children.push(k.item(it.number, runs));
     });
-    children.push(new Paragraph({ text: "" }));
   });
-
-  const doc = new Document({ styles: worksheetDocxStyles(), sections: [{ children }] });
-  return Packer.toBlob(doc);
+  return d.Packer.toBlob(k.document(children));
 }
 
 async function buildAnswerKeyDocx(data) {
-  const { Document, Packer, Paragraph, TextRun } = await loadDocxLibs();
-  const W = (text, opts = {}) => wTextRun(TextRun, text, opts);
-  const meta = data.meta;
-  const children = [
-    new Paragraph({ children: [W("📋 Answer Key", { bold: true, size: 32 })] }),
-    new Paragraph({ children: [W(subtitleLine(meta), { size: 24 })] }),
-    new Paragraph({ text: "" }),
-  ];
-
-  children.push(new Paragraph({ children: [W("— Lingo Launcher —", { bold: true })] }));
-  data.lingoLauncher.practice.forEach((ex) => {
-    children.push(new Paragraph({ children: [W(`Exercise ${ex.number}`, { bold: true })] }));
-    ex.items.forEach((item) => {
-      children.push(new Paragraph({
-        children: [W(`(${item.number}) ${item.answer}`)],
-      }));
+  const meta = data.meta || {};
+  const k = await docxKit(meta, "answer");
+  const { d, run, badge, para } = k;
+  const children = [...k.header("Answer Key", "Teacher’s copy")];
+  const block = (ex, label) => {
+    children.push(para([run(`${label} · Exercise ${ex.number}`, { display: true, bold: true, size: 18, caps: true, spacing: 16 }), ...(EXERCISE_LABELS[ex.typeId] ? [run(`   ${EXERCISE_LABELS[ex.typeId]}`, { size: 16, color: k.GREY })] : [])], { keepNext: true, spacing: { before: 2.6 * MM, after: 1 * MM } }));
+    (ex.items || []).forEach((it) => {
+      const words = (it.testsWords || []).filter((w) => String(w).trim().toLowerCase() !== String(it.answer || "").trim().toLowerCase()).join(", ");
+      children.push(k.item(it.number, [run(it.answer || "—", { bold: true, size: 20 }), ...(words ? [run(`   ${words}`, { size: 16, color: k.GREY })] : [])]));
     });
-  });
-
-  children.push(new Paragraph({ children: [W("— Dictation —", { bold: true })] }));
-  data.dictation.exercises.forEach((ex) => {
-    children.push(new Paragraph({ children: [W(`Exercise ${ex.number}`, { bold: true })] }));
-    ex.items.forEach((item) => {
-      const words = (item.testsWords || []).join(", ");
-      children.push(new Paragraph({
-        children: [W(`(${item.number}) ${item.answer}${words ? "  [tests: " + words + "]" : ""}`)],
-      }));
-    });
-  });
-
-  const doc = new Document({ styles: worksheetDocxStyles(), sections: [{ children }] });
-  return Packer.toBlob(doc);
+  };
+  children.push(k.section("Lingo Launcher practice"));
+  (data.lingoLauncher?.practice || []).forEach((ex) => block(ex, "Lingo"));
+  children.push(k.section("Dictation"));
+  (data.dictation?.exercises || []).forEach((ex) => block(ex, "Dictation"));
+  return d.Packer.toBlob(k.document(children));
 }
 
 function downloadBlob(blob, filename) {
@@ -4091,174 +4460,16 @@ function parseBulkVocabularyText(rawText) {
   return rows;
 }
 
-/**
- * Ready-to-use Sample Unit (Cambridge Primary Paths 3 · Unit 6, p. 118–120 · C Senior)
- * so teachers can explore the entire app, live editing, classroom mode, and exports immediately.
- */
-function getSampleUnitData() {
-  const vocabRows = [
-    {
-      english: "stay in shape", type: "phr. v.", greek: "διατηρούμαι σε φόρμα", emojis: "🏃💪",
-      collocation: "exercise to stay in shape", derivatives: "", synonyms: "keep fit", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: true, antonyms: false },
-    },
-    {
-      english: "compete", type: "v.", greek: "συναγωνίζομαι / αγωνίζομαι", emojis: "🏁🏆",
-      collocation: "compete for a gold medal", derivatives: "competition (n.) - αγώνας / διαγωνισμός", synonyms: "", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: true, synonyms: false, antonyms: false },
-    },
-    {
-      english: "sequence", type: "n.", greek: "σειρά / αλληλουχία", emojis: "🔢",
-      collocation: "follow a logical sequence", derivatives: "", synonyms: "order", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: true, antonyms: false },
-    },
-    {
-      english: "inspiration", type: "n.", greek: "έμπνευση", emojis: "✨💡",
-      collocation: "be a great inspiration", derivatives: "inspiring (adj.) - εμπνευστικός, inspired (adj.) - εμπνευσμένος", synonyms: "", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: true, synonyms: false, antonyms: false },
-    },
-    {
-      english: "introduce", type: "v.", greek: "συστήνω / παρουσιάζω", emojis: "👋🤝",
-      collocation: "introduce my new coach", derivatives: "", synonyms: "", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: false, antonyms: false },
-    },
-    {
-      english: "disability", type: "n.", greek: "αναπηρία", emojis: "♿",
-      collocation: "overcome a physical disability", derivatives: "disabled (adj.) - ανάπηρος / με αναπηρία", synonyms: "", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: true, synonyms: false, antonyms: false },
-    },
-    {
-      english: "limb", type: "n.", greek: "άκρο σώματος (χέρι / πόδι)", emojis: "🦾",
-      collocation: "an artificial limb", derivatives: "", synonyms: "", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: false, antonyms: false },
-    },
-    {
-      english: "track", type: "n.", greek: "στίβος / πίστα αγώνων", emojis: "🏟️",
-      collocation: "run around the track", derivatives: "", synonyms: "", antonyms: "",
-      fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: false, antonyms: false },
-    },
-  ];
-
-  const form = {
-    bookTitle: "Cambridge Primary Paths 3",
-    unit: "6",
-    pageRange: "118–120",
-    classProfile: "C_SENIOR",
-    inputMode: "structured",
-    vocabRows,
-    freeform: "",
-  };
-
-  const plan = {
-    dictationExerciseCount: 4,
-    dictationTypes: ["D01", "D02", "D03", "D06"],
-    lingoTypes: ["L01", "L02"],
-    lingoPracticeCount: 2,
-    signature: "D01+D02+D03+D06|L01+L02",
-    exerciseMode: "custom",
-  };
-
-  const rawData = {
-    meta: buildWorksheetMeta(form, "C_SENIOR"),
-    generationPlan: plan,
-    lingoLauncher: {
-      vocabulary: vocabRows.map((r, i) => ({
-        number: i + 1,
-        english: r.english,
-        type: r.type,
-        greek: r.greek,
-        emojis: r.emojis,
-        collocation: r.collocation,
-        derivatives: normalizeDerivativesList(r.derivatives),
-        synonyms: normalizeWordList(r.synonyms),
-        antonyms: normalizeAntonymList(r.antonyms),
-      })),
-      practice: [
-        {
-          number: 1,
-          typeId: "L01",
-          instruction: "",
-          wordList: ["sequence", "track", "stay in shape", "compete"],
-          items: [
-            { number: 1, prompt: "You need to run four times around the ________________ to finish the mile.", answer: "track" },
-            { number: 2, prompt: "I try to eat healthy food and go swimming to ________________.", answer: "stay in shape" },
-            { number: 3, prompt: "Every summer, young swimmers ________________ in the national finals.", answer: "compete" },
-            { number: 4, prompt: "The lights on the board flashed in a special ________________.", answer: "sequence" },
-          ],
-        },
-        {
-          number: 2,
-          typeId: "L02",
-          instruction: "",
-          wordList: [],
-          items: [
-            { number: 1, prompt: "My coach is a great (track / inspiration) to everyone on our team.", answer: "inspiration" },
-            { number: 2, prompt: "Let me (compete / introduce) you to our new classmate from Athens.", answer: "introduce" },
-            { number: 3, prompt: "An arm or a leg is called a (sequence / limb) of the body.", answer: "limb" },
-            { number: 4, prompt: "The Paralympic Games celebrate athletes with a physical (shape / disability).", answer: "disability" },
-          ],
-        },
-      ],
-    },
-    dictation: {
-      exercises: [
-        {
-          number: 1,
-          typeId: "D01",
-          instruction: "",
-          wordBank: ["track", "introduce", "limb", "sequence", "compete"],
-          items: [
-            { number: 1, prompt: "To tell someone another person's name when they meet: ________", answer: "introduce", testsWords: ["introduce"] },
-            { number: 2, prompt: "A path or stadium ring used for running races: ________", answer: "track", testsWords: ["track"] },
-            { number: 3, prompt: "To take part in a race or sports contest: ________", answer: "compete", testsWords: ["compete"] },
-            { number: 4, prompt: "A particular order in which events or numbers follow each other: ________", answer: "sequence", testsWords: ["sequence"] },
-            { number: 5, prompt: "An arm or a leg of a person: ________", answer: "limb", testsWords: ["limb"] },
-          ],
-        },
-        {
-          number: 2,
-          typeId: "D02",
-          instruction: "",
-          wordBank: [],
-          items: [
-            { number: 1, prompt: "Did your school win the basketball ________________?", stem: "COMPETE", answer: "competition", testsWords: ["compete", "competition"] },
-            { number: 2, prompt: "The stadium has special ramps for ________________ visitors.", stem: "DISABILITY", answer: "disabled", testsWords: ["disability", "disabled"] },
-            { number: 3, prompt: "Her story was very ________________ for the young players.", stem: "INSPIRATION", answer: "inspiring", testsWords: ["inspiration", "inspiring"] },
-            { number: 4, prompt: "We all felt ________________ after watching the champion speak.", stem: "INSPIRATION", answer: "inspired", testsWords: ["inspiration", "inspired"] },
-          ],
-        },
-        {
-          number: 3,
-          typeId: "D03",
-          instruction: "",
-          wordBank: [],
-          items: [
-            { number: 1, prompt: "Athletes train every afternoon to ________. (introduce / stay in shape / limb)", answer: "stay in shape", testsWords: ["stay in shape"] },
-            { number: 2, prompt: "He uses a modern artificial ________ to help him run fast. (sequence / limb / track)", answer: "limb", testsWords: ["limb"] },
-            { number: 3, prompt: "A physical ________ did not stop her from winning gold. (track / disability / sequence)", answer: "disability", testsWords: ["disability"] },
-            { number: 4, prompt: "The runner gave us great ________ before the match. (limb / inspiration / track)", answer: "inspiration", testsWords: ["inspiration"] },
-          ],
-        },
-        {
-          number: 4,
-          typeId: "D06",
-          instruction: "",
-          wordBank: [],
-          items: [
-            { number: 1, prompt: "stay in shape: (introduce / keep fit / compete)", answer: "keep fit", testsWords: ["stay in shape", "keep fit"] },
-            { number: 2, prompt: "sequence: (limb / order / track)", answer: "order", testsWords: ["sequence", "order"] },
-          ],
-        },
-      ],
-    },
-  };
-
-  const data = normalizeWorksheetExercises(rawData);
-  return { form, plan, data };
-}
-
 export {
   CLASS_PROFILES,
+  configurePictures,
+  pictureKey,
+  splitEmojiText,
+  WORKSHEET_LAYOUT_DEFAULTS,
+  resolveWorksheetLayout,
+  AI_PROVIDERS,
+  configureAi,
+  aiProviderName,
   EXERCISE_FAMILIES,
   EXERCISE_LABELS,
   EXERCISE_DESCRIPTIONS,
@@ -4288,6 +4499,7 @@ export {
   fixDictationCoverageGaps,
   fixAllWorksheetIssues,
   countQuickFixIssues,
+  buildWorksheetPrintDocument,
   buildLingoDocx,
   buildDictationDocx,
   buildAnswerKeyDocx,
@@ -4304,7 +4516,6 @@ export {
   normalizeWorksheetExercises,
   autofillVocabulary,
   parseBulkVocabularyText,
-  getSampleUnitData,
   WORKSHEET_PRINT_CSS,
   CPP_BOOKS,
   CPP_WORDBANK,

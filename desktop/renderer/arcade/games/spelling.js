@@ -11,7 +11,7 @@ export default {
   tags: ["Teams", "Spelling", "Listening"],
   minWords: 1,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak, teams } = ctx;
+    const { stage, esc, svg, sfx, speak, teams, pic } = ctx;
     const rounds = ctx.deck.slice(0, Math.min(10, ctx.deck.length));
     let r = 0;
     let slots = [];
@@ -43,7 +43,7 @@ export default {
     function clueHtml(w) {
       const phrase = maskWordInText(w.collocation, w.english, "_____");
       return `
-        ${w.emojis ? `<div class="sp-emoji">${esc(w.emojis)}</div>` : ""}
+        ${pic(w.emojis) ? `<div class="sp-emoji">${pic(w.emojis)}</div>` : ""}
         ${w.greek ? `<div class="sp-greek" lang="el">${esc(w.greek)}</div>` : ""}
         ${phrase ? `<div class="sp-phrase">“${esc(phrase)}”</div>` : ""}
         <div class="sp-meta">${w.type ? `<span>${esc(w.type)}</span>` : ""}<span>${[...w.english].filter(isLetter).length} letters</span></div>`;

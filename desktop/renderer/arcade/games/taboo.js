@@ -9,7 +9,7 @@ export default {
   tags: ["Teams", "Speaking", "Timed"],
   minWords: 3,
   create(ctx) {
-    const { stage, esc, svg, sfx, teams } = ctx;
+    const { stage, esc, svg, sfx, teams, pic } = ctx;
     let seconds = Number(localStorage.getItem("vm_taboo_secs") || 60);
     let showGreek = false;
     let queue = shuffle(ctx.deck);
@@ -88,7 +88,7 @@ export default {
       return `
         <span class="ts-describe">Describe…</span>
         <div class="ts-word">${esc(card.english)}</div>
-        <div class="ts-sub">${card.type ? `<span>${esc(card.type)}</span>` : ""}${card.emojis ? `<span>${esc(card.emojis)}</span>` : ""}
+        <div class="ts-sub">${card.type ? `<span>${esc(card.type)}</span>` : ""}${pic(card.emojis) ? `<span class="ts-pic">${pic(card.emojis)}</span>` : ""}
           ${card.greek ? `<button type="button" class="ts-greek-toggle" data-greek lang="el">${showGreek ? esc(card.greek) : "Show Greek"}</button>` : ""}</div>
         <div class="ts-forbid">
           <span class="ts-forbid-label">${svg("x", "i-xs")}Don't say</span>

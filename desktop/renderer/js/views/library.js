@@ -74,10 +74,10 @@ export function renderLibrary() {
     grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
       <div class="empty-art">${icon("library")}</div>
       <h3>Your library is empty</h3>
-      <p>Every unit you generate or edit is saved here automatically. Try the sample unit to see how it works.</p>
-      <button type="button" class="btn btn-primary" data-lib-sample>${icon("graduation", "i-sm")}Open the sample unit</button>
+      <p>Every unit you generate or edit is saved here automatically.</p>
+      <button type="button" class="btn btn-primary" data-lib-new>${icon("plus", "i-sm")}Create your first unit</button>
     </div>`;
-    grid.querySelector("[data-lib-sample]").addEventListener("click", () => actions.loadSample());
+    grid.querySelector("[data-lib-new]").addEventListener("click", () => actions.go("setup"));
     return;
   }
   if (!list.length) {

@@ -113,8 +113,6 @@ export function initSetup() {
   });
   bindCheck("srcSb", "includeSb");
   bindCheck("srcWb", "includeWb");
-  bindCheck("srcEnriched", "includeEnriched");
-  bindCheck("hideBasic", "hideBasic");
   $("wbScope").addEventListener("change", (e) => {
     state.cpp.wbScope = e.target.value;
     loadPoolWords({ reason: "Workbook scope updated" });
@@ -294,7 +292,7 @@ function renderCpp() {
       <div class="uf-head">
         <div class="uf-title">
           <h3>Unit ${us.unit} · ${esc(us.unitTitle)}</h3>
-          <p>${esc(us.unitTheme)} · Student's Book <b>p. ${us.sbStart}–${us.sbEnd}</b> · Workbook <b>p. ${us.wbStart}–${us.wbEnd}</b></p>
+          <p>Student's Book <b>p. ${us.sbStart}–${us.sbEnd}</b> · Workbook <b>p. ${us.wbStart}–${us.wbEnd}</b>${us.nonfictionTitle ? ` · Readings: <b>${esc(us.nonfictionTitle)}</b> (A), <b>${esc(us.fictionTitle)}</b> (B)` : ""}</p>
         </div>
         <span class="badge brand">${icon("book-open", "i-xs")}${esc(book.cefr)}</span>
       </div>
@@ -314,16 +312,13 @@ function renderCpp() {
 
   $("srcSb").checked = c.includeSb;
   $("srcWb").checked = c.includeWb;
-  $("srcEnriched").checked = c.includeEnriched;
-  $("hideBasic").checked = c.hideBasic;
   $("wbScope").value = c.wbScope;
   $("wbScope").disabled = !c.includeWb;
   $("poolLimit").value = c.limit;
 
-  const counts = coursebookQuery({ includeSb: true, includeWb: true, includeEnriched: true })?.counts;
+  const counts = coursebookQuery({ includeSb: true, includeWb: true })?.counts;
   $("countSb").textContent = counts?.sb ?? 0;
   $("countWb").textContent = counts?.wb ?? 0;
-  $("countEnriched").textContent = counts?.enriched ?? 0;
   renderPool();
 }
 
@@ -344,8 +339,8 @@ function renderPool() {
   } else {
     wrap.innerHTML = list.map((w, i) => {
       const on = chosen.has(w.english.toLowerCase());
-      const src = w.source === "wb" ? "Workbook" : w.source === "enriched" ? "2nd Edition extra" : "Student's Book";
-      const page = w.source === "wb" ? `WB p.${w.wbPage || w.page}` : w.source === "enriched" ? "" : `SB p.${w.sbPage || w.page}`;
+      const src = w.source === "wb" ? "Workbook" : w.origin === "keywords" ? "Student's Book Key Word (Cambridge Scope & Sequence; Greek added by Vocab Master)" : "Student's Book";
+      const page = w.source === "wb" ? `WB p.${w.wbPage || w.page}` : `SB p.${w.sbPage || w.page}`;
       return `<button type="button" class="word-chip src-${esc(w.source)}${on ? " on" : ""}" data-pool-idx="${i}" title="${esc(`${w.english} (${w.type}) — ${w.greek}\n${src}${page ? ` · ${page}` : ""}`)}" style="animation-delay:${Math.min(i, 30) * 12}ms">
         <span class="wc-box">${icon(on ? "check" : "plus")}</span>
         <span>${esc(w.english)}</span>
@@ -358,7 +353,7 @@ function renderPool() {
   const inPool = words.filter((w) => chosen.has(w.english.toLowerCase())).length;
   const extra = state.words.filter((w) => w.english.trim()).length - inPool;
   $("poolSummary").innerHTML = `<strong>${inPool}</strong> of ${words.length} pool words in your unit${extra > 0 ? ` · +${extra} of your own` : ""}
-    <span class="pool-legend"><span><i style="background:var(--src-sb)"></i>SB</span><span><i style="background:var(--src-wb)"></i>WB</span><span><i style="background:var(--src-enriched)"></i>2nd Ed.</span></span>`;
+    <span class="pool-legend"><span><i style="background:var(--src-sb)"></i>SB</span><span><i style="background:var(--src-wb)"></i>WB</span></span>`;
   const us = lastQuery?.unitStructure;
   $("poolSub").textContent = us
     ? `${CPP_BOOKS[state.cpp.bookId].title} · Unit ${us.unit}${state.cpp.pages ? ` · p. ${state.cpp.pages}` : ""} — tap words to add or remove them.`

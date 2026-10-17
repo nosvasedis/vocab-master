@@ -1,7 +1,8 @@
 /* Settings and Help dialogs. */
 import { $, esc, icon, openDialog, toast } from "./ui.js";
-import { desktop, getApiKey, setApiKey, checkApiKey } from "./bridge.js";
+import { desktop, getApiKey, setApiKey, checkApiKey, getProvider, setProvider, PROVIDERS } from "./bridge.js";
 import { prefs, savePrefs } from "./state.js";
+import { PICTURE_STYLES } from "./pictures.js";
 import { actions } from "./actions.js";
 
 export function applyTheme() {
@@ -9,26 +10,53 @@ export function applyTheme() {
   document.documentElement.dataset.theme = dark ? "dark" : "light";
 }
 
+const PROVIDER_CARDS = {
+  gemini: { tag: "Free", tagTone: "success", blurb: "Free tier with a Google AI Studio key — daily limits apply." },
+  deepseek: { tag: "Pay as you go", tagTone: "", blurb: "Very low cost per unit; needs a topped-up DeepSeek account." },
+};
+
 export function openSettings({ focusKey = true } = {}) {
-  const key = getApiKey();
+  let provider = getProvider();
+  // Keys being edited, per provider, until Save.
+  const drafts = { deepseek: getApiKey("deepseek"), gemini: getApiKey("gemini") };
   openDialog({
     title: "Settings",
-    subtitle: "Your AI key, appearance and data.",
+    subtitle: "Your AI service, appearance and data.",
     iconName: "settings",
     size: "",
     body: `
       <section class="settings-section">
-        <h4>DeepSeek API key</h4>
+        <h4>AI service</h4>
+        <div class="provider-pick">
+          ${["gemini", "deepseek"].map((id) => `<button type="button" class="provider-opt" data-provider="${id}">
+            <span class="po-top"><strong>${esc(PROVIDERS[id].name)}</strong><span class="badge ${PROVIDER_CARDS[id].tagTone}">${esc(PROVIDER_CARDS[id].tag)}</span></span>
+            <span class="po-blurb">${esc(PROVIDER_CARDS[id].blurb)}</span>
+            <span class="po-state" data-provider-state="${id}"></span>
+          </button>`).join("")}
+        </div>
+        <label class="label" for="setKey" id="setKeyLabel"></label>
         <div class="key-row">
           <div class="input-group">
             ${icon("key", "i-sm")}
-            <input class="input" id="setKey" type="password" placeholder="sk-…" value="${esc(key)}" autocomplete="off" spellcheck="false" ${focusKey ? "autofocus" : ""} />
+            <input class="input" id="setKey" type="password" autocomplete="off" spellcheck="false" ${focusKey ? "autofocus" : ""} />
             <div class="input-suffix"><button type="button" class="icon-btn sm" id="setKeyEye" aria-label="Show or hide key">${icon("eye", "i-sm")}</button></div>
           </div>
           <button type="button" class="btn btn-secondary" id="setKeyTest">Test</button>
         </div>
         <div id="setKeyStatus" class="hidden"></div>
-        <p class="hint">Stored ${desktop() ? "encrypted on this computer" : "in this browser"} and only ever sent to DeepSeek. Get a key at <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">platform.deepseek.com</a>.</p>
+        <p class="hint" id="setKeyHint"></p>
+      </section>
+      <section class="settings-section">
+        <h4>Worksheets</h4>
+        <div class="field">
+          <label class="label" for="setSchool">School name <span class="opt">optional — printed at the top of every sheet</span></label>
+          <input class="input" id="setSchool" maxlength="60" placeholder="e.g. Frontistirio English Plus" value="${esc(prefs.schoolName || "")}" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label class="label" for="setPics">Pictures <span class="opt">worksheets, Word files and games</span></label>
+          <select class="select" id="setPics">${Object.entries(PICTURE_STYLES).map(([id, s]) => `<option value="${id}" ${prefs.pictureStyle === id ? "selected" : ""}>${esc(s.label)} — ${esc(s.hint)}</option>`).join("")}</select>
+          <p class="hint">Pictures by <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> (CC BY-SA 4.0), <a href="https://github.com/microsoft/fluentui-emoji" target="_blank" rel="noopener">Microsoft Fluent Emoji</a> (MIT) and <a href="https://lucide.dev" target="_blank" rel="noopener">Lucide</a> (ISC).</p>
+        </div>
       </section>
       <section class="settings-section">
         <h4>Appearance</h4>
@@ -47,7 +75,7 @@ export function openSettings({ focusKey = true } = {}) {
         <p class="hint" id="setDataInfo">${desktop() ? "Units, settings and backups are saved on this computer." : "Units are saved in this browser's storage."}</p>
         ${desktop() ? `<div><button type="button" class="btn btn-secondary btn-sm" id="setDataFolder">${icon("folder", "i-sm")}Open data folder</button></div>` : ""}
       </section>`,
-    foot: `<button type="button" class="btn btn-danger-ghost btn-sm" id="setKeyRemove" ${key ? "" : "disabled"}>Remove key</button>
+    foot: `<button type="button" class="btn btn-danger-ghost btn-sm" id="setKeyRemove">Remove key</button>
       <span class="spacer"></span>
       <button type="button" class="btn btn-secondary" data-close>Close</button>
       <button type="button" class="btn btn-primary" id="setSave">Save</button>`,
@@ -59,25 +87,45 @@ export function openSettings({ focusKey = true } = {}) {
         status.className = `key-status ${cls}`;
         status.innerHTML = `${icon(cls === "ok" ? "check-circle" : cls === "info" ? "info" : "alert", "i-sm")}<span>${esc(text)}</span>`;
       };
+      const where = desktop() ? "encrypted on this computer" : "in this browser";
+      const renderProvider = () => {
+        const p = PROVIDERS[provider];
+        root.querySelectorAll("[data-provider]").forEach((b) => b.classList.toggle("active", b.dataset.provider === provider));
+        root.querySelectorAll("[data-provider-state]").forEach((s) => {
+          s.textContent = drafts[s.dataset.providerState] ? "Key added" : "No key yet";
+          s.classList.toggle("has-key", !!drafts[s.dataset.providerState]);
+        });
+        q("#setKeyLabel").textContent = `${p.name} API key`;
+        input.placeholder = p.placeholder;
+        input.value = drafts[provider];
+        q("#setKeyRemove").disabled = !drafts[provider];
+        status.className = "hidden";
+        q("#setKeyHint").innerHTML = provider === "gemini"
+          ? `Free: sign in at <a href="${p.keyUrl}" target="_blank" rel="noopener">${p.keyHost}</a> with your Google account and click <b>Create API key</b>. Stored ${where}. On the free tier Google may use requests to improve its models — the app only sends word lists and exercise instructions, never student data. Your Google AI Pro subscription isn't needed and isn't used.`
+          : `Stored ${where} and only ever sent to DeepSeek. Get a key at <a href="${p.keyUrl}" target="_blank" rel="noopener">${p.keyHost}</a>.`;
+      };
+      root.querySelectorAll("[data-provider]").forEach((b) => b.addEventListener("click", () => {
+        drafts[provider] = input.value.trim();
+        provider = b.dataset.provider;
+        renderProvider();
+        input.focus();
+      }));
+      input.addEventListener("input", () => {
+        drafts[provider] = input.value.trim();
+        q("#setKeyRemove").disabled = !drafts[provider];
+        root.querySelector(`[data-provider-state="${provider}"]`).textContent = drafts[provider] ? "Key added" : "No key yet";
+      });
       q("#setKeyEye").addEventListener("click", () => { input.type = input.type === "password" ? "text" : "password"; });
       q("#setKeyTest").addEventListener("click", async () => {
         const k = input.value.trim();
-        if (!k) { show("error", "Paste your key first — it starts with sk-."); return; }
+        if (!k) { show("error", `Paste your ${PROVIDERS[provider].name} key first.`); return; }
         const btn = q("#setKeyTest");
         btn.classList.add("is-loading");
         btn.disabled = true;
-        show("info", "Checking with DeepSeek…");
+        show("info", `Checking with ${PROVIDERS[provider].name}…`);
         try {
-          const res = await checkApiKey(k);
-          if (res.status === 200) {
-            const body = JSON.parse(res.body || "{}");
-            const info = (body.balance_infos || [])[0];
-            const bal = info ? ` Balance: ${info.total_balance} ${info.currency}.` : "";
-            if (body.is_available === false) show("warn", `The key works, but the balance is empty — top up to generate.${bal}`);
-            else show("ok", `The key works.${bal}`);
-          } else if (res.status === 401) show("error", "DeepSeek rejected this key — check you copied all of it.");
-          else if (res.status === 502) show("error", "Couldn't reach DeepSeek — check your internet connection.");
-          else show("error", `DeepSeek answered with an error (${res.status}).`);
+          const res = await checkApiKey(k, provider);
+          show(res.tone, res.message);
         } catch (e) {
           show("error", e.message || String(e));
         } finally {
@@ -101,20 +149,28 @@ export function openSettings({ focusKey = true } = {}) {
         }).catch(() => {});
       }
       q("#setKeyRemove").addEventListener("click", () => {
-        setApiKey("");
-        input.value = "";
+        setApiKey("", provider);
+        drafts[provider] = "";
+        renderProvider();
         actions.setAiState();
-        toast("API key removed.", "info");
-        q("#setKeyRemove").disabled = true;
+        toast(`${PROVIDERS[provider].name} key removed.`, "info");
       });
       const save = () => {
-        setApiKey(input.value);
+        drafts[provider] = input.value.trim();
+        setApiKey(drafts.deepseek, "deepseek");
+        setApiKey(drafts.gemini, "gemini");
+        setProvider(provider);
+        prefs.schoolName = q("#setSchool").value.trim();
+        prefs.pictureStyle = q("#setPics").value;
+        savePrefs();
         actions.setAiState();
+        actions.settingsSaved?.();
         close();
-        toast(input.value.trim() ? "Settings saved." : "Settings saved — add a key any time to use AI.", "ok", { ms: 2600 });
+        toast(drafts[provider] ? `Settings saved — using ${PROVIDERS[provider].name}.` : `Settings saved — add a ${PROVIDERS[provider].name} key to use AI.`, "ok", { ms: 3000 });
       };
       q("#setSave").addEventListener("click", save);
       input.addEventListener("keydown", (e) => { if (e.key === "Enter") save(); });
+      renderProvider();
     },
   });
 }
@@ -147,9 +203,8 @@ export function openHelp() {
           ${sc("Close a window", ["Esc"])}
         </div>
       </div>`,
-    foot: `<button type="button" class="btn btn-ghost" id="helpSample">${icon("graduation", "i-sm")}Open the sample unit</button><span class="spacer"></span><button type="button" class="btn btn-primary" data-close>Got it</button>`,
+    foot: `<span class="spacer"></span><button type="button" class="btn btn-primary" data-close>Got it</button>`,
     onMount(root, close) {
-      root.querySelector("#helpSample").addEventListener("click", () => { close(); actions.loadSample(); });
     },
   });
 }

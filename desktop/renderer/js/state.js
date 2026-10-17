@@ -22,7 +22,7 @@ export const state = {
   view: "setup",
   profileId: "",
   source: "cpp",
-  cpp: { bookId: "CPP1", unit: 1, pages: "", includeSb: true, includeWb: true, wbScope: "unit", includeEnriched: true, hideBasic: true, limit: "smart" },
+  cpp: { bookId: "CPP1", unit: 1, pages: "", includeSb: true, includeWb: true, wbScope: "unit", limit: "smart" },
   custom: { bookTitle: "", unit: 1, pages: "" },
   inputMode: "structured",
   words: [],
@@ -32,12 +32,12 @@ export const state = {
   plan: null,
   data: null,
   sessionId: null,
-  preview: { sheet: "lingo", showAnswers: false, studentHeader: false, density: "standard", zoom: 1 },
+  preview: { sheet: "lingo", showAnswers: false, density: "standard", zoom: 1, layout: {} },
   busy: false,
 };
 
 export const prefs = Object.assign(
-  { theme: "system", welcomeDismissed: false, sfx: true, tts: true },
+  { theme: "system", welcomeDismissed: false, sfx: true, tts: true, schoolName: "", pictureStyle: "emoji" },
   readJSON(PREFS_KEY, {}),
 );
 export function savePrefs() { writeJSON(PREFS_KEY, prefs); }
@@ -98,9 +98,7 @@ export function coursebookQuery(overrides = {}) {
   const c = state.cpp;
   return queryCoursebookWords({
     bookId: c.bookId, unit: c.unit, pageRange: c.pages,
-    includeSb: c.includeSb, includeWb: c.includeWb, wbScope: c.wbScope,
-    includeEnriched: c.includeEnriched, hideBasic: c.hideBasic,
-    ...overrides,
+    includeSb: c.includeSb, includeWb: c.includeWb, wbScope: c.wbScope,    ...overrides,
   });
 }
 
@@ -117,7 +115,7 @@ export function pickFromQuery(query, limit = state.cpp.limit) {
 export function coursebookEntryToWord(entry) {
   return makeWord({
     english: entry.english, type: entry.type, greek: entry.greek, emojis: entry.emojis,
-    collocation: entry.collocation, derivatives: entry.derivatives, synonyms: entry.synonyms, antonyms: entry.antonyms,
+    collocation: entry.collocation,
   });
 }
 

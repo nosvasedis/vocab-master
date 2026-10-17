@@ -174,9 +174,6 @@
         </div>
         <div class="tb-context" id="ctxChips"></div>
         <div class="tb-actions">
-          <button type="button" class="btn btn-secondary btn-sm" id="btnSample" data-tip="A complete C Senior unit — no API key needed" data-tip-pos="bottom">
-            <svg class="i i-sm"><use href="#i-graduation"/></svg>Sample unit
-          </button>
           <button type="button" class="btn btn-accent btn-sm" id="btnPlayTop">
             <svg class="i i-sm"><use href="#i-gamepad"/></svg>Play games
           </button>
@@ -198,7 +195,6 @@
                 <p>Pick a class level and a coursebook unit, review the words, let AI write the exercises, then print, export or play it on the smartboard.</p>
                 <div class="welcome-actions">
                   <button type="button" class="btn btn-primary" data-action="dismiss-welcome">Let's start<svg class="i i-sm"><use href="#i-arrow-right"/></svg></button>
-                  <button type="button" class="btn btn-ghost" data-action="load-sample">Explore the sample unit</button>
                 </div>
               </div>
               <button type="button" class="icon-btn welcome-close" data-action="dismiss-welcome" aria-label="Dismiss"><svg class="i"><use href="#i-x"/></svg></button>
@@ -299,11 +295,8 @@
                 <label class="source-toggle wb"><input type="checkbox" id="srcWb" checked /><span class="st-dot"></span><span>Workbook</span><b id="countWb">0</b></label>
                 <select class="select sm" id="wbScope" aria-label="Workbook scope">
                   <option value="unit">All unit WB words</option>
-                  <option value="section">Only matching pages</option>
+                  <option value="section">Only this section&#39;s WB words</option>
                 </select>
-                <label class="source-toggle en"><input type="checkbox" id="srcEnriched" checked /><span class="st-dot"></span><span>2nd Ed. extras</span><b id="countEnriched">0</b></label>
-                <span class="pool-sep"></span>
-                <label class="switch"><input type="checkbox" id="hideBasic" checked /><span class="track"></span><span>Hide basic words</span></label>
                 <div class="input-group pool-search">
                   <svg class="i i-sm"><use href="#i-search"/></svg>
                   <input class="input sm" id="poolSearch" type="search" placeholder="Search words or Greek…" autocomplete="off" />
@@ -518,9 +511,16 @@
               </div>
 
               <div class="insp-card">
-                <div class="insp-title"><svg class="i i-sm"><use href="#i-sliders"/></svg>Layout</div>
-                <label class="switch"><input type="checkbox" id="optAnswers" /><span class="track"></span><span class="sw-text">Show answers<small>Preview only — never printed</small></span></label>
-                <label class="switch"><input type="checkbox" id="optHeader" /><span class="track"></span><span class="sw-text">Student name header<small>Name · Date · Class · Score</small></span></label>
+                <div class="insp-title"><svg class="i i-sm"><use href="#i-sliders"/></svg>Layout <span class="insp-for" id="layoutFor">· Lingo Launcher</span></div>
+                <label class="switch" data-layout-row="studentHeader"><input type="checkbox" data-layout="studentHeader" /><span class="track"></span><span class="sw-text">Student box<small>Name · Class · Date · Score</small></span></label>
+                <label class="switch" data-layout-row="scoreBoxes"><input type="checkbox" data-layout="scoreBoxes" /><span class="track"></span><span class="sw-text">Score per exercise<small>A “__ / 5” box by each exercise</small></span></label>
+                <label class="switch" data-layout-row="reuseNote"><input type="checkbox" data-layout="reuseNote" /><span class="track"></span><span class="sw-text">Shared-sheet note<small>“Please don’t write on this sheet”</small></span></label>
+                <label class="switch" data-layout-row="footer"><input type="checkbox" data-layout="footer" /><span class="track"></span><span class="sw-text">Footer with page numbers<small>In PDF and Word files</small></span></label>
+                <div class="insp-sub">Pictures</div>
+                <select class="select sm" id="picStyle" aria-label="Picture style"></select>
+                <p class="insp-note" id="picHint"></p>
+                <label class="switch"><input type="checkbox" id="optAnswers" /><span class="track"></span><span class="sw-text">Show answers<small>On screen only — never printed</small></span></label>
+                <p class="insp-note" id="schoolNote"></p>
                 <div class="insp-sub">Spacing</div>
                 <div class="segmented sm seg-block" id="densitySeg" data-segmented>
                   <span class="seg-thumb"></span>
