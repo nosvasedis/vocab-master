@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-32",
-      "emoji": "👮",
+      "emoji": "👮🛡️",
       "kidDefinition": "A person whose job is to protect a building.",
       "examples": [
         "My sister works as a security guard in a museum.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-46",
-      "emoji": "🕯️",
+      "emoji": "🧍🕯️",
       "kidDefinition": "A copy of a person made from wax.",
       "examples": [
         "I like most the wax figures of famous movie stars.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-50",
-      "emoji": "🌑",
+      "emoji": "💡➡️🌑",
       "kidDefinition": "To stop shining or working, like a light.",
       "examples": [
         "The electricity goes out very often in the summer.",
@@ -260,10 +260,22 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "props": [
+        {
+          "emoji": "🏛️",
+          "label": "museum"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, everyone! It's Lingo, your owl friend."
+          "text": "Hello, everyone! It's Lingo, your owl friend.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            }
+          ]
         },
         {
           "id": "l2",
@@ -280,7 +292,13 @@
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite place in your neighbourhood?"
+        "text": "What is your favourite place in your neighbourhood?",
+        "props": [
+          {
+            "emoji": "🏘️",
+            "label": "neighbourhood"
+          }
+        ]
       }
     },
     {
@@ -307,13 +325,27 @@
       "panels": [
         {
           "id": "p1",
-          "backdrop": "city",
+          "backdrop": "museum",
           "characters": [
             {
               "who": "nico"
             },
             {
               "who": "carla"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏛️",
+              "label": "museum"
+            },
+            {
+              "emoji": "👧👦👧",
+              "label": "class"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "city"
             }
           ],
           "caption": {
@@ -324,7 +356,13 @@
             {
               "id": "p1a",
               "who": "carla",
-              "text": "Welcome! I am Ms Carla, the security guard here."
+              "text": "Welcome! I am Ms Carla, the security guard here.",
+              "props": [
+                {
+                  "emoji": "👮",
+                  "label": "security guard"
+                }
+              ]
             },
             {
               "id": "p1b",
@@ -348,6 +386,24 @@
               "who": "carla"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧍🕯️",
+              "label": "wax figure"
+            },
+            {
+              "emoji": "🎤",
+              "label": "singer"
+            },
+            {
+              "emoji": "🖼️🖼️",
+              "label": "exhibit"
+            },
+            {
+              "emoji": "🚫✋",
+              "label": "touch"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Inside, Nico stops at a wax figure of a famous singer."
@@ -361,7 +417,17 @@
             {
               "id": "p2b",
               "who": "carla",
-              "text": "Every exhibit here is special. Please don't touch them."
+              "text": "Every exhibit here is special. Please don't touch them.",
+              "props": [
+                {
+                  "emoji": "🖼️🖼️",
+                  "label": "exhibit"
+                },
+                {
+                  "emoji": "🚫✋",
+                  "label": "touch"
+                }
+              ]
             }
           ],
           "highlight": [
@@ -380,6 +446,32 @@
               "who": "carla"
             }
           ],
+          "props": [
+            {
+              "emoji": "⚡",
+              "label": "electricity"
+            },
+            {
+              "emoji": "💡➡️🌑",
+              "label": "goes out"
+            },
+            {
+              "emoji": "🌑",
+              "label": "dark"
+            },
+            {
+              "emoji": "🔦",
+              "label": "flashlight"
+            },
+            {
+              "emoji": "🚨",
+              "label": "alarm"
+            },
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Later, in the dark, the electricity suddenly goes out."
@@ -388,17 +480,35 @@
             {
               "id": "p3a",
               "who": "carla",
-              "text": "Don't worry, Nico. I always carry a flashlight."
+              "text": "Don't worry, Nico. I always carry a flashlight.",
+              "props": [
+                {
+                  "emoji": "🔦",
+                  "label": "flashlight"
+                }
+              ]
             },
             {
               "id": "p3b",
               "who": "nico",
-              "text": "Ring, ring! The alarm is ringing!"
+              "text": "Ring, ring! The alarm is ringing!",
+              "props": [
+                {
+                  "emoji": "🚨",
+                  "label": "alarm"
+                }
+              ]
             },
             {
               "id": "p3c2",
               "who": "carla",
-              "text": "It's only a cat. Everything is safe now."
+              "text": "It's only a cat. Everything is safe now.",
+              "props": [
+                {
+                  "emoji": "🐱",
+                  "label": "cat"
+                }
+              ]
             }
           ],
           "highlight": [
@@ -410,10 +520,40 @@
         },
         {
           "id": "p4",
-          "backdrop": "home",
+          "backdrop": "museum",
           "characters": [
             {
               "who": "nico"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏛️",
+              "label": "museum"
+            },
+            {
+              "emoji": "📄",
+              "label": "leaflet"
+            },
+            {
+              "emoji": "📰",
+              "label": "heading"
+            },
+            {
+              "emoji": "📑",
+              "label": "section"
+            },
+            {
+              "emoji": "👮",
+              "label": "security guard"
+            },
+            {
+              "emoji": "🦸",
+              "label": "heroes"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
             }
           ],
           "caption": {
@@ -424,12 +564,32 @@
             {
               "id": "p4a",
               "who": "nico",
-              "text": "The heading says Museum Nights. Let's read this section."
+              "text": "Look, the heading is at the top. Let's read this section.",
+              "props": [
+                {
+                  "emoji": "📰",
+                  "label": "heading"
+                },
+                {
+                  "emoji": "📑",
+                  "label": "section"
+                }
+              ]
             },
             {
               "id": "p4b",
               "who": "nico",
-              "text": "Now I understand. The security guard is my hero!"
+              "text": "Now I understand. Security guards are heroes!",
+              "props": [
+                {
+                  "emoji": "👮",
+                  "label": "security guard"
+                },
+                {
+                  "emoji": "🦸",
+                  "label": "heroes"
+                }
+              ]
             }
           ],
           "highlight": [
@@ -449,7 +609,7 @@
           "wordId": "CPP2-U1-SB-14",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the word: heading."
+            "text": "Point to the title at the top of a text."
           },
           "options": [
             "CPP2-U1-SB-14",
@@ -467,13 +627,23 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-16",
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "text"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "The first ____ of the text is about our town."
+            "text": "The first ____ of the text has three paragraphs about our neighbourhood."
           },
           "options": [
-            "museum",
-            "ticket",
+            "heading",
+            "exhibit",
             "section"
           ],
           "answer": 2,
@@ -488,7 +658,7 @@
           "wordId": "CPP2-U1-SB-38",
           "prompt": {
             "id": "c3q",
-            "text": "Listen and point: We looked at every exhibit in the hall."
+            "text": "Listen and point: exhibit."
           },
           "options": [
             "CPP2-U1-SB-46",
@@ -505,6 +675,16 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP2-U1-SB-34",
+          "props": [
+            {
+              "emoji": "🏛️",
+              "label": "museum"
+            },
+            {
+              "emoji": "🏢",
+              "label": "building"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "A museum is a building with interesting things to see."
@@ -528,21 +708,27 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "museum",
-            "wax figure",
             "exhibit",
+            "wax figure",
+            "flashlight",
             "security guard"
           ],
           "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "A security guard is a person; the others are things or places in a museum."
+            "text": "A security guard is a person; the others are objects."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-37",
+          "props": [
+            {
+              "emoji": "🌑",
+              "label": "dark"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "Use your ____ to see in the dark."
@@ -562,6 +748,16 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-36",
+          "props": [
+            {
+              "emoji": "🔔",
+              "label": "rang"
+            },
+            {
+              "emoji": "🏃",
+              "label": "ran"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "The ____ rang loudly, so everyone ran outside."
@@ -583,7 +779,7 @@
           "wordId": "CPP2-U1-SB-46",
           "prompt": {
             "id": "c8q",
-            "text": "Point to the wax figure."
+            "text": "Point to the copy of a person made from wax."
           },
           "options": [
             "CPP2-U1-SB-38",
@@ -601,9 +797,23 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP2-U1-SB-49",
+          "props": [
+            {
+              "emoji": "⚡",
+              "label": "electricity"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "💡",
+              "label": "lights"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "Electricity is water that flows through the museum."
+            "text": "Electricity is water that makes the lights work."
           },
           "options": [
             "True",
@@ -619,6 +829,16 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-50",
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "lights"
+            },
+            {
+              "emoji": "🔦",
+              "label": "flashlight"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "If the lights ____, use your flashlight."
@@ -626,7 +846,7 @@
           "options": [
             "wake up",
             "go out",
-            "come in"
+            "take turns"
           ],
           "answer": 1,
           "explain": {
@@ -680,7 +900,21 @@
         },
         {
           "id": "l2",
-          "text": "You can now read a heading, find a section, and talk about a museum."
+          "text": "You can now read a heading, find a section, and talk about a museum.",
+          "props": [
+            {
+              "emoji": "📰",
+              "label": "heading"
+            },
+            {
+              "emoji": "📑",
+              "label": "section"
+            },
+            {
+              "emoji": "🏛️",
+              "label": "museum"
+            }
+          ]
         },
         {
           "id": "l3",
@@ -702,5 +936,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

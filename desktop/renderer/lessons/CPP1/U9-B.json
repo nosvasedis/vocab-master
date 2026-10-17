@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1053",
-      "emoji": "👝",
+      "emoji": "👖🪙",
       "kidDefinition": "A small part in clothes for holding things.",
       "examples": [
         "Mia keeps a tissue in her coat pocket.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1054",
-      "emoji": "👞",
+      "emoji": "👞⬆️",
       "kidDefinition": "To remove clothes or shoes from your body.",
       "examples": [
         "Please take off your wet coat, Leo.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1057",
-      "emoji": "⛈",
+      "emoji": "⛈️",
       "kidDefinition": "Strong wind and rain, often with thunder and lightning.",
       "examples": [
         "A big storm is coming, so let's go home.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1061",
-      "emoji": "✨",
+      "emoji": "💡✨",
       "kidDefinition": "To give out bright light.",
       "examples": [
         "The sun shines on the beach today.",
@@ -242,19 +242,67 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I'm Lingo, and I love a rainy day."
+          "text": "Hello, friends! I'm Lingo, and I love a rainy day.",
+          "props": [
+            {
+              "emoji": "🌧️",
+              "label": "rainy"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we learn about clothes and the weather."
+          "text": "Today we learn about clothes and the weather.",
+          "props": [
+            {
+              "emoji": "🧥👖",
+              "label": "clothes"
+            },
+            {
+              "emoji": "☀️🌧️",
+              "label": "weather"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some days are sunny. Some days are cold, windy, or stormy!"
+          "text": "Some days are sunny. Some days are cold, windy, or stormy!",
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "sunny"
+            },
+            {
+              "emoji": "🥶",
+              "label": "cold"
+            },
+            {
+              "emoji": "💨",
+              "label": "windy"
+            },
+            {
+              "emoji": "⛈️",
+              "label": "stormy"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's see what Mia, Leo and Grandpa wear today."
+          "text": "Let's see what Mia, Leo and Grandpa wear today.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🧒",
+              "label": "Leo"
+            },
+            {
+              "emoji": "👴",
+              "label": "Grandpa"
+            }
+          ]
         }
       ],
       "question": {
@@ -295,9 +343,35 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "👖",
+              "label": "pants"
+            },
+            {
+              "emoji": "🧥",
+              "label": "jacket"
+            },
+            {
+              "emoji": "👖🪙",
+              "label": "pocket"
+            },
+            {
+              "emoji": "🍪",
+              "label": "snack"
+            },
+            {
+              "emoji": "☀️",
+              "label": "sunny"
+            },
+            {
+              "emoji": "🏃",
+              "label": "running"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "Mia and Leo are playing in the park on a warm afternoon."
+            "text": "Mia and Leo are playing in the park on a sunny day."
           },
           "speech": [
             {
@@ -326,6 +400,24 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "☁️☁️",
+              "label": "clouds"
+            },
+            {
+              "emoji": "⛈️",
+              "label": "storm"
+            },
+            {
+              "emoji": "📱",
+              "label": "phone"
+            },
+            {
+              "emoji": "👖🪙",
+              "label": "pocket"
             }
           ],
           "caption": {
@@ -358,6 +450,24 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "⚡",
+              "label": "lightning"
+            },
+            {
+              "emoji": "🔊",
+              "label": "thunder"
+            },
+            {
+              "emoji": "✨",
+              "label": "shine"
+            },
+            {
+              "emoji": "💧",
+              "label": "wet"
             }
           ],
           "caption": {
@@ -396,9 +506,27 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧥",
+              "label": "coat"
+            },
+            {
+              "emoji": "👖",
+              "label": "pants"
+            },
+            {
+              "emoji": "😊",
+              "label": "smile"
+            },
+            {
+              "emoji": "💧",
+              "label": "wet"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "At home, Grandpa is waiting with a warm smile."
+            "text": "At home, Grandpa is waiting for them with a big smile."
           },
           "speech": [
             {
@@ -428,9 +556,31 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "lamp"
+            },
+            {
+              "emoji": "📖",
+              "label": "folktale"
+            },
+            {
+              "emoji": "⛈️",
+              "label": "storm"
+            },
+            {
+              "emoji": "✨",
+              "label": "shine"
+            },
+            {
+              "emoji": "😊",
+              "label": "smile"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Grandpa lights a lamp and smiles at the children."
+            "text": "Grandpa lights a lamp and smiles at Mia."
           },
           "speech": [
             {
@@ -464,9 +614,9 @@
           },
           "options": [
             "CPP1-U9-SB-1051",
-            "CPP1-U9-SB-1061",
             "CPP1-U9-SB-1052",
-            "CPP1-U9-SB-1053"
+            "CPP1-U9-SB-1053",
+            "CPP1-U9-SB-1060"
           ],
           "answer": 0,
           "explain": {
@@ -478,14 +628,28 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP1-U9-SB-1052",
+          "props": [
+            {
+              "emoji": "❄️",
+              "label": "winter"
+            },
+            {
+              "emoji": "🧣",
+              "label": "scarf"
+            },
+            {
+              "emoji": "🧥👖",
+              "label": "clothes"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "In winter, I wear a warm ____ and a scarf outside."
+            "text": "In winter, I wear a warm ____ over my other clothes and a scarf outside."
           },
           "options": [
             "coat",
-            "gloves",
-            "hat"
+            "pants",
+            "pocket"
           ],
           "answer": 0,
           "explain": {
@@ -497,6 +661,16 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U9-SB-1053",
+          "props": [
+            {
+              "emoji": "👖🪙",
+              "label": "pocket"
+            },
+            {
+              "emoji": "👞",
+              "label": "shoes"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "A pocket is a part of your shoes."
@@ -515,13 +689,31 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP1-U9-SB-1054",
+          "props": [
+            {
+              "emoji": "👞",
+              "label": "shoes"
+            },
+            {
+              "emoji": "🏠",
+              "label": "house"
+            },
+            {
+              "emoji": "💧",
+              "label": "wet"
+            },
+            {
+              "emoji": "🚪",
+              "label": "door"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "Please ____ your wet shoes when you come into the house."
+            "text": "Please ____ your wet shoes at the door."
           },
           "options": [
-            "put on",
             "come in",
+            "turn away",
             "take off"
           ],
           "answer": 2,
@@ -534,19 +726,29 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP1-U9-SB-1055",
+          "props": [
+            {
+              "emoji": "📱",
+              "label": "phone"
+            },
+            {
+              "emoji": "👖🪙",
+              "label": "pocket"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "I ____ my phone safe in my pocket."
+            "text": "I always ____ my phone in my pocket."
           },
           "options": [
-            "throw",
-            "lose",
+            "change",
+            "knock",
             "keep"
           ],
           "answer": 2,
           "explain": {
             "id": "c5e",
-            "text": "To keep something means to hold it and keep it safe."
+            "text": "To keep something means to have it and not lose it."
           }
         },
         {
@@ -558,15 +760,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "storm",
-            "thunder",
-            "lightning",
-            "shine"
+            "coat",
+            "pants",
+            "pocket",
+            "storm"
           ],
           "answer": 3,
           "explain": {
             "id": "c6e",
-            "text": "Storm, thunder and lightning are weather words, but shine is a verb."
+            "text": "Coat and pants are clothes, and a pocket is part of clothes. A storm is weather."
           }
         },
         {
@@ -575,18 +777,18 @@
           "wordId": "CPP1-U9-SB-1059",
           "prompt": {
             "id": "c7q",
-            "text": "Listen. Which word means the loud sound you hear in a storm?"
+            "text": "Listen. Which word is 'thunder'?"
           },
           "options": [
             "CPP1-U9-SB-1060",
             "CPP1-U9-SB-1059",
             "CPP1-U9-SB-1057",
-            "CPP1-U9-SB-1064"
+            "CPP1-U9-SB-1053"
           ],
           "answer": 1,
           "explain": {
             "id": "c7e",
-            "text": "Thunder is the loud sound that comes after lightning."
+            "text": "Thunder is the loud sound you hear in a storm."
           }
         },
         {
@@ -600,7 +802,7 @@
           "options": [
             "CPP1-U9-SB-1052",
             "CPP1-U9-SB-1059",
-            "CPP1-U9-SB-1061",
+            "CPP1-U9-SB-1057",
             "CPP1-U9-SB-1060"
           ],
           "answer": 3,
@@ -613,14 +815,28 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U9-SB-1061",
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "lamp"
+            },
+            {
+              "emoji": "🛋️",
+              "label": "room"
+            },
+            {
+              "emoji": "🌑",
+              "label": "dark"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "The lamp will ____ brightly in the dark room."
           },
           "options": [
-            "hide",
+            "change",
             "shine",
-            "sleep"
+            "knock"
           ],
           "answer": 1,
           "explain": {
@@ -632,6 +848,12 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP1-U9-SB-1064",
+          "props": [
+            {
+              "emoji": "👞",
+              "label": "shoes"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "Tight, hard shoes are usually comfortable to wear."
@@ -671,7 +893,7 @@
         "text": "What do you wear and keep when there is a storm? Tell your partner."
       },
       "frames": [
-        "I wear a ___ when it is cold.",
+        "When there is a storm, I wear a ___.",
         "I keep my ___ in my pocket.",
         "When there is a storm, I ___ inside."
       ],
@@ -679,7 +901,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I wear a coat when it is cold. I keep my phone in my pocket. When there is a storm, I stay inside."
+        "text": "When there is a storm, I wear a coat. I keep my phone in my pocket. When there is a storm, I stay inside."
       }
     },
     {
@@ -710,5 +932,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

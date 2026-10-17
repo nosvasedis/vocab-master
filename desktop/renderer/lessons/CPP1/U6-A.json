@@ -107,7 +107,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-670",
-      "emoji": "👵",
+      "emoji": "🧓🏠",
       "kidDefinition": "A person who lives in a place.",
       "examples": [
         "The residents enjoy our visits.",
@@ -123,7 +123,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-671",
-      "emoji": "🧴",
+      "emoji": "🍾",
       "kidDefinition": "A glass or plastic container for drinks.",
       "examples": [
         "I drink water from my bottle every day.",
@@ -156,7 +156,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-675",
-      "emoji": "🐕",
+      "emoji": "🏠🐕",
       "kidDefinition": "A place that looks after animals without homes.",
       "examples": [
         "The dogs at the animal shelter need our love.",
@@ -229,6 +229,20 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "props": [
+        {
+          "emoji": "🧑🧒👵",
+          "label": "people"
+        },
+        {
+          "emoji": "🏠",
+          "label": "home"
+        },
+        {
+          "emoji": "🌍",
+          "label": "world"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -236,15 +250,15 @@
         },
         {
           "id": "l2",
-          "text": "Today we learn how to help our community."
+          "text": "Today we learn how to help the people around us."
         },
         {
           "id": "l3",
-          "text": "Our community is all the people who live near us."
+          "text": "Think about everyone who lives near you."
         },
         {
           "id": "l4",
-          "text": "Helping others makes our world a better place."
+          "text": "Helping people makes our world a better place."
         }
       ],
       "question": {
@@ -285,6 +299,20 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🍾🍾",
+              "label": "bottle"
+            },
+            {
+              "emoji": "🥫🥫",
+              "label": "can"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "community"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "After a windy day, the park is very messy."
@@ -316,6 +344,16 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "suggestion"
+            },
+            {
+              "emoji": "📝",
+              "label": "list"
             }
           ],
           "caption": {
@@ -351,6 +389,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🍾🍾",
+              "label": "bottle"
+            },
+            {
+              "emoji": "🥫🥫",
+              "label": "can"
+            },
+            {
+              "emoji": "🛍️",
+              "label": "bag"
+            },
+            {
+              "emoji": "♻️",
+              "label": "recycling"
+            },
+            {
+              "emoji": "🗑️",
+              "label": "bin"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "They collect bottles and cans in big bags."
@@ -380,7 +440,24 @@
               "who": "mia"
             },
             {
+              "who": "leo"
+            },
+            {
               "who": "elena"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏡",
+              "label": "retirement home"
+            },
+            {
+              "emoji": "👴👵",
+              "label": "resident"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "community"
             }
           ],
           "caption": {
@@ -391,7 +468,7 @@
             {
               "id": "p4a",
               "who": "elena",
-              "text": "Welcome, children! Every resident loves your visits."
+              "text": "Welcome, friends! Every resident loves your visits."
             },
             {
               "id": "p4b",
@@ -406,7 +483,7 @@
         },
         {
           "id": "p5",
-          "backdrop": "farm",
+          "backdrop": "street",
           "characters": [
             {
               "who": "leo"
@@ -415,9 +492,23 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏠🐕",
+              "label": "animal shelter"
+            },
+            {
+              "emoji": "🐕",
+              "label": "dog"
+            },
+            {
+              "emoji": "🚶",
+              "label": "walk"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Then they go to the animal shelter for a walk with the dogs."
+            "text": "Then they go to the animal shelter for a walk with a dog."
           },
           "speech": [
             {
@@ -428,7 +519,7 @@
             {
               "id": "p5b",
               "who": "mia",
-              "text": "Let's go! The dogs need our help too."
+              "text": "Let's go! This dog needs our help too."
             }
           ],
           "highlight": [
@@ -466,17 +557,31 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-663",
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🎒",
+              "label": "bag"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Let's ____ the park after school."
+            "text": "Let's ____ the park and put the rubbish in bags."
           },
           "options": [
-            "grow up",
-            "wake up",
+            "chat",
             "clean up",
-            "give up"
+            "match",
+            "include"
           ],
-          "answer": 2,
+          "answer": 1,
           "explain": {
             "id": "c2e",
             "text": "We clean up a place when we remove the rubbish from it."
@@ -486,6 +591,24 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U6-SB-667",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "📝",
+              "label": "list"
+            },
+            {
+              "emoji": "🌳",
+              "label": "park"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "In the story, Mia and Leo make a list before they clean up the park."
@@ -504,17 +627,23 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-668",
+          "props": [
+            {
+              "emoji": "🎶",
+              "label": "songs"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "We sing songs with the ____ every Friday."
+            "text": "We visit the ____ and sing songs with the older people who live there and get help."
           },
           "options": [
-            "playground",
-            "library",
-            "supermarket",
-            "retirement home"
+            "animal shelter",
+            "community",
+            "retirement home",
+            "countryside"
           ],
-          "answer": 3,
+          "answer": 2,
           "explain": {
             "id": "c4e",
             "text": "A retirement home is a place where older people live and get help."
@@ -526,7 +655,7 @@
           "wordId": "CPP1-U6-SB-670",
           "prompt": {
             "id": "c5q",
-            "text": "Listen: The residents at the retirement home love our visits."
+            "text": "Listen: resident."
           },
           "options": [
             "CPP1-U6-SB-667",
@@ -571,28 +700,38 @@
           "options": [
             "bottle",
             "can",
-            "jar",
+            "feeder",
             "suggestion"
           ],
           "answer": 3,
           "explain": {
             "id": "c7e",
-            "text": "Can, bottle and jar are containers, but a suggestion is an idea."
+            "text": "Bottle, can and feeder are containers, but a suggestion is an idea."
           }
         },
         {
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-675",
+          "props": [
+            {
+              "emoji": "🐕🐕",
+              "label": "dogs"
+            },
+            {
+              "emoji": "🐈🐈",
+              "label": "cats"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "We help the dogs and cats at the ____."
           },
           "options": [
-            "library",
-            "supermarket",
+            "retirement home",
+            "community",
             "animal shelter",
-            "playground"
+            "countryside"
           ],
           "answer": 2,
           "explain": {
@@ -604,6 +743,12 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP1-U6-SB-676",
+          "props": [
+            {
+              "emoji": "🚗",
+              "label": "car"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "A walk means going somewhere by car."
@@ -624,7 +769,7 @@
           "wordId": "CPP1-U6-SB-681",
           "prompt": {
             "id": "c10q",
-            "text": "Listen: That is a great suggestion, Leo!"
+            "text": "Listen: suggestion."
           },
           "options": [
             "CPP1-U6-SB-681",
@@ -706,5 +851,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

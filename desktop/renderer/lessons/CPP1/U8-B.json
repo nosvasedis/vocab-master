@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U8-SB-940",
-      "emoji": "🫙",
+      "emoji": "🥛🔝",
       "kidDefinition": "Having no space left inside.",
       "examples": [
         "The box is full of sand.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-941",
-      "emoji": "🥛",
+      "emoji": "🥛❌",
       "kidDefinition": "Having nothing inside.",
       "examples": [
         "My glass is empty. Can I have some water, please?",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-942",
-      "emoji": "💧",
+      "emoji": "👅💧",
       "kidDefinition": "Wanting a drink of water.",
       "examples": [
         "It's too hot and I'm very thirsty.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-943",
-      "emoji": "💨",
+      "emoji": "🌀💨",
       "kidDefinition": "A machine that moves air to cool you.",
       "examples": [
         "Turn on the fan. It's hot in the room.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-954",
-      "emoji": "🌊",
+      "emoji": "🏞️",
       "kidDefinition": "A big stream of water flowing to the sea.",
       "examples": [
         "The Danube is a very long river!",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-967",
-      "emoji": "✏️",
+      "emoji": "✏️🖼️",
       "kidDefinition": "To draw a quick, simple picture.",
       "examples": [
         "Ben sketches very nice drawings.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-977",
-      "emoji": "🦸",
+      "emoji": "👕🦸",
       "kidDefinition": "Clothes you wear to look like someone else.",
       "examples": [
         "I can't decide what costume to wear at the costume party.",
@@ -244,19 +244,67 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            },
+            {
+              "emoji": "🧑‍🏫",
+              "label": "teacher"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Imagine you can paint a dream with one brush."
+          "text": "Imagine you can paint a dream with one brush.",
+          "props": [
+            {
+              "emoji": "🖌️",
+              "label": "brush"
+            },
+            {
+              "emoji": "💭",
+              "label": "dream"
+            },
+            {
+              "emoji": "🎨",
+              "label": "paint"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Today we meet Ling. She paints amazing pictures."
+          "text": "Today we meet Ling. She paints amazing pictures.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Ling"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🖼️🖼️",
+              "label": "pictures"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's learn new words and follow her story together."
+          "text": "Let's learn new words and follow her story together.",
+          "props": [
+            {
+              "emoji": "🔤",
+              "label": "words"
+            },
+            {
+              "emoji": "📖",
+              "label": "story"
+            }
+          ]
         }
       ],
       "question": {
@@ -297,9 +345,27 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "💭",
+              "label": "dream"
+            },
+            {
+              "emoji": "🐴🪽",
+              "label": "horse"
+            },
+            {
+              "emoji": "✏️",
+              "label": "sketch"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "Ling sits at her desk and begins to sketch a picture."
+            "text": "Ling sits down and begins to sketch a picture."
           },
           "speech": [
             {
@@ -329,9 +395,35 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪣",
+              "label": "pail"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "beach"
+            },
+            {
+              "emoji": "🧴",
+              "label": "bottle"
+            },
+            {
+              "emoji": "❌",
+              "label": "empty"
+            },
+            {
+              "emoji": "👅💧",
+              "label": "thirsty"
+            },
+            {
+              "emoji": "🏪",
+              "label": "shop"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Later, Ling fills her pail with sand on the beach."
+            "text": "Later, Ling fills her pail on the beach."
           },
           "speech": [
             {
@@ -362,6 +454,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌲",
+              "label": "forest"
+            },
+            {
+              "emoji": "🌊",
+              "label": "river"
+            },
+            {
+              "emoji": "🛤️",
+              "label": "path"
+            },
+            {
+              "emoji": "⚠️",
+              "label": "careful"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "They walk through the forest and reach a river."
@@ -375,7 +485,7 @@
             {
               "id": "p3b",
               "who": "leo",
-              "text": "Wow, the river is so blue and calm."
+              "text": "Wow, look at the river!"
             }
           ],
           "highlight": [
@@ -394,6 +504,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌀💨",
+              "label": "fan"
+            },
+            {
+              "emoji": "🥛",
+              "label": "glass"
+            },
+            {
+              "emoji": "🍋",
+              "label": "lemonade"
+            },
+            {
+              "emoji": "🥵",
+              "label": "hot"
+            },
+            {
+              "emoji": "🥛🔝",
+              "label": "full"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Back home, Ling turns on the fan."
@@ -407,7 +539,7 @@
             {
               "id": "p4b",
               "who": "leo",
-              "text": "My glass is full of cold lemonade now."
+              "text": "My glass is full of lemonade now."
             }
           ],
           "highlight": [
@@ -426,9 +558,31 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "party"
+            },
+            {
+              "emoji": "👕🦸",
+              "label": "costume"
+            },
+            {
+              "emoji": "🦸",
+              "label": "superhero"
+            },
+            {
+              "emoji": "🧑‍🎨",
+              "label": "painter"
+            },
+            {
+              "emoji": "🖌️",
+              "label": "paintbrush"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Next week, the class has a costume party."
+            "text": "Next week, there is a costume party."
           },
           "speech": [
             {
@@ -439,7 +593,7 @@
             {
               "id": "p5b",
               "who": "ling",
-              "text": "And I will be a painter with a magic paintbrush!"
+              "text": "And I will be a painter with a paintbrush!"
             }
           ],
           "highlight": [
@@ -463,8 +617,8 @@
           "options": [
             "CPP1-U8-SB-977",
             "CPP1-U8-SB-962",
-            "CPP1-U8-SB-967",
-            "CPP1-U8-SB-954"
+            "CPP1-U8-SB-954",
+            "CPP1-U8-SB-953"
           ],
           "answer": 1,
           "explain": {
@@ -478,15 +632,25 @@
           "wordId": "CPP1-U8-SB-941",
           "prompt": {
             "id": "c2q",
-            "text": "My water bottle is ____. Can I have some more, please?"
+            "text": "My water bottle is ____. There is no water in it. Can I have some more, please?"
           },
-          "options": [
-            "tired",
-            "happy",
-            "empty",
-            "full"
+          "props": [
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "🧴",
+              "label": "bottle"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "empty",
+            "full",
+            "thirsty",
+            "short"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c2e",
             "text": "Empty means there is nothing inside, so you want more water."
@@ -498,8 +662,14 @@
           "wordId": "CPP1-U8-SB-942",
           "prompt": {
             "id": "c3q",
-            "text": "Leo says he is thirsty on the beach. True or false?"
+            "text": "In the story, someone says 'I am so thirsty' on the beach. True or false?"
           },
+          "props": [
+            {
+              "emoji": "🏖️",
+              "label": "beach"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -507,7 +677,7 @@
           "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "Thirsty means you want a drink, and Leo asks for one."
+            "text": "On the beach, someone says they are thirsty and their bottle is empty."
           }
         },
         {
@@ -520,34 +690,52 @@
           },
           "options": [
             "fan",
+            "thirsty",
             "empty",
-            "full",
-            "thirsty"
+            "full"
           ],
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "A fan is a noun, but the other three words are adjectives."
+            "text": "Thirsty, empty and full are adjectives that describe how you feel or how full something is. A fan is a machine."
           }
         },
         {
           "id": "c5",
-          "kind": "pickPicture",
+          "kind": "gap",
           "wordId": "CPP1-U8-SB-944",
           "prompt": {
             "id": "c5q",
-            "text": "Which phrase tells you to take care and stay safe?"
+            "text": "Ling says: ____! The path is near the river."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Ling"
+            },
+            {
+              "emoji": "🛤️",
+              "label": "path"
+            },
+            {
+              "emoji": "🌊",
+              "label": "river"
+            },
+            {
+              "emoji": "⚠️",
+              "label": "careful"
+            }
+          ],
           "options": [
-            "CPP1-U8-SB-977",
-            "CPP1-U8-SB-944",
-            "CPP1-U8-SB-953",
-            "CPP1-U8-SB-954"
+            "Be quiet",
+            "Be careful",
+            "Be happy",
+            "Be ready"
           ],
           "answer": 1,
           "explain": {
             "id": "c5e",
-            "text": "Be careful means think about danger, like when Ling warns Leo near the river."
+            "text": "Be careful means think about danger and stay safe, like Ling warns Leo near the river."
           }
         },
         {
@@ -558,6 +746,16 @@
             "id": "c6q",
             "text": "Last night I had a strange ____ about a flying horse."
           },
+          "props": [
+            {
+              "emoji": "🌙",
+              "label": "night"
+            },
+            {
+              "emoji": "🐴🪽",
+              "label": "horse"
+            }
+          ],
           "options": [
             "costume",
             "dream",
@@ -578,6 +776,16 @@
             "id": "c7q",
             "text": "In the story, Ling and Leo walk to a river in the city. True or false?"
           },
+          "props": [
+            {
+              "emoji": "🌊",
+              "label": "river"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "city"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -596,13 +804,23 @@
             "id": "c8q",
             "text": "Ling likes to ____ a quick picture before she paints."
           },
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🎨",
+              "label": "paints"
+            }
+          ],
           "options": [
-            "sleep",
             "sketch",
             "steal",
-            "wash"
+            "think",
+            "say"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c8e",
             "text": "To sketch means to draw a quick, simple picture first."
@@ -618,14 +836,14 @@
           },
           "options": [
             "CPP1-U8-SB-977",
-            "CPP1-U8-SB-941",
             "CPP1-U8-SB-943",
-            "CPP1-U8-SB-962"
+            "CPP1-U8-SB-962",
+            "CPP1-U8-SB-954"
           ],
           "answer": 0,
           "explain": {
             "id": "c9e",
-            "text": "A costume is the special clothes you wear at a costume party."
+            "text": "A costume is the special clothes you wear to look like someone else, like a superhero."
           }
         },
         {
@@ -636,6 +854,16 @@
             "id": "c10q",
             "text": "Leo's glass is ____ to the top with cold lemonade."
           },
+          "props": [
+            {
+              "emoji": "🥛",
+              "label": "glass"
+            },
+            {
+              "emoji": "🍋",
+              "label": "lemonade"
+            }
+          ],
           "options": [
             "empty",
             "short",
@@ -681,7 +909,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I have a dream about a flying dog. On a hot day, I feel thirsty. For a costume party, I want to be a pilot."
+        "text": "I have a dream about a flying dog. On a hot day, I feel thirsty. For a costume party, I want to be a superhero."
       }
     },
     {
@@ -716,5 +944,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

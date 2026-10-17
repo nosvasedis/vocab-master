@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U5-SB-659",
-      "emoji": "🥀",
+      "emoji": "🪫",
       "kidDefinition": "Not strong. You have little energy or power.",
       "examples": [
         "My dog is very old and weak.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-665",
-      "emoji": "💬",
+      "emoji": "💬✅",
       "kidDefinition": "Words that tell someone what they should do.",
       "examples": [
         "Can you give me some advice, please?",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-674",
-      "emoji": "🦻",
+      "emoji": "🦻🚫",
       "kidDefinition": "Not able to hear anything, or not able to hear well.",
       "examples": [
         "My grandma is deaf, so she reads my lips.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-680",
-      "emoji": "👣",
+      "emoji": "👧👣",
       "kidDefinition": "To go after someone, behind them, in the same way.",
       "examples": [
         "Follow me, please, and stay close.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-707",
-      "emoji": "🎶",
+      "emoji": "🌙🎶",
       "kidDefinition": "A soft, slow song that helps a baby fall asleep.",
       "examples": [
         "My mum sings a lullaby every night.",
@@ -256,6 +256,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "village",
+      "props": [
+        {
+          "emoji": "🎵",
+          "label": "music"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -267,16 +273,38 @@
         },
         {
           "id": "l3",
-          "text": "Did you know a sound can make you feel a tiny shake?"
+          "text": "Did you know a sound can make you feel a tiny shake?",
+          "props": [
+            {
+              "emoji": "🔊",
+              "label": "sound"
+            },
+            {
+              "emoji": "📳",
+              "label": "shake"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we will meet Nora, a kind girl in a village."
+          "text": "Today we will meet Nora, a kind girl in a village.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Nora"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite song, and how does it make you feel?"
+        "text": "What is your favourite song, and how does it make you feel?",
+        "props": [
+          {
+            "emoji": "🎶",
+            "label": "song"
+          }
+        ]
       }
     },
     {
@@ -312,6 +340,16 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "🫏",
+              "label": "donkey"
+            },
+            {
+              "emoji": "🛍️",
+              "label": "bags"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "In a small village, Nora visits her grandpa and his old donkey, Dora."
@@ -325,7 +363,7 @@
             {
               "id": "p1b",
               "who": "grandpa",
-              "text": "Yes, she is old. She cannot pull the cart anymore."
+              "text": "Yes, she is old. She is too weak to carry heavy bags now."
             }
           ],
           "highlight": [
@@ -341,6 +379,28 @@
             },
             {
               "who": "grandpa"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💬",
+              "label": "advice"
+            },
+            {
+              "emoji": "🛏️",
+              "label": "rest"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "🍲",
+              "label": "food"
+            },
+            {
+              "emoji": "🫏",
+              "label": "Dora"
             }
           ],
           "caption": {
@@ -372,6 +432,32 @@
             },
             {
               "who": "grandpa"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🎵",
+              "label": "music"
+            },
+            {
+              "emoji": "🥁",
+              "label": "drum"
+            },
+            {
+              "emoji": "📢",
+              "label": "loud"
+            },
+            {
+              "emoji": "📳",
+              "label": "vibration"
+            },
+            {
+              "emoji": "🟫",
+              "label": "floor"
+            },
+            {
+              "emoji": "🦻🚫",
+              "label": "deaf"
             }
           ],
           "caption": {
@@ -407,6 +493,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🚲",
+              "label": "bike"
+            },
+            {
+              "emoji": "⛑️🚫",
+              "label": "helmet"
+            },
+            {
+              "emoji": "⚠️",
+              "label": "dangerous"
+            },
+            {
+              "emoji": "🛡️",
+              "label": "protect"
+            },
+            {
+              "emoji": "🧠",
+              "label": "head"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "On the street, Leo rides his bike without a helmet."
@@ -440,9 +548,31 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌇",
+              "label": "sunset"
+            },
+            {
+              "emoji": "🫏",
+              "label": "Dora"
+            },
+            {
+              "emoji": "👣",
+              "label": "follow"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🌙🎶",
+              "label": "lullaby"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "At sunset, Dora walks slowly behind Nora to the barn."
+            "text": "At sunset, Dora walks slowly behind Nora."
           },
           "speech": [
             {
@@ -471,20 +601,30 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP2-U5-SB-659",
+          "props": [
+            {
+              "emoji": "🫏",
+              "label": "donkey"
+            },
+            {
+              "emoji": "🎵",
+              "label": "cart"
+            }
+          ],
           "prompt": {
             "id": "c1q",
-            "text": "My donkey is old and very ____. She cannot walk far."
+            "text": "My donkey is old and very ____. She has no energy and cannot pull the cart."
           },
           "options": [
-            "strong",
             "weak",
-            "fast",
-            "happy"
+            "loud",
+            "dangerous",
+            "useful"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c1e",
-            "text": "Weak means you have very little strength, so an old donkey can be weak."
+            "text": "Weak means you have very little strength, so an old donkey with no energy is weak."
           }
         },
         {
@@ -531,6 +671,16 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP2-U5-SB-662",
+          "props": [
+            {
+              "emoji": "🚲",
+              "label": "bike"
+            },
+            {
+              "emoji": "⛑️🚫",
+              "label": "helmet"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Riding a bike without a helmet is dangerous."
@@ -555,20 +705,34 @@
           },
           "options": [
             "deaf",
-            "soft",
             "loud",
-            "noisy"
+            "lullaby",
+            "vibration"
           ],
           "answer": 0,
           "explain": {
             "id": "c5e",
-            "text": "Loud, soft and noisy describe sounds, but deaf describes a person who cannot hear."
+            "text": "Loud, lullaby and vibration are all about sound or music, but deaf means you cannot hear."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP2-U5-SB-665",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Nora"
+            },
+            {
+              "emoji": "👴",
+              "label": "Grandpa"
+            },
+            {
+              "emoji": "🫏",
+              "label": "Dora"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "Nora asked Grandpa for ____ on how to help Dora."
@@ -609,6 +773,20 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP2-U5-SB-667",
+          "props": [
+            {
+              "emoji": "⛑️",
+              "label": "helmet"
+            },
+            {
+              "emoji": "🧠",
+              "label": "head"
+            },
+            {
+              "emoji": "🚲",
+              "label": "cycle"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "Wear a helmet to ____ your head when you cycle."
@@ -649,6 +827,12 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP2-U5-SB-663",
+          "props": [
+            {
+              "emoji": "🥁",
+              "label": "drum"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "In the story, Nora says she will play her drum very quietly."
@@ -731,5 +915,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

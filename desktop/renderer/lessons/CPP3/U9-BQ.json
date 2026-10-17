@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U9-SB-1133",
-      "emoji": "🎸",
+      "emoji": "🎸🎻🥁",
       "kidDefinition": "A thing you play to make music.",
       "examples": [
         "Irene can play three musical instruments.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1140",
-      "emoji": "🎻",
+      "emoji": "🎻🪕",
       "kidDefinition": "An instrument with strings that you play with a bow or your fingers.",
       "examples": [
         "The harp is a string instrument with many strings.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1141",
-      "emoji": "🎺",
+      "emoji": "🎺🪈",
       "kidDefinition": "An instrument you play by blowing air into it.",
       "examples": [
         "The trumpet is a wind instrument that is very loud.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1142",
-      "emoji": "🥁",
+      "emoji": "🥁🪇",
       "kidDefinition": "An instrument you hit, shake, or tap to make a sound.",
       "examples": [
         "The drum is a percussion instrument that makes a big sound.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1138",
-      "emoji": "💨",
+      "emoji": "🫁💨",
       "kidDefinition": "The air you take into your body and let out.",
       "examples": [
         "Before the high note, Mason took a deep breath.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1134",
-      "emoji": "📣",
+      "emoji": "🔁🎶",
       "kidDefinition": "To say or sing short words again and again with a rhythm.",
       "examples": [
         "The children chanted the name of their team at the match.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1135",
-      "emoji": "🎤",
+      "emoji": "🎤🎶",
       "kidDefinition": "A modern style of music that many people enjoy listening to.",
       "examples": [
         "Irene loves pop music because the songs are catchy and bright.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1136",
-      "emoji": "🎹",
+      "emoji": "🎼🎹",
       "kidDefinition": "Traditional music written by famous composers, often played by orchestras.",
       "examples": [
         "Mason's favourite classical music was written by Beethoven.",
@@ -214,15 +214,57 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love music."
+          "text": "Hello, friends! I am Lingo, and I love music.",
+          "props": [
+            {
+              "emoji": "🎵",
+              "label": "music"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Music is everywhere. You hear it in shops, parks, and even in the kitchen."
+          "text": "Music is everywhere. You hear it in shops, parks, and even in the kitchen.",
+          "props": [
+            {
+              "emoji": "🏪",
+              "label": "shop"
+            },
+            {
+              "emoji": "🌳",
+              "label": "park"
+            },
+            {
+              "emoji": "🍳",
+              "label": "kitchen"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Mason hums while he draws. Irene carries her flute to school every day."
+          "text": "Mason likes to hum. Irene carries her flute to school every day.",
+          "props": [
+            {
+              "emoji": "🧒",
+              "label": "Mason"
+            },
+            {
+              "emoji": "🎶",
+              "label": "hum"
+            },
+            {
+              "emoji": "👧",
+              "label": "Irene"
+            },
+            {
+              "emoji": "🪈",
+              "label": "flute"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -304,16 +346,26 @@
             "text": "The singer took a deep ____ before the big note."
           },
           "options": [
-            "bath",
+            "voice",
             "breath",
-            "breeze",
-            "bread"
+            "chant",
+            "jazz"
           ],
           "answer": 1,
           "explain": {
             "id": "c3e",
             "text": "A breath is the air we take in and let out."
-          }
+          },
+          "props": [
+            {
+              "emoji": "👩‍🎤",
+              "label": "singer"
+            },
+            {
+              "emoji": "🎵",
+              "label": "note"
+            }
+          ]
         },
         {
           "id": "c4",
@@ -321,7 +373,7 @@
           "wordId": "CPP3-U9-SB-1135",
           "prompt": {
             "id": "c4q",
-            "text": "Pop music is a kind of music that is often played on the radio."
+            "text": "Pop music is a modern style of music that many people enjoy listening to."
           },
           "options": [
             "True",
@@ -330,8 +382,14 @@
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "Pop music is modern and catchy, and it is often on the radio."
-          }
+            "text": "Pop music is modern and many people enjoy listening to it."
+          },
+          "props": [
+            {
+              "emoji": "📻",
+              "label": "radio"
+            }
+          ]
         },
         {
           "id": "c5",
@@ -339,19 +397,29 @@
           "wordId": "CPP3-U9-SB-1139",
           "prompt": {
             "id": "c5q",
-            "text": "Simon has a great ____! He should be a singer."
+            "text": "Simon has a beautiful ____! He should be a singer."
           },
           "options": [
-            "valley",
-            "vase",
+            "breath",
             "voice",
-            "voyage"
+            "chant",
+            "jazz"
           ],
-          "answer": 2,
+          "answer": 1,
           "explain": {
             "id": "c5e",
             "text": "Your voice is the sound you make when you speak or sing."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🧑",
+              "label": "Simon"
+            },
+            {
+              "emoji": "👩‍🎤",
+              "label": "singer"
+            }
+          ]
         },
         {
           "id": "c6",
@@ -379,7 +447,7 @@
           "wordId": "CPP3-U9-SB-1142",
           "prompt": {
             "id": "c7q",
-            "text": "Point to the word for instruments you hit or shake, like a drum."
+            "text": "Point to the word for an instrument you hit or shake, like a drum."
           },
           "options": [
             "CPP3-U9-SB-1133",
@@ -409,7 +477,25 @@
           "explain": {
             "id": "c8e",
             "text": "Wind instruments need air blown into them to make sound."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🪈",
+              "label": "flute"
+            },
+            {
+              "emoji": "🌬️",
+              "label": "wind"
+            },
+            {
+              "emoji": "🎸",
+              "label": "instrument"
+            },
+            {
+              "emoji": "💨",
+              "label": "air"
+            }
+          ]
         },
         {
           "id": "c9",
@@ -417,19 +503,33 @@
           "wordId": "CPP3-U9-SB-1137",
           "prompt": {
             "id": "c9q",
-            "text": "Karen plays the saxophone and listens to ____ every night."
+            "text": "Karen plays the saxophone and loves music that is relaxed and made up as you play. She listens to ____ every night."
           },
           "options": [
-            "dinner",
-            "jazz",
-            "bicycle",
-            "tennis"
+            "pop music",
+            "classical music",
+            "chant",
+            "jazz"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c9e",
-            "text": "Jazz is a relaxed style of music, and it often features the saxophone."
-          }
+            "text": "Jazz is a relaxed style of music with a lot of improvisation."
+          },
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "Karen"
+            },
+            {
+              "emoji": "🎷",
+              "label": "saxophone"
+            },
+            {
+              "emoji": "🌙",
+              "label": "night"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -437,7 +537,7 @@
           "wordId": "CPP3-U9-SB-1136",
           "prompt": {
             "id": "c10q",
-            "text": "Point to the words for music written by famous composers like Beethoven."
+            "text": "Point to the word for music written by famous composers like Beethoven."
           },
           "options": [
             "CPP3-U9-SB-1136",
@@ -515,5 +615,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

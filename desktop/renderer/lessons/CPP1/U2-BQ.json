@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-149",
-      "emoji": "😊",
+      "emoji": "💗😊",
       "kidDefinition": "To have a feeling, such as happy or nervous.",
       "examples": [
         "I feel nervous on my first day.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-150",
-      "emoji": "🏫",
+      "emoji": "🏫🪑",
       "kidDefinition": "The room in a school where students learn together.",
       "examples": [
         "Our classroom has big windows and bright posters.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-151",
-      "emoji": "🪑",
+      "emoji": "📝🪑",
       "kidDefinition": "A table where you sit and work at school.",
       "examples": [
         "I put my pencil case on my desk.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-153",
-      "emoji": "👕",
+      "emoji": "👕👕",
       "kidDefinition": "Special clothes that students wear at school.",
       "examples": [
         "My uniform is navy blue with a white shirt.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-154",
-      "emoji": "👫",
+      "emoji": "👫🏫",
       "kidDefinition": "A friend who is in the same class as you.",
       "examples": [
         "My classmate Nikos likes football.",
@@ -196,18 +196,51 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "school",
+      "characters": [
+        "lingo",
+        "mia",
+        "nikos"
+      ],
+      "props": [
+        {
+          "emoji": "🏫",
+          "label": "school"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🧑‍🏫",
+              "label": "teacher"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we step into a school with new friends."
+          "text": "Today we go into a school with new friends.",
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "School is a big place, full of people and noise!"
+          "text": "School is a big place, full of people and noise!",
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "people"
+            },
+            {
+              "emoji": "🔊",
+              "label": "noise"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -287,10 +320,16 @@
             "id": "c3q",
             "text": "Please sit at your ____ and open your book."
           },
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "book"
+            }
+          ],
           "options": [
             "desk",
-            "garden",
-            "lunch"
+            "classroom",
+            "uniform"
           ],
           "answer": 0,
           "explain": {
@@ -306,6 +345,24 @@
             "id": "c4q",
             "text": "A uniform is special clothes that students wear at school. True or false?"
           },
+          "props": [
+            {
+              "emoji": "👕",
+              "label": "uniform"
+            },
+            {
+              "emoji": "🧥",
+              "label": "clothes"
+            },
+            {
+              "emoji": "🧑‍🎓",
+              "label": "student"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -322,18 +379,18 @@
           "wordId": "CPP1-U2-SB-149",
           "prompt": {
             "id": "c5q",
-            "text": "Which word is NOT a feeling?"
+            "text": "Which word is NOT a person?"
           },
           "options": [
-            "welcome",
-            "sad",
-            "happy",
-            "nervous"
+            "feel",
+            "student",
+            "teacher",
+            "classmate"
           ],
           "answer": 0,
           "explain": {
             "id": "c5e",
-            "text": "Happy, sad and nervous are feelings, but welcome is an action."
+            "text": "Student, teacher and classmate are people, but feel is an action."
           }
         },
         {
@@ -346,8 +403,8 @@
           },
           "options": [
             "question",
-            "lesson",
-            "lunch"
+            "desk",
+            "uniform"
           ],
           "answer": 0,
           "explain": {
@@ -383,6 +440,24 @@
             "id": "c8q",
             "text": "A classroom is a place to sleep at night. True or false?"
           },
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "classroom"
+            },
+            {
+              "emoji": "📍",
+              "label": "place"
+            },
+            {
+              "emoji": "🛏️",
+              "label": "sleep"
+            },
+            {
+              "emoji": "🌙",
+              "label": "night"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -466,7 +541,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "My school has a big library. I feel happy in my classroom. My favourite classmate is Eleni."
+        "text": "My school has a friendly teacher. I feel happy in my classroom. My favourite classmate is Eleni."
       }
     },
     {
@@ -479,11 +554,35 @@
         },
         {
           "id": "l2",
-          "text": "You can now talk about your teacher, your desk and your classmates."
+          "text": "You can now talk about your teacher, your desk and your classmates.",
+          "props": [
+            {
+              "emoji": "🧑‍🏫",
+              "label": "teacher"
+            },
+            {
+              "emoji": "🪑",
+              "label": "desk"
+            },
+            {
+              "emoji": "👫",
+              "label": "classmates"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next time, Mia and Nikos will show us their school!"
+          "text": "Next time, Mia and Nikos will show us their school!",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Nikos"
+            }
+          ]
         }
       ],
       "badge": {
@@ -501,5 +600,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

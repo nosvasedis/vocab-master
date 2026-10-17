@@ -46,7 +46,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U6-SB-855",
-      "emoji": "📣",
+      "emoji": "👄💨",
       "kidDefinition": "A small loud object you blow to make a sound to start or stop a game.",
       "examples": [
         "The lifeguard blew her whistle when the children swam too far.",
@@ -80,7 +80,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-858",
-      "emoji": "🧤",
+      "emoji": "🧤🥅",
       "kidDefinition": "The player who stands in front of the goal and tries to stop the ball.",
       "examples": [
         "Our goalkeeper caught the ball with both hands.",
@@ -114,7 +114,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-854",
-      "emoji": "🦶",
+      "emoji": "🦵🦶",
       "kidDefinition": "The joint where your foot connects to your leg.",
       "examples": [
         "I hurt my ankle when I jumped off the wall.",
@@ -131,7 +131,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-867",
-      "emoji": "⚽",
+      "emoji": "⚽➡️",
       "kidDefinition": "To send the ball to a teammate by kicking or throwing it.",
       "examples": [
         "Pass me the ball, Sam! I'm free!",
@@ -148,7 +148,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-885",
-      "emoji": "🟰",
+      "emoji": "⚽🟰⚽",
       "kidDefinition": "A result in a game when both teams have the same score.",
       "examples": [
         "The chess game ended in a tie, so nobody won.",
@@ -165,7 +165,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-903",
-      "emoji": "🏃",
+      "emoji": "🏃🔥",
       "kidDefinition": "Gentle exercise you do before a sport to get your body ready.",
       "examples": [
         "We always do a warm-up before we run.",
@@ -234,18 +234,62 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
+      "props": [
+        {
+          "emoji": "👥",
+          "label": "team"
+        },
+        {
+          "emoji": "👦",
+          "label": "Theo"
+        },
+        {
+          "emoji": "👧",
+          "label": "Nina"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love watching sports in the park."
+          "text": "Hello, friends! I am Lingo, and I love watching sports in the park.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            },
+            {
+              "emoji": "👫",
+              "label": "friends"
+            },
+            {
+              "emoji": "⚽",
+              "label": "sports"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Some sports are played on a big field. Some are played on a court."
+          "text": "Some sports are played on a big field. Some are played on a court.",
+          "props": [
+            {
+              "emoji": "🌿",
+              "label": "field"
+            },
+            {
+              "emoji": "🏀",
+              "label": "court"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Today we meet Theo, Nina and their team. It is match day!"
+          "text": "Today we meet Theo, Nina and their team. It is match day!",
+          "props": [
+            {
+              "emoji": "🏁",
+              "label": "match day"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -288,6 +332,20 @@
               "who": "nina"
             }
           ],
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "team"
+            },
+            {
+              "emoji": "⚽",
+              "label": "ball"
+            },
+            {
+              "emoji": "🏃🔥",
+              "label": "warm-up"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "On Saturday morning, the team arrives at the park. Everyone is ready to play."
@@ -301,7 +359,13 @@
             {
               "id": "p1b",
               "who": "nina",
-              "text": "Let's do a quick warm-up first. Then you will feel better, Theo!"
+              "text": "Let's do a quick warm-up first. Then you will feel better, Theo!",
+              "props": [
+                {
+                  "emoji": "🏃🔥",
+                  "label": "warm-up"
+                }
+              ]
             }
           ],
           "highlight": [
@@ -319,9 +383,27 @@
               "who": "dana"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌿",
+              "label": "field"
+            },
+            {
+              "emoji": "👄💨",
+              "label": "whistle"
+            },
+            {
+              "emoji": "🏃🏃",
+              "label": "players"
+            },
+            {
+              "emoji": "👥",
+              "label": "team"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "The referee walks onto the field and lifts his whistle to his lips."
+            "text": "The referee walks onto the field and blows his whistle."
           },
           "speech": [
             {
@@ -349,6 +431,24 @@
             },
             {
               "who": "theo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧒",
+              "label": "Sam"
+            },
+            {
+              "emoji": "⚽➡️",
+              "label": "pass"
+            },
+            {
+              "emoji": "⚽",
+              "label": "ball"
+            },
+            {
+              "emoji": "🥅",
+              "label": "goal"
             }
           ],
           "caption": {
@@ -386,6 +486,24 @@
               "who": "dana"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧤",
+              "label": "goalkeeper"
+            },
+            {
+              "emoji": "⚽💥",
+              "label": "shot"
+            },
+            {
+              "emoji": "🙌",
+              "label": "save"
+            },
+            {
+              "emoji": "🦵🦶",
+              "label": "ankle"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Theo, our goalkeeper, saves a hard shot. Then Nina falls and grabs her ankle."
@@ -418,6 +536,28 @@
               "who": "dana"
             }
           ],
+          "props": [
+            {
+              "emoji": "👥👥",
+              "label": "teams"
+            },
+            {
+              "emoji": "🥅🥅",
+              "label": "goal"
+            },
+            {
+              "emoji": "🟰",
+              "label": "tie"
+            },
+            {
+              "emoji": "🏆",
+              "label": "win"
+            },
+            {
+              "emoji": "🏁",
+              "label": "match"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "At the end, both teams have one goal each. The match finishes as a tie."
@@ -448,6 +588,16 @@
           "id": "c1",
           "kind": "pickPicture",
           "wordId": "CPP3-U6-SB-855",
+          "props": [
+            {
+              "emoji": "🧑‍⚖️",
+              "label": "referee"
+            },
+            {
+              "emoji": "🏁",
+              "label": "match"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "Pick the picture: the small object the referee blows to start the match."
@@ -468,9 +618,15 @@
           "id": "c2",
           "kind": "listen",
           "wordId": "CPP3-U6-SB-875",
+          "props": [
+            {
+              "emoji": "📜",
+              "label": "rules"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Listen and point: this person makes sure the rules are followed in the match."
+            "text": "Listen and point: referee."
           },
           "options": [
             "CPP3-U6-SB-875",
@@ -488,14 +644,36 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-858",
+          "props": [
+            {
+              "emoji": "⚽",
+              "label": "ball"
+            },
+            {
+              "emoji": "🥅",
+              "label": "goal"
+            },
+            {
+              "emoji": "🙌",
+              "label": "hands"
+            },
+            {
+              "emoji": "🐟",
+              "label": "net"
+            },
+            {
+              "emoji": "🧤",
+              "label": "gloves"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "The ____ caught the ball with both hands and kept the goal safe."
+            "text": "The ____ wears gloves, stands in front of the net and stops the ball with both hands."
           },
           "options": [
-            "striker",
             "captain",
-            "defender",
+            "coach",
+            "referee",
             "goalkeeper"
           ],
           "answer": 3,
@@ -508,6 +686,24 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U6-SB-859",
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "Theo"
+            },
+            {
+              "emoji": "🧒",
+              "label": "Sam"
+            },
+            {
+              "emoji": "⚽➡️",
+              "label": "pass"
+            },
+            {
+              "emoji": "🥅",
+              "label": "net"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "In the story, Theo scored the first goal of the match."
@@ -526,15 +722,33 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-854",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Nina"
+            },
+            {
+              "emoji": "🦶",
+              "label": "foot"
+            },
+            {
+              "emoji": "🦵",
+              "label": "leg"
+            },
+            {
+              "emoji": "🦴",
+              "label": "joint"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "Nina fell during the match and hurt her ____."
+            "text": "Nina fell and hurt the joint where her foot meets her leg: her ____."
           },
           "options": [
-            "wrist",
-            "elbow",
+            "whistle",
+            "referee",
             "ankle",
-            "knee"
+            "goalkeeper"
           ],
           "answer": 2,
           "explain": {
@@ -552,28 +766,42 @@
           },
           "options": [
             "field",
-            "kick",
-            "throw",
-            "pass"
+            "pass",
+            "toss",
+            "attack"
           ],
           "answer": 0,
           "explain": {
             "id": "c6e",
-            "text": "Field is a place, but kick, pass and throw are things you do with the ball."
+            "text": "Field is a place, but pass, toss and attack are actions in a game."
           }
         },
         {
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-885",
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "teams"
+            },
+            {
+              "emoji": "🥅🥅",
+              "label": "goal"
+            },
+            {
+              "emoji": "🏁",
+              "label": "match"
+            }
+          ],
           "prompt": {
             "id": "c7q",
-            "text": "Both teams scored two goals, so the match ended in a ____."
+            "text": "Both teams scored one goal, so the match ended in a ____."
           },
           "options": [
-            "win",
-            "loss",
-            "prize",
+            "goal",
+            "score",
+            "match",
             "tie"
           ],
           "answer": 3,
@@ -586,15 +814,25 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-903",
+          "props": [
+            {
+              "emoji": "🏁",
+              "label": "match"
+            },
+            {
+              "emoji": "💪",
+              "label": "muscles"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "Before the match, we do a quick ____ to get our muscles ready."
           },
           "options": [
-            "lunch",
+            "match",
             "warm-up",
-            "nap",
-            "holiday"
+            "score",
+            "field"
           ],
           "answer": 1,
           "explain": {
@@ -611,11 +849,27 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Let's play a memory game! Find the matching pairs of pictures and words."
+          "text": "Let's play a memory game! Find the matching pairs of pictures and words.",
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "pictures"
+            },
+            {
+              "emoji": "🔤",
+              "label": "words"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Say each word aloud when you turn over a card. Ready? Let's go!"
+          "text": "Say each word aloud when you turn over a card. Ready? Let's go!",
+          "props": [
+            {
+              "emoji": "🃏",
+              "label": "card"
+            }
+          ]
         }
       ]
     },
@@ -635,7 +889,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I think a good goalkeeper is important, because they stop the goals. In my opinion, the referee must always be fair. When I play football, I like to pass the ball to my teammates."
+        "text": "I think a good goalkeeper is important in a match, because they stop the goals. In my opinion, the referee must always be fair. When I play football, I like to pass the ball to my teammates."
       }
     },
     {
@@ -644,11 +898,31 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, team! You learned eight useful words for match day."
+          "text": "Brilliant work, team! You learned eight useful words for match day.",
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "team"
+            },
+            {
+              "emoji": "📝",
+              "label": "words"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Now you can describe a game like a real commentator. Well done!"
+          "text": "Now you can describe a game like a real commentator. Well done!",
+          "props": [
+            {
+              "emoji": "🎙️",
+              "label": "commentator"
+            },
+            {
+              "emoji": "⚽",
+              "label": "game"
+            }
+          ]
         }
       ],
       "badge": {
@@ -658,7 +932,17 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "What does a referee do during a match?"
+          "text": "What does a referee do during a match?",
+          "props": [
+            {
+              "emoji": "🧑‍⚖️",
+              "label": "referee"
+            },
+            {
+              "emoji": "🏁",
+              "label": "match"
+            }
+          ]
         },
         {
           "id": "e2",
@@ -666,5 +950,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

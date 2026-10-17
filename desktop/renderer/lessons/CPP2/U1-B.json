@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U1-SB-73",
-      "emoji": "🛣️",
+      "emoji": "🏠🛣️🏪",
       "kidDefinition": "A road in a town, with houses or shops along it.",
       "examples": [
         "Our school is on a quiet street.",
@@ -47,7 +47,7 @@
         "pillow",
         "bridge"
       ],
-      "greekHint": "Το δρόμος έχει σπίτια και μαγαζιά.",
+      "greekHint": "Ο δρόμος έχει σπίτια και μαγαζιά.",
       "english": "street",
       "type": "n."
     },
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-77",
-      "emoji": "✂️",
+      "emoji": "💇✂️",
       "kidDefinition": "When someone cuts your hair to make it shorter.",
       "examples": [
         "I want a short haircut for the summer.",
@@ -86,7 +86,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-99",
-      "emoji": "🌱",
+      "emoji": "🌱➡️🌳",
       "kidDefinition": "To get bigger over time.",
       "examples": [
         "Trees grow very tall in the forest.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-100",
-      "emoji": "👤",
+      "emoji": "👤☝️",
       "kidDefinition": "The part of your face above your eyes.",
       "examples": [
         "Put a cold cloth on your forehead when you are hot.",
@@ -118,7 +118,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-104",
-      "emoji": "↔️",
+      "emoji": "🏠🧍🌳",
       "kidDefinition": "In the middle space of two things.",
       "examples": [
         "The cat sleeps between the two pillows.",
@@ -134,7 +134,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-105",
-      "emoji": "🧍",
+      "emoji": "🧍➡️🪞",
       "kidDefinition": "On the front side of something, facing it.",
       "examples": [
         "The bus stops in front of the bakery.",
@@ -150,7 +150,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-103",
-      "emoji": "🐕",
+      "emoji": "🧱🐕",
       "kidDefinition": "On the far side of something, not in front.",
       "examples": [
         "The ball rolled behind the sofa.",
@@ -249,11 +249,39 @@
         },
         {
           "id": "l2",
-          "text": "Every street has shops, parks and friendly people."
+          "text": "Every street has shops, parks and friendly people.",
+          "props": [
+            {
+              "emoji": "🏪",
+              "label": "shops"
+            },
+            {
+              "emoji": "🌳",
+              "label": "parks"
+            },
+            {
+              "emoji": "🧑🧑",
+              "label": "people"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Today we visit a barbershop and a doctor's clinic."
+          "text": "Today we visit a barbershop and a doctor's clinic.",
+          "props": [
+            {
+              "emoji": "💈",
+              "label": "barbershop"
+            },
+            {
+              "emoji": "👨‍⚕️",
+              "label": "doctor"
+            },
+            {
+              "emoji": "🏥",
+              "label": "clinic"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -262,7 +290,13 @@
       ],
       "question": {
         "id": "q",
-        "text": "Have you ever had a haircut? Where did you go?"
+        "text": "Have you ever had a haircut? Where did you go?",
+        "props": [
+          {
+            "emoji": "✂️",
+            "label": "haircut"
+          }
+        ]
       }
     },
     {
@@ -295,6 +329,16 @@
               "who": "nico"
             }
           ],
+          "props": [
+            {
+              "emoji": "💇",
+              "label": "hair"
+            },
+            {
+              "emoji": "🚌",
+              "label": "bus"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Nico walks down the street. His hair is very long."
@@ -319,6 +363,24 @@
             },
             {
               "who": "mr_stavros"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💈",
+              "label": "barbershop"
+            },
+            {
+              "emoji": "✂️",
+              "label": "haircut"
+            },
+            {
+              "emoji": "💇",
+              "label": "hair"
+            },
+            {
+              "emoji": "🌱",
+              "label": "grows"
             }
           ],
           "caption": {
@@ -354,6 +416,20 @@
               "who": "mr_stavros"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪞",
+              "label": "mirror"
+            },
+            {
+              "emoji": "🪟🪟",
+              "label": "window"
+            },
+            {
+              "emoji": "💇",
+              "label": "hair"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Mr Stavros stands in front of Nico. A mirror hangs between two windows."
@@ -379,6 +455,20 @@
             },
             {
               "who": "mr_stavros"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🐕",
+              "label": "dog"
+            },
+            {
+              "emoji": "🪑",
+              "label": "chair"
+            },
+            {
+              "emoji": "👤☝️",
+              "label": "forehead"
             }
           ],
           "caption": {
@@ -410,6 +500,20 @@
               "who": "nico"
             }
           ],
+          "props": [
+            {
+              "emoji": "🩺",
+              "label": "check-up"
+            },
+            {
+              "emoji": "👨‍⚕️",
+              "label": "doctor"
+            },
+            {
+              "emoji": "💪",
+              "label": "healthy"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Two weeks later, Nico has a check-up at the doctor's."
@@ -427,10 +531,24 @@
         },
         {
           "id": "p6",
-          "backdrop": "home",
+          "backdrop": "city",
           "characters": [
             {
               "who": "nico"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "👨‍⚕️",
+              "label": "doctor"
+            },
+            {
+              "emoji": "💊",
+              "label": "medicine"
+            },
+            {
+              "emoji": "🤧",
+              "label": "cold"
             }
           ],
           "caption": {
@@ -460,7 +578,7 @@
           "wordId": "CPP2-U1-SB-72",
           "prompt": {
             "id": "c1q",
-            "text": "Find the picture of a barbershop."
+            "text": "Find the picture of the shop where men go to get their hair cut."
           },
           "options": [
             "CPP2-U1-SB-100",
@@ -501,9 +619,19 @@
             "id": "c3q",
             "text": "We walk down the busy ____ to school every morning."
           },
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🚶",
+              "label": "walk"
+            }
+          ],
           "options": [
-            "garden",
-            "pillow",
+            "barbershop",
+            "forehead",
             "street"
           ],
           "answer": 2,
@@ -520,6 +648,12 @@
             "id": "c4q",
             "text": "Between means on top of something."
           },
+          "props": [
+            {
+              "emoji": "📚⬆️",
+              "label": "on top of"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -536,13 +670,26 @@
           "wordId": "CPP2-U1-SB-105",
           "prompt": {
             "id": "c5q",
-            "text": "The bus stop is ____ the school gate."
+            "text": "The bus stop is ____ the school gate, so the gate is behind the bus stop."
           },
+          "props": [
+            {
+              "emoji": "🚌",
+              "label": "bus"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🚪",
+              "label": "gate"
+            }
+          ],
           "options": [
-            "under",
-            "inside",
-            "in front of",
-            "above"
+            "behind",
+            "between",
+            "in front of"
           ],
           "answer": 2,
           "explain": {
@@ -578,10 +725,20 @@
             "id": "c7q",
             "text": "I have a ____ with the doctor every year to check I am healthy."
           },
+          "props": [
+            {
+              "emoji": "👨‍⚕️",
+              "label": "doctor"
+            },
+            {
+              "emoji": "💪",
+              "label": "healthy"
+            }
+          ],
           "options": [
             "check-up",
-            "breakfast",
-            "holiday"
+            "medicine",
+            "haircut"
           ],
           "answer": 0,
           "explain": {
@@ -597,13 +754,19 @@
             "id": "c8q",
             "text": "Take this ____ and you will feel better soon."
           },
-          "options": [
-            "medicine",
-            "pencil",
-            "blanket",
-            "sandwich"
+          "props": [
+            {
+              "emoji": "🤒➡️😊",
+              "label": "feel better"
+            }
           ],
-          "answer": 0,
+          "options": [
+            "haircut",
+            "medicine",
+            "check-up",
+            "street"
+          ],
+          "answer": 1,
           "explain": {
             "id": "c8e",
             "text": "Medicine helps you feel better when you are ill."
@@ -615,7 +778,7 @@
           "wordId": "CPP2-U1-SB-100",
           "prompt": {
             "id": "c9q",
-            "text": "Which word means the part of your face above your eyes?"
+            "text": "Listen to the doctor: 'Your forehead looks great!' Which word did you hear?"
           },
           "options": [
             "CPP2-U1-SB-99",
@@ -636,6 +799,12 @@
             "id": "c10q",
             "text": "To grow means to get bigger over time."
           },
+          "props": [
+            {
+              "emoji": "🌱➡️🌳",
+              "label": "bigger"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -675,7 +844,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I walk down the street to school. There is a barbershop between my home and the park. I go to the bakery in front of my school."
+        "text": "I walk down the street to school. There is a barbershop between my home and the park. I go to the park in front of my school."
       }
     },
     {
@@ -710,5 +879,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

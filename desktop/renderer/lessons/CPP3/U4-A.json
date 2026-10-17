@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U4-SB-528",
-      "emoji": "🎨",
+      "emoji": "🧑‍🎨",
       "kidDefinition": "A person who makes paintings, sculptures or other art.",
       "examples": [
         "My favourite artist paints big, colourful flowers.",
@@ -86,7 +86,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-525",
-      "emoji": "🧱",
+      "emoji": "🤲🟤",
       "kidDefinition": "Soft wet earth that you can shape and bake.",
       "examples": [
         "In pottery, we make things out of clay.",
@@ -103,7 +103,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-524",
-      "emoji": "🫖",
+      "emoji": "🤲🫖",
       "kidDefinition": "The art of making things from clay, like cups and bowls.",
       "examples": [
         "Ian loves doing pottery and creating his own cups.",
@@ -137,7 +137,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-529",
-      "emoji": "🔶",
+      "emoji": "🔷⭐🔷⭐",
       "kidDefinition": "A design that repeats, such as stars or stripes.",
       "examples": [
         "Wendy drew a pattern and coloured it with watercolours.",
@@ -154,7 +154,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-534",
-      "emoji": "🖼️",
+      "emoji": "🏛️🖼️",
       "kidDefinition": "A building where people can look at works of art.",
       "examples": [
         "Our local gallery brings works of art by famous artists once a year.",
@@ -188,7 +188,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-531",
-      "emoji": "🏰",
+      "emoji": "🏖️🏰",
       "kidDefinition": "A castle built from wet sand on the beach.",
       "examples": [
         "Leo built a huge sandcastle with three towers.",
@@ -239,6 +239,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "props": [
+        {
+          "emoji": "🖼️",
+          "label": "art"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -246,11 +252,43 @@
         },
         {
           "id": "l2",
-          "text": "Some art is huge. Some art is tiny. Some art is even made of sand!"
+          "text": "Some art is huge. Some art is tiny. Some art is even made of sand!",
+          "props": [
+            {
+              "emoji": "🐘",
+              "label": "huge"
+            },
+            {
+              "emoji": "🐜",
+              "label": "tiny"
+            },
+            {
+              "emoji": "🏜️",
+              "label": "sand"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Who makes art? A painter, a sculptor, or a child playing with clay."
+          "text": "Who makes art? A painter, a sculptor, or a child playing with clay.",
+          "props": [
+            {
+              "emoji": "🧑‍🎨",
+              "label": "painter"
+            },
+            {
+              "emoji": "🧑",
+              "label": "sculptor"
+            },
+            {
+              "emoji": "🧒",
+              "label": "child"
+            },
+            {
+              "emoji": "🤲🟤",
+              "label": "clay"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -295,6 +333,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏛️🖼️",
+              "label": "gallery"
+            },
+            {
+              "emoji": "🗿",
+              "label": "sculpture"
+            },
+            {
+              "emoji": "🔩",
+              "label": "metal"
+            },
+            {
+              "emoji": "🧑‍🎨",
+              "label": "artist"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mia and Leo visit the local gallery on a sunny Saturday."
@@ -329,9 +385,31 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏺",
+              "label": "vase"
+            },
+            {
+              "emoji": "⭐",
+              "label": "star"
+            },
+            {
+              "emoji": "🔷⭐🔷",
+              "label": "pattern"
+            },
+            {
+              "emoji": "🏷️",
+              "label": "label"
+            },
+            {
+              "emoji": "🤲🟤",
+              "label": "clay"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "A blue vase with a star pattern catches Mia's eye."
+            "text": "Mia notices a blue vase with a star pattern."
           },
           "speech": [
             {
@@ -363,9 +441,35 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🫖",
+              "label": "pottery"
+            },
+            {
+              "emoji": "👥",
+              "label": "class"
+            },
+            {
+              "emoji": "🏺",
+              "label": "vase"
+            },
+            {
+              "emoji": "🤲🟤",
+              "label": "clay"
+            },
+            {
+              "emoji": "✋✋",
+              "label": "hands"
+            },
+            {
+              "emoji": "🔶🔷",
+              "label": "shape"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "Back at school, the class starts a pottery lesson."
+            "text": "Back in the classroom, the class starts a pottery lesson."
           },
           "speech": [
             {
@@ -394,6 +498,24 @@
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🏰",
+              "label": "sandcastle"
+            },
+            {
+              "emoji": "🗼🗼🗼",
+              "label": "towers"
+            },
+            {
+              "emoji": "🧑‍🎨",
+              "label": "artist"
             }
           ],
           "caption": {
@@ -426,6 +548,24 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏺",
+              "label": "vase"
+            },
+            {
+              "emoji": "👥",
+              "label": "class"
+            },
+            {
+              "emoji": "🔷⭐🔷",
+              "label": "pattern"
+            },
+            {
+              "emoji": "🧑‍🎨",
+              "label": "artist"
             }
           ],
           "caption": {
@@ -482,19 +622,37 @@
           "wordId": "CPP3-U4-SB-525",
           "prompt": {
             "id": "c2q",
-            "text": "In pottery class, we make cups and vases out of ____."
+            "text": "In pottery class, we shape soft wet ____ to make cups and vases."
           },
           "options": [
-            "sugar",
+            "metal",
             "clay",
-            "glass",
-            "paper"
+            "wood",
+            "pattern"
           ],
           "answer": 1,
           "explain": {
             "id": "c2e",
             "text": "Clay is the soft wet earth we shape in pottery."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🎨",
+              "label": "pottery"
+            },
+            {
+              "emoji": "🦕",
+              "label": "shape"
+            },
+            {
+              "emoji": "☕",
+              "label": "cup"
+            },
+            {
+              "emoji": "🎨",
+              "label": "vase"
+            }
+          ]
         },
         {
           "id": "c3",
@@ -502,7 +660,7 @@
           "wordId": "CPP3-U4-SB-526",
           "prompt": {
             "id": "c3q",
-            "text": "Statement: The blue vase in the gallery is light, even though it is made of clay."
+            "text": "Statement: The blue vase in the gallery looks light."
           },
           "options": [
             "True",
@@ -511,8 +669,18 @@
           "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "Leo says it looks very light, so it is easy to carry."
-          }
+            "text": "In the story, the vase looks very light."
+          },
+          "props": [
+            {
+              "emoji": "🎨",
+              "label": "vase"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "gallery"
+            }
+          ]
         },
         {
           "id": "c4",
@@ -552,7 +720,17 @@
           "explain": {
             "id": "c5e",
             "text": "A pattern is a design that repeats, like stars or stripes."
-          }
+          },
+          "props": [
+            {
+              "emoji": "⭐",
+              "label": "star"
+            },
+            {
+              "emoji": "🎨",
+              "label": "vase"
+            }
+          ]
         },
         {
           "id": "c6",
@@ -580,19 +758,33 @@
           "wordId": "CPP3-U4-SB-524",
           "prompt": {
             "id": "c7q",
-            "text": "Ian loves ____ and making his own cups and vases."
+            "text": "Ian loves ____, so he makes his own cups and vases from clay."
           },
           "options": [
-            "singing",
-            "cooking",
-            "football",
-            "pottery"
+            "pottery",
+            "gallery",
+            "sculpture",
+            "pattern"
           ],
-          "answer": 3,
+          "answer": 0,
           "explain": {
             "id": "c7e",
             "text": "Pottery is the art of making things from clay."
-          }
+          },
+          "props": [
+            {
+              "emoji": "☕",
+              "label": "cup"
+            },
+            {
+              "emoji": "🎨",
+              "label": "vase"
+            },
+            {
+              "emoji": "💭",
+              "label": "clay"
+            }
+          ]
         },
         {
           "id": "c8",
@@ -610,7 +802,21 @@
           "explain": {
             "id": "c8e",
             "text": "In the story, Leo says his sandcastle has three towers."
-          }
+          },
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "sandcastle"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "beach"
+            },
+            {
+              "emoji": "🗼",
+              "label": "tower"
+            }
+          ]
         },
         {
           "id": "c9",
@@ -618,19 +824,33 @@
           "wordId": "CPP3-U4-SB-523",
           "prompt": {
             "id": "c9q",
-            "text": "We learned to make a ____ in our pottery class."
+            "text": "We learned to make a clay ____ for flowers in our pottery class."
           },
           "options": [
-            "hat",
-            "sandwich",
+            "sandcastle",
             "vase",
-            "puzzle"
+            "gallery",
+            "artist"
           ],
-          "answer": 2,
+          "answer": 1,
           "explain": {
             "id": "c9e",
             "text": "A vase is a container, often made of clay, for flowers."
-          }
+          },
+          "props": [
+            {
+              "emoji": "💭",
+              "label": "clay"
+            },
+            {
+              "emoji": "🎨",
+              "label": "pottery"
+            },
+            {
+              "emoji": "🌸",
+              "label": "flowers"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -682,7 +902,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "My favourite work of art is a clay vase in our local gallery. It is very light, and it has a blue star pattern. I would like to make a vase like that in pottery class."
+        "text": "My favourite work of art is the blue vase in our local gallery. I like it because it is made of clay. It is very light, and it has a lovely star pattern. I would like to make a vase like that in pottery class."
       }
     },
     {
@@ -713,5 +933,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

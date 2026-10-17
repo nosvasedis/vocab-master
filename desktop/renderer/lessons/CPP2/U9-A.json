@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U9-SB-1091",
-      "emoji": "💡",
+      "emoji": "🛠️💡",
       "kidDefinition": "To make something new that did not exist before.",
       "examples": [
         "Scientists invent new machines to help people every day.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1096",
-      "emoji": "🍞",
+      "emoji": "🍞🔥",
       "kidDefinition": "A machine that makes bread hot and crispy.",
       "examples": [
         "Put two slices of bread in the toaster, please.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1107",
-      "emoji": "🎈",
+      "emoji": "🍞⬆️",
       "kidDefinition": "To come out quickly with a small sound.",
       "examples": [
         "The toast will pop out when it is ready.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1108",
-      "emoji": "🔥",
+      "emoji": "🍞⬛",
       "kidDefinition": "Black and spoiled because of too much heat.",
       "examples": [
         "Oh no, my pancake is burnt!",
@@ -133,7 +133,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1090",
-      "emoji": "🧦",
+      "emoji": "🧦🧦",
       "kidDefinition": "Two things that are used together, like shoes.",
       "examples": [
         "I need a pair of socks for school.",
@@ -213,6 +213,32 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
+      "props": [
+        {
+          "emoji": "🦉",
+          "label": "owls"
+        },
+        {
+          "emoji": "💡",
+          "label": "invention"
+        },
+        {
+          "emoji": "💭",
+          "label": "idea"
+        },
+        {
+          "emoji": "🍞🔥",
+          "label": "toaster"
+        },
+        {
+          "emoji": "📱",
+          "label": "smartphone"
+        },
+        {
+          "emoji": "🖊️",
+          "label": "object"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -267,6 +293,20 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "💨",
+              "label": "smoke"
+            },
+            {
+              "emoji": "🍞🔥",
+              "label": "toaster"
+            },
+            {
+              "emoji": "🍞⬛",
+              "label": "bread"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mia and Grandpa are in the kitchen. There is smoke near the toaster!"
@@ -296,6 +336,16 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "🍞",
+              "label": "bread"
+            },
+            {
+              "emoji": "🍞🔥",
+              "label": "toaster"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Grandpa tries again. This time, the bread is golden and warm."
@@ -317,6 +367,20 @@
           "characters": [
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "👖",
+              "label": "jeans"
+            },
+            {
+              "emoji": "👖👖",
+              "label": "pair"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
             }
           ],
           "caption": {
@@ -344,6 +408,16 @@
             },
             {
               "who": "grandpa"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🔭",
+              "label": "telescope"
+            },
+            {
+              "emoji": "🌙",
+              "label": "moon"
             }
           ],
           "caption": {
@@ -375,6 +449,28 @@
             },
             {
               "who": "grandpa"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🍞🔪",
+              "label": "slice"
+            },
+            {
+              "emoji": "🍞",
+              "label": "toast"
+            },
+            {
+              "emoji": "🧑‍🔬",
+              "label": "inventor"
+            },
+            {
+              "emoji": "💭",
+              "label": "idea"
+            },
+            {
+              "emoji": "🛠️",
+              "label": "invent"
             }
           ],
           "caption": {
@@ -428,6 +524,12 @@
           "id": "c2",
           "kind": "pickPicture",
           "wordId": "CPP2-U9-SB-1096",
+          "props": [
+            {
+              "emoji": "🍞",
+              "label": "bread"
+            }
+          ],
           "prompt": {
             "id": "c2q",
             "text": "Which word means a machine that makes bread hot and crispy?"
@@ -448,14 +550,28 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1090",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👖",
+              "label": "jeans"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Mia bought a new ____ of jeans for school."
           },
           "options": [
-            "cup",
+            "toaster",
             "pair",
-            "box"
+            "telescope"
           ],
           "answer": 1,
           "explain": {
@@ -467,13 +583,19 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1108",
+          "props": [
+            {
+              "emoji": "🍞⬛",
+              "label": "bread"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "The bread is black. Oh no, the bread is ____!"
           },
           "options": [
-            "wet",
-            "cold",
+            "amazing",
+            "bitter",
             "burnt"
           ],
           "answer": 2,
@@ -510,8 +632,8 @@
           },
           "options": [
             "inventor",
-            "teacher",
-            "painter"
+            "miner",
+            "cowboy"
           ],
           "answer": 0,
           "explain": {
@@ -546,15 +668,15 @@
             "text": "Which word is NOT found in a kitchen?"
           },
           "options": [
-            "kettle",
+            "toaster",
             "jeans",
-            "oven",
-            "toaster"
+            "timer",
+            "filter"
           ],
           "answer": 1,
           "explain": {
             "id": "c8e",
-            "text": "Jeans are trousers you wear, so they are not kitchen things like a toaster, kettle or oven."
+            "text": "Jeans are clothes you wear, not kitchen things like a toaster, timer or filter."
           }
         }
       ]
@@ -621,5 +743,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

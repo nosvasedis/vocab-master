@@ -9,8 +9,8 @@
   "picked": true,
   "cast": {
     "narrator": {
-      "voice": "voice_66japla7cydg",
-      "model": "gemini-3.8-flash-lite-tts"
+      "voice": "en-gb-tutor-6",
+      "model": "gemini-3.8-flash-tts"
     },
     "words": {
       "voice": "en-gb-tutor-6",
@@ -19,7 +19,7 @@
     },
     "examples": {
       "voice": "en-gb-tutor-6",
-      "model": "gemini-3.8-flash-lite-tts"
+      "model": "gemini-3.8-flash-tts"
     },
     "greek": {
       "voice": "el-gr-assistant-5",
@@ -53,12 +53,11 @@
     ],
     "grandparent": [
       "Gacrux",
-      "voice_d9qz2iin5da8",
       "Algenib",
-      "Vindemiatrix"
+      "Vindemiatrix",
+      "en-gb-tutor-5"
     ],
     "adultMan": [
-      "voice_4rdqc20aq05l",
       "Charon",
       "Orus",
       "Iapetus",
@@ -70,12 +69,11 @@
       "Aoede",
       "Achird",
       "Despina",
-      "en-gb-tutor-13",
-      "en-gb-storyteller-2"
+      "en-gb-tutor-13"
     ]
   },
-  "openrouterFor": [
-    "dialogue"
-  ],
-  "_openrouterNote": "Studio-voice story lines go to the same Gemini 3.8 Flash TTS model via OpenRouter (no daily cap, no style). Designed (voice_…) and library (en-gb-…) voices stay on Gemini direct."
+  "openrouterFor": [],
+  "_openrouterNote": "Studio-voice story lines go to the same Gemini 3.8 Flash TTS model via OpenRouter (no daily cap, no style). Designed (voice_…) and library (en-gb-…) voices stay on Gemini direct.",
+  "forceBatch": true,
+  "_decision2": "2026-10-17: user asked to drop the designed voice (daily quota) and record everything now. Lingo = en-gb-tutor-6 (the words voice: bright, breezy, wise British teacher). All lines go through the Gemini Batch API (no daily cap, half price, no style)."
 }

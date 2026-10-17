@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-938",
-      "emoji": "👑",
+      "emoji": "🪶👑",
       "kidDefinition": "A decorated covering worn on the head, often for a special occasion.",
       "examples": [
         "If you visit the museum, you can see the headdresses women wore in old times.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-942",
-      "emoji": "🔤",
+      "emoji": "🇬🇷➡️🇬🇧",
       "kidDefinition": "The changing of words from one language into another language.",
       "examples": [
         "Is this translation of the article correct?",
@@ -167,15 +167,65 @@
         },
         {
           "id": "l2",
-          "text": "Yesterday, a news report said an archaeologist found a huge stone statue."
+          "text": "Yesterday, a news report said an archaeologist found a huge stone statue.",
+          "props": [
+            {
+              "emoji": "📅",
+              "label": "yesterday"
+            },
+            {
+              "emoji": "📺",
+              "label": "news report"
+            },
+            {
+              "emoji": "🧑‍🔬",
+              "label": "archaeologist"
+            },
+            {
+              "emoji": "🪨",
+              "label": "stone"
+            },
+            {
+              "emoji": "🗿",
+              "label": "statue"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Archaeologists dig in the ground to find old things from long ago."
+          "text": "Archaeologists dig in the ground to find old things from long ago.",
+          "props": [
+            {
+              "emoji": "🧑‍🔬",
+              "label": "archaeologists"
+            },
+            {
+              "emoji": "⛏️",
+              "label": "dig"
+            },
+            {
+              "emoji": "🌍",
+              "label": "ground"
+            },
+            {
+              "emoji": "🏺",
+              "label": "old things"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Those old things help us understand how people lived in the past."
+          "text": "Those old things help us understand how people lived in the past.",
+          "props": [
+            {
+              "emoji": "🏺",
+              "label": "old things"
+            },
+            {
+              "emoji": "👥",
+              "label": "people"
+            }
+          ]
         }
       ],
       "question": {
@@ -207,8 +257,14 @@
           "wordId": "CPP3-U7-SB-937",
           "prompt": {
             "id": "c1q",
-            "text": "Look at the picture of an old clay pot from a tomb. Which word is it?"
+            "text": "Look at this old clay pot. Which word is it?"
           },
+          "props": [
+            {
+              "emoji": "🏺",
+              "label": "clay pot"
+            }
+          ],
           "options": [
             "CPP3-U7-SB-940",
             "CPP3-U7-SB-939",
@@ -218,7 +274,7 @@
           "answer": 3,
           "explain": {
             "id": "c1e",
-            "text": "An artifact is an old object made by people, like this pot."
+            "text": "An artefact is an old object made by people, like this pot."
           }
         },
         {
@@ -227,7 +283,7 @@
           "wordId": "CPP3-U7-SB-939",
           "prompt": {
             "id": "c2q",
-            "text": "Listen. Which word is a unit that measures length?"
+            "text": "Listen. Which word is 'metre'?"
           },
           "options": [
             "CPP3-U7-SB-936",
@@ -247,8 +303,18 @@
           "wordId": "CPP3-U7-SB-940",
           "prompt": {
             "id": "c3q",
-            "text": "The park has a tall ____ of a famous poet, made of bronze."
+            "text": "A tall ____ of a famous poet stands in the park."
           },
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            },
+            {
+              "emoji": "🧑",
+              "label": "poet"
+            }
+          ],
           "options": [
             "news report",
             "metre",
@@ -269,8 +335,22 @@
             "id": "c4q",
             "text": "Ancient builders cut huge ____ to make the temple walls."
           },
+          "props": [
+            {
+              "emoji": "👷",
+              "label": "builders"
+            },
+            {
+              "emoji": "🏛️",
+              "label": "temple"
+            },
+            {
+              "emoji": "🧱",
+              "label": "wall"
+            }
+          ],
           "options": [
-            "artifact",
+            "artefact",
             "stone",
             "translation",
             "headdress"
@@ -278,7 +358,7 @@
           "answer": 1,
           "explain": {
             "id": "c4e",
-            "text": "Stones are hard pieces of earth, and builders used them for walls."
+            "text": "Stone is hard, and builders used it for walls."
           }
         },
         {
@@ -287,8 +367,22 @@
           "wordId": "CPP3-U7-SB-936",
           "prompt": {
             "id": "c5q",
-            "text": "A news report tells people about recent events."
+            "text": "A news report on TV tells people about recent events."
           },
+          "props": [
+            {
+              "emoji": "📺",
+              "label": "TV"
+            },
+            {
+              "emoji": "🎉",
+              "label": "events"
+            },
+            {
+              "emoji": "🤩",
+              "label": "news"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -305,8 +399,22 @@
           "wordId": "CPP3-U7-SB-939",
           "prompt": {
             "id": "c6q",
-            "text": "A metre is a unit that measures how heavy something is."
+            "text": "A metre measures how heavy something is."
           },
+          "props": [
+            {
+              "emoji": "📏",
+              "label": "metre"
+            },
+            {
+              "emoji": "📐",
+              "label": "measure"
+            },
+            {
+              "emoji": "⚖️",
+              "label": "heavy"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -314,7 +422,7 @@
           "answer": 1,
           "explain": {
             "id": "c6e",
-            "text": "A metre measures length, not weight. Weight uses kilograms."
+            "text": "A metre measures length, not how heavy something is."
           }
         },
         {
@@ -326,15 +434,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "cap",
-            "scarf",
+            "news report",
+            "artefact",
             "headdress",
             "statue"
           ],
-          "answer": 3,
+          "answer": 0,
           "explain": {
             "id": "c7e",
-            "text": "A statue is a figure, but a headdress, scarf and cap are things you wear."
+            "text": "An artefact, a headdress and a statue are objects you can see and touch, but a news report is on TV or radio."
           }
         },
         {
@@ -421,5 +529,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

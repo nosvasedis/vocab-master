@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-2",
-      "emoji": "📜",
+      "emoji": "📜✅",
       "kidDefinition": "Basic rules that everyone agrees to follow together",
       "examples": [
         "Let's agree to the ground rules of the discussion.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-7",
-      "emoji": "🧭",
+      "emoji": "🗺️➡️",
       "kidDefinition": "Instructions that show you how to get somewhere",
       "examples": [
         "Can you give me directions to the train station, please?",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-9",
-      "emoji": "🚒",
+      "emoji": "🚒🔥",
       "kidDefinition": "The building where fire engines and firefighters are based",
       "examples": [
         "We visited the fire station to learn about what firefighters do.",
@@ -199,6 +199,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "street",
+      "props": [
+        {
+          "emoji": "🧭",
+          "label": "guide"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -206,20 +212,52 @@
         },
         {
           "id": "l2",
-          "text": "Today we ask a big question about where we live."
+          "text": "Today we ask a big question about where we live.",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "question"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Every neighbourhood has special places and special helpers."
+          "text": "Every neighbourhood has special places and special helpers.",
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
+            },
+            {
+              "emoji": "🏥",
+              "label": "special places"
+            },
+            {
+              "emoji": "🧑‍🚒",
+              "label": "special helpers"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's explore together and find out more!"
+          "text": "Let's explore together and find out more!",
+          "props": [
+            {
+              "emoji": "🔍",
+              "label": "explore"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite place in your neighbourhood?"
+        "text": "What is your favourite place in your neighbourhood?",
+        "props": [
+          {
+            "emoji": "⭐📍",
+            "label": "favourite place"
+          }
+        ]
       }
     },
     {
@@ -251,6 +289,20 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
+            },
+            {
+              "emoji": "🗺️➡️",
+              "label": "directions"
+            },
+            {
+              "emoji": "🚉",
+              "label": "train station"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mia is new in the neighbourhood. She needs help."
@@ -270,13 +322,23 @@
         },
         {
           "id": "p2",
-          "backdrop": "city",
+          "backdrop": "station",
           "characters": [
             {
               "who": "lefteris"
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🚒🔥",
+              "label": "fire station"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
             }
           ],
           "caption": {
@@ -310,6 +372,16 @@
           "id": "c1",
           "kind": "pickPicture",
           "wordId": "CPP2-U1-SB-1",
+          "props": [
+            {
+              "emoji": "🏠🏠",
+              "label": "houses"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "streets"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "Which word means the area where you live, with its houses and streets?"
@@ -330,6 +402,12 @@
           "id": "c2",
           "kind": "listen",
           "wordId": "CPP2-U1-SB-12",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            }
+          ],
           "prompt": {
             "id": "c2q",
             "text": "Listen to Lingo. Point to the word: train station."
@@ -350,14 +428,20 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-2",
+          "props": [
+            {
+              "emoji": "💬",
+              "label": "discussion"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "Before we start, let's agree on the ____ for our discussion."
+            "text": "The class made some ____ so everyone knows how to behave."
           },
           "options": [
             "ground rules",
-            "tour guide",
-            "school bell"
+            "directions",
+            "discussion"
           ],
           "answer": 0,
           "explain": {
@@ -369,13 +453,19 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-3",
+          "props": [
+            {
+              "emoji": "🌳🏪",
+              "label": "favourite places"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Let's have a ____ about our favourite places."
           },
           "options": [
-            "dictionary",
-            "kitchen",
+            "directions",
+            "paragraph",
             "discussion"
           ],
           "answer": 2,
@@ -388,6 +478,12 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP2-U1-SB-7",
+          "props": [
+            {
+              "emoji": "🗺️➡️",
+              "label": "directions"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "Directions tell you how to get to a place."
@@ -426,6 +522,16 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-9",
+          "props": [
+            {
+              "emoji": "🚒🚒",
+              "label": "trucks"
+            },
+            {
+              "emoji": "🧑‍🚒",
+              "label": "helpers"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "We went to the ____ to see the big red trucks and brave helpers."
@@ -445,6 +551,16 @@
           "id": "c8",
           "kind": "pickPicture",
           "wordId": "CPP2-U1-SB-10",
+          "props": [
+            {
+              "emoji": "🩺",
+              "label": "doctors"
+            },
+            {
+              "emoji": "🤒",
+              "label": "sick people"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "Which word names the place where doctors help sick people?"
@@ -465,13 +581,23 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-11",
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "mom"
+            },
+            {
+              "emoji": "🏥",
+              "label": "hospital"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "My mom is a ____ in a hospital."
+            "text": "My mum is a ____ in a hospital."
           },
           "options": [
-            "dancer",
-            "driver",
+            "firefighter",
+            "conductor",
             "doctor"
           ],
           "answer": 2,
@@ -526,11 +652,27 @@
         },
         {
           "id": "l2",
-          "text": "Your neighbourhood has many helpers, like doctors and firefighters."
+          "text": "Your neighbourhood has many helpers, like doctors and firefighters.",
+          "props": [
+            {
+              "emoji": "🩺",
+              "label": "doctors"
+            },
+            {
+              "emoji": "🧑‍🚒",
+              "label": "firefighters"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next time, we will meet a security guard. Be ready!"
+          "text": "Next time, we will meet a security guard. Be ready!",
+          "props": [
+            {
+              "emoji": "💂",
+              "label": "security guard"
+            }
+          ]
         }
       ],
       "badge": {
@@ -548,5 +690,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

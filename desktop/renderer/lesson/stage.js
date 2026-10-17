@@ -24,6 +24,22 @@ const SCENES = {
   village: { sky: ["#cdeaff", "#fff0d8"], ground: "#9ccf7c", hill: "#7fbb62", sun: true, clouds: true, props: [["🏡", 14, 52, 230, "mid"], ["⛪", 40, 42, 220, "far"], ["🏘️", 74, 48, 260, "mid"], ["🐑", 58, 78, 110, "near"]] },
   garden: { sky: ["#d6f2ff", "#f6ffe6"], ground: "#92d27a", hill: "#73bf5c", sun: true, props: [["🌻", 14, 64, 180, "near"], ["🌷", 30, 78, 100, "near"], ["🦋", 60, 32, 100, "far"], ["🏡", 80, 50, 230, "mid"]] },
   playground: { sky: ["#bfe7ff", "#fff3d1"], ground: "#9fd57f", hill: "#82c463", sun: true, clouds: true, props: [["🛝", 18, 60, 220, "mid"], ["⚽", 60, 80, 90, "near"], ["🌳", 86, 48, 260, "mid"], ["🎈", 40, 22, 110, "far"]] },
+  cave: { sky: ["#c9d6e8", "#e8e2d6"], ground: "#b49a7a", hill: "#8f7a62", props: [["🕳️", 50, 52, 300, "mid"], ["🪨", 18, 72, 160, "near"], ["🪨", 84, 74, 140, "near"], ["🦇", 40, 24, 90, "far"]] },
+  snow: { sky: ["#dbeafe", "#f5f9ff"], ground: "#ffffff", hill: "#e3edf9", clouds: true, props: [["🌲", 14, 48, 260, "mid"], ["⛄", 60, 70, 170, "near"], ["🌲", 86, 46, 280, "mid"], ["❄️", 40, 20, 90, "far"]] },
+  zoo: { sky: ["#c4ecff", "#fff8d6"], ground: "#a8d672", hill: "#8cc456", sun: true, props: [["🦒", 18, 46, 260, "mid"], ["🐘", 78, 60, 220, "mid"], ["🌳", 50, 44, 220, "far"], ["🦓", 40, 74, 130, "near"]] },
+  river: { sky: ["#bfe6ff", "#e6f7ff"], ground: "#8fd17a", hill: "#5fb7e5", sun: true, clouds: true, props: [["🌉", 50, 50, 220, "mid"], ["🌳", 12, 50, 240, "mid"], ["🪨", 70, 78, 100, "near"], ["🦆", 30, 74, 100, "near"]] },
+  museum: { sky: ["#f3eee4", "#e8e0d0"], ground: "#d9cbb4", hill: "#cbb99c", props: [["🦕", 30, 56, 300, "mid"], ["🏺", 76, 66, 160, "near"], ["🖼️", 66, 28, 140, "far"]] },
+  mountain: { sky: ["#bcdcff", "#eaf4ff"], ground: "#8fc27a", hill: "#7a8fa8", sun: true, clouds: true, props: [["🏔️", 30, 36, 340, "far"], ["⛰️", 72, 40, 300, "far"], ["🌲", 86, 62, 200, "mid"], ["🌲", 14, 66, 180, "mid"]] },
+  jungle: { sky: ["#bff0d4", "#e6fbe9"], ground: "#3f9a50", hill: "#2f7f41", props: [["🌴", 12, 46, 300, "mid"], ["🌿", 40, 76, 160, "near"], ["🦜", 66, 26, 110, "far"], ["🌴", 86, 48, 300, "mid"], ["🐒", 56, 52, 120, "mid"]] },
+  underwater: { sky: ["#5fc3e8", "#1c7fb5"], ground: "#e9d9a8", hill: "#3aa6c9", props: [["🐠", 30, 30, 120, "far"], ["🐟", 70, 40, 110, "far"], ["🪸", 20, 76, 180, "near"], ["🐙", 80, 74, 160, "near"], ["🫧", 50, 18, 80, "far"]] },
+  bedroom: { sky: ["#f1e8ff", "#ffe8f1"], ground: "#e6d3c3", hill: "#d8c2ae", props: [["🛏️", 26, 66, 240, "mid"], ["🧸", 70, 74, 120, "near"], ["📚", 84, 56, 130, "mid"], ["🪟", 52, 26, 150, "far"]] },
+  library: { sky: ["#fff4e0", "#f5e6cc"], ground: "#d9b38c", hill: "#caa078", props: [["📚", 16, 50, 220, "mid"], ["📚", 84, 50, 220, "mid"], ["🪑", 50, 76, 140, "near"], ["💡", 50, 18, 100, "far"]] },
+  station: { sky: ["#cfe3ff", "#f1f6ff"], ground: "#b6b9c4", hill: "#9ea2b0", clouds: true, props: [["🚆", 46, 58, 300, "mid"], ["🕰️", 84, 30, 130, "far"], ["🧳", 18, 76, 120, "near"]] },
+  volcano: { sky: ["#ffd9c2", "#fff1de"], ground: "#9fcf7c", hill: "#e0866b", props: [["🌋", 50, 40, 340, "far"], ["🌴", 14, 62, 200, "mid"], ["🌴", 86, 64, 200, "mid"]] },
+  savanna: { sky: ["#ffe2a8", "#fff4d6"], ground: "#e6c56a", hill: "#d1a94b", sun: true, props: [["🌳", 20, 50, 220, "mid"], ["🦒", 66, 48, 240, "mid"], ["🐘", 84, 64, 180, "near"], ["🦓", 40, 72, 130, "near"]] },
+  camp: { sky: ["#c9e7ff", "#fff1dc"], ground: "#8fca78", hill: "#6fb05e", sun: true, props: [["⛺", 32, 62, 240, "mid"], ["🔥", 58, 76, 110, "near"], ["🌲", 84, 48, 260, "mid"], ["🌲", 10, 50, 220, "mid"]] },
+  castle: { sky: ["#d9e9ff", "#f3eaff"], ground: "#9ccf7c", hill: "#7fbb62", clouds: true, props: [["🏰", 50, 40, 340, "far"], ["🌳", 14, 64, 200, "mid"], ["🚩", 80, 26, 90, "far"]] },
+  market: { sky: ["#ffe9d2", "#fff6dc"], ground: "#e3c9a6", hill: "#d5b48c", sun: true, props: [["⛱️", 20, 50, 220, "mid"], ["🍎", 48, 72, 110, "near"], ["🥕", 62, 74, 100, "near"], ["🧺", 80, 70, 140, "near"]] },
 };
 
 export const backdropKeys = Object.keys(SCENES);
@@ -78,8 +94,7 @@ export function createStage(host, { artUrl = () => null, esc, picture } = {}) {
     const url = artUrl(key);
     layers.art.style.backgroundImage = url ? `url("${url}")` : "";
     el.classList.toggle("has-art", !!url);
-    tweens.push(drift(layers.far, { x: 30, duration: 34 }), drift(layers.mid, { x: -24, duration: 26 }));
-    tweens.push(float(layers.far.querySelectorAll(".ls-prop"), { amp: 10, duration: 3.4 }));
+    // Backdrops stay still: motion is reserved for things the lesson is pointing at.
   }
 
   return {

@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U8-SB-973",
-      "emoji": "🖼️",
+      "emoji": "🖼️📝",
       "kidDefinition": "The words under a picture that explain it.",
       "examples": [
         "The caption under this photo says: Lovely beach day.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-989",
-      "emoji": "🪢",
+      "emoji": "🐕🪢",
       "kidDefinition": "Straps a dog wears so a person can guide it.",
       "examples": [
         "The dog's harness is bright yellow.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-980",
-      "emoji": "👃",
+      "emoji": "👃💨",
       "kidDefinition": "A smell that you can notice.",
       "examples": [
         "The flowers have a sweet scent.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-987",
-      "emoji": "🚸",
+      "emoji": "🚶🛣️",
       "kidDefinition": "To go from one side of a road to the other.",
       "examples": [
         "Look left and right before you cross the road.",
@@ -253,24 +253,54 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love stories about brave animals."
+          "text": "Hello, friends! I am Lingo, and I love stories about brave animals.",
+          "props": [
+            {
+              "emoji": "🐶🐱🐘",
+              "label": "animal"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we meet a dog who is not an ordinary dog."
+          "text": "Today we meet a dog who is not an ordinary dog.",
+          "props": [
+            {
+              "emoji": "🐶",
+              "label": "dog"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "She helps her friend every single day."
+          "text": "She helps her friend every single day.",
+          "props": [
+            {
+              "emoji": "🧑",
+              "label": "friend"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's find out what happens when there is an emergency!"
+          "text": "Let's find out what happens when there is an emergency!",
+          "props": [
+            {
+              "emoji": "🚨",
+              "label": "emergency"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "Who is your hero, and why?"
+        "text": "Who is your hero, and why?",
+        "props": [
+          {
+            "emoji": "🦸",
+            "label": "hero"
+          }
+        ]
       }
     },
     {
@@ -303,6 +333,28 @@
               "who": "anna"
             }
           ],
+          "props": [
+            {
+              "emoji": "🦮",
+              "label": "guide dog"
+            },
+            {
+              "emoji": "🦮",
+              "label": "Lulu"
+            },
+            {
+              "emoji": "🪢",
+              "label": "harness"
+            },
+            {
+              "emoji": "🥣",
+              "label": "breakfast"
+            },
+            {
+              "emoji": "🦯",
+              "label": "blind"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Anna is blind. Her guide dog, Lulu, wears a red harness. Lulu is always with her."
@@ -326,6 +378,20 @@
           "characters": [
             {
               "who": "anna"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🦮",
+              "label": "Lulu"
+            },
+            {
+              "emoji": "👃💨",
+              "label": "scent"
+            },
+            {
+              "emoji": "🧠",
+              "label": "smart"
             }
           ],
           "caption": {
@@ -352,6 +418,32 @@
               "who": "anna"
             }
           ],
+          "props": [
+            {
+              "emoji": "💨",
+              "label": "smoke"
+            },
+            {
+              "emoji": "🍳",
+              "label": "pan"
+            },
+            {
+              "emoji": "📱",
+              "label": "phone"
+            },
+            {
+              "emoji": "🚨",
+              "label": "emergency"
+            },
+            {
+              "emoji": "🔢",
+              "label": "number"
+            },
+            {
+              "emoji": "🦮",
+              "label": "Lulu"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Smoke is coming from the pan! Anna picks up her phone and dials the emergency number."
@@ -376,6 +468,28 @@
             },
             {
               "who": "nikos"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🦮",
+              "label": "Lulu"
+            },
+            {
+              "emoji": "🚑",
+              "label": "paramedic"
+            },
+            {
+              "emoji": "💨",
+              "label": "smoke"
+            },
+            {
+              "emoji": "🧠",
+              "label": "smart"
+            },
+            {
+              "emoji": "🚶🛣️",
+              "label": "cross"
             }
           ],
           "caption": {
@@ -407,6 +521,32 @@
               "who": "anna"
             }
           ],
+          "props": [
+            {
+              "emoji": "📰",
+              "label": "newspaper"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "photo"
+            },
+            {
+              "emoji": "📝",
+              "label": "caption"
+            },
+            {
+              "emoji": "🐶",
+              "label": "dog"
+            },
+            {
+              "emoji": "🦸",
+              "label": "heroic"
+            },
+            {
+              "emoji": "🦮",
+              "label": "Lulu"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "The caption under the newspaper photo says: A heroic dog saves the day!"
@@ -435,18 +575,24 @@
           "wordId": "CPP2-U8-SB-977",
           "prompt": {
             "id": "c1q",
-            "text": "Anna is ____. She can't see the road."
+            "text": "Anna is ____. She can't see her book."
           },
           "options": [
             "blind",
-            "loud",
-            "thirsty"
+            "smart",
+            "careful"
           ],
           "answer": 0,
           "explain": {
             "id": "c1e",
             "text": "Blind means you cannot see, so Anna is blind."
-          }
+          },
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "book"
+            }
+          ]
         },
         {
           "id": "c2",
@@ -473,7 +619,7 @@
           "wordId": "CPP2-U8-SB-975",
           "prompt": {
             "id": "c3q",
-            "text": "Which word completes the sentence? She picked up the phone and ____ the number."
+            "text": "Listen and choose the word: dial."
           },
           "options": [
             "CPP2-U8-SB-980",
@@ -502,7 +648,13 @@
           "explain": {
             "id": "c4e",
             "text": "Paramedics are trained to help people quickly when they are hurt or sick."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🚑🩺",
+              "label": "paramedic"
+            }
+          ]
         },
         {
           "id": "c5",
@@ -513,15 +665,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "lead",
+            "scent",
+            "caption",
             "harness",
-            "kitten",
-            "collar"
+            "guide dog"
           ],
-          "answer": 2,
+          "answer": 1,
           "explain": {
             "id": "c5e",
-            "text": "A harness, a collar and a lead are things for a dog, but a kitten is an animal."
+            "text": "Scent, harness and guide dog are all connected to dogs. A caption is words under a picture."
           }
         },
         {
@@ -534,14 +686,20 @@
           },
           "options": [
             "cross",
-            "climb",
-            "stop"
+            "dial",
+            "guess"
           ],
           "answer": 0,
           "explain": {
             "id": "c6e",
             "text": "To cross means to go from one side of the road to the other."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🛣️",
+              "label": "road"
+            }
+          ]
         },
         {
           "id": "c7",
@@ -553,14 +711,20 @@
           },
           "options": [
             "scents",
-            "sounds",
-            "colours"
+            "captions",
+            "titles"
           ],
           "answer": 0,
           "explain": {
             "id": "c7e",
             "text": "A scent is a smell, and dogs have very good noses for scents."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🐶",
+              "label": "dog"
+            }
+          ]
         },
         {
           "id": "c8",
@@ -597,7 +761,17 @@
           "explain": {
             "id": "c9e",
             "text": "A caption is the text under a picture that explains it."
-          }
+          },
+          "props": [
+            {
+              "emoji": "📷",
+              "label": "caption"
+            },
+            {
+              "emoji": "🐶",
+              "label": "dog"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -616,7 +790,17 @@
           "explain": {
             "id": "c10e",
             "text": "Smart means clever and able to learn quickly."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🐶",
+              "label": "dog"
+            },
+            {
+              "emoji": "🐝",
+              "label": "trick"
+            }
+          ]
         }
       ]
     },
@@ -636,7 +820,13 @@
       "type": "speak",
       "prompt": {
         "id": "q",
-        "text": "Would you like a guide dog? Tell your partner why or why not."
+        "text": "Would you like a guide dog? Tell your partner why or why not.",
+        "props": [
+          {
+            "emoji": "🦮",
+            "label": "guide dog"
+          }
+        ]
       },
       "frames": [
         "A guide dog helps a ___ person.",
@@ -647,7 +837,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "A guide dog helps a blind person cross the road safely. I think a dog is smart because it learns many tricks. A hero is someone who helps other people when they need it."
+        "text": "A guide dog helps a blind person go out safely. I think my dog is very smart because it learns many tricks. A hero is someone who helps other people when they need it."
       }
     },
     {
@@ -656,15 +846,41 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, friends! You learned ten new words today."
+          "text": "Brilliant work, friends! You learned ten new words today.",
+          "props": [
+            {
+              "emoji": "🔤",
+              "label": "words"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Lulu was a heroic dog, and you were heroic learners too!"
+          "text": "Lulu was a heroic dog, and you were heroic learners too!",
+          "props": [
+            {
+              "emoji": "🦮",
+              "label": "Lulu"
+            },
+            {
+              "emoji": "🦸",
+              "label": "heroic"
+            },
+            {
+              "emoji": "🧑‍🎓",
+              "label": "learners"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next time, we will meet more heroes together."
+          "text": "Next time, we will meet more heroes together.",
+          "props": [
+            {
+              "emoji": "🦸🦸",
+              "label": "heroes"
+            }
+          ]
         }
       ],
       "badge": {
@@ -674,13 +890,42 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "What does a guide dog do for a blind person?"
+          "text": "What does a guide dog do for a blind person?",
+          "props": [
+            {
+              "emoji": "🦮",
+              "label": "guide dog"
+            },
+            {
+              "emoji": "🦯",
+              "label": "blind"
+            }
+          ]
         },
         {
           "id": "e2",
-          "text": "Which word means a clever animal? Write one sentence with it."
+          "text": "Which word means a clever animal? Write one sentence with it.",
+          "props": [
+            {
+              "emoji": "🧠",
+              "label": "clever"
+            },
+            {
+              "emoji": "🐘",
+              "label": "animal"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

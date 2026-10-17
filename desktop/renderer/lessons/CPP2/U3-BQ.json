@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U3-SB-294",
-      "emoji": "🍎",
+      "emoji": "🍎🥦🍞",
       "kidDefinition": "Things we eat to stay healthy and strong.",
       "examples": [
         "Healthy food helps our bodies grow strong.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-295",
-      "emoji": "👍",
+      "emoji": "👧🤝🦉",
       "kidDefinition": "To have the same opinion as someone else.",
       "examples": [
         "I agree with you, Maya. Bread is yummy!",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-296",
-      "emoji": "👎",
+      "emoji": "👧↔️🦉",
       "kidDefinition": "To have a different opinion from someone.",
       "examples": [
         "I disagree. I think carrots taste sweet.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-298",
-      "emoji": "📋",
+      "emoji": "📋🍕",
       "kidDefinition": "A list of foods you can order in a restaurant.",
       "examples": [
         "The menu has pizza, soup and ice cream.",
@@ -200,19 +200,79 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            },
+            {
+              "emoji": "🦉",
+              "label": "teacher"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we ask a big question: Why is food important?"
+          "text": "Today we ask a big question: Why is food important?",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "question"
+            },
+            {
+              "emoji": "🍎🥦🍞",
+              "label": "food"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Food gives us energy to run, jump and learn."
+          "text": "Food gives us energy to run, jump and learn.",
+          "props": [
+            {
+              "emoji": "🍎🥦🍞",
+              "label": "food"
+            },
+            {
+              "emoji": "⚡",
+              "label": "energy"
+            },
+            {
+              "emoji": "🏃",
+              "label": "run"
+            },
+            {
+              "emoji": "🤸",
+              "label": "jump"
+            },
+            {
+              "emoji": "📖",
+              "label": "learn"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Meet Maya and her friend, the Little Bread Bun!"
+          "text": "Meet Maya and her friend, the Little Bread Bun!",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "🤝",
+              "label": "friend"
+            },
+            {
+              "emoji": "🍞",
+              "label": "bread"
+            },
+            {
+              "emoji": "🍞",
+              "label": "bun"
+            }
+          ]
         }
       ],
       "question": {
@@ -246,18 +306,18 @@
           "wordId": "CPP2-U3-SB-294",
           "prompt": {
             "id": "c1q",
-            "text": "Which word means things we eat to stay healthy and strong?"
+            "text": "Which word means all the things we eat to stay healthy and strong, not just one kind of food?"
           },
           "options": [
-            "CPP2-U3-SB-300",
+            "CPP2-U3-SB-298",
             "CPP2-U3-SB-294",
-            "CPP2-U3-SB-302",
-            "CPP2-U3-SB-298"
+            "CPP2-U3-SB-300",
+            "CPP2-U3-SB-302"
           ],
           "answer": 1,
           "explain": {
             "id": "c1e",
-            "text": "Food is anything we eat to stay healthy and strong."
+            "text": "Food is the general word for everything we eat. A sandwich or chicken is only one kind of food."
           }
         },
         {
@@ -268,6 +328,16 @@
             "id": "c2q",
             "text": "Listen to Maya: I agree with you, Lingo! Which word did you hear?"
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            }
+          ],
           "options": [
             "CPP2-U3-SB-296",
             "CPP2-U3-SB-298",
@@ -288,11 +358,33 @@
             "id": "c3q",
             "text": "Maya says cake is healthy. Lingo says, I ____. Cake is a sweet treat."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            },
+            {
+              "emoji": "🍰",
+              "label": "cake"
+            },
+            {
+              "emoji": "🥦",
+              "label": "healthy"
+            },
+            {
+              "emoji": "🍬",
+              "label": "treat"
+            }
+          ],
           "options": [
-            "chop",
             "agree",
+            "eat",
             "disagree",
-            "peel"
+            "cook"
           ],
           "answer": 2,
           "explain": {
@@ -308,6 +400,24 @@
             "id": "c4q",
             "text": "A menu is a list of toys you can buy in a shop."
           },
+          "props": [
+            {
+              "emoji": "📋🍕",
+              "label": "menu"
+            },
+            {
+              "emoji": "📃",
+              "label": "list"
+            },
+            {
+              "emoji": "🧸",
+              "label": "toy"
+            },
+            {
+              "emoji": "🏪",
+              "label": "shop"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -324,8 +434,18 @@
           "wordId": "CPP2-U3-SB-301",
           "prompt": {
             "id": "c5q",
-            "text": "Rabbits love this crunchy orange vegetable. Which word is it?"
+            "text": "Rabbits love this crunchy orange food. Which word is it?"
           },
+          "props": [
+            {
+              "emoji": "🐰",
+              "label": "Rabbits"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "food"
+            }
+          ],
           "options": [
             "CPP2-U3-SB-301",
             "CPP2-U3-SB-302",
@@ -348,14 +468,14 @@
           },
           "options": [
             "salad",
-            "pizza",
-            "soup",
-            "table"
+            "sandwich",
+            "carrot",
+            "menu"
           ],
           "answer": 3,
           "explain": {
             "id": "c6e",
-            "text": "Soup, salad and pizza are foods, but a table is furniture."
+            "text": "Menu is not a food. Salad, sandwich and carrot are foods."
           }
         },
         {
@@ -366,6 +486,24 @@
             "id": "c7q",
             "text": "Bun puts cheese between two slices of bread. It is a ____."
           },
+          "props": [
+            {
+              "emoji": "🍞",
+              "label": "Bun"
+            },
+            {
+              "emoji": "🧀",
+              "label": "cheese"
+            },
+            {
+              "emoji": "🍞🍞",
+              "label": "slice"
+            },
+            {
+              "emoji": "🍞",
+              "label": "bread"
+            }
+          ],
           "options": [
             "sandwich",
             "menu",
@@ -384,8 +522,18 @@
           "wordId": "CPP2-U3-SB-302",
           "prompt": {
             "id": "c8q",
-            "text": "Listen to Lingo: Tonight we have roast chicken and potatoes. Which word did you hear?"
+            "text": "Listen to Lingo: Tonight we have chicken and potatoes. Which word did you hear?"
           },
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            },
+            {
+              "emoji": "🥔",
+              "label": "potatoes"
+            }
+          ],
           "options": [
             "CPP2-U3-SB-300",
             "CPP2-U3-SB-301",
@@ -406,6 +554,32 @@
             "id": "c9q",
             "text": "It is hot. Maya wants something cold and sweet. She orders strawberry ____."
           },
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "hot"
+            },
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "❄️",
+              "label": "cold"
+            },
+            {
+              "emoji": "🍬",
+              "label": "sweet"
+            },
+            {
+              "emoji": "🍓",
+              "label": "strawberry"
+            },
+            {
+              "emoji": "📝",
+              "label": "order"
+            }
+          ],
           "options": [
             "sandwich",
             "chicken",
@@ -451,7 +625,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I think food is important because it gives us energy. My favourite food is salad. I agree with you, because salad is healthy."
+        "text": "I think food is important because it gives me energy. My favourite food is salad. I like it because it is fresh. I agree with you. I also like carrots."
       }
     },
     {
@@ -464,11 +638,35 @@
         },
         {
           "id": "l2",
-          "text": "Food helps us grow, learn and play every day."
+          "text": "Food helps us grow, learn and play every day.",
+          "props": [
+            {
+              "emoji": "🍎🥦🍞",
+              "label": "food"
+            },
+            {
+              "emoji": "🌱",
+              "label": "grow"
+            },
+            {
+              "emoji": "⚽",
+              "label": "play"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next time, we will meet Bun and read his story!"
+          "text": "Next time, we will meet Bun and read his story!",
+          "props": [
+            {
+              "emoji": "🍞",
+              "label": "Bun"
+            },
+            {
+              "emoji": "📖",
+              "label": "story"
+            }
+          ]
         }
       ],
       "badge": {
@@ -486,5 +684,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

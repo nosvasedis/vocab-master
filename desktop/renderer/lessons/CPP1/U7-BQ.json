@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U7-SB-756",
-      "emoji": "🥛",
+      "emoji": "🐄➡️🥛",
       "kidDefinition": "To start from a place, plant, or animal.",
       "examples": [
         "Milk comes from cows, not from shops.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-755",
-      "emoji": "🥕",
+      "emoji": "🥕🥬🍅",
       "kidDefinition": "Food that farmers grow or make.",
       "examples": [
         "Farmers grow fresh produce on their land.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-757",
-      "emoji": "🛒",
+      "emoji": "🏪🥕",
       "kidDefinition": "A place where people buy and sell things.",
       "examples": [
         "We buy eggs at the market on Sunday.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-759",
-      "emoji": "🍓",
+      "emoji": "🫙🍓",
       "kidDefinition": "Sweet fruit spread you eat on bread.",
       "examples": [
         "I like strawberry jam on my toast.",
@@ -133,7 +133,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-761",
-      "emoji": "🧵",
+      "emoji": "🐑➡️👕",
       "kidDefinition": "Material made from wool, cotton, or other fibres.",
       "examples": [
         "My jumper is made of soft cloth.",
@@ -172,6 +172,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "farm",
+      "props": [
+        {
+          "emoji": "🐄🐄",
+          "label": "cows"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -183,7 +189,17 @@
         },
         {
           "id": "l3",
-          "text": "Plants and animals live here, and they give us so much."
+          "text": "Plants and animals live here, and they give us so much.",
+          "props": [
+            {
+              "emoji": "🌱🌾",
+              "label": "plants"
+            },
+            {
+              "emoji": "🐔🐑",
+              "label": "animals"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -220,7 +236,7 @@
           "wordId": "CPP1-U7-SB-757",
           "prompt": {
             "id": "c1q",
-            "text": "Which word means a place where people buy fresh food?"
+            "text": "Which word means a place where people buy and sell things?"
           },
           "options": [
             "CPP1-U7-SB-759",
@@ -231,7 +247,7 @@
           "answer": 1,
           "explain": {
             "id": "c1e",
-            "text": "A market is a place where you buy fresh food, like vegetables."
+            "text": "A market is a place where people buy and sell things, like food."
           }
         },
         {
@@ -251,23 +267,29 @@
           "answer": 2,
           "explain": {
             "id": "c2e",
-            "text": "Jam is sweet fruit that you spread on bread."
+            "text": "Jam is sweet fruit spread you eat on bread."
           }
         },
         {
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP1-U7-SB-756",
+          "props": [
+            {
+              "emoji": "🥔🥔",
+              "label": "potatoes"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Where do potatoes ____?"
           },
           "options": [
-            "go to",
-            "get up",
-            "come from"
+            "come from",
+            "come to",
+            "come in"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c3e",
             "text": "We say come from to ask where something starts or grows."
@@ -277,6 +299,20 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP1-U7-SB-761",
+          "props": [
+            {
+              "emoji": "🐑",
+              "label": "animal"
+            },
+            {
+              "emoji": "🧶",
+              "label": "wool"
+            },
+            {
+              "emoji": "👕",
+              "label": "cloth"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Cloth can come from animal wool."
@@ -335,14 +371,20 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U7-SB-754",
+          "props": [
+            {
+              "emoji": "🎤",
+              "label": "sing"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "When I sing, my ____ is loud and happy."
           },
           "options": [
-            "window",
+            "basket",
             "voice",
-            "button"
+            "cloth"
           ],
           "answer": 1,
           "explain": {
@@ -354,6 +396,16 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP1-U7-SB-760",
+          "props": [
+            {
+              "emoji": "🥩",
+              "label": "meat"
+            },
+            {
+              "emoji": "🌱",
+              "label": "plants"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "Meat comes from plants."
@@ -414,11 +466,27 @@
         },
         {
           "id": "l2",
-          "text": "Now you can ask where food comes from, just like Mia."
+          "text": "Now you can ask where food comes from, just like Mia.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next time, we will explore how plants and animals help us."
+          "text": "Next time, we will explore how plants and animals help us.",
+          "props": [
+            {
+              "emoji": "🌱🌾",
+              "label": "plants"
+            },
+            {
+              "emoji": "🐔🐑",
+              "label": "animals"
+            }
+          ]
         }
       ],
       "badge": {
@@ -428,13 +496,34 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "Where does milk come from?"
+          "text": "Where does milk come from?",
+          "props": [
+            {
+              "emoji": "🥛",
+              "label": "milk"
+            }
+          ]
         },
         {
           "id": "e2",
-          "text": "Name one thing you can put in a basket."
+          "text": "Name one thing you can put in a basket.",
+          "props": [
+            {
+              "emoji": "🧺",
+              "label": "basket"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

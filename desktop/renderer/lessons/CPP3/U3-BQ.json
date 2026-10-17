@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U3-SB-345",
-      "emoji": "🐶",
+      "emoji": "🌱💧🤲",
       "kidDefinition": "to look after someone or something.",
       "examples": [
         "My grandma takes care of our garden.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-346",
-      "emoji": "🌳",
+      "emoji": "🌿🌍",
       "kidDefinition": "plants, animals and the natural world around us.",
       "examples": [
         "We love walking in nature.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-347",
-      "emoji": "🐸",
+      "emoji": "🏞️🐸",
       "kidDefinition": "the natural home of an animal or plant.",
       "examples": [
         "Bears need a forest habitat to live and sleep.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-350",
-      "emoji": "🛡️",
+      "emoji": "🛡️🌳",
       "kidDefinition": "to keep someone or something safe from harm.",
       "examples": [
         "Let's protect the forest from fires.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-352",
-      "emoji": "⚠️",
+      "emoji": "🐯⚠️",
       "kidDefinition": "at risk of disappearing from Earth forever.",
       "examples": [
         "Tigers are in danger of extinction.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-355",
-      "emoji": "🐺",
+      "emoji": "🐼⏳",
       "kidDefinition": "at risk of becoming extinct soon.",
       "examples": [
         "Pandas are endangered animals.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-356",
-      "emoji": "🦕",
+      "emoji": "🦕🚫",
       "kidDefinition": "no longer alive anywhere on Earth.",
       "examples": [
         "Dinosaurs are extinct.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-353",
-      "emoji": "🌴",
+      "emoji": "🌴🌧️",
       "kidDefinition": "a hot, wet forest with lots of rain and trees.",
       "examples": [
         "Rainforests are home to many animals.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-357",
-      "emoji": "🐝",
+      "emoji": "🐝🍯",
       "kidDefinition": "a small insect that makes honey.",
       "examples": [
         "Honeybees help flowers grow fruit.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-359",
-      "emoji": "🏭",
+      "emoji": "🏭💨",
       "kidDefinition": "dirty things that harm air, water or land.",
       "examples": [
         "Pollution makes the air dirty and hard to breathe.",
@@ -221,24 +221,74 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love owls, trees and wild places."
+          "text": "Hello, friends! I am Lingo, and I love owls, trees and wild places.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owls"
+            },
+            {
+              "emoji": "🌳",
+              "label": "trees"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "wild places"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we begin a big question: Why do we need to take care of nature?"
+          "text": "Today we begin a big question: Why do we need to take care of nature?",
+          "props": [
+            {
+              "emoji": "🌿🌍",
+              "label": "nature"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Let's walk into the forest and listen very carefully."
+          "text": "Let's walk into the forest and listen very carefully.",
+          "props": [
+            {
+              "emoji": "🌲",
+              "label": "forest"
+            },
+            {
+              "emoji": "👂",
+              "label": "listen"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Can you hear the birds? Can you hear a bee buzzing near the flowers?"
+          "text": "Can you hear the birds? Can you hear a bee buzzing near the flowers?",
+          "props": [
+            {
+              "emoji": "🐦",
+              "label": "birds"
+            },
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            },
+            {
+              "emoji": "🌸",
+              "label": "flowers"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite animal, and where does it live?"
+        "text": "What is your favourite animal, and where does it live?",
+        "props": [
+          {
+            "emoji": "🐾",
+            "label": "animal"
+          }
+        ]
       }
     },
     {
@@ -265,13 +315,35 @@
       "panels": [
         {
           "id": "p1",
-          "backdrop": "forest",
+          "backdrop": "jungle",
           "characters": [
             {
               "who": "mia"
             },
             {
               "who": "nikos"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌴",
+              "label": "rainforest"
+            },
+            {
+              "emoji": "🐝",
+              "label": "honeybee"
+            },
+            {
+              "emoji": "🌸",
+              "label": "flower"
+            },
+            {
+              "emoji": "🌿🐸",
+              "label": "habitat"
+            },
+            {
+              "emoji": "🐒🦜",
+              "label": "animals"
             }
           ],
           "caption": {
@@ -307,20 +379,46 @@
               "who": "nikos"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪧",
+              "label": "sign"
+            },
+            {
+              "emoji": "🦧",
+              "label": "orangutan"
+            },
+            {
+              "emoji": "🏭💨",
+              "label": "pollution"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "⚠️",
+              "label": "endangered"
+            },
+            {
+              "emoji": "🦕",
+              "label": "extinction"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Nikos reads a sign about animals that need help."
+            "text": "Nikos reads a sign about orangutans."
           },
           "speech": [
             {
               "id": "p2a",
               "who": "nikos",
-              "text": "Orangutans are endangered. Pollution is harming their home, and some animals are in danger of extinction."
+              "text": "Orangutans are endangered. Pollution is harming their home, and they are in danger of extinction."
             },
             {
               "id": "p2b",
               "who": "mia",
-              "text": "Then let us protect them. Together we can protect nature!"
+              "text": "Then let us protect them!"
             }
           ],
           "highlight": [
@@ -341,20 +439,38 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-345",
+          "props": [
+            {
+              "emoji": "🐶🐱",
+              "label": "pets"
+            },
+            {
+              "emoji": "🧳",
+              "label": "holiday"
+            },
+            {
+              "emoji": "👵",
+              "label": "grandmother"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "dinner"
+            }
+          ],
           "prompt": {
             "id": "c1q",
-            "text": "Who ____ your pets when you go on holiday?"
+            "text": "My grandmother is old, so I ____ her every day: I cook her dinner and help her walk."
           },
           "options": [
-            "turn off",
-            "put on",
-            "give up",
-            "take care of"
+            "take care of",
+            "protect",
+            "pollute",
+            "endanger"
           ],
-          "answer": 3,
+          "answer": 0,
           "explain": {
             "id": "c1e",
-            "text": "To take care of something means to look after it."
+            "text": "To take care of someone means to look after them."
           }
         },
         {
@@ -381,6 +497,24 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-347",
+          "props": [
+            {
+              "emoji": "🐻",
+              "label": "animal"
+            },
+            {
+              "emoji": "🌱",
+              "label": "plant"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🏞️🐸",
+              "label": "habitat"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "A habitat is the natural home of an animal or plant."
@@ -399,6 +533,16 @@
           "id": "c4",
           "kind": "listen",
           "wordId": "CPP3-U3-SB-350",
+          "props": [
+            {
+              "emoji": "🌲",
+              "label": "forest"
+            },
+            {
+              "emoji": "🐘",
+              "label": "animals"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Listen to Lingo: Let us protect the forest and its animals. Which word did you hear?"
@@ -425,31 +569,45 @@
           },
           "options": [
             "honeybee",
-            "habitat",
             "rainforest",
-            "nature"
+            "grasslands",
+            "habitat"
           ],
           "answer": 0,
           "explain": {
             "id": "c5e",
-            "text": "A honeybee is an insect, while the other three are places or the natural world."
+            "text": "A honeybee is an animal. The other words are places or environments."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-355",
+          "props": [
+            {
+              "emoji": "🐺🐺",
+              "label": "wolves"
+            },
+            {
+              "emoji": "🇬🇷",
+              "label": "Greece"
+            },
+            {
+              "emoji": "🐾",
+              "label": "animals"
+            }
+          ],
           "prompt": {
             "id": "c6q",
-            "text": "Wolves in Greece are ____ animals, so we must help them."
+            "text": "Wolves in Greece are ____ animals; there are very few left."
           },
           "options": [
-            "sleepy",
-            "hungry",
             "endangered",
-            "crowded"
+            "extinct",
+            "active",
+            "polluted"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c6e",
             "text": "Endangered means at risk of becoming extinct soon."
@@ -459,6 +617,16 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-356",
+          "props": [
+            {
+              "emoji": "🦕",
+              "label": "animal"
+            },
+            {
+              "emoji": "🌍",
+              "label": "world"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "An extinct animal is still alive somewhere in the world."
@@ -477,17 +645,31 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-352",
+          "props": [
+            {
+              "emoji": "🐯🐯",
+              "label": "tigers"
+            },
+            {
+              "emoji": "🌳🌳",
+              "label": "habitats"
+            },
+            {
+              "emoji": "🌳💨",
+              "label": "disappearing"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "Tigers are ____ because their habitats are disappearing."
+            "text": "Tigers are ____; if we do not help them, they will disappear forever."
           },
           "options": [
-            "at school",
             "in danger of extinction",
-            "in a hurry",
-            "on the bus"
+            "extinct",
+            "pollution",
+            "take care of"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c8e",
             "text": "This phrase means an animal could soon disappear from Earth forever."
@@ -497,15 +679,29 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-359",
+          "props": [
+            {
+              "emoji": "🥤🛍️",
+              "label": "plastic"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sea"
+            },
+            {
+              "emoji": "🐟",
+              "label": "fish"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "Plastic in the sea is a kind of ____ that harms fish."
           },
           "options": [
-            "sunshine",
+            "nature",
             "pollution",
-            "homework",
-            "furniture"
+            "habitat",
+            "rainforest"
           ],
           "answer": 1,
           "explain": {
@@ -566,7 +762,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I can protect the rainforest by not dropping rubbish. We must take care of nature because animals need their habitat."
+        "text": "I can protect the rainforest. I can help the bees by not dropping rubbish. We must take care of nature because animals need their habitat."
       }
     },
     {
@@ -597,5 +793,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

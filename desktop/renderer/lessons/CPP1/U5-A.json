@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-546",
-      "emoji": "🙋",
+      "emoji": "👧🧱",
       "kidDefinition": "Without help from anyone else. By yourself.",
       "examples": [
         "I can do it on my own!",
@@ -125,7 +125,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-550",
-      "emoji": "🎲",
+      "emoji": "❓🎲",
       "kidDefinition": "A game where you try to find a hidden answer.",
       "examples": [
         "Let's play a guessing game. Who wants to start?",
@@ -141,7 +141,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-552",
-      "emoji": "🪙",
+      "emoji": "🪙🪙🪙",
       "kidDefinition": "To find and keep many things of the same kind.",
       "examples": [
         "Maria collects old dolls.",
@@ -174,7 +174,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-555",
-      "emoji": "🔨",
+      "emoji": "🧱🔨",
       "kidDefinition": "To create or build something.",
       "examples": [
         "Sandra makes stick puppets for her students.",
@@ -190,7 +190,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-556",
-      "emoji": "📦",
+      "emoji": "🧸📦✅",
       "kidDefinition": "To be the right size to go inside something.",
       "examples": [
         "The doll doesn't fit in the dollhouse.",
@@ -240,6 +240,24 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
+      "props": [
+        {
+          "emoji": "🧸",
+          "label": "toy"
+        },
+        {
+          "emoji": "🎲",
+          "label": "games"
+        },
+        {
+          "emoji": "👫",
+          "label": "friends"
+        },
+        {
+          "emoji": "📦",
+          "label": "box"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -296,6 +314,20 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            },
+            {
+              "emoji": "🎁",
+              "label": "gift"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Grandma gives Mia a box for her birthday."
@@ -320,6 +352,24 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧸",
+              "label": "teddy bear"
+            },
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "⭐",
+              "label": "special"
+            },
+            {
+              "emoji": "🧸📦🚫",
+              "label": "fit"
             }
           ],
           "caption": {
@@ -355,6 +405,20 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "group"
+            },
+            {
+              "emoji": "🎲",
+              "label": "guessing game"
+            },
+            {
+              "emoji": "🧍",
+              "label": "alone"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Mia and Leo meet their group at the park."
@@ -379,13 +443,31 @@
         },
         {
           "id": "p4",
-          "backdrop": "kitchen",
+          "backdrop": "home",
           "characters": [
             {
               "who": "grandma"
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧸🧸",
+              "label": "toys"
+            },
+            {
+              "emoji": "🪙🪙🪙",
+              "label": "collect"
+            },
+            {
+              "emoji": "🔨",
+              "label": "make"
+            },
+            {
+              "emoji": "🎲",
+              "label": "game"
             }
           ],
           "caption": {
@@ -410,6 +492,20 @@
           "characters": [
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🔨",
+              "label": "makes"
+            },
+            {
+              "emoji": "🎲",
+              "label": "game"
+            },
+            {
+              "emoji": "🧍",
+              "label": "on her own"
             }
           ],
           "caption": {
@@ -437,13 +533,19 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-553",
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            }
+          ],
           "prompt": {
             "id": "c1q",
-            "text": "Grandma gave me a special ____ for my birthday."
+            "text": "Grandma gave me a special ____ for my birthday. It was wrapped in paper."
           },
           "options": [
-            "kitchen",
-            "garden",
+            "group",
+            "emotion",
             "gift"
           ],
           "answer": 2,
@@ -476,6 +578,12 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U5-SB-545",
+          "props": [
+            {
+              "emoji": "👥👥👥",
+              "label": "people"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Alone means with lots of other people around you."
@@ -516,34 +624,48 @@
           "wordId": "CPP1-U5-SB-547",
           "prompt": {
             "id": "c5q",
-            "text": "Three of these words mean a number of people together. Which one does not?"
+            "text": "Three of these words are not people. Which one is the odd one out?"
           },
           "options": [
-            "team",
             "group",
-            "crowd",
-            "alone"
+            "teddy bear",
+            "gift",
+            "guessing game"
           ],
-          "answer": 3,
+          "answer": 0,
           "explain": {
             "id": "c5e",
-            "text": "Group, crowd and team are all groups of people, but alone means one person."
+            "text": "Group means people together, but a teddy bear, a gift and a guessing game are not people."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-548",
+          "props": [
+            {
+              "emoji": "🧸",
+              "label": "teddy bear"
+            },
+            {
+              "emoji": "👴",
+              "label": "grandad"
+            },
+            {
+              "emoji": "🧸",
+              "label": "toy"
+            }
+          ],
           "prompt": {
             "id": "c6q",
-            "text": "This old teddy bear is very ____ to me. It was my grandad's."
+            "text": "This old teddy bear is very ____ to me. It was my grandad's, so it is important and different from other toys."
           },
           "options": [
-            "plain",
-            "broken",
-            "special"
+            "special",
+            "beautiful",
+            "traditional"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c6e",
             "text": "Special means important to you, and different from others."
@@ -553,6 +675,12 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP1-U5-SB-550",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "hidden answer"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "In a guessing game, you try to find a hidden answer."
@@ -571,14 +699,28 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-552",
+          "props": [
+            {
+              "emoji": "📮",
+              "label": "stamps"
+            },
+            {
+              "emoji": "🪙",
+              "label": "coins"
+            },
+            {
+              "emoji": "📖",
+              "label": "book"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "Grandma likes to ____ old stamps and coins."
+            "text": "Grandma likes to ____ old stamps and coins. She has hundreds of them in a book."
           },
           "options": [
-            "forget",
+            "make",
             "collect",
-            "fold"
+            "fit"
           ],
           "answer": 1,
           "explain": {
@@ -590,14 +732,32 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-555",
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🎲",
+              "label": "game"
+            },
+            {
+              "emoji": "📦",
+              "label": "box"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "Leo and Mia will ____ a new game with the box."
           },
           "options": [
             "make",
-            "wash",
-            "break"
+            "collect",
+            "fit"
           ],
           "answer": 0,
           "explain": {
@@ -609,14 +769,24 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-556",
+          "props": [
+            {
+              "emoji": "🧸",
+              "label": "teddy bear"
+            },
+            {
+              "emoji": "📦",
+              "label": "box"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "The big teddy bear will not ____ in the small box."
           },
           "options": [
             "fit",
-            "sing",
-            "jump"
+            "make",
+            "collect"
           ],
           "answer": 0,
           "explain": {
@@ -657,7 +827,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "My special toy is a teddy bear. I like to play on my own. I like playing a guessing game with my group."
+        "text": "My special toy is a teddy bear. I like to play a game on my own. I like playing a guessing game with my group."
       }
     },
     {
@@ -688,5 +858,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

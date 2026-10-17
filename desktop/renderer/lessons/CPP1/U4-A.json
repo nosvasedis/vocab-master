@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U4-SB-447",
-      "emoji": "👯",
+      "emoji": "👧🟰👦",
       "kidDefinition": "How things are alike or the same.",
       "examples": [
         "Can you see the similarities between these two pictures?",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-448",
-      "emoji": "🔀",
+      "emoji": "🍎↔️🍌",
       "kidDefinition": "How things are not the same.",
       "examples": [
         "There are many differences between my brother and me.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-451",
-      "emoji": "👫",
+      "emoji": "👧➕👦",
       "kidDefinition": "The two of them together.",
       "examples": [
         "Both my sister and I like flying our kites.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-455",
-      "emoji": "🤝",
+      "emoji": "👧🤝👦",
       "kidDefinition": "One person and the other person.",
       "examples": [
         "We help each other with our homework.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-464",
-      "emoji": "👍",
+      "emoji": "🧠🟰🧠",
       "kidDefinition": "To think the same as someone.",
       "examples": [
         "You're right! I agree with you!",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-467",
-      "emoji": "👎",
+      "emoji": "🧠↔️🧠",
       "kidDefinition": "To think something different from someone.",
       "examples": [
         "I disagree! I think cats are the best pets!",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-457",
-      "emoji": "✏️",
+      "emoji": "✏️➡️👦",
       "kidDefinition": "To give something to someone for a short time.",
       "examples": [
         "Can you lend me your pencil?",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-454",
-      "emoji": "🔔",
+      "emoji": "📖⏳",
       "kidDefinition": "In the middle of an activity or time.",
       "examples": [
         "My best friend and I share our snacks during recess.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-460",
-      "emoji": "🕑",
+      "emoji": "🍽️➡️⚽",
       "kidDefinition": "Later than a time or an event.",
       "examples": [
         "First I do my homework and after that, I play.",
@@ -232,6 +232,20 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "playground",
+      "props": [
+        {
+          "emoji": "👧👦",
+          "label": "children"
+        },
+        {
+          "emoji": "⛓️🪑",
+          "label": "swings"
+        },
+        {
+          "emoji": "🛝",
+          "label": "slide"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -243,11 +257,27 @@
         },
         {
           "id": "l3",
-          "text": "Are they the same? Are they different? Let's find out together!"
+          "text": "Are they the same? Are they different? Let's find out together!",
+          "props": [
+            {
+              "emoji": "🟰",
+              "label": "same"
+            },
+            {
+              "emoji": "🍎↔️🍌",
+              "label": "different"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we ask: what is a friend? Let's explore!"
+          "text": "Today we ask: what is a friend? Let's explore!",
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friend"
+            }
+          ]
         }
       ],
       "question": {
@@ -279,13 +309,35 @@
       "panels": [
         {
           "id": "p1",
-          "backdrop": "playground",
+          "backdrop": "school",
           "characters": [
             {
               "who": "mia"
             },
             {
               "who": "ben"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🧥🧥",
+              "label": "jumpers"
+            },
+            {
+              "emoji": "🎒🎒",
+              "label": "backpacks"
+            },
+            {
+              "emoji": "👧🟰👦",
+              "label": "similarity"
+            },
+            {
+              "emoji": "🎨",
+              "label": "colours"
             }
           ],
           "caption": {
@@ -320,6 +372,20 @@
               "who": "ben"
             }
           ],
+          "props": [
+            {
+              "emoji": "🔢",
+              "label": "maths"
+            },
+            {
+              "emoji": "✏️",
+              "label": "pencil"
+            },
+            {
+              "emoji": "💔",
+              "label": "broken"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "It is maths time. Mia's pencil is broken."
@@ -350,6 +416,28 @@
             },
             {
               "who": "ben"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🔔",
+              "label": "recess"
+            },
+            {
+              "emoji": "⛓️🪑",
+              "label": "swings"
+            },
+            {
+              "emoji": "🛝",
+              "label": "slide"
+            },
+            {
+              "emoji": "🍎↔️🍌",
+              "label": "difference"
+            },
+            {
+              "emoji": "😄",
+              "label": "fun"
             }
           ],
           "caption": {
@@ -387,9 +475,27 @@
               "who": "ben"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "😔",
+              "label": "lonely"
+            },
+            {
+              "emoji": "🥪",
+              "label": "lunch"
+            },
+            {
+              "emoji": "🧠🟰🧠",
+              "label": "agree"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "Hector the hare sits alone by the big tree."
+            "text": "Hector the hare sits by the big tree. Mia and Ben walk over."
           },
           "speech": [
             {
@@ -429,6 +535,24 @@
               "who": "hector"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "😂",
+              "label": "laughing"
+            },
+            {
+              "emoji": "🍕",
+              "label": "pizza"
+            },
+            {
+              "emoji": "🧠↔️🧠",
+              "label": "disagree"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Now the three friends are laughing under the big tree."
@@ -466,7 +590,7 @@
           "wordId": "CPP1-U4-SB-447",
           "prompt": {
             "id": "c1q",
-            "text": "Listen: which word means how things are alike or the same?"
+            "text": "Listen: similarity."
           },
           "options": [
             "CPP1-U4-SB-447",
@@ -477,13 +601,23 @@
           "answer": 0,
           "explain": {
             "id": "c1e",
-            "text": "A similarity is a way that two things are alike."
+            "text": "Similarity means how things are alike or the same."
           }
         },
         {
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-448",
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "brother"
+            },
+            {
+              "emoji": "🙋",
+              "label": "me"
+            }
+          ],
           "prompt": {
             "id": "c2q",
             "text": "There are many ____ between my brother and me."
@@ -504,6 +638,12 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U4-SB-451",
+          "props": [
+            {
+              "emoji": "👧👦",
+              "label": "two"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "The word both means the two of them together."
@@ -522,16 +662,27 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-455",
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friends"
+            },
+            {
+              "emoji": "🤝",
+              "label": "homework"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "Friends always help ____ when they need it."
+            "text": "Mia and Ben help ____ with their homework. Mia helps Ben, and Ben helps Mia."
           },
           "options": [
-            "nobody",
-            "myself",
+            "both",
+            "they",
+            "them",
             "each other"
           ],
-          "answer": 2,
+          "answer": 3,
           "explain": {
             "id": "c4e",
             "text": "Each other means one person and the other person helping."
@@ -573,7 +724,7 @@
           "answer": 1,
           "explain": {
             "id": "c6e",
-            "text": "Lend is a verb for giving something for a short time; the others are places or play things."
+            "text": "Lend is an action (a verb). The others are places or things to play on."
           }
         },
         {
@@ -598,9 +749,15 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-456",
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friends"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "I ____ want to go out to play, but I still like my friends."
+            "text": "I ____ don't want to go out to play, but I still love my friends."
           },
           "options": [
             "sometimes",
@@ -617,14 +774,25 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-454",
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "book"
+            },
+            {
+              "emoji": "👦",
+              "label": "Ben"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "Ben reads a book ____ the whole lesson."
+            "text": "Ben reads a book ____ the lesson. He starts when the lesson starts and stops when it ends."
           },
           "options": [
             "during",
-            "beside",
-            "under"
+            "after",
+            "before",
+            "beside"
           ],
           "answer": 0,
           "explain": {
@@ -636,6 +804,16 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-460",
+          "props": [
+            {
+              "emoji": "🧼🙌",
+              "label": "hands"
+            },
+            {
+              "emoji": "🥪",
+              "label": "lunch"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "First we wash our hands. ____ that, we eat lunch."
@@ -643,7 +821,8 @@
           "options": [
             "Before",
             "After",
-            "Until"
+            "Until",
+            "During"
           ],
           "answer": 1,
           "explain": {
@@ -715,5 +894,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

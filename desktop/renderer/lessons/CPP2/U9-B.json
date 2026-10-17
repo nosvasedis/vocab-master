@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1137",
-      "emoji": "🥛",
+      "emoji": "🥛💥",
       "kidDefinition": "To hit something so that it falls down by accident.",
       "examples": [
         "I knocked over my glass of juice at lunch.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1145",
-      "emoji": "🚀",
+      "emoji": "🔜",
       "kidDefinition": "The time that has not happened yet.",
       "examples": [
         "In the future, cars might fly.",
@@ -243,24 +243,74 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I'm Lingo, and I love the weather!"
+          "text": "Hello, friends! I'm Lingo, and I love the weather!",
+          "props": [
+            {
+              "emoji": "🌦️",
+              "label": "weather"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Did you know that cats can give us weather clues?"
+          "text": "Did you know that cats can give us weather clues?",
+          "props": [
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🔎",
+              "label": "clue"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Scientists watch nature closely and make clever guesses about tomorrow."
+          "text": "Scientists watch nature closely and make clever guesses about tomorrow.",
+          "props": [
+            {
+              "emoji": "🧑‍🔬",
+              "label": "scientist"
+            },
+            {
+              "emoji": "🌳",
+              "label": "nature"
+            },
+            {
+              "emoji": "📅",
+              "label": "tomorrow"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we will learn new words about weather and the future."
+          "text": "Today we will learn new words about weather and the future.",
+          "props": [
+            {
+              "emoji": "🌦️",
+              "label": "weather"
+            },
+            {
+              "emoji": "🔜",
+              "label": "future"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What do you do when the sky is cloudy?"
+        "text": "What do you do when the sky is cloudy?",
+        "props": [
+          {
+            "emoji": "🌥️",
+            "label": "sky"
+          },
+          {
+            "emoji": "☁️",
+            "label": "cloudy"
+          }
+        ]
       }
     },
     {
@@ -296,6 +346,32 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "📅",
+              "label": "tomorrow"
+            },
+            {
+              "emoji": "🌦️",
+              "label": "weather"
+            },
+            {
+              "emoji": "🔮",
+              "label": "predict"
+            },
+            {
+              "emoji": "🧪",
+              "label": "experiment"
+            },
+            {
+              "emoji": "🫙",
+              "label": "jar"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mia wants to find out about tomorrow's weather."
@@ -329,6 +405,24 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "🫙",
+              "label": "jar"
+            },
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🪑",
+              "label": "table"
+            },
+            {
+              "emoji": "🥛💥",
+              "label": "knock over"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Mia fills the jar. Then Pip the cat jumps onto the table!"
@@ -342,7 +436,7 @@
             {
               "id": "p2b",
               "who": "mia",
-              "text": "Oops! That was close. Good thing nothing spilled!"
+              "text": "Oops! That was close. Good thing the jar is safe!"
             }
           ],
           "highlight": [
@@ -359,6 +453,24 @@
             },
             {
               "who": "grandpa"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🐾",
+              "label": "paw"
+            },
+            {
+              "emoji": "👅",
+              "label": "lick"
+            },
+            {
+              "emoji": "🔍",
+              "label": "observation"
             }
           ],
           "caption": {
@@ -394,9 +506,31 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌥️",
+              "label": "sky"
+            },
+            {
+              "emoji": "🌤️",
+              "label": "conditions"
+            },
+            {
+              "emoji": "☁️",
+              "label": "cloudy"
+            },
+            {
+              "emoji": "💧",
+              "label": "wet"
+            },
+            {
+              "emoji": "🌧️",
+              "label": "rain"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "The sky turns grey. The conditions are changing."
+            "text": "The sky changes. The conditions are changing."
           },
           "speech": [
             {
@@ -424,6 +558,32 @@
             },
             {
               "who": "grandpa"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌧️",
+              "label": "rain"
+            },
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🔍",
+              "label": "observation"
+            },
+            {
+              "emoji": "🔮",
+              "label": "predict"
+            },
+            {
+              "emoji": "🔜",
+              "label": "future"
+            },
+            {
+              "emoji": "🌦️",
+              "label": "weather"
             }
           ],
           "caption": {
@@ -457,17 +617,27 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1136",
+          "props": [
+            {
+              "emoji": "🌱🌱",
+              "label": "seeds"
+            },
+            {
+              "emoji": "📚",
+              "label": "shelf"
+            }
+          ],
           "prompt": {
             "id": "c1q",
-            "text": "Mia kept the seeds in a clear glass ____ with a lid."
+            "text": "Mia kept the seeds in a clear ____ on the shelf."
           },
           "options": [
+            "paw",
             "jar",
-            "hat",
-            "sock",
-            "shoe"
+            "future",
+            "experiment"
           ],
-          "answer": 0,
+          "answer": 1,
           "explain": {
             "id": "c1e",
             "text": "A jar is a glass container with a lid, so it is the right choice."
@@ -477,17 +647,39 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1137",
+          "props": [
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🥛",
+              "label": "glass"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "🪑",
+              "label": "table"
+            },
+            {
+              "emoji": "🧹",
+              "label": "floor"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Oops! Pip jumped and ____ the glass of water."
+            "text": "Oops! Pip jumped onto the table and ____ the glass. It fell on the floor."
           },
           "options": [
-            "turned on",
+            "licked",
+            "predicted",
             "knocked over",
-            "picked up",
-            "put on"
+            "owned"
           ],
-          "answer": 1,
+          "answer": 2,
           "explain": {
             "id": "c2e",
             "text": "When you knock something over by accident, it falls down."
@@ -499,7 +691,7 @@
           "wordId": "CPP2-U9-SB-1138",
           "prompt": {
             "id": "c3q",
-            "text": "Pick the word. To say what will happen next."
+            "text": "Pick the word that means 'to say what will happen next'."
           },
           "options": [
             "CPP2-U9-SB-1137",
@@ -519,7 +711,7 @@
           "wordId": "CPP2-U9-SB-1139",
           "prompt": {
             "id": "c4q",
-            "text": "Listen to the word. Which card did you hear?"
+            "text": "Listen to the word 'observation'. Which card did you hear?"
           },
           "options": [
             "CPP2-U9-SB-1139",
@@ -537,6 +729,20 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP2-U9-SB-1141",
+          "props": [
+            {
+              "emoji": "🌦️",
+              "label": "weather"
+            },
+            {
+              "emoji": "🌳🏠🚗",
+              "label": "things around us"
+            },
+            {
+              "emoji": "🌤️",
+              "label": "conditions"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "Conditions means the weather and other things around us."
@@ -575,15 +781,33 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1165",
+          "props": [
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🌻🌳",
+              "label": "garden"
+            },
+            {
+              "emoji": "🚶",
+              "label": "walk"
+            },
+            {
+              "emoji": "🍎",
+              "label": "tongue"
+            }
+          ],
           "prompt": {
             "id": "c7q",
-            "text": "The cat cleaned its ____ after its walk in the garden."
+            "text": "The cat cleaned its ____ with its tongue after its walk in the garden."
           },
           "options": [
-            "wing",
-            "nose",
+            "cap",
+            "spoon",
             "paw",
-            "tail"
+            "slipper"
           ],
           "answer": 2,
           "explain": {
@@ -595,17 +819,35 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1164",
+          "props": [
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🐾🐾",
+              "label": "paws"
+            },
+            {
+              "emoji": "👅",
+              "label": "tongue"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "lunch"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "The cat likes to ____ its paws after lunch."
+            "text": "The cat uses its tongue to ____ its paws clean after lunch."
           },
           "options": [
-            "sniff",
-            "bite",
-            "chew",
-            "lick"
+            "predict",
+            "believe",
+            "lick",
+            "decide"
           ],
-          "answer": 3,
+          "answer": 2,
           "explain": {
             "id": "c8e",
             "text": "To lick means to touch something with your tongue."
@@ -615,6 +857,20 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP2-U9-SB-1160",
+          "props": [
+            {
+              "emoji": "🧪",
+              "label": "experiment"
+            },
+            {
+              "emoji": "🎲",
+              "label": "game"
+            },
+            {
+              "emoji": "👫",
+              "label": "friends"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "An experiment is a game we play with our friends."
@@ -633,15 +889,21 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1145",
+          "props": [
+            {
+              "emoji": "🧑‍🔬",
+              "label": "scientist"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "I want to be a scientist in the ____."
           },
           "options": [
-            "garden",
-            "lunch",
+            "jar",
+            "spoon",
             "future",
-            "past"
+            "laundry"
           ],
           "answer": 2,
           "explain": {
@@ -671,7 +933,17 @@
       "type": "speak",
       "prompt": {
         "id": "q",
-        "text": "Ask your partner: What clues can help us predict the weather?"
+        "text": "Ask your partner: What clues can help us predict the weather?",
+        "props": [
+          {
+            "emoji": "🌦️",
+            "label": "weather"
+          },
+          {
+            "emoji": "🔎",
+            "label": "clue"
+          }
+        ]
       },
       "frames": [
         "I think ___ is a good clue for predicting the weather.",
@@ -682,7 +954,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I think cloudy skies are a good clue. When it is cloudy, I can predict some rain. In the future, I want to do an experiment about the weather."
+        "text": "I think cloudy sky is a good clue for predicting the weather. When it is cloudy, I can predict some rain. In the future, I want to do an experiment about the weather."
       }
     },
     {
@@ -717,5 +989,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

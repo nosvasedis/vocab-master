@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U9-SB-1183",
-      "emoji": "🧑‍🎤",
+      "emoji": "🧑🎻",
       "kidDefinition": "A person who plays or sings music.",
       "examples": [
         "Many musicians from around the world came to our music festival.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1193",
-      "emoji": "🎼",
+      "emoji": "🧑‍🎼",
       "kidDefinition": "A person who writes new music.",
       "examples": [
         "My favourite composer is Bach.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1182",
-      "emoji": "🎶",
+      "emoji": "📄🎶",
       "kidDefinition": "Paper with the notes of a song written on it.",
       "examples": [
         "Take out your sheet music, please. We are going to play a song.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1196",
-      "emoji": "🎻",
+      "emoji": "🎻🎺🥁",
       "kidDefinition": "A large group of musicians who play together.",
       "examples": [
         "The school orchestra practises every Tuesday after lunch.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1185",
-      "emoji": "💺",
+      "emoji": "💺💺",
       "kidDefinition": "The room with many seats where people watch a show.",
       "examples": [
         "The auditorium was full of parents and friends.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1186",
-      "emoji": "🎭",
+      "emoji": "🟥🟥",
       "kidDefinition": "Heavy material that hangs in front of a stage.",
       "examples": [
         "Please open the curtain so we can see the stage.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1201",
-      "emoji": "🎤",
+      "emoji": "🧍⬆️",
       "kidDefinition": "A raised stand where a speaker or conductor stands.",
       "examples": [
         "The conductor stepped onto the podium and raised her arms.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1189",
-      "emoji": "🌟",
+      "emoji": "🎭👏",
       "kidDefinition": "A show where people sing, play or dance for others.",
       "examples": [
         "The performance was great, and the audience clapped at the end.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1202",
-      "emoji": "🎛️",
+      "emoji": "🎻🔧",
       "kidDefinition": "To adjust an instrument so it sounds right.",
       "examples": [
         "Before the concert, the musicians tuned their instruments.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1203",
-      "emoji": "🥁",
+      "emoji": "🦶🥁",
       "kidDefinition": "A steady pattern of beats in music.",
       "examples": [
         "The rhythm of this song is fast and happy.",
@@ -235,6 +235,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "stage",
+      "props": [
+        {
+          "emoji": "🎵",
+          "label": "music"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -242,7 +248,21 @@
         },
         {
           "id": "l2",
-          "text": "Music is everywhere. We hear it at home, at school and on stage."
+          "text": "Music is everywhere. We hear it at home, at school and on stage.",
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🎭",
+              "label": "stage"
+            }
+          ]
         },
         {
           "id": "l3",
@@ -250,7 +270,17 @@
         },
         {
           "id": "l4",
-          "text": "Today we meet a boy called Mason, and his big night at school."
+          "text": "Today we meet a boy called Mason, and his big night at school.",
+          "props": [
+            {
+              "emoji": "🧒",
+              "label": "boy"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ]
         }
       ],
       "question": {
@@ -288,6 +318,24 @@
               "who": "mason"
             }
           ],
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "📄",
+              "label": "paper"
+            },
+            {
+              "emoji": "🎶",
+              "label": "sheet music"
+            },
+            {
+              "emoji": "🧑‍🎼",
+              "label": "composer"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mason finds an old piece of paper in a box."
@@ -313,6 +361,24 @@
             },
             {
               "who": "mason"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💺💺",
+              "label": "auditorium"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🎭",
+              "label": "performance"
+            },
+            {
+              "emoji": "🎻🎺🥁",
+              "label": "orchestra"
             }
           ],
           "caption": {
@@ -348,6 +414,28 @@
               "who": "mason"
             }
           ],
+          "props": [
+            {
+              "emoji": "🟥🟥",
+              "label": "curtain"
+            },
+            {
+              "emoji": "🧍⬆️",
+              "label": "podium"
+            },
+            {
+              "emoji": "🎻🎺",
+              "label": "orchestra"
+            },
+            {
+              "emoji": "🥁",
+              "label": "drum"
+            },
+            {
+              "emoji": "🦶🎵",
+              "label": "rhythm"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "The curtain is closed. The podium is ready at the front."
@@ -381,6 +469,20 @@
               "who": "ms_ellis"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎻",
+              "label": "violin"
+            },
+            {
+              "emoji": "🔧",
+              "label": "tune"
+            },
+            {
+              "emoji": "🧑🎻",
+              "label": "musician"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Before the show, Mason tunes his violin."
@@ -410,6 +512,24 @@
               "who": "mason"
             }
           ],
+          "props": [
+            {
+              "emoji": "🟥🟥",
+              "label": "curtain"
+            },
+            {
+              "emoji": "👥👏",
+              "label": "audience"
+            },
+            {
+              "emoji": "🎭",
+              "label": "performance"
+            },
+            {
+              "emoji": "🎵",
+              "label": "music"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "The curtain lifts. The audience claps and cheers loudly."
@@ -436,17 +556,31 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP3-U9-SB-1183",
+          "props": [
+            {
+              "emoji": "🎻",
+              "label": "violin"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🎻🎺🥁",
+              "label": "orchestra"
+            }
+          ],
           "prompt": {
             "id": "c1q",
-            "text": "A ____ plays the violin in our school orchestra."
+            "text": "A ____ plays the violin in our school orchestra. This person does not write the music or lead the group."
           },
           "options": [
-            "painter",
-            "dancer",
-            "teacher",
-            "musician"
+            "composer",
+            "conductor",
+            "musician",
+            "president"
           ],
-          "answer": 3,
+          "answer": 2,
           "explain": {
             "id": "c1e",
             "text": "A musician is a person who plays or sings music."
@@ -456,18 +590,24 @@
           "id": "c2",
           "kind": "trueFalse",
           "wordId": "CPP3-U9-SB-1193",
+          "props": [
+            {
+              "emoji": "🧑‍🎼",
+              "label": "composer"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "A composer is a person who never writes music."
+            "text": "A composer writes new music."
           },
           "options": [
             "True",
             "False"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c2e",
-            "text": "A composer writes new music, so this statement is false."
+            "text": "A composer is a person who writes new music."
           }
         },
         {
@@ -507,27 +647,41 @@
           "answer": 1,
           "explain": {
             "id": "c4e",
-            "text": "Podium, curtain and auditorium are parts of a stage or hall, but rhythm is a beat in music."
+            "text": "Podium, curtain and auditorium are parts of a stage or hall, but rhythm is a pattern of beats in music."
           }
         },
         {
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP3-U9-SB-1186",
+          "props": [
+            {
+              "emoji": "👥👏",
+              "label": "audience"
+            },
+            {
+              "emoji": "🎭",
+              "label": "stage"
+            },
+            {
+              "emoji": "🐾",
+              "label": "cloth"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "Please open the ____ so the audience can see the stage."
+            "text": "Please open the ____ so the audience can see the stage. It is made of heavy cloth."
           },
           "options": [
-            "blanket",
-            "carpet",
-            "window",
+            "podium",
+            "auditorium",
+            "sheet music",
             "curtain"
           ],
           "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "A curtain is the cloth at the front of a stage that opens and closes."
+            "text": "A curtain is heavy cloth that hangs in front of a stage."
           }
         },
         {
@@ -554,17 +708,31 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U9-SB-1189",
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "👥👏",
+              "label": "audience"
+            },
+            {
+              "emoji": "🎵",
+              "label": "singer"
+            }
+          ],
           "prompt": {
             "id": "c7q",
-            "text": "The school ____ was wonderful, and the audience clapped loudly."
+            "text": "The school ____ was wonderful. The actors, singers and dancers all did a great job."
           },
           "options": [
-            "lunch",
-            "performance",
-            "holiday",
-            "lesson"
+            "orchestra",
+            "auditorium",
+            "curtain",
+            "performance"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c7e",
             "text": "A performance is a show where people sing, play or dance for others."
@@ -574,9 +742,19 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP3-U9-SB-1202",
+          "props": [
+            {
+              "emoji": "🎻",
+              "label": "instrument"
+            },
+            {
+              "emoji": "🔧",
+              "label": "tune"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "To tune an instrument means to make it sound right."
+            "text": "To tune an instrument means to adjust it so it sounds right."
           },
           "options": [
             "True",
@@ -592,14 +770,20 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U9-SB-1182",
+          "props": [
+            {
+              "emoji": "🎵",
+              "label": "song"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "Take out your ____. We are going to play a song together."
+            "text": "Before we play the song, take out your ____."
           },
           "options": [
-            "notebook",
-            "pencil",
-            "ruler",
+            "podium",
+            "curtain",
+            "rhythm",
             "sheet music"
           ],
           "answer": 3,
@@ -612,20 +796,26 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP3-U9-SB-1203",
+          "props": [
+            {
+              "emoji": "🎵",
+              "label": "song"
+            }
+          ],
           "prompt": {
             "id": "c10q",
-            "text": "The ____ of this song is fast and happy."
+            "text": "The ____ of this song is fast and happy. You can clap along to it."
           },
           "options": [
-            "breeze",
-            "silence",
-            "rhythm",
-            "shadow"
+            "composer",
+            "orchestra",
+            "curtain",
+            "rhythm"
           ],
-          "answer": 2,
+          "answer": 3,
           "explain": {
             "id": "c10e",
-            "text": "Rhythm is the steady pattern of beats that you can clap along to."
+            "text": "Rhythm is the steady pattern of beats in music."
           }
         }
       ]
@@ -692,5 +882,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

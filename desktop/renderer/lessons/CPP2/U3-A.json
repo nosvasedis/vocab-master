@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-311",
-      "emoji": "👃",
+      "emoji": "👃💨",
       "kidDefinition": "Having a strong, bad smell.",
       "examples": [
         "Ugh! This cheese is very smelly!",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-312",
-      "emoji": "🫒",
+      "emoji": "🛢️",
       "kidDefinition": "A liquid from plants that we use for cooking.",
       "examples": [
         "Some fruit like oranges has nice smelling oils.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-313",
-      "emoji": "🚪",
+      "emoji": "🚪➡️",
       "kidDefinition": "To move from inside to outside something.",
       "examples": [
         "When you cut an onion, the oil comes out.",
@@ -117,7 +117,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-317",
-      "emoji": "😢",
+      "emoji": "👁️💧",
       "kidDefinition": "To fill with tears in your eyes.",
       "examples": [
         "His eyes water up every time he cuts an onion.",
@@ -149,7 +149,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-318",
-      "emoji": "🚿",
+      "emoji": "🧼💧",
       "kidDefinition": "To clean something off using water.",
       "examples": [
         "Wash away the smelly onion gas with some water.",
@@ -165,7 +165,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-309",
-      "emoji": "💊",
+      "emoji": "🍊💊",
       "kidDefinition": "A small part of food that keeps your body healthy.",
       "examples": [
         "Fruit and vegetables have lots of vitamins.",
@@ -181,7 +181,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-310",
-      "emoji": "🥗",
+      "emoji": "🥗💪",
       "kidDefinition": "Something in food your body needs to be healthy.",
       "examples": [
         "Nutrients are important if you want to stay healthy.",
@@ -272,15 +272,49 @@
         },
         {
           "id": "l2",
-          "text": "Mia is making a fresh salad for lunch."
+          "text": "Mia is making a fresh salad for lunch.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🥗",
+              "label": "salad"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "lunch"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "She needs one onion. But she has a little problem!"
+          "text": "She needs one onion. But she has a little problem!",
+          "props": [
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Onions can be a bit smelly, and they can make us cry."
+          "text": "Onions can be a bit smelly, and they can make us cry.",
+          "props": [
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            },
+            {
+              "emoji": "👃💨",
+              "label": "smelly"
+            },
+            {
+              "emoji": "😭",
+              "label": "cry"
+            }
+          ]
         }
       ],
       "question": {
@@ -321,6 +355,20 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🥗",
+              "label": "salad"
+            },
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            },
+            {
+              "emoji": "👃💨",
+              "label": "smelly"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mia and Leo want to make a fresh salad."
@@ -351,6 +399,28 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            },
+            {
+              "emoji": "🛢️💧",
+              "label": "oil"
+            },
+            {
+              "emoji": "👀",
+              "label": "eyes"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "😢",
+              "label": "water up"
             }
           ],
           "caption": {
@@ -386,6 +456,32 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🛢️",
+              "label": "oil"
+            },
+            {
+              "emoji": "💨",
+              "label": "gas"
+            },
+            {
+              "emoji": "🌬️",
+              "label": "air"
+            },
+            {
+              "emoji": "😭",
+              "label": "cry"
+            },
+            {
+              "emoji": "🧼",
+              "label": "wash away"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "The oil turns into a gas in the air around them."
@@ -413,6 +509,31 @@
           "characters": [
             {
               "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🥛",
+              "label": "glass"
+            },
+            {
+              "emoji": "🌊",
+              "label": "water"
+            },
+            {
+              "emoji": "💧",
+              "label": "drop"
+            },
+            {
+              "emoji": "🛢️",
+              "label": "oil"
+            },
+            {
+              "emoji": "🛶",
+              "label": "float"
             }
           ],
           "caption": {
@@ -440,6 +561,32 @@
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🤫",
+              "label": "secret"
+            },
+            {
+              "emoji": "💪",
+              "label": "healthy"
+            },
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            },
+            {
+              "emoji": "💊",
+              "label": "vitamin"
+            },
+            {
+              "emoji": "🥗",
+              "label": "nutrient"
+            },
+            {
+              "emoji": "🥗",
+              "label": "salad"
             }
           ],
           "caption": {
@@ -475,7 +622,7 @@
           "wordId": "CPP2-U3-SB-308",
           "prompt": {
             "id": "c1q",
-            "text": "Find the word: onion. Which one is it?"
+            "text": "Which one is the round vegetable with layers that can make you cry?"
           },
           "options": [
             "CPP2-U3-SB-309",
@@ -485,7 +632,7 @@
           "answer": 2,
           "explain": {
             "id": "c1e",
-            "text": "An onion is the round vegetable that makes you cry."
+            "text": "An onion is a round vegetable with layers that can make you cry."
           }
         },
         {
@@ -504,7 +651,7 @@
           "answer": 1,
           "explain": {
             "id": "c2e",
-            "text": "Smelly means having a strong, bad smell, like old cheese."
+            "text": "Smelly means having a strong, bad smell, like an onion."
           }
         },
         {
@@ -513,11 +660,21 @@
           "wordId": "CPP2-U3-SB-313",
           "prompt": {
             "id": "c3q",
-            "text": "When you cut an onion, the oil ____."
+            "text": "When you cut an onion, some oil ____."
           },
+          "props": [
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            },
+            {
+              "emoji": "🛢️",
+              "label": "oil"
+            }
+          ],
           "options": [
-            "goes away",
-            "turns on",
+            "waters up",
+            "washes away",
             "comes out"
           ],
           "answer": 2,
@@ -534,6 +691,16 @@
             "id": "c4q",
             "text": "In the story, the oil can float on the water."
           },
+          "props": [
+            {
+              "emoji": "🛢️",
+              "label": "oil"
+            },
+            {
+              "emoji": "🌊",
+              "label": "water"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -552,6 +719,20 @@
             "id": "c5q",
             "text": "Mia's eyes ____ when she cuts an onion."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👀",
+              "label": "eyes"
+            },
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            }
+          ],
           "options": [
             "wash away",
             "come out",
@@ -580,7 +761,7 @@
           "answer": 1,
           "explain": {
             "id": "c6e",
-            "text": "Smelly is an adjective, but onion, oil and gas are all nouns."
+            "text": "Smelly describes a smell; onion, oil and gas are things."
           }
         },
         {
@@ -589,8 +770,26 @@
           "wordId": "CPP2-U3-SB-315",
           "prompt": {
             "id": "c7q",
-            "text": "Gas is made when oil turns into a gas and makes eyes water up."
+            "text": "In the story, the oil turns into a gas in the air."
           },
+          "props": [
+            {
+              "emoji": "🛢️",
+              "label": "oil"
+            },
+            {
+              "emoji": "💨",
+              "label": "gas"
+            },
+            {
+              "emoji": "👀",
+              "label": "eyes"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -598,7 +797,7 @@
           "answer": 0,
           "explain": {
             "id": "c7e",
-            "text": "Gas is a substance that spreads out, like the onion gas in the story."
+            "text": "Gas is a substance like air that spreads out to fill space."
           }
         },
         {
@@ -609,6 +808,20 @@
             "id": "c8q",
             "text": "Please ____ the onion gas with some water."
           },
+          "props": [
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            },
+            {
+              "emoji": "💨",
+              "label": "gas"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "options": [
             "come out",
             "water up",
@@ -626,12 +839,12 @@
           "wordId": "CPP2-U3-SB-309",
           "prompt": {
             "id": "c9q",
-            "text": "Find the word: vitamin. Which one is it?"
+            "text": "Which one is a small part of food that keeps your body healthy?"
           },
           "options": [
             "CPP2-U3-SB-312",
             "CPP2-U3-SB-309",
-            "CPP2-U3-SB-310"
+            "CPP2-U3-SB-315"
           ],
           "answer": 1,
           "explain": {
@@ -647,9 +860,19 @@
             "id": "c10q",
             "text": "A ____ is a useful part of food that keeps you healthy."
           },
+          "props": [
+            {
+              "emoji": "🍽️",
+              "label": "food"
+            },
+            {
+              "emoji": "💪",
+              "label": "healthy"
+            }
+          ],
           "options": [
+            "gas",
             "oil",
-            "onion",
             "nutrient"
           ],
           "answer": 2,
@@ -726,5 +949,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

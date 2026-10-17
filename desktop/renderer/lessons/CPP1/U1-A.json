@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U1-SB-28",
-      "emoji": "👨‍👩‍👧",
+      "emoji": "👩👨",
       "kidDefinition": "A mother or a father.",
       "examples": [
         "Timmy's parent works on a farm.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-32",
-      "emoji": "👵",
+      "emoji": "👵👴",
       "kidDefinition": "The mother or father of your mum or dad.",
       "examples": [
         "My grandparents live near the sea.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-20",
-      "emoji": "🚜",
+      "emoji": "🐄🚜",
       "kidDefinition": "A place with animals, fields and crops.",
       "examples": [
         "I like living on a farm.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-23",
-      "emoji": "🐾",
+      "emoji": "🐶🐄",
       "kidDefinition": "A living thing, like a dog or a cow.",
       "examples": [
         "What's your favourite animal?",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-25",
-      "emoji": "🔀",
+      "emoji": "🍎↔️🍌",
       "kidDefinition": "Not the same as something else.",
       "examples": [
         "My house is very different from your house.",
@@ -256,6 +256,20 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
+      "props": [
+        {
+          "emoji": "👨‍👩‍👧",
+          "label": "family"
+        },
+        {
+          "emoji": "🏠",
+          "label": "home"
+        },
+        {
+          "emoji": "🐶🐄",
+          "label": "animal"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -267,11 +281,23 @@
         },
         {
           "id": "l3",
-          "text": "Some families live in big cities."
+          "text": "Some families live in big cities.",
+          "props": [
+            {
+              "emoji": "🏙️",
+              "label": "city"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Some families live on farms with many animals."
+          "text": "Some families live on farms with many animals.",
+          "props": [
+            {
+              "emoji": "🐄🚜",
+              "label": "farm"
+            }
+          ]
         },
         {
           "id": "l5",
@@ -316,6 +342,16 @@
               "who": "grandparent"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "house"
+            },
+            {
+              "emoji": "🐄🚜",
+              "label": "farm"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Timmy and his grandparent live in a happy house."
@@ -349,6 +385,28 @@
               "who": "grandparent"
             }
           ],
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "parent"
+            },
+            {
+              "emoji": "🐄🚜",
+              "label": "farm"
+            },
+            {
+              "emoji": "🐄🐄",
+              "label": "cow"
+            },
+            {
+              "emoji": "🐴🐴",
+              "label": "horse"
+            },
+            {
+              "emoji": "🐶🐄",
+              "label": "animal"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "The farm is big, green and full of life."
@@ -379,6 +437,20 @@
               "who": "timmy"
             }
           ],
+          "props": [
+            {
+              "emoji": "🥕",
+              "label": "carrot"
+            },
+            {
+              "emoji": "🐴",
+              "label": "horse"
+            },
+            {
+              "emoji": "🐹",
+              "label": "hamster"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Timmy gives a carrot to a friendly horse."
@@ -402,6 +474,16 @@
           "characters": [
             {
               "who": "timmy"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧸",
+              "label": "toy"
+            },
+            {
+              "emoji": "🐹",
+              "label": "hamster"
             }
           ],
           "caption": {
@@ -429,6 +511,20 @@
             },
             {
               "who": "grandparent"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            },
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "family"
+            },
+            {
+              "emoji": "🐄🚜",
+              "label": "farm"
             }
           ],
           "caption": {
@@ -461,15 +557,25 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP1-U1-SB-28",
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "Timmy"
+            },
+            {
+              "emoji": "🐄🚜",
+              "label": "farm"
+            }
+          ],
           "prompt": {
             "id": "c1q",
-            "text": "Timmy's ____ works on a farm every day."
+            "text": "Timmy's ____ works on the farm, but Grandma only visits."
           },
           "options": [
             "toy",
             "parent",
-            "planet",
-            "bag"
+            "carrot",
+            "house"
           ],
           "answer": 1,
           "explain": {
@@ -501,6 +607,12 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U1-SB-29",
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "house"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "A house is a place where people live."
@@ -525,14 +637,14 @@
           },
           "options": [
             "carrot",
-            "cat",
             "hamster",
-            "dog"
+            "rat",
+            "bat"
           ],
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "Cat, hamster and dog are animals, but a carrot is a vegetable."
+            "text": "Carrot is a vegetable; hamster, rat and bat are animals."
           }
         },
         {
@@ -559,6 +671,24 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U1-SB-34",
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "Timmy"
+            },
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "family"
+            },
+            {
+              "emoji": "🏠",
+              "label": "house"
+            },
+            {
+              "emoji": "🐄🚜",
+              "label": "farm"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "Timmy and his family ____ in a house near a farm."
@@ -579,6 +709,12 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP1-U1-SB-25",
+          "props": [
+            {
+              "emoji": "👨‍👩‍👧↔️👩‍👦",
+              "label": "family"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "Every family is the same."
@@ -617,15 +753,21 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U1-SB-26",
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "Timmy"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "Timmy plays with his soft ____ every night."
           },
           "options": [
             "toy",
-            "bag",
-            "bat",
-            "cap"
+            "carrot",
+            "house",
+            "grandparent"
           ],
           "answer": 0,
           "explain": {
@@ -721,5 +863,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

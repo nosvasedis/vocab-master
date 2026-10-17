@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U9-SB-1006",
-      "emoji": "👚",
+      "emoji": "👕👖👗",
       "kidDefinition": "The things we wear on our bodies every day.",
       "examples": [
         "I wash my clothes every week.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1012",
-      "emoji": "🌦",
+      "emoji": "☀️🌧️",
       "kidDefinition": "What the sky, sun, rain and wind are like.",
       "examples": [
         "The weather is cold, so I need a coat.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1013",
-      "emoji": "🎉",
+      "emoji": "🎉🎈",
       "kidDefinition": "A special time or event, like a party or wedding.",
       "examples": [
         "For a special occasion, I wear my best dress.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1014",
-      "emoji": "👟",
+      "emoji": "👟🏃",
       "kidDefinition": "A soft shoe we wear to run, jump and play sport.",
       "examples": [
         "I run fast in my new tennis shoes.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1009",
-      "emoji": "❓",
+      "emoji": "🤔❓",
       "kidDefinition": "In what way, or by what method, something happens.",
       "examples": [
         "How do you wash your jeans?",
@@ -181,23 +181,81 @@
     {
       "id": "hook",
       "type": "hook",
-      "backdrop": "classroom",
+      "backdrop": "home",
+      "props": [
+        {
+          "emoji": "🌧️",
+          "label": "raining"
+        },
+        {
+          "emoji": "👕",
+          "label": "T-shirt"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love looking at clothes."
+          "text": "Hello, friends! I am Lingo, and I love looking at clothes.",
+          "props": [
+            {
+              "emoji": "👚",
+              "label": "clothes"
+            },
+            {
+              "emoji": "👥",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Mia opens her wardrobe every morning. She asks, what should I wear today?"
+          "text": "Mia opens her wardrobe every morning. She asks, what should I wear today?",
+          "props": [
+            {
+              "emoji": "🚪",
+              "label": "wardrobe"
+            },
+            {
+              "emoji": "🌅",
+              "label": "morning"
+            },
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some days she wears a dress. Some days she wears jeans and a T-shirt."
+          "text": "Some days she wears a dress. Some days she wears jeans and a T-shirt.",
+          "props": [
+            {
+              "emoji": "👗",
+              "label": "dress"
+            },
+            {
+              "emoji": "👖",
+              "label": "jeans"
+            },
+            {
+              "emoji": "👕",
+              "label": "T-shirt"
+            },
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today, we will find out why we really need clothes."
+          "text": "Today, we will find out why we really need clothes.",
+          "props": [
+            {
+              "emoji": "👚",
+              "label": "clothes"
+            }
+          ]
         }
       ],
       "question": {
@@ -252,8 +310,18 @@
             "id": "c2q",
             "text": "What is the ____ like today? It is sunny and warm."
           },
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "sunny"
+            },
+            {
+              "emoji": "🥵",
+              "label": "warm"
+            }
+          ],
           "options": [
-            "clothes",
+            "T-shirt",
             "weather",
             "occasion",
             "dress"
@@ -272,6 +340,16 @@
             "id": "c3q",
             "text": "We wear smart clothes for a special ____, like a wedding."
           },
+          "props": [
+            {
+              "emoji": "👔",
+              "label": "smart clothes"
+            },
+            {
+              "emoji": "💒",
+              "label": "wedding"
+            }
+          ],
           "options": [
             "weather",
             "occasion",
@@ -292,6 +370,20 @@
             "id": "c4q",
             "text": "Jeans are a kind of shoe for your feet."
           },
+          "props": [
+            {
+              "emoji": "👖",
+              "label": "jeans"
+            },
+            {
+              "emoji": "👟",
+              "label": "shoe"
+            },
+            {
+              "emoji": "🦶",
+              "label": "feet"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -328,8 +420,18 @@
           "wordId": "CPP1-U9-SB-1014",
           "prompt": {
             "id": "c6q",
-            "text": "I put on my ____ before I run in the park."
+            "text": "I put on a ____ before I run in the park. It goes on my foot."
           },
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            },
+            {
+              "emoji": "🏃",
+              "label": "run"
+            }
+          ],
           "options": [
             "weather",
             "tennis shoe",
@@ -352,7 +454,7 @@
           },
           "options": [
             "CPP1-U9-SB-1012",
-            "CPP1-U9-SB-1009",
+            "CPP1-U9-SB-1016",
             "CPP1-U9-SB-1006",
             "CPP1-U9-SB-1013"
           ],
@@ -368,8 +470,26 @@
           "wordId": "CPP1-U9-SB-1009",
           "prompt": {
             "id": "c8q",
-            "text": "____ do you wash your jeans? In a washing machine."
+            "text": "____ does the washing machine clean your jeans? With water and soap."
           },
+          "props": [
+            {
+              "emoji": "🧺",
+              "label": "washing machine"
+            },
+            {
+              "emoji": "👖",
+              "label": "jeans"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "🧼",
+              "label": "soap"
+            }
+          ],
           "options": [
             "When",
             "Where",
@@ -390,6 +510,20 @@
             "id": "c9q",
             "text": "You wear a T-shirt on your head to keep warm."
           },
+          "props": [
+            {
+              "emoji": "👕",
+              "label": "T-shirt"
+            },
+            {
+              "emoji": "🧑",
+              "label": "head"
+            },
+            {
+              "emoji": "🔥",
+              "label": "warm"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -406,8 +540,18 @@
           "wordId": "CPP1-U9-SB-1015",
           "prompt": {
             "id": "c10q",
-            "text": "Mia has a pretty ____ with big yellow flowers on it."
+            "text": "Mia wears a ____ to the party. It is one long piece of clothing."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🎉",
+              "label": "party"
+            }
+          ],
           "options": [
             "jeans",
             "T-shirt",
@@ -426,6 +570,16 @@
       "id": "practice",
       "type": "practice",
       "game": "memory",
+      "props": [
+        {
+          "emoji": "🃏",
+          "label": "picture"
+        },
+        {
+          "emoji": "🔤",
+          "label": "word"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -458,15 +612,53 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, everyone! You met the big question today."
+          "text": "Brilliant work, everyone! You met the big question today.",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "question"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "You can now talk about clothes, weather and special occasions."
+          "text": "You can now talk about clothes, weather and special occasions.",
+          "props": [
+            {
+              "emoji": "👚",
+              "label": "clothes"
+            },
+            {
+              "emoji": "☀️",
+              "label": "weather"
+            },
+            {
+              "emoji": "🎉",
+              "label": "occasion"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next time, we will read about a year of clothes with Mia and Nasreddin."
+          "text": "Next time, we will read about a year of clothes with Mia and Nasreddin.",
+          "props": [
+            {
+              "emoji": "📅",
+              "label": "year"
+            },
+            {
+              "emoji": "👚",
+              "label": "clothes"
+            },
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🧔",
+              "label": "Nasreddin"
+            }
+          ]
         }
       ],
       "badge": {
@@ -476,13 +668,42 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "Tell me one thing you wear when the weather is cold."
+          "text": "Tell me one thing you wear when the weather is cold.",
+          "props": [
+            {
+              "emoji": "🌦️",
+              "label": "weather"
+            },
+            {
+              "emoji": "🥶",
+              "label": "cold"
+            }
+          ]
         },
         {
           "id": "e2",
-          "text": "How do you choose your clothes for a special occasion?"
+          "text": "How do you choose your clothes for a special occasion?",
+          "props": [
+            {
+              "emoji": "👚",
+              "label": "clothes"
+            },
+            {
+              "emoji": "🎉",
+              "label": "occasion"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

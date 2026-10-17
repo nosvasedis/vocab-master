@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U4-SB-527",
-      "emoji": "🌾",
+      "emoji": "🌾☀️",
       "kidDefinition": "A wide, dry land with tall grass and few trees.",
       "examples": [
         "The savanna is hot and dry in the summer.",
@@ -52,7 +52,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-525",
-      "emoji": "🐘",
+      "emoji": "🐘🐘🐘",
       "kidDefinition": "A large group of animals that move together.",
       "examples": [
         "A herd of cows walks slowly across the field.",
@@ -68,7 +68,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-526",
-      "emoji": "💧",
+      "emoji": "🕳️💧",
       "kidDefinition": "A small pool of water where animals drink.",
       "examples": [
         "Animals drink water at the waterhole.",
@@ -84,7 +84,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-528",
-      "emoji": "🌿",
+      "emoji": "🌿🌿",
       "kidDefinition": "The green plant that covers fields and lawns.",
       "examples": [
         "Cows eat fresh green grass every day.",
@@ -100,7 +100,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-524",
-      "emoji": "🦩",
+      "emoji": "🐦✈️",
       "kidDefinition": "To travel from one place to another when seasons change.",
       "examples": [
         "Birds migrate south when winter comes.",
@@ -116,7 +116,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-537",
-      "emoji": "🧭",
+      "emoji": "🐘➡️🐘🐘",
       "kidDefinition": "To guide someone to a place, showing the way.",
       "examples": [
         "Can you lead us to the park?",
@@ -164,7 +164,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-529",
-      "emoji": "✍️",
+      "emoji": "📖➡️📝",
       "kidDefinition": "To make a short version that keeps only the main ideas.",
       "examples": [
         "Please summarize the story in three sentences.",
@@ -228,24 +228,70 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Look at this wide, golden land with tall grass."
+          "text": "Look at this wide, golden land with tall grass.",
+          "props": [
+            {
+              "emoji": "🏜️",
+              "label": "land"
+            },
+            {
+              "emoji": "🌿🌿",
+              "label": "grass"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Few trees grow here. But many animals live here!"
+          "text": "Few trees grow here. But many animals live here!",
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "🦒🦓",
+              "label": "animals"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some animals walk very far to find water."
+          "text": "Some animals walk very far to find water.",
+          "props": [
+            {
+              "emoji": "🦒🦓",
+              "label": "animals"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we visit the savanna, a place of big adventures!"
+          "text": "Today we visit the savanna. Let's explore it together!",
+          "props": [
+            {
+              "emoji": "🌾☀️",
+              "label": "savanna"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "Have you ever seen a big animal, like an elephant?"
+        "text": "Have you ever seen a big animal, like an elephant?",
+        "props": [
+          {
+            "emoji": "🐘",
+            "label": "elephant"
+          },
+          {
+            "emoji": "🦁",
+            "label": "animal"
+          }
+        ]
       }
     },
     {
@@ -272,13 +318,39 @@
       "panels": [
         {
           "id": "p1",
-          "backdrop": "classroom",
+          "backdrop": "savanna",
           "characters": [
             {
               "who": "enitan"
             },
             {
               "who": "dimitris"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "reading"
+            },
+            {
+              "emoji": "🌾☀️",
+              "label": "savanna"
+            },
+            {
+              "emoji": "🌿🌿",
+              "label": "grass"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "📄",
+              "label": "text"
+            },
+            {
+              "emoji": "✏️",
+              "label": "sentences"
             }
           ],
           "caption": {
@@ -314,6 +386,24 @@
               "who": "dimitris"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐘🐘🐘",
+              "label": "herd"
+            },
+            {
+              "emoji": "🐘",
+              "label": "elephant"
+            },
+            {
+              "emoji": "🏜️",
+              "label": "land"
+            },
+            {
+              "emoji": "🕳️💧",
+              "label": "waterhole"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Later, a herd of elephants walks across the dry land."
@@ -344,6 +434,28 @@
             },
             {
               "who": "dimitris"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🕳️💧",
+              "label": "waterhole"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "😟",
+              "label": "worried"
+            },
+            {
+              "emoji": "🐘🐘🐘",
+              "label": "herd"
+            },
+            {
+              "emoji": "🐘➡️",
+              "label": "migrate"
             }
           ],
           "caption": {
@@ -379,6 +491,28 @@
               "who": "dimitris"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐘",
+              "label": "elephant"
+            },
+            {
+              "emoji": "🐘🐘🐘",
+              "label": "herd"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "🧠",
+              "label": "memories"
+            },
+            {
+              "emoji": "📅",
+              "label": "year"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "The oldest elephant walks in front. She will lead the herd."
@@ -409,6 +543,28 @@
             },
             {
               "who": "dimitris"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "📝",
+              "label": "summary"
+            },
+            {
+              "emoji": "🐘🐘🐘",
+              "label": "herd"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "💡",
+              "label": "ideas"
             }
           ],
           "caption": {
@@ -443,7 +599,7 @@
           "wordId": "CPP2-U4-SB-527",
           "prompt": {
             "id": "c1q",
-            "text": "Tap the picture for this word: savanna."
+            "text": "Tap the picture for a wide, dry land with tall grass and few trees."
           },
           "options": [
             "CPP2-U4-SB-528",
@@ -485,6 +641,24 @@
             "id": "c3q",
             "text": "Every winter, birds fly south. They ____ to warmer places."
           },
+          "props": [
+            {
+              "emoji": "❄️",
+              "label": "winter"
+            },
+            {
+              "emoji": "🐦🐦",
+              "label": "birds"
+            },
+            {
+              "emoji": "🧭",
+              "label": "south"
+            },
+            {
+              "emoji": "☀️",
+              "label": "warmer places"
+            }
+          ],
           "options": [
             "lead",
             "summarize",
@@ -507,13 +681,13 @@
           "options": [
             "herd",
             "waterhole",
-            "grass",
-            "savanna"
+            "savanna",
+            "nest"
           ],
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "The other three are parts of nature, but a herd is a group of animals."
+            "text": "A herd is a group of animals; the others are places in nature."
           }
         },
         {
@@ -524,6 +698,16 @@
             "id": "c5q",
             "text": "Cows eat fresh green ____ in the field."
           },
+          "props": [
+            {
+              "emoji": "🐄",
+              "label": "cow"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "field"
+            }
+          ],
           "options": [
             "grass",
             "memory",
@@ -543,6 +727,16 @@
             "id": "c6q",
             "text": "To summarize a story, you tell every single detail."
           },
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "story"
+            },
+            {
+              "emoji": "🔍",
+              "label": "detail"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -561,6 +755,16 @@
             "id": "c7q",
             "text": "A short version of a story is a ____."
           },
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "version"
+            },
+            {
+              "emoji": "📖",
+              "label": "story"
+            }
+          ],
           "options": [
             "summary",
             "memory",
@@ -600,6 +804,12 @@
             "id": "c9q",
             "text": "Elephants never forget things. They have a very good ____."
           },
+          "props": [
+            {
+              "emoji": "🐘",
+              "label": "elephant"
+            }
+          ],
           "options": [
             "savanna",
             "memory",
@@ -619,6 +829,16 @@
             "id": "c10q",
             "text": "Worried means feeling calm and very happy."
           },
+          "props": [
+            {
+              "emoji": "😌",
+              "label": "calm"
+            },
+            {
+              "emoji": "😀",
+              "label": "happy"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -651,14 +871,13 @@
       },
       "frames": [
         "In the savanna, a ___ of elephants walks to the waterhole.",
-        "I am ___ about the grass because it is very dry.",
-        "My ___ of the story is short and clear."
+        "The waterhole is small, so the herd must ___ to find water."
       ],
       "partner": true,
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "In the savanna, a herd of elephants walks to the waterhole. The waterhole is small, so they migrate to find water."
+        "text": "In the savanna, a herd of elephants walks to the waterhole. The waterhole is small, so the herd must migrate to find water."
       }
     },
     {
@@ -689,5 +908,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

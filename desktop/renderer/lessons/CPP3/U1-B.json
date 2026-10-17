@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U1-SB-90",
-      "emoji": "🙈",
+      "emoji": "🙈🌳",
       "kidDefinition": "to put yourself where people cannot see you",
       "examples": [
         "When my cat is scared, she hides under the bed.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U1-SB-99",
-      "emoji": "🔎",
+      "emoji": "🙈🔎",
       "kidDefinition": "a game where one player hides and others find them",
       "examples": [
         "Our favourite game in the park is hide-and-seek.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U1-SB-106",
-      "emoji": "💎",
+      "emoji": "🔍💎",
       "kidDefinition": "to find something new or unknown for the first time",
       "examples": [
         "Mia discovered a secret path behind the trees.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U1-SB-112",
-      "emoji": "🤝",
+      "emoji": "🏃➡️👥",
       "kidDefinition": "to become part of a group or an activity",
       "examples": [
         "I want to join the basketball team at my school.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP3-U1-SB-98",
-      "emoji": "👫",
+      "emoji": "🧑➡️👥⬅️🧑",
       "kidDefinition": "to make people meet and share an activity",
       "examples": [
         "Sports bring people together!",
@@ -249,6 +249,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
+      "props": [
+        {
+          "emoji": "🏘️",
+          "label": "neighbourhood"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -256,15 +262,45 @@
         },
         {
           "id": "l2",
-          "text": "Every neighbourhood has special people, games and even secrets."
+          "text": "Every neighbourhood has special people, games and even secrets.",
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "people"
+            },
+            {
+              "emoji": "🎮",
+              "label": "games"
+            },
+            {
+              "emoji": "🤫",
+              "label": "secrets"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Today we meet two friends in a park, and they find a big adventure."
+          "text": "Today we meet two friends in a park, and they find a big adventure.",
+          "props": [
+            {
+              "emoji": "👧👦",
+              "label": "friends"
+            },
+            {
+              "emoji": "🗺️",
+              "label": "adventure"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Listen carefully, and watch for the new words!"
+          "text": "Listen carefully, and watch for the new words!",
+          "props": [
+            {
+              "emoji": "📝",
+              "label": "words"
+            }
+          ]
         }
       ],
       "question": {
@@ -305,6 +341,16 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🙈🔎",
+              "label": "hide-and-seek"
+            },
+            {
+              "emoji": "🎮",
+              "label": "game"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "On Saturday morning, Leo and Mia met in the park."
@@ -313,7 +359,7 @@
             {
               "id": "p1a",
               "who": "leo",
-              "text": "Let's play hide-and-seek! You can count first, Mia."
+              "text": "Let's play hide-and-seek! Mia, you find me first."
             },
             {
               "id": "p1b",
@@ -335,6 +381,16 @@
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "oak tree"
+            },
+            {
+              "emoji": "🛤️",
+              "label": "path"
             }
           ],
           "caption": {
@@ -360,13 +416,31 @@
         },
         {
           "id": "p3",
-          "backdrop": "forest",
+          "backdrop": "cave",
           "characters": [
             {
               "who": "leo"
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🛤️",
+              "label": "path"
+            },
+            {
+              "emoji": "🕳️",
+              "label": "cave"
+            },
+            {
+              "emoji": "🪧",
+              "label": "sign"
+            },
+            {
+              "emoji": "🗺️",
+              "label": "map"
             }
           ],
           "caption": {
@@ -377,7 +451,7 @@
             {
               "id": "p3a",
               "who": "mia",
-              "text": "I can't believe we discovered this amazing place!"
+              "text": "I can't believe we discovered this amazing cave!"
             },
             {
               "id": "p3b",
@@ -399,6 +473,28 @@
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧒🧒🧒",
+              "label": "crowd"
+            },
+            {
+              "emoji": "⚽",
+              "label": "football"
+            },
+            {
+              "emoji": "🧑",
+              "label": "Sam"
+            },
+            {
+              "emoji": "🏆",
+              "label": "champion"
+            },
+            {
+              "emoji": "🛣️",
+              "label": "street"
             }
           ],
           "caption": {
@@ -431,6 +527,32 @@
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "👕👕",
+              "label": "team"
+            },
+            {
+              "emoji": "🏀⚽",
+              "label": "sport"
+            },
+            {
+              "emoji": "👥",
+              "label": "people"
+            },
+            {
+              "emoji": "🦸",
+              "label": "hero"
+            },
+            {
+              "emoji": "🤫",
+              "label": "secret"
+            },
+            {
+              "emoji": "🛤️",
+              "label": "path"
             }
           ],
           "caption": {
@@ -486,13 +608,23 @@
           "wordId": "CPP3-U1-SB-93",
           "prompt": {
             "id": "c2q",
-            "text": "We want to ____ the old cave in the forest."
+            "text": "We want to ____ the old cave in the forest and learn about it."
           },
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "cave"
+            },
+            {
+              "emoji": "🌲🌲",
+              "label": "forest"
+            }
+          ],
           "options": [
             "explore",
-            "carry",
-            "measure",
-            "paint"
+            "invent",
+            "join",
+            "catch"
           ],
           "answer": 0,
           "explain": {
@@ -506,8 +638,30 @@
           "wordId": "CPP3-U1-SB-106",
           "prompt": {
             "id": "c3q",
-            "text": "Mia discovered a secret path behind the trees."
+            "text": "Mia and Leo discovered a secret path in the forest."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "🤫",
+              "label": "secret"
+            },
+            {
+              "emoji": "🛤️",
+              "label": "path"
+            },
+            {
+              "emoji": "🌲🌲",
+              "label": "forest"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -515,7 +669,7 @@
           "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "Yes, Mia found the path for the first time, so she discovered it."
+            "text": "Yes, they found the path for the first time, so they discovered it."
           }
         },
         {
@@ -528,14 +682,14 @@
           },
           "options": [
             "excited",
-            "neighbour",
             "champion",
-            "hero"
+            "hero",
+            "carpenter"
           ],
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "Hero, champion and neighbour are people, but excited is a feeling word."
+            "text": "Champion, hero and carpenter are people, but excited is a feeling word."
           }
         },
         {
@@ -546,11 +700,21 @@
             "id": "c5q",
             "text": "Leo became the tennis ____ of the park this year."
           },
+          "props": [
+            {
+              "emoji": "🎾",
+              "label": "tennis"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "park"
+            }
+          ],
           "options": [
             "champion",
-            "stranger",
-            "neighbour",
-            "guest"
+            "carpenter",
+            "inhabitant",
+            "poster"
           ],
           "answer": 0,
           "explain": {
@@ -564,7 +728,7 @@
           "wordId": "CPP3-U1-SB-91",
           "prompt": {
             "id": "c6q",
-            "text": "Listen: 'Wow, I can't wait for the trip tomorrow!' Which word shows how the speaker feels?"
+            "text": "Listen: 'excited'. Which word did you hear?"
           },
           "options": [
             "CPP3-U1-SB-100",
@@ -584,16 +748,34 @@
           "wordId": "CPP3-U1-SB-112",
           "prompt": {
             "id": "c7q",
-            "text": "Mia refused to join Leo's game in the park."
+            "text": "Mia was happy to join Leo's game in the park."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "🎮",
+              "label": "game"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "park"
+            }
+          ],
           "options": [
             "True",
             "False"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c7e",
-            "text": "False, because Mia was happy to join the game and the football team."
+            "text": "True. Mia said she was excited to play the game with Leo."
           }
         },
         {
@@ -604,13 +786,31 @@
             "id": "c8q",
             "text": "Sports can ____ people from many families into one team."
           },
-          "options": [
-            "wake up",
-            "look after",
-            "take apart",
-            "bring together"
+          "props": [
+            {
+              "emoji": "⚽🏀",
+              "label": "sports"
+            },
+            {
+              "emoji": "👥",
+              "label": "people"
+            },
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "families"
+            },
+            {
+              "emoji": "👕👕",
+              "label": "team"
+            }
           ],
-          "answer": 3,
+          "options": [
+            "bring together",
+            "include",
+            "move",
+            "serve"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c8e",
             "text": "To bring together means to make people meet and share an activity."
@@ -622,8 +822,26 @@
           "wordId": "CPP3-U1-SB-95",
           "prompt": {
             "id": "c9q",
-            "text": "Leo ____ a brand new game for the park last summer."
+            "text": "Leo ____ a brand new game for the park last summer. Nobody had ever played it before."
           },
+          "props": [
+            {
+              "emoji": "🆕",
+              "label": "brand new"
+            },
+            {
+              "emoji": "🎮",
+              "label": "game"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "park"
+            },
+            {
+              "emoji": "☀️",
+              "label": "summer"
+            }
+          ],
           "options": [
             "joined",
             "explored",
@@ -685,7 +903,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "In my neighbourhood, I like to play football with my friends. We can explore the park and discover new places. Sports bring people together, and I feel excited when we play."
+        "text": "In my neighbourhood, I like to play football with my friends. We can explore the park and discover new places. Sports and games bring people together and make me feel excited."
       }
     },
     {
@@ -694,11 +912,39 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Well done, explorers! You found the secret path and learned ten brilliant words."
+          "text": "Well done, explorers! You found the secret path and learned ten brilliant words.",
+          "props": [
+            {
+              "emoji": "🛤️",
+              "label": "path"
+            },
+            {
+              "emoji": "📝",
+              "label": "words"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Remember, every neighbourhood has heroes, champions and new adventures waiting for you."
+          "text": "Remember, every neighbourhood has heroes, champions and new adventures waiting for you.",
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
+            },
+            {
+              "emoji": "🦸🦸",
+              "label": "heroes"
+            },
+            {
+              "emoji": "🏆🏆",
+              "label": "champions"
+            },
+            {
+              "emoji": "🗺️",
+              "label": "adventures"
+            }
+          ]
         }
       ],
       "badge": {
@@ -708,7 +954,13 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "Write one thing you can explore in your neighbourhood."
+          "text": "Write one thing you can explore in your neighbourhood.",
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
+            }
+          ]
         },
         {
           "id": "e2",
@@ -716,5 +968,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

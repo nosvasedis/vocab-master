@@ -31,6 +31,22 @@
     "stage": "a school theatre stage with red curtains, spotlights and an empty floor",
     "village": "a small Greek-style village with white houses, blue doors, olive trees and hills",
     "garden": "a blooming back garden with sunflowers, butterflies, a fence and a small house",
-    "playground": "a colourful playground with a slide, swings, a sandpit and trees"
+    "playground": "a colourful playground with a slide, swings, a sandpit and trees",
+    "cave": "a big friendly cave entrance in a rocky hillside with ferns and soft light inside",
+    "snow": "a snowy winter landscape with snowy pine trees, a frozen pond and soft snowflakes",
+    "zoo": "a cheerful zoo with animal enclosures, a giraffe area, trees and a winding path",
+    "river": "a gentle river flowing through green meadows with stones, reeds and a little wooden bridge",
+    "museum": "a bright museum hall with a dinosaur skeleton, glass display cases and tall windows",
+    "mountain": "tall mountains with a winding trail, pine trees and a clear blue sky",
+    "jungle": "a lush tropical jungle with giant leaves, vines, colourful flowers and a waterfall",
+    "underwater": "a calm underwater sea scene with coral, seaweed, fish and sunbeams from above",
+    "bedroom": "a cosy child's bedroom with a bed, a bookshelf, toys and a window",
+    "library": "a calm library with tall bookshelves, reading tables and soft lamps",
+    "station": "a friendly train station platform with a red train, benches and a clock",
+    "volcano": "a cartoon volcano with a gentle smoke cloud above green hills, far away and safe",
+    "savanna": "the African savanna with golden grass, acacia trees, a waterhole and distant hills",
+    "camp": "a campsite by a lake with tents, a small campfire and pine trees",
+    "castle": "a fairytale castle on a hill with towers, flags and a path",
+    "market": "an outdoor street market with colourful stalls, fruit, vegetables and awnings"
   }
 }

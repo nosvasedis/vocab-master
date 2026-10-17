@@ -25,6 +25,13 @@ const svg = (name, cls = "") => `<svg class="i ${cls}" aria-hidden="true"><use h
 
 let P = null; // the open player
 
+const segmenter = typeof Intl !== "undefined" && Intl.Segmenter ? new Intl.Segmenter("en", { granularity: "grapheme" }) : null;
+function countEmoji(s) {
+  const str = String(s || "").replace(/\s+/g, "");
+  if (!str) return 1;
+  return segmenter ? [...segmenter.segment(str)].length : Math.max(1, Math.round([...str].length / 2));
+}
+
 export const isPlayerOpen = () => !!P;
 
 /**
@@ -101,6 +108,12 @@ export function openPlayer(o) {
     svg,
     picture: o.picture,
     pic: (e) => o.picture(e || ""),
+    /** Emoji picture sized so 1–5 emoji (e.g. "🎩🟰🎩") always fit a `base`-px box. */
+    picFit(e, base = 200) {
+      const n = countEmoji(e);
+      const size = Math.round(base / Math.max(1, n === 1 ? 1 : n * 0.78));
+      return `<span class="pf" style="font-size:${size}px">${o.picture(e || "") || esc(e || "")}</span>`;
+    },
     bookLabel: o.bookLabel,
     ui: stage.layers.ui,
     sfx,

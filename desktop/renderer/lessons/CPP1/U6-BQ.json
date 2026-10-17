@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U6-SB-651",
-      "emoji": "🗣️",
+      "emoji": "🗣️🗣️",
       "kidDefinition": "When people talk together about an idea or problem.",
       "examples": [
         "We have a discussion about our school garden.",
@@ -121,10 +121,10 @@
     },
     {
       "wordId": "CPP1-U6-SB-656",
-      "emoji": "💧",
+      "emoji": "🌱💧",
       "kidDefinition": "To pour water on plants so they can grow.",
       "examples": [
-        "Mom waters the plants in the afternoon.",
+        "Mum waters the plants in the afternoon.",
         "Please water the flowers in the garden."
       ],
       "distractors": [
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-658",
-      "emoji": "🎁",
+      "emoji": "🎁➡️🧒",
       "kidDefinition": "To give things to people who need them, for free.",
       "examples": [
         "Let's donate our old toys to the animal shelter.",
@@ -200,28 +200,96 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "friends"
+            },
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            },
+            {
+              "emoji": "🧑‍🏫",
+              "label": "teacher"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Our school is a busy place with lots of people."
+          "text": "Our school is a busy place with lots of people.",
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "👥",
+              "label": "people"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Who helps keep it clean, bright and happy?"
+          "text": "Who helps keep it clean, bright and happy?",
+          "props": [
+            {
+              "emoji": "🧹",
+              "label": "clean"
+            },
+            {
+              "emoji": "☀️",
+              "label": "bright"
+            },
+            {
+              "emoji": "😊",
+              "label": "happy"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Mia and Leo have a big question today."
+          "text": "Mia and Leo have a big question today.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "❓",
+              "label": "question"
+            }
+          ]
         },
         {
           "id": "l5",
-          "text": "How can we help our community?"
+          "text": "How can we help our community?",
+          "props": [
+            {
+              "emoji": "🤝",
+              "label": "help"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "community"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is one way you help at home?"
+        "text": "What is one way you help at home?",
+        "props": [
+          {
+            "emoji": "🏠",
+            "label": "home"
+          }
+        ]
       }
     },
     {
@@ -250,12 +318,23 @@
           "wordId": "CPP1-U6-SB-651",
           "prompt": {
             "id": "c1q",
-            "text": "We have a ____ about how we can help our community."
+            "text": "We have a ____ about how we can help our community. We all talk and share ideas."
           },
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "community"
+            },
+            {
+              "emoji": "🤝",
+              "label": "help"
+            }
+          ],
           "options": [
             "discussion",
-            "puzzle",
-            "picnic"
+            "chart",
+            "suggestion",
+            "donation"
           ],
           "answer": 0,
           "explain": {
@@ -271,6 +350,12 @@
             "id": "c2q",
             "text": "Point to the word for rows and boxes that show our chores."
           },
+          "props": [
+            {
+              "emoji": "🧹",
+              "label": "chores"
+            }
+          ],
           "options": [
             "CPP1-U6-SB-653",
             "CPP1-U6-SB-656",
@@ -290,6 +375,12 @@
             "id": "c3q",
             "text": "Listen: Can I suggest an idea? Which word did you hear?"
           },
+          "props": [
+            {
+              "emoji": "💭",
+              "label": "idea"
+            }
+          ],
           "options": [
             "CPP1-U6-SB-654",
             "CPP1-U6-SB-656",
@@ -307,14 +398,28 @@
           "wordId": "CPP1-U6-SB-654",
           "prompt": {
             "id": "c4q",
-            "text": "Dad ____ the kitchen every Saturday morning."
+            "text": "Dad ____ the floor every Saturday morning."
           },
-          "options": [
-            "sings",
-            "paints",
-            "sweeps"
+          "props": [
+            {
+              "emoji": "👨",
+              "label": "Dad"
+            },
+            {
+              "emoji": "🍳",
+              "label": "kitchen"
+            },
+            {
+              "emoji": "🧹",
+              "label": "floor"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "sweeps",
+            "waters",
+            "recycles"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c4e",
             "text": "Sweeps means cleaning the floor with a broom."
@@ -326,8 +431,18 @@
           "wordId": "CPP1-U6-SB-655",
           "prompt": {
             "id": "c5q",
-            "text": "To make the bed means to tidy your sheets and blanket. True or false?"
+            "text": "To make the bed means to tidy it. True or false?"
           },
+          "props": [
+            {
+              "emoji": "🛏️",
+              "label": "bed"
+            },
+            {
+              "emoji": "✨",
+              "label": "tidy"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -335,7 +450,7 @@
           "answer": 0,
           "explain": {
             "id": "c5e",
-            "text": "When you make the bed, you smooth the sheets and blanket."
+            "text": "When you make the bed, you tidy it so it looks neat."
           }
         },
         {
@@ -348,14 +463,14 @@
           },
           "options": [
             "sweep",
-            "water",
+            "donate",
             "chart",
             "recycle"
           ],
           "answer": 2,
           "explain": {
             "id": "c6e",
-            "text": "Chart is a noun, but water, sweep and recycle are action words."
+            "text": "A chart is a thing you look at. Sweep, donate and recycle are things we do."
           }
         },
         {
@@ -364,14 +479,28 @@
           "wordId": "CPP1-U6-SB-656",
           "prompt": {
             "id": "c7q",
-            "text": "Mom ____ the plants in the afternoon."
+            "text": "Mum ____ the plants so they can grow."
           },
-          "options": [
-            "cleans",
-            "feeds",
-            "waters"
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "Mum"
+            },
+            {
+              "emoji": "🌱",
+              "label": "plants"
+            },
+            {
+              "emoji": "☀️",
+              "label": "afternoon"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "waters",
+            "sweeps",
+            "recycles"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c7e",
             "text": "To water means to pour water on plants so they can grow."
@@ -385,6 +514,20 @@
             "id": "c8q",
             "text": "Point to the words for putting plates and forks on the table."
           },
+          "props": [
+            {
+              "emoji": "🍽️",
+              "label": "plates"
+            },
+            {
+              "emoji": "🍴",
+              "label": "forks"
+            },
+            {
+              "emoji": "🪑",
+              "label": "table"
+            }
+          ],
           "options": [
             "CPP1-U6-SB-657",
             "CPP1-U6-SB-654",
@@ -393,7 +536,7 @@
           "answer": 0,
           "explain": {
             "id": "c8e",
-            "text": "Set the table means to put plates, forks and cups out for a meal."
+            "text": "Set the table means to put plates and forks out for a meal."
           }
         },
         {
@@ -404,6 +547,16 @@
             "id": "c9q",
             "text": "Donate means to keep something just for yourself. True or false?"
           },
+          "props": [
+            {
+              "emoji": "🎁",
+              "label": "something"
+            },
+            {
+              "emoji": "🔒",
+              "label": "keep"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -420,14 +573,28 @@
           "wordId": "CPP1-U6-SB-659",
           "prompt": {
             "id": "c10q",
-            "text": "We ____ plastic bottles and cans."
+            "text": "We ____ plastic bottles and cans so we can use them again."
           },
-          "options": [
-            "bake",
-            "dig",
-            "recycle"
+          "props": [
+            {
+              "emoji": "🛍️",
+              "label": "plastic"
+            },
+            {
+              "emoji": "🧴🧴",
+              "label": "bottle"
+            },
+            {
+              "emoji": "🥫",
+              "label": "cans"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "recycle",
+            "donate",
+            "sweep"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c10e",
             "text": "To recycle means to use old things again instead of throwing them away."
@@ -442,7 +609,17 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Time for a quick owl quiz! Show me your best helping words."
+          "text": "Time for a quick owl quiz! Show me your best helping words.",
+          "props": [
+            {
+              "emoji": "📝",
+              "label": "quiz"
+            },
+            {
+              "emoji": "🔤",
+              "label": "words"
+            }
+          ]
         }
       ]
     },
@@ -451,7 +628,21 @@
       "type": "speak",
       "prompt": {
         "id": "q",
-        "text": "Ask your partner: What chores do you do at home?"
+        "text": "Ask your partner: What chores do you do at home?",
+        "props": [
+          {
+            "emoji": "🧹",
+            "label": "chores"
+          },
+          {
+            "emoji": "🏠",
+            "label": "home"
+          },
+          {
+            "emoji": "👫",
+            "label": "partner"
+          }
+        ]
       },
       "frames": [
         "I make the ___ every morning.",
@@ -462,7 +653,29 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I make the bed every morning. I water the plants on Sunday. I suggest we recycle bottles at school."
+        "text": "I make the bed every morning. I water the plants on Sunday. I suggest we recycle bottles at school.",
+        "props": [
+          {
+            "emoji": "🛏️",
+            "label": "bed"
+          },
+          {
+            "emoji": "🌱",
+            "label": "plants"
+          },
+          {
+            "emoji": "📅",
+            "label": "Sunday"
+          },
+          {
+            "emoji": "🧴🧴",
+            "label": "bottle"
+          },
+          {
+            "emoji": "🏫",
+            "label": "school"
+          }
+        ]
       }
     },
     {
@@ -475,11 +688,35 @@
         },
         {
           "id": "l2",
-          "text": "You can now talk about chores, charts and good ideas."
+          "text": "You can now talk about chores, charts and good ideas.",
+          "props": [
+            {
+              "emoji": "🧹",
+              "label": "chores"
+            },
+            {
+              "emoji": "📊",
+              "label": "charts"
+            },
+            {
+              "emoji": "💡",
+              "label": "ideas"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next lesson, we read about helping our community together."
+          "text": "Next lesson, we read about helping our community together.",
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "read"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "community"
+            }
+          ]
         }
       ],
       "badge": {
@@ -489,13 +726,42 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "Name one chore you can do at home."
+          "text": "Name one chore you can do at home.",
+          "props": [
+            {
+              "emoji": "🧹",
+              "label": "chore"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            }
+          ]
         },
         {
           "id": "e2",
-          "text": "Which word means giving things to people who need them?"
+          "text": "Which word means giving things to people who need them?",
+          "props": [
+            {
+              "emoji": "🎁",
+              "label": "things"
+            },
+            {
+              "emoji": "👥",
+              "label": "people"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

@@ -21,13 +21,13 @@ export function rise(els, { delay = 0, stagger = 0.08, y = 40, duration = 0.6 } 
 /** Springy pop from small to full size. */
 export function pop(els, { delay = 0, stagger = 0.06, scale = 0.3, duration = 0.7 } = {}) {
   if (calm) return end(els, {});
-  return gsap.fromTo(els, { opacity: 0, scale, rotate: -6 }, { opacity: 1, scale: 1, rotate: 0, duration, delay, stagger, ease: "back.out(2.2)" });
+  return gsap.fromTo(els, { opacity: 0, scale }, { opacity: 1, scale: 1, duration, delay, stagger, ease: "back.out(1.8)" });
 }
 
 /** Fly in from one side (dir: -1 left, 1 right). */
-export function flyIn(els, { dir = -1, delay = 0, distance = 420, duration = 0.9 } = {}) {
+export function flyIn(els, { dir = -1, delay = 0, distance = 200, duration = 0.7 } = {}) {
   if (calm) return end(els, {});
-  return gsap.fromTo(els, { opacity: 0, x: distance * dir, rotate: dir * -8 }, { opacity: 1, x: 0, rotate: 0, duration, delay, ease: "power4.out" });
+  return gsap.fromTo(els, { opacity: 0, x: distance * dir }, { opacity: 1, x: 0, duration, delay, ease: "power3.out", stagger: 0.12 });
 }
 
 export function fadeOut(els, { duration = 0.3 } = {}) {

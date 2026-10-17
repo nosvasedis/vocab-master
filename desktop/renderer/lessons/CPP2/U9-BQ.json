@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U9-SB-1079",
-      "emoji": "💡",
+      "emoji": "💡🛠️",
       "kidDefinition": "A new thing that people make for the first time.",
       "examples": [
         "The telephone was an amazing invention.",
@@ -116,7 +116,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1080",
-      "emoji": "📚",
+      "emoji": "📚📰",
       "kidDefinition": "Facts or news that help you learn about something.",
       "examples": [
         "The library has lots of information about dinosaurs.",
@@ -148,7 +148,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1081",
-      "emoji": "🧴",
+      "emoji": "🧴💇",
       "kidDefinition": "A liquid soap you use to wash your hair.",
       "examples": [
         "She washed her hair with a new shampoo.",
@@ -169,6 +169,11 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "characters": [
+        "lingo",
+        "maya",
+        "leo"
+      ],
       "lines": [
         {
           "id": "l1",
@@ -180,16 +185,46 @@
         },
         {
           "id": "l3",
-          "text": "Leo says that a tiny idea can change the whole world!"
+          "text": "Leo says that a tiny idea can change the whole world!",
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "idea"
+            },
+            {
+              "emoji": "🌍",
+              "label": "world"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Maya says that the wheel is the best invention ever made."
+          "text": "Maya says that the wheel is the best invention ever made.",
+          "props": [
+            {
+              "emoji": "🛞",
+              "label": "wheel"
+            },
+            {
+              "emoji": "💡",
+              "label": "invention"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is one thing in your home that you think is a great invention?"
+        "text": "What is one thing in your home that you think is a great invention?",
+        "props": [
+          {
+            "emoji": "🏠",
+            "label": "home"
+          },
+          {
+            "emoji": "💡",
+            "label": "invention"
+          }
+        ]
       }
     },
     {
@@ -217,7 +252,7 @@
           "wordId": "CPP2-U9-SB-1084",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the picture of a ship."
+            "text": "Point to the picture of a big boat that carries people or things across the sea."
           },
           "options": [
             "CPP2-U9-SB-1084",
@@ -237,7 +272,7 @@
           "wordId": "CPP2-U9-SB-1085",
           "prompt": {
             "id": "c2q",
-            "text": "Listen to the word. Which picture matches it?"
+            "text": "Listen to the word: computer. Which picture matches it?"
           },
           "options": [
             "CPP2-U9-SB-1083",
@@ -259,6 +294,12 @@
             "id": "c3q",
             "text": "We ride our ____ to the park every Saturday."
           },
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            }
+          ],
           "options": [
             "shampoo",
             "bicycle",
@@ -277,8 +318,14 @@
           "wordId": "CPP2-U9-SB-1082",
           "prompt": {
             "id": "c4q",
-            "text": "Brush your teeth with a ____ every morning."
+            "text": "Clean your teeth with a ____ every morning."
           },
+          "props": [
+            {
+              "emoji": "🦷",
+              "label": "teeth"
+            }
+          ],
           "options": [
             "shampoo",
             "computer",
@@ -288,7 +335,7 @@
           "answer": 3,
           "explain": {
             "id": "c4e",
-            "text": "You clean your teeth with a toothbrush and toothpaste."
+            "text": "You clean your teeth with a toothbrush every morning."
           }
         },
         {
@@ -299,6 +346,12 @@
             "id": "c5q",
             "text": "She washed her hair with a new ____."
           },
+          "props": [
+            {
+              "emoji": "💇",
+              "label": "hair"
+            }
+          ],
           "options": [
             "ship",
             "shampoo",
@@ -319,6 +372,12 @@
             "id": "c6q",
             "text": "A wheel is a round part that helps things roll."
           },
+          "props": [
+            {
+              "emoji": "🛞",
+              "label": "wheel"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -337,6 +396,12 @@
             "id": "c7q",
             "text": "An invention is a new thing that people make for the first time."
           },
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "invention"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -364,7 +429,7 @@
           "answer": 1,
           "explain": {
             "id": "c8e",
-            "text": "Bicycle, ship and wheel help things move, but a toothbrush cleans teeth."
+            "text": "Bicycle, ship and wheel are about moving, but a toothbrush is for cleaning teeth."
           }
         },
         {
@@ -375,6 +440,12 @@
             "id": "c9q",
             "text": "Can you give me some ____ about trains, please?"
           },
+          "props": [
+            {
+              "emoji": "🚆",
+              "label": "trains"
+            }
+          ],
           "options": [
             "shampoo",
             "wheel",
@@ -433,11 +504,35 @@
         },
         {
           "id": "l2",
-          "text": "From the wheel to the computer, inventions change our lives every day."
+          "text": "From the wheel to the computer, inventions change our lives every day.",
+          "props": [
+            {
+              "emoji": "🛞",
+              "label": "wheel"
+            },
+            {
+              "emoji": "💻",
+              "label": "computer"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Next time, we will read about Maya and Leo and their weather cat!"
+          "text": "Next time, we will read about Maya and Leo and their weather cat!",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            }
+          ]
         }
       ],
       "badge": {
@@ -455,5 +550,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

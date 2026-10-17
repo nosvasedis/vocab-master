@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-497",
-      "emoji": "🏃",
+      "emoji": "🐕🏃",
       "kidDefinition": "To run after someone to catch them.",
       "examples": [
         "Dogs like to chase balls in the park.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-501",
-      "emoji": "💨",
+      "emoji": "🏃💨",
       "kidDefinition": "To go quickly away from danger.",
       "examples": [
         "When the bell rings, we run away from the storm.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-506",
-      "emoji": "🍀",
+      "emoji": "🍀🏃",
       "kidDefinition": "A safe getaway from danger, by good luck.",
       "examples": [
         "The cat jumped away. What a lucky escape!",
@@ -159,7 +159,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-481",
-      "emoji": "🧸",
+      "emoji": "🐈",
       "kidDefinition": "Covered with soft hair, or fur.",
       "examples": [
         "My cat is soft and furry.",
@@ -175,7 +175,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-482",
-      "emoji": "🌅",
+      "emoji": "▶️",
       "kidDefinition": "The first part of something.",
       "examples": [
         "This is the beginning of the lesson.",
@@ -262,7 +262,21 @@
         },
         {
           "id": "l3",
-          "text": "Today we meet a hare, a chipmunk, and a very big hound."
+          "text": "Today we meet a hare, a chipmunk, and a very big hound.",
+          "props": [
+            {
+              "emoji": "🐇",
+              "label": "hare"
+            },
+            {
+              "emoji": "🐿️",
+              "label": "chipmunk"
+            },
+            {
+              "emoji": "🐕",
+              "label": "hound"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -304,6 +318,12 @@
               "who": "hetty"
             }
           ],
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "story"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Here is the beginning of the story. Hetty the hare is hopping through the forest."
@@ -329,6 +349,12 @@
             },
             {
               "who": "rex"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌳🌳",
+              "label": "trees"
             }
           ],
           "caption": {
@@ -389,9 +415,23 @@
               "who": "chip"
             }
           ],
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "hole"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🐿️",
+              "label": "furry tail"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "Hetty jumps into a hole in the ground. Chip is already inside."
+            "text": "Hetty jumps into the hole. Chip is already inside."
           },
           "speech": [
             {
@@ -422,6 +462,16 @@
               "who": "hetty"
             }
           ],
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "hole"
+            },
+            {
+              "emoji": "🍀",
+              "label": "lucky escape"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Rex sniffs around the hole. Then he walks away, and Hetty comes out."
@@ -446,6 +496,16 @@
             },
             {
               "who": "chip"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "story"
+            },
+            {
+              "emoji": "🏁",
+              "label": "end"
             }
           ],
           "caption": {
@@ -480,7 +540,7 @@
           "wordId": "CPP1-U4-SB-472",
           "prompt": {
             "id": "c1q",
-            "text": "Find the word: hare."
+            "text": "Which animal has long ears and looks like a rabbit?"
           },
           "options": [
             "CPP1-U4-SB-472",
@@ -491,7 +551,7 @@
           "answer": 0,
           "explain": {
             "id": "c1e",
-            "text": "A hare is the animal with long ears and big feet."
+            "text": "A hare is an animal like a rabbit, with long ears."
           }
         },
         {
@@ -518,14 +578,28 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-497",
+          "props": [
+            {
+              "emoji": "🐕🐕",
+              "label": "hounds"
+            },
+            {
+              "emoji": "🐇",
+              "label": "hare"
+            },
+            {
+              "emoji": "🌲🌲",
+              "label": "forest"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "The hounds will ____ the hare through the forest."
           },
           "options": [
             "chase",
-            "sleep",
-            "wash"
+            "want",
+            "decide"
           ],
           "answer": 0,
           "explain": {
@@ -537,16 +611,22 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-501",
+          "props": [
+            {
+              "emoji": "🐕",
+              "label": "hound"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Quick, Hetty, ____! The hound is coming!"
           },
           "options": [
-            "sit down",
-            "wake up",
-            "run away"
+            "run away",
+            "be after somebody",
+            "read out loud"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c4e",
             "text": "When there is danger, we run away quickly."
@@ -556,6 +636,12 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP1-U4-SB-506",
+          "props": [
+            {
+              "emoji": "⚠️",
+              "label": "danger"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "A lucky escape means you get away from danger safely."
@@ -574,6 +660,16 @@
           "id": "c6",
           "kind": "trueFalse",
           "wordId": "CPP1-U4-SB-505",
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "hole"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "A hole is a big tree."
@@ -612,16 +708,26 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-484",
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "story"
+            },
+            {
+              "emoji": "😊",
+              "label": "happy"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "The story has a happy ____."
+            "text": "At the ____ of the story, Hetty hugs her friend."
           },
           "options": [
+            "end",
             "hound",
-            "hole",
-            "end"
+            "hole"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c8e",
             "text": "The end is the last part of a story."
@@ -651,13 +757,23 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-477",
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "hole"
+            },
+            {
+              "emoji": "〰️",
+              "label": "stripe"
+            }
+          ],
           "prompt": {
             "id": "c10q",
-            "text": "The little ____ hid in the hole."
+            "text": "The little ____ has stripes and hides in the hole."
           },
           "options": [
-            "swan",
-            "ram",
+            "hare",
+            "hound",
             "chipmunk"
           ],
           "answer": 2,
@@ -704,11 +820,39 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Well done, friends! You met a hare, a hound, and a brave chipmunk."
+          "text": "Well done, friends! You met a hare, a hound, and a brave chipmunk.",
+          "props": [
+            {
+              "emoji": "🐇",
+              "label": "hare"
+            },
+            {
+              "emoji": "🐕",
+              "label": "hound"
+            },
+            {
+              "emoji": "🐿️",
+              "label": "chipmunk"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "You learned the beginning, the middle and the end of a story. Great work!"
+          "text": "You learned the beginning, the middle and the end of a story. Great work!",
+          "props": [
+            {
+              "emoji": "▶️",
+              "label": "beginning"
+            },
+            {
+              "emoji": "🎞️",
+              "label": "middle"
+            },
+            {
+              "emoji": "🏁",
+              "label": "end"
+            }
+          ]
         }
       ],
       "badge": {
@@ -726,5 +870,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

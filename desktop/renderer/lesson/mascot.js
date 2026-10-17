@@ -25,8 +25,10 @@ const SVG = `
       <g class="lg-lids"><rect x="50" y="68" width="72" height="0" fill="#6b4cff" class="lg-lid"/><rect x="118" y="68" width="72" height="0" fill="#6b4cff" class="lg-lid"/></g>
     </g>
     <circle cx="66" cy="140" r="16" fill="url(#lgCheek)"/><circle cx="174" cy="140" r="16" fill="url(#lgCheek)"/>
-    <path class="lg-beak-top" d="M106 128 L134 128 L120 146Z" fill="#ffb02e"/>
-    <path class="lg-beak-low" d="M110 140 L130 140 L120 152Z" fill="#f08c00"/>
+    <ellipse class="lg-mouth" cx="120" cy="141" rx="9" ry="0.5" fill="#6b2410"/>
+    <path class="lg-beak-low" d="M111 139 Q120 152 129 139Z" fill="#e07b00"/>
+    <path class="lg-beak-top" d="M104 127 Q120 121 136 127 Q129 137 120 146 Q111 137 104 127Z" fill="#ffb02e"/>
+    <path d="M110 129 Q120 126 130 129" stroke="#fff3c4" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/>
     <g class="lg-cap">
       <path d="M70 44 L120 24 L170 44 L120 64Z" fill="#1d1640"/>
       <rect x="98" y="46" width="44" height="16" rx="4" fill="#1d1640"/>
@@ -42,17 +44,18 @@ export function createMascot(host) {
   host.appendChild(el);
   const body = el.querySelector(".lg-body");
   const beak = el.querySelector(".lg-beak-low");
+  const mouth = el.querySelector(".lg-mouth");
   const wingL = el.querySelector(".lg-wing-l");
   const wingR = el.querySelector(".lg-wing-r");
   const pupils = el.querySelector(".lg-pupils");
   const lids = el.querySelectorAll(".lg-lid");
-  gsap.set([wingL], { transformOrigin: "60px 146px" });
-  gsap.set([wingR], { transformOrigin: "180px 146px" });
-  gsap.set(beak, { transformOrigin: "120px 140px" });
+  // Pivots in drawing coordinates (svgOrigin), not each shape's own box.
+  gsap.set(wingL, { svgOrigin: "60 146" });
+  gsap.set(wingR, { svgOrigin: "180 146" });
 
   const tweens = [];
   if (!isCalm()) {
-    tweens.push(gsap.to(body, { y: -8, duration: 1.8, yoyo: true, repeat: -1, ease: "sine.inOut" }));
+    tweens.push(gsap.to(body, { y: -4, duration: 2.6, yoyo: true, repeat: -1, ease: "sine.inOut" }));
     const blink = () => gsap.timeline().to(lids, { attr: { height: 72 }, duration: 0.08 }).to(lids, { attr: { height: 0 }, duration: 0.12 });
     tweens.push(gsap.delayedCall(2.5, function loop() { blink(); tweens.push(gsap.delayedCall(2 + Math.random() * 3, loop)); }));
   }
@@ -68,7 +71,7 @@ export function createMascot(host) {
     gsap.to(pupils, { x: 0, y: 0, duration: 0.3 });
     if (isCalm()) return;
     if (next === "wave") poseTl = gsap.to(wingR, { rotate: -70, duration: 0.25, yoyo: true, repeat: 5, ease: "sine.inOut" });
-    if (next === "cheer") poseTl = gsap.timeline({ repeat: 2 }).to([wingL], { rotate: 60, duration: 0.2 }, 0).to([wingR], { rotate: -60, duration: 0.2 }, 0).to(el, { y: -30, duration: 0.2 }, 0).to([wingL, wingR], { rotate: 0, duration: 0.2 }).to(el, { y: 0, duration: 0.25, ease: "bounce.out" }, "<");
+    if (next === "cheer") poseTl = gsap.timeline({ repeat: 1 }).to([wingL], { rotate: 60, duration: 0.2 }, 0).to([wingR], { rotate: -60, duration: 0.2 }, 0).to(el, { y: -12, duration: 0.25 }, 0).to([wingL, wingR], { rotate: 0, duration: 0.2 }).to(el, { y: 0, duration: 0.25, ease: "bounce.out" }, "<");
     if (next === "think") poseTl = gsap.to(pupils, { x: 8, y: -10, duration: 0.4 });
     if (next === "point") poseTl = gsap.to(wingR, { rotate: -100, duration: 0.35, ease: "back.out(2)" });
   }
@@ -77,7 +80,11 @@ export function createMascot(host) {
     el,
     setPose,
     /** Voice level 0..1 → beak opening. */
-    level(v) { gsap.to(beak, { scaleY: 1 + Math.min(1, v) * 1.6, y: Math.min(1, v) * 6, duration: 0.08, overwrite: true }); },
+    level(v) {
+      const open = Math.min(1, Math.max(0, v));
+      gsap.to(mouth, { attr: { ry: 0.5 + open * 8 }, duration: 0.07, overwrite: true });
+      gsap.to(beak, { y: open * 8, duration: 0.07, overwrite: true });
+    },
     destroy() { tweens.forEach((t) => t.kill?.()); poseTl?.kill(); el.remove(); },
   };
 }

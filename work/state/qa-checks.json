@@ -1,0 +1,862 @@
+{
+ "CPP1-U1-A": {
+  "status": "ok",
+  "usd": 0.01336,
+  "notes": [
+   "c1: added clue that Grandma only visits, so 'parent' is the only sensible answer."
+  ]
+ },
+ "CPP1-U2-BQ": {
+  "status": "ok",
+  "usd": 0.00317,
+  "notes": [
+   "c3: replaced off-topic distractors 'garden' and 'lunch' with focus nouns 'classroom' and 'uniform'; removed nested props from prompt object.",
+   "c4: removed nested props from prompt object so prompt is only id and text.",
+   "c5: fixed oddOneOut to use focus words and made 'feel' the clear odd one, matching the wordId.",
+   "c6: replaced off-topic distractors 'lesson' and 'lunch' with focus nouns 'desk' and 'uniform'.",
+   "c8: removed nested props from prompt object so prompt is only id and text."
+  ]
+ },
+ "CPP1-U2-B": {
+  "status": "ok",
+  "usd": 0.00346,
+  "notes": [
+   "c2: Replaced 'wonderful' with 'new' and added the ten-year clue so only 'old' fits.",
+   "c4: Changed the listen prompt to name the target word 'library' instead of describing it.",
+   "c6: Changed the options so the odd one matches wordId 'bright' (adjective among nouns).",
+   "c8: Added 'I am so happy' so 'sad' cannot also fit the context."
+  ]
+ },
+ "CPP1-U3-A": {
+  "status": "ok",
+  "usd": 0.00369,
+  "notes": [
+   "c1: changed pickPicture prompt to describe the meaning instead of naming the answer word.",
+   "c6: replaced unrelated 'sock' with topic word 'frog' so all distractors fit the nature topic.",
+   "c7: changed pickPicture prompt to describe the meaning instead of naming the answer word.",
+   "c8: replaced off-list distractors 'paint' and 'sing' with topic verbs 'figure out' and 'look like'.",
+   "c9: replaced off-list distractors 'pocket' and 'bridge' with topic nouns 'rock' and 'pond'.",
+   "c10: made the trueFalse statement match the definition wording more closely."
+  ]
+ },
+ "CPP1-U1-BQ": {
+  "status": "ok",
+  "usd": 0.00411,
+  "notes": [
+   "c7: replaced distractor 'family' with 'mother' so all options are people and the picture cannot be ambiguous; updated explain to the definition of sister."
+  ]
+ },
+ "CPP1-U3-B": {
+  "status": "ok",
+  "usd": 0.00505,
+  "notes": [
+   "c2: changed listen prompt to name the word to hear and made options all nouns.",
+   "c3: replaced verb distractor with noun distractors and added a person clue.",
+   "c4: replaced non-noun distractors and added a child clue so only kid fits.",
+   "c5: replaced why with clean and added a smiling/pleased clue so only happy fits.",
+   "c8: changed explain to a meaning-based reason for happen being the odd one out.",
+   "c10: replaced off-topic distractors with topic verbs throw and sell, and added the chair clue."
+  ]
+ },
+ "CPP1-U2-A": {
+  "status": "ok",
+  "usd": 0.00587,
+  "notes": [
+   "c2: replaced non-topic distractors 'happy' and 'sharp' with topic adjectives 'healthy' and 'coloured'.",
+   "c3: replaced 'hat' and 'bag' with focus nouns 'rack' and 'gym', and clarified the prompt so only 'apron' fits."
+  ]
+ },
+ "CPP1-U1-B": {
+  "status": "ok",
+  "usd": 0.00596,
+  "notes": [
+   "c2: changed pickPicture prompt to describe meaning; used British 'pyjamas'.",
+   "c4: made the odd one match wordId 'bedroom' and updated the explain line.",
+   "c5: added a stronger clue so 'draw' is not plausible.",
+   "c6: added a clue so 'tell a story' is not plausible.",
+   "c7: replaced off-list 'draw a picture' with topic phrase 'spend time'.",
+   "c8: reworded the true/false statement to avoid ambiguity.",
+   "c9: changed pickPicture prompt to describe meaning.",
+   "c10: added a clue, replaced off-list 'lunchtime' with focus word 'toy tiger', and used British 'pyjamas'."
+  ]
+ },
+ "CPP1-U4-BQ": {
+  "status": "ok",
+  "usd": 0.00334,
+  "notes": [
+   "c1: prompt now describes the meaning of 'friend'; replaced abstract 'opinion' with picturable 'read stories'.",
+   "c6: prompt rewritten for a clear play date context; distractors changed to lesson nouns.",
+   "c7: prompt now describes the meaning of 'ride bikes' instead of naming it."
+  ]
+ },
+ "CPP1-U3-BQ": {
+  "status": "ok",
+  "usd": 0.00691,
+  "notes": [
+   "c1: changed prompt to the meaning of 'living thing' and added non-living distractors from the unit topic so only one option is correct.",
+   "c3: replaced unrelated distractors with focus words (ant, bee, butterfly) to keep the same part of speech and topic.",
+   "c4: replaced unrelated distractors with focus words (ant, earthworm, butterfly) to keep the same part of speech and topic.",
+   "c8: kept the focus verb 'show' but used its verb forms as distractors because the lesson has no other verbs for same-POS options."
+  ]
+ },
+ "CPP1-U4-B": {
+  "status": "ok",
+  "usd": 0.00491,
+  "notes": [
+   "c1: changed prompt to describe the meaning of 'hare' instead of naming the answer word.",
+   "c3: replaced off-topic distractors 'sleep' and 'wash' with lesson verbs 'want' and 'decide'.",
+   "c4: replaced off-topic distractors with topic phrases 'be after somebody' and 'read out loud'.",
+   "c8: changed prompt to the natural phrase 'At the ____ of the story' and reordered options so 'end' is the correct answer."
+  ]
+ },
+ "CPP1-U5-B": {
+  "status": "ok",
+  "usd": 0.00375,
+  "notes": [
+   "c1: replaced off-topic distractor 'sing' with lesson verb 'roll'.",
+   "c3: rewrote the statement as a clear true fact from the story and updated answer/explain.",
+   "c4: changed the listen prompt to name the word to hear.",
+   "c6: added a sea-animal clue so only 'shell' fits.",
+   "c9: made 'amazing' the odd adjective and updated options/answer/explain.",
+   "c10: changed the prompt to match the story phrase 'roll it down' and avoid the ambiguous 'up and down'."
+  ]
+ },
+ "CPP1-U5-A": {
+  "status": "ok",
+  "usd": 0.00496,
+  "notes": [
+   "c1: replaced off-topic nouns with lesson nouns and added a wrapping clue so only 'gift' fits.",
+   "c5: replaced off-topic words with focus/topic words and made the odd-one-out meaning clear.",
+   "c6: replaced off-topic adjectives with topic adjectives and added a clue for 'special'.",
+   "c8: replaced off-topic verbs with focus verbs and added a clue for 'collect'.",
+   "c9: replaced off-topic verbs with focus verbs so only 'make' fits.",
+   "c10: replaced off-topic verbs with focus verbs so only 'fit' fits."
+  ]
+ },
+ "CPP1-U5-BQ": {
+  "status": "ok",
+  "usd": 0.00365,
+  "notes": [
+   "c1: reworded prompt to describe the meaning of 'stick puppet' for pickPicture.",
+   "c3: replaced off-topic distractors with focus verbs and added 'from the shop' clue.",
+   "c4: replaced off-topic distractors with focus verbs and added 'in the oven' clue.",
+   "c8: reworded prompt as a picture meaning question for pickPicture.",
+   "c9: replaced off-topic distractors with topic phrases and added 'with a ball' clue.",
+   "c10: replaced off-topic distractors with focus verbs."
+  ]
+ },
+ "CPP1-U6-A": {
+  "status": "ok",
+  "usd": 0.0044,
+  "notes": [
+   "c2: replaced unrelated phrasal verbs with topic verbs and added a rubbish clue so only 'clean up' fits.",
+   "c4: fixed awkward 'with the retirement home' and replaced off-topic distractors with topic nouns.",
+   "c5: changed listen prompt to name the target word directly.",
+   "c7: replaced off-topic 'jar' with topic word 'feeder' so the odd-one-out is meaning-based.",
+   "c8: replaced off-topic places with topic nouns so only 'animal shelter' fits the animal clue.",
+   "c10: changed listen prompt to name the target word directly."
+  ]
+ },
+ "CPP1-U7-B": {
+  "status": "ok",
+  "usd": 0.00253,
+  "notes": [
+   "c6: replaced off-topic distractor 'garden' with focus word 'breeze' so all options come from the lesson focus words.",
+   "c8: changed 'feel in danger' to 'feel scared' to match the story wording exactly and keep the true/false check clear."
+  ]
+ },
+ "CPP1-U7-BQ": {
+  "status": "ok",
+  "usd": 0.00284,
+  "notes": [
+   "c1: changed prompt to match the focus definition 'buy and sell things' more exactly.",
+   "c3: replaced off-topic distractors with same-verb-family phrasal verbs; only 'come from' fits the question.",
+   "c7: replaced off-topic distractors 'window' and 'button' with focus nouns 'basket' and 'cloth'."
+  ]
+ },
+ "CPP1-U8-A": {
+  "status": "ok",
+  "usd": 0.00391,
+  "notes": [
+   "c2: replaced off-topic distractors 'gloves' and 'scarf' with lesson/topic nouns 'glue' and 'tape', and added a clearer safety clue.",
+   "c3: removed 'glue' from the options because it is also heard in the sentence, so only 'next' is now correct.",
+   "c6: replaced off-topic 'always' and 'never' with lesson adverbs 'first' and 'next', and added a sequence clue so only 'then' fits.",
+   "c8: rewrote the true/false statement to directly match the definition of 'glue'."
+  ]
+ },
+ "CPP1-U6-B": {
+  "status": "ok",
+  "usd": 0.00708,
+  "notes": [
+   "c1: replaced non-topic distractors with lesson adjectives tidy, safe and naughty.",
+   "c4: replaced non-topic animals with topic objects lamp, sofa and broom, keeping kitten as the odd one out.",
+   "c5: added 'from the tree' to make 'get down' the only fit, and replaced 'pick up' with topic verb 'wash'.",
+   "c9: replaced non-topic distractors with topic nouns event, kitten and firefighter."
+  ]
+ },
+ "CPP1-U7-A": {
+  "status": "ok",
+  "usd": 0.00617,
+  "notes": [
+   "c2: changed listen prompt to name the word to hear, as required for listen items.",
+   "c4: replaced off-topic whale/dog with topic words camel/eagle; answer updated to eagle.",
+   "c5: replaced off-topic scales/feathers with focus-word nouns cave/snow.",
+   "c8: removed Mila (not in story) and made the statement checkable from the story.",
+   "c10: replaced off-topic rain/wind with focus-word nouns fur/cave."
+  ]
+ },
+ "CPP1-U4-A": {
+  "status": "ok",
+  "usd": 0.01197,
+  "notes": [
+   "c1: changed the prompt to name the word for a listen item.",
+   "c4: added a fourth pronoun option and a clue so only 'each other' fits.",
+   "c9: added a fourth preposition option and a clue so only 'during' fits.",
+   "c10: added a fourth option to meet the 3–4 option rule."
+  ]
+ },
+ "CPP1-U6-BQ": {
+  "status": "ok",
+  "usd": 0.00843,
+  "notes": [
+   "c1: added a fourth noun option and a talking clue so only 'discussion' fits.",
+   "c4: replaced off-topic distractors with focus verbs and changed the object to 'floor'.",
+   "c7: replaced off-topic distractors with focus verbs and added a purpose clue.",
+   "c10: replaced off-topic distractors with focus verbs and added a purpose clue."
+  ]
+ },
+ "CPP1-U8-B": {
+  "status": "ok",
+  "usd": 0.00621,
+  "notes": [
+   "c2: replaced off-topic distractors with focus/topic adjectives and added a clear clue.",
+   "c3: changed the statement to match the story without wrongly naming Leo.",
+   "c4: replaced off-topic words with focus words and made 'fan' the clear odd one out.",
+   "c5: kept parallel 'Be...' phrases because the focus list has no other suitable phrases.",
+   "c8: replaced off-topic verbs with topic verbs from the candidate list."
+  ]
+ },
+ "CPP1-U8-BQ": {
+  "status": "ok",
+  "usd": 0.00575,
+  "notes": [
+   "c1: changed prompt to describe the meaning of imagination instead of naming the word.",
+   "c3: replaced random verb distractors with lesson-related verbs imagine and photograph.",
+   "c5: changed options so camera is the clear odd one out and matches the wordId.",
+   "c7: changed prompt to describe a photograph instead of naming the word.",
+   "c9: changed statement to be checkable from the painting definition and the wall prop."
+  ]
+ },
+ "CPP2-U1-A": {
+  "status": "ok",
+  "usd": 0.00331,
+  "notes": [
+   "c1: changed pickPicture prompt to describe the meaning of 'heading' instead of naming the word.",
+   "c2: replaced unrelated distractor 'ticket' with focus word 'heading' and added a clue so only 'section' fits.",
+   "c3: simplified listen prompt to name the target word clearly.",
+   "c5: replaced 'museum' with 'flashlight' so the odd-one-out is clearly the person, not a place.",
+   "c8: changed pickPicture prompt to describe the meaning of 'wax figure' instead of naming the word.",
+   "c10: replaced unrelated distractor 'come in' with topic phrasal verb 'take turns'."
+  ]
+ },
+ "CPP1-U9-A": {
+  "status": "ok",
+  "usd": 0.0055,
+  "notes": [
+   "c1: changed prompt to 'everything is covered with snow' so only 'snowy' fits clearly.",
+   "c2: replaced off-list distractors with focus adjectives and added 'no snow' to rule out 'snowy'.",
+   "c5: changed to singular 'glove' and 'on each hand' to match the focus word and keep only one correct option.",
+   "c9: changed prompt to 'Spring is one ____ of the year' so only 'season' is correct."
+  ]
+ },
+ "CPP1-U9-B": {
+  "status": "ok",
+  "usd": 0.00434,
+  "notes": [
+   "c2: replaced non-lesson distractors gloves/hat with focus nouns pants/pocket so only coat fits the clue.",
+   "c4: replaced put on with topic phrasal verbs and changed prompt to avoid using come in as a distractor cue.",
+   "c5: replaced non-lesson distractors throw/lose with topic verbs change/knock and adjusted prompt to keep only keep correct.",
+   "c7: changed listen prompt to name the word to hear, as required for listen items.",
+   "c9: replaced non-lesson distractors hide/sleep with topic verbs change/knock so only shine fits."
+  ]
+ },
+ "CPP2-U1-B": {
+  "status": "ok",
+  "usd": 0.00269,
+  "notes": [
+   "c1: changed pickPicture prompt to describe the meaning of barbershop instead of naming the word.",
+   "c5: replaced off-list prepositions with lesson prepositions and added a clue so only 'in front of' fits.",
+   "c7: replaced off-topic distractors with lesson nouns so all options are the same part of speech and topic.",
+   "c9: changed listen prompt to name the word to hear, matching the listen item type."
+  ]
+ },
+ "CPP1-U9-BQ": {
+  "status": "ok",
+  "usd": 0.00519,
+  "notes": [
+   "c2: Replaced plural 'clothes' with singular 'T-shirt' so all options fit 'What is the ____ like today?' and only 'weather' matches the sunny/warm clue.",
+   "c6: Added 'It goes on my foot' and changed 'my' to 'a' so only 'tennis shoe' fits the running context.",
+   "c7: Replaced non-picturable 'how' with 'jeans' so all pickPicture options are picturable focus words."
+  ]
+ },
+ "CPP2-U1-BQ": {
+  "status": "ok",
+  "usd": 0.00392,
+  "notes": [
+   "c3: replaced off-topic distractors with lesson words and adjusted the prompt so only 'ground rules' fits.",
+   "c4: replaced off-topic distractors with topic words 'directions' and 'paragraph'.",
+   "c9: replaced off-topic 'teacher' with topic word 'conductor' and changed 'mom' to British 'mum'."
+  ]
+ },
+ "CPP2-U2-B": {
+  "status": "ok",
+  "usd": 0.00338,
+  "notes": [
+   "c1: replaced off-topic 'teacher' with topic word 'daughter' and made the prompt a clear definition so only 'detective' fits.",
+   "c4: replaced ungrammatical distractor 'hold hands' with topic phrasal verb 'pay attention to' and added the clue 'so the room is dark' to make 'turn off' uniquely correct.",
+   "c4: updated the explain line to match the new context clue."
+  ]
+ },
+ "CPP2-U3-A": {
+  "status": "ok",
+  "usd": 0.00458,
+  "notes": [
+   "c1: pickPicture prompt now describes the meaning of onion instead of naming the word.",
+   "c2: explain uses the story example of an onion.",
+   "c3: replaced off-topic distractors with focus phrasal verbs and added a clear context clue.",
+   "c6: oddOneOut explain now gives a meaning-based reason.",
+   "c7: trueFalse statement rewritten to match the story and avoid circular wording.",
+   "c9: pickPicture prompt describes vitamin meaning; replaced nutrient distractor to avoid overlap with vitamin."
+  ]
+ },
+ "CPP2-U4-B": {
+  "status": "ok",
+  "usd": 0.00381,
+  "notes": [
+   "c1: pickPicture prompt now describes the meaning instead of naming the word.",
+   "c4: oddOneOut options changed to three places vs herd, and explain updated for a single clear odd one."
+  ]
+ },
+ "CPP2-U3-B": {
+  "status": "ok",
+  "usd": 0.0056,
+  "notes": [
+   "c1: changed prompt to picture wording for pickPicture.",
+   "c2: simplified explain line.",
+   "c3: replaced off-topic distractors honey/cheese with topic nouns flour/grain.",
+   "c4: changed listen prompt to name the word to hear.",
+   "c5: replaced off-topic distractors chop/wash with topic verbs collect/push and added 'together'.",
+   "c6: changed statement to a checkable true fact and answer to True.",
+   "c7: replaced off-topic bee/beetle with topic animals ant/grasshopper/hen; answer is now grain.",
+   "c8: replaced off-topic apple/fish with topic nouns bread/peas.",
+   "c9: replaced off-topic throw/lose with topic verbs push/feed.",
+   "c10: strengthened prompt with a doorbell clue."
+  ]
+ },
+ "CPP2-U4-A": {
+  "status": "ok",
+  "usd": 0.00398,
+  "notes": [
+   "c1: changed pickPicture prompt to describe the meaning of erupt instead of naming the word.",
+   "c5: replaced random distractors with focus-word nouns so only plates fits.",
+   "c6: made oddOneOut meaning-based and used topic words; shake is the action odd one.",
+   "c7: changed pickPicture prompt to describe the meaning of earthquake instead of naming the word.",
+   "c8: replaced off-topic distractors with lesson verbs.",
+   "c9: replaced off-topic distractors with lesson verbs and used British 'towards'.",
+   "c10: changed pickPicture prompt to describe the meaning of snowy instead of naming the word."
+  ]
+ },
+ "CPP2-U3-BQ": {
+  "status": "ok",
+  "usd": 0.00572,
+  "notes": [
+   "c3: replaced off-list distractors 'chop' and 'peel' with lesson-related verbs 'eat' and 'cook' so all options are same part of speech and fit the food topic.",
+   "c6: replaced off-topic 'pizza', 'soup' and 'table' with focus words 'sandwich', 'carrot' and 'menu' so all options are from the unit and only 'menu' is the clear non-food odd one."
+  ]
+ },
+ "CPP2-U2-A": {
+  "status": "ok",
+  "usd": 0.00755,
+  "notes": [
+   "c6: changed the listen prompt to name the word to hear, as required for listen items.",
+   "c7: rewrote the prompt and options so only 'both' fits; distractors are focus words from the lesson.",
+   "c10: changed the listen prompt to name the word to hear, as required for listen items."
+  ]
+ },
+ "CPP2-U2-BQ": {
+  "status": "ok",
+  "usd": 0.0073,
+  "notes": [
+   "c2: simplified the listen prompt so it clearly names the target word.",
+   "c3: replaced off-topic verbs with respond and present (used as a verb) to keep same part of speech.",
+   "c5: replaced off-topic words with focus nouns; the odd one is celebration, an event you cannot hold.",
+   "c6: replaced random adjectives with negative and unkind, which are tied to the meaning of positive.",
+   "c8: replaced off-topic verbs with celebrate and present (used as a verb) to keep same part of speech.",
+   "c10: replaced off-topic nouns with gift and balloon from the focus list."
+  ]
+ },
+ "CPP2-U5-A": {
+  "status": "ok",
+  "usd": 0.00426,
+  "notes": [
+   "c1: prompt now describes the meaning of 'move' instead of naming the word.",
+   "c2: listen prompt now names the word to hear, 'violin'.",
+   "c3: replaced off-topic distractors with topic verbs from the unit list.",
+   "c4: replaced off-topic distractors and added a clue so only 'feelings' fits.",
+   "c7: changed oddOneOut to people vs non-person using topic words.",
+   "c8: replaced 'flute' with topic word 'keyboard'.",
+   "c9: replaced off-topic distractors with topic nouns.",
+   "c10: replaced off-topic distractors with topic nouns."
+  ]
+ },
+ "CPP2-U6-A": {
+  "status": "ok",
+  "usd": 0.00345,
+  "notes": [
+   "c2: Rewrote the prompt to use the exact definition of 'detail' and avoid using the option 'main idea' in the question.",
+   "c5: Added a clear context clue ('They all disappeared forever') so only 'extinction' fits the gap."
+  ]
+ },
+ "CPP2-U6-B": {
+  "status": "ok",
+  "usd": 0.00343,
+  "notes": [
+   "c2: replaced off-topic 'sunset' with lesson word 'voice' so all options are from the unit.",
+   "c6: replaced off-topic adjectives with story adjectives 'wet', 'muddy' and 'slippery' to keep the same part of speech.",
+   "c7: replaced off-topic distractors with unit verbs 'noticed', 'entered' and 'waited for'.",
+   "c9: replaced off-topic 'morning' with lesson word 'edge' so all options are from the unit."
+  ]
+ },
+ "CPP2-U5-B": {
+  "status": "ok",
+  "usd": 0.0039,
+  "notes": [
+   "c1: replaced off-topic distractors with lesson adjectives and added a stronger clue so only 'weak' fits.",
+   "c5: replaced off-topic words with focus words and made the odd-one-out meaning clear."
+  ]
+ },
+ "CPP2-U7-A": {
+  "status": "ok",
+  "usd": 0.00273,
+  "notes": [
+   "c1: prompt now describes the scrapbook meaning instead of naming the answer word.",
+   "c2: prompt now names the word to hear for the listen item.",
+   "c6: explain clarified to show the meaning-based odd one out."
+  ]
+ },
+ "CPP2-U5-BQ": {
+  "status": "ok",
+  "usd": 0.00364,
+  "notes": [
+   "c1: prompt now names the word to hear, as required for listen items.",
+   "c2: prompt now describes the guitar instead of naming it, as required for pickPicture.",
+   "c3: replaced off-topic distractors with lesson-related verbs.",
+   "c5: reworded the true/false statement to match the biography definition exactly.",
+   "c10: replaced off-topic distractors with focus nouns."
+  ]
+ },
+ "CPP2-U7-B": {
+  "status": "ok",
+  "usd": 0.00353,
+  "notes": [
+   "c1: replaced off-topic distractors with lesson nouns cable and shelf.",
+   "c3: changed listen prompt to name the word to hear, as required.",
+   "c5: replaced off-topic verbs with lesson verbs drop and fix.",
+   "c7: replaced off-topic nouns with lesson nouns cable and shelf.",
+   "c9: replaced off-topic feeling words with lesson words and updated explain line.",
+   "c10: replaced off-topic nouns with lesson nouns cable and shelf."
+  ]
+ },
+ "CPP2-U8-B": {
+  "status": "ok",
+  "usd": 0.00366,
+  "notes": [
+   "c1: changed pickPicture prompt to describe the meaning instead of naming the word.",
+   "c5: replaced the part-of-speech oddOneOut with a meaning-based medical emergency set.",
+   "c6: replaced off-topic 'picnic' with topic noun 'bracelet' and adjusted the prompt for a clear context.",
+   "c8: replaced off-topic distractors with lesson phrases and added a 'calm' clue so only 'took charge' fits.",
+   "c9: changed pickPicture prompt to describe the meaning instead of naming the word."
+  ]
+ },
+ "CPP2-U9-A": {
+  "status": "ok",
+  "usd": 0.00352,
+  "notes": [
+   "c3: replaced random distractors 'cup' and 'box' with focus-word nouns 'toaster' and 'telescope' so all options are from the lesson focus.",
+   "c4: replaced off-topic distractors 'wet' and 'cold' with topic adjectives 'amazing' and 'bitter'.",
+   "c6: replaced off-topic distractors 'teacher' and 'painter' with topic nouns 'miner' and 'cowboy'.",
+   "c8: replaced off-topic 'kettle' and 'oven' with topic words 'timer' and 'filter', and updated the explain line."
+  ]
+ },
+ "CPP2-U8-A": {
+  "status": "ok",
+  "usd": 0.0039,
+  "notes": [
+   "c1: replaced off-topic distractors with lesson/topic adjectives smart and careful.",
+   "c3: changed listen prompt to name the word to hear, as required for listen items.",
+   "c5: replaced off-topic words with focus words; caption is the clear meaning-based odd one.",
+   "c6: replaced off-topic verbs with lesson/topic verbs dial and guess.",
+   "c7: replaced off-topic nouns with focus/topic nouns captions and titles."
+  ]
+ },
+ "CPP2-U8-BQ": {
+  "status": "ok",
+  "usd": 0.00415,
+  "notes": [
+   "c1: replaced off-topic distractors with focus adjectives and updated the answer index.",
+   "c5: changed the prompt and distractors to use unit-topic verbs, and updated the answer index.",
+   "c8: replaced off-topic distractors with focus/topic nouns.",
+   "c9: added a meaning clue and replaced off-topic distractors with focus adjectives.",
+   "c10: added a meaning clue and replaced off-topic distractors with focus adjectives."
+  ]
+ },
+ "CPP2-U7-BQ": {
+  "status": "ok",
+  "usd": 0.00507,
+  "notes": [
+   "c1: replaced off-topic distractors with focus nouns and added a clearer clue for free time.",
+   "c4: replaced off-topic distractors with focus nouns and added 'to find out' so only survey fits.",
+   "c5: replaced off-topic adjectives with topic-related adjectives; relaxing is the only sensible fit for a warm bath.",
+   "c8: replaced off-topic sports with focus words so the odd one out is clearly diary.",
+   "c9: replaced off-topic verbs with focus/topic verbs so only cook fits pasta."
+  ]
+ },
+ "CPP2-U9-BQ": {
+  "status": "ok",
+  "usd": 0.00169,
+  "notes": [
+   "c1: changed prompt to describe the meaning of 'ship' instead of naming the word, as required for pickPicture.",
+   "c2: changed prompt to name the word to hear, as required for listen."
+  ]
+ },
+ "CPP2-U6-BQ": {
+  "status": "ok",
+  "usd": 0.00763,
+  "notes": [
+   "c1: pickPicture prompt now describes the meaning of 'neck' instead of just naming it.",
+   "c2: pickPicture prompt now describes the meaning of 'wing'; replaced 'chew' with 'neck' to keep noun focus.",
+   "c5: no other verbs are in the focus list, so used verb forms of 'chew' to keep same part of speech.",
+   "c7: replaced 'tail' with 'herbivore' and reordered so 'explanation' is the clear odd one out.",
+   "c8: listen prompt now names the word to hear, as required for listen items."
+  ]
+ },
+ "CPP3-U2-A": {
+  "status": "ok",
+  "usd": 0.00255,
+  "notes": [
+   "c1 prompt changed to describe the meaning of a flow chart instead of naming it.",
+   "c7 prompt changed to describe the meaning of a pancake instead of naming it.",
+   "c10 prompt changed to describe the meaning of garlic instead of naming it."
+  ]
+ },
+ "CPP2-U9-B": {
+  "status": "ok",
+  "usd": 0.00511,
+  "notes": [
+   "c2: Replaced off-list distractors with unit verbs and added 'It fell on the floor' so only 'knocked over' fits.",
+   "c3: Clarified the prompt wording for the meaning clue.",
+   "c4: Prompt now names the word to hear, as required for listen items.",
+   "c7: Replaced off-list body-part distractors with topic nouns and added 'with its tongue' to keep only 'paw' correct.",
+   "c8: Replaced off-list verb distractors with unit verbs.",
+   "c10: Replaced off-list distractors with unit nouns to avoid the 'past' ambiguity."
+  ]
+ },
+ "CPP3-U1-B": {
+  "status": "ok",
+  "usd": 0.00384,
+  "notes": [
+   "c2: replaced off-topic distractors with lesson verbs.",
+   "c4: replaced off-topic 'neighbour' with topic noun 'carpenter' and updated the explain line.",
+   "c5: replaced off-topic distractors with topic nouns.",
+   "c6: changed the listen prompt so it names the word to hear.",
+   "c7: changed the negative statement to a positive checkable statement and updated answer/explain.",
+   "c8: replaced off-topic phrasal distractors with topic verbs."
+  ]
+ },
+ "CPP3-U1-A": {
+  "status": "ok",
+  "usd": 0.00425,
+  "notes": [
+   "c3: replaced off-topic distractors and added a clear clue so only 'neighbourhood' fits.",
+   "c5: replaced off-topic words with topic foods and made 'amusement park' the clear odd one out.",
+   "c6: replaced off-topic adjectives with focus adjectives so only 'delicious' fits the soup clue.",
+   "c9: replaced off-topic adjectives with focus adjectives so only 'useful' fits the map clue."
+  ]
+ },
+ "CPP3-U2-B": {
+  "status": "ok",
+  "usd": 0.00413,
+  "notes": [
+   "c1: pickPicture prompt now describes the meaning instead of naming the word.",
+   "c3: replaced off-topic distractors with topic nouns and clarified the recipe context.",
+   "c4: statement now matches the honey definition directly.",
+   "c5: replaced off-topic words with topic foods so cupboard is the clear odd one out.",
+   "c7: pickPicture prompt now describes the meaning instead of naming the word.",
+   "c8: replaced off-topic 'fresh' with topic adjective 'unique'."
+  ]
+ },
+ "CPP3-U1-BQ": {
+  "status": "ok",
+  "usd": 0.0057,
+  "notes": [
+   "c3: replaced off-topic distractors with phrases built from focus words (in town, in the countryside, in the market).",
+   "c4: rewrote the statement to match the definition exactly and updated the explain line.",
+   "c5: replaced off-topic 'shop' with focus word 'town' and updated the explain line.",
+   "c6: rewrote the prompt to use 'downtown' as a noun and replaced off-topic distractors with focus words."
+  ]
+ },
+ "CPP3-U2-BQ": {
+  "status": "ok",
+  "usd": 0.00467,
+  "notes": [
+   "c1: changed pickPicture prompt to describe the meaning instead of naming 'energy'.",
+   "c3: replaced off-topic distractors with lesson adjectives and added 'body' clue so only 'healthy' fits.",
+   "c4: replaced off-topic distractors with lesson adjectives and added 'for your body' clue so only 'unhealthy' fits.",
+   "c6: made 'fat' the odd one out and used topic nouns so the item matches its wordId.",
+   "c9: changed pickPicture prompt to describe the meaning instead of naming 'tradition'.",
+   "c10: replaced off-topic distractors with topic nouns that do not fit the sentence."
+  ]
+ },
+ "CPP3-U4-A": {
+  "status": "ok",
+  "usd": 0.00325,
+  "notes": [
+   "c2: replaced unrelated distractors with lesson words and added 'soft wet' so only clay fits.",
+   "c3: made the true/false statement checkable from the story and removed the tricky 'even though'.",
+   "c7: replaced unrelated distractors with topic words and added a clue so only pottery fits.",
+   "c9: replaced a random distractor and added 'for flowers' so only vase fits."
+  ]
+ },
+ "CPP3-U3-B": {
+  "status": "ok",
+  "usd": 0.00393,
+  "notes": [
+   "c3: replaced off-topic distractors with lesson verbs shine and pause.",
+   "c4: replaced off-topic root/trunk/rainbow with topic words and made branch the animal odd-one-out.",
+   "c6: replaced off-topic backpacks/pillows with topic nouns blankets and branches.",
+   "c8: replaced off-topic puddle/garden with topic nouns mud and storm, and added a stay-dry clue.",
+   "c10: replaced off-topic spider/ladybird with topic nouns deer and mosquito."
+  ]
+ },
+ "CPP2-U4-BQ": {
+  "status": "ok",
+  "usd": 0.00643,
+  "notes": [
+   "c1: Removed the answer word 'planet' from the pickPicture prompt so it only describes the meaning.",
+   "c2: Replaced off-topic distractors with topic-related verbs 'clarify' and 'describe'; updated the answer index.",
+   "c4: Changed the options so the odd one out is the target word 'river'; updated the answer and explain line.",
+   "c5: Changed the listen prompt to name the word to hear, as required for listen items.",
+   "c9: Replaced off-topic distractors with focus nouns 'rain' and 'river'."
+  ]
+ },
+ "CPP3-U4-B": {
+  "status": "ok",
+  "usd": 0.00485,
+  "notes": [
+   "c2: replaced off-topic material distractors with focus nouns and adjusted the prompt so only 'plastic' fits.",
+   "c5: replaced off-topic distractors with topic/focus gerunds so only 'Recycling' makes sense.",
+   "c7: replaced off-topic distractors with topic nouns and adjusted the prompt so only 'easel' fits.",
+   "c8: corrected the explain line to match the story: Mia, not Leo, won the award.",
+   "c9: replaced off-topic distractors with topic verbs and added a clear surprise clue so only 'gasped' is correct.",
+   "c10: replaced off-topic art words with topic verbs and updated the explain line for a clear meaning-based odd one out."
+  ]
+ },
+ "CPP3-U5-B": {
+  "status": "ok",
+  "usd": 0.0033,
+  "notes": [
+   "c1: removed the answer word 'ruin' from the pickPicture prompt so it only describes the meaning.",
+   "c5: replaced 'pilot' with 'historian' from the unit topic so all options come from the lesson/topic.",
+   "c8: replaced off-topic distractors 'ladder' and 'carpet' with focus words 'trail' and 'vine'.",
+   "c9: replaced off-topic distractors 'castle' and 'island' with focus words 'jungle' and 'slope', and added 'quiet streets' as a clear clue.",
+   "c10: changed the pickPicture prompt to describe the meaning rather than ask 'Which word means...'."
+  ]
+ },
+ "CPP3-U3-A": {
+  "status": "ok",
+  "usd": 0.00734,
+  "notes": [
+   "c2: prompt now names the word to hear, as required for listen items.",
+   "c3: replaced off-topic distractors with lesson verbs 'escaped' and 'melted'.",
+   "c5: replaced off-topic nouns with topic nouns 'jellyfish' and 'plankton'.",
+   "c7: replaced off-topic distractors with focus verbs 'identify' and 'escape'.",
+   "c9: added a clue so only 'by mistake' fits the meaning.",
+   "c10: added a clue and replaced off-topic distractors with focus verbs 'endanger' and 'escape'."
+  ]
+ },
+ "CPP3-U5-A": {
+  "status": "ok",
+  "usd": 0.00398,
+  "notes": [
+   "c2: Reworded the pickPicture prompt to describe the meaning of waterfall instead of naming it.",
+   "c2: Updated the explain line to match the focus definition more closely.",
+   "c5: Changed the explain line to give a meaning-based reason, not a part-of-speech reason.",
+   "c9: Reworded the pickPicture prompt to ask which picture and describe canoe.",
+   "c10: Replaced the off-topic distractor 'painting' with the topic word 'waterfall'."
+  ]
+ },
+ "CPP3-U6-A": {
+  "status": "ok",
+  "usd": 0.00305,
+  "notes": [
+   "c7: replaced off-topic distractors relax/sleep/eat with unit-topic verbs adopt/introduce/allow so only exercise fits."
+  ]
+ },
+ "CPP3-U4-BQ": {
+  "status": "ok",
+  "usd": 0.00631,
+  "notes": [
+   "c1: Replaced unrelated distractors with art-topic verbs and used a definition prompt.",
+   "c3: Changed listen prompt to name the word to hear.",
+   "c5: Replaced off-topic adjective with topic nouns so the odd one is clearly ugly.",
+   "c6: Replaced unrelated distractors with topic nouns and used a definition prompt.",
+   "c7: Replaced unrelated distractors with focus adjectives and added a colour clue."
+  ]
+ },
+ "CPP3-U3-BQ": {
+  "status": "ok",
+  "usd": 0.00808,
+  "notes": [
+   "c1: replaced unrelated phrasal verbs with topic verbs and added a caring clue so only 'take care of' fits.",
+   "c5: changed options so honeybee is the clear odd one and kept the wordId.",
+   "c6: replaced random adjectives with topic adjectives; 'polluted' comes from pollution.",
+   "c8: replaced random phrases with topic words; the clue makes only the target phrase correct.",
+   "c9: replaced random nouns with topic nouns so only 'pollution' fits."
+  ]
+ },
+ "CPP3-U5-BQ": {
+  "status": "ok",
+  "usd": 0.00598,
+  "notes": [
+   "c1: replaced unrelated distractors with topic words; only travel fits the verb gap.",
+   "c3: rewrote pickPicture prompt to describe meaning instead of naming the word.",
+   "c4: replaced unrelated distractors with topic nouns.",
+   "c5: adjusted statement to match the definition exactly.",
+   "c7: replaced unrelated distractors with topic nouns.",
+   "c8: replaced unrelated distractors with topic nouns.",
+   "c9: replaced unrelated distractors with topic nouns."
+  ]
+ },
+ "CPP3-U6-BQ": {
+  "status": "ok",
+  "usd": 0.00357,
+  "notes": [
+   "c4: replaced unrelated distractors with topic-related phrases and added a health clue so only 'stay in shape' fits.",
+   "c6: replaced 'sleep' and 'play' with topic words 'training' and 'climbing', and updated the explain line to give a clear meaning-based reason."
+  ]
+ },
+ "CPP3-U6-B": {
+  "status": "ok",
+  "usd": 0.00412,
+  "notes": [
+   "c2: changed the listen prompt to name the word to hear, as required for listen items.",
+   "c3: replaced off-list distractors with topic nouns and made the clue clearly point only to goalkeeper.",
+   "c5: replaced off-list body-part distractors with lesson/topic nouns.",
+   "c6: replaced off-list verbs with topic verbs so all options come from the unit list.",
+   "c7: replaced off-list distractors with topic nouns.",
+   "c8: replaced off-list distractors with topic nouns."
+  ]
+ },
+ "CPP3-U7-A": {
+  "status": "ok",
+  "usd": 0.00379,
+  "notes": [
+   "c3: replaced off-topic distractors with lesson verbs and adjusted the prompt so only 'dig' fits.",
+   "c5: replaced off-topic distractors with topic nouns and added 'stole' so only 'pirate' fits.",
+   "c6: changed the explain line to make the odd-one-out reason meaning-based and clear.",
+   "c8: replaced off-topic distractors with topic nouns so only 'tomb' fits."
+  ]
+ },
+ "CPP3-U7-B": {
+  "status": "ok",
+  "usd": 0.00414,
+  "notes": [
+   "c1: changed explain to match the story setting (old room, not attic).",
+   "c2: made the listen prompt singular and clearly name the target word.",
+   "c3: replaced off-topic distractors with focus nouns.",
+   "c5: replaced off-topic cupboard/shelf with focus/topic words and clarified the explain line.",
+   "c6: replaced off-topic distractors with topic nouns.",
+   "c9: replaced off-topic distractors with topic verbs."
+  ]
+ },
+ "CPP3-U8-B": {
+  "status": "ok",
+  "usd": 0.00386,
+  "notes": [
+   "c1: simplified the explain line so it does not refer to option position.",
+   "c2: changed the pickPicture prompt to describe the meaning instead of naming the word.",
+   "c8: replaced non-topic adjectives with topic adjectives so all options are same part of speech and from the unit topic.",
+   "c10: changed the pickPicture prompt to describe the meaning instead of naming the word."
+  ]
+ },
+ "CPP3-U7-BQ": {
+  "status": "ok",
+  "usd": 0.00419,
+  "notes": [
+   "c1: changed explain to British spelling 'artefact'.",
+   "c2: reworded listen prompt to name the word to hear and used British 'metre'.",
+   "c4: changed 'artifact' to British 'artefact' in options.",
+   "c5: added 'news report' to the statement so it matches the focus word.",
+   "c7: replaced off-list distractors with focus words and updated answer/explain."
+  ]
+ },
+ "CPP3-U8-A": {
+  "status": "ok",
+  "usd": 0.00545,
+  "notes": [
+   "c1: Replaced weather distractors with focus/topic nouns so all options come from the lesson.",
+   "c2: Changed the prompt to a listen-style instruction that names the word to hear.",
+   "c5: Replaced kitchen-appliance distractors with focus/topic nouns to match the candidate list."
+  ]
+ },
+ "CPP3-U9-A": {
+  "status": "ok",
+  "usd": 0.00372,
+  "notes": [
+   "c1: replaced off-topic distractors with lesson verbs so only 'create' fits the song context.",
+   "c3: changed listen prompt to name the word to hear, as required for listen items.",
+   "c6: replaced off-topic distractors with lesson verbs so only 'express' fits the feelings context.",
+   "c7: replaced 'trumpet' with 'double bass' to keep all options from the lesson/topic words.",
+   "c10: replaced off-topic 'pocket' with 'harmonica' and kept only 'tune' as the lively rhythm word."
+  ]
+ },
+ "CPP3-U9-BQ": {
+  "status": "ok",
+  "usd": 0.00351,
+  "notes": [
+   "c3: replaced unrelated distractors with focus nouns so only 'breath' fits.",
+   "c4: made the true/false statement checkable from the pop music definition.",
+   "c5: replaced unrelated distractors and changed 'great' to 'beautiful' so only 'voice' fits.",
+   "c7: made the prompt singular to match 'percussion instrument'.",
+   "c9: added an improvisation clue and replaced unrelated distractors with focus music words.",
+   "c10: made the prompt singular to match 'classical music'."
+  ]
+ },
+ "CPP3-U9-B": {
+  "status": "ok",
+  "usd": 0.00416,
+  "notes": [
+   "c1: replaced unrelated distractors with lesson/topic nouns and added a clue so only 'musician' fits.",
+   "c2: changed the negative true/false statement to a clear positive one.",
+   "c3: kept as a clear meaning-based pickPicture item.",
+   "c4: kept the oddOneOut, with a clearer explain line.",
+   "c5: replaced unrelated distractors with focus words and added a cloth clue for 'curtain'.",
+   "c6: kept the listen item unchanged.",
+   "c7: replaced unrelated distractors with focus words and added a clue so only 'performance' fits.",
+   "c8: kept the true/false item, with a slightly clearer explain line.",
+   "c9: replaced unrelated distractors with focus words.",
+   "c10: replaced unrelated distractors with focus words and added a beat clue for 'rhythm'."
+  ]
+ },
+ "CPP3-U8-BQ": {
+  "status": "ok",
+  "usd": 0.00953,
+  "notes": [
+   "c2: replaced 'electronic' with 'non-renewable' so all options are lesson adjectives, and added a clearer clue for 'man-made'.",
+   "c5: replaced off-topic words with lesson words; 'save' is the odd one because it is an action, not a description.",
+   "c6: added a fourth option so the gap item has 3–4 options.",
+   "c8: changed the true/false statement to one checkable from the definition of 'light bulb'.",
+   "c9: replaced off-topic places with lesson nouns so distractors come from the unit vocabulary."
+  ]
+ }
+}

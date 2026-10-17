@@ -68,7 +68,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-439",
-      "emoji": "🎈",
+      "emoji": "👫📅",
       "kidDefinition": "A time when friends meet to play together.",
       "examples": [
         "Let's have a play date this Saturday.",
@@ -132,7 +132,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-443",
-      "emoji": "🎤",
+      "emoji": "🎤🎶",
       "kidDefinition": "To make music with your voice and words.",
       "examples": [
         "We sing songs in our English class.",
@@ -175,28 +175,76 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, everyone! I am Lingo, your owl teacher."
+          "text": "Hello, everyone! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            },
+            {
+              "emoji": "🧑‍🏫",
+              "label": "teacher"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we ask a big question: What is a friend?"
+          "text": "Today we ask a big question: What is a friend?",
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friend"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Friends can share, play, and help each other."
+          "text": "Friends can share, play, and help each other.",
+          "props": [
+            {
+              "emoji": "🧒🧒",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Some friends play soccer. Some friends draw pictures."
+          "text": "Some friends play soccer. Some friends draw pictures.",
+          "props": [
+            {
+              "emoji": "⚽",
+              "label": "soccer"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🧒🧒",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l5",
-          "text": "Let's find out what friends like to do together!"
+          "text": "Let's find out what friends like to do together!",
+          "props": [
+            {
+              "emoji": "🧒🧒",
+              "label": "friends"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What do you like to do with your friends?"
+        "text": "What do you like to do with your friends?",
+        "props": [
+          {
+            "emoji": "🧒🧒",
+            "label": "friends"
+          }
+        ]
       }
     },
     {
@@ -230,6 +278,16 @@
               "who": "nico"
             }
           ],
+          "props": [
+            {
+              "emoji": "🚲🚲",
+              "label": "bikes"
+            },
+            {
+              "emoji": "🚲",
+              "label": "bike"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Ellie and Nico are in the park."
@@ -255,6 +313,16 @@
             },
             {
               "who": "nico"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🎨",
+              "label": "draw"
             }
           ],
           "caption": {
@@ -290,13 +358,13 @@
           "wordId": "CPP1-U4-SB-437",
           "prompt": {
             "id": "c1q",
-            "text": "Which picture shows a friend?"
+            "text": "Which picture shows a person you like and spend time with?"
           },
           "options": [
             "CPP1-U4-SB-437",
-            "CPP1-U4-SB-439",
+            "CPP1-U4-SB-441",
             "CPP1-U4-SB-440",
-            "CPP1-U4-SB-438"
+            "CPP1-U4-SB-444"
           ],
           "answer": 0,
           "explain": {
@@ -328,14 +396,20 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-438",
+          "props": [
+            {
+              "emoji": "🐶",
+              "label": "pet"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "In your ____, what is the best pet?"
           },
           "options": [
-            "pencil",
+            "play date",
             "opinion",
-            "window"
+            "friend"
           ],
           "answer": 1,
           "explain": {
@@ -347,6 +421,16 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP1-U4-SB-441",
+          "props": [
+            {
+              "emoji": "⚽",
+              "label": "soccer"
+            },
+            {
+              "emoji": "⚽",
+              "label": "ball"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "To play soccer means to kick a ball in a game."
@@ -358,7 +442,7 @@
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "Soccer players kick the ball to score goals with their team."
+            "text": "Yes. You kick a ball in a game, with a team."
           }
         },
         {
@@ -385,14 +469,24 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U4-SB-439",
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            },
+            {
+              "emoji": "📅",
+              "label": "Saturday"
+            }
+          ],
           "prompt": {
             "id": "c6q",
-            "text": "Let's have a ____ this Saturday in the park."
+            "text": "It is Saturday. Ellie and Nico meet in the park for a ____."
           },
           "options": [
             "play date",
-            "homework",
-            "puzzle"
+            "opinion",
+            "friend"
           ],
           "answer": 0,
           "explain": {
@@ -406,7 +500,7 @@
           "wordId": "CPP1-U4-SB-442",
           "prompt": {
             "id": "c7q",
-            "text": "Which picture shows ride bikes?"
+            "text": "Which picture shows travelling on a bicycle with pedals?"
           },
           "options": [
             "CPP1-U4-SB-442",
@@ -444,6 +538,24 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP1-U4-SB-444",
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "reading"
+            },
+            {
+              "emoji": "📚",
+              "label": "stories"
+            },
+            {
+              "emoji": "🎨",
+              "label": "drawing"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "Reading stories means drawing pictures."
@@ -467,7 +579,21 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Let's play memory! Find the picture and its word."
+          "text": "Let's play memory! Find the picture and its word.",
+          "props": [
+            {
+              "emoji": "🧠",
+              "label": "memory"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🔤",
+              "label": "word"
+            }
+          ]
         }
       ]
     },
@@ -518,5 +644,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

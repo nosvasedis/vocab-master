@@ -224,20 +224,56 @@
         },
         {
           "id": "l2",
-          "text": "Today we ask a big question: Why are celebrations important?"
+          "text": "Today we ask a big question: Why are celebrations important?",
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "celebration"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Think about a birthday. What do you see?"
+          "text": "Think about a birthday. What do you see?",
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Maybe there are candles, a cake and balloons!"
+          "text": "Maybe there are candles, a cake and balloons!",
+          "props": [
+            {
+              "emoji": "🕯️🕯️",
+              "label": "candle"
+            },
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🎈🎈",
+              "label": "balloons"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is one thing you always see at a birthday party?"
+        "text": "What is one thing you always see at a birthday party?",
+        "props": [
+          {
+            "emoji": "🎂",
+            "label": "birthday"
+          },
+          {
+            "emoji": "🎉",
+            "label": "party"
+          }
+        ]
       }
     },
     {
@@ -270,6 +306,20 @@
               "who": "emilia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🕯️🕯️",
+              "label": "candle"
+            },
+            {
+              "emoji": "🎆",
+              "label": "New Year's Eve"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Emilia is in the kitchen on New Year's Eve."
@@ -296,6 +346,24 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💌",
+              "label": "invitation"
+            },
+            {
+              "emoji": "🎉",
+              "label": "party"
+            },
+            {
+              "emoji": "🎆",
+              "label": "New Year's"
+            },
+            {
+              "emoji": "🎁",
+              "label": "gift"
             }
           ],
           "caption": {
@@ -330,6 +398,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "party"
+            },
+            {
+              "emoji": "🎈🎈",
+              "label": "balloons"
+            },
+            {
+              "emoji": "🎵",
+              "label": "music"
+            },
+            {
+              "emoji": "🎊",
+              "label": "celebration"
+            },
+            {
+              "emoji": "🥳",
+              "label": "celebrate"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "At the park, the party has balloons and music."
@@ -339,17 +429,51 @@
               "id": "p3a",
               "who": "emilia",
               "text": "This celebration is wonderful! Let's celebrate together."
-            },
-            {
-              "id": "p3b",
-              "who": "leo",
-              "text": "Your ideas are positive! Please respond to my message."
             }
           ],
           "highlight": [
             "CPP2-U2-SB-145",
             "CPP2-U2-SB-151",
-            "CPP2-U2-SB-155",
+            "CPP2-U2-SB-155"
+          ]
+        },
+        {
+          "id": "p4",
+          "backdrop": "park",
+          "characters": [
+            {
+              "who": "leo"
+            },
+            {
+              "who": "emilia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "👍",
+              "label": "positive"
+            },
+            {
+              "emoji": "💬",
+              "label": "respond"
+            },
+            {
+              "emoji": "✉️",
+              "label": "message"
+            }
+          ],
+          "caption": {
+            "id": "p4c",
+            "text": "Leo smiles and shows Emilia his message."
+          },
+          "speech": [
+            {
+              "id": "p4a",
+              "who": "leo",
+              "text": "Your message is positive! Please respond to it."
+            }
+          ],
+          "highlight": [
             "CPP2-U2-SB-147",
             "CPP2-U2-SB-146"
           ]
@@ -368,6 +492,16 @@
             "id": "c1q",
             "text": "Which word means the small light you blow out on a cake?"
           },
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🔥",
+              "label": "small light"
+            }
+          ],
           "options": [
             "CPP2-U2-SB-150",
             "CPP2-U2-SB-152",
@@ -386,13 +520,23 @@
           "wordId": "CPP2-U2-SB-150",
           "prompt": {
             "id": "c2q",
-            "text": "Listen: Please bring a gift for my party. Which word did you hear?"
+            "text": "Listen: gift. Which word did you hear?"
           },
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "party"
+            },
+            {
+              "emoji": "🎁",
+              "label": "wrapped box"
+            }
+          ],
           "options": [
             "CPP2-U2-SB-150",
-            "CPP2-U2-SB-151",
+            "CPP2-U2-SB-145",
             "CPP2-U2-SB-155",
-            "CPP2-U2-SB-147"
+            "CPP2-U2-SB-149"
           ],
           "answer": 0,
           "explain": {
@@ -408,10 +552,20 @@
             "id": "c3q",
             "text": "We ____ my birthday with a big party."
           },
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            },
+            {
+              "emoji": "🎉",
+              "label": "party"
+            }
+          ],
           "options": [
             "celebrate",
-            "forget",
-            "wrap"
+            "respond",
+            "present"
           ],
           "answer": 0,
           "explain": {
@@ -427,6 +581,20 @@
             "id": "c4q",
             "text": "A balloon is a food that you eat at a party."
           },
+          "props": [
+            {
+              "emoji": "🎈",
+              "label": "balloon"
+            },
+            {
+              "emoji": "🍰",
+              "label": "food"
+            },
+            {
+              "emoji": "🎉",
+              "label": "party"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -443,18 +611,18 @@
           "wordId": "CPP2-U2-KW-7",
           "prompt": {
             "id": "c5q",
-            "text": "Which one is NOT a party food?"
+            "text": "Which one is NOT a thing you can hold?"
           },
           "options": [
             "cake",
-            "notebook",
-            "crisps",
-            "sandwiches"
+            "invitation",
+            "gift",
+            "celebration"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "Cake, sandwiches and crisps are food; a notebook is for writing."
+            "text": "Cake, invitation and gift are things you can hold; a celebration is an event."
           }
         },
         {
@@ -465,9 +633,23 @@
             "id": "c6q",
             "text": "Lingo says, 'Great drawing!' That is a ____ comment."
           },
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            },
+            {
+              "emoji": "🎨",
+              "label": "drawing"
+            },
+            {
+              "emoji": "🗨️",
+              "label": "comment"
+            }
+          ],
           "options": [
-            "quiet",
-            "heavy",
+            "negative",
+            "unkind",
             "positive"
           ],
           "answer": 2,
@@ -484,6 +666,16 @@
             "id": "c7q",
             "text": "Which word is a card that asks you to come to a party?"
           },
+          "props": [
+            {
+              "emoji": "💌",
+              "label": "card"
+            },
+            {
+              "emoji": "🎉",
+              "label": "party"
+            }
+          ],
           "options": [
             "CPP2-U2-SB-149",
             "CPP2-U2-SB-155",
@@ -502,12 +694,26 @@
           "wordId": "CPP2-U2-SB-146",
           "prompt": {
             "id": "c8q",
-            "text": "Please listen to your friend and ____ politely."
+            "text": "Please listen to your friend and ____ to the message."
           },
+          "props": [
+            {
+              "emoji": "👂",
+              "label": "listen"
+            },
+            {
+              "emoji": "👫",
+              "label": "friend"
+            },
+            {
+              "emoji": "🤝",
+              "label": "message"
+            }
+          ],
           "options": [
             "respond",
-            "jump",
-            "sing"
+            "celebrate",
+            "present"
           ],
           "answer": 0,
           "explain": {
@@ -523,6 +729,16 @@
             "id": "c9q",
             "text": "New Year's is the celebration when a new year begins."
           },
+          "props": [
+            {
+              "emoji": "📅",
+              "label": "1 January"
+            },
+            {
+              "emoji": "🎉",
+              "label": "celebration"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -541,12 +757,30 @@
             "id": "c10q",
             "text": "Our class ____ is on Friday, with music and games."
           },
-          "options": [
-            "umbrella",
-            "celebration",
-            "homework"
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "class"
+            },
+            {
+              "emoji": "📅",
+              "label": "Friday"
+            },
+            {
+              "emoji": "🎵",
+              "label": "music"
+            },
+            {
+              "emoji": "🎲",
+              "label": "games"
+            }
           ],
-          "answer": 1,
+          "options": [
+            "celebration",
+            "gift",
+            "balloon"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c10e",
             "text": "A celebration is a special event where people have fun together."
@@ -565,7 +799,13 @@
         },
         {
           "id": "l2",
-          "text": "Flip two cards. Can you match a candle with its word?"
+          "text": "Flip two cards. Can you match a picture with its word?",
+          "props": [
+            {
+              "emoji": "🃏",
+              "label": "card"
+            }
+          ]
         }
       ]
     },
@@ -602,7 +842,17 @@
         },
         {
           "id": "l3",
-          "text": "Next lesson, we will read about birthdays around the world!"
+          "text": "Next lesson, we will read about birthdays around the world!",
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "birthdays"
+            },
+            {
+              "emoji": "🌍",
+              "label": "world"
+            }
+          ]
         }
       ],
       "badge": {
@@ -620,5 +870,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

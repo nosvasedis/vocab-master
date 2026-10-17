@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U6-SB-796",
-      "emoji": "🔢",
+      "emoji": "1️⃣2️⃣3️⃣",
       "kidDefinition": "The way things come, one after another.",
       "examples": [
         "Put the pictures in the right order, from first to last.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-797",
-      "emoji": "🔗",
+      "emoji": "🔴🔵🔴🔵",
       "kidDefinition": "A set of things that follow each other in a fixed pattern.",
       "examples": [
         "Ella practises a sequence of five moves before every competition.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-798",
-      "emoji": "🙆",
+      "emoji": "🤸‍♀️",
       "kidDefinition": "A person who does gymnastics, especially in competitions.",
       "examples": [
         "The gymnast smiled after her perfect routine on the beam.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-801",
-      "emoji": "🤸",
+      "emoji": "🤸‍♀️🤸‍♂️",
       "kidDefinition": "A sport with floor routines, jumps and balance on apparatus.",
       "examples": [
         "In my opinion, gymnastics is a very difficult sport.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-803",
-      "emoji": "💪",
+      "emoji": "🏋️‍♀️",
       "kidDefinition": "To practise a sport regularly to get better at it.",
       "examples": [
         "Most swimmers train for at least four hours a day.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-813",
-      "emoji": "🏃",
+      "emoji": "🏃‍♀️💪",
       "kidDefinition": "A person who is good at sports and trains hard.",
       "examples": [
         "If you want to be a better athlete, you need to train more.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-832",
-      "emoji": "💨",
+      "emoji": "🏃‍♂️💨",
       "kidDefinition": "A very fast race over a short distance.",
       "examples": [
         "After the warm-up, we ran sprints for half an hour.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-836",
-      "emoji": "🏋️",
+      "emoji": "🏃‍♀️🤸‍♂️",
       "kidDefinition": "To move your body with physical activity to stay fit.",
       "examples": [
         "It is a good idea to exercise three or four times a week.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-838",
-      "emoji": "📅",
+      "emoji": "📅🔁",
       "kidDefinition": "Again and again, at the same times, like every week.",
       "examples": [
         "You should exercise regularly to keep fit and healthy.",
@@ -257,22 +257,72 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
+      "props": [
+        {
+          "emoji": "⚽🏀🎾",
+          "label": "sport"
+        },
+        {
+          "emoji": "🧑‍🤝‍🧑",
+          "label": "people"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love owls and sport!"
+          "text": "Hello, friends! I am Lingo, and I love sport!",
+          "props": [
+            {
+              "emoji": "👧👦",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Every day, people around the world play sport in parks, pools and playgrounds."
+          "text": "Every day, people around the world play sport in parks, pools and playgrounds.",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "world"
+            },
+            {
+              "emoji": "🏊",
+              "label": "pool"
+            },
+            {
+              "emoji": "🛝",
+              "label": "playground"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some people play sport for fun. Some people play sport to become champions."
+          "text": "Some people play sport for fun. Some people play sport to become champions.",
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "fun"
+            },
+            {
+              "emoji": "🏆",
+              "label": "champion"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we will meet two friends from Squirrel Park and learn new sport words."
+          "text": "Today we will meet two friends from the park and learn new sport words.",
+          "props": [
+            {
+              "emoji": "👧👦",
+              "label": "friends"
+            },
+            {
+              "emoji": "🔤",
+              "label": "words"
+            }
+          ]
         }
       ],
       "question": {
@@ -284,15 +334,15 @@
       "id": "reveal",
       "type": "reveal",
       "words": [
-        "CPP3-U6-SB-796",
-        "CPP3-U6-SB-797",
-        "CPP3-U6-SB-813",
         "CPP3-U6-SB-798",
         "CPP3-U6-SB-801",
         "CPP3-U6-SB-799",
-        "CPP3-U6-SB-803",
+        "CPP3-U6-SB-813",
         "CPP3-U6-SB-832",
+        "CPP3-U6-SB-803",
         "CPP3-U6-SB-836",
+        "CPP3-U6-SB-796",
+        "CPP3-U6-SB-797",
         "CPP3-U6-SB-838"
       ],
       "greek": "after"
@@ -313,9 +363,35 @@
               "who": "sam"
             }
           ],
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "morning"
+            },
+            {
+              "emoji": "🏋️‍♀️",
+              "label": "training"
+            },
+            {
+              "emoji": "🤸‍♀️",
+              "label": "gymnast"
+            },
+            {
+              "emoji": "🏃‍♀️💪",
+              "label": "athlete"
+            },
+            {
+              "emoji": "🤸‍♀️🤸‍♂️",
+              "label": "gymnastics"
+            },
+            {
+              "emoji": "📅",
+              "label": "week"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "It is Saturday morning in Squirrel Park. Ella and Sam are warming up together."
+            "text": "It is morning in the park. Ella and Sam are training together."
           },
           "speech": [
             {
@@ -347,9 +423,31 @@
               "who": "sam"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏃‍♂️💨",
+              "label": "sprint"
+            },
+            {
+              "emoji": "🏃‍♀️🤸‍♂️",
+              "label": "exercise"
+            },
+            {
+              "emoji": "📅🔁",
+              "label": "regularly"
+            },
+            {
+              "emoji": "☀️",
+              "label": "morning"
+            },
+            {
+              "emoji": "💪",
+              "label": "strong"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Sam runs a short, fast race along the path."
+            "text": "Sam runs very fast in the park."
           },
           "speech": [
             {
@@ -360,7 +458,7 @@
             {
               "id": "p2b",
               "who": "ella",
-              "text": "Great plan! Regular practice helps you get better."
+              "text": "Wow, you are so fast, Sam! Well done!"
             }
           ],
           "highlight": [
@@ -380,31 +478,99 @@
               "who": "sam"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏋️‍♀️",
+              "label": "training"
+            },
+            {
+              "emoji": "📋",
+              "label": "plan"
+            },
+            {
+              "emoji": "1️⃣2️⃣3️⃣",
+              "label": "order"
+            },
+            {
+              "emoji": "🔴🔵🔴🔵",
+              "label": "sequence"
+            },
+            {
+              "emoji": "🏆",
+              "label": "competition"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "In the classroom, Ella writes her training plan on a big sheet of paper."
+            "text": "In the classroom, Ella shows her training plan."
           },
           "speech": [
             {
               "id": "p3a",
               "who": "ella",
-              "text": "First we warm up. Then we stretch. Then we practise in the right order."
+              "text": "Look, Sam! My training plan is in the right order."
             },
             {
               "id": "p3b",
               "who": "sam",
-              "text": "And what is your sequence of moves for the competition?"
-            },
-            {
-              "id": "p3c2",
-              "who": "ella",
-              "text": "Five moves: jump, turn, balance, land and smile!"
+              "text": "And what is your sequence for the competition?"
             }
           ],
           "highlight": [
             "CPP3-U6-SB-796",
             "CPP3-U6-SB-797"
           ]
+        },
+        {
+          "id": "p3m",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "ella"
+            },
+            {
+              "who": "sam"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🤸‍♀️",
+              "label": "jump"
+            },
+            {
+              "emoji": "🔄",
+              "label": "turn"
+            },
+            {
+              "emoji": "🦩",
+              "label": "balance"
+            },
+            {
+              "emoji": "🦶",
+              "label": "land"
+            },
+            {
+              "emoji": "😊",
+              "label": "smile"
+            }
+          ],
+          "caption": {
+            "id": "p3mc",
+            "text": "Ella shows Sam her jumps, turns and landings."
+          },
+          "speech": [
+            {
+              "id": "p3c2",
+              "who": "ella",
+              "text": "I jump, I turn, I balance, then I land and smile!"
+            },
+            {
+              "id": "p3c3",
+              "who": "sam",
+              "text": "Wow! Show me that again, Ella!"
+            }
+          ],
+          "highlight": []
         },
         {
           "id": "p4",
@@ -417,15 +583,41 @@
               "who": "sam"
             }
           ],
+          "props": [
+            {
+              "emoji": "👏👏👏",
+              "label": "crowd"
+            },
+            {
+              "emoji": "🏆",
+              "label": "competition"
+            },
+            {
+              "emoji": "🤸‍♀️🤸‍♂️",
+              "label": "gymnastics"
+            },
+            {
+              "emoji": "🤸‍♀️🔁",
+              "label": "routine"
+            },
+            {
+              "emoji": "🦵",
+              "label": "legs"
+            },
+            {
+              "emoji": "🥉",
+              "label": "medal"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "At the school sports day, the crowd cheers loudly for Ella."
+            "text": "The crowd cheers loudly for Ella at the competition."
           },
           "speech": [
             {
               "id": "p4a",
               "who": "ella",
-              "text": "I did my routine perfectly! My legs were shaking, but I did it."
+              "text": "I did my gymnastics routine perfectly! My legs were shaking, but I did it."
             },
             {
               "id": "p4b",
@@ -449,9 +641,31 @@
               "who": "sam"
             }
           ],
+          "props": [
+            {
+              "emoji": "😊",
+              "label": "smile"
+            },
+            {
+              "emoji": "🥉",
+              "label": "medal"
+            },
+            {
+              "emoji": "🏋️‍♀️📅",
+              "label": "training"
+            },
+            {
+              "emoji": "🏋️‍♀️",
+              "label": "train"
+            },
+            {
+              "emoji": "📅",
+              "label": "Saturday"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Ella smiles and holds her medal high in the air."
+            "text": "Ella smiles and holds her medal high."
           },
           "speech": [
             {
@@ -493,7 +707,7 @@
           "answer": 2,
           "explain": {
             "id": "c1e",
-            "text": "A gymnast is the person, while gymnastics is the sport itself."
+            "text": "A gymnast is the person, and gymnastics is the sport itself."
           }
         },
         {
@@ -513,16 +727,26 @@
           "answer": 2,
           "explain": {
             "id": "c2e",
-            "text": "A medal is a shiny prize that winners receive after a competition."
+            "text": "A medal is a shiny prize that winners get after a competition."
           }
         },
         {
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-796",
+          "props": [
+            {
+              "emoji": "🏋️‍♀️",
+              "label": "training"
+            },
+            {
+              "emoji": "👣",
+              "label": "steps"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "Put the steps of the warm-up in the right ____."
+            "text": "Put the steps of the training in the right ____."
           },
           "options": [
             "order",
@@ -533,13 +757,31 @@
           "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "Order means the correct sequence, so first, then, and last."
+            "text": "Order means the correct way: first, then, and last."
           }
         },
         {
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-797",
+          "props": [
+            {
+              "emoji": "💃",
+              "label": "dance"
+            },
+            {
+              "emoji": "🤸‍♀️",
+              "label": "jump"
+            },
+            {
+              "emoji": "🔄",
+              "label": "spin"
+            },
+            {
+              "emoji": "🦶",
+              "label": "land"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "The dance has a fixed ____ of moves: jump, spin, then land."
@@ -560,9 +802,27 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP3-U6-SB-803",
+          "props": [
+            {
+              "emoji": "🏃‍♀️💪",
+              "label": "athlete"
+            },
+            {
+              "emoji": "🏋️‍♀️",
+              "label": "train"
+            },
+            {
+              "emoji": "🦾",
+              "label": "strong"
+            },
+            {
+              "emoji": "📅",
+              "label": "year"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "Statement: Athletes only train once a year to get stronger."
+            "text": "Statement: Athletes only train once a year to be strong."
           },
           "options": [
             "True",
@@ -571,7 +831,7 @@
           "answer": 1,
           "explain": {
             "id": "c5e",
-            "text": "To train means to practise regularly, not just once a year."
+            "text": "To train means to practise often, not just once a year. So the answer is False."
           }
         },
         {
@@ -591,27 +851,41 @@
           "answer": 3,
           "explain": {
             "id": "c6e",
-            "text": "Regularly is an adverb, while the other three words are nouns."
+            "text": "Regularly is an adverb and tells us how often. The other three words are nouns."
           }
         },
         {
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-836",
+          "props": [
+            {
+              "emoji": "💪",
+              "label": "fit"
+            },
+            {
+              "emoji": "🦾",
+              "label": "strong"
+            },
+            {
+              "emoji": "📅",
+              "label": "week"
+            }
+          ],
           "prompt": {
             "id": "c7q",
-            "text": "To stay fit, you should ____ three times a week."
+            "text": "To stay fit and strong, you should ____ three times a week."
           },
           "options": [
-            "allow",
-            "blend",
+            "adopt",
+            "introduce",
             "exercise",
-            "sprinkle"
+            "allow"
           ],
           "answer": 2,
           "explain": {
             "id": "c7e",
-            "text": "Exercise is a verb meaning to move your body to stay healthy."
+            "text": "Exercise means to move your body to stay fit and strong."
           }
         },
         {
@@ -631,7 +905,7 @@
           "answer": 3,
           "explain": {
             "id": "c8e",
-            "text": "Gymnastics is the name of the sport, and it includes beams and floor routines."
+            "text": "Gymnastics is the name of the sport. It has beams and floor routines."
           }
         },
         {
@@ -658,6 +932,20 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP3-U6-SB-832",
+          "props": [
+            {
+              "emoji": "🏃‍♂️💨",
+              "label": "sprint"
+            },
+            {
+              "emoji": "🏃‍♂️🏃‍♂️🏃‍♂️",
+              "label": "marathon"
+            },
+            {
+              "emoji": "🏁",
+              "label": "race"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "Statement: A sprint is a very long race, like a marathon."
@@ -669,7 +957,7 @@
           "answer": 1,
           "explain": {
             "id": "c10e",
-            "text": "A sprint is a short, very fast race, not a long one."
+            "text": "A sprint is a short, very fast race. A marathon is long. So the answer is False."
           }
         }
       ]
@@ -685,7 +973,7 @@
         },
         {
           "id": "l2",
-          "text": "Say the word out loud when you turn over a card. Good luck, champions!"
+          "text": "Say the word out loud when you turn over a card. Good luck, everyone!"
         }
       ]
     },
@@ -714,15 +1002,15 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, champions! You learned ten amazing sport words today."
+          "text": "Brilliant work, everyone! You learned ten amazing sport words today."
         },
         {
           "id": "l2",
-          "text": "Now you can talk about training, medals and sequences like a real athlete!"
+          "text": "Now you can talk about training, medals and sequences!"
         },
         {
           "id": "l3",
-          "text": "Keep practising, and remember: regular training makes every champion stronger."
+          "text": "Keep practising, and remember: regular training makes you stronger!"
         }
       ],
       "badge": {
@@ -740,5 +1028,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

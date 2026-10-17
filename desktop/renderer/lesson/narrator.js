@@ -105,7 +105,12 @@ export async function narrate({ key, text, persona = "", el = null, onLevel = nu
   }
 
   const { pitch, rate } = personaVoice(persona);
-  if (onLevel) onLevel(0.6);
+  // System voices give no volume signal: flap the beak in a speech-like rhythm while speaking.
+  let flap = null;
+  if (onLevel) {
+    let t = 0;
+    flap = setInterval(() => { t += 1; onLevel(t % 4 === 0 ? 0.1 : 0.35 + Math.random() * 0.6); }, 95);
+  }
   await speakAsync(text, {
     force: true,
     pitch,
@@ -117,6 +122,7 @@ export async function narrate({ key, text, persona = "", el = null, onLevel = nu
       light(k);
     },
   });
+  clearInterval(flap);
   if (onLevel) onLevel(0);
   finish();
 }

@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-633",
-      "emoji": "🧳",
+      "emoji": "🧳📷",
       "kidDefinition": "A person who visits a place on holiday.",
       "examples": [
         "The tourist took a photo of the old bridge.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-638",
-      "emoji": "🎁",
+      "emoji": "🗼🎁",
       "kidDefinition": "A small thing you buy to remember a place.",
       "examples": [
         "I bought a souvenir of a red lighthouse.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-635",
-      "emoji": "🛖",
+      "emoji": "🛖🌲",
       "kidDefinition": "A small wooden house, often in the forest.",
       "examples": [
         "The wooden cabin had two small rooms.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-636",
-      "emoji": "🔥",
+      "emoji": "🪵🔥",
       "kidDefinition": "A fire outdoors, used for cooking and warmth.",
       "examples": [
         "We sang songs around the campfire at night.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-637",
-      "emoji": "🥾",
+      "emoji": "🥾⛰️",
       "kidDefinition": "Walking for a long time on hills or mountains.",
       "examples": [
         "On Sunday, we went hiking up a big hill.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-630",
-      "emoji": "📝",
+      "emoji": "📝❓",
       "kidDefinition": "A list of questions people answer to give information.",
       "examples": [
         "Please fill in this questionnaire about your holidays.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-632",
-      "emoji": "📊",
+      "emoji": "🏃➡️🏆",
       "kidDefinition": "What happens because of something, like the end of a game.",
       "examples": [
         "The result of the game was a big surprise.",
@@ -217,19 +217,63 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love exploring the world."
+          "text": "Hello, friends! I am Lingo, and I love exploring the world.",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "world"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Have you ever slept in a tent under the stars?"
+          "text": "Have you ever slept in a tent under the stars?",
+          "props": [
+            {
+              "emoji": "⛺",
+              "label": "tent"
+            },
+            {
+              "emoji": "⭐⭐⭐",
+              "label": "stars"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some people travel to see old castles. Others go hiking in the mountains."
+          "text": "Some people travel to see old castles. Others go hiking in the mountains.",
+          "props": [
+            {
+              "emoji": "🏰",
+              "label": "castle"
+            },
+            {
+              "emoji": "🥾",
+              "label": "hiking"
+            },
+            {
+              "emoji": "⛰️",
+              "label": "mountain"
+            },
+            {
+              "emoji": "✈️",
+              "label": "travel"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we ask a big question: why do we travel?"
+          "text": "Today we ask a big question: why do we travel?",
+          "props": [
+            {
+              "emoji": "✈️",
+              "label": "travel"
+            },
+            {
+              "emoji": "❓",
+              "label": "question"
+            }
+          ]
         }
       ],
       "question": {
@@ -270,6 +314,32 @@
               "who": "maya"
             }
           ],
+          "props": [
+            {
+              "emoji": "⛺",
+              "label": "camping"
+            },
+            {
+              "emoji": "🛖",
+              "label": "cabin"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "river"
+            },
+            {
+              "emoji": "🥾",
+              "label": "hiking"
+            },
+            {
+              "emoji": "🪵",
+              "label": "wood"
+            },
+            {
+              "emoji": "🔥",
+              "label": "campfire"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Leo and Maya are going camping in the forest."
@@ -304,6 +374,32 @@
               "who": "maya"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏰",
+              "label": "castle"
+            },
+            {
+              "emoji": "👥",
+              "label": "tourists"
+            },
+            {
+              "emoji": "📷",
+              "label": "photos"
+            },
+            {
+              "emoji": "✈️",
+              "label": "travel"
+            },
+            {
+              "emoji": "🎁",
+              "label": "souvenir"
+            },
+            {
+              "emoji": "👵",
+              "label": "grandma"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "In the village, they stop in front of an old castle."
@@ -317,7 +413,7 @@
             {
               "id": "p2b",
               "who": "leo",
-              "text": "I love to travel and learn. I will buy a souvenir for my grandma."
+              "text": "I love to travel. I will buy a souvenir for my grandma."
             }
           ],
           "highlight": [
@@ -329,7 +425,7 @@
         },
         {
           "id": "p3",
-          "backdrop": "classroom",
+          "backdrop": "school",
           "characters": [
             {
               "who": "leo"
@@ -338,9 +434,35 @@
               "who": "maya"
             }
           ],
+          "props": [
+            {
+              "emoji": "📝",
+              "label": "questionnaire"
+            },
+            {
+              "emoji": "✈️",
+              "label": "travel"
+            },
+            {
+              "emoji": "🧑🧑🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "📚",
+              "label": "learn"
+            },
+            {
+              "emoji": "🏃➡️🏆",
+              "label": "result"
+            },
+            {
+              "emoji": "😊",
+              "label": "happy"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "Back at school, the class answers a travel questionnaire."
+            "text": "Back at school, they answer a travel questionnaire."
           },
           "speech": [
             {
@@ -351,7 +473,7 @@
             {
               "id": "p3b",
               "who": "leo",
-              "text": "The result is clear. Travel makes people happy and curious."
+              "text": "The result is clear. Travel makes people happy."
             }
           ],
           "highlight": [
@@ -369,16 +491,22 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-629",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "countries"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "When I grow up, I want to ____ to many different countries."
           },
           "options": [
-            "cook",
             "travel",
-            "sleep"
+            "analyze",
+            "camping"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c1e",
             "text": "Travel is the verb for going to other places."
@@ -410,7 +538,7 @@
           "wordId": "CPP3-U5-SB-636",
           "prompt": {
             "id": "c3q",
-            "text": "Which picture shows a campfire?"
+            "text": "Which picture shows a fire outdoors for cooking and warmth?"
           },
           "options": [
             "CPP3-U5-SB-636",
@@ -427,14 +555,28 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-633",
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "summer"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "city"
+            },
+            {
+              "emoji": "🗺️",
+              "label": "map"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Every summer, a ____ visits our city with a big map."
           },
           "options": [
             "tourist",
-            "teacher",
-            "driver"
+            "souvenir",
+            "castle"
           ],
           "answer": 0,
           "explain": {
@@ -446,9 +588,27 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP3-U5-SB-634",
+          "props": [
+            {
+              "emoji": "🏕️",
+              "label": "camping"
+            },
+            {
+              "emoji": "⛺",
+              "label": "tent"
+            },
+            {
+              "emoji": "🌳",
+              "label": "outdoors"
+            },
+            {
+              "emoji": "😄",
+              "label": "fun"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "Camping means sleeping in a tent outdoors, for fun."
+            "text": "Camping means staying outdoors, often in a tent, for fun."
           },
           "options": [
             "True",
@@ -466,7 +626,7 @@
           "wordId": "CPP3-U5-SB-637",
           "prompt": {
             "id": "c6q",
-            "text": "Which word is NOT something you do outdoors on a trip?"
+            "text": "Which word is NOT something you do?"
           },
           "options": [
             "hiking",
@@ -484,16 +644,26 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-638",
+          "props": [
+            {
+              "emoji": "🏪",
+              "label": "shop"
+            },
+            {
+              "emoji": "🧳",
+              "label": "trip"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "I bought a small ____ from the shop to remember our trip."
           },
           "options": [
-            "ticket",
-            "sandwich",
-            "souvenir"
+            "souvenir",
+            "questionnaire",
+            "result"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c7e",
             "text": "A souvenir is something you buy to remember a place."
@@ -503,14 +673,20 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-630",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "questions"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "Please answer all the questions in the ____."
           },
           "options": [
             "questionnaire",
-            "menu",
-            "calendar"
+            "souvenir",
+            "result"
           ],
           "answer": 0,
           "explain": {
@@ -522,14 +698,24 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-632",
+          "props": [
+            {
+              "emoji": "📝",
+              "label": "test"
+            },
+            {
+              "emoji": "👍",
+              "label": "good"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "The ____ of our test was very good."
           },
           "options": [
             "result",
-            "ladder",
-            "mirror"
+            "questionnaire",
+            "souvenir"
           ],
           "answer": 0,
           "explain": {
@@ -541,6 +727,28 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP3-U5-SB-635",
+          "props": [
+            {
+              "emoji": "🛖",
+              "label": "cabin"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "city"
+            },
+            {
+              "emoji": "🏨",
+              "label": "hotel"
+            },
+            {
+              "emoji": "🏢",
+              "label": "floors"
+            },
+            {
+              "emoji": "🌲",
+              "label": "forest"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "A cabin is a big city hotel with many floors."
@@ -588,7 +796,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I want to travel to Italy. I would like to go camping near a lake, because I love nature. I would buy a souvenir of a small blue boat."
+        "text": "I want to travel to Italy. On holiday, I would like to go camping near a lake, because I love nature. I would buy a souvenir of a small blue boat."
       }
     },
     {
@@ -619,5 +827,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

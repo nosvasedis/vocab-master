@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1034",
-      "emoji": "☀️",
+      "emoji": "☀️♻️",
       "kidDefinition": "Can be replaced again, so it never runs out.",
       "examples": [
         "Sun and wind are renewable sources of energy.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1035",
-      "emoji": "🪨",
+      "emoji": "🪨🚫♻️",
       "kidDefinition": "Will run out one day because it cannot be replaced.",
       "examples": [
         "Coal is a non-renewable fuel.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1033",
-      "emoji": "⛽",
+      "emoji": "🛢️",
       "kidDefinition": "A thick black liquid used for fuel.",
       "examples": [
         "Oil is a non-renewable fossil fuel.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1036",
-      "emoji": "🐷",
+      "emoji": "🐷🪙",
       "kidDefinition": "Keep something so you do not waste it.",
       "examples": [
         "We must save water and electricity every day.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1031",
-      "emoji": "🍲",
+      "emoji": "🍲🔥",
       "kidDefinition": "A kitchen machine that heats food very quickly.",
       "examples": [
         "Cynthia warmed her dinner in the micro-wave oven.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1029",
-      "emoji": "🏬",
+      "emoji": "🏬📱",
       "kidDefinition": "A shop that sells phones, tablets and computers.",
       "examples": [
         "I went to an electronics store to buy a new tablet.",
@@ -198,22 +198,80 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
+      "props": [
+        {
+          "emoji": "⚡",
+          "label": "electricity"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, everyone! I am Lingo, and I am a very sleepy owl."
+          "text": "Hello, everyone! I am Lingo, and I am a very sleepy owl.",
+          "props": [
+            {
+              "emoji": "😴",
+              "label": "sleepy"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Yesterday the lights went out at my house, and everything stopped!"
+          "text": "Yesterday the lights went out at my house, and everything stopped!",
+          "props": [
+            {
+              "emoji": "📅",
+              "label": "yesterday"
+            },
+            {
+              "emoji": "💡",
+              "label": "lights"
+            },
+            {
+              "emoji": "🏠",
+              "label": "house"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "No fridge, no computer, no microwave. It was very quiet and very dark."
+          "text": "No fridge, no computer, no microwave. It was very quiet and very dark.",
+          "props": [
+            {
+              "emoji": "🚫🧊",
+              "label": "fridge"
+            },
+            {
+              "emoji": "🚫💻",
+              "label": "computer"
+            },
+            {
+              "emoji": "🚫🍲",
+              "label": "microwave"
+            },
+            {
+              "emoji": "🔇",
+              "label": "quiet"
+            },
+            {
+              "emoji": "🌑",
+              "label": "dark"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we ask a big question: how important is electricity?"
+          "text": "Today we ask a big question: how important is electricity?",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "question"
+            },
+            {
+              "emoji": "⚡",
+              "label": "electricity"
+            }
+          ]
         }
       ],
       "question": {
@@ -245,6 +303,32 @@
         {
           "id": "p1",
           "backdrop": "kitchen",
+          "props": [
+            {
+              "emoji": "🥣",
+              "label": "soup"
+            },
+            {
+              "emoji": "🍲",
+              "label": "micro-wave oven"
+            },
+            {
+              "emoji": "⚡",
+              "label": "power"
+            },
+            {
+              "emoji": "💡",
+              "label": "light bulb"
+            },
+            {
+              "emoji": "🤤",
+              "label": "hungry"
+            },
+            {
+              "emoji": "🥶",
+              "label": "cold"
+            }
+          ],
           "characters": [
             {
               "who": "ana"
@@ -266,7 +350,7 @@
             {
               "id": "p1b",
               "who": "ana",
-              "text": "Maybe the power is off. Let's find a light bulb and check the lights."
+              "text": "Maybe the power is off. Let's check the light bulb."
             }
           ],
           "highlight": [
@@ -277,6 +361,28 @@
         {
           "id": "p2",
           "backdrop": "shop",
+          "props": [
+            {
+              "emoji": "🏬",
+              "label": "electronics store"
+            },
+            {
+              "emoji": "🔌",
+              "label": "charger"
+            },
+            {
+              "emoji": "📱",
+              "label": "tablet"
+            },
+            {
+              "emoji": "🔋",
+              "label": "battery"
+            },
+            {
+              "emoji": "📱📱",
+              "label": "phone"
+            }
+          ],
           "characters": [
             {
               "who": "ana"
@@ -287,7 +393,7 @@
           ],
           "caption": {
             "id": "p2c",
-            "text": "The next day, they visit an electronics store to buy a battery pack."
+            "text": "The next day, they visit an electronics store to buy a charger."
           },
           "speech": [
             {
@@ -309,6 +415,32 @@
         {
           "id": "p3",
           "backdrop": "garden",
+          "props": [
+            {
+              "emoji": "⚡",
+              "label": "energy"
+            },
+            {
+              "emoji": "🛢️",
+              "label": "oil"
+            },
+            {
+              "emoji": "🪨",
+              "label": "coal"
+            },
+            {
+              "emoji": "☀️",
+              "label": "sun"
+            },
+            {
+              "emoji": "💨",
+              "label": "wind"
+            },
+            {
+              "emoji": "🐷",
+              "label": "save"
+            }
+          ],
           "characters": [
             {
               "who": "ana"
@@ -322,7 +454,7 @@
           ],
           "caption": {
             "id": "p3c",
-            "text": "In the garden, they think about energy. Lingo the owl joins them on a branch."
+            "text": "In the garden, they think about energy. Lingo the owl joins them."
           },
           "speech": [
             {
@@ -373,25 +505,49 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1030",
+          "props": [
+            {
+              "emoji": "🧴",
+              "label": "plastic"
+            },
+            {
+              "emoji": "🧱",
+              "label": "material"
+            },
+            {
+              "emoji": "🏭",
+              "label": "factory"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Plastic is a ____ material, because people make it in factories."
+            "text": "Plastic is a ____ material, because people make it in factories and it is not found in nature."
           },
           "options": [
-            "electronic",
             "renewable",
+            "non-renewable",
             "man-made"
           ],
           "answer": 2,
           "explain": {
             "id": "c2e",
-            "text": "Man-made means made by people, not by nature."
+            "text": "Man-made means made by people, not found in nature."
           }
         },
         {
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP3-U8-SB-1035",
+          "props": [
+            {
+              "emoji": "🛢️",
+              "label": "oil"
+            },
+            {
+              "emoji": "🪨",
+              "label": "coal"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Oil and coal are non-renewable, so one day they will run out."
@@ -434,21 +590,31 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "table",
-            "save",
-            "waste",
-            "keep"
+            "renewable",
+            "non-renewable",
+            "man-made",
+            "save"
           ],
-          "answer": 0,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "Save, waste and keep are verbs about using or keeping things, but table is a noun for furniture."
+            "text": "Save is an action; the others describe what materials or energy are like."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1032",
+          "props": [
+            {
+              "emoji": "📱",
+              "label": "tablet"
+            },
+            {
+              "emoji": "🔋",
+              "label": "battery"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "Please ____ your tablet tonight, because the battery is empty."
@@ -456,7 +622,8 @@
           "options": [
             "switch",
             "cook",
-            "charge"
+            "charge",
+            "save"
           ],
           "answer": 2,
           "explain": {
@@ -487,9 +654,23 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP3-U8-SB-1037",
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "light bulb"
+            },
+            {
+              "emoji": "🥛",
+              "label": "glass"
+            },
+            {
+              "emoji": "✋",
+              "label": "object"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "LED light bulbs are much greener than the old-fashioned ones."
+            "text": "A light bulb is the glass object that gives us light."
           },
           "options": [
             "True",
@@ -498,20 +679,30 @@
           "answer": 0,
           "explain": {
             "id": "c8e",
-            "text": "LED light bulbs are a greener choice for our planet."
+            "text": "A light bulb gives us light."
           }
         },
         {
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1029",
+          "props": [
+            {
+              "emoji": "📱",
+              "label": "tablet"
+            },
+            {
+              "emoji": "🔌",
+              "label": "charger"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "I went to the ____ to buy a new tablet and a charger."
           },
           "options": [
-            "library",
-            "bakery",
+            "micro-wave oven",
+            "light bulb",
             "electronics store"
           ],
           "answer": 2,
@@ -588,5 +779,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

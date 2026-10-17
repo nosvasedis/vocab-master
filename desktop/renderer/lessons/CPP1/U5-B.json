@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U5-SB-580",
-      "emoji": "🎀",
+      "emoji": "🪢",
       "kidDefinition": "To make a knot with laces or rope.",
       "examples": [
         "Please tie your shoelaces before you run.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-581",
-      "emoji": "🤲",
+      "emoji": "🤲⬆️",
       "kidDefinition": "To lift something up from the ground.",
       "examples": [
         "Please pick up your toys before dinner.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-584",
-      "emoji": "🏃",
+      "emoji": "🏃🏃",
       "kidDefinition": "A fast contest to see who wins.",
       "examples": [
         "We have a running race on Friday.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-585",
-      "emoji": "👟",
+      "emoji": "👟🪢",
       "kidDefinition": "A string that you tie to close your shoes.",
       "examples": [
         "My shoelace is untied again!",
@@ -165,7 +165,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-602",
-      "emoji": "🎳",
+      "emoji": "⚽💨",
       "kidDefinition": "To move by turning over and over.",
       "examples": [
         "The ball will roll down the hill.",
@@ -252,15 +252,37 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we go to the beach and then to the park."
+          "text": "Today we go to the beach and then to the park.",
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "We will meet Mia and Leo. They always have fun!"
+          "text": "We will meet Mia and Leo. They always have fun!",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -305,6 +327,20 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏰",
+              "label": "sandcastle"
+            },
+            {
+              "emoji": "👟",
+              "label": "shoelace"
+            },
+            {
+              "emoji": "🪢",
+              "label": "tie"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "On Saturday, Mia and Leo go to the beach."
@@ -313,12 +349,28 @@
             {
               "id": "p1a",
               "who": "mia",
-              "text": "Let's build a big sandcastle!"
+              "text": "Let's build a big sandcastle!",
+              "props": [
+                {
+                  "emoji": "🏰",
+                  "label": "sandcastle"
+                }
+              ]
             },
             {
               "id": "p1b",
               "who": "leo",
-              "text": "Wait, I need to tie my shoelace first."
+              "text": "Wait, I need to tie my shoelace first.",
+              "props": [
+                {
+                  "emoji": "🪢",
+                  "label": "tie"
+                },
+                {
+                  "emoji": "👟",
+                  "label": "shoelace"
+                }
+              ]
             }
           ],
           "highlight": [
@@ -336,6 +388,16 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🗑️🗑️",
+              "label": "trash"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "sand"
             }
           ],
           "caption": {
@@ -370,6 +432,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐚",
+              "label": "shell"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "sand"
+            },
+            {
+              "emoji": "🏰",
+              "label": "sandcastle"
+            },
+            {
+              "emoji": "🤩",
+              "label": "amazing"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Leo finds a pretty shell in the sand."
@@ -400,6 +480,20 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏃🏃",
+              "label": "race"
+            },
+            {
+              "emoji": "🛝",
+              "label": "swings"
+            },
+            {
+              "emoji": "👟",
+              "label": "shoelace"
             }
           ],
           "caption": {
@@ -434,6 +528,20 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪀",
+              "label": "yo-yo"
+            },
+            {
+              "emoji": "🎒",
+              "label": "bag"
+            },
+            {
+              "emoji": "🤩",
+              "label": "amazing"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Leo takes an old yo-yo out of his bag."
@@ -442,12 +550,28 @@
             {
               "id": "p5a",
               "who": "leo",
-              "text": "Try it! You roll it down and pull it up."
+              "text": "Try it! You roll it down and pull it up.",
+              "props": [
+                {
+                  "emoji": "🪀",
+                  "label": "yo-yo"
+                }
+              ]
             },
             {
               "id": "p5b",
               "who": "mia",
-              "text": "Amazing! This yo-yo is so much fun!"
+              "text": "Amazing! This yo-yo is so much fun!",
+              "props": [
+                {
+                  "emoji": "🪀",
+                  "label": "yo-yo"
+                },
+                {
+                  "emoji": "🤩",
+                  "label": "amazing"
+                }
+              ]
             }
           ],
           "highlight": [
@@ -466,6 +590,16 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-580",
+          "props": [
+            {
+              "emoji": "🪢",
+              "label": "rope"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "Can you ____ this rope to the tree, please?"
@@ -473,8 +607,8 @@
           "options": [
             "tie",
             "catch",
-            "sing",
-            "write"
+            "write",
+            "roll"
           ],
           "answer": 0,
           "explain": {
@@ -506,18 +640,32 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U5-SB-586",
+          "props": [
+            {
+              "emoji": "👧👦",
+              "label": "Mia and Leo"
+            },
+            {
+              "emoji": "🗑️",
+              "label": "trash"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "sand"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "Mia and Leo leave their trash on the sand."
+            "text": "Mia and Leo pick up the trash on the sand."
           },
           "options": [
             "True",
             "False"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "False, because Leo says they must pick up the trash and keep the beach clean."
+            "text": "True, because they pick up the trash to keep the beach clean."
           }
         },
         {
@@ -526,7 +674,7 @@
           "wordId": "CPP1-U5-SB-581",
           "prompt": {
             "id": "c4q",
-            "text": "Listen to the words. Which one means to lift something up from the ground?"
+            "text": "Listen and tap the word: pick up."
           },
           "options": [
             "CPP1-U5-SB-581",
@@ -544,6 +692,12 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-584",
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "We have a running ____ at school next week."
@@ -564,9 +718,23 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-588",
+          "props": [
+            {
+              "emoji": "🏖️",
+              "label": "beach"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sea"
+            },
+            {
+              "emoji": "🐾",
+              "label": "animal"
+            }
+          ],
           "prompt": {
             "id": "c6q",
-            "text": "We found a pretty ____ on the beach."
+            "text": "We found a pretty ____ on the beach. It comes from a sea animal."
           },
           "options": [
             "shell",
@@ -584,6 +752,12 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-585",
+          "props": [
+            {
+              "emoji": "👟",
+              "label": "shoe"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "Oh no! My ____ is undone, so I might fall!"
@@ -630,23 +804,29 @@
           },
           "options": [
             "trash",
-            "amazing",
-            "wooden",
-            "rubber"
+            "shoelace",
+            "sandcastle",
+            "amazing"
           ],
-          "answer": 0,
+          "answer": 3,
           "explain": {
             "id": "c9e",
-            "text": "Amazing, wooden and rubber describe things, but trash is a noun, a thing itself."
+            "text": "Trash, shoelace and sandcastle are things, but amazing describes something."
           }
         },
         {
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-602",
+          "props": [
+            {
+              "emoji": "🪀",
+              "label": "yo-yo"
+            }
+          ],
           "prompt": {
             "id": "c10q",
-            "text": "You can ____ the yo-yo up and down."
+            "text": "You can ____ the yo-yo down and pull it up."
           },
           "options": [
             "write",
@@ -657,7 +837,7 @@
           "answer": 3,
           "explain": {
             "id": "c10e",
-            "text": "To roll means to move by turning over and over, and you can roll a yo-yo."
+            "text": "To roll means to move by turning over and over, and you roll a yo-yo down."
           }
         }
       ]
@@ -706,11 +886,31 @@
         },
         {
           "id": "l2",
-          "text": "You can tie, pick up, roll and race, just like Mia and Leo."
+          "text": "You can tie, pick up, roll and race, just like Mia and Leo.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "🏃🏃",
+              "label": "race"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Remember, we always pick up our trash and keep the beach clean!"
+          "text": "Remember, we always pick up our trash and keep the beach clean!",
+          "props": [
+            {
+              "emoji": "🗑️",
+              "label": "trash"
+            }
+          ]
         }
       ],
       "badge": {
@@ -728,5 +928,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

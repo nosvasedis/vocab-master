@@ -52,7 +52,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-970",
-      "emoji": "💗",
+      "emoji": "🤗",
       "kidDefinition": "Kind, and wants to look after people.",
       "examples": [
         "My best friend is a very caring person."
@@ -67,7 +67,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-968",
-      "emoji": "🎁",
+      "emoji": "🎁🤲",
       "kidDefinition": "Happy to give and share things with others.",
       "examples": [
         "My aunt was very generous and kind."
@@ -97,7 +97,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-966",
-      "emoji": "🛟",
+      "emoji": "🐈🛟",
       "kidDefinition": "To keep someone safe from danger.",
       "examples": [
         "The firefighter saved the cat from the tree."
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-972",
-      "emoji": "🧯",
+      "emoji": "🔥🧯",
       "kidDefinition": "To stop a fire from burning.",
       "examples": [
         "Firefighters put out fires quickly."
@@ -208,11 +208,31 @@
         },
         {
           "id": "l3",
-          "text": "Some heroes wear capes. Some heroes wear fire helmets."
+          "text": "Some heroes wear a cape. Some heroes wear a helmet.",
+          "props": [
+            {
+              "emoji": "🦸",
+              "label": "cape"
+            },
+            {
+              "emoji": "🪖",
+              "label": "helmet"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Some heroes are your friends, or your family."
+          "text": "Some heroes are your friends, or your family.",
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friends"
+            },
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "family"
+            }
+          ]
         },
         {
           "id": "l5",
@@ -254,6 +274,20 @@
               "who": "ben"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐈",
+              "label": "cat"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "🚨",
+              "label": "emergency"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "At the park, Ben sees a cat stuck in a tall tree."
@@ -279,6 +313,12 @@
             },
             {
               "who": "ben"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🐈",
+              "label": "cat"
             }
           ],
           "caption": {
@@ -312,13 +352,19 @@
             "id": "c1q",
             "text": "My dad is very ____. He isn't scared of anything!"
           },
-          "options": [
-            "tired",
-            "brave",
-            "sleepy",
-            "hungry"
+          "props": [
+            {
+              "emoji": "👨",
+              "label": "dad"
+            }
           ],
-          "answer": 1,
+          "options": [
+            "brave",
+            "caring",
+            "generous",
+            "helpful"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c1e",
             "text": "Brave means not scared, even when something is hard."
@@ -332,6 +378,12 @@
             "id": "c2q",
             "text": "Which word means to stop a fire from burning?"
           },
+          "props": [
+            {
+              "emoji": "🔥",
+              "label": "fire"
+            }
+          ],
           "options": [
             "CPP2-U8-SB-965",
             "CPP2-U8-SB-964",
@@ -373,15 +425,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "call",
-            "emergency",
-            "narrative",
-            "brave"
+            "brave",
+            "caring",
+            "generous",
+            "emergency"
           ],
           "answer": 3,
           "explain": {
             "id": "c4e",
-            "text": "Emergency, call and narrative are nouns, but brave is an adjective."
+            "text": "Brave, caring and generous describe people. Emergency is a situation, not a person."
           }
         },
         {
@@ -390,15 +442,29 @@
           "wordId": "CPP2-U8-SB-966",
           "prompt": {
             "id": "c5q",
-            "text": "The firefighter ____ the cat from the tree."
+            "text": "The firefighter ____ the cat. Now it is safe."
           },
-          "options": [
-            "slept",
-            "saved",
-            "painted",
-            "jumped"
+          "props": [
+            {
+              "emoji": "🧑‍🚒",
+              "label": "firefighter"
+            },
+            {
+              "emoji": "🐈",
+              "label": "cat"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            }
           ],
-          "answer": 1,
+          "options": [
+            "saved",
+            "put out",
+            "planted",
+            "called"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c5e",
             "text": "To save means to keep someone safe from danger."
@@ -412,6 +478,16 @@
             "id": "c6q",
             "text": "A call is a phone conversation with someone."
           },
+          "props": [
+            {
+              "emoji": "📞",
+              "label": "phone"
+            },
+            {
+              "emoji": "💬",
+              "label": "conversation"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -450,13 +526,23 @@
             "id": "c8q",
             "text": "The teacher read a long ____ about a brave dog."
           },
-          "options": [
-            "letter",
-            "narrative",
-            "picture",
-            "recipe"
+          "props": [
+            {
+              "emoji": "👩‍🏫",
+              "label": "teacher"
+            },
+            {
+              "emoji": "🐕",
+              "label": "dog"
+            }
           ],
-          "answer": 1,
+          "options": [
+            "emergency",
+            "call",
+            "narrative",
+            "audience"
+          ],
+          "answer": 2,
           "explain": {
             "id": "c8e",
             "text": "A narrative is a story that someone tells."
@@ -468,13 +554,23 @@
           "wordId": "CPP2-U8-SB-970",
           "prompt": {
             "id": "c9q",
-            "text": "My best friend is a very ____ person."
+            "text": "My best friend is a very ____ person. She is kind and always looks after people."
           },
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friend"
+            },
+            {
+              "emoji": "🧑",
+              "label": "person"
+            }
+          ],
           "options": [
             "caring",
-            "angry",
-            "sleepy",
-            "lazy"
+            "brave",
+            "generous",
+            "helpful"
           ],
           "answer": 0,
           "explain": {
@@ -488,13 +584,19 @@
           "wordId": "CPP2-U8-SB-969",
           "prompt": {
             "id": "c10q",
-            "text": "Our neighbour is very ____ when we need help."
+            "text": "Our neighbour is very ____. She is always ready to help other people."
           },
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "neighbour"
+            }
+          ],
           "options": [
             "helpful",
-            "sleepy",
-            "tall",
-            "noisy"
+            "brave",
+            "caring",
+            "generous"
           ],
           "answer": 0,
           "explain": {
@@ -531,7 +633,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "My hero is my grandpa. He is very caring and helpful. He always helps our neighbours."
+        "text": "My hero is my grandpa. I think a hero is caring and helpful. My hero is my grandpa because he always helps our neighbours."
       }
     },
     {
@@ -562,5 +664,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

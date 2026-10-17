@@ -24,7 +24,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "home",
-      "hero": "👨‍👩‍👧",
+      "hero": "👩👨",
       "path": "CPP1/U1-A.json"
     },
     {
@@ -89,7 +89,7 @@
       "durationMin": 12,
       "focusCount": 7,
       "setting": "garden",
-      "hero": "🌱",
+      "hero": "🌱🐝",
       "path": "CPP1/U3-BQ.json"
     },
     {
@@ -102,7 +102,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "park",
-      "hero": "🌊",
+      "hero": "💧🌿",
       "path": "CPP1/U3-A.json"
     },
     {
@@ -115,7 +115,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "🪆",
+      "hero": "🎭🪆",
       "path": "CPP1/U3-B.json"
     },
     {
@@ -141,7 +141,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "playground",
-      "hero": "👯",
+      "hero": "👧🟰👦",
       "path": "CPP1/U4-A.json"
     },
     {
@@ -167,7 +167,7 @@
       "durationMin": 12,
       "focusCount": 8,
       "setting": "classroom",
-      "hero": "🎭",
+      "hero": "🐉🥢",
       "path": "CPP1/U5-BQ.json"
     },
     {
@@ -193,7 +193,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "beach",
-      "hero": "🎀",
+      "hero": "🪢",
       "path": "CPP1/U5-B.json"
     },
     {
@@ -206,7 +206,7 @@
       "durationMin": 12,
       "focusCount": 9,
       "setting": "classroom",
-      "hero": "🗣️",
+      "hero": "🗣️🗣️",
       "path": "CPP1/U6-BQ.json"
     },
     {
@@ -232,7 +232,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "park",
-      "hero": "🗑️",
+      "hero": "🧦👕",
       "path": "CPP1/U6-B.json"
     },
     {
@@ -245,7 +245,7 @@
       "durationMin": 12,
       "focusCount": 8,
       "setting": "farm",
-      "hero": "🥛",
+      "hero": "🐄➡️🥛",
       "path": "CPP1/U7-BQ.json"
     },
     {
@@ -310,7 +310,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "🫙",
+      "hero": "🥛🔝",
       "path": "CPP1/U8-B.json"
     },
     {
@@ -323,7 +323,7 @@
       "durationMin": 12,
       "focusCount": 8,
       "setting": "classroom",
-      "hero": "👚",
+      "hero": "👕👖👗",
       "path": "CPP1/U9-BQ.json"
     },
     {
@@ -388,7 +388,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "city",
-      "hero": "🛣️",
+      "hero": "🏠🛣️🏪",
       "path": "CPP2/U1-B.json"
     },
     {
@@ -414,7 +414,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "kitchen",
-      "hero": "⚖️",
+      "hero": "🔍🎂🎂",
       "path": "CPP2/U2-A.json"
     },
     {
@@ -440,7 +440,7 @@
       "durationMin": 12,
       "focusCount": 9,
       "setting": "classroom",
-      "hero": "🍎",
+      "hero": "🍎🥦🍞",
       "path": "CPP2/U3-BQ.json"
     },
     {
@@ -492,7 +492,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "village",
-      "hero": "❄️",
+      "hero": "🏔️❄️",
       "path": "CPP2/U4-A.json"
     },
     {
@@ -505,7 +505,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "🌾",
+      "hero": "🌾☀️",
       "path": "CPP2/U4-B.json"
     },
     {
@@ -531,7 +531,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "🕺",
+      "hero": "🕺➡️",
       "path": "CPP2/U5-A.json"
     },
     {
@@ -544,7 +544,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "village",
-      "hero": "🥀",
+      "hero": "🪫",
       "path": "CPP2/U5-B.json"
     },
     {
@@ -570,7 +570,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "💡",
+      "hero": "💡⭐",
       "path": "CPP2/U6-A.json"
     },
     {
@@ -609,7 +609,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "home",
-      "hero": "🪙",
+      "hero": "🪙🪙🪙",
       "path": "CPP2/U7-A.json"
     },
     {
@@ -622,7 +622,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "home",
-      "hero": "📄",
+      "hero": "📄🔢",
       "path": "CPP2/U7-B.json"
     },
     {
@@ -648,7 +648,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "home",
-      "hero": "🖼️",
+      "hero": "🖼️📝",
       "path": "CPP2/U8-A.json"
     },
     {
@@ -661,7 +661,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "park",
-      "hero": "🔴",
+      "hero": "🔴🔴🔴",
       "path": "CPP2/U8-B.json"
     },
     {
@@ -674,7 +674,7 @@
       "durationMin": 12,
       "focusCount": 8,
       "setting": "classroom",
-      "hero": "💡",
+      "hero": "💡🛠️",
       "path": "CPP2/U9-BQ.json"
     },
     {
@@ -687,7 +687,7 @@
       "durationMin": 22,
       "focusCount": 8,
       "setting": "home",
-      "hero": "💡",
+      "hero": "🛠️💡",
       "path": "CPP2/U9-A.json"
     },
     {
@@ -713,7 +713,7 @@
       "durationMin": 12,
       "focusCount": 8,
       "setting": "street",
-      "hero": "🏘",
+      "hero": "🧑🧑🏘",
       "path": "CPP3/U1-BQ.json"
     },
     {
@@ -739,7 +739,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "park",
-      "hero": "🙈",
+      "hero": "🙈🌳",
       "path": "CPP3/U1-B.json"
     },
     {
@@ -765,7 +765,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "kitchen",
-      "hero": "📊",
+      "hero": "⬜➡️⬜➡️⬜",
       "path": "CPP3/U2-A.json"
     },
     {
@@ -791,7 +791,7 @@
       "durationMin": 12,
       "focusCount": 10,
       "setting": "forest",
-      "hero": "🐶",
+      "hero": "🌱💧🤲",
       "path": "CPP3/U3-BQ.json"
     },
     {
@@ -804,7 +804,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "beach",
-      "hero": "🗑",
+      "hero": "🗑️",
       "path": "CPP3/U3-A.json"
     },
     {
@@ -830,7 +830,7 @@
       "durationMin": 12,
       "focusCount": 8,
       "setting": "classroom",
-      "hero": "🗣️",
+      "hero": "🧠➡️🗣️",
       "path": "CPP3/U4-BQ.json"
     },
     {
@@ -843,7 +843,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "🎨",
+      "hero": "🧑‍🎨",
       "path": "CPP3/U4-A.json"
     },
     {
@@ -856,7 +856,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "🐦",
+      "hero": "🐦🌸",
       "path": "CPP3/U4-B.json"
     },
     {
@@ -908,7 +908,7 @@
       "durationMin": 12,
       "focusCount": 8,
       "setting": "playground",
-      "hero": "🤸",
+      "hero": "🏫🤸",
       "path": "CPP3/U6-BQ.json"
     },
     {
@@ -921,7 +921,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "park",
-      "hero": "🔢",
+      "hero": "1️⃣2️⃣3️⃣",
       "path": "CPP3/U6-A.json"
     },
     {
@@ -934,7 +934,7 @@
       "durationMin": 22,
       "focusCount": 8,
       "setting": "park",
-      "hero": "📣",
+      "hero": "👄💨",
       "path": "CPP3/U6-B.json"
     },
     {
@@ -973,7 +973,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "home",
-      "hero": "🧹",
+      "hero": "🪑🌫️",
       "path": "CPP3/U7-B.json"
     },
     {
@@ -1012,7 +1012,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "home",
-      "hero": "🔌",
+      "hero": "💡🚫",
       "path": "CPP3/U8-B.json"
     },
     {
@@ -1025,7 +1025,7 @@
       "durationMin": 12,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "🎸",
+      "hero": "🎸🎻🥁",
       "path": "CPP3/U9-BQ.json"
     },
     {
@@ -1038,7 +1038,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "classroom",
-      "hero": "💡",
+      "hero": "🎨🎵",
       "path": "CPP3/U9-A.json"
     },
     {
@@ -1051,7 +1051,7 @@
       "durationMin": 22,
       "focusCount": 10,
       "setting": "stage",
-      "hero": "🧑‍🎤",
+      "hero": "🧑🎻",
       "path": "CPP3/U9-B.json"
     }
   ]

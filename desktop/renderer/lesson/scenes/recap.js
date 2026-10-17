@@ -23,10 +23,9 @@ export default {
           ctx.mascot.setPose("talk");
           ctx.ui.innerHTML = `<div class="rc-parade">${ids.map((id) => {
             const w = ctx.words.get(id);
-            return `<button type="button" class="rc-word" data-id="${id}"><span>${ctx.pic(w.emoji)}</span><b>${ctx.esc(w.english)}</b></button>`;
+            return `<button type="button" class="rc-word" data-id="${id}"><span>${ctx.picFit(w.emoji, 84)}</span><b>${ctx.esc(w.english)}</b></button>`;
           }).join("")}</div>`;
           pop(ctx.ui.querySelectorAll(".rc-word"), { stagger: 0.09 });
-          floats.push(float(ctx.ui.querySelectorAll(".rc-word"), { amp: 8, duration: 2 }));
           ctx.ui.querySelectorAll(".rc-word").forEach((b) => b.addEventListener("click", () => ctx.sayWord(ctx.words.get(b.dataset.id))));
           for (const l of scene.lines || []) { if (!alive || !live()) break; await ctx.speakBubble(l, { sceneId: scene.id }); }
           return { auto: true };

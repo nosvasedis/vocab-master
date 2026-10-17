@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U3-SB-367",
-      "emoji": "🗑",
+      "emoji": "🗑️",
       "kidDefinition": "Things we throw away, like paper, bottles and bags.",
       "examples": [
         "Please put your trash in the bin.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-364",
-      "emoji": "🚮",
+      "emoji": "🗑️⬇️",
       "kidDefinition": "To drop or throw something away carelessly.",
       "examples": [
         "Please don't dump your trash on the beach.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-361",
-      "emoji": "🔍",
+      "emoji": "🔍🪼",
       "kidDefinition": "To recognise what something is or who someone is.",
       "examples": [
         "Can you identify this bird from its song?",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-368",
-      "emoji": "🥅",
+      "emoji": "🐟🕸️",
       "kidDefinition": "A big net used to catch fish.",
       "examples": [
         "A fishing net can trap sea turtles.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-366",
-      "emoji": "😣",
+      "emoji": "🪤😣",
       "kidDefinition": "To be unable to move or leave somewhere.",
       "examples": [
         "My shoe got stuck in the mud.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-371",
-      "emoji": "💥",
+      "emoji": "💥🐚",
       "kidDefinition": "To harm something so it is broken or spoilt.",
       "examples": [
         "Walking on the flowers will damage them.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-369",
-      "emoji": "🏃",
+      "emoji": "🏃💨",
       "kidDefinition": "To get free from a place or a trap.",
       "examples": [
         "The rabbit escaped through a hole in the fence.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-365",
-      "emoji": "🙈",
+      "emoji": "🙈❌",
       "kidDefinition": "Not on purpose; by accident.",
       "examples": [
         "I picked up your bag by mistake. Sorry!",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-373",
-      "emoji": "🚨",
+      "emoji": "🐢⚠️",
       "kidDefinition": "To put someone or something in danger.",
       "examples": [
         "Plastic bags can endanger sea animals.",
@@ -267,6 +267,32 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "beach",
+      "props": [
+        {
+          "emoji": "🦉",
+          "label": "Lingo"
+        },
+        {
+          "emoji": "🌊",
+          "label": "sea"
+        },
+        {
+          "emoji": "🗑️",
+          "label": "trash"
+        },
+        {
+          "emoji": "🐠",
+          "label": "animal"
+        },
+        {
+          "emoji": "🐢",
+          "label": "turtle"
+        },
+        {
+          "emoji": "📖",
+          "label": "words"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -278,7 +304,7 @@
         },
         {
           "id": "l3",
-          "text": "Today, you will meet a brave turtle and learn ten new words."
+          "text": "Today, you will meet a brave turtle and learn new words."
         }
       ],
       "question": {
@@ -319,6 +345,12 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🗑️🗑️",
+              "label": "trash"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "One sunny morning, Mia and Leo walked along the beach."
@@ -327,12 +359,12 @@
             {
               "id": "p1a",
               "who": "mia",
-              "text": "Look at all this trash! Why would anyone dump it here?"
+              "text": "Look at all this trash! Why did it get dumped here?"
             },
             {
               "id": "p1b",
               "who": "leo",
-              "text": "Some people are careless. Let's pick it up together."
+              "text": "That is not fair to the sea. Let's pick it up together."
             }
           ],
           "highlight": [
@@ -351,15 +383,25 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪼",
+              "label": "jellyfish"
+            },
+            {
+              "emoji": "🌊",
+              "label": "water"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Leo pointed at something moving in the shallow water."
+            "text": "Leo pointed at a jellyfish moving in the shallow water."
           },
           "speech": [
             {
               "id": "p2a",
               "who": "leo",
-              "text": "Mia, can you identify that creature? I think it is a jellyfish."
+              "text": "Mia, can you identify that? I think it is a jellyfish."
             },
             {
               "id": "p2b",
@@ -383,9 +425,27 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐢",
+              "label": "sea turtle"
+            },
+            {
+              "emoji": "🕸️",
+              "label": "fishing net"
+            },
+            {
+              "emoji": "🐚",
+              "label": "shell"
+            },
+            {
+              "emoji": "💥",
+              "label": "damage"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "Further along, they saw a sea turtle stuck in an old net."
+            "text": "Further along, they saw a sea turtle stuck in an old fishing net."
           },
           "speech": [
             {
@@ -416,6 +476,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🕸️",
+              "label": "net"
+            },
+            {
+              "emoji": "✂️",
+              "label": "scissors"
+            },
+            {
+              "emoji": "🐢",
+              "label": "turtle"
+            },
+            {
+              "emoji": "🌊",
+              "label": "waves"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Slowly, they cut the net. Then the turtle swam away into the waves."
@@ -429,7 +507,7 @@
             {
               "id": "p4b",
               "who": "mia",
-              "text": "Hooray! It can escape now and swim back to the sea!"
+              "text": "Hooray! It can escape now and swim free!"
             }
           ],
           "highlight": [
@@ -446,11 +524,43 @@
             },
             {
               "who": "ranger"
+            },
+            {
+              "who": "mia"
+            },
+            {
+              "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🗑️",
+              "label": "trash"
+            },
+            {
+              "emoji": "🕸️",
+              "label": "net"
+            },
+            {
+              "emoji": "🐠",
+              "label": "animal"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sea"
+            },
+            {
+              "emoji": "🐢",
+              "label": "turtle"
+            },
+            {
+              "emoji": "🦸",
+              "label": "heroes"
             }
           ],
           "caption": {
             "id": "p5c",
-            "text": "Later, the ranger explained the problem to the children."
+            "text": "Later, Ranger Nikos explained the problem to Mia and Leo."
           },
           "speech": [
             {
@@ -499,7 +609,7 @@
           "wordId": "CPP3-U3-SB-369",
           "prompt": {
             "id": "c2q",
-            "text": "Listen to the word and point to the right card."
+            "text": "Listen and choose the word: escape."
           },
           "options": [
             "CPP3-U3-SB-373",
@@ -517,14 +627,24 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-366",
+          "props": [
+            {
+              "emoji": "🐢",
+              "label": "turtle"
+            },
+            {
+              "emoji": "🕸️",
+              "label": "net"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "The little turtle ____ in the net and could not move."
           },
           "options": [
             "got stuck",
-            "sat down",
-            "went home"
+            "escaped",
+            "melted"
           ],
           "answer": 0,
           "explain": {
@@ -536,6 +656,20 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-367",
+          "props": [
+            {
+              "emoji": "🗑️",
+              "label": "trash"
+            },
+            {
+              "emoji": "🛍️",
+              "label": "bags"
+            },
+            {
+              "emoji": "🧴",
+              "label": "bottle"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Trash is things we throw away, like bags and bottles."
@@ -554,14 +688,24 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-368",
+          "props": [
+            {
+              "emoji": "🐢🐢",
+              "label": "sea turtles"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sea"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "Sea turtles can get caught in a ____ in the sea."
           },
           "options": [
             "fishing net",
-            "lighthouse",
-            "sandcastle"
+            "jellyfish",
+            "plankton"
           ],
           "answer": 0,
           "explain": {
@@ -593,13 +737,23 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-371",
+          "props": [
+            {
+              "emoji": "🐢",
+              "label": "turtle"
+            },
+            {
+              "emoji": "🪺",
+              "label": "nest"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "Be careful! You will ____ the turtle nest."
           },
           "options": [
-            "collect",
-            "decorate",
+            "identify",
+            "escape",
             "damage"
           ],
           "answer": 2,
@@ -612,6 +766,16 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-373",
+          "props": [
+            {
+              "emoji": "🐢",
+              "label": "turtle"
+            },
+            {
+              "emoji": "⚠️",
+              "label": "danger"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "To endanger something means to put it in danger."
@@ -630,9 +794,15 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-365",
+          "props": [
+            {
+              "emoji": "✏️",
+              "label": "pencil"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "I took your pencil ____. Sorry! Here it is."
+            "text": "I took your pencil ____. I did not mean to do it. Sorry!"
           },
           "options": [
             "by mistake",
@@ -649,16 +819,30 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-361",
+          "props": [
+            {
+              "emoji": "🪼",
+              "label": "jellyfish"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sea"
+            },
+            {
+              "emoji": "🐠",
+              "label": "animal"
+            }
+          ],
           "prompt": {
             "id": "c10q",
-            "text": "Can you ____ this sea animal? It is a jellyfish."
+            "text": "Can you ____ this sea animal? What is its name?"
           },
           "options": [
-            "imagine",
-            "ignore",
-            "identify"
+            "identify",
+            "endanger",
+            "escape"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c10e",
             "text": "To identify something means to recognise what it is."
@@ -693,7 +877,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I can pick up trash on the beach. I will never dump plastic in the sea. If I see a fishing net, I will tell an adult straight away."
+        "text": "I can pick up trash on the beach. I will never dump trash in the sea. If I see a fishing net, I will tell an adult straight away."
       }
     },
     {
@@ -728,5 +912,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

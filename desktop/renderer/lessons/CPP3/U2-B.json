@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-246",
-      "emoji": "🥕",
+      "emoji": "🥕🥚🥛",
       "kidDefinition": "the foods you need to make a recipe",
       "examples": [
         "Check the ingredients before you start cooking.",
@@ -91,7 +91,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-249",
-      "emoji": "🥫",
+      "emoji": "🚪🥫",
       "kidDefinition": "a cabinet with doors where you keep food",
       "examples": [
         "Open the cupboard and get the big plates.",
@@ -124,7 +124,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-257",
-      "emoji": "🥄",
+      "emoji": "🥄🥣",
       "kidDefinition": "to move food around in a pot with a spoon",
       "examples": [
         "Stir the milk slowly so it does not burn.",
@@ -157,7 +157,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-258",
-      "emoji": "🎂",
+      "emoji": "🎂✨",
       "kidDefinition": "to make something look pretty with extra things",
       "examples": [
         "We decorate the classroom for the school party.",
@@ -190,7 +190,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-280",
-      "emoji": "🎁",
+      "emoji": "🎁😲",
       "kidDefinition": "something unexpected that makes you happy",
       "examples": [
         "The party was a wonderful surprise for her.",
@@ -257,19 +257,51 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, I am Lingo, and I love cooking with my friends!"
+          "text": "Hello, I am Lingo, and I love cooking with my friends!",
+          "props": [
+            {
+              "emoji": "👧👦",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we are cooking a special meal in Jan's kitchen."
+          "text": "Today we are cooking a special meal in Jan's kitchen.",
+          "props": [
+            {
+              "emoji": "🍽️",
+              "label": "meal"
+            },
+            {
+              "emoji": "👧",
+              "label": "Jan"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Every family has a favourite dish for special days."
+          "text": "Every family has a favourite dish for special days.",
+          "props": [
+            {
+              "emoji": "👨👩👧",
+              "label": "family"
+            },
+            {
+              "emoji": "🍛",
+              "label": "dish"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's find out what food can do for us!"
+          "text": "Let's find out what food can do for us!",
+          "props": [
+            {
+              "emoji": "🍎🥦",
+              "label": "food"
+            }
+          ]
         }
       ],
       "question": {
@@ -310,6 +342,28 @@
               "who": "dad"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎁",
+              "label": "surprise"
+            },
+            {
+              "emoji": "👵",
+              "label": "Grandma"
+            },
+            {
+              "emoji": "🥕🥚🥛",
+              "label": "ingredients"
+            },
+            {
+              "emoji": "📝",
+              "label": "list"
+            },
+            {
+              "emoji": "🚪🥫",
+              "label": "cupboard"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Jan and her dad were planning a surprise for Grandma."
@@ -342,6 +396,32 @@
               "who": "jan"
             }
           ],
+          "props": [
+            {
+              "emoji": "🍲",
+              "label": "pot"
+            },
+            {
+              "emoji": "🚪🥫",
+              "label": "cupboard"
+            },
+            {
+              "emoji": "🍯",
+              "label": "honey"
+            },
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🌭🌭",
+              "label": "sausage"
+            },
+            {
+              "emoji": "🧑🧑🧑",
+              "label": "guests"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Dad took a big pot from the cupboard."
@@ -350,7 +430,7 @@
             {
               "id": "p2a",
               "who": "dad",
-              "text": "We need honey for the cake. Grandma loves it!"
+              "text": "We need honey for the cake."
             },
             {
               "id": "p2b",
@@ -371,6 +451,23 @@
           "characters": [
             {
               "who": "jan"
+            },
+            {
+              "who": "dad"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🥣",
+              "label": "mixture"
+            },
+            {
+              "emoji": "🍲",
+              "label": "pot"
+            },
+            {
+              "emoji": "🧂",
+              "label": "salty"
             }
           ],
           "caption": {
@@ -405,6 +502,16 @@
               "who": "dad"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🍓🍓",
+              "label": "strawberries"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Later, Jan was ready to finish the cake."
@@ -432,6 +539,12 @@
             },
             {
               "who": "dad"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🎁",
+              "label": "surprise"
             }
           ],
           "caption": {
@@ -463,6 +576,24 @@
               "who": "jan"
             }
           ],
+          "props": [
+            {
+              "emoji": "👨👩👧",
+              "label": "family"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "food"
+            },
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            },
+            {
+              "emoji": "🎉",
+              "label": "celebrate"
+            }
+          ],
           "caption": {
             "id": "p6c",
             "text": "Everyone sat down to eat and celebrate together."
@@ -490,7 +621,7 @@
           "wordId": "CPP3-U2-SB-245",
           "prompt": {
             "id": "c1q",
-            "text": "Find the picture of a sausage."
+            "text": "Find the picture of a long, thin meat food."
           },
           "options": [
             "CPP3-U2-SB-248",
@@ -501,7 +632,7 @@
           "answer": 3,
           "explain": {
             "id": "c1e",
-            "text": "A sausage is a long meat food, so look for the sausage picture."
+            "text": "A sausage is a long, thin meat food, so look for the sausage picture."
           }
         },
         {
@@ -528,29 +659,61 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-246",
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "recipe"
+            },
+            {
+              "emoji": "🥕🥚🥛",
+              "label": "food"
+            },
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "Check all the ____ of the recipe before you start cooking."
+            "text": "Dad read the recipe and checked all the ____ for the cake."
           },
           "options": [
-            "dessert",
-            "holidays",
             "ingredients",
-            "jackets"
+            "guests",
+            "options",
+            "signs"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "Ingredients are the foods you mix together in a recipe."
+            "text": "Ingredients are the foods you need to make a recipe."
           }
         },
         {
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U2-SB-248",
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            },
+            {
+              "emoji": "🌸🌸",
+              "label": "flowers"
+            },
+            {
+              "emoji": "🍯",
+              "label": "sweet, sticky food"
+            },
+            {
+              "emoji": "🍯",
+              "label": "honey"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "Honey is a sweet food that bees make."
+            "text": "Honey is a sweet, sticky food that bees make."
           },
           "options": [
             "True",
@@ -559,7 +722,7 @@
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "Bees make honey from flowers, and it is sweet and sticky."
+            "text": "Honey is a sweet, sticky food that bees make, so the statement is true."
           }
         },
         {
@@ -571,21 +734,31 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "fridge",
-            "cupboard",
-            "bed",
-            "pot"
+            "honey",
+            "sausage",
+            "dessert",
+            "cupboard"
           ],
-          "answer": 2,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "Cupboard, pot and fridge are kitchen things, but a bed is not."
+            "text": "Honey, sausage and dessert are foods, but a cupboard is a place to keep food."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-257",
+          "props": [
+            {
+              "emoji": "🥣",
+              "label": "soup"
+            },
+            {
+              "emoji": "🥄",
+              "label": "spoon"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "Please ____ the soup slowly with a big spoon."
@@ -608,7 +781,7 @@
           "wordId": "CPP3-U2-SB-251",
           "prompt": {
             "id": "c7q",
-            "text": "Find the picture of a pot."
+            "text": "Find the picture of a deep metal pan for cooking food on a stove."
           },
           "options": [
             "CPP3-U2-SB-251",
@@ -619,33 +792,53 @@
           "answer": 0,
           "explain": {
             "id": "c7e",
-            "text": "A pot is a deep pan for cooking soup and pasta."
+            "text": "A pot is a deep metal pan for cooking food on a stove."
           }
         },
         {
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-252",
+          "props": [
+            {
+              "emoji": "🥣",
+              "label": "soup"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "This soup is too ____. Please add some water."
           },
           "options": [
             "worried",
-            "fresh",
+            "unique",
             "brave",
             "salty"
           ],
           "answer": 3,
           "explain": {
             "id": "c8e",
-            "text": "Salty food tastes strong of salt, so we add water to help."
+            "text": "Food with too much salt needs water to help it taste better."
           }
         },
         {
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP3-U2-SB-258",
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "✨",
+              "label": "pretty"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "To decorate a cake means to make it look pretty."
@@ -664,6 +857,16 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-280",
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "party"
+            },
+            {
+              "emoji": "👵",
+              "label": "Grandma"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "We planned a big ____ party for Grandma. She was so happy!"
@@ -713,7 +916,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "For my birthday, my family and I cooked pasta with sausages. To make this dish, you need pasta and tomatoes. I like to decorate my food with fresh basil."
+        "text": "For my birthday, my family and I cooked sausages with honey. To make this dish, you need ingredients like flour and eggs. I like to decorate my food with bright strawberries."
       }
     },
     {
@@ -748,5 +951,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

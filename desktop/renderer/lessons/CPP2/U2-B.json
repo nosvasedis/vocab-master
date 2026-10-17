@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-214",
-      "emoji": "🔌",
+      "emoji": "💡🚫",
       "kidDefinition": "To make a light or machine stop working.",
       "examples": [
         "Turn off the TV before you go to sleep.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-215",
-      "emoji": "💰",
+      "emoji": "🦹",
       "kidDefinition": "A person who takes things that are not theirs.",
       "examples": [
         "The thief left a note on the door.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-224",
-      "emoji": "🥂",
+      "emoji": "🥂🎉",
       "kidDefinition": "A special party where people wear their best clothes.",
       "examples": [
         "Our neighbours have a fancy party every New Year.",
@@ -265,19 +265,67 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I'm Lingo, and I love celebrations."
+          "text": "Hello, friends! I'm Lingo, and I love celebrations.",
+          "props": [
+            {
+              "emoji": "🎉🎊",
+              "label": "celebrations"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Birthdays, New Year, weddings and festivals are special days."
+          "text": "Birthdays, New Year, weddings and festivals are special days.",
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "Birthdays"
+            },
+            {
+              "emoji": "🎆",
+              "label": "New Year"
+            },
+            {
+              "emoji": "👰",
+              "label": "weddings"
+            },
+            {
+              "emoji": "🏮",
+              "label": "festivals"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "On New Year's Eve, people have fancy parties and wear their best clothes."
+          "text": "On New Year's Eve, people have fancy parties and wear their best clothes.",
+          "props": [
+            {
+              "emoji": "🧑🧑🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "🥂🎉",
+              "label": "parties"
+            },
+            {
+              "emoji": "👔👗",
+              "label": "clothes"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "But sometimes, at a party, something strange happens!"
+          "text": "But sometimes, at a party, something strange happens!",
+          "props": [
+            {
+              "emoji": "🥂",
+              "label": "party"
+            },
+            {
+              "emoji": "❓",
+              "label": "strange"
+            }
+          ]
         }
       ],
       "question": {
@@ -318,6 +366,28 @@
               "who": "emilia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🥂🎉",
+              "label": "fancy party"
+            },
+            {
+              "emoji": "💎",
+              "label": "diamond"
+            },
+            {
+              "emoji": "📿❌",
+              "label": "necklace"
+            },
+            {
+              "emoji": "👩",
+              "label": "mum"
+            },
+            {
+              "emoji": "❓",
+              "label": "mystery"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "New Year's Eve. Helen and Emilia are at a fancy party at home."
@@ -351,6 +421,32 @@
               "who": "emilia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "house"
+            },
+            {
+              "emoji": "💡🚫",
+              "label": "lights"
+            },
+            {
+              "emoji": "🌑",
+              "label": "dark"
+            },
+            {
+              "emoji": "😨",
+              "label": "scared"
+            },
+            {
+              "emoji": "🕵️",
+              "label": "detectives"
+            },
+            {
+              "emoji": "💪",
+              "label": "brave"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Later, all the lights are off. The house is very dark."
@@ -382,9 +478,23 @@
               "who": "emilia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🔊",
+              "label": "noise"
+            },
+            {
+              "emoji": "🦹",
+              "label": "thief"
+            },
+            {
+              "emoji": "💡",
+              "label": "light"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "Suddenly, there is a strange sound in the kitchen."
+            "text": "Suddenly, there is a strange noise in the kitchen."
           },
           "speech": [
             {
@@ -413,6 +523,32 @@
             },
             {
               "who": "emilia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "light"
+            },
+            {
+              "emoji": "🕵️",
+              "label": "detective"
+            },
+            {
+              "emoji": "❓",
+              "label": "mystery"
+            },
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "📿",
+              "label": "necklace"
+            },
+            {
+              "emoji": "🦹",
+              "label": "thief"
             }
           ],
           "caption": {
@@ -447,6 +583,32 @@
               "who": "emilia"
             }
           ],
+          "props": [
+            {
+              "emoji": "❓✅",
+              "label": "mystery"
+            },
+            {
+              "emoji": "💡🚫",
+              "label": "lights"
+            },
+            {
+              "emoji": "🛏️",
+              "label": "bed"
+            },
+            {
+              "emoji": "📁",
+              "label": "case"
+            },
+            {
+              "emoji": "🎆",
+              "label": "New Year"
+            },
+            {
+              "emoji": "🕵️",
+              "label": "Detective"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "The mystery is solved. Helen smiles and turns off the lights."
@@ -479,13 +641,27 @@
           "wordId": "CPP2-U2-SB-211",
           "prompt": {
             "id": "c1q",
-            "text": "A ____ looks for clues and tries to solve mysteries."
+            "text": "A ____ is a person whose job is to look for clues and solve mysteries."
           },
+          "props": [
+            {
+              "emoji": "🔍",
+              "label": "clue"
+            },
+            {
+              "emoji": "🔍🔍",
+              "label": "clues"
+            },
+            {
+              "emoji": "❓❓",
+              "label": "mysteries"
+            }
+          ],
           "options": [
-            "patient",
+            "dentist",
             "detective",
-            "backyard",
-            "dentist"
+            "patient",
+            "daughter"
           ],
           "answer": 1,
           "explain": {
@@ -501,6 +677,20 @@
             "id": "c2q",
             "text": "If you are scared, you feel happy and calm."
           },
+          "props": [
+            {
+              "emoji": "😨",
+              "label": "scared"
+            },
+            {
+              "emoji": "😊",
+              "label": "happy"
+            },
+            {
+              "emoji": "😌",
+              "label": "calm"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -520,12 +710,12 @@
             "text": "Which phrase means to make a light start working?"
           },
           "options": [
-            "CPP2-U2-SB-213",
-            "CPP2-U2-SB-216",
             "CPP2-U2-SB-214",
-            "CPP2-U2-SB-218"
+            "CPP2-U2-SB-218",
+            "CPP2-U2-SB-213",
+            "CPP2-U2-SB-220"
           ],
-          "answer": 0,
+          "answer": 2,
           "explain": {
             "id": "c3e",
             "text": "When you turn on a light, it starts shining in the room."
@@ -537,17 +727,31 @@
           "wordId": "CPP2-U2-SB-214",
           "prompt": {
             "id": "c4q",
-            "text": "Please ____ the light before you go to sleep."
+            "text": "Please ____ the light so the room is dark before you go to sleep."
           },
-          "options": [
-            "hold hands",
-            "turn off",
-            "run away"
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "light"
+            },
+            {
+              "emoji": "🛏️",
+              "label": "sleep"
+            },
+            {
+              "emoji": "🚪",
+              "label": "room"
+            }
           ],
-          "answer": 1,
+          "options": [
+            "turn on",
+            "pay attention to",
+            "turn off"
+          ],
+          "answer": 2,
           "explain": {
             "id": "c4e",
-            "text": "Turn off means make a light stop working, like at bedtime."
+            "text": "Turn off means make a light stop working, so the room is dark."
           }
         },
         {
@@ -598,9 +802,19 @@
             "id": "c7q",
             "text": "Helen wants to ____ the mystery of the missing necklace."
           },
+          "props": [
+            {
+              "emoji": "📿",
+              "label": "necklace"
+            },
+            {
+              "emoji": "❓",
+              "label": "mystery"
+            }
+          ],
           "options": [
             "glue",
-            "hug",
+            "sign",
             "solve",
             "fold"
           ],
@@ -616,16 +830,22 @@
           "wordId": "CPP2-U2-SB-219",
           "prompt": {
             "id": "c8q",
-            "text": "A mystery is something nobody can explain yet."
+            "text": "A mystery is something everyone can explain easily."
           },
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "mystery"
+            }
+          ],
           "options": [
             "True",
             "False"
           ],
-          "answer": 0,
+          "answer": 1,
           "explain": {
             "id": "c8e",
-            "text": "A mystery is strange and nobody knows the answer yet."
+            "text": "A mystery is strange, and nobody can explain it yet."
           }
         },
         {
@@ -637,12 +857,12 @@
             "text": "Which word means to look carefully for clues to find the truth?"
           },
           "options": [
-            "CPP2-U2-SB-221",
-            "CPP2-U2-SB-215",
-            "CPP2-U2-SB-224",
-            "CPP2-U2-SB-220"
+            "CPP2-U2-SB-218",
+            "CPP2-U2-SB-213",
+            "CPP2-U2-SB-220",
+            "CPP2-U2-SB-214"
           ],
-          "answer": 3,
+          "answer": 2,
           "explain": {
             "id": "c9e",
             "text": "When you investigate, you search carefully for clues."
@@ -656,13 +876,19 @@
             "id": "c10q",
             "text": "On New Year's Eve, we have a ____ and wear our best clothes."
           },
-          "options": [
-            "dentist",
-            "backyard",
-            "garden gloves",
-            "fancy party"
+          "props": [
+            {
+              "emoji": "👔👗",
+              "label": "clothes"
+            }
           ],
-          "answer": 3,
+          "options": [
+            "thief",
+            "noise",
+            "fancy party",
+            "mystery"
+          ],
+          "answer": 2,
           "explain": {
             "id": "c10e",
             "text": "A fancy party is a special celebration where everyone wears their best clothes."
@@ -710,7 +936,7 @@
         },
         {
           "id": "l2",
-          "text": "Now you can talk about parties, noises, and clues in English!"
+          "text": "Now you can talk about parties, noises and mysteries in English!"
         },
         {
           "id": "l3",
@@ -732,5 +958,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

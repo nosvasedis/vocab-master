@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-211",
-      "emoji": "📜",
+      "emoji": "🪑🕸️",
       "kidDefinition": "Used for a long time. Not new.",
       "examples": [
         "This old book is very interesting.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-218",
-      "emoji": "🌈",
+      "emoji": "☀️",
       "kidDefinition": "Full of light or very strong colour.",
       "examples": [
         "Sunflowers are bright yellow.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-214",
-      "emoji": "📚",
+      "emoji": "📚🏛️",
       "kidDefinition": "A room with many books you can borrow.",
       "examples": [
         "We borrow books from the library on Friday.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-219",
-      "emoji": "🏷️",
+      "emoji": "📖🏷️",
       "kidDefinition": "The name of a book or story.",
       "examples": [
         "What is the title of this book?",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-216",
-      "emoji": "💬",
+      "emoji": "👀💬",
       "kidDefinition": "To say what something or someone is like.",
       "examples": [
         "Can you describe your best friend?",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-236",
-      "emoji": "🕛",
+      "emoji": "🕛🍽️",
       "kidDefinition": "A time in the day when you stop and eat.",
       "examples": [
         "At lunch break, we eat in the school yard.",
@@ -256,6 +256,32 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "school",
+      "props": [
+        {
+          "emoji": "🎒",
+          "label": "bag"
+        },
+        {
+          "emoji": "🚪",
+          "label": "room"
+        },
+        {
+          "emoji": "🍱",
+          "label": "lunch"
+        },
+        {
+          "emoji": "📚",
+          "label": "books"
+        },
+        {
+          "emoji": "👧👦",
+          "label": "friends"
+        },
+        {
+          "emoji": "💡",
+          "label": "ideas"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -276,7 +302,7 @@
       ],
       "question": {
         "id": "q",
-        "text": "What is in your schoolbag today?"
+        "text": "What is in your bag today?"
       }
     },
     {
@@ -312,9 +338,23 @@
               "who": "bob"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎒",
+              "label": "schoolbag"
+            },
+            {
+              "emoji": "🎒",
+              "label": "bag"
+            },
+            {
+              "emoji": "🔵",
+              "label": "blue"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "Monica walks into school with a new bag."
+            "text": "Monica walks into school with a new schoolbag."
           },
           "speech": [
             {
@@ -337,13 +377,39 @@
         },
         {
           "id": "p2",
-          "backdrop": "school",
+          "backdrop": "library",
           "characters": [
             {
               "who": "monica"
             },
             {
               "who": "bob"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📚🏛️",
+              "label": "library"
+            },
+            {
+              "emoji": "📖",
+              "label": "book"
+            },
+            {
+              "emoji": "🏷️",
+              "label": "title"
+            },
+            {
+              "emoji": "🦁",
+              "label": "lion"
+            },
+            {
+              "emoji": "🌸",
+              "label": "flower"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
             }
           ],
           "caption": {
@@ -376,6 +442,20 @@
             },
             {
               "who": "bob"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🖼️🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "📖",
+              "label": "book"
+            },
+            {
+              "emoji": "🌈",
+              "label": "bright"
             }
           ],
           "caption": {
@@ -411,6 +491,32 @@
               "who": "bob"
             }
           ],
+          "props": [
+            {
+              "emoji": "🕛",
+              "label": "lunch break"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "🥪",
+              "label": "sandwich"
+            },
+            {
+              "emoji": "🧀",
+              "label": "cheese"
+            },
+            {
+              "emoji": "🍱",
+              "label": "lunch"
+            },
+            {
+              "emoji": "🍎🍌",
+              "label": "food"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "At lunch break, the friends sit under a big tree."
@@ -434,7 +540,7 @@
         },
         {
           "id": "p5",
-          "backdrop": "school",
+          "backdrop": "playground",
           "characters": [
             {
               "who": "lingo"
@@ -444,6 +550,28 @@
             },
             {
               "who": "bob"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌿",
+              "label": "branch"
+            },
+            {
+              "emoji": "🎒🎒",
+              "label": "bags"
+            },
+            {
+              "emoji": "📚",
+              "label": "books"
+            },
+            {
+              "emoji": "🍱",
+              "label": "lunch"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
             }
           ],
           "caption": {
@@ -471,12 +599,18 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP1-U2-SB-210",
+          "props": [
+            {
+              "emoji": "🎒",
+              "label": "schoolbag"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "This is my ____ schoolbag. I got it today!"
           },
           "options": [
-            "bright",
+            "sad",
             "old",
             "new"
           ],
@@ -490,25 +624,45 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP1-U2-SB-211",
+          "props": [
+            {
+              "emoji": "🎒",
+              "label": "bag"
+            },
+            {
+              "emoji": "🕳️",
+              "label": "hole"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Bob's ____ bag has a small hole in it."
+            "text": "Bob has used his bag for ten years. His ____ bag has a small hole in it."
           },
           "options": [
             "old",
-            "sad",
-            "wonderful"
+            "new",
+            "sad"
           ],
           "answer": 0,
           "explain": {
             "id": "c2e",
-            "text": "A bag with a hole has been used for a long time, so it is old."
+            "text": "A bag used for ten years is old, not new."
           }
         },
         {
           "id": "c3",
           "kind": "pickPicture",
           "wordId": "CPP1-U2-SB-217",
+          "props": [
+            {
+              "emoji": "📚",
+              "label": "books"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Find the picture: the bag you carry your books in to school."
@@ -529,9 +683,15 @@
           "id": "c4",
           "kind": "listen",
           "wordId": "CPP1-U2-SB-214",
+          "props": [
+            {
+              "emoji": "📚",
+              "label": "books"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "Listen and choose: which place has many books you can borrow?"
+            "text": "Listen and choose: library."
           },
           "options": [
             "CPP1-U2-SB-219",
@@ -542,13 +702,23 @@
           "answer": 3,
           "explain": {
             "id": "c4e",
-            "text": "You can borrow books at the library, which is a room full of books."
+            "text": "Library is a room with many books you can borrow."
           }
         },
         {
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP1-U2-SB-219",
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "book"
+            },
+            {
+              "emoji": "🏷️",
+              "label": "title"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "The title of a book is its name."
@@ -572,21 +742,31 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "sandwich",
-            "bright",
             "library",
-            "title"
+            "title",
+            "schoolbag",
+            "bright"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c6e",
-            "text": "Bright is an adjective, while the other three words are nouns."
+            "text": "Library, title and schoolbag are nouns. Bright tells you what something is like, so it is the odd one out."
           }
         },
         {
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U2-SB-216",
+          "props": [
+            {
+              "emoji": "🚪",
+              "label": "room"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "Can you ____ your favourite room at home?"
@@ -606,9 +786,15 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U2-SB-231",
+          "props": [
+            {
+              "emoji": "🏞️",
+              "label": "park"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "What a ____ day! Let's go to the park."
+            "text": "I am so happy. What a ____ day!"
           },
           "options": [
             "old",
@@ -625,6 +811,16 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP1-U2-SB-236",
+          "props": [
+            {
+              "emoji": "🕛",
+              "label": "lunch break"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "Lunch break is the time to start school in the morning."
@@ -643,6 +839,16 @@
           "id": "c10",
           "kind": "pickPicture",
           "wordId": "CPP1-U2-SB-224",
+          "props": [
+            {
+              "emoji": "🍞🍞",
+              "label": "bread"
+            },
+            {
+              "emoji": "🍎🍌",
+              "label": "food"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "Find the picture: two slices of bread with food inside."
@@ -727,5 +933,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

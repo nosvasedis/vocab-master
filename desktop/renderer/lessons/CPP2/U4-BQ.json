@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-448",
-      "emoji": "🔄",
+      "emoji": "🍃➡️🍂",
       "kidDefinition": "To become different from how something was before.",
       "examples": [
         "Leaves change colour in autumn.",
@@ -187,19 +187,71 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love looking at our world."
+          "text": "Hello, friends! I am Lingo, and I love looking at our world.",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "world"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Our world is big. It has mountains, rivers, lakes and beaches."
+          "text": "Our world is big. It has mountains, rivers, lakes and beaches.",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "world"
+            },
+            {
+              "emoji": "⛰️⛰️",
+              "label": "mountains"
+            },
+            {
+              "emoji": "🌊🌊",
+              "label": "rivers"
+            },
+            {
+              "emoji": "🦆💧",
+              "label": "lake"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "beaches"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Sometimes the sky is sunny. Sometimes it is cold and wet."
+          "text": "Sometimes the sky is sunny. Sometimes it is cold and wet.",
+          "props": [
+            {
+              "emoji": "🌤️",
+              "label": "sky"
+            },
+            {
+              "emoji": "☀️",
+              "label": "sunny"
+            },
+            {
+              "emoji": "🌧️",
+              "label": "wet"
+            },
+            {
+              "emoji": "🥶",
+              "label": "cold"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Our planet is always changing. Can you see the changes?"
+          "text": "Our planet is always changing. Can you see the changes?",
+          "props": [
+            {
+              "emoji": "🪐",
+              "label": "planet"
+            }
+          ]
         }
       ],
       "question": {
@@ -232,7 +284,7 @@
           "wordId": "CPP2-U4-SB-447",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the picture of a planet that goes around the Sun."
+            "text": "Point to the picture of a huge round world that moves around a star."
           },
           "options": [
             "CPP2-U4-SB-459",
@@ -254,12 +306,18 @@
             "id": "c2q",
             "text": "Our planet can ____ slowly over a long time."
           },
-          "options": [
-            "open",
-            "change",
-            "close"
+          "props": [
+            {
+              "emoji": "🪐",
+              "label": "planet"
+            }
           ],
-          "answer": 1,
+          "options": [
+            "change",
+            "clarify",
+            "describe"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c2e",
             "text": "To change means to become different from how something was before."
@@ -273,6 +331,28 @@
             "id": "c3q",
             "text": "Weather is the sky and air outside, like sunny, rainy or cold."
           },
+          "props": [
+            {
+              "emoji": "🌤️",
+              "label": "sky"
+            },
+            {
+              "emoji": "💨",
+              "label": "air"
+            },
+            {
+              "emoji": "☀️",
+              "label": "sunny"
+            },
+            {
+              "emoji": "🌧️",
+              "label": "rainy"
+            },
+            {
+              "emoji": "❄️",
+              "label": "cold"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -292,15 +372,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "lake",
-            "river",
-            "sandwich",
-            "sea"
+            "mountain",
+            "volcano",
+            "landscape",
+            "river"
           ],
-          "answer": 2,
+          "answer": 3,
           "explain": {
             "id": "c4e",
-            "text": "River, lake and sea are all places with water, but a sandwich is food."
+            "text": "Mountain, volcano and landscape are all land, but a river is water."
           }
         },
         {
@@ -309,12 +389,18 @@
           "wordId": "CPP2-U4-SB-459",
           "prompt": {
             "id": "c5q",
-            "text": "Listen: a very high place of land, with snow on the top. Which picture is it?"
+            "text": "Listen: mountain."
           },
+          "props": [
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            }
+          ],
           "options": [
             "CPP2-U4-SB-452",
             "CPP2-U4-SB-459",
-            "CPP2-U4-SB-460",
+            "CPP2-U4-SB-455",
             "CPP2-U4-SB-457"
           ],
           "answer": 1,
@@ -329,8 +415,18 @@
           "wordId": "CPP2-U4-SB-460",
           "prompt": {
             "id": "c6q",
-            "text": "A ____ can make hot lava come out of the ground."
+            "text": "Scientists watch the ____ carefully because hot lava can come out of its top."
           },
+          "props": [
+            {
+              "emoji": "🔥",
+              "label": "lava"
+            },
+            {
+              "emoji": "🧑‍🔬",
+              "label": "scientist"
+            }
+          ],
           "options": [
             "mountain",
             "volcano",
@@ -350,6 +446,24 @@
             "id": "c7q",
             "text": "Rain is water that falls from the clouds in the sky."
           },
+          "props": [
+            {
+              "emoji": "🌧️",
+              "label": "rain"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "☁️",
+              "label": "clouds"
+            },
+            {
+              "emoji": "🌤️",
+              "label": "sky"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -366,7 +480,7 @@
           "wordId": "CPP2-U4-SB-452",
           "prompt": {
             "id": "c8q",
-            "text": "Point to the picture of a landscape, with hills, fields and trees."
+            "text": "Point to the picture of all the land you can see around you."
           },
           "options": [
             "CPP2-U4-SB-454",
@@ -388,10 +502,20 @@
             "id": "c9q",
             "text": "What's the ____ like today? It is sunny and warm."
           },
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "sunny"
+            },
+            {
+              "emoji": "🌡️",
+              "label": "warm"
+            }
+          ],
           "options": [
             "weather",
-            "wonder",
-            "water"
+            "rain",
+            "river"
           ],
           "answer": 0,
           "explain": {
@@ -441,11 +565,35 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, everyone! You met planet, weather and volcano today."
+          "text": "Brilliant work, everyone! You met planet, weather and volcano today.",
+          "props": [
+            {
+              "emoji": "🪐",
+              "label": "planet"
+            },
+            {
+              "emoji": "⛅",
+              "label": "weather"
+            },
+            {
+              "emoji": "🌋",
+              "label": "volcano"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Our planet is changing, and you are ready to explore why."
+          "text": "Our planet is changing, and you are ready to explore why.",
+          "props": [
+            {
+              "emoji": "🪐",
+              "label": "planet"
+            },
+            {
+              "emoji": "🍃➡️🍂",
+              "label": "changing"
+            }
+          ]
         }
       ],
       "badge": {
@@ -459,9 +607,28 @@
         },
         {
           "id": "e2",
-          "text": "What is the difference between a mountain and a volcano?"
+          "text": "What is the difference between a mountain and a volcano?",
+          "props": [
+            {
+              "emoji": "⛰️",
+              "label": "mountain"
+            },
+            {
+              "emoji": "🌋",
+              "label": "volcano"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

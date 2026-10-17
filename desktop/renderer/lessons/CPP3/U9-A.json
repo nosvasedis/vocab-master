@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U9-SB-1144",
-      "emoji": "💡",
+      "emoji": "🎨🎵",
       "kidDefinition": "To make something new.",
       "examples": [
         "We can create music with a box and a stick.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1145",
-      "emoji": "🪵",
+      "emoji": "🫧",
       "kidDefinition": "Empty on the inside, with no solid middle.",
       "examples": [
         "A hollow tube makes a lovely sound when you blow into it.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1148",
-      "emoji": "🎉",
+      "emoji": "🎀⭐",
       "kidDefinition": "Covered with colours, pictures or nice things.",
       "examples": [
         "The old drum was decorated with pictures of wild animals.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1149",
-      "emoji": "🌙",
+      "emoji": "👶🌙",
       "kidDefinition": "A soft, gentle song to help a baby sleep.",
       "examples": [
         "Adrian sang a lullaby to the baby to help it fall asleep.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1157",
-      "emoji": "😊",
+      "emoji": "😊🗣️",
       "kidDefinition": "To show your feelings or ideas.",
       "examples": [
         "Monica prefers to express her feelings through music.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1150",
-      "emoji": "🎵",
+      "emoji": "🎵💨",
       "kidDefinition": "A small instrument you play by blowing into it.",
       "examples": [
         "The cowboy played a happy tune on his harmonica.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1151",
-      "emoji": "🎻",
+      "emoji": "🎻⬇️",
       "kidDefinition": "A very large, deep string instrument.",
       "examples": [
         "Wendy loves the sound the double bass makes, it is very deep.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1152",
-      "emoji": "🎼",
+      "emoji": "🪈⬆️",
       "kidDefinition": "A tiny flute that makes very high sounds.",
       "examples": [
         "Joanne plays the piccolo in our orchestra.",
@@ -242,24 +242,86 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love music."
+          "text": "Hello, friends! I am Lingo, and I love music.",
+          "props": [
+            {
+              "emoji": "🎶",
+              "label": "music"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Music is everywhere: at home, at school, and in the park."
+          "text": "Music is everywhere: at home, at school, and in the park.",
+          "props": [
+            {
+              "emoji": "🎶",
+              "label": "music"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🌳",
+              "label": "park"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some people sing a lullaby to a baby. Some people play in a band."
+          "text": "Some people sing a lullaby to a baby. Some people play in a band.",
+          "props": [
+            {
+              "emoji": "🌙",
+              "label": "lullaby"
+            },
+            {
+              "emoji": "👶",
+              "label": "baby"
+            },
+            {
+              "emoji": "🎸🥁",
+              "label": "band"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today, we will learn new words to talk about music and instruments."
+          "text": "Today, we will learn new words to talk about music and instruments.",
+          "props": [
+            {
+              "emoji": "🎶",
+              "label": "music"
+            },
+            {
+              "emoji": "🎸",
+              "label": "instrument"
+            },
+            {
+              "emoji": "📝",
+              "label": "words"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What song makes you feel happy?"
+        "text": "What song makes you feel happy?",
+        "props": [
+          {
+            "emoji": "🎶",
+            "label": "song"
+          },
+          {
+            "emoji": "😊",
+            "label": "happy"
+          }
+        ]
       }
     },
     {
@@ -295,6 +357,24 @@
               "who": "ms_lee"
             }
           ],
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "🧻",
+              "label": "tube"
+            },
+            {
+              "emoji": "🫘",
+              "label": "beans"
+            },
+            {
+              "emoji": "💡",
+              "label": "idea"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mason had an empty box and a big idea."
@@ -303,7 +383,13 @@
             {
               "id": "p1a",
               "who": "mason",
-              "text": "I want to create a song for my class today!"
+              "text": "I want to create a song today!",
+              "props": [
+                {
+                  "emoji": "🎶",
+                  "label": "song"
+                }
+              ]
             },
             {
               "id": "p1b",
@@ -325,6 +411,20 @@
               "who": "mason"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧻",
+              "label": "tube"
+            },
+            {
+              "emoji": "⭐⭐",
+              "label": "stars"
+            },
+            {
+              "emoji": "🟥⬜🟥",
+              "label": "stripe"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Mason decorated his tube with bright stars and stripes."
@@ -333,7 +433,7 @@
             {
               "id": "p2a",
               "who": "mason",
-              "text": "Look! My tube is decorated with shiny stars."
+              "text": "Look! My tube is decorated with stars."
             }
           ],
           "highlight": [
@@ -346,6 +446,28 @@
           "characters": [
             {
               "who": "mason"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🛏️",
+              "label": "bedtime"
+            },
+            {
+              "emoji": "🎶",
+              "label": "tune"
+            },
+            {
+              "emoji": "👧",
+              "label": "sister"
+            },
+            {
+              "emoji": "🌙",
+              "label": "lullaby"
+            },
+            {
+              "emoji": "😴",
+              "label": "sleep"
             }
           ],
           "caption": {
@@ -361,7 +483,17 @@
             {
               "id": "p3b",
               "who": "mason",
-              "text": "Music helps me express how I feel inside."
+              "text": "Music helps me express how I feel inside.",
+              "props": [
+                {
+                  "emoji": "🎶",
+                  "label": "music"
+                },
+                {
+                  "emoji": "😊",
+                  "label": "feel"
+                }
+              ]
             }
           ],
           "highlight": [
@@ -376,6 +508,32 @@
           "characters": [
             {
               "who": "ms_lee"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧑‍🎓🧑‍🎓🧑‍🎓",
+              "label": "class"
+            },
+            {
+              "emoji": "🎻🪈",
+              "label": "instrument"
+            },
+            {
+              "emoji": "🎻",
+              "label": "double bass"
+            },
+            {
+              "emoji": "🔊",
+              "label": "sound"
+            },
+            {
+              "emoji": "🪈",
+              "label": "piccolo"
+            },
+            {
+              "emoji": "🎵💨",
+              "label": "harmonica"
             }
           ],
           "caption": {
@@ -409,6 +567,28 @@
             },
             {
               "who": "ms_lee"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧻",
+              "label": "tube"
+            },
+            {
+              "emoji": "🎀⭐",
+              "label": "decorated"
+            },
+            {
+              "emoji": "👥",
+              "label": "everyone"
+            },
+            {
+              "emoji": "👏",
+              "label": "clapped"
+            },
+            {
+              "emoji": "🎶",
+              "label": "tune"
             }
           ],
           "caption": {
@@ -446,11 +626,21 @@
             "id": "c1q",
             "text": "Mason wants to ____ a song with a tube."
           },
+          "props": [
+            {
+              "emoji": "🧻",
+              "label": "tube"
+            },
+            {
+              "emoji": "🎶",
+              "label": "song"
+            }
+          ],
           "options": [
-            "forget",
+            "express",
             "create",
-            "break",
-            "wash"
+            "support",
+            "receive"
           ],
           "answer": 1,
           "explain": {
@@ -475,7 +665,7 @@
           "answer": 2,
           "explain": {
             "id": "c2e",
-            "text": "Hollow describes something empty inside, like a straw."
+            "text": "Hollow means empty on the inside, with no solid middle."
           }
         },
         {
@@ -484,7 +674,7 @@
           "wordId": "CPP3-U9-SB-1146",
           "prompt": {
             "id": "c3q",
-            "text": "Listen: This is a long, thin pipe, like a straw. Which word is it?"
+            "text": "Listen: tube. Which word did you hear?"
           },
           "options": [
             "CPP3-U9-SB-1146",
@@ -506,6 +696,16 @@
             "id": "c4q",
             "text": "Mason's tube was decorated with bright stars."
           },
+          "props": [
+            {
+              "emoji": "🧻",
+              "label": "tube"
+            },
+            {
+              "emoji": "⭐⭐⭐",
+              "label": "stars"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -513,7 +713,7 @@
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "In the story, Mason decorated his tube with shiny stars and stripes."
+            "text": "In the story, Mason decorated his tube with bright stars and stripes."
           }
         },
         {
@@ -524,6 +724,16 @@
             "id": "c5q",
             "text": "A lullaby is a loud, fast song for a party."
           },
+          "props": [
+            {
+              "emoji": "🌙",
+              "label": "lullaby"
+            },
+            {
+              "emoji": "🎉",
+              "label": "party"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -542,10 +752,20 @@
             "id": "c6q",
             "text": "Mason wants to ____ his feelings with music."
           },
+          "props": [
+            {
+              "emoji": "😊",
+              "label": "feelings"
+            },
+            {
+              "emoji": "🎶",
+              "label": "music"
+            }
+          ],
           "options": [
-            "hide",
-            "forget",
-            "ignore",
+            "create",
+            "support",
+            "receive",
             "express"
           ],
           "answer": 3,
@@ -564,14 +784,14 @@
           },
           "options": [
             "harmonica",
-            "trumpet",
-            "pencil",
-            "piccolo"
+            "piccolo",
+            "double bass",
+            "lullaby"
           ],
-          "answer": 2,
+          "answer": 3,
           "explain": {
             "id": "c7e",
-            "text": "Harmonica, piccolo and trumpet are instruments, but a pencil is not."
+            "text": "Harmonica, piccolo and double bass are instruments you play. A lullaby is a song."
           }
         },
         {
@@ -582,13 +802,23 @@
             "id": "c8q",
             "text": "The ____ is very large, and its sound is deep and warm."
           },
-          "options": [
-            "shadow",
-            "rocket",
-            "double bass",
-            "pencil"
+          "props": [
+            {
+              "emoji": "🐘",
+              "label": "large"
+            },
+            {
+              "emoji": "🔊",
+              "label": "sound"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "harmonica",
+            "piccolo",
+            "tune",
+            "double bass"
+          ],
+          "answer": 3,
           "explain": {
             "id": "c8e",
             "text": "The double bass is a very large string instrument with a deep sound."
@@ -602,6 +832,16 @@
             "id": "c9q",
             "text": "The piccolo plays very low, deep notes."
           },
+          "props": [
+            {
+              "emoji": "🪈",
+              "label": "piccolo"
+            },
+            {
+              "emoji": "🎶",
+              "label": "notes"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -620,11 +860,17 @@
             "id": "c10q",
             "text": "This ____ is lively, and it has a good rhythm."
           },
+          "props": [
+            {
+              "emoji": "🥁",
+              "label": "rhythm"
+            }
+          ],
           "options": [
             "tune",
-            "kitchen",
-            "shadow",
-            "pocket"
+            "lullaby",
+            "tube",
+            "harmonica"
           ],
           "answer": 0,
           "explain": {
@@ -674,7 +920,7 @@
         },
         {
           "id": "l2",
-          "text": "You can create, express and describe music like a true musician."
+          "text": "You can create and express music like a true musician."
         },
         {
           "id": "l3",
@@ -696,5 +942,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

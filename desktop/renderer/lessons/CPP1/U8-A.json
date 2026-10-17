@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-890",
-      "emoji": "🪖",
+      "emoji": "⛑️",
       "kidDefinition": "A hard hat that protects your head.",
       "examples": [
         "Tom puts on his helmet before the bike ride.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-893",
-      "emoji": "✅",
+      "emoji": "🏁",
       "kidDefinition": "Prepared and able to start now.",
       "examples": [
         "Ling is ready to paint her imaginary animal.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-897",
-      "emoji": "⏭️",
+      "emoji": "🕐➡️🕑",
       "kidDefinition": "After that; at a later time.",
       "examples": [
         "Cut the paper, then glue it on the helmet.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-896",
-      "emoji": "✂️",
+      "emoji": "✂️⭕",
       "kidDefinition": "Remove a shape by cutting it with scissors.",
       "examples": [
         "Please cut out a circle from the paper.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-919",
-      "emoji": "🧻",
+      "emoji": "📄✨",
       "kidDefinition": "Very thin paper that is soft and light.",
       "examples": [
         "The present is wrapped in pink tissue paper.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-920",
-      "emoji": "🤏",
+      "emoji": "📄✊",
       "kidDefinition": "To squeeze paper into a messy ball.",
       "examples": [
         "Crumple the paper into a ball, then open it up.",
@@ -253,10 +253,42 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "props": [
+        {
+          "emoji": "🚀",
+          "label": "rocket"
+        },
+        {
+          "emoji": "🌕",
+          "label": "moon"
+        },
+        {
+          "emoji": "🧑‍🚀",
+          "label": "astronaut"
+        },
+        {
+          "emoji": "⛑️",
+          "label": "helmet"
+        },
+        {
+          "emoji": "💭",
+          "label": "imagination"
+        },
+        {
+          "emoji": "🏁",
+          "label": "ready"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            }
+          ]
         },
         {
           "id": "l2",
@@ -313,6 +345,20 @@
               "who": "tom"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧑‍🚀",
+              "label": "astronaut"
+            },
+            {
+              "emoji": "🌌",
+              "label": "space"
+            },
+            {
+              "emoji": "⛑️",
+              "label": "helmet"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Ling wants to be an astronaut one day."
@@ -343,6 +389,24 @@
             },
             {
               "who": "tom"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🎨",
+              "label": "craft"
+            },
+            {
+              "emoji": "🧰",
+              "label": "materials"
+            },
+            {
+              "emoji": "📦",
+              "label": "cardboard"
+            },
+            {
+              "emoji": "🏁",
+              "label": "ready"
             }
           ],
           "caption": {
@@ -377,6 +441,28 @@
               "who": "ling"
             }
           ],
+          "props": [
+            {
+              "emoji": "✂️",
+              "label": "scissors"
+            },
+            {
+              "emoji": "⛑️",
+              "label": "helmet"
+            },
+            {
+              "emoji": "🔷",
+              "label": "shape"
+            },
+            {
+              "emoji": "🧴",
+              "label": "glue"
+            },
+            {
+              "emoji": "📄✨",
+              "label": "tissue paper"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Tom uses scissors. Next, he makes the helmet shape."
@@ -408,9 +494,23 @@
               "who": "ling"
             }
           ],
+          "props": [
+            {
+              "emoji": "☁️",
+              "label": "cloud"
+            },
+            {
+              "emoji": "📄✨",
+              "label": "tissue paper"
+            },
+            {
+              "emoji": "📄✊",
+              "label": "crumple"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "Ling makes a soft space cloud from paper."
+            "text": "Ling makes a soft cloud from tissue paper."
           },
           "speech": [
             {
@@ -430,6 +530,16 @@
           "characters": [
             {
               "who": "ling"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "⛑️",
+              "label": "helmet"
+            },
+            {
+              "emoji": "🧑‍🚀",
+              "label": "astronaut"
             }
           ],
           "caption": {
@@ -478,14 +588,20 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP1-U8-SB-890",
+          "props": [
+            {
+              "emoji": "🚲",
+              "label": "bike"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Tom puts on his ____ before the bike ride."
+            "text": "Tom puts on his ____ to keep his head safe before the bike ride."
           },
           "options": [
             "helmet",
-            "gloves",
-            "scarf"
+            "glue",
+            "tape"
           ],
           "answer": 0,
           "explain": {
@@ -497,17 +613,27 @@
           "id": "c3",
           "kind": "listen",
           "wordId": "CPP1-U8-SB-891",
+          "props": [
+            {
+              "emoji": "🧴",
+              "label": "glue"
+            },
+            {
+              "emoji": "🃏",
+              "label": "card"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Listen: 'Next, put the glue on the card.' Which word did you hear?"
           },
           "options": [
-            "CPP1-U8-SB-909",
             "CPP1-U8-SB-891",
             "CPP1-U8-SB-897",
-            "CPP1-U8-SB-894"
+            "CPP1-U8-SB-894",
+            "CPP1-U8-SB-893"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c3e",
             "text": "Next tells us the step that comes after the one before."
@@ -517,9 +643,15 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP1-U8-SB-894",
+          "props": [
+            {
+              "emoji": "📋",
+              "label": "list"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "The word 'first' tells us the very beginning step. True or false?"
+            "text": "The word 'first' is used for the very beginning of a list. True or false?"
           },
           "options": [
             "True",
@@ -555,16 +687,26 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U8-SB-897",
+          "props": [
+            {
+              "emoji": "🧍",
+              "label": "body"
+            },
+            {
+              "emoji": "👀",
+              "label": "eyes"
+            }
+          ],
           "prompt": {
             "id": "c6q",
-            "text": "Draw the body. ____, add two big eyes."
+            "text": "First, draw the body. Next, add the arms. ____, add two big eyes."
           },
           "options": [
-            "always",
-            "then",
-            "never"
+            "first",
+            "next",
+            "then"
           ],
-          "answer": 1,
+          "answer": 2,
           "explain": {
             "id": "c6e",
             "text": "Then means after that, at a later time."
@@ -574,6 +716,16 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U8-SB-896",
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "paper"
+            },
+            {
+              "emoji": "⭕",
+              "label": "circle"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "First, ____ a circle from the paper carefully."
@@ -593,9 +745,23 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP1-U8-SB-909",
+          "props": [
+            {
+              "emoji": "🧴",
+              "label": "bottle"
+            },
+            {
+              "emoji": "💧",
+              "label": "liquid"
+            },
+            {
+              "emoji": "✨",
+              "label": "glue"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "Glue is a sticky liquid used to join things together. True or false?"
+            "text": "Glue is a sticky liquid that joins things together. True or false?"
           },
           "options": [
             "True",
@@ -611,9 +777,15 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U8-SB-919",
+          "props": [
+            {
+              "emoji": "☁️",
+              "label": "cloud"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "Crumple some ____ and stick it on the roll."
+            "text": "Ling makes a soft cloud from some ____."
           },
           "options": [
             "cocoa",
@@ -630,6 +802,12 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP1-U8-SB-920",
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "paper"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "To crumple paper means to make it flat and smooth. True or false?"
@@ -686,7 +864,13 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, imagination superstars! You made a space helmet."
+          "text": "Brilliant work, imagination superstars! You made a space helmet.",
+          "props": [
+            {
+              "emoji": "⛑️",
+              "label": "helmet"
+            }
+          ]
         },
         {
           "id": "l2",
@@ -708,5 +892,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

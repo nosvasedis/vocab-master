@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-950",
-      "emoji": "🕳️",
+      "emoji": "🏖️🔽",
       "kidDefinition": "Hidden under the ground or sand.",
       "examples": [
         "My grandfather found a coin buried in his garden.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-952",
-      "emoji": "🚢",
+      "emoji": "🚢💥",
       "kidDefinition": "A ship that has been destroyed at sea.",
       "examples": [
         "Divers explored the shipwreck at the bottom of the bay.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-956",
-      "emoji": "🌊",
+      "emoji": "🌊⬇️",
       "kidDefinition": "To go down under water.",
       "examples": [
         "The stone will sink if you drop it in the pool.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-953",
-      "emoji": "⚰️",
+      "emoji": "🏺⚰️",
       "kidDefinition": "A place where a dead person is buried.",
       "examples": [
         "Explorers opened the old tomb very carefully.",
@@ -249,24 +249,94 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, explorers! I am Lingo, and I love learning about the past."
+          "text": "Hello, explorers! I am Lingo, and I love learning about the past.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            },
+            {
+              "emoji": "🔍",
+              "label": "explorers"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Long ago, people hid gold, coins and jewels in secret places."
+          "text": "Long ago, people hid gold, coins and jewels, and kept them secret.",
+          "props": [
+            {
+              "emoji": "🧑‍🤝‍🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "🥇",
+              "label": "gold"
+            },
+            {
+              "emoji": "🪙🪙",
+              "label": "coins"
+            },
+            {
+              "emoji": "💎💎",
+              "label": "jewels"
+            },
+            {
+              "emoji": "🤫",
+              "label": "secret"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Today, archaeologists still find amazing things under the ground."
+          "text": "Today, archaeologists still find amazing things under the ground.",
+          "props": [
+            {
+              "emoji": "🧑‍🔬",
+              "label": "archaeologists"
+            },
+            {
+              "emoji": "🟫",
+              "label": "ground"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Some treasures were lost at sea, and some were buried in old tombs."
+          "text": "Some treasures were lost at sea, and some were buried in old tombs.",
+          "props": [
+            {
+              "emoji": "💰",
+              "label": "treasure"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sea"
+            },
+            {
+              "emoji": "🏖️🔽",
+              "label": "buried"
+            },
+            {
+              "emoji": "⚰️",
+              "label": "tomb"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "If you found an old box under the sand, what would you hope was inside?"
+        "text": "If you found an old box under the sand, what would you hope was inside?",
+        "props": [
+          {
+            "emoji": "📦",
+            "label": "box"
+          },
+          {
+            "emoji": "🏖️",
+            "label": "sand"
+          }
+        ]
       }
     },
     {
@@ -302,6 +372,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "paper"
+            },
+            {
+              "emoji": "🗺️",
+              "label": "map"
+            },
+            {
+              "emoji": "💰",
+              "label": "treasure"
+            },
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            },
+            {
+              "emoji": "🏖️🔽",
+              "label": "buried"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "One sunny morning, Mia and Leo found a dusty paper on the beach."
@@ -332,6 +424,20 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            },
+            {
+              "emoji": "🏴‍☠️",
+              "label": "pirate"
+            },
+            {
+              "emoji": "🪏",
+              "label": "spade"
             }
           ],
           "caption": {
@@ -366,6 +472,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪏",
+              "label": "spade"
+            },
+            {
+              "emoji": "💎",
+              "label": "jewel"
+            },
+            {
+              "emoji": "🟫",
+              "label": "dirt"
+            },
+            {
+              "emoji": "💥",
+              "label": "break"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Mia dug and dug, until her spade hit something hard."
@@ -398,6 +522,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏖️",
+              "label": "sand"
+            },
+            {
+              "emoji": "🪖",
+              "label": "helmet"
+            },
+            {
+              "emoji": "🚢💥",
+              "label": "shipwreck"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sank"
+            },
+            {
+              "emoji": "🪨",
+              "label": "rocks"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Leo brushed away the sand and found an old helmet."
@@ -411,7 +557,7 @@
             {
               "id": "p4b",
               "who": "mia",
-              "text": "The ship probably sank long ago, near these rocks."
+              "text": "It probably sank long ago, near these rocks."
             }
           ],
           "highlight": [
@@ -432,6 +578,16 @@
             },
             {
               "who": "ruth"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "⚰️",
+              "label": "tomb"
             }
           ],
           "caption": {
@@ -506,15 +662,29 @@
           "wordId": "CPP3-U7-SB-945",
           "prompt": {
             "id": "c3q",
-            "text": "Archaeologists ____ carefully to find old coins."
+            "text": "Archaeologists ____ carefully in the dirt to find old coins."
           },
-          "options": [
-            "jump",
-            "climb",
-            "dig",
-            "carry"
+          "props": [
+            {
+              "emoji": "🧑‍🔬",
+              "label": "archaeologists"
+            },
+            {
+              "emoji": "🪙🪙",
+              "label": "coins"
+            },
+            {
+              "emoji": "🦕",
+              "label": "dirt"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "fight",
+            "rule",
+            "care",
+            "dig"
+          ],
+          "answer": 3,
           "explain": {
             "id": "c3e",
             "text": "Dig means to move earth with a spade or your hands."
@@ -526,8 +696,18 @@
           "wordId": "CPP3-U7-SB-950",
           "prompt": {
             "id": "c4q",
-            "text": "Something that is buried is hidden under the ground."
+            "text": "A box that is buried is hidden under the sand."
           },
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "sand"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -535,7 +715,7 @@
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "Buried means that something is covered and hidden, like sand over a box."
+            "text": "Buried means that something is covered and hidden, like a box under sand."
           }
         },
         {
@@ -544,13 +724,35 @@
           "wordId": "CPP3-U7-SB-951",
           "prompt": {
             "id": "c5q",
-            "text": "The ____ hid gold coins on a secret island long ago."
+            "text": "The ____ stole gold coins from ships and hid them on a secret island."
           },
+          "props": [
+            {
+              "emoji": "🥇",
+              "label": "gold"
+            },
+            {
+              "emoji": "🪙🪙",
+              "label": "coins"
+            },
+            {
+              "emoji": "🤫",
+              "label": "secret"
+            },
+            {
+              "emoji": "🏝️",
+              "label": "island"
+            },
+            {
+              "emoji": "🚢",
+              "label": "ship"
+            }
+          ],
           "options": [
-            "teacher",
+            "sailor",
             "pirate",
-            "farmer",
-            "baker"
+            "pharaoh",
+            "expert"
           ],
           "answer": 1,
           "explain": {
@@ -575,7 +777,7 @@
           "answer": 1,
           "explain": {
             "id": "c6e",
-            "text": "Sink is a verb, but the others are nouns you can hold."
+            "text": "Sink means to go down under water. The other words are things, not actions."
           }
         },
         {
@@ -604,12 +806,22 @@
           "wordId": "CPP3-U7-SB-953",
           "prompt": {
             "id": "c8q",
-            "text": "The ancient king rested in a stone ____ for thousands of years."
+            "text": "The ancient king was laid to rest in a stone ____ for thousands of years."
           },
+          "props": [
+            {
+              "emoji": "👑",
+              "label": "king"
+            },
+            {
+              "emoji": "🪨",
+              "label": "stone"
+            }
+          ],
           "options": [
-            "castle",
-            "cave",
-            "palace",
+            "pharaoh",
+            "excavation",
+            "shipwreck",
             "tomb"
           ],
           "answer": 3,
@@ -626,6 +838,24 @@
             "id": "c9q",
             "text": "A shipwreck is a new ship that is still sailing across the sea."
           },
+          "props": [
+            {
+              "emoji": "🚢",
+              "label": "ship"
+            },
+            {
+              "emoji": "🚢💥",
+              "label": "shipwreck"
+            },
+            {
+              "emoji": "🌊",
+              "label": "sea"
+            },
+            {
+              "emoji": "⛵",
+              "label": "sailing"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -644,6 +874,12 @@
             "id": "c10q",
             "text": "Ancient soldiers wore a bronze ____ to protect their heads."
           },
+          "props": [
+            {
+              "emoji": "💂",
+              "label": "soldiers"
+            }
+          ],
           "options": [
             "jewel",
             "tomb",
@@ -720,5 +956,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

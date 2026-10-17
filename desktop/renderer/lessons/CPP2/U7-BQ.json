@@ -220,28 +220,84 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love owls, books and free time."
+          "text": "Hello, friends! I am Lingo, and I love owls, books and free time.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owls"
+            },
+            {
+              "emoji": "📚",
+              "label": "books"
+            },
+            {
+              "emoji": "🕒",
+              "label": "free time"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we start a big question: why is free time important?"
+          "text": "Today we start a big question: why is free time important?",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "question"
+            },
+            {
+              "emoji": "🕒",
+              "label": "free time"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Sam loves video games."
+          "text": "Sam loves video games.",
+          "props": [
+            {
+              "emoji": "👦",
+              "label": "Sam"
+            },
+            {
+              "emoji": "🎮",
+              "label": "video game"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Maya writes in her diary every night."
+          "text": "Maya writes in her diary every night.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "📔",
+              "label": "diary"
+            }
+          ]
         },
         {
           "id": "l5",
-          "text": "Let's find out what you do when you are not at school!"
+          "text": "Let's find out what you do when you are not at school!",
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What do you like to do in your free time?"
+        "text": "What do you like to do in your free time?",
+        "props": [
+          {
+            "emoji": "🕒",
+            "label": "free time"
+          }
+        ]
       }
     },
     {
@@ -271,18 +327,32 @@
           "wordId": "CPP2-U7-SB-848",
           "prompt": {
             "id": "c1q",
-            "text": "I love reading books in my ____ after school."
+            "text": "I read books in my ____ because I have no school work."
           },
           "options": [
             "free time",
-            "homework",
-            "bedtime",
-            "lesson"
+            "activity",
+            "diary",
+            "survey"
           ],
           "answer": 0,
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "reading"
+            },
+            {
+              "emoji": "📚",
+              "label": "books"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            }
+          ],
           "explain": {
             "id": "c1e",
-            "text": "Free time is the time you can spend on things you enjoy."
+            "text": "Free time is time when you do what you like, not school work."
           }
         },
         {
@@ -317,6 +387,20 @@
             "False"
           ],
           "answer": 0,
+          "props": [
+            {
+              "emoji": "🏃",
+              "label": "activity"
+            },
+            {
+              "emoji": "🏊",
+              "label": "swimming"
+            },
+            {
+              "emoji": "🎨",
+              "label": "drawing"
+            }
+          ],
           "explain": {
             "id": "c3e",
             "text": "Swimming and drawing are both activities, so the answer is true."
@@ -328,18 +412,28 @@
           "wordId": "CPP2-U7-SB-852",
           "prompt": {
             "id": "c4q",
-            "text": "We did a class ____ about our favourite hobbies."
+            "text": "We did a class ____ to find out about our favourite hobbies."
           },
           "options": [
-            "ticket",
+            "diary",
             "survey",
-            "poster",
-            "holiday"
+            "movie",
+            "baseball"
           ],
           "answer": 1,
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "class"
+            },
+            {
+              "emoji": "🎨🎸",
+              "label": "hobbies"
+            }
+          ],
           "explain": {
             "id": "c4e",
-            "text": "A survey uses questions to find out what many people think or do."
+            "text": "A survey asks questions to find out what many people do."
           }
         },
         {
@@ -351,12 +445,22 @@
             "text": "A warm bath is very ____."
           },
           "options": [
-            "hungry",
+            "boring",
             "relaxing",
-            "noisy",
-            "cold"
+            "tiring",
+            "exciting"
           ],
           "answer": 1,
+          "props": [
+            {
+              "emoji": "🛁",
+              "label": "bath"
+            },
+            {
+              "emoji": "🔥",
+              "label": "warm"
+            }
+          ],
           "explain": {
             "id": "c5e",
             "text": "Relaxing means calm and peaceful, so a warm bath helps you feel good."
@@ -394,6 +498,20 @@
             "False"
           ],
           "answer": 1,
+          "props": [
+            {
+              "emoji": "🎬",
+              "label": "movie"
+            },
+            {
+              "emoji": "🍳",
+              "label": "cook"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "kitchen"
+            }
+          ],
           "explain": {
             "id": "c7e",
             "text": "A movie is a story you watch, not food you cook."
@@ -409,14 +527,14 @@
           },
           "options": [
             "baseball",
-            "cooking",
-            "tennis",
-            "basketball"
+            "exercise",
+            "cook",
+            "diary"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c8e",
-            "text": "Baseball, tennis and basketball are sports, but cooking is not."
+            "text": "Baseball, exercise and cook are things you do, but a diary is not."
           }
         },
         {
@@ -428,12 +546,26 @@
             "text": "My dad likes to ____ pasta on Sundays."
           },
           "options": [
-            "sleep",
+            "exercise",
             "cook",
-            "clean",
-            "dance"
+            "watch",
+            "play"
           ],
           "answer": 1,
+          "props": [
+            {
+              "emoji": "👨",
+              "label": "dad"
+            },
+            {
+              "emoji": "🍝",
+              "label": "pasta"
+            },
+            {
+              "emoji": "📅",
+              "label": "Sundays"
+            }
+          ],
           "explain": {
             "id": "c9e",
             "text": "To cook means to make food hot and ready to eat."
@@ -452,6 +584,16 @@
             "False"
           ],
           "answer": 1,
+          "props": [
+            {
+              "emoji": "💪",
+              "label": "exercise"
+            },
+            {
+              "emoji": "😴",
+              "label": "sleep"
+            }
+          ],
           "explain": {
             "id": "c10e",
             "text": "To exercise means to move your body, like running or jumping."
@@ -503,7 +645,13 @@
         },
         {
           "id": "l3",
-          "text": "Next time, we will explore Ancient Egypt. See you soon!"
+          "text": "Next time, we will explore Ancient Egypt. See you soon!",
+          "props": [
+            {
+              "emoji": "🏺",
+              "label": "Ancient Egypt"
+            }
+          ]
         }
       ],
       "badge": {
@@ -521,5 +669,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-71",
-      "emoji": "👕",
+      "emoji": "👕👖",
       "kidDefinition": "Soft clothes you wear to sleep in.",
       "examples": [
         "Put on your pajamas and go to bed.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-68",
-      "emoji": "👩",
+      "emoji": "👩👧",
       "kidDefinition": "The sister of your mum or dad.",
       "examples": [
         "My favourite aunt is my father's sister.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-89",
-      "emoji": "🧣",
+      "emoji": "🧣🔥",
       "kidDefinition": "Not cold, but not hot. Nice and cosy.",
       "examples": [
         "Drink some warm milk. It can help you sleep.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-85",
-      "emoji": "🐯",
+      "emoji": "🧸🐯",
       "kidDefinition": "A tiger that is a toy, for children to hug.",
       "examples": [
         "Tim has a toy tiger and he takes it everywhere.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-115",
-      "emoji": "🛌",
+      "emoji": "🛏️🚪",
       "kidDefinition": "The room in a house where you sleep.",
       "examples": [
         "Maria has her own bedroom.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-75",
-      "emoji": "📖",
+      "emoji": "🗣️📖",
       "kidDefinition": "To say a story out loud for someone to listen.",
       "examples": [
         "My grandfather tells me a story every evening.",
@@ -259,6 +259,16 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
+      "props": [
+        {
+          "emoji": "🌙",
+          "label": "bedtime"
+        },
+        {
+          "emoji": "👨👩👧",
+          "label": "family"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -266,7 +276,13 @@
         },
         {
           "id": "l2",
-          "text": "Today we visit Timmy at bedtime."
+          "text": "Today we visit Timmy at bedtime.",
+          "props": [
+            {
+              "emoji": "🧒",
+              "label": "Timmy"
+            }
+          ]
         },
         {
           "id": "l3",
@@ -279,7 +295,13 @@
       ],
       "question": {
         "id": "q",
-        "text": "What do you do before you go to bed?"
+        "text": "What do you do before you go to bed?",
+        "props": [
+          {
+            "emoji": "🛏️",
+            "label": "bed"
+          }
+        ]
       }
     },
     {
@@ -312,6 +334,20 @@
               "who": "timmy"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌙",
+              "label": "bedtime"
+            },
+            {
+              "emoji": "👕👖",
+              "label": "pajamas"
+            },
+            {
+              "emoji": "🛏️",
+              "label": "bed"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "It is bedtime. Timmy wears his pajamas."
@@ -338,6 +374,12 @@
             },
             {
               "who": "lena"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🚪",
+              "label": "door"
             }
           ],
           "caption": {
@@ -367,6 +409,23 @@
           "characters": [
             {
               "who": "lena"
+            },
+            {
+              "who": "timmy"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🥛",
+              "label": "milk"
+            },
+            {
+              "emoji": "🔥",
+              "label": "warm"
+            },
+            {
+              "emoji": "😴",
+              "label": "sleep"
             }
           ],
           "caption": {
@@ -387,13 +446,23 @@
         },
         {
           "id": "p4",
-          "backdrop": "home",
+          "backdrop": "bedroom",
           "characters": [
             {
               "who": "timmy"
             },
             {
               "who": "lena"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🛏️🚪",
+              "label": "bedroom"
+            },
+            {
+              "emoji": "🧸🐯",
+              "label": "toy tiger"
             }
           ],
           "caption": {
@@ -426,6 +495,20 @@
             },
             {
               "who": "timmy"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "story"
+            },
+            {
+              "emoji": "👸",
+              "label": "princess"
+            },
+            {
+              "emoji": "📅",
+              "label": "tomorrow"
             }
           ],
           "caption": {
@@ -462,11 +545,21 @@
             "id": "c1q",
             "text": "My mum's sister is my ____."
           },
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "mum"
+            },
+            {
+              "emoji": "👧",
+              "label": "sister"
+            }
+          ],
           "options": [
             "aunt",
             "uncle",
-            "bedroom",
-            "cousin"
+            "cousin",
+            "grandfather"
           ],
           "answer": 0,
           "explain": {
@@ -480,7 +573,7 @@
           "wordId": "CPP1-U1-SB-71",
           "prompt": {
             "id": "c2q",
-            "text": "Listen to the word: pajamas. Which card is it?"
+            "text": "Which card shows the soft clothes you wear to sleep in?"
           },
           "options": [
             "CPP1-U1-SB-115",
@@ -491,7 +584,7 @@
           "answer": 1,
           "explain": {
             "id": "c2e",
-            "text": "Pajamas are the soft clothes you wear to bed."
+            "text": "Pyjamas are the soft clothes you wear to bed."
           }
         },
         {
@@ -531,7 +624,7 @@
           "answer": 3,
           "explain": {
             "id": "c4e",
-            "text": "Aunt, uncle and cousin are people, but a bedroom is a place."
+            "text": "Uncle, aunt and cousin are family, but bedroom is a room."
           }
         },
         {
@@ -540,8 +633,14 @@
           "wordId": "CPP1-U1-SB-72",
           "prompt": {
             "id": "c5q",
-            "text": "Good night! I want to ____ now."
+            "text": "Good night! My eyes are closing. I want to ____ now."
           },
+          "props": [
+            {
+              "emoji": "🌙",
+              "label": "night"
+            }
+          ],
           "options": [
             "glue",
             "sleep",
@@ -560,8 +659,14 @@
           "wordId": "CPP1-U1-SB-74",
           "prompt": {
             "id": "c6q",
-            "text": "It is late. Time to ____."
+            "text": "It is late and I am too tired to talk. Time to ____."
           },
+          "props": [
+            {
+              "emoji": "🕙",
+              "label": "late"
+            }
+          ],
           "options": [
             "tell a story",
             "spend time",
@@ -582,11 +687,21 @@
             "id": "c7q",
             "text": "Aunt Lena will ____ about a brave princess."
           },
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "aunt"
+            },
+            {
+              "emoji": "👸",
+              "label": "princess"
+            }
+          ],
           "options": [
             "tell a story",
             "put on",
             "go to bed",
-            "draw a picture"
+            "spend time"
           ],
           "answer": 0,
           "explain": {
@@ -600,8 +715,18 @@
           "wordId": "CPP1-U1-SB-87",
           "prompt": {
             "id": "c8q",
-            "text": "When you miss someone, you feel happy they are here. True or false?"
+            "text": "When you miss someone, you feel happy because they are not here. True or false?"
           },
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "someone"
+            },
+            {
+              "emoji": "😊",
+              "label": "happy"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -618,7 +743,7 @@
           "wordId": "CPP1-U1-SB-89",
           "prompt": {
             "id": "c9q",
-            "text": "Listen to the word: warm. Which card is it?"
+            "text": "Which card shows not cold, but not hot?"
           },
           "options": [
             "CPP1-U1-SB-72",
@@ -638,13 +763,23 @@
           "wordId": "CPP1-U1-SB-70",
           "prompt": {
             "id": "c10q",
-            "text": "It is nine o'clock at night. Time for ____."
+            "text": "It is nine o'clock at night. I go to sleep now. It is ____."
           },
+          "props": [
+            {
+              "emoji": "🕘",
+              "label": "nine o'clock"
+            },
+            {
+              "emoji": "🌙",
+              "label": "night"
+            }
+          ],
           "options": [
             "bedtime",
             "bedroom",
-            "lunchtime",
-            "pajamas"
+            "pyjamas",
+            "toy tiger"
           ],
           "answer": 0,
           "explain": {
@@ -720,5 +855,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

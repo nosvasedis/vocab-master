@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U4-SB-554",
-      "emoji": "🐦",
+      "emoji": "🐦🌸",
       "kidDefinition": "A tiny bird that can hover in the air.",
       "examples": [
         "Hummingbirds are tiny but very colourful!",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-555",
-      "emoji": "🛍️",
+      "emoji": "🧴🛍️",
       "kidDefinition": "A light material used to make bottles and bags.",
       "examples": [
         "This water bottle is made of plastic.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-556",
-      "emoji": "🍾",
+      "emoji": "🧴🔴",
       "kidDefinition": "The round top you take off a bottle.",
       "examples": [
         "I found a red bottle cap on the beach.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-560",
-      "emoji": "🖼️",
+      "emoji": "🖼️🙂",
       "kidDefinition": "A picture of a person, especially their face.",
       "examples": [
         "The portrait of my grandmother hangs in our hall.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-600",
-      "emoji": "🎨",
+      "emoji": "🎨🖼️",
       "kidDefinition": "A stand that holds a painting or poster board.",
       "examples": [
         "Put the poster board on the easel.",
@@ -258,6 +258,28 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
+      "props": [
+        {
+          "emoji": "🖌️",
+          "label": "painting"
+        },
+        {
+          "emoji": "🗿",
+          "label": "sculpture"
+        },
+        {
+          "emoji": "🖼️",
+          "label": "picture"
+        },
+        {
+          "emoji": "🐦",
+          "label": "bird"
+        },
+        {
+          "emoji": "🧴🔴",
+          "label": "bottle cap"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -273,7 +295,17 @@
         },
         {
           "id": "l4",
-          "text": "Today we will meet two friends, Mia and Leo, and find out!"
+          "text": "Today we will meet two friends, Mia and Leo, and find out!",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            }
+          ]
         }
       ],
       "question": {
@@ -311,6 +343,12 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐦🌸",
+              "label": "hummingbird"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "In the garden, a tiny hummingbird zoomed past Mia's face."
@@ -337,6 +375,20 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧴🔴",
+              "label": "bottle cap"
+            },
+            {
+              "emoji": "🛍️",
+              "label": "plastic"
+            },
+            {
+              "emoji": "♻️",
+              "label": "recycling"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "At the beach, Leo found a bottle cap and a piece of plastic."
@@ -345,7 +397,7 @@
             {
               "id": "p2a",
               "who": "leo",
-              "text": "This plastic is bad for the sea. Let's start recycling today!"
+              "text": "This plastic is bad for the beach. Let's start recycling today!"
             },
             {
               "id": "p2b",
@@ -365,6 +417,28 @@
           "characters": [
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🎨🖼️",
+              "label": "easel"
+            },
+            {
+              "emoji": "🪟",
+              "label": "window"
+            },
+            {
+              "emoji": "🐦",
+              "label": "bird"
+            },
+            {
+              "emoji": "🪶",
+              "label": "feather"
+            },
+            {
+              "emoji": "✏️",
+              "label": "sketch"
             }
           ],
           "caption": {
@@ -393,6 +467,20 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🖼️🙂",
+              "label": "portrait"
+            },
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🧍",
+              "label": "model"
             }
           ],
           "caption": {
@@ -427,6 +515,32 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🎓",
+              "label": "ceremony"
+            },
+            {
+              "emoji": "🏆",
+              "label": "award"
+            },
+            {
+              "emoji": "🎊",
+              "label": "congratulations"
+            },
+            {
+              "emoji": "🎨",
+              "label": "art"
+            },
+            {
+              "emoji": "😮",
+              "label": "gasped"
             }
           ],
           "caption": {
@@ -482,19 +596,33 @@
           "wordId": "CPP3-U4-SB-555",
           "prompt": {
             "id": "c2q",
-            "text": "Please do not throw ____ bottles on the beach."
+            "text": "Please do not throw ____ on the beach. It is bad for the animals."
           },
           "options": [
-            "wooden",
-            "cotton",
-            "metal",
-            "plastic"
+            "feather",
+            "award",
+            "plastic",
+            "easel"
           ],
-          "answer": 3,
+          "answer": 2,
           "explain": {
             "id": "c2e",
-            "text": "Plastic is the light material that bottles and bags are often made of."
-          }
+            "text": "Plastic is the light material used to make bottles and bags, and it is bad for the beach."
+          },
+          "props": [
+            {
+              "emoji": "🧴🧴",
+              "label": "bottle"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "beach"
+            },
+            {
+              "emoji": "🐾",
+              "label": "animal"
+            }
+          ]
         },
         {
           "id": "c3",
@@ -532,7 +660,17 @@
           "explain": {
             "id": "c4e",
             "text": "Feathers are the soft, light parts that cover a bird, and Mia used one in her sketch."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🪶",
+              "label": "feather"
+            },
+            {
+              "emoji": "🐦",
+              "label": "bird"
+            }
+          ]
         },
         {
           "id": "c5",
@@ -544,15 +682,29 @@
           },
           "options": [
             "Recycling",
-            "Racing",
-            "Shouting",
-            "Sleeping"
+            "Sketching",
+            "Drawing",
+            "Clapping"
           ],
           "answer": 0,
           "explain": {
             "id": "c5e",
             "text": "Recycling means using old things again instead of throwing them away."
-          }
+          },
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "paper"
+            },
+            {
+              "emoji": "🧴🧴",
+              "label": "bottle"
+            },
+            {
+              "emoji": "🌍",
+              "label": "planet"
+            }
+          ]
         },
         {
           "id": "c6",
@@ -571,7 +723,7 @@
           "answer": 3,
           "explain": {
             "id": "c6e",
-            "text": "Ms Costa praised Mia's portrait of Leo, which showed his face."
+            "text": "Ms Costa liked Mia's portrait of Leo. It shows his face."
           }
         },
         {
@@ -580,19 +732,33 @@
           "wordId": "CPP3-U4-SB-600",
           "prompt": {
             "id": "c7q",
-            "text": "Mia put her poster board on the ____ by the window."
+            "text": "Mia used a stand by the window to hold her poster board. It was her ____."
           },
           "options": [
-            "shelf",
-            "ladder",
+            "stage",
+            "porch",
             "easel",
-            "stage"
+            "library"
           ],
           "answer": 2,
           "explain": {
             "id": "c7e",
             "text": "An easel is the stand that holds a poster board while you paint or draw."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🪧",
+              "label": "poster board"
+            },
+            {
+              "emoji": "🪟",
+              "label": "window"
+            },
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            }
+          ]
         },
         {
           "id": "c8",
@@ -609,8 +775,26 @@
           "answer": 1,
           "explain": {
             "id": "c8e",
-            "text": "Mia won the award, and Leo congratulated her on the stage."
-          }
+            "text": "Mia won the award at the school ceremony, not Leo."
+          },
+          "props": [
+            {
+              "emoji": "🏆",
+              "label": "award"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🎓",
+              "label": "ceremony"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            }
+          ]
         },
         {
           "id": "c9",
@@ -618,19 +802,33 @@
           "wordId": "CPP3-U4-SB-585",
           "prompt": {
             "id": "c9q",
-            "text": "When Ms Costa said her name, Mia ____ with surprise."
+            "text": "When Ms Costa said her name, Mia took a sudden breath because she was surprised. She ____."
           },
           "options": [
-            "slept",
-            "walked",
             "gasped",
-            "yawned"
+            "clapped",
+            "cheered",
+            "sketched"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c9e",
             "text": "When we gasp, we take a sudden breath because something surprises us."
-          }
+          },
+          "props": [
+            {
+              "emoji": "👩‍🏫",
+              "label": "Ms Costa"
+            },
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🎼",
+              "label": "breath"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -641,15 +839,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "clap",
-            "paint",
             "sketch",
-            "draw"
+            "clap",
+            "cheer",
+            "gasp"
           ],
           "answer": 0,
           "explain": {
             "id": "c10e",
-            "text": "Sketch, draw and paint are art actions, but clap is a sound action, not an art action."
+            "text": "Clap, cheer and gasp are actions at a show or ceremony. Sketch means to draw, so it is the odd one out."
           }
         }
       ]
@@ -716,5 +914,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

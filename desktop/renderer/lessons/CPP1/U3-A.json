@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U3-SB-304",
-      "emoji": "🌊",
+      "emoji": "💧🌿",
       "kidDefinition": "A small lake with water, where plants and animals live.",
       "examples": [
         "There is a pond near my house.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-311",
-      "emoji": "🐣",
+      "emoji": "🐸👶",
       "kidDefinition": "A baby frog that lives in water.",
       "examples": [
         "Frog babies are called tadpoles.",
@@ -104,8 +104,8 @@
     },
     {
       "wordId": "CPP1-U3-SB-308",
-      "emoji": "🪰",
-      "kidDefinition": "A insect with long wings that flies over water.",
+      "emoji": "🪽🪰",
+      "kidDefinition": "An insect with long wings that flies over water.",
       "examples": [
         "Dragonflies are many different colours.",
         "A dragonfly flies over the pond."
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-323",
-      "emoji": "👂",
+      "emoji": "👂🎵",
       "kidDefinition": "To know a sound come into your ears.",
       "examples": [
         "Can you hear a noise?",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-295",
-      "emoji": "🤔",
+      "emoji": "🤔💡",
       "kidDefinition": "To understand something or find the answer.",
       "examples": [
         "Can you figure out what the story is about?",
@@ -243,6 +243,20 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
+      "props": [
+        {
+          "emoji": "💧🌿",
+          "label": "pond"
+        },
+        {
+          "emoji": "🪨",
+          "label": "rock"
+        },
+        {
+          "emoji": "🏠",
+          "label": "home"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -302,6 +316,12 @@
               "who": "lingo"
             }
           ],
+          "props": [
+            {
+              "emoji": "💧🌿",
+              "label": "pond"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Nikos and Eleni walk to the pond in the park."
@@ -331,6 +351,16 @@
             },
             {
               "who": "lingo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            },
+            {
+              "emoji": "🐸",
+              "label": "frog"
             }
           ],
           "caption": {
@@ -363,6 +393,24 @@
             },
             {
               "who": "lingo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "💦",
+              "label": "splash"
+            },
+            {
+              "emoji": "🐟",
+              "label": "fish"
+            },
+            {
+              "emoji": "🔊",
+              "label": "noise"
             }
           ],
           "caption": {
@@ -398,9 +446,27 @@
               "who": "lingo"
             }
           ],
+          "props": [
+            {
+              "emoji": "💧🌿",
+              "label": "pond"
+            },
+            {
+              "emoji": "🐸👶",
+              "label": "tadpole"
+            },
+            {
+              "emoji": "🐸",
+              "label": "frog"
+            },
+            {
+              "emoji": "🐾",
+              "label": "animal"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "A tiny animal swims near the edge of the pond."
+            "text": "A tiny animal swims in the pond."
           },
           "speech": [
             {
@@ -427,6 +493,20 @@
             },
             {
               "who": "lingo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "💧🌿",
+              "label": "pond"
+            },
+            {
+              "emoji": "🪽🪰",
+              "label": "dragonfly"
+            },
+            {
+              "emoji": "🦟",
+              "label": "mosquito"
             }
           ],
           "caption": {
@@ -464,6 +544,12 @@
               "who": "lingo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            }
+          ],
           "caption": {
             "id": "p6c",
             "text": "Nikos picks up a rock. He tries to figure out if it is alive."
@@ -497,7 +583,7 @@
           "wordId": "CPP1-U3-SB-311",
           "prompt": {
             "id": "c1q",
-            "text": "Find the word: tadpole."
+            "text": "Which picture shows a baby frog that lives in water?"
           },
           "options": [
             "CPP1-U3-SB-311",
@@ -535,6 +621,24 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-304",
+          "props": [
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🐸",
+              "label": "frog"
+            },
+            {
+              "emoji": "🐟",
+              "label": "fish"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "A ____ is a small water home for frogs and fish."
@@ -555,6 +659,16 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP1-U3-SB-308",
+          "props": [
+            {
+              "emoji": "🪽🪰",
+              "label": "dragonfly"
+            },
+            {
+              "emoji": "🐟",
+              "label": "fish"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "A dragonfly is a kind of fish."
@@ -593,14 +707,24 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-307",
+          "props": [
+            {
+              "emoji": "🪲",
+              "label": "insect"
+            },
+            {
+              "emoji": "🦷",
+              "label": "bite"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "A ____ is a tiny insect that can bite you."
           },
           "options": [
             "squirrel",
-            "sock",
             "rabbit",
+            "frog",
             "mosquito"
           ],
           "answer": 3,
@@ -615,7 +739,7 @@
           "wordId": "CPP1-U3-SB-310",
           "prompt": {
             "id": "c7q",
-            "text": "Find the word: frog."
+            "text": "Which picture shows a green animal that can jump very high?"
           },
           "options": [
             "CPP1-U3-SB-304",
@@ -633,15 +757,25 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-323",
+          "props": [
+            {
+              "emoji": "🤫",
+              "label": "Shh"
+            },
+            {
+              "emoji": "💦",
+              "label": "splash"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "Shh! Can you ____ that splash?"
+            "text": "Shh! Can you ____ a noise?"
           },
           "options": [
-            "paint",
-            "hear",
             "wait",
-            "sing"
+            "hear",
+            "figure out",
+            "look like"
           ],
           "answer": 1,
           "explain": {
@@ -653,14 +787,24 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-309",
+          "props": [
+            {
+              "emoji": "🦈",
+              "label": "fin"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "A ____ has fins and swims in the water."
           },
           "options": [
-            "pocket",
+            "rock",
             "fish",
-            "bridge",
+            "pond",
             "floor"
           ],
           "answer": 1,
@@ -673,9 +817,15 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP1-U3-SB-295",
+          "props": [
+            {
+              "emoji": "🤔💡",
+              "label": "figure out"
+            }
+          ],
           "prompt": {
             "id": "c10q",
-            "text": "To figure out something means to understand it or solve it."
+            "text": "To figure out something means to understand it or find the answer."
           },
           "options": [
             "True",
@@ -709,7 +859,7 @@
       },
       "frames": [
         "I can see a ___ near the pond.",
-        "A ___ can ___ very well.",
+        "A ___ can ___ very high.",
         "I can hear a ___ when it moves."
       ],
       "partner": true,
@@ -751,5 +901,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

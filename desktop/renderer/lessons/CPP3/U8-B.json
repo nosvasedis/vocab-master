@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U8-SB-1080",
-      "emoji": "🔌",
+      "emoji": "💡🚫",
       "kidDefinition": "To stop a light or machine working by pressing a button.",
       "examples": [
         "Maya switched off the TV before dinner.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1081",
-      "emoji": "🥤",
+      "emoji": "🥤🌀",
       "kidDefinition": "An electric machine that mixes fruit and drinks together.",
       "examples": [
         "Leo put bananas and milk in the blender.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1087",
-      "emoji": "🗑️",
+      "emoji": "💧🗑️",
       "kidDefinition": "To use something carelessly, when it is not needed.",
       "examples": [
         "Don't waste water when you brush your teeth.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1083",
-      "emoji": "💇",
+      "emoji": "💨💇",
       "kidDefinition": "An electric machine that blows hot air to dry hair.",
       "examples": [
         "Grandma used the hair dryer on her wet hair.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1084",
-      "emoji": "🧹",
+      "emoji": "🧹⚡",
       "kidDefinition": "An electric machine that sucks up dirt from floors and carpets.",
       "examples": [
         "Maya used the vacuum cleaner on the carpet.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1089",
-      "emoji": "🔧",
+      "emoji": "🧸💔",
       "kidDefinition": "Not working, because it has been damaged.",
       "examples": [
         "The lamp is broken, so we need a new one.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1085",
-      "emoji": "🧺",
+      "emoji": "👕🌀",
       "kidDefinition": "A machine that washes clothes for you.",
       "examples": [
         "Our washing machine washes the clothes in one hour.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1096",
-      "emoji": "🖐️",
+      "emoji": "🖐️👕",
       "kidDefinition": "Done with your hands, not with a machine.",
       "examples": [
         "Grandma washes her lace curtains by hand.",
@@ -240,6 +240,32 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
+      "props": [
+        {
+          "emoji": "⚙️",
+          "label": "machine"
+        },
+        {
+          "emoji": "🍳",
+          "label": "kitchen"
+        },
+        {
+          "emoji": "🛏️",
+          "label": "bedroom"
+        },
+        {
+          "emoji": "🛁",
+          "label": "bathroom"
+        },
+        {
+          "emoji": "💇",
+          "label": "hair"
+        },
+        {
+          "emoji": "👪",
+          "label": "family"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -296,6 +322,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "house"
+            },
+            {
+              "emoji": "💡",
+              "label": "light"
+            },
+            {
+              "emoji": "🍳",
+              "label": "kitchen"
+            },
+            {
+              "emoji": "🥪",
+              "label": "snack"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "It is Saturday morning. Maya has a big plan for the house."
@@ -327,9 +371,35 @@
               "who": "maya"
             }
           ],
+          "props": [
+            {
+              "emoji": "🍌",
+              "label": "banana"
+            },
+            {
+              "emoji": "🥛",
+              "label": "milk"
+            },
+            {
+              "emoji": "🥤🌀",
+              "label": "blender"
+            },
+            {
+              "emoji": "🥤",
+              "label": "smoothie"
+            },
+            {
+              "emoji": "🍞🥕",
+              "label": "food"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Leo puts fruit and milk into the blender."
+            "text": "Leo puts a banana and milk into the blender."
           },
           "speech": [
             {
@@ -358,6 +428,20 @@
             },
             {
               "who": "maya"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🛁",
+              "label": "bath"
+            },
+            {
+              "emoji": "💇",
+              "label": "hair"
+            },
+            {
+              "emoji": "💨💇",
+              "label": "hair dryer"
             }
           ],
           "caption": {
@@ -390,6 +474,32 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧹",
+              "label": "vacuum cleaner"
+            },
+            {
+              "emoji": "🧸💔",
+              "label": "broken"
+            },
+            {
+              "emoji": "🟥🟨🟥",
+              "label": "rug"
+            },
+            {
+              "emoji": "🖐️",
+              "label": "by hand"
+            },
+            {
+              "emoji": "👵",
+              "label": "Grandma"
+            },
+            {
+              "emoji": "🪄",
+              "label": "trick"
             }
           ],
           "caption": {
@@ -425,6 +535,28 @@
               "who": "maya"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧺",
+              "label": "basket"
+            },
+            {
+              "emoji": "🧦🧦",
+              "label": "socks"
+            },
+            {
+              "emoji": "👕🌀",
+              "label": "washing machine"
+            },
+            {
+              "emoji": "👕👖",
+              "label": "clothes"
+            },
+            {
+              "emoji": "🖐️",
+              "label": "by hand"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Grandma Eleni arrives with a basket of socks and a smile."
@@ -457,6 +589,32 @@
               "who": "maya"
             }
           ],
+          "props": [
+            {
+              "emoji": "🔦",
+              "label": "torch"
+            },
+            {
+              "emoji": "🔋",
+              "label": "battery"
+            },
+            {
+              "emoji": "🌑",
+              "label": "dark"
+            },
+            {
+              "emoji": "🕯️",
+              "label": "candle"
+            },
+            {
+              "emoji": "⚡",
+              "label": "electricity"
+            },
+            {
+              "emoji": "💡",
+              "label": "light"
+            }
+          ],
           "caption": {
             "id": "p6c",
             "text": "In the evening, Leo's torch is dark. He looks for a new battery."
@@ -465,7 +623,7 @@
             {
               "id": "p6a",
               "who": "leo",
-              "text": "My torch battery is empty! What can we use to see in the dark?"
+              "text": "My torch is not working! What can we use to see in the dark?"
             },
             {
               "id": "p6b",
@@ -501,7 +659,7 @@
           "answer": 3,
           "explain": {
             "id": "c1e",
-            "text": "Switch off means to stop a light working, so the answer is the first option."
+            "text": "Switch off means to stop a light or machine working."
           }
         },
         {
@@ -510,7 +668,7 @@
           "wordId": "CPP3-U8-SB-1084",
           "prompt": {
             "id": "c2q",
-            "text": "Which picture shows a vacuum cleaner?"
+            "text": "Which picture shows the electric machine that sucks up dirt from floors and carpets?"
           },
           "options": [
             "CPP3-U8-SB-1084",
@@ -521,13 +679,23 @@
           "answer": 0,
           "explain": {
             "id": "c2e",
-            "text": "A vacuum cleaner sucks up dirt from the floor, so it is the one with the cleaning machine."
+            "text": "A vacuum cleaner is the electric machine that sucks up dirt from floors and carpets."
           }
         },
         {
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1085",
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "Mum"
+            },
+            {
+              "emoji": "🧦🧦",
+              "label": "socks"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Mum put the dirty socks in the ____ and pressed start."
@@ -548,6 +716,20 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U8-SB-1083",
+          "props": [
+            {
+              "emoji": "🛁",
+              "label": "bath"
+            },
+            {
+              "emoji": "💇",
+              "label": "hair"
+            },
+            {
+              "emoji": "💨💇",
+              "label": "hair dryer"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Leo used a hair dryer to dry his hair after his bath."
@@ -586,6 +768,16 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1082",
+          "props": [
+            {
+              "emoji": "🎮",
+              "label": "remote control"
+            },
+            {
+              "emoji": "🫙",
+              "label": "empty"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "My remote control needs a new ____ because it is empty."
@@ -606,6 +798,12 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP3-U8-SB-1087",
+          "props": [
+            {
+              "emoji": "⚡",
+              "label": "electricity"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "To waste electricity means to use it carefully and wisely."
@@ -624,14 +822,24 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1089",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "🧹",
+              "label": "vacuum cleaner"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "The vacuum cleaner is ____, so Maya can't use it today."
           },
           "options": [
-            "happy",
-            "loud",
-            "empty",
+            "dry",
+            "pretty",
+            "light",
             "broken"
           ],
           "answer": 3,
@@ -666,7 +874,7 @@
           "wordId": "CPP3-U8-SB-1081",
           "prompt": {
             "id": "c10q",
-            "text": "Which picture shows a blender?"
+            "text": "Which picture shows the electric machine that mixes fruit and drinks together?"
           },
           "options": [
             "CPP3-U8-SB-1081",
@@ -748,5 +956,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

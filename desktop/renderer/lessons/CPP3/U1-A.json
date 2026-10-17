@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U1-SB-17",
-      "emoji": "🛠️",
+      "emoji": "🛠️👍",
       "kidDefinition": "Helpful for doing something well.",
       "examples": [
         "This map is useful when you visit a new town.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U1-SB-22",
-      "emoji": "⭐",
+      "emoji": "👥⭐",
       "kidDefinition": "Liked by a lot of people.",
       "examples": [
         "Hip hop is a very popular kind of music.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U1-SB-60",
-      "emoji": "😊",
+      "emoji": "🥇😊",
       "kidDefinition": "Happy about something good you or others did.",
       "examples": [
         "I'm proud of my town!",
@@ -275,6 +275,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "city",
+      "props": [
+        {
+          "emoji": "🏙️",
+          "label": "town"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -282,11 +288,39 @@
         },
         {
           "id": "l2",
-          "text": "Every place has special people, streets and sights."
+          "text": "Every place has special people, streets and sights.",
+          "props": [
+            {
+              "emoji": "🧑🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "🛣️",
+              "label": "streets"
+            },
+            {
+              "emoji": "🏰",
+              "label": "sights"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some places are ancient. Some are brand new. Some are simply fun!"
+          "text": "Some places are very old. Some are new. Some are simply fun!",
+          "props": [
+            {
+              "emoji": "🏛️",
+              "label": "old"
+            },
+            {
+              "emoji": "🆕",
+              "label": "new"
+            },
+            {
+              "emoji": "🎡",
+              "label": "fun"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -331,9 +365,23 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🛣️",
+              "label": "street"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
+            },
+            {
+              "emoji": "👥",
+              "label": "everyone"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "On Monday, Leo moved to a new street."
+            "text": "Leo walks down a new street with Ella."
           },
           "speech": [
             {
@@ -362,6 +410,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "stone"
+            },
+            {
+              "emoji": "🧱",
+              "label": "wall"
+            },
+            {
+              "emoji": "🏛️",
+              "label": "ruins"
+            },
+            {
+              "emoji": "🗺️",
+              "label": "map"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "They walk to the old village with stone walls."
@@ -375,7 +441,7 @@
             {
               "id": "p2b",
               "who": "leo",
-              "text": "Yes! Can you give me some useful advice about the visit?"
+              "text": "Yes! Can you show me a useful map of the village?"
             }
           ],
           "highlight": [
@@ -394,6 +460,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "⛴️",
+              "label": "ferry"
+            },
+            {
+              "emoji": "⚓",
+              "label": "port"
+            },
+            {
+              "emoji": "🏝️",
+              "label": "island"
+            },
+            {
+              "emoji": "🌊",
+              "label": "bay"
+            },
+            {
+              "emoji": "👥",
+              "label": "people"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "A huge ferry sails slowly into the port."
@@ -407,7 +495,7 @@
             {
               "id": "p3b",
               "who": "ella",
-              "text": "It takes people across the bay to the island. We can ride it on Saturday."
+              "text": "It takes people across the bay to the island. We can ride it together one day."
             }
           ],
           "highlight": [
@@ -424,6 +512,28 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🚡",
+              "label": "cable car"
+            },
+            {
+              "emoji": "⛰️",
+              "label": "hill"
+            },
+            {
+              "emoji": "🧑📷",
+              "label": "tourists"
+            },
+            {
+              "emoji": "☀️",
+              "label": "summer"
+            },
+            {
+              "emoji": "👥⭐",
+              "label": "popular"
             }
           ],
           "caption": {
@@ -458,6 +568,28 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎡",
+              "label": "amusement park"
+            },
+            {
+              "emoji": "💡",
+              "label": "lights"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "town"
+            },
+            {
+              "emoji": "🥇😊",
+              "label": "proud"
+            },
+            {
+              "emoji": "🧑🤝🧑",
+              "label": "buddy"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Later, they walk past the bright lights of the amusement park."
@@ -488,6 +620,24 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "slice"
+            },
+            {
+              "emoji": "🥧",
+              "label": "apple pie"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "neighbourhood"
             }
           ],
           "caption": {
@@ -522,7 +672,7 @@
           "wordId": "CPP3-U1-SB-31",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the word for something very, very old, from long ago."
+            "text": "Point to the word for something very old, from a long time ago."
           },
           "options": [
             "CPP3-U1-SB-22",
@@ -551,21 +701,31 @@
           "answer": 0,
           "explain": {
             "id": "c2e",
-            "text": "A ferry is a boat that carries people and cars across the water."
+            "text": "A ferry is a boat that carries people across the water."
           }
         },
         {
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U1-SB-40",
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "everyone"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "I know everyone in my ____."
+            "text": "I know everyone in my ____, the area around my home."
           },
           "options": [
             "stadium",
-            "recess",
-            "swan",
+            "port",
+            "continent",
             "neighbourhood"
           ],
           "answer": 3,
@@ -578,6 +738,28 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U1-SB-49",
+          "props": [
+            {
+              "emoji": "🚡",
+              "label": "cable"
+            },
+            {
+              "emoji": "🚗",
+              "label": "car"
+            },
+            {
+              "emoji": "➡️",
+              "label": "moves"
+            },
+            {
+              "emoji": "⛰️",
+              "label": "hill"
+            },
+            {
+              "emoji": "🪢",
+              "label": "wire"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "A cable car moves up a hill on a wire."
@@ -601,30 +783,40 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "library",
-            "rug",
-            "museum",
+            "apple pie",
+            "donut",
+            "French fries",
             "amusement park"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "A library, a museum and an amusement park are places you can visit, but a rug is a thing."
+            "text": "Apple pie, donuts and French fries are foods, but an amusement park is a place with rides and games."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U1-SB-36",
+          "props": [
+            {
+              "emoji": "🍲",
+              "label": "soup"
+            },
+            {
+              "emoji": "👃",
+              "label": "smells"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "The soup smells ____!"
           },
           "options": [
             "delicious",
-            "sleepy",
-            "noisy",
-            "messy"
+            "huge",
+            "popular",
+            "proud"
           ],
           "answer": 0,
           "explain": {
@@ -636,6 +828,16 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP3-U1-SB-60",
+          "props": [
+            {
+              "emoji": "🥇😊",
+              "label": "proud"
+            },
+            {
+              "emoji": "😢",
+              "label": "sad"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "If you feel proud, you feel sad about something."
@@ -673,15 +875,25 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U1-SB-17",
+          "props": [
+            {
+              "emoji": "🗺️",
+              "label": "map"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "town"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "This map is ____ when you visit a new town."
           },
           "options": [
             "useful",
-            "empty",
-            "messy",
-            "broken"
+            "ancient",
+            "huge",
+            "popular"
           ],
           "answer": 0,
           "explain": {
@@ -700,7 +912,7 @@
           "options": [
             "CPP3-U1-SB-31",
             "CPP3-U1-SB-22",
-            "CPP3-U1-SB-45"
+            "CPP3-U1-SB-60"
           ],
           "answer": 1,
           "explain": {
@@ -737,7 +949,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "My neighbourhood is special because it has a huge park. It is popular with families. I feel proud when I play there with my friends!"
+        "text": "My neighbourhood is special because it has a huge park. It is popular with families. I feel proud when I play there with my friends. A map is useful when you visit a new place."
       }
     },
     {
@@ -768,5 +980,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

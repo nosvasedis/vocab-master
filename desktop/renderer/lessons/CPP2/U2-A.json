@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U2-SB-159",
-      "emoji": "⚖️",
+      "emoji": "🔍🎂🎂",
       "kidDefinition": "To look at two things and see how they are alike or different.",
       "examples": [
         "Let's compare our two drawings.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-161",
-      "emoji": "👯",
+      "emoji": "🔴🟠",
       "kidDefinition": "Almost the same, but not exactly the same.",
       "examples": [
         "Our shoes are similar, but yours are white.",
@@ -74,7 +74,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-162",
-      "emoji": "🔀",
+      "emoji": "🍎↔️🍌",
       "kidDefinition": "Not the same as something else.",
       "examples": [
         "My brother and I are very different.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-174",
-      "emoji": "📜",
+      "emoji": "🔁📅",
       "kidDefinition": "Something a family or group does the same way, again and again.",
       "examples": [
         "Eating soup on Sunday is our family tradition.",
@@ -257,19 +257,59 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we visit Emilia and her grandma in Greece."
+          "text": "Today we visit Emilia and her grandma in Greece.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Emilia"
+            },
+            {
+              "emoji": "👵",
+              "label": "grandma"
+            },
+            {
+              "emoji": "🇬🇷",
+              "label": "Greece"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "It is New Year's Day, and there is a very special cake."
+          "text": "It is New Year's Day, and there is a very special cake.",
+          "props": [
+            {
+              "emoji": "🎆",
+              "label": "New Year's Day"
+            },
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's find out why we celebrate with food and fun!"
+          "text": "Let's find out why we celebrate with food and fun!",
+          "props": [
+            {
+              "emoji": "🍲🍞🍇",
+              "label": "food"
+            },
+            {
+              "emoji": "🎉🎈",
+              "label": "fun"
+            }
+          ]
         }
       ],
       "question": {
@@ -310,6 +350,24 @@
               "who": "yiayia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "table"
+            },
+            {
+              "emoji": "🎆",
+              "label": "New Year's Day"
+            },
+            {
+              "emoji": "⭕",
+              "label": "round"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Emilia looks at a big cake on the kitchen table."
@@ -323,7 +381,7 @@
             {
               "id": "p1b",
               "who": "yiayia",
-              "text": "Yes, it is round. We cut it on New Year's Day."
+              "text": "Yes, it is round. It is our New Year's Day cake."
             }
           ],
           "highlight": [
@@ -339,6 +397,32 @@
             },
             {
               "who": "emilia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "story"
+            },
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🔪",
+              "label": "cutting"
+            },
+            {
+              "emoji": "🇬🇷",
+              "label": "Greece"
+            },
+            {
+              "emoji": "🔁📅",
+              "label": "tradition"
+            },
+            {
+              "emoji": "📅",
+              "label": "every year"
             }
           ],
           "caption": {
@@ -363,7 +447,7 @@
         },
         {
           "id": "p3",
-          "backdrop": "garden",
+          "backdrop": "kitchen",
           "characters": [
             {
               "who": "leo"
@@ -372,9 +456,35 @@
               "who": "emilia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎂🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🎈",
+              "label": "birthday"
+            },
+            {
+              "emoji": "⬜",
+              "label": "square"
+            },
+            {
+              "emoji": "🍎↔️🍌",
+              "label": "different"
+            },
+            {
+              "emoji": "👫",
+              "label": "both"
+            },
+            {
+              "emoji": "🔍",
+              "label": "compare"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "Leo visits with his own cake from home."
+            "text": "Leo visits with his own birthday cake."
           },
           "speech": [
             {
@@ -385,7 +495,7 @@
             {
               "id": "p3b",
               "who": "emilia",
-              "text": "Our cakes are different shapes, but both are tasty!"
+              "text": "Our cakes are different, but both are tasty!"
             }
           ],
           "highlight": [
@@ -407,6 +517,20 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🪙🪙",
+              "label": "coin"
+            },
+            {
+              "emoji": "🎂🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "🔴🟠",
+              "label": "similar"
             }
           ],
           "caption": {
@@ -441,9 +565,31 @@
               "who": "yiayia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🍰",
+              "label": "slice"
+            },
+            {
+              "emoji": "🪙",
+              "label": "coin"
+            },
+            {
+              "emoji": "🍀",
+              "label": "luck"
+            },
+            {
+              "emoji": "🌠",
+              "label": "wish"
+            },
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Emilia cuts a slice and finds a shiny coin!"
+            "text": "Emilia holds a slice of cake and finds a coin!"
           },
           "speech": [
             {
@@ -472,6 +618,16 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP2-U2-SB-159",
+          "props": [
+            {
+              "emoji": "🎈",
+              "label": "birthday"
+            },
+            {
+              "emoji": "🎂🎂",
+              "label": "cake"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "Let's ____ our two birthday cakes. Which one is bigger?"
@@ -505,13 +661,23 @@
           "answer": 1,
           "explain": {
             "id": "c2e",
-            "text": "Different means not the same, like Emilia's cake and Leo's cake."
+            "text": "Different means not the same, like a round cake and a square cake."
           }
         },
         {
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP2-U2-SB-163",
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "cake"
+            },
+            {
+              "emoji": "📐",
+              "label": "corners"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "A round cake has four corners."
@@ -530,6 +696,20 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP2-U2-SB-164",
+          "props": [
+            {
+              "emoji": "🍽️",
+              "label": "table"
+            },
+            {
+              "emoji": "📐",
+              "label": "corners"
+            },
+            {
+              "emoji": "📏",
+              "label": "sides"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "A ____ table has four equal sides and four corners."
@@ -555,15 +735,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "square",
+            "tradition",
             "luck",
             "wish",
             "coin"
           ],
-          "answer": 0,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "Square is an adjective for shape, while coin, luck and wish are nouns."
+            "text": "Coin is a thing you can hold. Tradition, luck and wish are ideas, not objects."
           }
         },
         {
@@ -572,7 +752,7 @@
           "wordId": "CPP2-U2-SB-174",
           "prompt": {
             "id": "c6q",
-            "text": "Listen. Something families do again and again, every year. Which word is this?"
+            "text": "Listen. The word is 'tradition'. Which word is this?"
           },
           "options": [
             "CPP2-U2-SB-169",
@@ -590,26 +770,46 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP2-U2-SB-166",
+          "props": [
+            {
+              "emoji": "👩",
+              "label": "Martha"
+            },
+            {
+              "emoji": "👩",
+              "label": "Kate"
+            },
+            {
+              "emoji": "🧑🤝🧑",
+              "label": "friends"
+            }
+          ],
           "prompt": {
             "id": "c7q",
-            "text": "____ Martha and Kate are my friends."
+            "text": "I like Martha and Kate. I like ____."
           },
           "options": [
-            "Neither",
-            "Some",
-            "Both",
-            "Each"
+            "both",
+            "similar",
+            "different",
+            "round"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c7e",
-            "text": "Both means the two of them, so Martha and Kate are both my friends."
+            "text": "Both means the two of them, so I like both Martha and Kate."
           }
         },
         {
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP2-U2-SB-175",
+          "props": [
+            {
+              "emoji": "🪙",
+              "label": "coin"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "If you find the coin, you will have good ____."
@@ -630,6 +830,20 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP2-U2-SB-169",
+          "props": [
+            {
+              "emoji": "👵",
+              "label": "Yiayia"
+            },
+            {
+              "emoji": "👧",
+              "label": "Emilia"
+            },
+            {
+              "emoji": "🌠",
+              "label": "wish"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "In the story, Yiayia tells Emilia to make a wish first."
@@ -650,7 +864,7 @@
           "wordId": "CPP2-U2-SB-161",
           "prompt": {
             "id": "c10q",
-            "text": "Listen. Our two cakes look almost the same. Which word is this?"
+            "text": "Listen. The word is 'similar'. Which word is this?"
           },
           "options": [
             "CPP2-U2-SB-162",
@@ -724,5 +938,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

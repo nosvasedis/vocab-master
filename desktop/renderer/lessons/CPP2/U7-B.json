@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U7-SB-914",
-      "emoji": "📄",
+      "emoji": "📄🔢",
       "kidDefinition": "Words that tell you how to do something.",
       "examples": [
         "Read the instructions before you build your robot.",
@@ -86,7 +86,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-918",
-      "emoji": "✋",
+      "emoji": "🤲",
       "kidDefinition": "To have something in your hands.",
       "examples": [
         "Hold the glass carefully, please.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-919",
-      "emoji": "⬇️",
+      "emoji": "🥚⬇️",
       "kidDefinition": "To let something fall by accident.",
       "examples": [
         "Oops! I dropped my pencil on the floor.",
@@ -134,7 +134,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-917",
-      "emoji": "🐖",
+      "emoji": "🐷🪙",
       "kidDefinition": "To keep money for something you want later.",
       "examples": [
         "Monica is saving money to buy a new bike.",
@@ -237,7 +237,13 @@
         },
         {
           "id": "l3",
-          "text": "Some children build robots in their free time."
+          "text": "Some children build robots in their free time.",
+          "props": [
+            {
+              "emoji": "🤖",
+              "label": "robot"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -282,6 +288,16 @@
               "who": "caren"
             }
           ],
+          "props": [
+            {
+              "emoji": "🤖",
+              "label": "robot"
+            },
+            {
+              "emoji": "❌",
+              "label": "broken"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Troy's robot has stopped working. He looks worried."
@@ -313,6 +329,20 @@
               "who": "caren"
             }
           ],
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "📚",
+              "label": "shelf"
+            },
+            {
+              "emoji": "📄",
+              "label": "instructions"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Troy finds the box on a high shelf."
@@ -321,7 +351,7 @@
             {
               "id": "p2a",
               "who": "caren",
-              "text": "Let's read the instruction sheet first."
+              "text": "Let's read the instructions first."
             },
             {
               "id": "p2b",
@@ -343,6 +373,24 @@
             },
             {
               "who": "caren"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🤖",
+              "label": "robot"
+            },
+            {
+              "emoji": "🔌",
+              "label": "cable"
+            },
+            {
+              "emoji": "📱",
+              "label": "tablet"
+            },
+            {
+              "emoji": "⬇️",
+              "label": "drop"
             }
           ],
           "caption": {
@@ -378,6 +426,20 @@
               "who": "caren"
             }
           ],
+          "props": [
+            {
+              "emoji": "💭",
+              "label": "imagination"
+            },
+            {
+              "emoji": "💡",
+              "label": "idea"
+            },
+            {
+              "emoji": "🌟",
+              "label": "brilliant"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Troy stops and thinks very hard."
@@ -410,9 +472,23 @@
               "who": "caren"
             }
           ],
+          "props": [
+            {
+              "emoji": "💰",
+              "label": "money"
+            },
+            {
+              "emoji": "🤖",
+              "label": "robot"
+            },
+            {
+              "emoji": "🪁",
+              "label": "hover kite"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Troy saved money for months to buy this robot."
+            "text": "Troy saved money for a long time to buy this robot."
           },
           "speech": [
             {
@@ -445,9 +521,15 @@
             "id": "c1q",
             "text": "Please read the ____ before you build the robot."
           },
+          "props": [
+            {
+              "emoji": "🤖",
+              "label": "robot"
+            }
+          ],
           "options": [
-            "mistake",
-            "battery",
+            "cable",
+            "shelf",
             "instruction"
           ],
           "answer": 2,
@@ -481,7 +563,7 @@
           "wordId": "CPP2-U7-SB-916",
           "prompt": {
             "id": "c3q",
-            "text": "Listen carefully. Which word did you hear?"
+            "text": "Listen carefully. Which word did you hear? cable"
           },
           "options": [
             "CPP2-U7-SB-931",
@@ -502,6 +584,12 @@
             "id": "c4q",
             "text": "Save money means to keep money for something you want later."
           },
+          "props": [
+            {
+              "emoji": "💰",
+              "label": "money"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -509,7 +597,7 @@
           "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "Monica saves money so she can buy a new bike."
+            "text": "Saving means keeping money now, so you can buy something you want later."
           }
         },
         {
@@ -520,10 +608,16 @@
             "id": "c5q",
             "text": "Please ____ the glass carefully. It is full!"
           },
+          "props": [
+            {
+              "emoji": "🥛",
+              "label": "glass"
+            }
+          ],
           "options": [
-            "sing",
+            "drop",
             "hold",
-            "kick"
+            "fix"
           ],
           "answer": 1,
           "explain": {
@@ -539,6 +633,12 @@
             "id": "c6q",
             "text": "To drop something means to pick it up carefully."
           },
+          "props": [
+            {
+              "emoji": "🥚⬇️",
+              "label": "drop"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -557,10 +657,20 @@
             "id": "c7q",
             "text": "Caren uses her ____ to make up new stories."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Caren"
+            },
+            {
+              "emoji": "📖",
+              "label": "stories"
+            }
+          ],
           "options": [
             "imagination",
-            "memory",
-            "patience"
+            "cable",
+            "shelf"
           ],
           "answer": 0,
           "explain": {
@@ -596,15 +706,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "thirsty",
+            "fix",
             "brilliant",
-            "hungry",
-            "tired"
+            "hold",
+            "drop"
           ],
           "answer": 1,
           "explain": {
             "id": "c9e",
-            "text": "Tired, hungry and thirsty describe how you feel; brilliant is praise."
+            "text": "Fix, hold and drop are actions; brilliant describes something."
           }
         },
         {
@@ -615,15 +725,21 @@
             "id": "c10q",
             "text": "Troy flew his ____ high above the park."
           },
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            }
+          ],
           "options": [
             "hover kite",
-            "umbrella",
-            "football"
+            "cable",
+            "shelf"
           ],
           "answer": 0,
           "explain": {
             "id": "c10e",
-            "text": "A hover kite stays still in the air, like a magic kite."
+            "text": "A hover kite stays still in the air. It does not fall."
           }
         }
       ]
@@ -690,5 +806,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

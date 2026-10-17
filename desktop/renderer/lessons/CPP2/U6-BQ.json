@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-745",
-      "emoji": "🐦",
+      "emoji": "🪽",
       "kidDefinition": "The part of a bird or insect used to fly.",
       "examples": [
         "Birds can fly because they have wings.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-741",
-      "emoji": "🦕",
+      "emoji": "🦕🌿",
       "kidDefinition": "An animal that eats only plants.",
       "examples": [
         "Horses are herbivores.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-743",
-      "emoji": "🦖",
+      "emoji": "🦖🥩",
       "kidDefinition": "An animal that eats only meat.",
       "examples": [
         "Lions are carnivores. They eat meat.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-744",
-      "emoji": "😋",
+      "emoji": "🍎🦷",
       "kidDefinition": "To crush food many times with your teeth.",
       "examples": [
         "Chew your food slowly. It's healthier.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-739",
-      "emoji": "📋",
+      "emoji": "📄✅",
       "kidDefinition": "A page with short, true facts about one topic.",
       "examples": [
         "Read the text and complete the fact file with facts.",
@@ -162,22 +162,68 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "props": [
+        {
+          "emoji": "🦕",
+          "label": "dinosaur"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love mysteries."
+          "text": "Hello, friends! I am Lingo, and I love mysteries.",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "mystery"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Millions of years ago, giant animals walked on our Earth."
+          "text": "Long ago, giant animals walked on our Earth.",
+          "props": [
+            {
+              "emoji": "🦕",
+              "label": "giant"
+            },
+            {
+              "emoji": "🐾",
+              "label": "animals"
+            },
+            {
+              "emoji": "🌍",
+              "label": "Earth"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Then they disappeared. Why did that happen?"
+          "text": "Then they disappeared. Why did that happen?",
+          "props": [
+            {
+              "emoji": "💨",
+              "label": "disappeared"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today, we will find clues and become Dino Detectives."
+          "text": "Today, we will find clues and become Dino Detectives.",
+          "props": [
+            {
+              "emoji": "🔍",
+              "label": "clue"
+            },
+            {
+              "emoji": "🔍🔍",
+              "label": "clues"
+            },
+            {
+              "emoji": "🕵️",
+              "label": "Dino Detectives"
+            }
+          ]
         }
       ],
       "question": {
@@ -206,13 +252,35 @@
       "panels": [
         {
           "id": "p1",
-          "backdrop": "forest",
+          "backdrop": "cave",
           "characters": [
             {
               "who": "mia"
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "cave"
+            },
+            {
+              "emoji": "🦕",
+              "label": "giant"
+            },
+            {
+              "emoji": "🦒",
+              "label": "neck"
+            },
+            {
+              "emoji": "🦕🌿",
+              "label": "herbivore"
+            },
+            {
+              "emoji": "🍃",
+              "label": "leaves"
             }
           ],
           "caption": {
@@ -238,16 +306,35 @@
         },
         {
           "id": "p2",
-          "backdrop": "park",
+          "backdrop": "classroom",
           "characters": [
             {
               "who": "mia"
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📄✅",
+              "label": "fact file"
             },
             {
-              "who": "lingo"
+              "emoji": "💡",
+              "label": "explanation"
+            },
+            {
+              "emoji": "🦕🌿",
+              "label": "herbivore"
+            },
+            {
+              "emoji": "🍎🦷",
+              "label": "chew"
+            },
+            {
+              "emoji": "🍞",
+              "label": "food"
             }
           ],
           "caption": {
@@ -259,7 +346,59 @@
               "id": "p2a",
               "who": "leo",
               "text": "Herbivores chew their food for a long time."
+            }
+          ],
+          "highlight": [
+            "CPP2-U6-SB-744",
+            "CPP2-U6-SB-739",
+            "CPP2-U6-SB-738"
+          ]
+        },
+        {
+          "id": "p3",
+          "backdrop": "classroom",
+          "characters": [
+            {
+              "who": "mia"
             },
+            {
+              "who": "leo"
+            },
+            {
+              "who": "lingo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🦖🥩",
+              "label": "carnivore"
+            },
+            {
+              "emoji": "🥩",
+              "label": "meat"
+            },
+            {
+              "emoji": "🦷",
+              "label": "teeth"
+            },
+            {
+              "emoji": "🐦",
+              "label": "bird"
+            },
+            {
+              "emoji": "🪽",
+              "label": "wing"
+            },
+            {
+              "emoji": "💡",
+              "label": "explanation"
+            }
+          ],
+          "caption": {
+            "id": "p3c",
+            "text": "Mia and Leo think hard."
+          },
+          "speech": [
             {
               "id": "p2b",
               "who": "mia",
@@ -268,19 +407,17 @@
             {
               "id": "p2c2",
               "who": "leo",
-              "text": "The giant bird had big wings, too!"
+              "text": "The bird had big wings, too!"
             },
             {
               "id": "p2d",
               "who": "lingo",
-              "text": "Great detective work! Now find your explanation."
+              "text": "Great work, detectives! Now find your explanation."
             }
           ],
           "highlight": [
-            "CPP2-U6-SB-744",
             "CPP2-U6-SB-743",
             "CPP2-U6-SB-745",
-            "CPP2-U6-SB-739",
             "CPP2-U6-SB-738"
           ]
         }
@@ -296,7 +433,7 @@
           "wordId": "CPP2-U6-SB-742",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the picture of: neck."
+            "text": "Point to the picture of the long part that joins an animal's head to its body."
           },
           "options": [
             "CPP2-U6-SB-742",
@@ -315,23 +452,33 @@
           "wordId": "CPP2-U6-SB-745",
           "prompt": {
             "id": "c2q",
-            "text": "Point to the picture of: wing."
+            "text": "Point to the picture of the part a bird uses to fly."
           },
           "options": [
             "CPP2-U6-SB-745",
-            "CPP2-U6-SB-741",
-            "CPP2-U6-SB-744"
+            "CPP2-U6-SB-742",
+            "CPP2-U6-SB-741"
           ],
           "answer": 0,
           "explain": {
             "id": "c2e",
-            "text": "Wings help birds and pterosaurs fly through the sky."
+            "text": "Wings help birds fly through the sky."
           }
         },
         {
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-741",
+          "props": [
+            {
+              "emoji": "🦕",
+              "label": "dinosaurs"
+            },
+            {
+              "emoji": "🌿",
+              "label": "plants"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Dinosaurs that eat only plants are called ____."
@@ -344,13 +491,23 @@
           "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "Herbivores eat only plants, like leaves and fruit."
+            "text": "Herbivores eat only plants, like leaves."
           }
         },
         {
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-743",
+          "props": [
+            {
+              "emoji": "🦖",
+              "label": "T. rex"
+            },
+            {
+              "emoji": "🥩",
+              "label": "meat"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "T. rex was a ____. It ate only meat."
@@ -370,25 +527,45 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-744",
+          "props": [
+            {
+              "emoji": "🍞",
+              "label": "food"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "Mia wants to ____ her food slowly."
           },
           "options": [
-            "fly",
             "chew",
-            "explain"
+            "chews",
+            "chewing"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c5e",
-            "text": "We chew food with our teeth before we swallow it."
+            "text": "After 'to', we use the base verb 'chew'."
           }
         },
         {
           "id": "c6",
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-739",
+          "props": [
+            {
+              "emoji": "📄✅",
+              "label": "fact file"
+            },
+            {
+              "emoji": "📖",
+              "label": "story"
+            },
+            {
+              "emoji": "🐉",
+              "label": "dragons"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "A fact file is a funny story with dragons."
@@ -412,15 +589,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "wing",
-            "explanation",
             "neck",
-            "tail"
+            "wing",
+            "herbivore",
+            "explanation"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c7e",
-            "text": "Neck, wing and tail are body parts, but an explanation is not."
+            "text": "Neck, wing and herbivore are all about animals, but an explanation is not."
           }
         },
         {
@@ -429,7 +606,7 @@
           "wordId": "CPP2-U6-SB-743",
           "prompt": {
             "id": "c8q",
-            "text": "Listen. Which word means an animal that eats meat?"
+            "text": "Listen. Which word do you hear? Carnivore."
           },
           "options": [
             "CPP2-U6-SB-741",
@@ -492,7 +669,7 @@
         },
         {
           "id": "l3",
-          "text": "Next time, we will look for the explanation for the dinosaurs' extinction."
+          "text": "Next time, we will look for another explanation for our Big Question."
         }
       ],
       "badge": {
@@ -510,5 +687,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

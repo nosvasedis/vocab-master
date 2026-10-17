@@ -11,7 +11,7 @@ export const SECTIONS = ["BQ", "A", "B"];
 export const SCENE_TYPES = ["hook", "reveal", "story", "check", "practice", "speak", "recap"];
 export const CHECK_KINDS = ["pickPicture", "listen", "gap", "trueFalse", "oddOneOut"];
 export const PRACTICE_GAMES = { flashcards: 3, memory: 6, spelling: 3, quiz: 4, taboo: 4 };
-export const BACKDROPS = ["home", "school", "classroom", "park", "city", "street", "beach", "forest", "farm", "kitchen", "shop", "space", "stage", "village", "garden", "playground"];
+export const BACKDROPS = ["home", "school", "classroom", "park", "city", "street", "beach", "forest", "farm", "kitchen", "shop", "space", "stage", "village", "garden", "playground", "cave", "snow", "zoo", "river", "museum", "mountain", "jungle", "underwater", "bedroom", "library", "station", "volcano", "savanna", "camp", "castle", "market"];
 export const STATUSES = ["draft", "reviewed", "approved"];
 /** Focus-word count range per section (BQ lessons are short hooks). */
 export const FOCUS_RANGE = { BQ: [4, 14], A: [6, 14], B: [6, 14] };
@@ -80,12 +80,108 @@ export function lessonLines(lesson) {
   return out;
 }
 
+/* ── "Show what you say" ─────────────────────────────────────────────
+   Props are pictures of the things a line talks about: { emoji, label } where label is the word as
+   it appears in the text. The player shows them and lights each one up when its word is spoken. */
+const isProp = (p) => isObj(p) && typeof p.emoji === "string" && p.emoji.trim() && typeof p.label === "string" && p.label.trim();
+const stem = (w) => String(w).toLowerCase().replace(/[^a-z' -]/g, "").replace(/(ies)$/, "y").replace(/(es|s)$/, "");
+
+/** Concrete nouns (from `nouns`, a Set) mentioned in `text`. */
+export function mentionedNouns(text, nouns) {
+  const out = new Set();
+  for (const raw of String(text || "").toLowerCase().match(/[a-z][a-z'-]*/g) || []) {
+    const w = raw.replace(/'s$/, "");
+    if (nouns.has(w)) out.add(w);
+    else if (w.endsWith("ies") && nouns.has(`${w.slice(0, -3)}y`)) out.add(`${w.slice(0, -3)}y`);
+    else if (w.endsWith("es") && nouns.has(w.slice(0, -2))) out.add(w.slice(0, -2));
+    else if (w.endsWith("s") && nouns.has(w.slice(0, -1))) out.add(w.slice(0, -1));
+  }
+  return [...out];
+}
+
+function covers(noun, props, castWords) {
+  const n = stem(noun);
+  if (castWords.some((c) => stem(c) === n)) return true;
+  return (props || []).some((p) => {
+    const label = String(p.label).toLowerCase();
+    // Whole label ("yo-yo", "T-shirt") or any word of it ("toy car" covers "car").
+    return stem(label) === n || label.split(/[\s/,]+/).some((t) => stem(t) === n) || label.split(/[\s/,-]+/).some((t) => stem(t) === n);
+  });
+}
+
+/* Words the illustrated backdrop already shows. */
+export const BACKDROP_WORDS = {
+  home: "home house room living sofa lamp window plant", school: "school building playground flag", classroom: "classroom class desk whiteboard board bookshelf",
+  park: "park tree trees pond duck ducks flower flowers path grass", city: "city street building buildings bus stop road town", street: "street road shop shops house houses bicycle bike",
+  beach: "beach sand sea wave waves shell shells palm", forest: "forest wood woods tree trees mushroom fern", farm: "farm barn field fields tractor cow cows chicken chickens",
+  kitchen: "kitchen table pot pots window", shop: "shop store fruit shelf shelves", space: "space planet planets star stars rocket moon",
+  stage: "stage theatre theater curtain curtains spotlight", village: "village house houses tree trees hill hills", garden: "garden sunflower sunflowers butterfly butterflies fence flower flowers",
+  playground: "playground slide swing swings sandpit",
+  cave: "cave rock rocks",
+  snow: "snow snowman ice winter",
+  zoo: "zoo cage animals",
+  river: "river bridge water stone stones lake",
+  museum: "museum skeleton display",
+  mountain: "mountain mountains hill trail",
+  jungle: "jungle rainforest vine vines leaves waterfall",
+  underwater: "sea ocean fish coral underwater",
+  bedroom: "bedroom bed room toys",
+  library: "library books bookshelf shelf",
+  station: "station train platform",
+  volcano: "volcano smoke",
+  savanna: "savanna grass waterhole",
+  camp: "camp tent tents campfire",
+  castle: "castle tower towers",
+  market: "market stall stalls fruit vegetables",
+};
+const backdropWords = (key) => (BACKDROP_WORDS[key] || "").split(" ");
+
+/** Everything a line mentions that the screen doesn't show: [{ where, noun, text }]. */
+export function visibilityIssues(lesson, nouns) {
+  const issues = [];
+  const castWordsFor = (whoList) => whoList.flatMap((who) => {
+    const c = lesson.cast?.[who];
+    return c ? `${c.name || ""} ${c.persona || ""} ${who}`.toLowerCase().match(/[a-z]+/g) || [] : [];
+  });
+  for (const scene of lesson.scenes || []) {
+    if (scene.type === "story") {
+      for (const p of scene.panels || []) {
+        const present = (p.characters || []).map((c) => c.who);
+        const cw = [...castWordsFor(present), ...backdropWords(p.backdrop || lesson.setting)];
+        for (const line of [p.caption, ...(p.speech || [])].filter(Boolean)) {
+          for (const noun of mentionedNouns(line.text, nouns)) if (!covers(noun, p.props, cw)) issues.push({ where: `${scene.id}/${p.id}`, noun, text: line.text });
+        }
+      }
+    }
+    if (scene.type === "hook") {
+      for (const line of scene.lines || []) {
+        for (const noun of mentionedNouns(line.text, nouns)) if (!covers(noun, [...(line.props || []), ...(scene.props || [])], [...backdropWords(scene.backdrop || lesson.setting), "owl", "lingo", "teacher"])) issues.push({ where: `${scene.id}/${line.id}`, noun, text: line.text });
+      }
+    }
+    if (scene.type === "check") {
+      for (const it of scene.items || []) {
+        if (!["gap", "trueFalse"].includes(it.kind)) continue;
+        const text = (it.prompt?.text || "").replace(/_{2,}/g, " ");
+        for (const noun of mentionedNouns(text, nouns)) if (!covers(noun, it.props, [])) issues.push({ where: `${scene.id}/${it.id}`, noun, text });
+      }
+    }
+  }
+  return issues;
+}
+
+function checkProps(list, where, err) {
+  if (list == null) return;
+  if (!Array.isArray(list)) return err(`${where}: props must be an array`);
+  if (list.length > 8) err(`${where}: at most 8 props`);
+  for (const p of list) if (!isProp(p)) err(`${where}: each prop needs { emoji, label }`);
+}
+
 /**
  * Validate a lesson. `getWord(id)` returns the word-bank row or undefined.
  * Options: { hasClip?(key) } — when given, approved lessons must have every clip.
  * @returns {{ errors: string[], warnings: string[] }}
  */
-export function validateLesson(lesson, getWord, { hasClip } = {}) {
+export function validateLesson(lesson, getWord, { hasClip, nouns, strictVisibility = false } = {}) {
   const errors = [];
   const warnings = [];
   const err = (m) => errors.push(m);
@@ -131,6 +227,14 @@ export function validateLesson(lesson, getWord, { hasClip } = {}) {
     if (new Set(d.map((x) => String(x).toLowerCase())).size !== d.length) err(`${w.english}: duplicate distractors`);
   }
   for (const id of lesson.extensionWords || []) if (!getWord(id)) err(`extension word ${id} is not in the word bank`);
+  // Pictures must tell words apart (picture questions depend on it).
+  const pictureOf = new Map();
+  for (const fw of focus) {
+    const pic = String(fw.emoji || "").replace(/\s+/g, "");
+    if (!pic) { err(`${fw.wordId}: emoji picture missing`); continue; }
+    if (pictureOf.has(pic)) err(`${getWord(fw.wordId)?.english} and ${pictureOf.get(pic)} use the same picture ${pic}`);
+    pictureOf.set(pic, getWord(fw.wordId)?.english);
+  }
 
   // Scenes
   const scenes = Array.isArray(lesson.scenes) ? lesson.scenes : [];
@@ -160,7 +264,8 @@ export function validateLesson(lesson, getWord, { hasClip } = {}) {
 
     if (scene.type === "hook") {
       if (!(scene.lines || []).length) err(`${scene.id}: hook needs lines`);
-      (scene.lines || []).forEach((l) => checkLine(scene, l, "line"));
+      (scene.lines || []).forEach((l) => { checkLine(scene, l, "line"); checkProps(l.props, `${scene.id}/${l.id}`, err); });
+      checkProps(scene.props, scene.id, err);
       if (scene.question) checkLine(scene, scene.question, "question");
     }
     if (scene.type === "reveal") {
@@ -178,6 +283,7 @@ export function validateLesson(lesson, getWord, { hasClip } = {}) {
         if (!p.id || panelIds.has(p.id)) err(`${scene.id}: panel id missing or duplicate`);
         panelIds.add(p.id);
         if (p.backdrop && !BACKDROPS.includes(p.backdrop)) warn(`${scene.id}/${p.id}: unknown backdrop "${p.backdrop}"`);
+        checkProps(p.props, `${scene.id}/${p.id}`, err);
         if (p.caption) { checkLine(scene, p.caption, "caption"); markWords(p.caption.text, seenInStory); }
         if (!(p.speech || []).length && !p.caption) err(`${scene.id}/${p.id}: panel has no text`);
         for (const l of p.speech || []) { checkLine(scene, l, "speech"); markWords(l.text, seenInStory); }
@@ -193,6 +299,7 @@ export function validateLesson(lesson, getWord, { hasClip } = {}) {
         if (!it.id) err(`${where}: item id missing`);
         if (!CHECK_KINDS.includes(it.kind)) { err(`${where}: unknown kind ${it.kind}`); continue; }
         checkLine(scene, it.prompt, "prompt");
+        checkProps(it.props, where, err);
         if (it.explain) checkLine(scene, it.explain, "explain");
         const opts = it.options || [];
         if (it.kind === "trueFalse") {
@@ -246,6 +353,10 @@ export function validateLesson(lesson, getWord, { hasClip } = {}) {
     const inExamples = (lesson.focusWords.find((f) => f.wordId === id)?.examples || []).length > 0;
     if (types.includes("story") && !seenInStory.has(id) && !inExamples) warn(`${name} never appears in the story or an example`);
     if (!seenInCheck.has(id)) warn(`${name} has no check item`);
+  }
+
+  if (nouns) {
+    for (const v of visibilityIssues(lesson, nouns)) (strictVisibility ? err : warn)(`${v.where}: "${v.noun}" is mentioned but not shown — add a prop { emoji, label: "${v.noun}" } (${v.text})`);
   }
 
   if (lesson.status === "approved" && hasClip) {

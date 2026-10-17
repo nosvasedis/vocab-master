@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U4-SB-465",
-      "emoji": "❄️",
+      "emoji": "🏔️❄️",
       "kidDefinition": "Covered with a lot of snow.",
       "examples": [
         "The mountain looks beautiful and snowy in winter.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-466",
-      "emoji": "🧊",
+      "emoji": "🧊➡️💧",
       "kidDefinition": "To change from solid to liquid because of heat.",
       "examples": [
         "Snow melts when the weather gets warm.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-467",
-      "emoji": "🌊",
+      "emoji": "💧⬇️",
       "kidDefinition": "To move downhill like water.",
       "examples": [
         "The river flows down to the sea.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-470",
-      "emoji": "🌍",
+      "emoji": "🌍🟫",
       "kidDefinition": "The hard, outer layer of the Earth.",
       "examples": [
         "The crust of the Earth is divided into huge plates.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-472",
-      "emoji": "🪨",
+      "emoji": "🪨🪨",
       "kidDefinition": "A huge piece of the Earth's crust.",
       "examples": [
         "The plates move slowly under our feet.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-477",
-      "emoji": "🫨",
+      "emoji": "🌍↔️",
       "kidDefinition": "To move quickly from side to side.",
       "examples": [
         "The bus shakes on the bumpy road.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-484",
-      "emoji": "🌎",
+      "emoji": "🌍💥",
       "kidDefinition": "When the ground suddenly shakes very strongly.",
       "examples": [
         "There was an earthquake, but everyone was safe.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-491",
-      "emoji": "🌋",
+      "emoji": "🌋💥",
       "kidDefinition": "To burst out suddenly. Volcanoes do this.",
       "examples": [
         "The volcano erupted yesterday.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-493",
-      "emoji": "🔥",
+      "emoji": "🔥🪨",
       "kidDefinition": "Hot melted rock that flows out of a volcano.",
       "examples": [
         "Lava is hot and bright orange when it flows.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-480",
-      "emoji": "🌫️",
+      "emoji": "🌋🌫️",
       "kidDefinition": "Tiny grey dust from a volcano.",
       "examples": [
         "The ash from the volcano covered the sky.",
@@ -270,6 +270,28 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "village",
+      "props": [
+        {
+          "emoji": "🧭",
+          "label": "guide"
+        },
+        {
+          "emoji": "🌍",
+          "label": "planet"
+        },
+        {
+          "emoji": "⛰️",
+          "label": "mountain"
+        },
+        {
+          "emoji": "🌊",
+          "label": "river"
+        },
+        {
+          "emoji": "🌋",
+          "label": "volcano"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -317,7 +339,29 @@
       "panels": [
         {
           "id": "p1",
-          "backdrop": "village",
+          "backdrop": "mountain",
+          "props": [
+            {
+              "emoji": "⛰️",
+              "label": "mountain"
+            },
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            },
+            {
+              "emoji": "☀️",
+              "label": "summer"
+            },
+            {
+              "emoji": "🧊➡️💧",
+              "label": "melts"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "characters": [
             {
               "who": "enitan"
@@ -349,7 +393,33 @@
         },
         {
           "id": "p2",
-          "backdrop": "forest",
+          "backdrop": "snow",
+          "props": [
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            },
+            {
+              "emoji": "⛰️",
+              "label": "hill"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "stream"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "🌊",
+              "label": "river"
+            },
+            {
+              "emoji": "⬇️",
+              "label": "flows down"
+            }
+          ],
           "characters": [
             {
               "who": "enitan"
@@ -381,6 +451,32 @@
         {
           "id": "p3",
           "backdrop": "street",
+          "props": [
+            {
+              "emoji": "🌍💥",
+              "label": "earthquake"
+            },
+            {
+              "emoji": "🌱",
+              "label": "ground"
+            },
+            {
+              "emoji": "↔️",
+              "label": "shaking"
+            },
+            {
+              "emoji": "🌍",
+              "label": "earth"
+            },
+            {
+              "emoji": "🟫",
+              "label": "crust"
+            },
+            {
+              "emoji": "🪨🪨",
+              "label": "plate"
+            }
+          ],
           "characters": [
             {
               "who": "enitan"
@@ -410,7 +506,7 @@
             {
               "id": "p3c2",
               "who": "maya",
-              "text": "The plates move and push against each other."
+              "text": "The plates move slowly under the ground."
             }
           ],
           "highlight": [
@@ -422,7 +518,37 @@
         },
         {
           "id": "p4",
-          "backdrop": "beach",
+          "backdrop": "volcano",
+          "props": [
+            {
+              "emoji": "🌋",
+              "label": "volcano"
+            },
+            {
+              "emoji": "💥",
+              "label": "erupts"
+            },
+            {
+              "emoji": "🔥",
+              "label": "lava"
+            },
+            {
+              "emoji": "🌫️",
+              "label": "ash"
+            },
+            {
+              "emoji": "☁️",
+              "label": "sky"
+            },
+            {
+              "emoji": "➡️",
+              "label": "flows"
+            },
+            {
+              "emoji": "🏖️",
+              "label": "beach"
+            }
+          ],
           "characters": [
             {
               "who": "enitan"
@@ -439,7 +565,7 @@
             {
               "id": "p4a",
               "who": "enitan",
-              "text": "Look at the ash in the sky! It covers everything."
+              "text": "Look at the ash in the sky! It covers the beach!"
             },
             {
               "id": "p4b",
@@ -456,6 +582,12 @@
         {
           "id": "p5",
           "backdrop": "school",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "planet"
+            }
+          ],
           "characters": [
             {
               "who": "enitan"
@@ -489,7 +621,7 @@
           "wordId": "CPP2-U4-SB-491",
           "prompt": {
             "id": "c1q",
-            "text": "Which picture shows the word: erupt?"
+            "text": "Which picture shows a volcano bursting out suddenly?"
           },
           "options": [
             "CPP2-U4-SB-491",
@@ -507,6 +639,12 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP2-U4-SB-470",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "Earth"
+            }
+          ],
           "prompt": {
             "id": "c2q",
             "text": "The Earth's ____ is its hard outer layer."
@@ -520,7 +658,7 @@
           "answer": 1,
           "explain": {
             "id": "c2e",
-            "text": "The crust is the hard outside layer of our planet, under our feet."
+            "text": "The crust is the hard outside layer of the Earth."
           }
         },
         {
@@ -547,6 +685,24 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP2-U4-SB-480",
+          "props": [
+            {
+              "emoji": "🌋",
+              "label": "volcano"
+            },
+            {
+              "emoji": "🌫️",
+              "label": "ash"
+            },
+            {
+              "emoji": "💧",
+              "label": "liquid"
+            },
+            {
+              "emoji": "🔥",
+              "label": "lava"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Ash is a hot liquid that flows out of a volcano."
@@ -565,17 +721,27 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP2-U4-SB-472",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "earth"
+            },
+            {
+              "emoji": "🦶",
+              "label": "feet"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "The Earth's ____ move slowly under our feet."
           },
           "options": [
-            "beds",
             "plates",
-            "cakes",
-            "shells"
+            "crust",
+            "lava",
+            "ash"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c5e",
             "text": "Plates are huge pieces of the Earth's crust that slowly move."
@@ -590,15 +756,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "cloud",
-            "shake",
-            "erupt",
-            "melt"
+            "lava",
+            "ash",
+            "crust",
+            "shake"
           ],
-          "answer": 0,
+          "answer": 3,
           "explain": {
             "id": "c6e",
-            "text": "Cloud is a noun, but shake, melt and erupt are all verbs."
+            "text": "Lava, ash and crust are things from the Earth or a volcano. Shake is an action."
           }
         },
         {
@@ -607,7 +773,7 @@
           "wordId": "CPP2-U4-SB-484",
           "prompt": {
             "id": "c7q",
-            "text": "Which picture shows the word: earthquake?"
+            "text": "Which picture shows the ground shaking strongly?"
           },
           "options": [
             "CPP2-U4-SB-465",
@@ -625,35 +791,67 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP2-U4-SB-466",
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "sun"
+            },
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            },
+            {
+              "emoji": "🌡️",
+              "label": "hot"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "When the sun is hot, the snow ____."
           },
           "options": [
-            "freezes",
+            "erupts",
             "melts",
-            "grows",
-            "sleeps"
+            "shakes",
+            "observes"
           ],
           "answer": 1,
           "explain": {
             "id": "c8e",
-            "text": "Snow melts when it gets warm, and it becomes water."
+            "text": "Snow melts when the sun makes it warm."
           }
         },
         {
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP2-U4-SB-467",
+          "props": [
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            },
+            {
+              "emoji": "⛰️",
+              "label": "hill"
+            },
+            {
+              "emoji": "🌊",
+              "label": "river"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "Water from the snow ____ the hill toward the river."
+            "text": "Water from the snow ____ the hill towards the river."
           },
           "options": [
-            "wakes up",
+            "erupts",
             "flows down",
-            "sits down",
-            "looks up"
+            "shakes",
+            "melts"
           ],
           "answer": 1,
           "explain": {
@@ -667,7 +865,7 @@
           "wordId": "CPP2-U4-SB-465",
           "prompt": {
             "id": "c10q",
-            "text": "Which picture shows the word: snowy?"
+            "text": "Which picture shows a mountain covered with a lot of snow?"
           },
           "options": [
             "CPP2-U4-SB-491",
@@ -723,10 +921,34 @@
       "lines": [
         {
           "id": "l1",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "planet"
+            }
+          ],
           "text": "Brilliant work, everyone! You are real planet explorers now."
         },
         {
           "id": "l2",
+          "props": [
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            },
+            {
+              "emoji": "🌊",
+              "label": "river"
+            },
+            {
+              "emoji": "🌍💥",
+              "label": "earthquakes"
+            },
+            {
+              "emoji": "🌋",
+              "label": "volcanoes"
+            }
+          ],
           "text": "You learned words for snow, rivers, earthquakes and volcanoes."
         },
         {
@@ -749,5 +971,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-778",
-      "emoji": "🦌",
+      "emoji": "🦌🌿",
       "kidDefinition": "The hard, branched horns on the head of a deer.",
       "examples": [
         "The deer shakes its big antlers.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-771",
-      "emoji": "🐾",
+      "emoji": "🐻🧥",
       "kidDefinition": "The soft, thick hair that covers an animal's body.",
       "examples": [
         "My cat has soft, white fur.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-770",
-      "emoji": "🐬",
+      "emoji": "🐶🐋🦇",
       "kidDefinition": "An animal that feeds its babies milk and has hair or fur.",
       "examples": [
         "Whales are mammals, not fish.",
@@ -262,11 +262,31 @@
         },
         {
           "id": "l2",
-          "text": "Animals are amazing. Some fly. Some swim. Some live in the snow."
+          "text": "Animals are amazing. Some fly. Some swim. Some live in the snow.",
+          "props": [
+            {
+              "emoji": "🐘🦋",
+              "label": "animal"
+            },
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Today we will meet some animals and visit a very mysterious cave."
+          "text": "Today we will meet some animals and visit a very mysterious cave.",
+          "props": [
+            {
+              "emoji": "🐘🦋",
+              "label": "animal"
+            },
+            {
+              "emoji": "🕳️",
+              "label": "cave"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -275,7 +295,13 @@
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite animal, and where does it live?"
+        "text": "What is your favourite animal, and where does it live?",
+        "props": [
+          {
+            "emoji": "🐘",
+            "label": "animal"
+          }
+        ]
       }
     },
     {
@@ -311,6 +337,20 @@
               "who": "nikos"
             }
           ],
+          "props": [
+            {
+              "emoji": "⛄",
+              "label": "winter"
+            },
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            },
+            {
+              "emoji": "🥣",
+              "label": "breakfast"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "It is a cold winter morning in the village. Everything is white."
@@ -339,7 +379,24 @@
               "who": "mrs_bee"
             },
             {
+              "who": "mila"
+            },
+            {
               "who": "nikos"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🦌",
+              "label": "reindeer"
+            },
+            {
+              "emoji": "🪵",
+              "label": "antler"
+            },
+            {
+              "emoji": "🧥",
+              "label": "fur"
             }
           ],
           "caption": {
@@ -373,6 +430,24 @@
             },
             {
               "who": "mrs_bee"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "cave"
+            },
+            {
+              "emoji": "🦇",
+              "label": "bat"
+            },
+            {
+              "emoji": "🧱",
+              "label": "wall"
+            },
+            {
+              "emoji": "🐶🐋",
+              "label": "mammal"
             }
           ],
           "caption": {
@@ -409,6 +484,16 @@
               "who": "mila"
             }
           ],
+          "props": [
+            {
+              "emoji": "🛷",
+              "label": "sleigh"
+            },
+            {
+              "emoji": "🏠",
+              "label": "home"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Nikos wants to take his sleigh back home."
@@ -435,6 +520,19 @@
           "characters": [
             {
               "who": "mila"
+            },
+            {
+              "who": "nikos"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🔥",
+              "label": "fire"
+            },
+            {
+              "emoji": "🤲",
+              "label": "hands"
             }
           ],
           "caption": {
@@ -462,16 +560,26 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP1-U7-SB-767",
+          "props": [
+            {
+              "emoji": "🕳️",
+              "label": "cave"
+            },
+            {
+              "emoji": "🧱",
+              "label": "wall"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "A ____ hangs quietly on the cave wall."
           },
           "options": [
-            "bucket",
-            "bat",
-            "kite"
+            "reindeer",
+            "fur",
+            "bat"
           ],
-          "answer": 1,
+          "answer": 2,
           "explain": {
             "id": "c1e",
             "text": "A bat is a small animal with wings that flies at night."
@@ -483,7 +591,7 @@
           "wordId": "CPP1-U7-SB-777",
           "prompt": {
             "id": "c2q",
-            "text": "Listen and point. Which word is an animal with big antlers?"
+            "text": "Listen and point to the word: reindeer."
           },
           "options": [
             "CPP1-U7-SB-767",
@@ -493,16 +601,30 @@
           "answer": 2,
           "explain": {
             "id": "c2e",
-            "text": "Reindeer have antlers and live in cold places like the snow."
+            "text": "The word is reindeer. Reindeer have antlers and live in cold places."
           }
         },
         {
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U7-SB-778",
+          "props": [
+            {
+              "emoji": "🦌",
+              "label": "deer"
+            },
+            {
+              "emoji": "🪵",
+              "label": "antler"
+            },
+            {
+              "emoji": "🐂",
+              "label": "horn"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "Antlers are hard, branched horns that grow on a deer's head."
+            "text": "An antler is a hard, branched horn that grows on a deer."
           },
           "options": [
             "True",
@@ -511,7 +633,7 @@
           "answer": 0,
           "explain": {
             "id": "c3e",
-            "text": "Antlers are the big branched horns on a reindeer's head."
+            "text": "Antlers are the big branched horns on a deer's head."
           }
         },
         {
@@ -523,29 +645,39 @@
             "text": "Which word is NOT a mammal?"
           },
           "options": [
-            "whale",
-            "eagle",
             "bat",
-            "dog"
+            "reindeer",
+            "camel",
+            "eagle"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c4e",
-            "text": "An eagle is a bird, but dogs, bats and whales are mammals."
+            "text": "An eagle is a bird, but bats, reindeer and camels are mammals."
           }
         },
         {
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP1-U7-SB-771",
+          "props": [
+            {
+              "emoji": "🦌",
+              "label": "reindeer"
+            },
+            {
+              "emoji": "⛄",
+              "label": "winter"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "Reindeer have thick ____ to keep them warm in winter."
           },
           "options": [
-            "scales",
+            "cave",
             "fur",
-            "feathers"
+            "snow"
           ],
           "answer": 1,
           "explain": {
@@ -559,10 +691,10 @@
           "wordId": "CPP1-U7-SB-763",
           "prompt": {
             "id": "c6q",
-            "text": "Which word means a dark place inside a hill or a rock?"
+            "text": "Which word means a dark place inside a rock?"
           },
           "options": [
-            "CPP1-U7-SB-764",
+            "CPP1-U7-SB-767",
             "CPP1-U7-SB-763",
             "CPP1-U7-SB-779"
           ],
@@ -576,13 +708,27 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U7-SB-765",
+          "props": [
+            {
+              "emoji": "🐕",
+              "label": "dog"
+            },
+            {
+              "emoji": "🛷",
+              "label": "sleigh"
+            },
+            {
+              "emoji": "❄️",
+              "label": "snow"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "Our dog can ____ the heavy sleigh across the snow."
           },
           "options": [
-            "kick",
-            "jump",
+            "see",
+            "rest",
             "pull"
           ],
           "answer": 2,
@@ -595,9 +741,23 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP1-U7-SB-764",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mila"
+            },
+            {
+              "emoji": "🦇",
+              "label": "bat"
+            },
+            {
+              "emoji": "🕳️",
+              "label": "cave"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "In the story, Mila can see a bat in the cave."
+            "text": "In the story, the children can see a bat in the cave."
           },
           "options": [
             "True",
@@ -606,7 +766,7 @@
           "answer": 0,
           "explain": {
             "id": "c8e",
-            "text": "Mila says, I can see a bat! She uses her eyes to notice it."
+            "text": "The children say, 'I can see a bat!' in the cave."
           }
         },
         {
@@ -618,11 +778,11 @@
             "text": "Which word means to stop working and relax?"
           },
           "options": [
-            "CPP1-U7-SB-766",
             "CPP1-U7-SB-764",
+            "CPP1-U7-SB-766",
             "CPP1-U7-SB-765"
           ],
-          "answer": 0,
+          "answer": 1,
           "explain": {
             "id": "c9e",
             "text": "When you rest, you relax and take a break from work or play."
@@ -632,16 +792,26 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP1-U7-SB-779",
+          "props": [
+            {
+              "emoji": "⛄",
+              "label": "winter"
+            },
+            {
+              "emoji": "🟫",
+              "label": "ground"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "In winter, the ground is white with ____."
           },
           "options": [
+            "fur",
             "snow",
-            "sand",
-            "rain"
+            "cave"
           ],
-          "answer": 0,
+          "answer": 1,
           "explain": {
             "id": "c10e",
             "text": "Snow is white, cold and soft, and it falls from the sky."
@@ -680,7 +850,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I like reindeer. A reindeer has thick fur and big antlers. I can see one in the snow! After school, I like to rest at home."
+        "text": "I like the reindeer. It has thick fur and big antlers. I can see a reindeer in the snow. After school, I like to rest at home."
       }
     },
     {
@@ -715,5 +885,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

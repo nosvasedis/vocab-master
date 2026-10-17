@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1050",
-      "emoji": "🧊",
+      "emoji": "🧊🚪",
       "kidDefinition": "A cold box in the kitchen that keeps food fresh.",
       "examples": [
         "Keep the milk in the fridge or it will go bad.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1049",
-      "emoji": "💡",
+      "emoji": "👆💡",
       "kidDefinition": "To make a light or machine start working.",
       "examples": [
         "He switched on the light and started reading.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1043",
-      "emoji": "🪨",
+      "emoji": "🔥",
       "kidDefinition": "Black rock that people burn to make energy.",
       "examples": [
         "In the past, people burned coal to make electricity.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1046",
-      "emoji": "🌬️",
+      "emoji": "🌬️🌀",
       "kidDefinition": "Energy from moving air, made by turbines.",
       "examples": [
         "Nowadays, we use wind power to produce electricity.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1047",
-      "emoji": "☀️",
+      "emoji": "☀️🔋",
       "kidDefinition": "Energy that comes from the sun.",
       "examples": [
         "Solar power is a renewable source of energy.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1054",
-      "emoji": "🔋",
+      "emoji": "🔋🪫",
       "kidDefinition": "To have no more of something left.",
       "examples": [
         "When we run out of fossil fuels, what will we do?",
@@ -247,24 +247,74 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! Lingo here, ready for a stormy story."
+          "text": "Hello, friends! Lingo here, ready for a stormy story.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Imagine the sky turns dark grey, and the wind starts to howl."
+          "text": "Imagine the sky turns dark grey, and the wind starts to howl.",
+          "props": [
+            {
+              "emoji": "🌌",
+              "label": "sky"
+            },
+            {
+              "emoji": "🌬️",
+              "label": "wind"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Then, a loud crack comes from the clouds, and all the lights go off!"
+          "text": "Then, a loud crack comes from the clouds, and all the lights go off!",
+          "props": [
+            {
+              "emoji": "💥",
+              "label": "crack"
+            },
+            {
+              "emoji": "☁️",
+              "label": "clouds"
+            },
+            {
+              "emoji": "💡",
+              "label": "lights"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today, we will learn words about storms, electricity and clean energy."
+          "text": "Today, we will learn words about storms, electricity and clean energy.",
+          "props": [
+            {
+              "emoji": "⛈️",
+              "label": "storms"
+            },
+            {
+              "emoji": "🔌",
+              "label": "electricity"
+            },
+            {
+              "emoji": "🌱",
+              "label": "clean energy"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What do you do when the lights go off at home?"
+        "text": "What do you do when the lights go off at home?",
+        "props": [
+          {
+            "emoji": "💡",
+            "label": "lights"
+          }
+        ]
       }
     },
     {
@@ -291,7 +341,7 @@
       "panels": [
         {
           "id": "p1",
-          "backdrop": "home",
+          "backdrop": "village",
           "characters": [
             {
               "who": "nikos"
@@ -304,6 +354,20 @@
             "id": "p1c",
             "text": "One warm evening, a big thunderstorm rolled over the village."
           },
+          "props": [
+            {
+              "emoji": "⛈️",
+              "label": "thunderstorm"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "village"
+            },
+            {
+              "emoji": "🔊",
+              "label": "thunder"
+            }
+          ],
           "speech": [
             {
               "id": "p1a",
@@ -336,6 +400,28 @@
             "id": "p2c",
             "text": "A bright flash lit up the sky outside the window."
           },
+          "props": [
+            {
+              "emoji": "✨",
+              "label": "flash"
+            },
+            {
+              "emoji": "🌌",
+              "label": "sky"
+            },
+            {
+              "emoji": "🪟",
+              "label": "window"
+            },
+            {
+              "emoji": "⚡",
+              "label": "lightning"
+            },
+            {
+              "emoji": "💪",
+              "label": "powerful"
+            }
+          ],
           "speech": [
             {
               "id": "p2a",
@@ -345,7 +431,7 @@
             {
               "id": "p2b",
               "who": "mum",
-              "text": "Stay away from the window. Lightning can be dangerous."
+              "text": "Stay away from the window, Nikos. It is not safe near lightning."
             }
           ],
           "highlight": [
@@ -366,8 +452,34 @@
           ],
           "caption": {
             "id": "p3c",
-            "text": "Then the lights went off, and the fridge stopped humming."
+            "text": "Then the lights went off, and the fridge went quiet."
           },
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "lights"
+            },
+            {
+              "emoji": "🧊🚪",
+              "label": "fridge"
+            },
+            {
+              "emoji": "🔌",
+              "label": "power"
+            },
+            {
+              "emoji": "🔦",
+              "label": "torch"
+            },
+            {
+              "emoji": "⛈️",
+              "label": "thunderstorm"
+            },
+            {
+              "emoji": "🥛",
+              "label": "milk"
+            }
+          ],
           "speech": [
             {
               "id": "p3a",
@@ -401,6 +513,32 @@
             "id": "p4c",
             "text": "The next morning, Nikos saw turbines and solar panels in the village."
           },
+          "props": [
+            {
+              "emoji": "🌀",
+              "label": "turbines"
+            },
+            {
+              "emoji": "☀️",
+              "label": "solar panels"
+            },
+            {
+              "emoji": "🌬️",
+              "label": "wind power"
+            },
+            {
+              "emoji": "☀️🔋",
+              "label": "solar power"
+            },
+            {
+              "emoji": "🪨",
+              "label": "coal"
+            },
+            {
+              "emoji": "🔥",
+              "label": "burn"
+            }
+          ],
           "speech": [
             {
               "id": "p4a",
@@ -434,6 +572,32 @@
             "id": "p5c",
             "text": "Nikos smiled. The sun was shining, and the lights came back on."
           },
+          "props": [
+            {
+              "emoji": "🌞",
+              "label": "sun"
+            },
+            {
+              "emoji": "💡",
+              "label": "lights"
+            },
+            {
+              "emoji": "🌱",
+              "label": "clean energy"
+            },
+            {
+              "emoji": "🔋",
+              "label": "power"
+            },
+            {
+              "emoji": "🪔",
+              "label": "lamp"
+            },
+            {
+              "emoji": "🪫",
+              "label": "run out"
+            }
+          ],
           "speech": [
             {
               "id": "p5a",
@@ -466,16 +630,22 @@
             "text": "The sky went dark, and a big ____ rolled over the village."
           },
           "options": [
-            "rainbow",
-            "sunshine",
-            "snowflake",
+            "thunder",
+            "lightning",
+            "wind power",
             "thunderstorm"
           ],
           "answer": 3,
           "explain": {
             "id": "c1e",
             "text": "A thunderstorm is a storm with thunder and lightning, so it fits here."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "village"
+            }
+          ]
         },
         {
           "id": "c2",
@@ -483,7 +653,7 @@
           "wordId": "CPP3-U8-SB-1041",
           "prompt": {
             "id": "c2q",
-            "text": "Listen and pick the word for the loud rumbling sound in the sky."
+            "text": "Listen and pick the word: thunder."
           },
           "options": [
             "CPP3-U8-SB-1042",
@@ -513,7 +683,17 @@
           "explain": {
             "id": "c3e",
             "text": "Lightning is the bright flash, and thunder is the sound that follows it."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🏊",
+              "label": "lightning"
+            },
+            {
+              "emoji": "⛈️",
+              "label": "storm"
+            }
+          ]
         },
         {
           "id": "c4",
@@ -533,7 +713,17 @@
           "explain": {
             "id": "c4e",
             "text": "Powerful means very strong, and the wind was very strong."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🌬️",
+              "label": "wind"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            }
+          ]
         },
         {
           "id": "c5",
@@ -544,16 +734,22 @@
             "text": "Keep the milk in the ____ so it stays cold and fresh."
           },
           "options": [
-            "kettle",
-            "toaster",
-            "oven",
+            "thunder",
+            "lightning",
+            "wind power",
             "fridge"
           ],
           "answer": 3,
           "explain": {
             "id": "c5e",
             "text": "A fridge is the cold box in the kitchen that keeps food fresh."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🥛",
+              "label": "milk"
+            }
+          ]
         },
         {
           "id": "c6",
@@ -564,12 +760,12 @@
             "text": "Which phrase means to make a light start working?"
           },
           "options": [
-            "CPP3-U8-SB-1049",
             "CPP3-U8-SB-1054",
-            "CPP3-U8-SB-1039",
-            "CPP3-U8-SB-1050"
+            "CPP3-U8-SB-1043",
+            "CPP3-U8-SB-1049",
+            "CPP3-U8-SB-1039"
           ],
-          "answer": 0,
+          "answer": 2,
           "explain": {
             "id": "c6e",
             "text": "You switch on a light when you press the switch and it starts working."
@@ -592,7 +788,7 @@
           "answer": 3,
           "explain": {
             "id": "c7e",
-            "text": "Coal is a fossil fuel that we burn, but wind, solar and water power are clean renewable sources."
+            "text": "Coal is a fossil fuel that we burn. Solar, wind and hydroelectric power are clean, renewable sources."
           }
         },
         {
@@ -613,7 +809,17 @@
           "explain": {
             "id": "c8e",
             "text": "Turbines turn with moving air, so they use wind power."
-          }
+          },
+          "props": [
+            {
+              "emoji": "⛰️",
+              "label": "hill"
+            },
+            {
+              "emoji": "⚡",
+              "label": "electricity"
+            }
+          ]
         },
         {
           "id": "c9",
@@ -631,7 +837,13 @@
           "explain": {
             "id": "c9e",
             "text": "Solar power uses energy from the sun, not from the wind."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🌬️",
+              "label": "wind"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -686,7 +898,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "When there is a thunderstorm, I stay inside. I hear thunder and see lightning, so I switch on a torch. I think solar power and wind power are good because they keep our fridge running without much coal."
+        "text": "When there is a thunderstorm, I stay inside. I hear thunder, so I switch on a torch. I think solar power and wind power are good because they keep our fridge running without much coal."
       }
     },
     {
@@ -703,7 +915,7 @@
         },
         {
           "id": "l3",
-          "text": "Next time, we will switch on our knowledge about electricity even more!"
+          "text": "Next time, we will use our knowledge about electricity even more!"
         }
       ],
       "badge": {
@@ -721,5 +933,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

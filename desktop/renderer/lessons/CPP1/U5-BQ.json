@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U5-SB-533",
-      "emoji": "🎭",
+      "emoji": "🐉🥢",
       "kidDefinition": "A puppet that you hold up on a thin stick.",
       "examples": [
         "Let's play with our stick puppets.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-536",
-      "emoji": "🛒",
+      "emoji": "💵🛒",
       "kidDefinition": "To get something by paying money for it.",
       "examples": [
         "I want to buy a new toy car.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-537",
-      "emoji": "🪢",
+      "emoji": "🪢🏃",
       "kidDefinition": "To jump over a rope that goes under your feet.",
       "examples": [
         "She likes jumping rope.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-540",
-      "emoji": "🍪",
+      "emoji": "🍪🔥",
       "kidDefinition": "To cook food, like cakes or cookies, in an oven.",
       "examples": [
         "My grandmother bakes cookies on Sundays.",
@@ -184,11 +184,27 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher."
+          "text": "Hello, friends! I am Lingo, your owl teacher.",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl teacher"
+            },
+            {
+              "emoji": "👧👦",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we start a big question."
+          "text": "Today we start a big question.",
+          "props": [
+            {
+              "emoji": "❓",
+              "label": "question"
+            }
+          ]
         },
         {
           "id": "l3",
@@ -196,7 +212,21 @@
         },
         {
           "id": "l4",
-          "text": "Do you dance, paint, or play games?"
+          "text": "Do you dance, paint, or play games?",
+          "props": [
+            {
+              "emoji": "💃",
+              "label": "dance"
+            },
+            {
+              "emoji": "🎨",
+              "label": "paint"
+            },
+            {
+              "emoji": "🎲",
+              "label": "play games"
+            }
+          ]
         }
       ],
       "question": {
@@ -232,6 +262,20 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "🧸",
+              "label": "toy"
+            },
+            {
+              "emoji": "🐉🥢",
+              "label": "stick puppet"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mia finds a big box of toys at home."
@@ -253,6 +297,20 @@
           "characters": [
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🍪",
+              "label": "cookie"
+            },
+            {
+              "emoji": "💃",
+              "label": "dance"
+            },
+            {
+              "emoji": "🎨",
+              "label": "paint"
             }
           ],
           "caption": {
@@ -284,7 +342,7 @@
           "wordId": "CPP1-U5-SB-533",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the stick puppet."
+            "text": "Point to the puppet that you hold on a thin stick."
           },
           "options": [
             "CPP1-U5-SB-533",
@@ -324,18 +382,36 @@
           "wordId": "CPP1-U5-SB-536",
           "prompt": {
             "id": "c3q",
-            "text": "I want to ____ a new toy car."
+            "text": "I have money. I want to ____ a new toy car from the shop."
           },
           "options": [
             "buy",
-            "borrow",
-            "sell"
+            "bake",
+            "dance"
           ],
           "answer": 0,
           "explain": {
             "id": "c3e",
             "text": "To buy something means to pay money to get it."
-          }
+          },
+          "props": [
+            {
+              "emoji": "💵",
+              "label": "money"
+            },
+            {
+              "emoji": "🚗",
+              "label": "car"
+            },
+            {
+              "emoji": "🧸",
+              "label": "toy"
+            },
+            {
+              "emoji": "🏪",
+              "label": "shop"
+            }
+          ]
         },
         {
           "id": "c4",
@@ -343,18 +419,32 @@
           "wordId": "CPP1-U5-SB-540",
           "prompt": {
             "id": "c4q",
-            "text": "My grandmother likes to ____ cookies on Sundays."
+            "text": "My grandmother likes to ____ cookies in the oven on Sundays."
           },
           "options": [
-            "sweep",
             "bake",
-            "wash"
+            "paint",
+            "dance"
           ],
-          "answer": 1,
+          "answer": 0,
           "explain": {
             "id": "c4e",
             "text": "We bake cookies in an oven, so bake is the right word."
-          }
+          },
+          "props": [
+            {
+              "emoji": "👵",
+              "label": "grandmother"
+            },
+            {
+              "emoji": "🍪",
+              "label": "cookie"
+            },
+            {
+              "emoji": "🍎",
+              "label": "oven"
+            }
+          ]
         },
         {
           "id": "c5",
@@ -372,7 +462,17 @@
           "explain": {
             "id": "c5e",
             "text": "When you paint, you use a brush and colours to make a picture."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🌈",
+              "label": "colours"
+            }
+          ]
         },
         {
           "id": "c6",
@@ -390,7 +490,21 @@
           "explain": {
             "id": "c6e",
             "text": "Jump rope means jumping over a rope, not cooking food."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🪢",
+              "label": "rope"
+            },
+            {
+              "emoji": "🥘",
+              "label": "food"
+            },
+            {
+              "emoji": "🔥",
+              "label": "oven"
+            }
+          ]
         },
         {
           "id": "c7",
@@ -402,14 +516,14 @@
           },
           "options": [
             "music",
-            "buy",
+            "dance",
             "bake",
             "paint"
           ],
           "answer": 0,
           "explain": {
             "id": "c7e",
-            "text": "Bake, paint and buy are action words, but music is a noun."
+            "text": "Dance, bake and paint are actions, but music is something we listen to."
           }
         },
         {
@@ -418,7 +532,7 @@
           "wordId": "CPP1-U5-SB-541",
           "prompt": {
             "id": "c8q",
-            "text": "Which word means making pictures with colours?"
+            "text": "Which picture shows making pictures with colours?"
           },
           "options": [
             "CPP1-U5-SB-540",
@@ -438,19 +552,37 @@
           "wordId": "CPP1-U5-KW-3",
           "prompt": {
             "id": "c9q",
-            "text": "At break time, we ____ with our friends."
+            "text": "At break time, we ____ with a ball and our friends in the playground."
           },
           "options": [
-            "make a cake",
-            "eat lunch",
             "play games",
-            "wash hands"
+            "listen to music",
+            "bake cookies",
+            "jump rope"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c9e",
             "text": "Play games means having fun with a game, so it fits here."
-          }
+          },
+          "props": [
+            {
+              "emoji": "⏰",
+              "label": "break"
+            },
+            {
+              "emoji": "👧👦",
+              "label": "friends"
+            },
+            {
+              "emoji": "🛝",
+              "label": "playground"
+            },
+            {
+              "emoji": "⚽",
+              "label": "ball"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -461,15 +593,25 @@
             "text": "I put on my shoes and ____ to the music."
           },
           "options": [
-            "climb",
-            "swim",
-            "dance"
+            "dance",
+            "bake",
+            "buy"
           ],
-          "answer": 2,
+          "answer": 0,
           "explain": {
             "id": "c10e",
             "text": "When you move your body to music, you dance."
-          }
+          },
+          "props": [
+            {
+              "emoji": "👟",
+              "label": "shoes"
+            },
+            {
+              "emoji": "🎵",
+              "label": "music"
+            }
+          ]
         }
       ]
     },
@@ -539,5 +681,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

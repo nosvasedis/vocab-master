@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U2-SB-172",
-      "emoji": "📊",
+      "emoji": "⬜➡️⬜➡️⬜",
       "kidDefinition": "A diagram with arrows that shows steps in order.",
       "examples": [
         "Our teacher drew a flow chart to show how bread is made.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-175",
-      "emoji": "✏️",
+      "emoji": "🔤➖",
       "kidDefinition": "To draw a line under important words.",
       "examples": [
         "Please underline the date in your letter.",
@@ -274,6 +274,24 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "kitchen",
+      "props": [
+        {
+          "emoji": "🎂",
+          "label": "birthday"
+        },
+        {
+          "emoji": "🧒",
+          "label": "Jan"
+        },
+        {
+          "emoji": "🍳",
+          "label": "breakfast"
+        },
+        {
+          "emoji": "🥕🍞",
+          "label": "food"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -285,11 +303,27 @@
         },
         {
           "id": "l3",
-          "text": "Breakfast is the first meal of the day, and food can be very interesting."
+          "text": "Breakfast is the first meal of the day, and food can be very interesting.",
+          "props": [
+            {
+              "emoji": "🍽️",
+              "label": "meal"
+            },
+            {
+              "emoji": "☀️",
+              "label": "day"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's see what food is for, and how people make it."
+          "text": "Let's see what food is for, and how people make it.",
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "people"
+            }
+          ]
         }
       ],
       "question": {
@@ -330,6 +364,32 @@
               "who": "dad"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            },
+            {
+              "emoji": "🍳",
+              "label": "breakfast"
+            },
+            {
+              "emoji": "📄",
+              "label": "recipe"
+            },
+            {
+              "emoji": "🥞",
+              "label": "pancake"
+            },
+            {
+              "emoji": "🔍",
+              "label": "clue"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "It is Jan's birthday. She and Dad want to make a surprise breakfast."
@@ -359,6 +419,32 @@
             },
             {
               "who": "dad"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "✏️",
+              "label": "pen"
+            },
+            {
+              "emoji": "⬜➡️⬜➡️⬜",
+              "label": "flow chart"
+            },
+            {
+              "emoji": "👣",
+              "label": "step"
+            },
+            {
+              "emoji": "1️⃣2️⃣3️⃣",
+              "label": "order"
+            },
+            {
+              "emoji": "🔤➖",
+              "label": "underline"
+            },
+            {
+              "emoji": "⬜",
+              "label": "box"
             }
           ],
           "caption": {
@@ -393,6 +479,24 @@
               "who": "jan"
             }
           ],
+          "props": [
+            {
+              "emoji": "👣",
+              "label": "step"
+            },
+            {
+              "emoji": "🧈",
+              "label": "butter"
+            },
+            {
+              "emoji": "🍳",
+              "label": "pan"
+            },
+            {
+              "emoji": "🔥",
+              "label": "melt"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Step one: melt a little butter in the pan."
@@ -401,7 +505,7 @@
             {
               "id": "p3a",
               "who": "dad",
-              "text": "Step one is always the butter, Jan. Let's melt it slowly."
+              "text": "Step one is always to melt the butter, Jan. Let's do it slowly."
             },
             {
               "id": "p3b",
@@ -423,6 +527,28 @@
             },
             {
               "who": "dad"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧄",
+              "label": "garlic"
+            },
+            {
+              "emoji": "🧅",
+              "label": "onion"
+            },
+            {
+              "emoji": "👅",
+              "label": "taste"
+            },
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            },
+            {
+              "emoji": "🥞",
+              "label": "pancake"
             }
           ],
           "caption": {
@@ -458,6 +584,28 @@
               "who": "dad"
             }
           ],
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "dictionary"
+            },
+            {
+              "emoji": "🔤",
+              "label": "word"
+            },
+            {
+              "emoji": "🥞",
+              "label": "pancake"
+            },
+            {
+              "emoji": "🍰",
+              "label": "cake"
+            },
+            {
+              "emoji": "🎂",
+              "label": "birthday"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Jan checks her dictionary for the word pancake, then smiles."
@@ -466,7 +614,7 @@
             {
               "id": "p5a",
               "who": "jan",
-              "text": "The dictionary says a pancake is a thin, round cake. Happy birthday, Dad!"
+              "text": "The dictionary says a pancake is a thin, round cake. Thank you, Dad!"
             },
             {
               "id": "p5b",
@@ -491,7 +639,7 @@
           "wordId": "CPP3-U2-SB-172",
           "prompt": {
             "id": "c1q",
-            "text": "Which one is a flow chart?"
+            "text": "Which one shows steps in order with arrows?"
           },
           "options": [
             "CPP3-U2-SB-172",
@@ -529,6 +677,12 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-173",
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "recipe"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "Follow each ____ of the recipe, one at a time."
@@ -549,6 +703,20 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U2-SB-194",
+          "props": [
+            {
+              "emoji": "🧈",
+              "label": "butter"
+            },
+            {
+              "emoji": "🥕🍞",
+              "label": "food"
+            },
+            {
+              "emoji": "🥛",
+              "label": "milk"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Butter is a soft yellow food made from milk."
@@ -587,6 +755,12 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-176",
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "Use the ____ in the pictures to guess the meaning of a word."
@@ -609,7 +783,7 @@
           "wordId": "CPP3-U2-SB-200",
           "prompt": {
             "id": "c7q",
-            "text": "Which one is a pancake?"
+            "text": "Which one is a thin, round cake cooked in a pan?"
           },
           "options": [
             "CPP3-U2-SB-176",
@@ -627,6 +801,16 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP3-U2-SB-175",
+          "props": [
+            {
+              "emoji": "⭕",
+              "label": "circle"
+            },
+            {
+              "emoji": "🔤",
+              "label": "word"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "To underline a word means to draw a circle around it."
@@ -645,6 +829,16 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-182",
+          "props": [
+            {
+              "emoji": "🍲",
+              "label": "soup"
+            },
+            {
+              "emoji": "🧂",
+              "label": "salt"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "I don't like the ____ of this soup. Should I add some salt?"
@@ -667,7 +861,7 @@
           "wordId": "CPP3-U2-SB-180",
           "prompt": {
             "id": "c10q",
-            "text": "Which one is garlic?"
+            "text": "Which one is a white bulb with cloves, used to flavour food?"
           },
           "options": [
             "CPP3-U2-SB-173",
@@ -745,5 +939,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

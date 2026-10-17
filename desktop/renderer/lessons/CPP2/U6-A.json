@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U6-SB-746",
-      "emoji": "💡",
+      "emoji": "💡⭐",
       "kidDefinition": "The most important point of a text.",
       "examples": [
         "What is the main idea of this text?",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-752",
-      "emoji": "🚫",
+      "emoji": "🦕❌",
       "kidDefinition": "When all animals of one kind disappear forever.",
       "examples": [
         "Scientists are studying the extinction of dinosaurs.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-753",
-      "emoji": "🔢",
+      "emoji": "1️⃣0️⃣0️⃣0️⃣0️⃣0️⃣0️⃣",
       "kidDefinition": "The number one thousand thousand. A very big number.",
       "examples": [
         "Dinosaurs lived on Earth millions of years ago.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-755",
-      "emoji": "🦤",
+      "emoji": "🦤🪦",
       "kidDefinition": "No longer alive anywhere in the world.",
       "examples": [
         "The dodo bird became extinct long ago.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-761",
-      "emoji": "☄️",
+      "emoji": "🪨🌌",
       "kidDefinition": "A big rock that travels through space.",
       "examples": [
         "An asteroid hit the Earth millions of years ago.",
@@ -253,15 +253,49 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, I am Lingo, and I love owls and dinosaurs!"
+          "text": "Hello, I am Lingo, and I love owls and dinosaurs!",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "owl"
+            },
+            {
+              "emoji": "🦕",
+              "label": "dinosaur"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Dinosaurs lived on Earth millions of years ago."
+          "text": "Dinosaurs lived on Earth millions of years ago.",
+          "props": [
+            {
+              "emoji": "🦕",
+              "label": "dinosaur"
+            },
+            {
+              "emoji": "🌍",
+              "label": "Earth"
+            },
+            {
+              "emoji": "🔢",
+              "label": "million"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some were enormous, and some were very small."
+          "text": "Some were enormous, and some were very small.",
+          "props": [
+            {
+              "emoji": "🐘",
+              "label": "enormous"
+            },
+            {
+              "emoji": "🐜",
+              "label": "small"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -306,9 +340,31 @@
               "who": "milo"
             }
           ],
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "text"
+            },
+            {
+              "emoji": "🦕",
+              "label": "dinosaur"
+            },
+            {
+              "emoji": "💡",
+              "label": "main idea"
+            },
+            {
+              "emoji": "🔍",
+              "label": "detail"
+            },
+            {
+              "emoji": "🦕❌",
+              "label": "extinct"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "Nora and Milo are reading a text about dinosaurs in class."
+            "text": "Nora and Milo read a text about dinosaurs in class."
           },
           "speech": [
             {
@@ -319,7 +375,7 @@
             {
               "id": "p1b",
               "who": "milo",
-              "text": "I think the main idea is that dinosaurs disappeared. This detail helps!"
+              "text": "I think the main idea is that dinosaurs became extinct. This detail helps!"
             }
           ],
           "highlight": [
@@ -341,9 +397,27 @@
               "who": "nora"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌲",
+              "label": "forest"
+            },
+            {
+              "emoji": "🕊️",
+              "label": "gentle"
+            },
+            {
+              "emoji": "🦎",
+              "label": "reptile"
+            },
+            {
+              "emoji": "🪵",
+              "label": "log"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "In the forest, they meet Gus, a giant with a kind smile."
+            "text": "In the forest, they meet Gus, a kind friend."
           },
           "speech": [
             {
@@ -364,7 +438,7 @@
         },
         {
           "id": "p3",
-          "backdrop": "park",
+          "backdrop": "forest",
           "characters": [
             {
               "who": "gus"
@@ -373,9 +447,31 @@
               "who": "nora"
             }
           ],
+          "props": [
+            {
+              "emoji": "👣",
+              "label": "footprint"
+            },
+            {
+              "emoji": "🟫",
+              "label": "mud"
+            },
+            {
+              "emoji": "🦕",
+              "label": "dinosaur"
+            },
+            {
+              "emoji": "🦶🦶",
+              "label": "feet"
+            },
+            {
+              "emoji": "🐘",
+              "label": "enormous"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "Gus points to a huge mark in the mud."
+            "text": "Gus points to a huge footprint in the mud."
           },
           "speech": [
             {
@@ -403,6 +499,35 @@
             },
             {
               "who": "milo"
+            },
+            {
+              "who": "nora"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            },
+            {
+              "emoji": "☄️",
+              "label": "asteroid"
+            },
+            {
+              "emoji": "🌍",
+              "label": "Earth"
+            },
+            {
+              "emoji": "🔢",
+              "label": "million"
+            },
+            {
+              "emoji": "💥➡️",
+              "label": "cause"
             }
           ],
           "caption": {
@@ -437,9 +562,35 @@
               "who": "gus"
             }
           ],
+          "props": [
+            {
+              "emoji": "🦕",
+              "label": "dinosaur"
+            },
+            {
+              "emoji": "🧑‍🔬",
+              "label": "scientist"
+            },
+            {
+              "emoji": "🦕❌",
+              "label": "extinct"
+            },
+            {
+              "emoji": "🦕❌",
+              "label": "extinction"
+            },
+            {
+              "emoji": "🦎",
+              "label": "lizard"
+            },
+            {
+              "emoji": "🦎",
+              "label": "reptile"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Back in class, the friends think about what they learned."
+            "text": "Back in class, Nora and Gus think about what they learned."
           },
           "speech": [
             {
@@ -468,6 +619,20 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-746",
+          "props": [
+            {
+              "emoji": "🦕",
+              "label": "dinosaur"
+            },
+            {
+              "emoji": "📄",
+              "label": "text"
+            },
+            {
+              "emoji": "🦕❌",
+              "label": "extinct"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "Read the text. The ____ is that dinosaurs became extinct."
@@ -488,13 +653,19 @@
           "id": "c2",
           "kind": "pickPicture",
           "wordId": "CPP2-U6-SB-747",
+          "props": [
+            {
+              "emoji": "💡",
+              "label": "main idea"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Which word means a small fact that helps explain the main idea?"
+            "text": "Which word means a small piece of information about something?"
           },
           "options": [
             "CPP2-U6-SB-746",
-            "CPP2-U6-SB-748",
+            "CPP2-U6-SB-753",
             "CPP2-U6-SB-749",
             "CPP2-U6-SB-747"
           ],
@@ -508,9 +679,19 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-748",
+          "props": [
+            {
+              "emoji": "🧍",
+              "label": "Gus"
+            },
+            {
+              "emoji": "👧👦",
+              "label": "friends"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "Gus is gentle. He is careful and kind with the children."
+            "text": "Gus is gentle. He is kind and careful with his friends."
           },
           "options": [
             "True",
@@ -526,6 +707,12 @@
           "id": "c4",
           "kind": "oddOneOut",
           "wordId": "CPP2-U6-SB-749",
+          "props": [
+            {
+              "emoji": "🦎",
+              "label": "reptile"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "Which one is NOT a reptile?"
@@ -546,9 +733,19 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-752",
+          "props": [
+            {
+              "emoji": "🧑‍🔬",
+              "label": "scientist"
+            },
+            {
+              "emoji": "🦕",
+              "label": "dinosaur"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "Scientists are studying the ____ of the dinosaurs."
+            "text": "Scientists study the ____ of the dinosaurs. They all disappeared forever."
           },
           "options": [
             "footprint",
@@ -566,6 +763,12 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-755",
+          "props": [
+            {
+              "emoji": "🦤",
+              "label": "dodo bird"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "The dodo bird is ____ now. Nobody can see one."
@@ -586,6 +789,16 @@
           "id": "c7",
           "kind": "pickPicture",
           "wordId": "CPP2-U6-SB-756",
+          "props": [
+            {
+              "emoji": "🟫",
+              "label": "mud"
+            },
+            {
+              "emoji": "🦶",
+              "label": "foot"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "Which word is the mark a foot leaves in the mud?"
@@ -606,6 +819,16 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-753",
+          "props": [
+            {
+              "emoji": "💯",
+              "label": "one hundred"
+            },
+            {
+              "emoji": "🔢",
+              "label": "million"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "A million is the number one hundred."
@@ -624,6 +847,16 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-761",
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            },
+            {
+              "emoji": "🌌",
+              "label": "space"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "A big rock that travels through space is called an ____."
@@ -644,6 +877,12 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-770",
+          "props": [
+            {
+              "emoji": "🐜",
+              "label": "small"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "Enormous means very small."
@@ -726,5 +965,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

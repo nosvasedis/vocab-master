@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U7-SB-859",
-      "emoji": "🪙",
+      "emoji": "🪙🪙🪙",
       "kidDefinition": "A group of similar things you keep together.",
       "examples": [
         "Maria has a big collection of stickers.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-862",
-      "emoji": "📔",
+      "emoji": "📔🖼️",
       "kidDefinition": "A book where you stick photos, pictures and notes.",
       "examples": [
         "Maria keeps her photos in a scrapbook.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-866",
-      "emoji": "⭐",
+      "emoji": "⭐🏷️",
       "kidDefinition": "A small paper picture with glue on the back.",
       "examples": [
         "She put a star sticker on her page.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-865",
-      "emoji": "🧱",
+      "emoji": "🪵🧱",
       "kidDefinition": "What something is made from, like paper or wood.",
       "examples": [
         "Cardboard is a good material for models.",
@@ -118,7 +118,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-868",
-      "emoji": "🔺",
+      "emoji": "🔺🏜️",
       "kidDefinition": "A huge stone building with four triangle sides.",
       "examples": [
         "The Great Pyramid is very old and very large.",
@@ -135,7 +135,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-875",
-      "emoji": "🏺",
+      "emoji": "🏛️⏳",
       "kidDefinition": "Very old, from a long time ago.",
       "examples": [
         "Ancient Egyptians built pyramids for their kings.",
@@ -152,7 +152,7 @@
     },
     {
       "wordId": "CPP2-U7-SB-878",
-      "emoji": "📜",
+      "emoji": "🦅👁️",
       "kidDefinition": "Picture symbols used for writing in ancient Egypt.",
       "examples": [
         "Hieroglyphics look like birds, eyes and small people.",
@@ -255,20 +255,56 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love free time."
+          "text": "Hello, friends! I am Lingo, and I love free time.",
+          "props": [
+            {
+              "emoji": "🧑🤝🧑",
+              "label": "friends"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Some people collect things. Some people make things. Some people read about the past."
+          "text": "Some people collect things. Some people make things. Some people read about the past.",
+          "props": [
+            {
+              "emoji": "🧑🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "📦📦",
+              "label": "things"
+            },
+            {
+              "emoji": "⏳",
+              "label": "past"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Today we meet Maria. She has a wonderful free-time project!"
+          "text": "Today we meet Maria. She has a wonderful free-time project!",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maria"
+            },
+            {
+              "emoji": "📁",
+              "label": "project"
+            }
+          ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite thing to do in your free time?"
+        "text": "What is your favourite thing to do in your free time?",
+        "props": [
+          {
+            "emoji": "⏰",
+            "label": "free time"
+          }
+        ]
       }
     },
     {
@@ -301,9 +337,31 @@
               "who": "maria"
             }
           ],
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "💎",
+              "label": "treasure"
+            },
+            {
+              "emoji": "⭐⭐⭐",
+              "label": "sticker"
+            },
+            {
+              "emoji": "🗃️",
+              "label": "collection"
+            },
+            {
+              "emoji": "📅",
+              "label": "Sunday"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "On Sunday afternoon, Maria has free time. She opens her box of treasures."
+            "text": "On Sunday, Maria opens her box of treasures."
           },
           "speech": [
             {
@@ -328,9 +386,35 @@
               "who": "nick"
             }
           ],
+          "props": [
+            {
+              "emoji": "📕",
+              "label": "book"
+            },
+            {
+              "emoji": "📔",
+              "label": "scrapbook"
+            },
+            {
+              "emoji": "🍽️",
+              "label": "table"
+            },
+            {
+              "emoji": "📷",
+              "label": "photo"
+            },
+            {
+              "emoji": "🎨",
+              "label": "drawing"
+            },
+            {
+              "emoji": "🧴",
+              "label": "glue"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Nick comes in. He sees a big, colourful book on the table."
+            "text": "Nick comes in. He sees a big book on the table."
           },
           "speech": [
             {
@@ -341,7 +425,7 @@
             {
               "id": "p2b",
               "who": "maria",
-              "text": "It is my scrapbook. I stick photos and drawings in it."
+              "text": "It is my scrapbook. I glue photos and drawings in it."
             }
           ],
           "highlight": [
@@ -350,13 +434,39 @@
         },
         {
           "id": "p3",
-          "backdrop": "classroom",
+          "backdrop": "home",
           "characters": [
             {
               "who": "maria"
             },
             {
               "who": "nick"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "page"
+            },
+            {
+              "emoji": "🇪🇬",
+              "label": "Egypt"
+            },
+            {
+              "emoji": "🏛️",
+              "label": "ancient"
+            },
+            {
+              "emoji": "🔺🏜️",
+              "label": "pyramid"
+            },
+            {
+              "emoji": "⏳",
+              "label": "years"
+            },
+            {
+              "emoji": "🇪🇬",
+              "label": "Egyptians"
             }
           ],
           "caption": {
@@ -368,16 +478,58 @@
               "id": "p3a",
               "who": "maria",
               "text": "Look! Ancient Egyptians built this pyramid. It is thousands of years old!"
+            }
+          ],
+          "highlight": [
+            "CPP2-U7-SB-868",
+            "CPP2-U7-SB-875"
+          ]
+        },
+        {
+          "id": "p3b",
+          "backdrop": "home",
+          "characters": [
+            {
+              "who": "maria"
             },
             {
-              "id": "p3b",
+              "who": "nick"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📄",
+              "label": "page"
+            },
+            {
+              "emoji": "🦅👁️",
+              "label": "hieroglyphics"
+            },
+            {
+              "emoji": "✍️",
+              "label": "writing"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🔤",
+              "label": "letters"
+            }
+          ],
+          "caption": {
+            "id": "p3bc",
+            "text": "Nick looks closely at the page."
+          },
+          "speech": [
+            {
+              "id": "p3ba",
               "who": "nick",
               "text": "They used hieroglyphics for writing, right? Pictures, not letters!"
             }
           ],
           "highlight": [
-            "CPP2-U7-SB-868",
-            "CPP2-U7-SB-875",
             "CPP2-U7-SB-878"
           ]
         },
@@ -387,6 +539,28 @@
           "characters": [
             {
               "who": "maria"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧩",
+              "label": "model"
+            },
+            {
+              "emoji": "🔺",
+              "label": "pyramid"
+            },
+            {
+              "emoji": "🧱",
+              "label": "material"
+            },
+            {
+              "emoji": "📦",
+              "label": "cardboard"
+            },
+            {
+              "emoji": "🧶",
+              "label": "yarn"
             }
           ],
           "caption": {
@@ -414,6 +588,28 @@
             },
             {
               "who": "nick"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "🔒",
+              "label": "lock"
+            },
+            {
+              "emoji": "🔑",
+              "label": "key"
+            },
+            {
+              "emoji": "📔",
+              "label": "scrapbook"
+            },
+            {
+              "emoji": "👀",
+              "label": "spot"
             }
           ],
           "caption": {
@@ -449,7 +645,7 @@
           "wordId": "CPP2-U7-SB-862",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the scrapbook."
+            "text": "Point to the book where you stick photos, pictures and notes."
           },
           "options": [
             "CPP2-U7-SB-859",
@@ -469,7 +665,7 @@
           "wordId": "CPP2-U7-SB-859",
           "prompt": {
             "id": "c2q",
-            "text": "Listen to Lingo. Point to the word you hear."
+            "text": "Listen to Lingo. Point to the word you hear: collection."
           },
           "options": [
             "CPP2-U7-SB-868",
@@ -489,7 +685,7 @@
           "wordId": "CPP2-U7-SB-866",
           "prompt": {
             "id": "c3q",
-            "text": "Maria put a shiny ____ of a camel on her page."
+            "text": "Maria put a ____ of a star on her page."
           },
           "options": [
             "sticker",
@@ -501,7 +697,13 @@
           "explain": {
             "id": "c3e",
             "text": "A sticker is a small paper picture with glue on the back."
-          }
+          },
+          "props": [
+            {
+              "emoji": "⭐",
+              "label": "star"
+            }
+          ]
         },
         {
           "id": "c4",
@@ -513,7 +715,7 @@
           },
           "options": [
             "key",
-            "material",
+            "sticker",
             "yarn",
             "collection"
           ],
@@ -521,7 +723,13 @@
           "explain": {
             "id": "c4e",
             "text": "Yarn is long, thin thread, so it can tie a box."
-          }
+          },
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            }
+          ]
         },
         {
           "id": "c5",
@@ -539,7 +747,25 @@
           "explain": {
             "id": "c5e",
             "text": "A material is what something is made from, and Maria used cardboard."
-          }
+          },
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "cardboard"
+            },
+            {
+              "emoji": "💭",
+              "label": "material"
+            },
+            {
+              "emoji": "👩‍🏫",
+              "label": "model"
+            },
+            {
+              "emoji": "🔺",
+              "label": "pyramid"
+            }
+          ]
         },
         {
           "id": "c6",
@@ -558,7 +784,7 @@
           "answer": 2,
           "explain": {
             "id": "c6e",
-            "text": "A pyramid is a huge building, but the other three are small things you can keep in a box."
+            "text": "Sticker, scrapbook and collection are all about collecting and keeping things; a pyramid is a huge ancient building."
           }
         },
         {
@@ -579,7 +805,13 @@
           "explain": {
             "id": "c7e",
             "text": "Ancient means very old, from a long time ago."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🔺",
+              "label": "pyramid"
+            }
+          ]
         },
         {
           "id": "c8",
@@ -597,7 +829,25 @@
           "explain": {
             "id": "c8e",
             "text": "Hieroglyphics used pictures instead of letters for writing."
-          }
+          },
+          "props": [
+            {
+              "emoji": "⛺",
+              "label": "hieroglyphics"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "💡",
+              "label": "symbol"
+            },
+            {
+              "emoji": "🏫",
+              "label": "writing"
+            }
+          ]
         },
         {
           "id": "c9",
@@ -611,13 +861,23 @@
             "lock",
             "yarn",
             "sticker",
-            "material"
+            "collection"
           ],
           "answer": 0,
           "explain": {
             "id": "c9e",
             "text": "A lock keeps things closed until you use a key."
-          }
+          },
+          "props": [
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "🎉",
+              "label": "metal"
+            }
+          ]
         },
         {
           "id": "c10",
@@ -637,7 +897,13 @@
           "explain": {
             "id": "c10e",
             "text": "A key is the metal tool that opens a lock."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "lock"
+            }
+          ]
         }
       ]
     },
@@ -677,11 +943,25 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work today, explorers! You learnt ten new words about treasures, Egypt and making things."
+          "text": "Brilliant work today, explorers! You learnt ten new words about treasures, Egypt and making things.",
+          "props": [
+            {
+              "emoji": "💎",
+              "label": "treasures"
+            },
+            {
+              "emoji": "🇪🇬",
+              "label": "Egypt"
+            },
+            {
+              "emoji": "🧩",
+              "label": "making things"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Maria's free time was full of creativity. Yours can be too!"
+          "text": "Maria's free time was full of fun ideas. Yours can be too!"
         }
       ],
       "badge": {
@@ -699,5 +979,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

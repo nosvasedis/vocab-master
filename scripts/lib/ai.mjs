@@ -31,7 +31,7 @@ export function parseJsonReply(text) {
  * @param {{ model: string, system: string, user: string, temperature?: number, maxTokens?: number, job?: string, estimateUsd?: number }} o
  * @returns {Promise<{ json: object, usd: number, model: string }>}
  */
-export async function chatJson({ model, system, user, temperature = 0.6, maxTokens = 16000, job = "", estimateUsd = 0.02 }) {
+export async function chatJson({ model, system, user, temperature = 0.6, maxTokens = 16000, job = "", estimateUsd = 0.02, extra = {} }) {
   ledger.assertCanSpend("openrouter", estimateUsd, job);
   const body = {
     model,
@@ -40,6 +40,7 @@ export async function chatJson({ model, system, user, temperature = 0.6, maxToke
     response_format: { type: "json_object" },
     usage: { include: true },
     messages: [{ role: "system", content: system }, { role: "user", content: user }],
+    ...extra,
   };
   let lastErr;
   for (let attempt = 0; attempt < 4; attempt++) {

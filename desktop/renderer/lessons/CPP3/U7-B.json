@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U7-SB-982",
-      "emoji": "🧹",
+      "emoji": "🪑🌫️",
       "kidDefinition": "covered with a thin layer of dust",
       "examples": [
         "The old attic is very dusty.",
@@ -237,19 +237,79 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, explorers! Today we are going on a mystery hunt through the past."
+          "text": "Hello, explorers! Today we are going on a mystery hunt through the past.",
+          "props": [
+            {
+              "emoji": "🕵️",
+              "label": "mystery"
+            },
+            {
+              "emoji": "🔍",
+              "label": "hunt"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Every old house hides clues. Old papers, old boxes, and old footprints in the garden."
+          "text": "Every old house hides clues. Old papers, old boxes, and old footprints in the garden.",
+          "props": [
+            {
+              "emoji": "🔎",
+              "label": "clue"
+            },
+            {
+              "emoji": "📄",
+              "label": "papers"
+            },
+            {
+              "emoji": "📦📦",
+              "label": "boxes"
+            },
+            {
+              "emoji": "👣",
+              "label": "footprints"
+            },
+            {
+              "emoji": "🌿",
+              "label": "garden"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Detectives and scientists read these clues like a story. Let's see what they tell us."
+          "text": "Detectives and scientists read these clues like a story. Let's see what they tell us.",
+          "props": [
+            {
+              "emoji": "🕵️",
+              "label": "Detectives"
+            },
+            {
+              "emoji": "🔬",
+              "label": "scientists"
+            },
+            {
+              "emoji": "🔎",
+              "label": "clue"
+            },
+            {
+              "emoji": "📖",
+              "label": "story"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Our two friends, Maya and Nikos, are about to find something very interesting."
+          "text": "Our two friends, Maya and Nikos, are about to find something very interesting.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "👦",
+              "label": "Nikos"
+            }
+          ]
         }
       ],
       "question": {
@@ -290,9 +350,35 @@
               "who": "nikos"
             }
           ],
+          "props": [
+            {
+              "emoji": "👵",
+              "label": "Grandma"
+            },
+            {
+              "emoji": "🛋️",
+              "label": "furniture"
+            },
+            {
+              "emoji": "🌫️",
+              "label": "dusty"
+            },
+            {
+              "emoji": "🧽🧽",
+              "label": "cloths"
+            },
+            {
+              "emoji": "🗄️",
+              "label": "drawer"
+            },
+            {
+              "emoji": "🛏️",
+              "label": "bed"
+            }
+          ],
           "caption": {
             "id": "p1c",
-            "text": "Maya and Nikos are cleaning Grandma's old room in the attic."
+            "text": "Maya and Nikos are cleaning Grandma's old room."
           },
           "speech": [
             {
@@ -323,9 +409,35 @@
               "who": "grandma"
             }
           ],
+          "props": [
+            {
+              "emoji": "🗄️",
+              "label": "drawer"
+            },
+            {
+              "emoji": "✉️",
+              "label": "envelope"
+            },
+            {
+              "emoji": "🔏",
+              "label": "seal"
+            },
+            {
+              "emoji": "💌",
+              "label": "letter"
+            },
+            {
+              "emoji": "👴",
+              "label": "grandfather"
+            },
+            {
+              "emoji": "🧩",
+              "label": "puzzles"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Inside the drawer, Maya finds a yellow envelope with a red seal."
+            "text": "Inside the drawer, Maya finds an envelope with a seal."
           },
           "speech": [
             {
@@ -336,7 +448,7 @@
             {
               "id": "p2b",
               "who": "grandma",
-              "text": "My grandfather wrote it. He was a mathematician who loved puzzles."
+              "text": "My grandfather wrote it. He loved puzzles."
             }
           ],
           "highlight": [
@@ -356,9 +468,35 @@
               "who": "maya"
             }
           ],
+          "props": [
+            {
+              "emoji": "💌",
+              "label": "letter"
+            },
+            {
+              "emoji": "📜",
+              "label": "riddle"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "👣",
+              "label": "footsteps"
+            },
+            {
+              "emoji": "🟫",
+              "label": "mud"
+            },
+            {
+              "emoji": "🐾",
+              "label": "tracks"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "The letter has a riddle. It also mentions the old tree in the garden."
+            "text": "The letter has a riddle and mentions the old tree."
           },
           "speech": [
             {
@@ -388,6 +526,20 @@
               "who": "grandma"
             }
           ],
+          "props": [
+            {
+              "emoji": "📜",
+              "label": "riddle"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "💌",
+              "label": "letter"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Back in the kitchen, the riddle is harder than it looks."
@@ -410,7 +562,7 @@
         },
         {
           "id": "p5",
-          "backdrop": "home",
+          "backdrop": "garden",
           "characters": [
             {
               "who": "maya"
@@ -420,6 +572,32 @@
             },
             {
               "who": "grandma"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "📦",
+              "label": "box"
+            },
+            {
+              "emoji": "📷",
+              "label": "photos"
+            },
+            {
+              "emoji": "💌",
+              "label": "letters"
+            },
+            {
+              "emoji": "💎",
+              "label": "treasure"
+            },
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "family"
             }
           ],
           "caption": {
@@ -435,7 +613,7 @@
             {
               "id": "p5b",
               "who": "grandma",
-              "text": "Yes, my dears. Now the past is in our hands again. I am so proud."
+              "text": "Yes, my dears. Now the past feels close again. I am so proud."
             }
           ],
           "highlight": [
@@ -454,7 +632,7 @@
           "wordId": "CPP3-U7-SB-982",
           "prompt": {
             "id": "c1q",
-            "text": "Which word fits a room covered in a thin grey layer of dust?"
+            "text": "Which word describes a room covered in a thin layer of dust?"
           },
           "options": [
             "CPP3-U7-SB-1003",
@@ -464,7 +642,7 @@
           "answer": 2,
           "explain": {
             "id": "c1e",
-            "text": "Dusty means covered with dust, just like the old attic furniture."
+            "text": "Dusty means covered with dust, just like the furniture in Grandma's old room."
           }
         },
         {
@@ -473,7 +651,7 @@
           "wordId": "CPP3-U7-SB-989",
           "prompt": {
             "id": "c2q",
-            "text": "Listen: I heard footsteps on the stairs. Which word did you hear?"
+            "text": "Listen: I heard a footstep behind me. Which word did you hear?"
           },
           "options": [
             "CPP3-U7-SB-984",
@@ -494,10 +672,16 @@
             "id": "c3q",
             "text": "The new ____ in our living room is very comfortable."
           },
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "living room"
+            }
+          ],
           "options": [
-            "weather",
+            "drawer",
             "furniture",
-            "homework"
+            "letter"
           ],
           "answer": 1,
           "explain": {
@@ -513,6 +697,28 @@
             "id": "c4q",
             "text": "A track is a mark left on the ground by a person or an animal."
           },
+          "props": [
+            {
+              "emoji": "🐾",
+              "label": "track"
+            },
+            {
+              "emoji": "👣",
+              "label": "mark"
+            },
+            {
+              "emoji": "🟫",
+              "label": "ground"
+            },
+            {
+              "emoji": "👤",
+              "label": "person"
+            },
+            {
+              "emoji": "🐕",
+              "label": "animal"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -532,15 +738,15 @@
             "text": "Which word does not belong with the others?"
           },
           "options": [
-            "cupboard",
             "drawer",
-            "footstep",
-            "shelf"
+            "letter",
+            "envelope",
+            "footstep"
           ],
-          "answer": 2,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "Drawer, cupboard and shelf are places to store things, but a footstep is a sound when walking."
+            "text": "A drawer, a letter and an envelope are all things you find at a desk, but a footstep is a sound or mark."
           }
         },
         {
@@ -551,9 +757,27 @@
             "id": "c6q",
             "text": "Before email, Nikos wrote a ____ to his grandma every summer."
           },
+          "props": [
+            {
+              "emoji": "📧",
+              "label": "email"
+            },
+            {
+              "emoji": "👦",
+              "label": "Nikos"
+            },
+            {
+              "emoji": "👵",
+              "label": "grandma"
+            },
+            {
+              "emoji": "☀️",
+              "label": "summer"
+            }
+          ],
           "options": [
-            "sandwich",
-            "ticket",
+            "article",
+            "envelope",
             "letter"
           ],
           "answer": 2,
@@ -568,8 +792,22 @@
           "wordId": "CPP3-U7-SB-998",
           "prompt": {
             "id": "c7q",
-            "text": "An envelope is a big box you use to store furniture."
+            "text": "An envelope is a big box for holding furniture."
           },
+          "props": [
+            {
+              "emoji": "✉️",
+              "label": "envelope"
+            },
+            {
+              "emoji": "📦",
+              "label": "big box"
+            },
+            {
+              "emoji": "🛋️",
+              "label": "furniture"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -591,7 +829,7 @@
           "options": [
             "CPP3-U7-SB-1003",
             "CPP3-U7-SB-999",
-            "CPP3-U7-SB-990"
+            "CPP3-U7-SB-994"
           ],
           "answer": 1,
           "explain": {
@@ -607,9 +845,15 @@
             "id": "c9q",
             "text": "I can't ____ this puzzle yet. Can you help me?"
           },
+          "props": [
+            {
+              "emoji": "🧩",
+              "label": "puzzle"
+            }
+          ],
           "options": [
-            "forget",
-            "carry",
+            "seal",
+            "mention",
             "solve"
           ],
           "answer": 2,
@@ -626,6 +870,16 @@
             "id": "c10q",
             "text": "Something precious is very valuable or very special to someone."
           },
+          "props": [
+            {
+              "emoji": "💎",
+              "label": "valuable"
+            },
+            {
+              "emoji": "💝",
+              "label": "special"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -658,14 +912,14 @@
       },
       "frames": [
         "I found a ___ in a drawer.",
-        "It was very ___, and it was ___ to me.",
+        "It was very ___, and it made me feel ___.",
         "I want to ___ the mystery of it."
       ],
       "partner": true,
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I found a letter in a drawer. It was very dusty, and it was precious to me. I want to solve the mystery of it."
+        "text": "I found a letter in a drawer. It was very dusty, and it made me feel curious. I want to solve the mystery of it."
       }
     },
     {
@@ -700,5 +954,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

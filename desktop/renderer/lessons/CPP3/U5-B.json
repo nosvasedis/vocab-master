@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-701",
-      "emoji": "🥾",
+      "emoji": "🌲👣",
       "kidDefinition": "A narrow path, often through nature, for walking.",
       "examples": [
         "We followed the trail to the top of the hill.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-697",
-      "emoji": "⛰️",
+      "emoji": "↗️⛰️",
       "kidDefinition": "The side of a hill or mountain that goes up or down.",
       "examples": [
         "The hikers went down the slope of the hill quickly.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-698",
-      "emoji": "🌴",
+      "emoji": "🌴🦜",
       "kidDefinition": "A thick, wild forest with lots of plants and animals.",
       "examples": [
         "There are many animal and plant species in the jungle.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-710",
-      "emoji": "⛏️",
+      "emoji": "🏺⛏️",
       "kidDefinition": "A place where something important happened or where people dig for things.",
       "examples": [
         "They were digging at the archeological site when they found sculptures.",
@@ -117,7 +117,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-708",
-      "emoji": "🏗️",
+      "emoji": "🧱🔺",
       "kidDefinition": "Something that has been built, with parts joined together.",
       "examples": [
         "Deep in the jungle, there was a structure that looked like a pyramid!",
@@ -133,7 +133,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-699",
-      "emoji": "🏛️",
+      "emoji": "🏚️",
       "kidDefinition": "The broken remains of an old building or castle.",
       "examples": [
         "The children went to explore the ruins of the old castle.",
@@ -149,7 +149,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-702",
-      "emoji": "🧑‍🔬",
+      "emoji": "🧑‍🔬🏺",
       "kidDefinition": "A person who studies old objects and buildings from the past.",
       "examples": [
         "My best friend's dad is an archeologist. He has discovered many ancient sculptures!",
@@ -165,7 +165,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-718",
-      "emoji": "📍",
+      "emoji": "📍🏘️",
       "kidDefinition": "Belonging to or coming from the place where you are.",
       "examples": [
         "Most local people enjoy eating at this restaurant. Let's do the same!",
@@ -260,7 +260,13 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love exploring the world."
+          "text": "Hello, friends! I am Lingo, and I love exploring the world.",
+          "props": [
+            {
+              "emoji": "🌍",
+              "label": "world"
+            }
+          ]
         },
         {
           "id": "l2",
@@ -268,7 +274,21 @@
         },
         {
           "id": "l3",
-          "text": "Today we will meet a curious girl, a kind guide, and a very old hidden place."
+          "text": "Today we will meet a curious girl, a kind guide, and a very old hidden place.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "girl"
+            },
+            {
+              "emoji": "👩",
+              "label": "guide"
+            },
+            {
+              "emoji": "🏛️",
+              "label": "place"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -310,6 +330,20 @@
               "who": "ellie"
             }
           ],
+          "props": [
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "family"
+            },
+            {
+              "emoji": "🏔️🏔️",
+              "label": "mountain"
+            },
+            {
+              "emoji": "🛣️",
+              "label": "street"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Ellie and her family arrive in a quiet village in the mountains."
@@ -327,13 +361,23 @@
         },
         {
           "id": "p2",
-          "backdrop": "forest",
+          "backdrop": "jungle",
           "characters": [
             {
               "who": "ellie"
             },
             {
               "who": "sofia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "👣👣",
+              "label": "trail"
+            },
+            {
+              "emoji": "🌴🌴",
+              "label": "jungle"
             }
           ],
           "caption": {
@@ -368,9 +412,23 @@
               "who": "sofia"
             }
           ],
+          "props": [
+            {
+              "emoji": "⛰️",
+              "label": "slope"
+            },
+            {
+              "emoji": "🌿",
+              "label": "vine"
+            },
+            {
+              "emoji": "🟫",
+              "label": "ground"
+            }
+          ],
           "caption": {
             "id": "p3c",
-            "text": "They climb a steep slope. Ellie grabs a long green vine to balance."
+            "text": "They climb a steep slope. Ellie grabs a long green vine to hold on."
           },
           "speech": [
             {
@@ -398,6 +456,32 @@
             },
             {
               "who": "sofia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "stone"
+            },
+            {
+              "emoji": "🧱",
+              "label": "structure"
+            },
+            {
+              "emoji": "🌱🌱",
+              "label": "plants"
+            },
+            {
+              "emoji": "🧑‍🔬",
+              "label": "archeologist"
+            },
+            {
+              "emoji": "⛏️",
+              "label": "site"
+            },
+            {
+              "emoji": "🏚️",
+              "label": "ruin"
             }
           ],
           "caption": {
@@ -434,15 +518,21 @@
               "who": "sofia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧑🧑🧑",
+              "label": "local people"
+            }
+          ],
           "caption": {
             "id": "p5c",
-            "text": "Back in the village, a local guide smiles and waves."
+            "text": "Back in the village, Dr Sofia smiles and waves."
           },
           "speech": [
             {
               "id": "p5a",
               "who": "sofia",
-              "text": "Travelling is a wonderful opportunity to learn about people."
+              "text": "Travelling is a wonderful way to learn about people."
             },
             {
               "id": "p5b",
@@ -466,7 +556,7 @@
           "wordId": "CPP3-U5-SB-699",
           "prompt": {
             "id": "c1q",
-            "text": "Tap the picture of a ruin, an old broken building."
+            "text": "Tap the picture of an old broken building."
           },
           "options": [
             "CPP3-U5-SB-697",
@@ -504,6 +594,16 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-697",
+          "props": [
+            {
+              "emoji": "⛰️",
+              "label": "hill"
+            },
+            {
+              "emoji": "🚶🚶",
+              "label": "hikers"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "The hikers ran down the ____ of the hill."
@@ -523,6 +623,20 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U5-SB-698",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Ellie"
+            },
+            {
+              "emoji": "👩",
+              "label": "Dr Sofia"
+            },
+            {
+              "emoji": "🏙️",
+              "label": "city"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "In the story, Ellie and Dr Sofia walk through a city."
@@ -546,7 +660,7 @@
             "text": "Which word is NOT a job?"
           },
           "options": [
-            "pilot",
+            "historian",
             "vine",
             "archeologist",
             "farmer"
@@ -554,19 +668,29 @@
           "answer": 1,
           "explain": {
             "id": "c5e",
-            "text": "Archeologist, farmer and pilot are jobs, but a vine is a climbing plant."
+            "text": "Historian, archeologist and farmer are jobs, but a vine is a climbing plant."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-725",
+          "props": [
+            {
+              "emoji": "🐒",
+              "label": "monkey"
+            },
+            {
+              "emoji": "🌳🌳",
+              "label": "tree"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "The monkey swung from a ____ and moved to the next tree."
           },
           "options": [
-            "bridge",
+            "site",
             "vine",
             "ruin"
           ],
@@ -580,6 +704,16 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP3-U5-SB-718",
+          "props": [
+            {
+              "emoji": "🧑🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "place"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "Local people are people who live in the place you are visiting."
@@ -598,14 +732,28 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-708",
+          "props": [
+            {
+              "emoji": "🌲🌲",
+              "label": "forest"
+            },
+            {
+              "emoji": "🪨",
+              "label": "stone"
+            },
+            {
+              "emoji": "🔺",
+              "label": "pyramid"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "Deep in the forest, Ellie saw a stone ____ that looked like a pyramid."
           },
           "options": [
             "structure",
-            "ladder",
-            "carpet"
+            "trail",
+            "vine"
           ],
           "answer": 0,
           "explain": {
@@ -617,19 +765,33 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-696",
+          "props": [
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "family"
+            },
+            {
+              "emoji": "🏔️",
+              "label": "mountain"
+            },
+            {
+              "emoji": "🛣️",
+              "label": "street"
+            }
+          ],
           "prompt": {
             "id": "c9q",
-            "text": "Ellie's family is visiting a small ____ in the mountains."
+            "text": "Ellie's family is visiting a small ____ with quiet streets in the mountains."
           },
           "options": [
             "village",
-            "castle",
-            "island"
+            "jungle",
+            "slope"
           ],
           "answer": 0,
           "explain": {
             "id": "c9e",
-            "text": "A village is a small place where people live, often in the countryside."
+            "text": "A village is a small place where people live, with streets."
           }
         },
         {
@@ -638,7 +800,7 @@
           "wordId": "CPP3-U5-SB-710",
           "prompt": {
             "id": "c10q",
-            "text": "Which word means a place where people dig to find old things?"
+            "text": "Tap the picture of a place where people dig to find old things."
           },
           "options": [
             "CPP3-U5-SB-708",
@@ -716,5 +878,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-420",
-      "emoji": "⚠️",
+      "emoji": "🗣️⚠️",
       "kidDefinition": "tell someone about danger before it happens",
       "examples": [
         "The sign warns drivers about slippery roads.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-419",
-      "emoji": "🌿",
+      "emoji": "🌳🌿",
       "kidDefinition": "a part of a tree that grows out from the trunk",
       "examples": [
         "A bird sat on a high branch.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-423",
-      "emoji": "🌊",
+      "emoji": "🏘️🌊",
       "kidDefinition": "cover a place with a lot of water",
       "examples": [
         "Heavy rain can flood the streets.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-453",
-      "emoji": "🏖️",
+      "emoji": "👜🏖️",
       "kidDefinition": "a bag filled with sand to stop water",
       "examples": [
         "We put sandbags at the front door.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-426",
-      "emoji": "🟫",
+      "emoji": "🟤💧",
       "kidDefinition": "wet, soft earth that sticks to your shoes",
       "examples": [
         "The dog jumped into the mud.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-478",
-      "emoji": "🏠",
+      "emoji": "🏠☔",
       "kidDefinition": "a safe place that protects you from weather or danger",
       "examples": [
         "We found shelter under a big tree.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-435",
-      "emoji": "🧘",
+      "emoji": "🧍⏸️",
       "kidDefinition": "not moving at all",
       "examples": [
         "The lake was still and calm.",
@@ -275,6 +275,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
+      "props": [
+        {
+          "emoji": "🌤️",
+          "label": "sky"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -282,15 +288,41 @@
         },
         {
           "id": "l2",
-          "text": "Nature can be gentle, like a sunny morning in the park."
+          "text": "Nature can be gentle, like a sunny morning in the park.",
+          "props": [
+            {
+              "emoji": "☀️",
+              "label": "sunny morning"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "But nature can also be strong, like a big storm with wild wind."
+          "text": "But nature can also be strong, like a big storm with wild wind.",
+          "props": [
+            {
+              "emoji": "⛈️",
+              "label": "storm"
+            },
+            {
+              "emoji": "💨",
+              "label": "wind"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today, we will meet Maya and Leo and learn new words together."
+          "text": "Today, we will meet Maya and Leo and learn new words together.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Maya"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            }
+          ]
         }
       ],
       "question": {
@@ -331,6 +363,24 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "☁️☁️",
+              "label": "clouds"
+            },
+            {
+              "emoji": "🌤️",
+              "label": "sky"
+            },
+            {
+              "emoji": "👴",
+              "label": "Grandpa"
+            },
+            {
+              "emoji": "⛈️",
+              "label": "storm"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Dark clouds gather over the little village."
@@ -363,6 +413,20 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "💨",
+              "label": "wind"
+            },
+            {
+              "emoji": "🌿",
+              "label": "branch"
+            },
+            {
+              "emoji": "🛤️",
+              "label": "path"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "The wind starts to blow through the tall forest."
@@ -371,7 +435,7 @@
             {
               "id": "p2a",
               "who": "grandpa",
-              "text": "Walk carefully, children. The wind is very strong today."
+              "text": "Walk carefully, Maya. The wind is very strong today."
             },
             {
               "id": "p2b",
@@ -386,13 +450,43 @@
         },
         {
           "id": "p3",
-          "backdrop": "street",
+          "backdrop": "river",
           "characters": [
             {
               "who": "leo"
             },
             {
               "who": "grandpa"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌧️",
+              "label": "rain"
+            },
+            {
+              "emoji": "🏞️",
+              "label": "river"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            },
+            {
+              "emoji": "👜🏖️",
+              "label": "sandbags"
+            },
+            {
+              "emoji": "🥾",
+              "label": "boots"
+            },
+            {
+              "emoji": "🟤💧",
+              "label": "mud"
+            },
+            {
+              "emoji": "🛣️",
+              "label": "street"
             }
           ],
           "caption": {
@@ -428,6 +522,24 @@
               "who": "grandpa"
             }
           ],
+          "props": [
+            {
+              "emoji": "👪",
+              "label": "family"
+            },
+            {
+              "emoji": "🏠",
+              "label": "shelter"
+            },
+            {
+              "emoji": "⛈️",
+              "label": "storm"
+            },
+            {
+              "emoji": "🔊",
+              "label": "loud"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "The whole family finds shelter in their warm, dry house."
@@ -457,6 +569,24 @@
             },
             {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌤️",
+              "label": "sky"
+            },
+            {
+              "emoji": "🐛",
+              "label": "caterpillar"
+            },
+            {
+              "emoji": "🍃",
+              "label": "leaf"
+            },
+            {
+              "emoji": "🦋",
+              "label": "butterfly"
             }
           ],
           "caption": {
@@ -495,8 +625,8 @@
             "text": "Which word means very strong wind with heavy rain?"
           },
           "options": [
-            "CPP3-U3-SB-423",
-            "CPP3-U3-SB-422",
+            "CPP3-U3-SB-419",
+            "CPP3-U3-SB-426",
             "CPP3-U3-SB-421"
           ],
           "answer": 2,
@@ -528,14 +658,24 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-422",
+          "props": [
+            {
+              "emoji": "💨",
+              "label": "wind"
+            },
+            {
+              "emoji": "🍂🍂",
+              "label": "leaves"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "The wind began to ____ hard, and the leaves flew everywhere."
           },
           "options": [
             "blow",
-            "climb",
-            "freeze"
+            "shine",
+            "pause"
           ],
           "answer": 0,
           "explain": {
@@ -549,24 +689,34 @@
           "wordId": "CPP3-U3-SB-419",
           "prompt": {
             "id": "c4q",
-            "text": "Which word is NOT a part of a tree? Choose the odd one out."
+            "text": "Which word is NOT an animal? Choose the odd one out."
           },
           "options": [
             "branch",
-            "root",
-            "trunk",
-            "rainbow"
+            "caterpillar",
+            "butterfly",
+            "deer"
           ],
-          "answer": 3,
+          "answer": 0,
           "explain": {
             "id": "c4e",
-            "text": "A rainbow is in the sky, but a branch, trunk and root belong to a tree."
+            "text": "A branch is part of a tree, but a caterpillar, butterfly and deer are animals."
           }
         },
         {
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-423",
+          "props": [
+            {
+              "emoji": "🏘️",
+              "label": "village"
+            },
+            {
+              "emoji": "🌊",
+              "label": "water"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "To flood means to make a place very dry."
@@ -585,6 +735,16 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-453",
+          "props": [
+            {
+              "emoji": "🚪",
+              "label": "door"
+            },
+            {
+              "emoji": "💧",
+              "label": "water"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "We put ____ at the front door to keep the water outside."
@@ -592,7 +752,7 @@
           "options": [
             "sandbags",
             "blankets",
-            "matches"
+            "branches"
           ],
           "answer": 0,
           "explain": {
@@ -623,14 +783,28 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-478",
+          "props": [
+            {
+              "emoji": "🐦🐦",
+              "label": "birds"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "🌧️",
+              "label": "rain"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "The birds found ____ under the big tree when it rained."
+            "text": "The birds found ____ under the big tree to stay dry."
           },
           "options": [
             "shelter",
-            "shadow",
-            "puddle"
+            "mud",
+            "storm"
           ],
           "answer": 0,
           "explain": {
@@ -642,6 +816,16 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-435",
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            },
+            {
+              "emoji": "🏃",
+              "label": "running"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "If something is still, it is moving very fast."
@@ -660,13 +844,23 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP3-U3-SB-432",
+          "props": [
+            {
+              "emoji": "🍃",
+              "label": "leaves"
+            },
+            {
+              "emoji": "🦋",
+              "label": "butterfly"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "A ____ eats green leaves and one day becomes a butterfly."
           },
           "options": [
-            "spider",
-            "pebble",
+            "deer",
+            "mosquito",
             "caterpillar"
           ],
           "answer": 2,
@@ -739,5 +933,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

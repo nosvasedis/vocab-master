@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U3-SB-335",
-      "emoji": "🪆",
+      "emoji": "🎭🪆",
       "kidDefinition": "A toy you move with strings or your hand.",
       "examples": [
         "My little sister has a puppet made of cloth.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-340",
-      "emoji": "🪚",
+      "emoji": "🧔🪚",
       "kidDefinition": "A person who makes things from wood.",
       "examples": [
         "My uncle is a carpenter in our village.",
@@ -124,7 +124,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-338",
-      "emoji": "🤲",
+      "emoji": "🖐️🟤",
       "kidDefinition": "Not clean. Covered in dirt or mud.",
       "examples": [
         "My shoes are dirty after football.",
@@ -140,7 +140,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-339",
-      "emoji": "✨",
+      "emoji": "🧼🫧",
       "kidDefinition": "Not dirty. Free from dirt or mess.",
       "examples": [
         "My room is clean now.",
@@ -273,6 +273,20 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "props": [
+        {
+          "emoji": "🎭🪆",
+          "label": "puppet"
+        },
+        {
+          "emoji": "🧔🪚",
+          "label": "carpenter"
+        },
+        {
+          "emoji": "🧒",
+          "label": "kid"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -329,6 +343,20 @@
               "who": "pino"
             }
           ],
+          "props": [
+            {
+              "emoji": "🪵",
+              "label": "wood"
+            },
+            {
+              "emoji": "🪚",
+              "label": "carpenter"
+            },
+            {
+              "emoji": "🎭🪆",
+              "label": "puppet"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "In a village, a carpenter works with wood."
@@ -355,6 +383,16 @@
             },
             {
               "who": "pino"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🧒",
+              "label": "kid"
+            },
+            {
+              "emoji": "💪",
+              "label": "arms"
             }
           ],
           "caption": {
@@ -386,6 +424,16 @@
               "who": "lena"
             }
           ],
+          "props": [
+            {
+              "emoji": "🟤",
+              "label": "mud"
+            },
+            {
+              "emoji": "🖐️",
+              "label": "hands"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Lena plays in the mud all afternoon."
@@ -412,6 +460,16 @@
               "who": "pino"
             }
           ],
+          "props": [
+            {
+              "emoji": "🖐️",
+              "label": "hands"
+            },
+            {
+              "emoji": "😊",
+              "label": "happy"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "Lena washes her hands. Now they are clean."
@@ -430,13 +488,23 @@
         },
         {
           "id": "p5",
-          "backdrop": "village",
+          "backdrop": "shop",
           "characters": [
             {
               "who": "stavros"
             },
             {
               "who": "pino"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🐦",
+              "label": "bird"
+            },
+            {
+              "emoji": "🗄️",
+              "label": "shelf"
             }
           ],
           "caption": {
@@ -484,13 +552,19 @@
           "id": "c2",
           "kind": "listen",
           "wordId": "CPP1-U3-SB-336",
+          "props": [
+            {
+              "emoji": "🍽️",
+              "label": "table"
+            }
+          ],
           "prompt": {
             "id": "c2q",
-            "text": "Listen and pick the word: This table is made of ___."
+            "text": "Listen and pick the word: wood."
           },
           "options": [
-            "CPP1-U3-SB-338",
-            "CPP1-U3-SB-337",
+            "CPP1-U3-SB-335",
+            "CPP1-U3-SB-340",
             "CPP1-U3-SB-336"
           ],
           "answer": 2,
@@ -503,14 +577,28 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-340",
+          "props": [
+            {
+              "emoji": "🍽️",
+              "label": "table"
+            },
+            {
+              "emoji": "🪑",
+              "label": "chair"
+            },
+            {
+              "emoji": "🪵",
+              "label": "wood"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "A ____ makes tables and chairs from wood."
+            "text": "A ____ is a person who makes tables and chairs from wood."
           },
           "options": [
-            "move",
+            "kid",
             "carpenter",
-            "kid"
+            "puppet"
           ],
           "answer": 1,
           "explain": {
@@ -522,14 +610,20 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-341",
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "park"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "Lena is a ____ who loves to play in the park."
+            "text": "Lena is a ____. She is a child and loves to play."
           },
           "options": [
             "kid",
-            "why",
-            "wood"
+            "carpenter",
+            "puppet"
           ],
           "answer": 0,
           "explain": {
@@ -541,25 +635,49 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-337",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Lena"
+            },
+            {
+              "emoji": "🖐️",
+              "label": "hands"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "Lena feels ____ after she washes her hands."
+            "text": "Lena is smiling and pleased. She feels ____."
           },
           "options": [
             "happy",
-            "why",
-            "dirty"
+            "dirty",
+            "clean"
           ],
           "answer": 0,
           "explain": {
             "id": "c5e",
-            "text": "Happy means feeling good and smiling."
+            "text": "Happy means feeling good, smiling and pleased."
           }
         },
         {
           "id": "c6",
           "kind": "trueFalse",
           "wordId": "CPP1-U3-SB-338",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Lena"
+            },
+            {
+              "emoji": "🟤",
+              "label": "mud"
+            },
+            {
+              "emoji": "🖐️",
+              "label": "hands"
+            }
+          ],
           "prompt": {
             "id": "c6q",
             "text": "In the story, Lena's hands are dirty after she plays in the mud."
@@ -609,7 +727,7 @@
           "answer": 3,
           "explain": {
             "id": "c8e",
-            "text": "Happen is a verb, while kid, puppet and wood are nouns."
+            "text": "Happen is an action or event. The other words are things or people you can see."
           }
         },
         {
@@ -635,19 +753,33 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-364",
+          "props": [
+            {
+              "emoji": "🎨",
+              "label": "paint"
+            },
+            {
+              "emoji": "💧",
+              "label": "wet"
+            },
+            {
+              "emoji": "🪑",
+              "label": "chair"
+            }
+          ],
           "prompt": {
             "id": "c10q",
-            "text": "Please don't ____! The paint is still wet."
+            "text": "The paint is still wet. Please don't ____ the chair."
           },
           "options": [
             "move",
-            "wash",
-            "smile"
+            "throw",
+            "sell"
           ],
           "answer": 0,
           "explain": {
             "id": "c10e",
-            "text": "Move means to change position, so we don't move near wet paint."
+            "text": "Move means to change position, so we don't move the chair when the paint is wet."
           }
         }
       ]
@@ -718,5 +850,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

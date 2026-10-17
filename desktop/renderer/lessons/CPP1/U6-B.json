@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U6-SB-706",
-      "emoji": "🗑️",
+      "emoji": "🧦👕",
       "kidDefinition": "not neat; dirty and in a mess",
       "examples": [
         "Oh! Your room is very messy!",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-707",
-      "emoji": "💥",
+      "emoji": "🐶💥🧺",
       "kidDefinition": "something that stops things from being calm and normal",
       "examples": [
         "A dog running through the picnic is a disruption!",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-690",
-      "emoji": "🐶",
+      "emoji": "🐶😜",
       "kidDefinition": "behaving badly; not good or well-behaved",
       "examples": [
         "Stop, naughty dog! Don't take my sandwich!",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-697",
-      "emoji": "🐱",
+      "emoji": "🐱🍼",
       "kidDefinition": "a baby cat",
       "examples": [
         "Look at that little kitten! It's so cute!",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-698",
-      "emoji": "⬇️",
+      "emoji": "🐱⬇️🌳",
       "kidDefinition": "move from high up to low down",
       "examples": [
         "My cat is on the fridge. She can't get down!",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-699",
-      "emoji": "🚒",
+      "emoji": "👩‍🚒🚒",
       "kidDefinition": "a person who puts out fires and helps people",
       "examples": [
         "Firefighters rescue people, animals and stop fires!",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-700",
-      "emoji": "🪜",
+      "emoji": "👩‍🚒🪜🐱",
       "kidDefinition": "to save someone from danger",
       "examples": [
         "The firefighter rescued the kitten from the tree.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-701",
-      "emoji": "🛡️",
+      "emoji": "🛡️😊",
       "kidDefinition": "not in danger; protected from harm",
       "examples": [
         "It's ok now! You're safe! Don't be scared!",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-695",
-      "emoji": "🔢",
+      "emoji": "1️⃣➡️2️⃣➡️3️⃣",
       "kidDefinition": "the order in which things happen",
       "examples": [
         "We need to understand the sequence of events.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-696",
-      "emoji": "🎉",
+      "emoji": "📅🎉",
       "kidDefinition": "something that happens, often important or unusual",
       "examples": [
         "There are some strange events in the story.",
@@ -260,11 +260,31 @@
         },
         {
           "id": "l3",
-          "text": "Sometimes a day gets messy. Sometimes an animal needs our help!"
+          "text": "Sometimes a day gets messy. Sometimes an animal needs our help!",
+          "props": [
+            {
+              "emoji": "🐶🐱",
+              "label": "animal"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Let's meet Lily and Leo. Their picnic is about to get busy!"
+          "text": "Let's meet Lily and Leo. Their picnic is about to get busy!",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Lily"
+            },
+            {
+              "emoji": "👦",
+              "label": "Leo"
+            },
+            {
+              "emoji": "🧺",
+              "label": "picnic"
+            }
+          ]
         }
       ],
       "question": {
@@ -305,6 +325,16 @@
               "who": "leo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧺",
+              "label": "picnic"
+            },
+            {
+              "emoji": "🟥⬜🟥",
+              "label": "blanket"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Lily and Leo are having a picnic in the park. Their blanket is very messy."
@@ -328,6 +358,20 @@
               "who": "lily"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐶",
+              "label": "dog"
+            },
+            {
+              "emoji": "🧺",
+              "label": "picnic"
+            },
+            {
+              "emoji": "💥",
+              "label": "disruption"
+            }
+          ],
           "caption": {
             "id": "p2c",
             "text": "Suddenly, a naughty dog runs through the picnic. What a disruption!"
@@ -346,10 +390,23 @@
         },
         {
           "id": "p3",
-          "backdrop": "garden",
+          "backdrop": "park",
           "characters": [
             {
+              "who": "lily"
+            },
+            {
               "who": "leo"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "🐱",
+              "label": "kitten"
             }
           ],
           "caption": {
@@ -370,10 +427,20 @@
         },
         {
           "id": "p4",
-          "backdrop": "street",
+          "backdrop": "park",
           "characters": [
             {
               "who": "maya"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🚒",
+              "label": "truck"
+            },
+            {
+              "emoji": "🐱",
+              "label": "kitten"
             }
           ],
           "caption": {
@@ -403,6 +470,12 @@
               "who": "lily"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐱",
+              "label": "kitten"
+            }
+          ],
           "caption": {
             "id": "p5c",
             "text": "Maya lifts the kitten down. The kitten is safe now!"
@@ -426,6 +499,28 @@
               "who": "lingo"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "event"
+            },
+            {
+              "emoji": "🔢",
+              "label": "sequence"
+            },
+            {
+              "emoji": "🐶",
+              "label": "dog"
+            },
+            {
+              "emoji": "🐱",
+              "label": "kitten"
+            },
+            {
+              "emoji": "👩‍🚒",
+              "label": "firefighter"
+            }
+          ],
           "caption": {
             "id": "p6c",
             "text": "What a busy event! Let's remember the sequence of events."
@@ -434,7 +529,7 @@
             {
               "id": "p6a",
               "who": "lingo",
-              "text": "First, the dog. Then, the kitten. Finally, the firefighter saved the day!"
+              "text": "First, the dog. Then, the kitten. Finally, the firefighter rescued the kitten!"
             }
           ],
           "highlight": [
@@ -452,15 +547,21 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-706",
+          "props": [
+            {
+              "emoji": "🛏️🧦👕",
+              "label": "room"
+            }
+          ],
           "prompt": {
             "id": "c1q",
             "text": "Oh! Your room is very ____! Please tidy it up."
           },
           "options": [
-            "kind",
+            "tidy",
             "messy",
-            "loud",
-            "clean"
+            "safe",
+            "naughty"
           ],
           "answer": 1,
           "explain": {
@@ -515,30 +616,40 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "firefighter",
-            "bird",
-            "puppy",
+            "lamp",
+            "sofa",
+            "broom",
             "kitten"
           ],
-          "answer": 0,
+          "answer": 3,
           "explain": {
             "id": "c4e",
-            "text": "Kitten, puppy and bird are animals, but a firefighter is a person."
+            "text": "Lamp, sofa and broom are objects, but a kitten is an animal."
           }
         },
         {
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-698",
+          "props": [
+            {
+              "emoji": "🐱",
+              "label": "cat"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            }
+          ],
           "prompt": {
             "id": "c5q",
-            "text": "My cat is on the fridge. She can't ____!"
+            "text": "My cat is up the tree. She can't ____ from the tree!"
           },
           "options": [
             "get down",
-            "pick up",
+            "stay put",
             "push",
-            "stay put"
+            "wash"
           ],
           "answer": 0,
           "explain": {
@@ -570,6 +681,20 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-700",
+          "props": [
+            {
+              "emoji": "👩‍🚒",
+              "label": "firefighter"
+            },
+            {
+              "emoji": "🐱",
+              "label": "kitten"
+            },
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "The firefighter came to ____ the kitten from the tree."
@@ -608,15 +733,21 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-695",
+          "props": [
+            {
+              "emoji": "📖",
+              "label": "story"
+            }
+          ],
           "prompt": {
             "id": "c9q",
             "text": "Tell me the ____ of the story: what happens first, next and last."
           },
           "options": [
-            "garden",
+            "event",
             "sequence",
             "kitten",
-            "colour"
+            "firefighter"
           ],
           "answer": 1,
           "explain": {
@@ -628,6 +759,20 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP1-U6-SB-696",
+          "props": [
+            {
+              "emoji": "🎉",
+              "label": "event"
+            },
+            {
+              "emoji": "🧺",
+              "label": "picnic"
+            },
+            {
+              "emoji": "🔥",
+              "label": "fire"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "An event is something that happens, like a picnic or a fire."
@@ -671,7 +816,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I helped my cat when she was stuck on a wall. The place was messy, so I cleaned it up. Now my cat is safe and happy."
+        "text": "I helped my cat when it was in danger. The place was messy, so I cleaned it up. Now my cat is safe and happy."
       }
     },
     {
@@ -706,5 +851,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

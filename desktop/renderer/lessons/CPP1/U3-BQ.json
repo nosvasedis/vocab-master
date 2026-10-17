@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U3-SB-285",
-      "emoji": "🌱",
+      "emoji": "🌱🐝",
       "kidDefinition": "Something that is alive, like a plant or an animal.",
       "examples": [
         "Plants and animals are living things.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-286",
-      "emoji": "👉",
+      "emoji": "👀👉",
       "kidDefinition": "To let someone see something.",
       "examples": [
         "Can you show me how to draw a bee?",
@@ -166,19 +166,51 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl guide."
+          "text": "Hello, friends! I am Lingo, your owl guide.",
+          "props": [
+            {
+              "emoji": "🧭",
+              "label": "guide"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Look at this garden. Plants grow. Insects buzz and fly."
+          "text": "Look at this garden. Plants grow. Insects buzz and fly.",
+          "props": [
+            {
+              "emoji": "🌱",
+              "label": "plant"
+            },
+            {
+              "emoji": "🐞🐝",
+              "label": "insects"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Our wooden friend Pinocchio has a big question today."
+          "text": "Our wooden friend Pinocchio has a big question today.",
+          "props": [
+            {
+              "emoji": "🪵",
+              "label": "Pinocchio"
+            },
+            {
+              "emoji": "❓",
+              "label": "question"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Is a puppet alive? Let us find out together!"
+          "text": "Is a puppet alive? Let us find out together!",
+          "props": [
+            {
+              "emoji": "🎭",
+              "label": "puppet"
+            }
+          ]
         }
       ],
       "question": {
@@ -210,18 +242,18 @@
           "wordId": "CPP1-U3-SB-285",
           "prompt": {
             "id": "c1q",
-            "text": "Point to the picture: living thing."
+            "text": "Point to the picture: something that is alive, like a plant or an animal."
           },
           "options": [
-            "CPP1-U3-SB-292",
-            "CPP1-U3-SB-291",
-            "CPP1-U3-SB-289",
+            "CPP1-U3-SB-286",
+            "CPP1-U3-SB-287",
+            "CPP1-U3-SB-288",
             "CPP1-U3-SB-285"
           ],
           "answer": 3,
           "explain": {
             "id": "c1e",
-            "text": "A living thing is alive, so the plant picture is right."
+            "text": "A living thing is alive, like a plant or an animal."
           }
         },
         {
@@ -252,10 +284,20 @@
             "id": "c3q",
             "text": "Cows eat ____ in the fields."
           },
+          "props": [
+            {
+              "emoji": "🐄",
+              "label": "cow"
+            },
+            {
+              "emoji": "🌾",
+              "label": "field"
+            }
+          ],
           "options": [
-            "sand",
-            "bread",
-            "pebble",
+            "ant",
+            "bee",
+            "butterfly",
             "grass"
           ],
           "answer": 3,
@@ -272,11 +314,17 @@
             "id": "c4q",
             "text": "A ____ makes sweet honey."
           },
+          "props": [
+            {
+              "emoji": "🍯",
+              "label": "honey"
+            }
+          ],
           "options": [
-            "cricket",
+            "ant",
             "bee",
-            "moth",
-            "fly"
+            "earthworm",
+            "butterfly"
           ],
           "answer": 1,
           "explain": {
@@ -292,6 +340,16 @@
             "id": "c5q",
             "text": "An earthworm has wings and can fly."
           },
+          "props": [
+            {
+              "emoji": "🪱",
+              "label": "earthworm"
+            },
+            {
+              "emoji": "🪽",
+              "label": "wings"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -310,6 +368,12 @@
             "id": "c6q",
             "text": "Which word is not an insect: ant, bee, earthworm, butterfly?"
           },
+          "props": [
+            {
+              "emoji": "🪲",
+              "label": "insect"
+            }
+          ],
           "options": [
             "bee",
             "ant",
@@ -350,16 +414,22 @@
             "id": "c8q",
             "text": "Can you ____ me your new drawing?"
           },
-          "options": [
-            "carry",
-            "throw",
-            "show",
-            "hide"
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "drawing"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "show",
+            "shows",
+            "showing",
+            "showed"
+          ],
+          "answer": 0,
           "explain": {
             "id": "c8e",
-            "text": "To show means to let someone see something."
+            "text": "After 'can', we use the base verb 'show'."
           }
         }
       ]
@@ -400,11 +470,39 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Wonderful work, explorers! You know so many living things now."
+          "text": "Wonderful work, explorers! You know so many living things now.",
+          "props": [
+            {
+              "emoji": "🌱🐝",
+              "label": "living things"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Ants, bees, butterflies, grass and earthworms are all alive."
+          "text": "Ants, bees, butterflies, grass and earthworms are all alive.",
+          "props": [
+            {
+              "emoji": "🐜🐜",
+              "label": "ants"
+            },
+            {
+              "emoji": "🐝🐝",
+              "label": "bees"
+            },
+            {
+              "emoji": "🦋🦋",
+              "label": "butterflies"
+            },
+            {
+              "emoji": "🌿",
+              "label": "grass"
+            },
+            {
+              "emoji": "🪱🪱",
+              "label": "earthworms"
+            }
+          ]
         }
       ],
       "badge": {
@@ -418,9 +516,24 @@
         },
         {
           "id": "e2",
-          "text": "Is a rock a living thing? Why or why not?"
+          "text": "Is a rock a living thing? Why or why not?",
+          "props": [
+            {
+              "emoji": "🪨",
+              "label": "rock"
+            }
+          ]
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

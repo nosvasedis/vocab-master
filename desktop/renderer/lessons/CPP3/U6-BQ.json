@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U6-SB-785",
-      "emoji": "🤸",
+      "emoji": "🏫🤸",
       "kidDefinition": "A school lesson where you run, jump and play sports.",
       "examples": [
         "I love PE because we play games in the sunshine.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-786",
-      "emoji": "👥",
+      "emoji": "👥⚽",
       "kidDefinition": "A group of people who play a sport together.",
       "examples": [
         "Our soccer team practises four times a week.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-787",
-      "emoji": "🐦",
+      "emoji": "🐦🎉",
       "kidDefinition": "A special character or animal that makes a team fun.",
       "examples": [
         "Our team mascot is a big pink bird.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-788",
-      "emoji": "💪",
+      "emoji": "🏃💪",
       "kidDefinition": "To keep your body healthy and strong through exercise.",
       "examples": [
         "Jerry goes jogging three times a week to keep in shape.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-789",
-      "emoji": "🏁",
+      "emoji": "🏃🏁🏃",
       "kidDefinition": "To take part in a race or game against other people.",
       "examples": [
         "Tom first competed in a professional match two years ago.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-792",
-      "emoji": "🏋",
+      "emoji": "🏋️",
       "kidDefinition": "Practice that helps you get better at a sport.",
       "examples": [
         "You need a lot more training before you can join big matches.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-794",
-      "emoji": "🦺",
+      "emoji": "⛑️🦺",
       "kidDefinition": "Being protected from harm or danger.",
       "examples": [
         "Always wear a helmet for your safety when you cycle.",
@@ -196,11 +196,23 @@
         },
         {
           "id": "l4",
-          "text": "Some people play for fun. Some play to win trophies!"
+          "text": "Some people play for fun. Some play to win trophies!",
+          "props": [
+            {
+              "emoji": "🏆🏆",
+              "label": "trophy"
+            }
+          ]
         },
         {
           "id": "l5",
-          "text": "Let's meet two friends from the Speedy Squirrels story."
+          "text": "Let's meet two friends from the Speedy Squirrels story.",
+          "props": [
+            {
+              "emoji": "🐿️🐿️",
+              "label": "squirrel"
+            }
+          ]
         }
       ],
       "question": {
@@ -239,6 +251,28 @@
               "who": "rosa"
             }
           ],
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "team"
+            },
+            {
+              "emoji": "🏁",
+              "label": "race"
+            },
+            {
+              "emoji": "🌳",
+              "label": "oak tree"
+            },
+            {
+              "emoji": "🏋️",
+              "label": "training"
+            },
+            {
+              "emoji": "💪",
+              "label": "shape"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Zip and Rosa stand by the big oak tree, ready for the race."
@@ -273,9 +307,31 @@
               "who": "rosa"
             }
           ],
+          "props": [
+            {
+              "emoji": "⛑️⛑️",
+              "label": "helmet"
+            },
+            {
+              "emoji": "🐦",
+              "label": "mascot"
+            },
+            {
+              "emoji": "🐦",
+              "label": "bird"
+            },
+            {
+              "emoji": "🦺",
+              "label": "safety"
+            },
+            {
+              "emoji": "🏆",
+              "label": "trophy"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Rosa checks the helmets. Zip waves at their pink bird mascot."
+            "text": "Rosa checks the helmets. Zip waves at their mascot, a pink bird."
           },
           "speech": [
             {
@@ -359,7 +415,13 @@
           "explain": {
             "id": "c3e",
             "text": "Training is the practice we do to improve at a sport."
-          }
+          },
+          "props": [
+            {
+              "emoji": "⚽",
+              "label": "match"
+            }
+          ]
         },
         {
           "id": "c4",
@@ -367,19 +429,33 @@
           "wordId": "CPP3-U6-SB-788",
           "prompt": {
             "id": "c4q",
-            "text": "Jerry runs three times a week to ____."
+            "text": "Jerry runs three times a week to ____, so he feels strong and healthy."
           },
           "options": [
             "stay in shape",
-            "take a nap",
-            "go shopping",
-            "eat sweets"
+            "win a trophy",
+            "join a team",
+            "wear a helmet"
           ],
           "answer": 0,
           "explain": {
             "id": "c4e",
             "text": "To stay in shape means keeping your body fit and healthy."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🧑",
+              "label": "Jerry"
+            },
+            {
+              "emoji": "🏃",
+              "label": "runs"
+            },
+            {
+              "emoji": "🥗",
+              "label": "healthy"
+            }
+          ]
         },
         {
           "id": "c5",
@@ -397,7 +473,17 @@
           "explain": {
             "id": "c5e",
             "text": "Everyone in a team works together towards the same goal."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🧒🧒🧒",
+              "label": "people"
+            },
+            {
+              "emoji": "🤝",
+              "label": "together"
+            }
+          ]
         },
         {
           "id": "c6",
@@ -408,15 +494,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "sleep",
             "win",
-            "play",
-            "compete"
+            "compete",
+            "training",
+            "climbing"
           ],
           "answer": 0,
           "explain": {
             "id": "c6e",
-            "text": "Win, compete and play are things we do in games, but sleep is not."
+            "text": "Win is the odd one out because it means to be the best, but compete, training and climbing are activities you do."
           }
         },
         {
@@ -435,7 +521,17 @@
           "explain": {
             "id": "c7e",
             "text": "When you compete, you play or race against other people."
-          }
+          },
+          "props": [
+            {
+              "emoji": "🏁",
+              "label": "race"
+            },
+            {
+              "emoji": "⚽",
+              "label": "game"
+            }
+          ]
         },
         {
           "id": "c8",
@@ -525,5 +621,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

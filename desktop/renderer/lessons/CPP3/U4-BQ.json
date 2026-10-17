@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U4-SB-505",
-      "emoji": "🗣️",
+      "emoji": "🧠➡️🗣️",
       "kidDefinition": "To show your thoughts or feelings to other people.",
       "examples": [
         "She likes to express her ideas through drawing.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-506",
-      "emoji": "👀",
+      "emoji": "👁️🖼️",
       "kidDefinition": "The way you think about something.",
       "examples": [
         "From my point of view, this mural tells a happy story.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-512",
-      "emoji": "🧱",
+      "emoji": "🧱🖼️",
       "kidDefinition": "A big painting on a wall.",
       "examples": [
         "The old town has a mural of a big blue fish.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-516",
-      "emoji": "🌿",
+      "emoji": "😌",
       "kidDefinition": "Quiet, relaxed, and peaceful.",
       "examples": [
         "After the rain, the park felt calm and quiet.",
@@ -182,6 +182,31 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
+      "characters": [
+        "lingo"
+      ],
+      "props": [
+        {
+          "emoji": "🧭",
+          "label": "guide"
+        },
+        {
+          "emoji": "🖼️",
+          "label": "painting"
+        },
+        {
+          "emoji": "📷",
+          "label": "photo"
+        },
+        {
+          "emoji": "🧱",
+          "label": "wall"
+        },
+        {
+          "emoji": "🖼️",
+          "label": "picture"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -230,12 +255,26 @@
           "wordId": "CPP3-U4-SB-505",
           "prompt": {
             "id": "c1q",
-            "text": "When friends ____ their feelings, we should listen kindly."
+            "text": "To show your thoughts or feelings to other people is to ____."
           },
+          "props": [
+            {
+              "emoji": "👫",
+              "label": "friends"
+            },
+            {
+              "emoji": "😊",
+              "label": "feelings"
+            },
+            {
+              "emoji": "👂",
+              "label": "listen"
+            }
+          ],
           "options": [
-            "hide",
+            "paint",
             "express",
-            "carry"
+            "draw"
           ],
           "answer": 1,
           "explain": {
@@ -249,8 +288,22 @@
           "wordId": "CPP3-U4-SB-509",
           "prompt": {
             "id": "c2q",
-            "text": "Which word fits a picture painted on canvas and hung in a frame?"
+            "text": "Which word fits a picture made with paint and hung in a frame?"
           },
+          "props": [
+            {
+              "emoji": "🎨",
+              "label": "picture"
+            },
+            {
+              "emoji": "🖌️",
+              "label": "paint"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "frame"
+            }
+          ],
           "options": [
             "CPP3-U4-SB-510",
             "CPP3-U4-SB-509",
@@ -259,7 +312,7 @@
           "answer": 1,
           "explain": {
             "id": "c2e",
-            "text": "A painting is a picture made with paint, often on canvas."
+            "text": "A painting is a picture made with paint and hung in a frame."
           }
         },
         {
@@ -268,14 +321,28 @@
           "wordId": "CPP3-U4-SB-512",
           "prompt": {
             "id": "c3q",
-            "text": "Listen. A big painting covers the whole wall of an old building. Which word is it?"
+            "text": "Listen. Mural."
           },
-          "options": [
-            "CPP3-U4-SB-514",
-            "CPP3-U4-SB-516",
-            "CPP3-U4-SB-512"
+          "props": [
+            {
+              "emoji": "🧱",
+              "label": "wall"
+            },
+            {
+              "emoji": "🏢",
+              "label": "building"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "painting"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "CPP3-U4-SB-510",
+            "CPP3-U4-SB-512",
+            "CPP3-U4-SB-506"
+          ],
+          "answer": 1,
           "explain": {
             "id": "c3e",
             "text": "A mural is a big painting on a wall."
@@ -289,6 +356,16 @@
             "id": "c4q",
             "text": "Calm means quiet and relaxed."
           },
+          "props": [
+            {
+              "emoji": "🤫",
+              "label": "quiet"
+            },
+            {
+              "emoji": "😌",
+              "label": "relaxed"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -308,15 +385,15 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "calm",
-            "colourful",
-            "ugly",
-            "beautiful"
+            "painting",
+            "photography",
+            "mural",
+            "ugly"
           ],
-          "answer": 2,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "Ugly is negative, but the other three words are positive."
+            "text": "Ugly is not an art form, but the other three are."
           }
         },
         {
@@ -325,12 +402,18 @@
           "wordId": "CPP3-U4-SB-506",
           "prompt": {
             "id": "c6q",
-            "text": "What is your ____ on this painting?"
+            "text": "Your ____ is the way you think about something."
           },
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "painting"
+            }
+          ],
           "options": [
             "point of view",
-            "a big surprise",
-            "a day off"
+            "painting",
+            "mural"
           ],
           "answer": 0,
           "explain": {
@@ -344,11 +427,33 @@
           "wordId": "CPP3-U4-SB-514",
           "prompt": {
             "id": "c7q",
-            "text": "The parrot has ____ feathers: red, blue, and green."
+            "text": "The parrot has ____ feathers: red, blue, and green. They are not just one colour."
           },
+          "props": [
+            {
+              "emoji": "🦜",
+              "label": "parrot"
+            },
+            {
+              "emoji": "🪶",
+              "label": "feather"
+            },
+            {
+              "emoji": "🔴",
+              "label": "red"
+            },
+            {
+              "emoji": "🔵",
+              "label": "blue"
+            },
+            {
+              "emoji": "🟢",
+              "label": "green"
+            }
+          ],
           "options": [
-            "heavy",
-            "tiny",
+            "calm",
+            "ugly",
             "colourful"
           ],
           "answer": 2,
@@ -365,6 +470,24 @@
             "id": "c8q",
             "text": "Photography is the art of taking pictures with a camera."
           },
+          "props": [
+            {
+              "emoji": "📸",
+              "label": "photography"
+            },
+            {
+              "emoji": "🎨",
+              "label": "art"
+            },
+            {
+              "emoji": "📷",
+              "label": "camera"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -380,6 +503,17 @@
     {
       "id": "practice",
       "type": "practice",
+      "backdrop": "classroom",
+      "props": [
+        {
+          "emoji": "🖼️",
+          "label": "picture"
+        },
+        {
+          "emoji": "🔤",
+          "label": "word"
+        }
+      ],
       "game": "memory",
       "lines": [
         {
@@ -391,6 +525,33 @@
     {
       "id": "speak",
       "type": "speak",
+      "backdrop": "classroom",
+      "characters": [
+        "theo",
+        "mira"
+      ],
+      "props": [
+        {
+          "emoji": "🖼️",
+          "label": "painting"
+        },
+        {
+          "emoji": "🧱",
+          "label": "mural"
+        },
+        {
+          "emoji": "🌈",
+          "label": "colourful"
+        },
+        {
+          "emoji": "📷",
+          "label": "photography"
+        },
+        {
+          "emoji": "👁️",
+          "label": "point of view"
+        }
+      ],
       "prompt": {
         "id": "q",
         "text": "Tell your partner: What is art to you?"
@@ -404,12 +565,30 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "For me, art is a painting of the sea. I like murals because they are colourful and big. From my point of view, photography is art too."
+        "text": "For me, art is a painting. I like murals because they are colourful. From my point of view, photography is art too."
       }
     },
     {
       "id": "recap",
       "type": "recap",
+      "backdrop": "classroom",
+      "characters": [
+        "lingo"
+      ],
+      "props": [
+        {
+          "emoji": "🧒",
+          "label": "Theo"
+        },
+        {
+          "emoji": "👧",
+          "label": "Mira"
+        },
+        {
+          "emoji": "👁️",
+          "label": "point of view"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -439,5 +618,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-166",
-      "emoji": "🍬",
+      "emoji": "🍬🤒",
       "kidDefinition": "Not good for your body. It can make you ill.",
       "examples": [
         "Too many sweets are unhealthy for your teeth.",
@@ -182,7 +182,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-171",
-      "emoji": "🥘",
+      "emoji": "🥘🔁",
       "kidDefinition": "A custom that people keep doing for years.",
       "examples": [
         "Baking a cake for a birthday is a family tradition.",
@@ -212,10 +212,42 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "kitchen",
+      "props": [
+        {
+          "emoji": "🍽️",
+          "label": "food"
+        },
+        {
+          "emoji": "🎂",
+          "label": "birthday"
+        },
+        {
+          "emoji": "👨‍👩‍👧",
+          "label": "family"
+        },
+        {
+          "emoji": "👦",
+          "label": "Jan"
+        },
+        {
+          "emoji": "👧",
+          "label": "Mia"
+        },
+        {
+          "emoji": "🥣",
+          "label": "breakfast"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love food!"
+          "text": "Hello, friends! I am Lingo, and I love food!",
+          "props": [
+            {
+              "emoji": "🦉",
+              "label": "Lingo"
+            }
+          ]
         },
         {
           "id": "l2",
@@ -239,15 +271,15 @@
       "id": "reveal",
       "type": "reveal",
       "words": [
-        "CPP3-U2-SB-160",
-        "CPP3-U2-SB-157",
-        "CPP3-U2-SB-166",
-        "CPP3-U2-SB-163",
-        "CPP3-U2-SB-164",
-        "CPP3-U2-SB-161",
         "CPP3-U2-SB-165",
         "CPP3-U2-SB-162",
         "CPP3-U2-SB-167",
+        "CPP3-U2-SB-164",
+        "CPP3-U2-SB-157",
+        "CPP3-U2-SB-166",
+        "CPP3-U2-SB-163",
+        "CPP3-U2-SB-161",
+        "CPP3-U2-SB-160",
         "CPP3-U2-SB-171"
       ],
       "greek": "after"
@@ -262,7 +294,7 @@
           "wordId": "CPP3-U2-SB-160",
           "prompt": {
             "id": "c1q",
-            "text": "Find the picture for: energy."
+            "text": "Find the picture for: the power your body uses to move and think."
           },
           "options": [
             "CPP3-U2-SB-165",
@@ -300,14 +332,24 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-157",
+          "props": [
+            {
+              "emoji": "🥦🥕",
+              "label": "vegetables"
+            },
+            {
+              "emoji": "🥦",
+              "label": "vegetable"
+            }
+          ],
           "prompt": {
             "id": "c3q",
-            "text": "Eating vegetables every day helps you stay ____."
+            "text": "Eating vegetables every day helps your body stay ____."
           },
           "options": [
             "healthy",
-            "noisy",
-            "sleepy",
+            "unhealthy",
+            "nutritious",
             "tasty"
           ],
           "answer": 0,
@@ -320,14 +362,20 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-166",
+          "props": [
+            {
+              "emoji": "🍬🍬",
+              "label": "sweets"
+            }
+          ],
           "prompt": {
             "id": "c4q",
-            "text": "Eating too many sweets is ____."
+            "text": "Eating too many sweets every day is ____ for your body."
           },
           "options": [
-            "sunny",
             "healthy",
-            "tiny",
+            "tasty",
+            "nutritious",
             "unhealthy"
           ],
           "answer": 3,
@@ -340,6 +388,16 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP3-U2-SB-163",
+          "props": [
+            {
+              "emoji": "🥕🍎",
+              "label": "food"
+            },
+            {
+              "emoji": "🧍",
+              "label": "body"
+            }
+          ],
           "prompt": {
             "id": "c5q",
             "text": "Nutritious food is full of good things your body needs. True or false?"
@@ -363,27 +421,45 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "tasty",
+            "protein",
             "energy",
             "fat",
-            "protein"
+            "balanced diet"
           ],
-          "answer": 0,
+          "answer": 2,
           "explain": {
             "id": "c6e",
-            "text": "Tasty is an adjective; protein, fat and energy are nouns."
+            "text": "Fat is a part of food we need only a little. We need protein, energy and a balanced diet to be healthy."
           }
         },
         {
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-161",
+          "props": [
+            {
+              "emoji": "🍎",
+              "label": "fruit"
+            },
+            {
+              "emoji": "🥦🥕",
+              "label": "vegetables"
+            },
+            {
+              "emoji": "🥚",
+              "label": "protein"
+            },
+            {
+              "emoji": "🥦",
+              "label": "vegetable"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "We eat fruit, vegetables and protein to have a ____."
           },
           "options": [
-            "energy",
+            "fat",
             "tradition",
             "mealtime",
             "balanced diet"
@@ -398,6 +474,16 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP3-U2-SB-164",
+          "props": [
+            {
+              "emoji": "🍲",
+              "label": "food"
+            },
+            {
+              "emoji": "👃💨",
+              "label": "smells bad"
+            }
+          ],
           "prompt": {
             "id": "c8q",
             "text": "Tasty means the food smells bad. True or false?"
@@ -418,7 +504,7 @@
           "wordId": "CPP3-U2-SB-171",
           "prompt": {
             "id": "c9q",
-            "text": "Find the picture for: tradition."
+            "text": "Find the picture for: a custom that people keep doing for years."
           },
           "options": [
             "CPP3-U2-SB-163",
@@ -436,15 +522,21 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-167",
+          "props": [
+            {
+              "emoji": "👨‍👩‍👧",
+              "label": "family"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "At ____, our family sits down together to eat."
           },
           "options": [
             "mealtime",
-            "playtime",
-            "school time",
-            "bedtime"
+            "menu",
+            "tradition",
+            "culture"
           ],
           "answer": 0,
           "explain": {
@@ -516,5 +608,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

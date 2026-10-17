@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-881",
-      "emoji": "🦄",
+      "emoji": "🦄💭",
       "kidDefinition": "Not real. Made up in your mind.",
       "examples": [
         "This flower is imaginary, not real.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-883",
-      "emoji": "🎨",
+      "emoji": "🎨✨",
       "kidDefinition": "To make something new.",
       "examples": [
         "Dan can create beautiful images.",
@@ -119,7 +119,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-886",
-      "emoji": "🏺",
+      "emoji": "🟤✋",
       "kidDefinition": "Soft wet earth that you can shape.",
       "examples": [
         "We use clay in art class to create sculptures.",
@@ -170,7 +170,7 @@
     },
     {
       "wordId": "CPP1-U8-SB-882",
-      "emoji": "🎭",
+      "emoji": "🧙🎉",
       "kidDefinition": "A party where everyone dresses up as someone else.",
       "examples": [
         "My friend is having a costume party.",
@@ -198,23 +198,55 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl guide."
+          "text": "Hello, friends! I am Lingo, your owl guide.",
+          "props": [
+            {
+              "emoji": "🧭",
+              "label": "guide"
+            }
+          ]
         },
         {
           "id": "l2",
-          "text": "Today we begin a brand new unit."
+          "text": "Today we begin a new unit.",
+          "props": [
+            {
+              "emoji": "📚",
+              "label": "unit"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Our Big Question is: What is imagination?"
+          "text": "Our Big Question is: What is imagination?",
+          "props": [
+            {
+              "emoji": "💭",
+              "label": "imagination"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Imagination helps us dream, invent, and create."
+          "text": "Imagination helps us make art and stories.",
+          "props": [
+            {
+              "emoji": "💭",
+              "label": "imagination"
+            },
+            {
+              "emoji": "🎨",
+              "label": "art"
+            },
+            {
+              "emoji": "📖",
+              "label": "stories"
+            }
+          ]
         },
         {
           "id": "l5",
-          "text": "Let's find out how it makes art and stories!"
+          "text": "Let's find out how!"
         }
       ],
       "question": {
@@ -251,6 +283,20 @@
               "who": "ling"
             }
           ],
+          "props": [
+            {
+              "emoji": "🖌️",
+              "label": "paintbrush"
+            },
+            {
+              "emoji": "🐉",
+              "label": "imaginary dragon"
+            },
+            {
+              "emoji": "☁️☁️",
+              "label": "clouds"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Ling sits in the garden with her paintbrush."
@@ -275,6 +321,32 @@
             },
             {
               "who": "dan"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "📸",
+              "label": "photograph"
+            },
+            {
+              "emoji": "📷",
+              "label": "camera"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "painting"
+            },
+            {
+              "emoji": "💭",
+              "label": "imagination"
+            },
+            {
+              "emoji": "🟤",
+              "label": "clay"
+            },
+            {
+              "emoji": "🗿",
+              "label": "sculpture"
             }
           ],
           "caption": {
@@ -310,7 +382,7 @@
           "wordId": "CPP1-U8-SB-878",
           "prompt": {
             "id": "c1q",
-            "text": "Which one shows imagination?"
+            "text": "Which one means the ability to think of new ideas?"
           },
           "options": [
             "CPP1-U8-SB-884",
@@ -341,7 +413,7 @@
           "answer": 1,
           "explain": {
             "id": "c2e",
-            "text": "A sculpture is a shaped artwork you can walk around."
+            "text": "A sculpture is an artwork made by shaping a solid material."
           }
         },
         {
@@ -350,13 +422,22 @@
           "wordId": "CPP1-U8-SB-883",
           "prompt": {
             "id": "c3q",
-            "text": "Dan can ____ beautiful images with his brushes."
+            "text": "Dan can ____ beautiful pictures with paint."
           },
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🖌️",
+              "label": "paint"
+            }
+          ],
           "options": [
-            "jump",
-            "whisper",
-            "create",
-            "wander"
+            "imagine",
+            "photograph",
+            "create"
           ],
           "answer": 2,
           "explain": {
@@ -372,6 +453,16 @@
             "id": "c4q",
             "text": "An imaginary unicorn is a real animal."
           },
+          "props": [
+            {
+              "emoji": "🦄",
+              "label": "unicorn"
+            },
+            {
+              "emoji": "🐴🐶",
+              "label": "animal"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -392,14 +483,14 @@
           },
           "options": [
             "painting",
-            "clay",
             "sculpture",
+            "photograph",
             "camera"
           ],
           "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "A camera is a machine; the others are art made by hand."
+            "text": "A camera is a machine that takes photos; the others are artworks or pictures."
           }
         },
         {
@@ -410,6 +501,12 @@
             "id": "c6q",
             "text": "Next Sunday I am going to a ____ as a pirate."
           },
+          "props": [
+            {
+              "emoji": "🏴‍☠️",
+              "label": "pirate"
+            }
+          ],
           "options": [
             "photograph",
             "sculpture",
@@ -427,7 +524,7 @@
           "wordId": "CPP1-U8-SB-888",
           "prompt": {
             "id": "c7q",
-            "text": "Which one is a photograph?"
+            "text": "Which one is a picture taken with a camera?"
           },
           "options": [
             "CPP1-U8-SB-888",
@@ -467,8 +564,22 @@
           "wordId": "CPP1-U8-SB-884",
           "prompt": {
             "id": "c9q",
-            "text": "A painting can hang on a wall."
+            "text": "A painting is a picture, so it can hang on a wall."
           },
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "painting"
+            },
+            {
+              "emoji": "🧱",
+              "label": "wall"
+            },
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -547,5 +658,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

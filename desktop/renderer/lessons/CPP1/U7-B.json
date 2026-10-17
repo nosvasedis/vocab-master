@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-827",
-      "emoji": "🍃",
+      "emoji": "🍃💨",
       "kidDefinition": "A light, gentle wind that feels cool.",
       "examples": [
         "What a lovely breeze! It's cool and fresh.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-813",
-      "emoji": "🌬️",
+      "emoji": "😮💨",
       "kidDefinition": "To take air into your body and let it out.",
       "examples": [
         "Let's go outside to breathe some fresh air.",
@@ -118,7 +118,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-810",
-      "emoji": "🏠",
+      "emoji": "🐝🏠",
       "kidDefinition": "A home where bees live together.",
       "examples": [
         "Bees live all together in a hive.",
@@ -152,7 +152,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-817",
-      "emoji": "🐝",
+      "emoji": "🐝💢",
       "kidDefinition": "To hurt someone with a sharp point, like a bee.",
       "examples": [
         "Bees can sting you when they feel in danger.",
@@ -168,7 +168,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-820",
-      "emoji": "🐄",
+      "emoji": "🐄🔊",
       "kidDefinition": "The sound a cow makes.",
       "examples": [
         "We live on a farm and we can hear the cows moo all the time.",
@@ -184,7 +184,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-819",
-      "emoji": "🐑",
+      "emoji": "🐑💃",
       "kidDefinition": "To jump and move around happily.",
       "examples": [
         "Baby kids and lambs like prancing in the grass!",
@@ -244,15 +244,53 @@
         },
         {
           "id": "l2",
-          "text": "Trees give us shade and fresh air to breathe."
+          "text": "Trees give us shade and fresh air to breathe.",
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "⛱️",
+              "label": "shade"
+            },
+            {
+              "emoji": "💨",
+              "label": "air"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Bees make honey, and cows say moo!"
+          "text": "Bees make honey, and cows say moo!",
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            },
+            {
+              "emoji": "🍯",
+              "label": "honey"
+            },
+            {
+              "emoji": "🐄",
+              "label": "cow"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today we visit a garden and a farm with Mia."
+          "text": "Today we visit a garden and a farm with Mia.",
+          "props": [
+            {
+              "emoji": "🚜",
+              "label": "farm"
+            },
+            {
+              "emoji": "🧒",
+              "label": "Mia"
+            }
+          ]
         }
       ],
       "question": {
@@ -290,6 +328,16 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "⛱️",
+              "label": "shade"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "Mia sits under a big tree in the garden."
@@ -315,6 +363,20 @@
             },
             {
               "who": "mrsbee"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🍃💨",
+              "label": "breeze"
+            },
+            {
+              "emoji": "🌿",
+              "label": "leaves"
+            },
+            {
+              "emoji": "💨",
+              "label": "air"
             }
           ],
           "caption": {
@@ -348,6 +410,20 @@
             },
             {
               "who": "mia"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🐝🏠",
+              "label": "hive"
+            },
+            {
+              "emoji": "🍯",
+              "label": "honey"
+            },
+            {
+              "emoji": "🐝",
+              "label": "bees"
             }
           ],
           "caption": {
@@ -385,6 +461,24 @@
               "who": "mia"
             }
           ],
+          "props": [
+            {
+              "emoji": "🐄🐑",
+              "label": "animals"
+            },
+            {
+              "emoji": "🐄",
+              "label": "cows"
+            },
+            {
+              "emoji": "🚪",
+              "label": "gate"
+            },
+            {
+              "emoji": "🐑",
+              "label": "lambs"
+            }
+          ],
           "caption": {
             "id": "p4c",
             "text": "On the farm, the animals are busy and happy."
@@ -412,6 +506,15 @@
           "characters": [
             {
               "who": "mia"
+            },
+            {
+              "who": "mrsbee"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
             }
           ],
           "caption": {
@@ -483,6 +586,16 @@
             "id": "c3q",
             "text": "The big tree will ____ us from the hot sun."
           },
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "☀️",
+              "label": "sun"
+            }
+          ],
           "options": [
             "shade",
             "prance",
@@ -503,6 +616,16 @@
             "id": "c4q",
             "text": "A breeze is a light wind that feels cool."
           },
+          "props": [
+            {
+              "emoji": "🍃💨",
+              "label": "breeze"
+            },
+            {
+              "emoji": "💨",
+              "label": "wind"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -541,11 +664,17 @@
             "id": "c6q",
             "text": "Trees give us clean ____ to breathe."
           },
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            }
+          ],
           "options": [
             "hive",
             "honey",
             "air",
-            "garden"
+            "breeze"
           ],
           "answer": 2,
           "explain": {
@@ -561,6 +690,16 @@
             "id": "c7q",
             "text": "Let's walk outside and ____ some fresh air."
           },
+          "props": [
+            {
+              "emoji": "🚶",
+              "label": "walk"
+            },
+            {
+              "emoji": "💨",
+              "label": "air"
+            }
+          ],
           "options": [
             "moo",
             "sting",
@@ -579,8 +718,14 @@
           "wordId": "CPP1-U7-SB-817",
           "prompt": {
             "id": "c8q",
-            "text": "Bees can sting you when they feel in danger."
+            "text": "Bees can sting you if they feel scared."
           },
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -597,7 +742,7 @@
           "wordId": "CPP1-U7-SB-819",
           "prompt": {
             "id": "c9q",
-            "text": "Which word means to jump and dance happily?"
+            "text": "Which word means to jump and move around happily?"
           },
           "options": [
             "CPP1-U7-SB-812",
@@ -695,5 +840,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

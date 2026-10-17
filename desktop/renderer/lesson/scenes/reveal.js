@@ -21,7 +21,7 @@ export default {
           <h2>Our new words</h2>
           <div class="rv-grid">${ids.map((id) => {
             const w = ctx.words.get(id);
-            return `<button type="button" class="rv-tile" data-id="${id}"><span class="rv-tile-pic">${ctx.pic(w.emoji)}</span><b>${ctx.esc(w.english)}</b>${greekMode !== "never" ? `<span class="greek">${ctx.esc(w.greek || "")}</span>` : ""}</button>`;
+            return `<button type="button" class="rv-tile" data-id="${id}"><span class="rv-tile-pic">${ctx.picFit(w.emoji, 110)}</span><b>${ctx.esc(w.english)}</b>${greekMode !== "never" ? `<span class="greek">${ctx.esc(w.greek || "")}</span>` : ""}</button>`;
           }).join("")}</div>
           <p class="rv-hint">Tap a word to hear it again</p>
         </div>`;
@@ -42,7 +42,7 @@ export default {
       ctx.clearBubble();
       ctx.ui.innerHTML = `
         <div class="rv-card">
-          <div class="rv-pic"><span>${ctx.pic(w.emoji) || "🔤"}</span></div>
+          <div class="rv-pic">${ctx.picFit(w.emoji || "🔤", 290)}</div>
           <div class="rv-text">
             <div class="rv-count">${i + 1} / ${ids.length}</div>
             <h2 class="rv-word">${ctx.esc(w.english)}</h2>

@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U8-SB-1023",
-      "emoji": "🔴",
+      "emoji": "🔴🔴🔴",
       "kidDefinition": "Red, itchy spots on your skin that appear suddenly.",
       "examples": [
         "I have hives on my arms after the plant.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1024",
-      "emoji": "🎈",
+      "emoji": "🎈➡️🎈🎈",
       "kidDefinition": "To become bigger and rounder, often after an injury.",
       "examples": [
         "My ankle swelled after I fell off my bike.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1027",
-      "emoji": "🤚",
+      "emoji": "💅🤚",
       "kidDefinition": "To rub your skin with your nails because it feels itchy.",
       "examples": [
         "Please do not scratch the mosquito bite.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1028",
-      "emoji": "🔴",
+      "emoji": "🧑➡️🔴🔴",
       "kidDefinition": "To suddenly get spots or hives on your body.",
       "examples": [
         "The baby broke out in spots after the medicine.",
@@ -117,7 +117,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1029",
-      "emoji": "🐝",
+      "emoji": "🐝👆",
       "kidDefinition": "To hurt someone with a sharp point, like a bee does.",
       "examples": [
         "A wasp stung my friend on the leg.",
@@ -166,7 +166,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1054",
-      "emoji": "📣",
+      "emoji": "🧑📣",
       "kidDefinition": "To be the person who decides what to do in an emergency.",
       "examples": [
         "The captain took charge when the boat was in trouble.",
@@ -236,6 +236,12 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
+      "props": [
+        {
+          "emoji": "🦸",
+          "label": "hero"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -247,11 +253,31 @@
         },
         {
           "id": "l3",
-          "text": "Some heroes help us when we feel unwell or hurt."
+          "text": "Some heroes help us when we feel unwell or hurt.",
+          "props": [
+            {
+              "emoji": "🤒",
+              "label": "unwell"
+            },
+            {
+              "emoji": "🩹",
+              "label": "hurt"
+            }
+          ]
         },
         {
           "id": "l4",
-          "text": "Today, we meet Mia and her friend Ben, at the park."
+          "text": "Today, we meet Mia and her friend Ben, at the park.",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "👦",
+              "label": "Ben"
+            }
+          ]
         }
       ],
       "question": {
@@ -284,6 +310,20 @@
         {
           "id": "p1",
           "backdrop": "park",
+          "props": [
+            {
+              "emoji": "🧺",
+              "label": "picnic"
+            },
+            {
+              "emoji": "☀️",
+              "label": "sunny"
+            },
+            {
+              "emoji": "🌸",
+              "label": "flowers"
+            }
+          ],
           "characters": [
             {
               "who": "ben"
@@ -313,6 +353,16 @@
         {
           "id": "p2",
           "backdrop": "park",
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            },
+            {
+              "emoji": "💪",
+              "label": "arm"
+            }
+          ],
           "characters": [
             {
               "who": "ben"
@@ -336,6 +386,12 @@
         {
           "id": "p3",
           "backdrop": "park",
+          "props": [
+            {
+              "emoji": "💪",
+              "label": "arm"
+            }
+          ],
           "characters": [
             {
               "who": "ben"
@@ -368,6 +424,20 @@
         {
           "id": "p4",
           "backdrop": "park",
+          "props": [
+            {
+              "emoji": "🔴🔴",
+              "label": "spots"
+            },
+            {
+              "emoji": "🔴",
+              "label": "hives"
+            },
+            {
+              "emoji": "💪💪",
+              "label": "arms"
+            }
+          ],
           "characters": [
             {
               "who": "ben"
@@ -401,6 +471,20 @@
         {
           "id": "p5",
           "backdrop": "park",
+          "props": [
+            {
+              "emoji": "📣",
+              "label": "charge"
+            },
+            {
+              "emoji": "🤧",
+              "label": "allergic reaction"
+            },
+            {
+              "emoji": "💨",
+              "label": "breathe"
+            }
+          ],
           "characters": [
             {
               "who": "mia"
@@ -433,7 +517,25 @@
         },
         {
           "id": "p6",
-          "backdrop": "street",
+          "backdrop": "park",
+          "props": [
+            {
+              "emoji": "📞",
+              "label": "calls"
+            },
+            {
+              "emoji": "🚑",
+              "label": "ambulance"
+            },
+            {
+              "emoji": "🌳",
+              "label": "park"
+            },
+            {
+              "emoji": "🦸",
+              "label": "hero"
+            }
+          ],
           "characters": [
             {
               "who": "mia"
@@ -474,7 +576,7 @@
           "wordId": "CPP2-U8-SB-1023",
           "prompt": {
             "id": "c1q",
-            "text": "Find the word: hives."
+            "text": "Red, itchy spots that appear suddenly on your skin."
           },
           "options": [
             "CPP2-U8-SB-1027",
@@ -512,6 +614,16 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP2-U8-SB-1024",
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            },
+            {
+              "emoji": "💪",
+              "label": "arm"
+            }
+          ],
           "prompt": {
             "id": "c3q",
             "text": "A bee stung her, and her arm began to ____."
@@ -531,6 +643,12 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP2-U8-SB-1029",
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            }
+          ],
           "prompt": {
             "id": "c4q",
             "text": "To sting means to hurt someone with a sharp point, like a bee."
@@ -554,29 +672,35 @@
             "text": "Which word is the odd one out?"
           },
           "options": [
-            "scratch",
-            "calm",
-            "swell",
-            "hurry"
+            "hives",
+            "allergic reaction",
+            "ambulance",
+            "calm"
           ],
-          "answer": 1,
+          "answer": 3,
           "explain": {
             "id": "c5e",
-            "text": "Calm is an adjective, but the other three words are verbs."
+            "text": "Calm means quiet and relaxed, but the other words are about a medical emergency."
           }
         },
         {
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP2-U8-SB-1025",
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "bee"
+            }
+          ],
           "prompt": {
             "id": "c6q",
-            "text": "Ben has an ____ to bee stings."
+            "text": "Ben's body is having an ____ to the bee sting."
           },
           "options": [
-            "sunburn",
+            "ambulance",
             "allergic reaction",
-            "picnic"
+            "bracelet"
           ],
           "answer": 1,
           "explain": {
@@ -588,6 +712,16 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP2-U8-SB-1028",
+          "props": [
+            {
+              "emoji": "🐝",
+              "label": "sting"
+            },
+            {
+              "emoji": "🔴🔴",
+              "label": "hives"
+            }
+          ],
           "prompt": {
             "id": "c7q",
             "text": "After the sting, Ben began to ____ hives."
@@ -607,13 +741,23 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP2-U8-SB-1054",
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Mia"
+            },
+            {
+              "emoji": "🆘",
+              "label": "help"
+            }
+          ],
           "prompt": {
             "id": "c8q",
-            "text": "Mia ____ and called for help."
+            "text": "Mia was calm, so she ____ and called for help."
           },
           "options": [
-            "fell asleep",
-            "went home",
+            "broke out in hives",
+            "fell down",
             "took charge"
           ],
           "answer": 2,
@@ -628,7 +772,7 @@
           "wordId": "CPP2-U8-SB-1051",
           "prompt": {
             "id": "c9q",
-            "text": "Find the word: breathe."
+            "text": "To take air into your lungs and let it out."
           },
           "options": [
             "CPP2-U8-SB-1062",
@@ -646,6 +790,12 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP2-U8-SB-1027",
+          "props": [
+            {
+              "emoji": "🔴🔴",
+              "label": "hives"
+            }
+          ],
           "prompt": {
             "id": "c10q",
             "text": "Don't ____ the hives. You'll make them worse."
@@ -694,7 +844,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "I felt scared when I fell off my bike. My dad took charge and called for help. Thanks to him, I could breathe calmly again."
+        "text": "I felt scared when I got hurt on my bike. My dad took charge and helped me. Thanks to him, I could breathe calmly again."
       }
     },
     {
@@ -729,5 +879,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U5-SB-613",
-      "emoji": "🕺",
+      "emoji": "🕺➡️",
       "kidDefinition": "To change place, or make your body or things go.",
       "examples": [
         "Please move your bag off the chair.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-614",
-      "emoji": "🔗",
+      "emoji": "🧑🔗🧑",
       "kidDefinition": "To join two things or people together.",
       "examples": [
         "This bridge connects the two villages.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-615",
-      "emoji": "😊",
+      "emoji": "😊😢",
       "kidDefinition": "What you feel inside, like happy or sad.",
       "examples": [
         "Music helps me show my feelings.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-617",
-      "emoji": "🌍",
+      "emoji": "🌍🎶",
       "kidDefinition": "The customs and music of a group of people.",
       "examples": [
         "Different cultures have different kinds of music.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-618",
-      "emoji": "🪕",
+      "emoji": "👵🎶➡️👧",
       "kidDefinition": "Old, and passed down from one generation to the next.",
       "examples": [
         "Do you like traditional music?",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-629",
-      "emoji": "🎼",
+      "emoji": "🧑🎹",
       "kidDefinition": "A person who plays or writes music.",
       "examples": [
         "Dominic is a musician. He can play three instruments.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-640",
-      "emoji": "🥁",
+      "emoji": "🥁👏🥁👏",
       "kidDefinition": "The steady beat pattern in music.",
       "examples": [
         "Listen to the rhythm and clap along.",
@@ -263,11 +263,35 @@
         },
         {
           "id": "l2",
-          "text": "Music is everywhere. You hear it at home, at school, and in the park."
+          "text": "Music is everywhere. You hear it at home, at school, and in the park.",
+          "props": [
+            {
+              "emoji": "🏠",
+              "label": "home"
+            },
+            {
+              "emoji": "🏫",
+              "label": "school"
+            },
+            {
+              "emoji": "🌳",
+              "label": "park"
+            }
+          ]
         },
         {
           "id": "l3",
-          "text": "Some music makes us dance. Some music makes us feel calm."
+          "text": "Some music makes us dance. Some music makes us feel calm.",
+          "props": [
+            {
+              "emoji": "💃",
+              "label": "dance"
+            },
+            {
+              "emoji": "😌",
+              "label": "calm"
+            }
+          ]
         },
         {
           "id": "l4",
@@ -316,6 +340,24 @@
               "who": "nico"
             }
           ],
+          "props": [
+            {
+              "emoji": "🚪",
+              "label": "room"
+            },
+            {
+              "emoji": "🗣️",
+              "label": "voices"
+            },
+            {
+              "emoji": "🎵",
+              "label": "song"
+            },
+            {
+              "emoji": "🥁👏",
+              "label": "rhythm"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "The music room is full of happy voices."
@@ -347,9 +389,35 @@
               "who": "mrs_bell"
             }
           ],
+          "props": [
+            {
+              "emoji": "🎻",
+              "label": "violin"
+            },
+            {
+              "emoji": "👴",
+              "label": "grandpa"
+            },
+            {
+              "emoji": "🧑🎹",
+              "label": "musician"
+            },
+            {
+              "emoji": "🎶",
+              "label": "melody"
+            },
+            {
+              "emoji": "🏘️",
+              "label": "village"
+            },
+            {
+              "emoji": "🎵",
+              "label": "song"
+            }
+          ],
           "caption": {
             "id": "p2c",
-            "text": "Nico opens his case and takes out his violin."
+            "text": "Nico takes out his violin."
           },
           "speech": [
             {
@@ -379,6 +447,28 @@
             },
             {
               "who": "nico"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "👏👏",
+              "label": "beat"
+            },
+            {
+              "emoji": "🦶",
+              "label": "feet"
+            },
+            {
+              "emoji": "🥁",
+              "label": "rhythm"
+            },
+            {
+              "emoji": "💃",
+              "label": "dance"
+            },
+            {
+              "emoji": "🧍",
+              "label": "body"
             }
           ],
           "caption": {
@@ -412,9 +502,27 @@
               "who": "nico"
             }
           ],
+          "props": [
+            {
+              "emoji": "🌳",
+              "label": "tree"
+            },
+            {
+              "emoji": "😌",
+              "label": "relaxed"
+            },
+            {
+              "emoji": "😊😢",
+              "label": "feelings"
+            },
+            {
+              "emoji": "👫",
+              "label": "friends"
+            }
+          ],
           "caption": {
             "id": "p4c",
-            "text": "They sit under a tree and feel calm."
+            "text": "They sit under a tree and feel relaxed."
           },
           "speech": [
             {
@@ -442,6 +550,32 @@
             },
             {
               "who": "ellie"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "👥",
+              "label": "class"
+            },
+            {
+              "emoji": "🎤",
+              "label": "sings"
+            },
+            {
+              "emoji": "🔗",
+              "label": "connect"
+            },
+            {
+              "emoji": "🧑🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "🌍",
+              "label": "cultures"
+            },
+            {
+              "emoji": "🌍",
+              "label": "culture"
             }
           ],
           "caption": {
@@ -477,7 +611,7 @@
           "wordId": "CPP2-U5-SB-613",
           "prompt": {
             "id": "c1q",
-            "text": "Find the picture for the word: move"
+            "text": "Find the picture for: to change place or make your body go."
           },
           "options": [
             "CPP2-U5-SB-616",
@@ -497,7 +631,7 @@
           "wordId": "CPP2-U5-SB-621",
           "prompt": {
             "id": "c2q",
-            "text": "Listen. Pick the word you hear."
+            "text": "Listen. Pick the word you hear: violin."
           },
           "options": [
             "CPP2-U5-SB-640",
@@ -519,11 +653,25 @@
             "id": "c3q",
             "text": "Music can ____ people from different cultures."
           },
+          "props": [
+            {
+              "emoji": "🎵",
+              "label": "Music"
+            },
+            {
+              "emoji": "🧑🧑",
+              "label": "people"
+            },
+            {
+              "emoji": "🌍",
+              "label": "cultures"
+            }
+          ],
           "options": [
-            "cook",
+            "reread",
             "connect",
-            "hide",
-            "paint"
+            "earn",
+            "admire"
           ],
           "answer": 1,
           "explain": {
@@ -537,12 +685,22 @@
           "wordId": "CPP2-U5-SB-615",
           "prompt": {
             "id": "c4q",
-            "text": "Ellie uses music to show her ____."
+            "text": "Ellie uses music to show her ____, like happy or sad."
           },
+          "props": [
+            {
+              "emoji": "👧",
+              "label": "Ellie"
+            },
+            {
+              "emoji": "🎵",
+              "label": "music"
+            }
+          ],
           "options": [
-            "windows",
-            "pencils",
-            "weather",
+            "culture",
+            "rhythm",
+            "melody",
             "feelings"
           ],
           "answer": 3,
@@ -559,6 +717,12 @@
             "id": "c5q",
             "text": "Feeling relaxed means you are calm and not worried."
           },
+          "props": [
+            {
+              "emoji": "😌",
+              "label": "relaxed"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -577,6 +741,16 @@
             "id": "c6q",
             "text": "A traditional song is new and was written this year."
           },
+          "props": [
+            {
+              "emoji": "🎵",
+              "label": "song"
+            },
+            {
+              "emoji": "📅",
+              "label": "year"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -593,18 +767,18 @@
           "wordId": "CPP2-U5-SB-617",
           "prompt": {
             "id": "c7q",
-            "text": "Which word is NOT part of a culture?"
+            "text": "Which word is NOT a person?"
           },
           "options": [
-            "food",
-            "language",
-            "dance",
-            "pencil"
+            "musician",
+            "composer",
+            "pianist",
+            "culture"
           ],
           "answer": 3,
           "explain": {
             "id": "c7e",
-            "text": "Dance, language and food are part of culture, but a pencil is not."
+            "text": "Musician, composer and pianist are people, but culture is not a person."
           }
         },
         {
@@ -619,12 +793,12 @@
             "violin",
             "rhythm",
             "drum",
-            "flute"
+            "keyboard"
           ],
           "answer": 1,
           "explain": {
             "id": "c8e",
-            "text": "Violin, flute and drum are instruments, but rhythm is a beat pattern."
+            "text": "Violin, drum and keyboard are instruments, but rhythm is a beat pattern."
           }
         },
         {
@@ -635,11 +809,21 @@
             "id": "c9q",
             "text": "Dominic is a ____. He can play three instruments."
           },
+          "props": [
+            {
+              "emoji": "🧑",
+              "label": "Dominic"
+            },
+            {
+              "emoji": "🎹🥁🎻",
+              "label": "instruments"
+            }
+          ],
           "options": [
-            "doctor",
+            "concert",
             "musician",
-            "baker",
-            "teacher"
+            "opera",
+            "culture"
           ],
           "answer": 1,
           "explain": {
@@ -655,13 +839,23 @@
             "id": "c10q",
             "text": "I can hum the ____ of my favourite song."
           },
-          "options": [
-            "puzzle",
-            "mirror",
-            "melody",
-            "ticket"
+          "props": [
+            {
+              "emoji": "🙂🎵",
+              "label": "hum"
+            },
+            {
+              "emoji": "🎵",
+              "label": "song"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "culture",
+            "concert",
+            "violin",
+            "melody"
+          ],
+          "answer": 3,
           "explain": {
             "id": "c10e",
             "text": "The melody is the tune of a song, the part you can sing."
@@ -735,5 +929,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

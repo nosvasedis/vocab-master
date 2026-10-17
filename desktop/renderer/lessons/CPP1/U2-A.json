@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-162",
-      "emoji": "🗄️",
+      "emoji": "🪝🪝🪝",
       "kidDefinition": "A stand with hooks or bars for hanging things.",
       "examples": [
         "Put your coat on the rack.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-164",
-      "emoji": "🪝",
+      "emoji": "🧥🪝",
       "kidDefinition": "To put something up so it stays on a hook.",
       "examples": [
         "Hang your bag on the hook.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-158",
-      "emoji": "✏️",
+      "emoji": "✏️➡️🔺",
       "kidDefinition": "A small tool that makes your pencil pointed again.",
       "examples": [
         "Can I use your pencil sharpener, please?",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-157",
-      "emoji": "🪨",
+      "emoji": "✏️🪨",
       "kidDefinition": "Not sharp. A dull pencil does not have a point.",
       "examples": [
         "My pencils are dull. I can't draw.",
@@ -182,7 +182,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-166",
-      "emoji": "🏀",
+      "emoji": "🏃🏀",
       "kidDefinition": "A big room where children play sports.",
       "examples": [
         "We run and jump in the gym.",
@@ -249,6 +249,16 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "school",
+      "props": [
+        {
+          "emoji": "🚪",
+          "label": "room"
+        },
+        {
+          "emoji": "🏫",
+          "label": "school"
+        }
+      ],
       "lines": [
         {
           "id": "l1",
@@ -256,7 +266,7 @@
         },
         {
           "id": "l2",
-          "text": "Today we explore the rooms and places in our school."
+          "text": "Today we explore the rooms in our school."
         },
         {
           "id": "l3",
@@ -305,6 +315,20 @@
               "who": "maria"
             }
           ],
+          "props": [
+            {
+              "emoji": "🧥",
+              "label": "coat"
+            },
+            {
+              "emoji": "🪝🪝🪝",
+              "label": "rack"
+            },
+            {
+              "emoji": "💧",
+              "label": "wet"
+            }
+          ],
           "caption": {
             "id": "p1c",
             "text": "It is Monday morning. Nick and Maria walk into school."
@@ -336,6 +360,32 @@
             },
             {
               "who": "maria"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🎨",
+              "label": "art room"
+            },
+            {
+              "emoji": "🖌️",
+              "label": "paint"
+            },
+            {
+              "emoji": "🖍️",
+              "label": "draw"
+            },
+            {
+              "emoji": "👩‍🍳",
+              "label": "apron"
+            },
+            {
+              "emoji": "👕👖",
+              "label": "clothes"
+            },
+            {
+              "emoji": "🛡️",
+              "label": "protect"
             }
           ],
           "caption": {
@@ -371,6 +421,24 @@
               "who": "maria"
             }
           ],
+          "props": [
+            {
+              "emoji": "✏️",
+              "label": "pencil"
+            },
+            {
+              "emoji": "🪨",
+              "label": "dull"
+            },
+            {
+              "emoji": "✏️➡️🔺",
+              "label": "pencil sharpener"
+            },
+            {
+              "emoji": "🖍️",
+              "label": "draw"
+            }
+          ],
           "caption": {
             "id": "p3c",
             "text": "Nick's pencil is dull. He can't draw."
@@ -397,7 +465,20 @@
           "backdrop": "school",
           "characters": [
             {
+              "who": "nick"
+            },
+            {
               "who": "maria"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🏃🏀",
+              "label": "gym"
+            },
+            {
+              "emoji": "🏀",
+              "label": "basketball"
             }
           ],
           "caption": {
@@ -417,13 +498,27 @@
         },
         {
           "id": "p5",
-          "backdrop": "school",
+          "backdrop": "classroom",
           "characters": [
             {
               "who": "nick"
             },
             {
               "who": "maria"
+            }
+          ],
+          "props": [
+            {
+              "emoji": "🎵",
+              "label": "music room"
+            },
+            {
+              "emoji": "🎶",
+              "label": "music"
+            },
+            {
+              "emoji": "🎼",
+              "label": "song"
             }
           ],
           "caption": {
@@ -479,12 +574,22 @@
             "id": "c2q",
             "text": "My pencil is ____. I can't draw a straight line."
           },
-          "options": [
-            "happy",
-            "sharp",
-            "dull"
+          "props": [
+            {
+              "emoji": "✏️",
+              "label": "pencil"
+            },
+            {
+              "emoji": "〰️",
+              "label": "line"
+            }
           ],
-          "answer": 2,
+          "options": [
+            "healthy",
+            "dull",
+            "coloured"
+          ],
+          "answer": 1,
           "explain": {
             "id": "c2e",
             "text": "Dull means not sharp, so you cannot draw well with it."
@@ -496,12 +601,22 @@
           "wordId": "CPP1-U2-SB-159",
           "prompt": {
             "id": "c3q",
-            "text": "Wear an ____ over your clothes when you paint."
+            "text": "Wear this over your clothes to keep them clean when you paint: ____."
           },
+          "props": [
+            {
+              "emoji": "👕👖",
+              "label": "clothes"
+            },
+            {
+              "emoji": "🖌️",
+              "label": "paint"
+            }
+          ],
           "options": [
-            "hat",
+            "rack",
             "apron",
-            "bag"
+            "gym"
           ],
           "answer": 1,
           "explain": {
@@ -517,6 +632,24 @@
             "id": "c4q",
             "text": "True or false: An apron can protect your clothes from paint."
           },
+          "props": [
+            {
+              "emoji": "👩‍🍳",
+              "label": "apron"
+            },
+            {
+              "emoji": "👕👖",
+              "label": "clothes"
+            },
+            {
+              "emoji": "🛡️",
+              "label": "protect"
+            },
+            {
+              "emoji": "🖌️",
+              "label": "paint"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -555,6 +688,16 @@
             "id": "c6q",
             "text": "Please ____ your coat on the rack."
           },
+          "props": [
+            {
+              "emoji": "🧥",
+              "label": "coat"
+            },
+            {
+              "emoji": "🪝🪝🪝",
+              "label": "rack"
+            }
+          ],
           "options": [
             "protect",
             "play",
@@ -593,6 +736,20 @@
             "id": "c8q",
             "text": "True or false: We play volleyball and basketball in the art room."
           },
+          "props": [
+            {
+              "emoji": "🏐",
+              "label": "volleyball"
+            },
+            {
+              "emoji": "🏀",
+              "label": "basketball"
+            },
+            {
+              "emoji": "🎨",
+              "label": "art room"
+            }
+          ],
           "options": [
             "True",
             "False"
@@ -611,6 +768,20 @@
             "id": "c9q",
             "text": "We draw and paint pictures in the ____."
           },
+          "props": [
+            {
+              "emoji": "🖼️",
+              "label": "picture"
+            },
+            {
+              "emoji": "🖍️",
+              "label": "draw"
+            },
+            {
+              "emoji": "🖌️",
+              "label": "paint"
+            }
+          ],
           "options": [
             "art room",
             "gym",
@@ -670,7 +841,7 @@
       "timerSec": 60,
       "model": {
         "id": "m",
-        "text": "My favourite room is the art room. We draw and paint there. I wear an apron to protect my clothes."
+        "text": "My favourite room is the art room. We draw and paint in the art room. I need a pencil sharpener for my pencil."
       }
     },
     {
@@ -705,5 +876,14 @@
         }
       ]
     }
-  ]
+  ],
+  "revisedBy": {
+    "model": "anthropic/claude-haiku-5.5",
+    "date": "2026-10-17",
+    "rubric": "show-what-you-say v1"
+  },
+  "qaBy": {
+    "model": "deepseek/deepseek-v4.1-flash",
+    "date": "2026-10-17"
+  }
 }

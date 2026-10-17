@@ -2,10 +2,11 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { validateLesson, lessonLines, normText, lessonPath } from "../desktop/renderer/lesson/schema.js";
+import { validateLesson, lessonLines, normText, lessonPath, visibilityIssues } from "../desktop/renderer/lesson/schema.js";
 import { allLessonFiles, getWord, LESSONS_DIR } from "../scripts/lessons/lib/catalog.mjs";
 
 const files = allLessonFiles();
+const NOUNS = new Set(JSON.parse(fs.readFileSync(path.join(LESSONS_DIR, "..", "..", "..", "content", "visual-lexicon.json"), "utf8")).nouns);
 const index = JSON.parse(fs.readFileSync(path.join(LESSONS_DIR, "index.json"), "utf8"));
 
 test("catalog lists exactly the lesson files on disk", () => {
@@ -20,6 +21,10 @@ for (const file of files) {
     const { errors } = validateLesson(lesson, getWord);
     assert.deepEqual(errors, []);
     assert.equal(lessonPath(lesson.bookId, lesson.unit, lesson.section), path.relative(LESSONS_DIR, file).split(path.sep).join("/"));
+  });
+  test(`${lesson.id} shows everything it mentions`, () => {
+    const issues = visibilityIssues(lesson, NOUNS).map((v) => `${v.where}: ${v.noun}`);
+    assert.deepEqual(issues, []);
   });
   test(`${lesson.id} has unique audio keys`, () => {
     const keys = lessonLines(lesson).map((l) => l.key);

@@ -118,6 +118,7 @@ function collectJobs() {
     for (const [, rows] of seen) for (const w of rows) if (w.greek) add({ key: `g:${w.id}`, text: w.greek, voice: c.voice, model: c.model, style: "", kind: "greek" });
   }
   for (const j of jobs) {
+    if (VOICES.forceBatch && !String(j.voice).startsWith("voice_")) j.style = ""; // batch has no style field
     j.spoken = spoken(j.text);
     j.hash = crypto.createHash("sha1").update(`${j.model}|${j.voice}|${j.style}|${j.spoken}`).digest("hex").slice(0, 16);
     j.route = j.style || String(j.voice).startsWith("voice_") ? "standard" : "batch";
