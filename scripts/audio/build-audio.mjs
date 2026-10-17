@@ -70,7 +70,8 @@ const STYLE = {
 
 /** Pronunciation fixes: { "oracy": "/ˈɔːrəsi/" } replaces the word with IPA in the spoken text only. */
 function spoken(text) {
-  let t = text;
+  // Gap-fill prompts: say "blank" like a teacher, otherwise the voice model guesses and speaks the answer.
+  let t = text.replace(/_{2,}/g, "blank");
   for (const [w, ipa] of Object.entries(PRON)) t = t.replace(new RegExp(`\\b${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi"), ipa);
   return t;
 }
