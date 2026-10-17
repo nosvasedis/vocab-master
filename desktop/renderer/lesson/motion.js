@@ -37,8 +37,10 @@ export function fadeOut(els, { duration = 0.3 } = {}) {
 
 /** Letters of a word bounce in one after another. */
 export function letters(el, { delay = 0 } = {}) {
-  const text = el.textContent;
-  el.innerHTML = [...text].map((c) => `<span class="ls-letter">${c === " " ? "&nbsp;" : c.replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]))}</span>`).join("");
+  const text = el.textContent.trim();
+  const esc = (c) => c.replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[m]));
+  // Letters of one word stay in a no-wrap group, so a line can only ever break between words.
+  el.innerHTML = text.split(/\s+/).map((w) => `<span class="ls-wordgroup">${[...w].map((c) => `<span class="ls-letter">${esc(c)}</span>`).join("")}</span>`).join(" ");
   const spans = el.querySelectorAll(".ls-letter");
   if (calm) return end(spans, {});
   return gsap.fromTo(spans, { opacity: 0, y: -60, scale: 0.4 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, delay, stagger: 0.045, ease: "back.out(3)" });

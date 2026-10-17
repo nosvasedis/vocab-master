@@ -57,6 +57,7 @@ export default {
       $(".rv-say").addEventListener("click", () => ctx.sayWord(w));
       pop($(".rv-pic"), { scale: 0.2 });
       letters($(".rv-word"), { delay: 0.25 });
+      fitWord($(".rv-word"));
       await ctx.wait(700);
       if (!alive || !live()) return;
       await ctx.sayWord(w);
@@ -85,6 +86,7 @@ export default {
       // The word lights up in colour and ripples while the class says it together.
       const big = $(".rv-word");
       big.classList.add("say");
+      fitWord(big);
       big.querySelectorAll(".ls-letter").forEach((l, k) => { l.style.color = SAY_COLORS[k % SAY_COLORS.length]; });
       wave(big);
       await ctx.sayWord(w, { slow: true });
@@ -102,6 +104,21 @@ export default {
     };
   },
 };
+
+/** Shrink the headword until every word fits on one line (phrases: at most two lines, breaking only at spaces). */
+function fitWord(el) {
+  if (!el?.parentElement) return;
+  el.style.fontSize = "";
+  const room = el.parentElement.clientWidth;
+  const groups = [...el.querySelectorAll(".ls-wordgroup")];
+  let size = parseFloat(getComputedStyle(el).fontSize) || 150;
+  const fits = () => {
+    const pad = parseFloat(getComputedStyle(el).paddingLeft) * 2 || 0;
+    if (groups.some((g) => g.offsetWidth + pad > room)) return false;
+    return new Set(groups.map((g) => g.offsetTop)).size <= 2;
+  };
+  while (size > 56 && !fits()) { size -= 6; el.style.fontSize = `${size}px`; }
+}
 
 const SAY_COLORS = ["#5b3df5", "#e8467c", "#f08c00", "#12a150", "#0ea5e9", "#a855f7"];
 
