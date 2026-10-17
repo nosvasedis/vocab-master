@@ -1,6 +1,6 @@
 /* Reveal — each focus word gets its moment: picture pops in, letters bounce, the word is spoken,
    a child-friendly meaning and an example appear, then the class repeats it. Ends on a clickable word wall. */
-import { pop, letters, rise, pulse } from "../motion.js";
+import { pop, letters, rise, pulse, wave } from "../motion.js";
 
 export default {
   type: "reveal",
@@ -61,9 +61,11 @@ export default {
       if (!alive || !live()) return;
       await ctx.sayWord(w);
       if (!alive || !live()) return;
+      await ctx.wait(1100); // a breather: let the word land before its meaning
+      if (!alive || !live()) return;
       const def = $(".rv-def");
       if (!def) return;
-      if (def.textContent) { def.hidden = false; rise(def, { y: 20 }); await ctx.say({ id: `def:${w.id}`, text: w.kidDefinition }, { key: `d:${ctx.lesson.id}:${w.id}`, el: null }); }
+      if (def.textContent) { def.hidden = false; rise(def, { y: 20 }); await ctx.say({ id: `def:${w.id}`, text: w.kidDefinition }, { key: `d:${ctx.lesson.id}:${w.id}`, el: null }); await ctx.wait(900); }
       if (!alive || !live()) return;
       const ex = $(".rv-ex");
       if (example) {
@@ -78,8 +80,13 @@ export default {
       rep.hidden = false;
       pop(rep);
       pulse(rep, { repeat: 3 });
-      await ctx.wait(500);
+      await ctx.wait(900);
       if (!alive || !live()) return;
+      // The word lights up in colour and ripples while the class says it together.
+      const big = $(".rv-word");
+      big.classList.add("say");
+      big.querySelectorAll(".ls-letter").forEach((l, k) => { l.style.color = SAY_COLORS[k % SAY_COLORS.length]; });
+      wave(big);
       await ctx.sayWord(w, { slow: true });
       return { auto: true };
     }
@@ -95,6 +102,8 @@ export default {
     };
   },
 };
+
+const SAY_COLORS = ["#5b3df5", "#e8467c", "#f08c00", "#12a150", "#0ea5e9", "#a855f7"];
 
 function typeName(t) {
   const m = { "n.": "noun", "v.": "verb", "adj.": "adjective", "adv.": "adverb", "phr.": "phrase", "prep.": "preposition", "phr. v.": "phrasal verb", "pron.": "pronoun", "conj.": "conjunction", "excl.": "exclamation" };

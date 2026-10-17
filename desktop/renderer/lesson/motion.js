@@ -44,6 +44,13 @@ export function letters(el, { delay = 0 } = {}) {
   return gsap.fromTo(spans, { opacity: 0, y: -60, scale: 0.4 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, delay, stagger: 0.045, ease: "back.out(3)" });
 }
 
+/** A one-off wave through a word already split by letters() — for "say it with me". */
+export function wave(el, { duration = 0.32 } = {}) {
+  const spans = el.querySelectorAll(".ls-letter");
+  if (calm || !spans.length) return null;
+  return gsap.fromTo(spans, { y: 0, scale: 1 }, { y: -26, scale: 1.12, duration, yoyo: true, repeat: 1, stagger: 0.06, ease: "sine.inOut" });
+}
+
 /** Gentle endless float (characters, props). Returns a killable tween. */
 export function float(els, { amp = 12, duration = 2.6 } = {}) {
   if (calm) return { kill() {} };

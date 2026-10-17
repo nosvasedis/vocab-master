@@ -318,3 +318,6 @@
 .st-prop.sm.lit, .ck-props .st-prop { transform: none; }
 .hk-props { position: absolute; left: 50%; top: 360px; translate: -38% 0; display: flex; gap: 22px; justify-content: center; }
 .ck-props { display: flex; gap: 14px; justify-content: center; margin: -6px 0 14px; }
+/* "Say it with me!" — the word lights up like a highlighter stroke while the class repeats it */
+.rv-word.say { display: inline-block; padding: 0 22px; border-radius: 26px; background: linear-gradient(transparent 52%, #fff07a 52%, #ffe14d 92%, transparent 92%); transition: background 300ms; }
+.rv-word.say .ls-letter { display: inline-block; text-shadow: 0 6px 0 rgba(29, 22, 64, 0.08); transition: color 250ms; }
