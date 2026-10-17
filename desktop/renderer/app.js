@@ -4250,19 +4250,24 @@ function buildAutofillRequests(wordRequests) {
     .filter(Boolean);
 }
 
-async function autofillVocabulary(apiKey, profileId, wordRequests) {
+/** AI answers can be strings, lists, or {text, type, greek} objects — always store plain text. */
+function autofillValueText(value) {
+  if (value == null) return "";
+  if (Array.isArray(value)) return value.map(autofillValueText).filter(Boolean).join(", ");
+  if (typeof value === "object") {
+    const text = String(value.text || value.english || value.word || "").trim();
+    if (!text) return "";
+    const type = value.type ? ` (${String(value.type).trim()})` : "";
+    const greek = value.greek ? ` - ${String(value.greek).trim()}` : "";
+    return `${text}${type}${greek}`;
+  }
+  return String(value).trim();
+}
+
+const normEnglish = (s) => String(s || "").toLowerCase().replace(/[’']/g, "'").replace(/[-‐–]/g, " ").replace(/\s+/g, " ").trim();
+
+async function autofillBatch(apiKey, profileId, requests, { strict = false } = {}) {
   const profile = CLASS_PROFILES[profileId];
-  if (!profile) throw new Error("Invalid class profile");
-  const requests = buildAutofillRequests(wordRequests);
-  if (!requests.length) return [];
-
-  if (!requests.every((r) => r.fill.length || Object.keys(r.provided).length)) {
-    throw new Error("Each word needs at least one field enabled, or type/Greek hint already filled.");
-  }
-  if (!requests.every((r) => r.fill.length)) {
-    throw new Error("Each word needs at least one empty field to fill — all enabled fields are already filled.");
-  }
-
   const allFields = VOCAB_AUTOFILL_FIELDS;
   const schemaFields = allFields.map((k) => `"${k}": string`).join(", ");
 
@@ -4271,41 +4276,88 @@ async function autofillVocabulary(apiKey, profileId, wordRequests) {
 ${getProfilePromptBlock(profileId)}
 ${VOCAB_SENSE_DISAMBIGUATION_RULES}
 
-Schema: { "items": [ { "english": string, ${schemaFields} } ] }
+Schema: { "items": [ { "english": string, ${schemaFields}, "none": string[] } ] }
 
 Rules:
-- One item per input word; "english" must match the input exactly
+- One item per input word, in the SAME ORDER as the input; "english" must be copied exactly from the input
 - Each word has "fill" (fields to generate) and optional "provided" (teacher hints — LOCKED, copy exactly)
-- Return ONLY keys listed in "fill" for that word, PLUS echo every key in "provided" unchanged
+- Return EVERY key listed in "fill" with real content, PLUS echo every key in "provided" unchanged
 - type: standard abbreviation n., v., adj., adv., phr. v., prep., conj., pron., det., interj. Must match the locked sense from provided type/greek
 - greek: natural Greek for students at ${profile.label} level — must match provided greek if given, or match provided type
-- emojis: prefer exactly 1 relevant emoji for THIS sense; use 2 only if needed; never 3+
-- collocation: short natural phrase (3–7 words) using the word in the locked sense — not a dictionary definition
-- derivatives: comma-separated "word (type) - Greek". Leave "" if none suit ${profile.cefr} — do not force. Max ${profile.maxDerivatives}.
-- synonyms / antonyms: comma-separated; antonyms as "word - Greek". Leave "" if none fit.
+- emojis: exactly 1 relevant emoji for THIS sense (2 only if one cannot show it); never 3+; never leave empty
+- collocation: short natural phrase (3–7 words) using the word in the locked sense — not a dictionary definition; never leave empty
+- derivatives: comma-separated "word (type) - Greek" — other members of the SAME word family (noun/verb/adjective/adverb forms, e.g. compete → competition (n.) - διαγωνισμός, competitive (adj.) - ανταγωνιστικός). Prefer forms suitable for ${profile.cefr}; up to ${profile.maxDerivatives}. Phrasal verbs and fixed phrases can use the family of their key word
+- synonyms: comma-separated, 1–2 simple words or short phrases with the same meaning in this sense
+- antonyms: comma-separated "word - Greek", the natural opposite in this sense (for nouns, the opposite concept, e.g. winner ↔ loser, success ↔ failure)
+- Only if a requested field truly has NO correct answer in English (e.g. an opposite of "pencil"), return "" for it AND list the field name in "none". Never invent wrong or unnatural words just to fill a field${strict ? `
+- SECOND PASS: these fields came back empty last time. Think again carefully — most words DO have a word family, a synonym and an opposite. Use "none" only when an answer is genuinely impossible` : ""}
 
 Examples:
 - { "english": "seal", "provided": { "type": "v." }, "fill": ["greek","emojis","collocation"] } → type "v.", greek "σφραγίζω", emojis about closing/sealing, collocation "seal an envelope"
 - { "english": "seal", "provided": { "greek": "φώκια" }, "fill": ["type","emojis","collocation"] } → type "n.", emojis 🦭, collocation about the animal
-- { "english": "seal", "provided": { "type": "v.", "greek": "σφραγίζω" }, "fill": ["emojis","collocation"] } → echo type and greek exactly; fill emojis/collocation for the verb sense only`;
+- { "english": "brave", "fill": ["derivatives","synonyms","antonyms"] } → derivatives "bravery (n.) - θάρρος, bravely (adv.) - γενναία", synonyms "courageous", antonyms "afraid - φοβισμένος"`;
 
   const userPrompt = `Return json items for these words. Respect "fill" and "provided" on each:\n${JSON.stringify(requests, null, 2)}`;
-
   const result = await callDeepSeek(apiKey, systemPrompt, userPrompt);
-  const items = result.items || [];
-  const byEnglish = {};
-  items.forEach((it) => {
-    if (it.english) byEnglish[it.english.toLowerCase()] = it;
-  });
-  return requests.map((r) => {
-    const item = byEnglish[r.english.toLowerCase()] || { english: r.english };
-    const merged = { english: r.english };
-    for (const key of VOCAB_AUTOFILL_FIELDS) {
-      if (r.provided[key]) merged[key] = r.provided[key];
-      else if (r.fill.includes(key) && item[key] != null) merged[key] = item[key];
+  const items = Array.isArray(result.items) ? result.items : [];
+  const byEnglish = new Map(items.filter((it) => it?.english).map((it) => [normEnglish(it.english), it]));
+  // Match by headword, falling back to position (the AI sometimes re-spells a word).
+  return requests.map((r, i) => byEnglish.get(normEnglish(r.english)) || items[i] || {});
+}
+
+/**
+ * AI-fill vocabulary rows. Every requested field is filled unless the AI says it has no genuine
+ * answer (then it is listed in the result's `unavailable` map: english → [fields]).
+ * Works in small batches so long word lists are never cut short, and retries empty fields once.
+ */
+async function autofillVocabulary(apiKey, profileId, wordRequests) {
+  const profile = CLASS_PROFILES[profileId];
+  if (!profile) throw new Error("Invalid class profile");
+  const requests = buildAutofillRequests(wordRequests);
+  if (!requests.length) return [];
+  if (!requests.every((r) => r.fill.length || Object.keys(r.provided).length)) {
+    throw new Error("Each word needs at least one field enabled, or type/Greek hint already filled.");
+  }
+  if (!requests.every((r) => r.fill.length)) {
+    throw new Error("Each word needs at least one empty field to fill — all enabled fields are already filled.");
+  }
+
+  const BATCH = 8;
+  const merged = requests.map((r) => ({ english: r.english, ...Object.fromEntries(Object.entries(r.provided)) }));
+  const none = requests.map(() => new Set());
+
+  const runPass = async (indexes, strict) => {
+    for (let b = 0; b < indexes.length; b += BATCH) {
+      const slice = indexes.slice(b, b + BATCH);
+      const batch = slice.map((i) => ({
+        english: requests[i].english,
+        fill: requests[i].fill.filter((k) => !merged[i][k] && !none[i].has(k)),
+        provided: { ...requests[i].provided, ...Object.fromEntries(requests[i].fill.filter((k) => merged[i][k]).map((k) => [k, merged[i][k]])) },
+      }));
+      const answers = await autofillBatch(apiKey, profileId, batch, { strict });
+      answers.forEach((item, j) => {
+        const i = slice[j];
+        (Array.isArray(item.none) ? item.none : []).forEach((k) => none[i].add(k));
+        for (const key of batch[j].fill) {
+          const text = autofillValueText(item[key]);
+          if (text) merged[i][key] = text;
+        }
+      });
     }
-    return merged;
+  };
+
+  await runPass(requests.map((_, i) => i), false);
+  const missing = requests.map((r, i) => i).filter((i) => requests[i].fill.some((k) => !merged[i][k] && !none[i].has(k)));
+  if (missing.length) await runPass(missing, true);
+
+  const unavailable = {};
+  requests.forEach((r, i) => {
+    const empty = r.fill.filter((k) => !merged[i][k]);
+    if (empty.length) unavailable[r.english] = empty;
   });
+  const out = merged;
+  out.unavailable = unavailable;
+  return out;
 }
 
 /**

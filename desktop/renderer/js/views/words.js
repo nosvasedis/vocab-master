@@ -368,7 +368,7 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
       if (!item) return;
       FIELD_KEYS.forEach((k) => {
         if (!state.fields[k]) return;
-        const v = Array.isArray(item[k]) ? item[k].join(", ") : String(item[k] ?? "").trim();
+        const v = String(item[k] ?? "").trim();
         if (!v) return;
         const locked = k === "type" || k === "greek";
         if (locked ? !w[k].trim() : (regenerate || !w[k].trim())) w[k] = v;
@@ -382,7 +382,14 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
         setTimeout(() => r.classList.remove("just-filled"), 900);
       });
     });
-    toast(`AI filled ${plural(words.length, "word")}.`, "ok");
+    // Fields the AI says have no genuine answer (e.g. an opposite of "pencil") stay empty on purpose.
+    const gaps = Object.entries(items.unavailable || {});
+    if (gaps.length) {
+      const list = gaps.slice(0, 3).map(([en, keys]) => `${en}: ${keys.map((k) => FIELD_LABELS[k].toLowerCase()).join(", ")}`).join(" · ");
+      toast(`AI filled ${plural(words.length, "word")}. No natural answer for ${list}${gaps.length > 3 ? ` (+${gaps.length - 3} more)` : ""}.`, "ok", { ms: 7000 });
+    } else {
+      toast(`AI filled every field for ${plural(words.length, "word")}.`, "ok");
+    }
   } catch (err) {
     actions.setAiState("error", err.message);
     toast(err.message || String(err), "error");
