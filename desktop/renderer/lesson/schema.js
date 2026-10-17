@@ -70,6 +70,9 @@ export function lessonLines(lesson) {
     }
   }
   for (const fw of lesson.focusWords || []) {
+    if (typeof fw.kidDefinition === "string" && fw.kidDefinition.trim()) {
+      out.push({ key: `d:${lesson.id}:${fw.wordId}`, sceneId: "words", lineId: `${fw.wordId}:def`, text: fw.kidDefinition, who: "lingo", style: "", kind: "narration" });
+    }
     (fw.examples || []).forEach((text, i) => {
       if (typeof text === "string" && text.trim()) out.push({ key: `lx:${lesson.id}:${fw.wordId}:${i}`, sceneId: "words", lineId: `${fw.wordId}:${i}`, text, who: "lingo", style: "", kind: "example" });
     });

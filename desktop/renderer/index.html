@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./styles/base.css" />
   <link rel="stylesheet" href="./styles/app.css" />
   <link rel="stylesheet" href="./styles/arcade.css" />
+  <link rel="stylesheet" href="./styles/lesson.css" />
 </head>
 <body>
   <!-- ── Icon sprite ─────────────────────────────────────────────── -->
@@ -128,6 +129,10 @@
         </button>
 
         <div class="sb-label">Classroom</div>
+        <button type="button" class="sb-item" data-nav="lessons">
+          <span class="sb-ico lessons"><svg class="i"><use href="#i-graduation"/></svg></span>
+          <span class="sb-item-text"><span>Lessons</span><small>Curated, animated units</small></span>
+        </button>
         <button type="button" class="sb-item" data-action="open-arcade">
           <span class="sb-ico games"><svg class="i"><use href="#i-gamepad"/></svg></span>
           <span class="sb-item-text"><span>Lingo Arcade</span><small>5 smartboard games</small></span>
@@ -540,6 +545,11 @@
               </div>
             </aside>
           </div>
+        </section>
+
+        <!-- ══ Lessons ══ -->
+        <section class="view view-wide" data-view="lessons">
+          <div class="view-inner" id="lessonsView"></div>
         </section>
 
         <!-- ══ Library ══ -->

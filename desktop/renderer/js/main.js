@@ -24,6 +24,8 @@ import { openArcade, isArcadeOpen } from "../arcade/arcade.js";
 import { buildArcadeDeck } from "../arcade/deck.js";
 import { configureAudio } from "../arcade/audio.js";
 import { ensurePictureStyle, pictureSvg } from "./pictures.js";
+import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
+import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, bookLabel } from "../lesson/lesson.js";
 
 const FLOW = ["setup", "words", "exercises", "preview"];
 const VIEW_META = {
@@ -32,6 +34,7 @@ const VIEW_META = {
   exercises: { title: "Exercises", sub: "Plan the exercise mix and let AI write the worksheets." },
   preview: { title: "Preview & export", sub: "Click any line to edit. Export, print or take it to class." },
   library: { title: "Saved units", sub: "Everything you've made — open, edit, duplicate or back up." },
+  lessons: { title: "Lessons", sub: "Curated, animated and voiced lessons for every unit. Teach them on the projector." },
 };
 
 /* ── Navigation ──────────────────────────────────────────────────── */
@@ -57,6 +60,7 @@ function go(view, { force = false, silent = false } = {}) {
   if (view === "exercises") enterExercises();
   if (view === "preview") renderPreview();
   if (view === "library") renderLibrary();
+  if (view === "lessons") renderLessons();
   renderChrome();
   emit("view");
 }
@@ -196,30 +200,49 @@ function deckContext() {
   return null;
 }
 
+/** Draw a word's emojis in the chosen picture style (games and lessons use the same style as the worksheets).
+ *  keepText: also keep (escaped) the non-emoji text around the pictures. */
+function picture(text, keepText = false) {
+  const style = prefs.pictureStyle || "emoji";
+  return splitEmojiText(text || "").map((p) => {
+    if (!p.emoji) return keepText ? esc(p.text) : "";
+    if (style === "none") return "";
+    if (style === "emoji") return esc(p.text);
+    return pictureSvg(p.text, style) || "";
+  }).join("").trim();
+}
+
+const savePlayPrefs = ({ sfx, tts }) => { prefs.sfx = sfx; prefs.tts = tts; savePrefs(); };
+
 function openGames() {
   const ctx = deckContext();
   if (!ctx) {
     toast("Add at least 3 words first — pick a coursebook unit or type your words.", "info", { actions: [{ label: "Choose a unit", run: () => go("setup") }] });
     return;
   }
-  const { deck, title } = ctx;
-  openArcade({
-    deck,
-    title,
+  openDeck(ctx.deck, ctx.title);
+}
+
+function openDeck(deck, title) {
+  openArcade({ deck, title, prefs: { sfx: prefs.sfx, tts: prefs.tts }, picture, onPrefs: savePlayPrefs });
+}
+
+/** Teach a curated lesson in the full-screen player. */
+function teachLesson(id) {
+  openLesson(id, {
+    picture,
     prefs: { sfx: prefs.sfx, tts: prefs.tts },
-    // Draw a word's emojis in the chosen picture style (games use the same style as the worksheets).
-    // keepText: also keep (escaped) the non-emoji text around the pictures.
-    picture: (text, keepText = false) => {
-      const style = prefs.pictureStyle || "emoji";
-      return splitEmojiText(text || "").map((p) => {
-        if (!p.emoji) return keepText ? esc(p.text) : "";
-        if (style === "none") return "";
-        if (style === "emoji") return esc(p.text);
-        return pictureSvg(p.text, style) || "";
-      }).join("").trim();
-    },
-    onPrefs: ({ sfx, tts }) => { prefs.sfx = sfx; prefs.tts = tts; savePrefs(); },
-  });
+    onPrefs: savePlayPrefs,
+    calm: !!prefs.calmMotion,
+    onPlayGames: (deck, title) => openDeck(deck, title),
+  }).catch(lessonsToast);
+}
+
+async function lessonGames(id) {
+  try {
+    const lesson = await loadLesson(id);
+    openDeck(lessonDeck(lessonWords(lesson)), `${bookLabel(lesson)} · ${lesson.title}`);
+  } catch (e) { lessonsToast(e); }
 }
 
 /* ── Wiring ──────────────────────────────────────────────────────── */
@@ -247,7 +270,7 @@ function wire() {
   $("flowBack").addEventListener("click", flowBack);
 
   window.addEventListener("keydown", (e) => {
-    if (e.defaultPrevented || isArcadeOpen() || isProjectorOpen()) return;
+    if (e.defaultPrevented || isArcadeOpen() || isProjectorOpen() || isLessonOpen()) return;
     const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
     if (e.key === "Escape" && hasOpenDialog()) { e.preventDefault(); closeTopDialog(); return; }
     if (hasOpenDialog()) return;
@@ -295,6 +318,7 @@ async function boot() {
     initExercises();
     initPreview();
     initLibrary();
+    initLessons({ teach: teachLesson, games: lessonGames });
     wire();
 
     const d = desktop();
@@ -318,7 +342,7 @@ async function boot() {
   }
   // Hooks for the desktop smoke test.
   window.__LINGO_ENGINE__ = engine;
-  window.__VM__ = { state, go, emit, openUnit, openGames, openProjector, actions };
+  window.__VM__ = { state, go, emit, openUnit, openGames, openProjector, teachLesson, actions };
 }
 
 boot();

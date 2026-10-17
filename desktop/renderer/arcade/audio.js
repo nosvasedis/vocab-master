@@ -125,6 +125,35 @@ export function speak(text, { force = false, rate = 0.92 } = {}) {
   } catch { /* speech unavailable */ }
 }
 
+/**
+ * Speak and resolve when finished (or interrupted). onWord(charIndex) fires on word boundaries
+ * where the voice supports them — used for karaoke highlighting in lessons.
+ */
+export function speakAsync(text, { force = false, rate = 0.92, pitch = 1, onWord } = {}) {
+  return new Promise((resolve) => {
+    if ((!force && !settings.tts) || !("speechSynthesis" in window)) return resolve({ spoken: false });
+    const clean = String(text || "").replace(/_{2,}/g, " blank ").replace(/\s+/g, " ").trim();
+    if (!clean) return resolve({ spoken: false });
+    try {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(clean);
+      voice = voice || pickVoice();
+      if (voice) u.voice = voice;
+      u.lang = voice?.lang || "en-GB";
+      u.rate = rate;
+      u.pitch = pitch;
+      let done = false;
+      const finish = (spoken) => { if (!done) { done = true; resolve({ spoken }); } };
+      u.onend = () => finish(true);
+      u.onerror = () => finish(false);
+      if (onWord) u.onboundary = (e) => { if (e.name === "word" || e.name === undefined) onWord(e.charIndex); };
+      // Some engines never fire onend; resolve after a generous estimate.
+      setTimeout(() => finish(true), 1500 + clean.length * 110 / rate);
+      window.speechSynthesis.speak(u);
+    } catch { resolve({ spoken: false }); }
+  });
+}
+
 export function stopSpeaking() {
   try { window.speechSynthesis?.cancel(); } catch { /* ignore */ }
 }

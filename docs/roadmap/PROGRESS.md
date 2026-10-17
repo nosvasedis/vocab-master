@@ -3,8 +3,8 @@
 **Branch:** `feature/lessons-experience` · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
 ## Current state
-- **Phase:** 1a done → 1b (lesson player) next
-- **Next step:** build `desktop/renderer/lesson/{lesson,player,stage,mascot,motion}.js`, `lesson/scenes/*.js` and `js/views/lessons.js` (PLAN §7–8). Preview with `npm start` (launch config "vocab-master-web").
+- **Phase:** 1b done → 1c (voice) next
+- **Next step:** read the user-supplied Gemini 3.8 Flash TTS developer guide (https://aistudio.google.com/learn/gemini-3-8-flash-tts-developer-guide) and follow it for every TTS call. Then write `scripts/audio/audition.mjs` and run it (about $0.05), and ask the user to pick voices.
 - **Waiting on the user:**
   - **Cloudflare API token:** not created, because the agent's permission system blocked the dashboard. The user can create it (Account → Workers AI: Edit + Workers R2 Storage: Edit) and paste `CF_ACCOUNT_ID` / `CF_API_TOKEN` into `.env.local`, or allow the action. Only needed for Phase 1d/1e.
   - **Pilot review:** the 9 pilot lessons are `status: draft` and need a human read-through before `approved`.
@@ -27,8 +27,23 @@
 - [x] `scripts/lessons/draft-lessons.mjs` (validate → fix-retry ×3, seeded answer shuffle, `locked` fields kept), `validate-lessons.mjs`, `lib/{prompt,catalog}.mjs`
 - [x] 9 pilots drafted (CPP1/2/3 unit 1 × BQ/A/B), $0.076 total
 
-## Phase 1b: lesson player
-- [ ] Lessons view and nav item; `lesson/{lesson,player,stage,mascot,motion}.js`; 7 scene types; GSAP vendored; calm motion
+## Phase 1b: lesson player ✅
+- [x] **Lessons view:** sidebar "Lessons" → `js/views/lessons.js`, with book tabs, a 3×3 unit grid, and Teach / Games buttons per lesson
+- [x] **Player:** `lesson/player.js`
+  - full-screen overlay with a scaled 1920×1080 stage;
+  - keys: Space/→/PageDown, ←/PageUp, R, G, A, F, Esc;
+  - scene map, class stars, finish screen;
+  - `ctx.live()` guards narration chains when the teacher skips ahead
+- [x] **Other modules:**
+  - `lesson/stage.js`: procedural illustrated backdrops for 16 settings, with an `artUrl` hook for AI art
+  - `mascot.js`: SVG owl with blink, poses and lip-sync
+  - `motion.js`: the only GSAP user, with calm mode
+  - `narrator.js`: recorded clip if available, else system voice with karaoke boundaries; `setClipPlayer()` hook for Phase 1c
+- [x] **7 scenes** in `lesson/scenes/`. The practice scene embeds the arcade game through `mountGame`, scaled ×1.4
+- [x] **Data:** `lesson/lesson.js` (catalog, joins words with the bank, deck); `arcade/audio.js` gained `speakAsync`
+- [x] **GSAP 3.15.0** core vendored in `desktop/renderer/vendor/gsap/`
+- [x] **Verified in the browser preview:** all 9 pilots play start to finish (37–49 steps each), with no console errors on fast forward/back
+- [ ] **Later polish:** a "Calm motion" toggle in Settings (`prefs.calmMotion` is already read by `teachLesson`); a header layout for narrow windows
 
 ## Phase 1c: voice
 - [ ] Audition (the user picks voices) → `content/voices.json`
