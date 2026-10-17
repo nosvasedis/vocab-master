@@ -60,3 +60,13 @@ test('synonyms and opposites share one row', async () => {
   const paras = [...xml.matchAll(/<w:p[ >][\s\S]*?<\/w:p>/g)].map((m) => [...m[0].matchAll(/<w:t[^>]*>([\s\S]*?)<\/w:t>/g)].map((t) => t[1]).join(''));
   assert.ok(paras.some((t) => t.includes('≈') && t.includes('smart') && t.includes('≠') && t.includes('silly - ανόητος')));
 });
+
+test('"Let’s practise" travels inside the first exercise; answer key reads row by row', () => {
+  const ex = (n) => ({ number: n, typeId: 'L01', instruction: 'Fill in.', items: [{ number: 1, prompt: 'A ____.', answer: 'x' }] });
+  const html = renderLingoLauncher({ meta: {}, lingoLauncher: { vocabulary: [{ number: 1, english: 'a' }], practice: [ex(1), ex(2)] } });
+  assert.equal(html.split('Let’s practise').length - 1, 1);
+  assert.match(html, /<section class="ex-block"><div class="ws-section"><span>Let’s practise<\/span><\/div><div class="ex-head">/);
+  assert.ok(!renderLingoLauncher({ meta: {}, lingoLauncher: { vocabulary: [{ number: 1, english: 'a' }], practice: [] } }).includes('practise'));
+  assert.match(buildWorksheetPrintDocument('', 't'), /\.ws-section\s*\{[^}]*break-after: avoid/);
+  assert.match(buildWorksheetPrintDocument('', 't'), /\.key-grid\s*\{[^}]*display: grid/);
+});
