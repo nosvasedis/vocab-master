@@ -21,6 +21,15 @@
   4. Phase 2c: classroom pilot of Lingo Live phones (see Phase 2b below).
 - **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
 
+## Word pops replace the prop boxes (2026-10-17 night, from the user)
+- **Why:** the labelled prop cards looked like a worksheet, and many icons were rebus combinations (🧠🟰🧠, 🌱➡️🌳), abstract words (brave, beginning) or simply wrong (tune 🔧, wardrobe 🚪).
+- **Now (`lesson/wordpop.js`, `lesson/wordmatch.js`):** a pictured word carries a small picture right after it ("my hat 🎩"). When the karaoke reaches the word, the picture zooms up next to the text with a soft glow, holds, and flies back. Tap a pictured word to pop it again. Calm motion makes it pulse instead.
+  - `pickSpot` chooses above, below, left or right so a pop never covers quiz answers, faces or Lingo.
+  - New words also pop their lesson picture in story, warm-up and quiz explanations, but only nouns, and at most 2 pictures per line.
+- **Props data** cleaned by `scripts/lessons/clean-props.mjs` (hand-chosen pictures in `prop-pictures.mjs`): a prop exists only for a concrete noun the line mentions that the backdrop or a character doesn't already show. 3,080 → 1,608 props, all reviewed. `content/visual-lexicon.json` was extended (objects, animals, roles) and abstract words were removed.
+- **Matching:** `schema.stem` now handles houses/boxes/buses, cookies/movies and possessives.
+- **Tests (`tests/wordpop.test.mjs`):** every prop in every lesson attaches to a word it is shown with; pops avoid answers and faces.
+
 ## Phase 2b: phones for Lingo Live ✅ (2026-10-17 night)
 - **Firebase project** `vocab-master-live` (Spark, free) on the user's Google account nvasedis@gmail.com.
   - Realtime Database `vocab-master-live-default-rtdb` in **europe-west1**.

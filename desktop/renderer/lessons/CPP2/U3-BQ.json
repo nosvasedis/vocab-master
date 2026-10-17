@@ -200,26 +200,12 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            },
-            {
-              "emoji": "🦉",
-              "label": "teacher"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
           "text": "Today we ask a big question: Why is food important?",
           "props": [
-            {
-              "emoji": "❓",
-              "label": "question"
-            },
             {
               "emoji": "🍎🥦🍞",
               "label": "food"
@@ -233,22 +219,6 @@
             {
               "emoji": "🍎🥦🍞",
               "label": "food"
-            },
-            {
-              "emoji": "⚡",
-              "label": "energy"
-            },
-            {
-              "emoji": "🏃",
-              "label": "run"
-            },
-            {
-              "emoji": "🤸",
-              "label": "jump"
-            },
-            {
-              "emoji": "📖",
-              "label": "learn"
             }
           ]
         },
@@ -256,14 +226,6 @@
           "id": "l4",
           "text": "Meet Maya and her friend, the Little Bread Bun!",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "🧑‍🤝‍🧑",
-              "label": "friend"
-            },
             {
               "emoji": "🍞",
               "label": "bread"
@@ -328,16 +290,6 @@
             "id": "c2q",
             "text": "Listen to Maya: I agree with you, Lingo! Which word did you hear?"
           },
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            }
-          ],
           "options": [
             "CPP2-U3-SB-296",
             "CPP2-U3-SB-298",
@@ -360,20 +312,8 @@
           },
           "props": [
             {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            },
-            {
               "emoji": "🍰",
               "label": "cake"
-            },
-            {
-              "emoji": "🥦",
-              "label": "healthy"
             },
             {
               "emoji": "🍬",
@@ -436,16 +376,6 @@
             "id": "c5q",
             "text": "Rabbits love this crunchy orange food. Which word is it?"
           },
-          "props": [
-            {
-              "emoji": "🐰",
-              "label": "Rabbits"
-            },
-            {
-              "emoji": "🍽️",
-              "label": "food"
-            }
-          ],
           "options": [
             "CPP2-U3-SB-301",
             "CPP2-U3-SB-302",
@@ -524,16 +454,6 @@
             "id": "c8q",
             "text": "Listen to Lingo: Tonight we have chicken and potatoes. Which word did you hear?"
           },
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            },
-            {
-              "emoji": "🥔",
-              "label": "potatoes"
-            }
-          ],
           "options": [
             "CPP2-U3-SB-300",
             "CPP2-U3-SB-301",
@@ -556,28 +476,8 @@
           },
           "props": [
             {
-              "emoji": "☀️",
-              "label": "hot"
-            },
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "❄️",
-              "label": "cold"
-            },
-            {
-              "emoji": "🍬",
-              "label": "sweet"
-            },
-            {
               "emoji": "🍓",
               "label": "strawberry"
-            },
-            {
-              "emoji": "📝",
-              "label": "order"
             }
           ],
           "options": [
@@ -643,14 +543,6 @@
             {
               "emoji": "🍎🥦🍞",
               "label": "food"
-            },
-            {
-              "emoji": "🌱",
-              "label": "grow"
-            },
-            {
-              "emoji": "⚽",
-              "label": "play"
             }
           ]
         },
@@ -661,10 +553,6 @@
             {
               "emoji": "🍞",
               "label": "Bun"
-            },
-            {
-              "emoji": "📖",
-              "label": "story"
             }
           ]
         }

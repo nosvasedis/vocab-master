@@ -195,7 +195,7 @@
           "label": "painting"
         },
         {
-          "emoji": "📷",
+          "emoji": "🖼️",
           "label": "photo"
         },
         {
@@ -257,20 +257,6 @@
             "id": "c1q",
             "text": "To show your thoughts or feelings to other people is to ____."
           },
-          "props": [
-            {
-              "emoji": "👫",
-              "label": "friends"
-            },
-            {
-              "emoji": "😊",
-              "label": "feelings"
-            },
-            {
-              "emoji": "👂",
-              "label": "listen"
-            }
-          ],
           "options": [
             "paint",
             "express",
@@ -290,20 +276,6 @@
             "id": "c2q",
             "text": "Which word fits a picture made with paint and hung in a frame?"
           },
-          "props": [
-            {
-              "emoji": "🎨",
-              "label": "picture"
-            },
-            {
-              "emoji": "🖌️",
-              "label": "paint"
-            },
-            {
-              "emoji": "🖼️",
-              "label": "frame"
-            }
-          ],
           "options": [
             "CPP3-U4-SB-510",
             "CPP3-U4-SB-509",
@@ -323,20 +295,6 @@
             "id": "c3q",
             "text": "Listen. Mural."
           },
-          "props": [
-            {
-              "emoji": "🧱",
-              "label": "wall"
-            },
-            {
-              "emoji": "🏢",
-              "label": "building"
-            },
-            {
-              "emoji": "🖼️",
-              "label": "painting"
-            }
-          ],
           "options": [
             "CPP3-U4-SB-510",
             "CPP3-U4-SB-512",
@@ -356,16 +314,6 @@
             "id": "c4q",
             "text": "Calm means quiet and relaxed."
           },
-          "props": [
-            {
-              "emoji": "🤫",
-              "label": "quiet"
-            },
-            {
-              "emoji": "😌",
-              "label": "relaxed"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -404,12 +352,6 @@
             "id": "c6q",
             "text": "Your ____ is the way you think about something."
           },
-          "props": [
-            {
-              "emoji": "🖼️",
-              "label": "painting"
-            }
-          ],
           "options": [
             "point of view",
             "painting",
@@ -437,18 +379,6 @@
             {
               "emoji": "🪶",
               "label": "feather"
-            },
-            {
-              "emoji": "🔴",
-              "label": "red"
-            },
-            {
-              "emoji": "🔵",
-              "label": "blue"
-            },
-            {
-              "emoji": "🟢",
-              "label": "green"
             }
           ],
           "options": [
@@ -474,10 +404,6 @@
             {
               "emoji": "📸",
               "label": "photography"
-            },
-            {
-              "emoji": "🎨",
-              "label": "art"
             },
             {
               "emoji": "📷",
@@ -508,10 +434,6 @@
         {
           "emoji": "🖼️",
           "label": "picture"
-        },
-        {
-          "emoji": "🔤",
-          "label": "word"
         }
       ],
       "game": "memory",
@@ -529,28 +451,6 @@
       "characters": [
         "theo",
         "mira"
-      ],
-      "props": [
-        {
-          "emoji": "🖼️",
-          "label": "painting"
-        },
-        {
-          "emoji": "🧱",
-          "label": "mural"
-        },
-        {
-          "emoji": "🌈",
-          "label": "colourful"
-        },
-        {
-          "emoji": "📷",
-          "label": "photography"
-        },
-        {
-          "emoji": "👁️",
-          "label": "point of view"
-        }
       ],
       "prompt": {
         "id": "q",
@@ -574,20 +474,6 @@
       "backdrop": "classroom",
       "characters": [
         "lingo"
-      ],
-      "props": [
-        {
-          "emoji": "🧒",
-          "label": "Theo"
-        },
-        {
-          "emoji": "👧",
-          "label": "Mira"
-        },
-        {
-          "emoji": "👁️",
-          "label": "point of view"
-        }
       ],
       "lines": [
         {

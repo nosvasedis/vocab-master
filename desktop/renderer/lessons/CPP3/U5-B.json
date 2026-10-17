@@ -260,13 +260,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love exploring the world.",
-          "props": [
-            {
-              "emoji": "🌍",
-              "label": "world"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love exploring the world."
         },
         {
           "id": "l2",
@@ -277,16 +271,8 @@
           "text": "Today we will meet a curious girl, a kind guide, and a very old hidden place.",
           "props": [
             {
-              "emoji": "👧",
-              "label": "girl"
-            },
-            {
               "emoji": "👩",
               "label": "guide"
-            },
-            {
-              "emoji": "🏛️",
-              "label": "place"
             }
           ]
         },
@@ -374,10 +360,6 @@
             {
               "emoji": "👣👣",
               "label": "trail"
-            },
-            {
-              "emoji": "🌴🌴",
-              "label": "jungle"
             }
           ],
           "caption": {
@@ -420,10 +402,6 @@
             {
               "emoji": "🌿",
               "label": "vine"
-            },
-            {
-              "emoji": "🟫",
-              "label": "ground"
             }
           ],
           "caption": {
@@ -518,12 +496,6 @@
               "who": "sofia"
             }
           ],
-          "props": [
-            {
-              "emoji": "🧑🧑🧑",
-              "label": "local people"
-            }
-          ],
           "caption": {
             "id": "p5c",
             "text": "Back in the village, Dr Sofia smiles and waves."
@@ -598,10 +570,6 @@
             {
               "emoji": "⛰️",
               "label": "hill"
-            },
-            {
-              "emoji": "🚶🚶",
-              "label": "hikers"
             }
           ],
           "prompt": {
@@ -624,14 +592,6 @@
           "kind": "trueFalse",
           "wordId": "CPP3-U5-SB-698",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Ellie"
-            },
-            {
-              "emoji": "👩",
-              "label": "Dr Sofia"
-            },
             {
               "emoji": "🏙️",
               "label": "city"
@@ -704,16 +664,6 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP3-U5-SB-718",
-          "props": [
-            {
-              "emoji": "🧑🧑",
-              "label": "people"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "place"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "Local people are people who live in the place you are visiting."

@@ -252,16 +252,8 @@
           "text": "Every street has shops, parks and friendly people.",
           "props": [
             {
-              "emoji": "🏪",
-              "label": "shops"
-            },
-            {
               "emoji": "🌳",
               "label": "parks"
-            },
-            {
-              "emoji": "🧑🧑",
-              "label": "people"
             }
           ]
         },
@@ -331,10 +323,6 @@
           ],
           "props": [
             {
-              "emoji": "💇",
-              "label": "hair"
-            },
-            {
               "emoji": "🚌",
               "label": "bus"
             }
@@ -373,14 +361,6 @@
             {
               "emoji": "✂️",
               "label": "haircut"
-            },
-            {
-              "emoji": "💇",
-              "label": "hair"
-            },
-            {
-              "emoji": "🌱",
-              "label": "grows"
             }
           ],
           "caption": {
@@ -424,10 +404,6 @@
             {
               "emoji": "🪟🪟",
               "label": "window"
-            },
-            {
-              "emoji": "💇",
-              "label": "hair"
             }
           ],
           "caption": {
@@ -465,10 +441,6 @@
             {
               "emoji": "🪑",
               "label": "chair"
-            },
-            {
-              "emoji": "👤☝️",
-              "label": "forehead"
             }
           ],
           "caption": {
@@ -508,10 +480,6 @@
             {
               "emoji": "👨‍⚕️",
               "label": "doctor"
-            },
-            {
-              "emoji": "💪",
-              "label": "healthy"
             }
           ],
           "caption": {
@@ -545,10 +513,6 @@
             {
               "emoji": "💊",
               "label": "medicine"
-            },
-            {
-              "emoji": "🤧",
-              "label": "cold"
             }
           ],
           "caption": {
@@ -623,10 +587,6 @@
             {
               "emoji": "🏫",
               "label": "school"
-            },
-            {
-              "emoji": "🚶",
-              "label": "walk"
             }
           ],
           "options": [
@@ -648,12 +608,6 @@
             "id": "c4q",
             "text": "Between means on top of something."
           },
-          "props": [
-            {
-              "emoji": "📚⬆️",
-              "label": "on top of"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -729,10 +683,6 @@
             {
               "emoji": "👨‍⚕️",
               "label": "doctor"
-            },
-            {
-              "emoji": "💪",
-              "label": "healthy"
             }
           ],
           "options": [
@@ -754,12 +704,6 @@
             "id": "c8q",
             "text": "Take this ____ and you will feel better soon."
           },
-          "props": [
-            {
-              "emoji": "🤒➡️😊",
-              "label": "feel better"
-            }
-          ],
           "options": [
             "haircut",
             "medicine",
@@ -799,12 +743,6 @@
             "id": "c10q",
             "text": "To grow means to get bigger over time."
           },
-          "props": [
-            {
-              "emoji": "🌱➡️🌳",
-              "label": "bigger"
-            }
-          ],
           "options": [
             "True",
             "False"

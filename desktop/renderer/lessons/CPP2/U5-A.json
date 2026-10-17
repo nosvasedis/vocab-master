@@ -281,17 +281,7 @@
         },
         {
           "id": "l3",
-          "text": "Some music makes us dance. Some music makes us feel calm.",
-          "props": [
-            {
-              "emoji": "💃",
-              "label": "dance"
-            },
-            {
-              "emoji": "😌",
-              "label": "calm"
-            }
-          ]
+          "text": "Some music makes us dance. Some music makes us feel calm."
         },
         {
           "id": "l4",
@@ -344,18 +334,6 @@
             {
               "emoji": "🚪",
               "label": "room"
-            },
-            {
-              "emoji": "🗣️",
-              "label": "voices"
-            },
-            {
-              "emoji": "🎵",
-              "label": "song"
-            },
-            {
-              "emoji": "🥁👏",
-              "label": "rhythm"
             }
           ],
           "caption": {
@@ -391,15 +369,7 @@
           ],
           "props": [
             {
-              "emoji": "🎻",
-              "label": "violin"
-            },
-            {
-              "emoji": "👴",
-              "label": "grandpa"
-            },
-            {
-              "emoji": "🧑🎹",
+              "emoji": "🎹",
               "label": "musician"
             },
             {
@@ -409,10 +379,6 @@
             {
               "emoji": "🏘️",
               "label": "village"
-            },
-            {
-              "emoji": "🎵",
-              "label": "song"
             }
           ],
           "caption": {
@@ -447,28 +413,6 @@
             },
             {
               "who": "nico"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "👏👏",
-              "label": "beat"
-            },
-            {
-              "emoji": "🦶",
-              "label": "feet"
-            },
-            {
-              "emoji": "🥁",
-              "label": "rhythm"
-            },
-            {
-              "emoji": "💃",
-              "label": "dance"
-            },
-            {
-              "emoji": "🧍",
-              "label": "body"
             }
           ],
           "caption": {
@@ -506,18 +450,6 @@
             {
               "emoji": "🌳",
               "label": "tree"
-            },
-            {
-              "emoji": "😌",
-              "label": "relaxed"
-            },
-            {
-              "emoji": "😊😢",
-              "label": "feelings"
-            },
-            {
-              "emoji": "👫",
-              "label": "friends"
             }
           ],
           "caption": {
@@ -550,32 +482,6 @@
             },
             {
               "who": "ellie"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "class"
-            },
-            {
-              "emoji": "🎤",
-              "label": "sings"
-            },
-            {
-              "emoji": "🔗",
-              "label": "connect"
-            },
-            {
-              "emoji": "🧑🧑",
-              "label": "people"
-            },
-            {
-              "emoji": "🌍",
-              "label": "cultures"
-            },
-            {
-              "emoji": "🌍",
-              "label": "culture"
             }
           ],
           "caption": {
@@ -653,20 +559,6 @@
             "id": "c3q",
             "text": "Music can ____ people from different cultures."
           },
-          "props": [
-            {
-              "emoji": "🎵",
-              "label": "Music"
-            },
-            {
-              "emoji": "🧑🧑",
-              "label": "people"
-            },
-            {
-              "emoji": "🌍",
-              "label": "cultures"
-            }
-          ],
           "options": [
             "reread",
             "connect",
@@ -687,16 +579,6 @@
             "id": "c4q",
             "text": "Ellie uses music to show her ____, like happy or sad."
           },
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Ellie"
-            },
-            {
-              "emoji": "🎵",
-              "label": "music"
-            }
-          ],
           "options": [
             "culture",
             "rhythm",
@@ -717,12 +599,6 @@
             "id": "c5q",
             "text": "Feeling relaxed means you are calm and not worried."
           },
-          "props": [
-            {
-              "emoji": "😌",
-              "label": "relaxed"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -741,16 +617,6 @@
             "id": "c6q",
             "text": "A traditional song is new and was written this year."
           },
-          "props": [
-            {
-              "emoji": "🎵",
-              "label": "song"
-            },
-            {
-              "emoji": "📅",
-              "label": "year"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -811,10 +677,6 @@
           },
           "props": [
             {
-              "emoji": "🧑",
-              "label": "Dominic"
-            },
-            {
               "emoji": "🎹🥁🎻",
               "label": "instruments"
             }
@@ -841,12 +703,8 @@
           },
           "props": [
             {
-              "emoji": "🙂🎵",
+              "emoji": "🎶",
               "label": "hum"
-            },
-            {
-              "emoji": "🎵",
-              "label": "song"
             }
           ],
           "options": [

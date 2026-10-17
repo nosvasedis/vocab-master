@@ -63,10 +63,9 @@ export default {
             <span class="ck-count">${idx + 1} / ${items.length}</span>
             ${revealed ? "" : `<div class="ck-ring"><svg viewBox="0 0 120 120"><circle class="ck-ring-bg" cx="60" cy="60" r="54"/><circle class="ck-ring-fg" cx="60" cy="60" r="54" stroke-dasharray="${2 * Math.PI * 54}"/></svg><span class="ck-ring-num"></span></div>`}
           </div>
-          ${(it.props || []).length ? `<div class="ck-props">${it.props.slice(0, 5).map((p) => `<figure class="st-prop sm">${ctx.picFit(p.emoji, 80)}<figcaption>${ctx.esc(p.label)}</figcaption></figure>`).join("")}</div>` : ""}
-          <div class="ck-prompt">${it.kind === "listen" ? `<button type="button" class="ck-listen">🔊 <span>Listen!</span></button>` : `<p>${ctx.karaoke(it.prompt.text, { gaps: true })}</p>`}</div>
+          <div class="ck-prompt">${it.kind === "listen" ? `<button type="button" class="ck-listen">🔊 <span>Listen!</span></button>` : `<p>${ctx.karaoke(it.prompt.text, { gaps: true, props: it.props || [] })}</p>`}</div>
           <div class="ck-opts n${it.options.length}">${it.options.map((o, k) => optionHtml(it, o, k)).join("")}</div>
-          <div class="ck-explain" hidden>${it.explain ? ctx.karaoke(it.explain.text) : ""}</div>
+          <div class="ck-explain" hidden>${it.explain ? ctx.karaoke(it.explain.text, { props: it.props || [], focusPics: true }) : ""}</div>
         </div>`;
       const opts = [...ctx.ui.querySelectorAll(".ck-opt")];
       ctx.ui.querySelector(".ck-listen")?.addEventListener("click", () => listenWord && ctx.sayWord(listenWord));

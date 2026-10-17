@@ -235,12 +235,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "stage",
-      "props": [
-        {
-          "emoji": "🎵",
-          "label": "music"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -257,10 +251,6 @@
             {
               "emoji": "🏫",
               "label": "school"
-            },
-            {
-              "emoji": "🎭",
-              "label": "stage"
             }
           ]
         },
@@ -272,10 +262,6 @@
           "id": "l4",
           "text": "Today we meet a boy called Mason, and his big night at school.",
           "props": [
-            {
-              "emoji": "🧒",
-              "label": "boy"
-            },
             {
               "emoji": "🏫",
               "label": "school"
@@ -365,7 +351,7 @@
           ],
           "props": [
             {
-              "emoji": "💺💺",
+              "emoji": "🎭",
               "label": "auditorium"
             },
             {
@@ -416,11 +402,7 @@
           ],
           "props": [
             {
-              "emoji": "🟥🟥",
-              "label": "curtain"
-            },
-            {
-              "emoji": "🧍⬆️",
+              "emoji": "🥇🥈🥉",
               "label": "podium"
             },
             {
@@ -430,10 +412,6 @@
             {
               "emoji": "🥁",
               "label": "drum"
-            },
-            {
-              "emoji": "🦶🎵",
-              "label": "rhythm"
             }
           ],
           "caption": {
@@ -475,11 +453,7 @@
               "label": "violin"
             },
             {
-              "emoji": "🔧",
-              "label": "tune"
-            },
-            {
-              "emoji": "🧑🎻",
+              "emoji": "🎹",
               "label": "musician"
             }
           ],
@@ -514,20 +488,12 @@
           ],
           "props": [
             {
-              "emoji": "🟥🟥",
-              "label": "curtain"
-            },
-            {
               "emoji": "👥👏",
               "label": "audience"
             },
             {
               "emoji": "🎭",
               "label": "performance"
-            },
-            {
-              "emoji": "🎵",
-              "label": "music"
             }
           ],
           "caption": {
@@ -714,11 +680,7 @@
               "label": "school"
             },
             {
-              "emoji": "👥👏",
-              "label": "audience"
-            },
-            {
-              "emoji": "🎵",
+              "emoji": "🎤",
               "label": "singer"
             }
           ],
@@ -746,10 +708,6 @@
             {
               "emoji": "🎻",
               "label": "instrument"
-            },
-            {
-              "emoji": "🔧",
-              "label": "tune"
             }
           ],
           "prompt": {
@@ -770,12 +728,6 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U9-SB-1182",
-          "props": [
-            {
-              "emoji": "🎵",
-              "label": "song"
-            }
-          ],
           "prompt": {
             "id": "c9q",
             "text": "Before we play the song, take out your ____."
@@ -796,12 +748,6 @@
           "id": "c10",
           "kind": "gap",
           "wordId": "CPP3-U9-SB-1203",
-          "props": [
-            {
-              "emoji": "🎵",
-              "label": "song"
-            }
-          ],
           "prompt": {
             "id": "c10q",
             "text": "The ____ of this song is fast and happy. You can clap along to it."

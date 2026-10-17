@@ -234,38 +234,10 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
-      "props": [
-        {
-          "emoji": "👥",
-          "label": "team"
-        },
-        {
-          "emoji": "👦",
-          "label": "Theo"
-        },
-        {
-          "emoji": "👧",
-          "label": "Nina"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love watching sports in the park.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            },
-            {
-              "emoji": "👫",
-              "label": "friends"
-            },
-            {
-              "emoji": "⚽",
-              "label": "sports"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love watching sports in the park."
         },
         {
           "id": "l2",
@@ -283,13 +255,7 @@
         },
         {
           "id": "l3",
-          "text": "Today we meet Theo, Nina and their team. It is match day!",
-          "props": [
-            {
-              "emoji": "🏁",
-              "label": "match day"
-            }
-          ]
+          "text": "Today we meet Theo, Nina and their team. It is match day!"
         },
         {
           "id": "l4",
@@ -333,10 +299,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "👥",
-              "label": "team"
-            },
             {
               "emoji": "⚽",
               "label": "ball"
@@ -389,16 +351,8 @@
               "label": "field"
             },
             {
-              "emoji": "👄💨",
-              "label": "whistle"
-            },
-            {
               "emoji": "🏃🏃",
               "label": "players"
-            },
-            {
-              "emoji": "👥",
-              "label": "team"
             }
           ],
           "caption": {
@@ -435,20 +389,8 @@
           ],
           "props": [
             {
-              "emoji": "🧒",
-              "label": "Sam"
-            },
-            {
-              "emoji": "⚽➡️",
-              "label": "pass"
-            },
-            {
               "emoji": "⚽",
               "label": "ball"
-            },
-            {
-              "emoji": "🥅",
-              "label": "goal"
             }
           ],
           "caption": {
@@ -488,18 +430,6 @@
           ],
           "props": [
             {
-              "emoji": "🧤",
-              "label": "goalkeeper"
-            },
-            {
-              "emoji": "⚽💥",
-              "label": "shot"
-            },
-            {
-              "emoji": "🙌",
-              "label": "save"
-            },
-            {
               "emoji": "🦵🦶",
               "label": "ankle"
             }
@@ -536,28 +466,6 @@
               "who": "dana"
             }
           ],
-          "props": [
-            {
-              "emoji": "👥👥",
-              "label": "teams"
-            },
-            {
-              "emoji": "🥅🥅",
-              "label": "goal"
-            },
-            {
-              "emoji": "🟰",
-              "label": "tie"
-            },
-            {
-              "emoji": "🏆",
-              "label": "win"
-            },
-            {
-              "emoji": "🏁",
-              "label": "match"
-            }
-          ],
           "caption": {
             "id": "p5c",
             "text": "At the end, both teams have one goal each. The match finishes as a tie."
@@ -588,16 +496,6 @@
           "id": "c1",
           "kind": "pickPicture",
           "wordId": "CPP3-U6-SB-855",
-          "props": [
-            {
-              "emoji": "🧑‍⚖️",
-              "label": "referee"
-            },
-            {
-              "emoji": "🏁",
-              "label": "match"
-            }
-          ],
           "prompt": {
             "id": "c1q",
             "text": "Pick the picture: the small object the referee blows to start the match."
@@ -618,12 +516,6 @@
           "id": "c2",
           "kind": "listen",
           "wordId": "CPP3-U6-SB-875",
-          "props": [
-            {
-              "emoji": "📜",
-              "label": "rules"
-            }
-          ],
           "prompt": {
             "id": "c2q",
             "text": "Listen and point: referee."
@@ -648,14 +540,6 @@
             {
               "emoji": "⚽",
               "label": "ball"
-            },
-            {
-              "emoji": "🥅",
-              "label": "goal"
-            },
-            {
-              "emoji": "🙌",
-              "label": "hands"
             },
             {
               "emoji": "🥅",
@@ -686,24 +570,6 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP3-U6-SB-859",
-          "props": [
-            {
-              "emoji": "👦",
-              "label": "Theo"
-            },
-            {
-              "emoji": "🧒",
-              "label": "Sam"
-            },
-            {
-              "emoji": "⚽➡️",
-              "label": "pass"
-            },
-            {
-              "emoji": "🥅",
-              "label": "net"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "In the story, Theo scored the first goal of the match."
@@ -723,18 +589,6 @@
           "kind": "gap",
           "wordId": "CPP3-U6-SB-854",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Nina"
-            },
-            {
-              "emoji": "🦶",
-              "label": "foot"
-            },
-            {
-              "emoji": "🦵",
-              "label": "leg"
-            },
             {
               "emoji": "🦴",
               "label": "joint"
@@ -780,20 +634,6 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-885",
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "teams"
-            },
-            {
-              "emoji": "🥅🥅",
-              "label": "goal"
-            },
-            {
-              "emoji": "🏁",
-              "label": "match"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "Both teams scored one goal, so the match ended in a ____."
@@ -814,16 +654,6 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-903",
-          "props": [
-            {
-              "emoji": "🏁",
-              "label": "match"
-            },
-            {
-              "emoji": "💪",
-              "label": "muscles"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "Before the match, we do a quick ____ to get our muscles ready."
@@ -854,10 +684,6 @@
             {
               "emoji": "🖼️",
               "label": "pictures"
-            },
-            {
-              "emoji": "🔤",
-              "label": "words"
             }
           ]
         },
@@ -866,7 +692,7 @@
           "text": "Say each word aloud when you turn over a card. Ready? Let's go!",
           "props": [
             {
-              "emoji": "🃏",
+              "emoji": "💌",
               "label": "card"
             }
           ]
@@ -898,31 +724,11 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, team! You learned eight useful words for match day.",
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "team"
-            },
-            {
-              "emoji": "📝",
-              "label": "words"
-            }
-          ]
+          "text": "Brilliant work, team! You learned eight useful words for match day."
         },
         {
           "id": "l2",
-          "text": "Now you can describe a game like a real commentator. Well done!",
-          "props": [
-            {
-              "emoji": "🎙️",
-              "label": "commentator"
-            },
-            {
-              "emoji": "⚽",
-              "label": "game"
-            }
-          ]
+          "text": "Now you can describe a game like a real commentator. Well done!"
         }
       ],
       "badge": {
@@ -937,10 +743,6 @@
             {
               "emoji": "🧑‍⚖️",
               "label": "referee"
-            },
-            {
-              "emoji": "🏁",
-              "label": "match"
             }
           ]
         },

@@ -273,14 +273,6 @@
           "text": "Let's meet Lily and Leo. Their picnic is about to get busy!",
           "props": [
             {
-              "emoji": "👧",
-              "label": "Lily"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
               "emoji": "🧺",
               "label": "picnic"
             }
@@ -331,7 +323,7 @@
               "label": "picnic"
             },
             {
-              "emoji": "🟥⬜🟥",
+              "emoji": "🛌",
               "label": "blanket"
             }
           ],
@@ -366,10 +358,6 @@
             {
               "emoji": "🧺",
               "label": "picnic"
-            },
-            {
-              "emoji": "💥",
-              "label": "disruption"
             }
           ],
           "caption": {
@@ -400,10 +388,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🌳",
-              "label": "tree"
-            },
             {
               "emoji": "🐱",
               "label": "kitten"
@@ -500,14 +484,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🎉",
-              "label": "event"
-            },
-            {
-              "emoji": "🔢",
-              "label": "sequence"
-            },
             {
               "emoji": "🐶",
               "label": "dog"
@@ -733,12 +709,6 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-695",
-          "props": [
-            {
-              "emoji": "📖",
-              "label": "story"
-            }
-          ],
           "prompt": {
             "id": "c9q",
             "text": "Tell me the ____ of the story: what happens first, next and last."
@@ -760,10 +730,6 @@
           "kind": "trueFalse",
           "wordId": "CPP1-U6-SB-696",
           "props": [
-            {
-              "emoji": "🎉",
-              "label": "event"
-            },
             {
               "emoji": "🧺",
               "label": "picnic"

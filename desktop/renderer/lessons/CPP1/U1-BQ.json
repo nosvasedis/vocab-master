@@ -183,7 +183,7 @@
       "backdrop": "home",
       "props": [
         {
-          "emoji": "👨‍👩‍👧‍👦",
+          "emoji": "👨‍👩‍👧",
           "label": "family"
         }
       ],
@@ -241,16 +241,6 @@
               "who": "mrs_brown"
             }
           ],
-          "props": [
-            {
-              "emoji": "👨‍👩‍👧‍👦",
-              "label": "family"
-            },
-            {
-              "emoji": "🏠🧑🏠",
-              "label": "neighbour"
-            }
-          ],
           "caption": {
             "id": "p1c",
             "text": "Timmy meets his neighbour on the street."
@@ -285,7 +275,7 @@
           ],
           "props": [
             {
-              "emoji": "🖼️👨‍👩‍👧‍👦",
+              "emoji": "🖼️",
               "label": "photo"
             },
             {
@@ -343,14 +333,6 @@
             {
               "emoji": "🎩🎩",
               "label": "hat"
-            },
-            {
-              "emoji": "🟰",
-              "label": "the same"
-            },
-            {
-              "emoji": "🤝",
-              "label": "in common"
             }
           ],
           "caption": {
@@ -384,20 +366,6 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP1-U1-SB-1",
-          "props": [
-            {
-              "emoji": "👩",
-              "label": "Mum"
-            },
-            {
-              "emoji": "👨",
-              "label": "Dad"
-            },
-            {
-              "emoji": "🙋",
-              "label": "I"
-            }
-          ],
           "prompt": {
             "id": "c1q",
             "text": "Mum, Dad and I are a happy ____."
@@ -457,12 +425,6 @@
           "id": "c4",
           "kind": "trueFalse",
           "wordId": "CPP1-U1-SB-7",
-          "props": [
-            {
-              "emoji": "🎩🎩",
-              "label": "two things"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "If two things are the same, they are different."
@@ -506,12 +468,6 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U1-SB-8",
-          "props": [
-            {
-              "emoji": "👨",
-              "label": "man"
-            }
-          ],
           "prompt": {
             "id": "c6q",
             "text": "My ____ is a man, and he is my dad."

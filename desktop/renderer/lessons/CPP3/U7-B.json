@@ -237,17 +237,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, explorers! Today we are going on a mystery hunt through the past.",
-          "props": [
-            {
-              "emoji": "🕵️",
-              "label": "mystery"
-            },
-            {
-              "emoji": "🔍",
-              "label": "hunt"
-            }
-          ]
+          "text": "Hello, explorers! Today we are going on a mystery hunt through the past."
         },
         {
           "id": "l2",
@@ -284,32 +274,18 @@
               "label": "Detectives"
             },
             {
-              "emoji": "🔬",
+              "emoji": "🧑‍🔬",
               "label": "scientists"
             },
             {
               "emoji": "🔎",
               "label": "clue"
-            },
-            {
-              "emoji": "📖",
-              "label": "story"
             }
           ]
         },
         {
           "id": "l4",
-          "text": "Our two friends, Maya and Nikos, are about to find something very interesting.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "👦",
-              "label": "Nikos"
-            }
-          ]
+          "text": "Our two friends, Maya and Nikos, are about to find something very interesting."
         }
       ],
       "question": {
@@ -352,16 +328,8 @@
           ],
           "props": [
             {
-              "emoji": "👵",
-              "label": "Grandma"
-            },
-            {
               "emoji": "🛋️",
               "label": "furniture"
-            },
-            {
-              "emoji": "🌫️",
-              "label": "dusty"
             },
             {
               "emoji": "🧽🧽",
@@ -429,10 +397,6 @@
             {
               "emoji": "👴",
               "label": "grandfather"
-            },
-            {
-              "emoji": "🧩",
-              "label": "puzzles"
             }
           ],
           "caption": {
@@ -474,20 +438,12 @@
               "label": "letter"
             },
             {
-              "emoji": "📜",
-              "label": "riddle"
-            },
-            {
               "emoji": "🌳",
               "label": "tree"
             },
             {
               "emoji": "👣",
               "label": "footsteps"
-            },
-            {
-              "emoji": "🟫",
-              "label": "mud"
             },
             {
               "emoji": "🐾",
@@ -527,10 +483,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "📜",
-              "label": "riddle"
-            },
             {
               "emoji": "🌳",
               "label": "tree"
@@ -703,18 +655,6 @@
               "label": "track"
             },
             {
-              "emoji": "👣",
-              "label": "mark"
-            },
-            {
-              "emoji": "🟫",
-              "label": "ground"
-            },
-            {
-              "emoji": "👤",
-              "label": "person"
-            },
-            {
               "emoji": "🐕",
               "label": "animal"
             }
@@ -758,18 +698,6 @@
             "text": "Before email, Nikos wrote a ____ to his grandma every summer."
           },
           "props": [
-            {
-              "emoji": "📧",
-              "label": "email"
-            },
-            {
-              "emoji": "👦",
-              "label": "Nikos"
-            },
-            {
-              "emoji": "👵",
-              "label": "grandma"
-            },
             {
               "emoji": "☀️",
               "label": "summer"
@@ -845,12 +773,6 @@
             "id": "c9q",
             "text": "I can't ____ this puzzle yet. Can you help me?"
           },
-          "props": [
-            {
-              "emoji": "🧩",
-              "label": "puzzle"
-            }
-          ],
           "options": [
             "seal",
             "mention",
@@ -870,16 +792,6 @@
             "id": "c10q",
             "text": "Something precious is very valuable or very special to someone."
           },
-          "props": [
-            {
-              "emoji": "💎",
-              "label": "valuable"
-            },
-            {
-              "emoji": "💝",
-              "label": "special"
-            }
-          ],
           "options": [
             "True",
             "False"

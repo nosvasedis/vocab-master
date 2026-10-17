@@ -276,7 +276,7 @@
           "label": "bird"
         },
         {
-          "emoji": "🧴🔴",
+          "emoji": "🧴",
           "label": "bottle cap"
         }
       ],
@@ -295,17 +295,7 @@
         },
         {
           "id": "l4",
-          "text": "Today we will meet two friends, Mia and Leo, and find out!",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            }
-          ]
+          "text": "Today we will meet two friends, Mia and Leo, and find out!"
         }
       ],
       "question": {
@@ -377,7 +367,7 @@
           ],
           "props": [
             {
-              "emoji": "🧴🔴",
+              "emoji": "🧴",
               "label": "bottle cap"
             },
             {
@@ -421,7 +411,7 @@
           ],
           "props": [
             {
-              "emoji": "🎨🖼️",
+              "emoji": "🖼️",
               "label": "easel"
             },
             {
@@ -435,10 +425,6 @@
             {
               "emoji": "🪶",
               "label": "feather"
-            },
-            {
-              "emoji": "✏️",
-              "label": "sketch"
             }
           ],
           "caption": {
@@ -471,12 +457,8 @@
           ],
           "props": [
             {
-              "emoji": "🖼️🙂",
+              "emoji": "🖼️",
               "label": "portrait"
-            },
-            {
-              "emoji": "👧",
-              "label": "Mia"
             },
             {
               "emoji": "💃",
@@ -523,24 +505,8 @@
               "label": "school"
             },
             {
-              "emoji": "🎓",
-              "label": "ceremony"
-            },
-            {
               "emoji": "🏆",
               "label": "award"
-            },
-            {
-              "emoji": "🎊",
-              "label": "congratulations"
-            },
-            {
-              "emoji": "🎨",
-              "label": "art"
-            },
-            {
-              "emoji": "😮",
-              "label": "gasped"
             }
           ],
           "caption": {
@@ -610,10 +576,6 @@
             "text": "Plastic is the light material used to make bottles and bags, and it is bad for the beach."
           },
           "props": [
-            {
-              "emoji": "🧴🧴",
-              "label": "bottle"
-            },
             {
               "emoji": "🏖️",
               "label": "beach"
@@ -697,7 +659,7 @@
               "label": "paper"
             },
             {
-              "emoji": "🧴🧴",
+              "emoji": "🧴",
               "label": "bottle"
             },
             {
@@ -753,10 +715,6 @@
             {
               "emoji": "🪟",
               "label": "window"
-            },
-            {
-              "emoji": "👧",
-              "label": "Mia"
             }
           ]
         },
@@ -785,14 +743,6 @@
             {
               "emoji": "🏫",
               "label": "school"
-            },
-            {
-              "emoji": "🎓",
-              "label": "ceremony"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
             }
           ]
         },
@@ -814,21 +764,7 @@
           "explain": {
             "id": "c9e",
             "text": "When we gasp, we take a sudden breath because something surprises us."
-          },
-          "props": [
-            {
-              "emoji": "👩‍🏫",
-              "label": "Ms Costa"
-            },
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "🌬️",
-              "label": "breath"
-            }
-          ]
+          }
         },
         {
           "id": "c10",

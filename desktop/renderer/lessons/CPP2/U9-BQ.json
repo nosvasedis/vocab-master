@@ -185,17 +185,7 @@
         },
         {
           "id": "l3",
-          "text": "Leo says that a tiny idea can change the whole world!",
-          "props": [
-            {
-              "emoji": "💡",
-              "label": "idea"
-            },
-            {
-              "emoji": "🌍",
-              "label": "world"
-            }
-          ]
+          "text": "Leo says that a tiny idea can change the whole world!"
         },
         {
           "id": "l4",
@@ -204,10 +194,6 @@
             {
               "emoji": "🛞",
               "label": "wheel"
-            },
-            {
-              "emoji": "💡",
-              "label": "invention"
             }
           ]
         }
@@ -219,10 +205,6 @@
           {
             "emoji": "🏠",
             "label": "home"
-          },
-          {
-            "emoji": "💡",
-            "label": "invention"
           }
         ]
       }
@@ -320,12 +302,6 @@
             "id": "c4q",
             "text": "Clean your teeth with a ____ every morning."
           },
-          "props": [
-            {
-              "emoji": "🦷",
-              "label": "teeth"
-            }
-          ],
           "options": [
             "shampoo",
             "computer",
@@ -346,12 +322,6 @@
             "id": "c5q",
             "text": "She washed her hair with a new ____."
           },
-          "props": [
-            {
-              "emoji": "💇",
-              "label": "hair"
-            }
-          ],
           "options": [
             "ship",
             "shampoo",
@@ -396,12 +366,6 @@
             "id": "c7q",
             "text": "An invention is a new thing that people make for the first time."
           },
-          "props": [
-            {
-              "emoji": "💡",
-              "label": "invention"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -440,12 +404,6 @@
             "id": "c9q",
             "text": "Can you give me some ____ about trains, please?"
           },
-          "props": [
-            {
-              "emoji": "🚆",
-              "label": "trains"
-            }
-          ],
           "options": [
             "shampoo",
             "wheel",
@@ -520,14 +478,6 @@
           "id": "l3",
           "text": "Next time, we will read about Maya and Leo and their weather cat!",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
             {
               "emoji": "🐱",
               "label": "cat"

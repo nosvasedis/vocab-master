@@ -214,13 +214,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love music.",
-          "props": [
-            {
-              "emoji": "🎵",
-              "label": "music"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love music."
         },
         {
           "id": "l2",
@@ -245,16 +239,8 @@
           "text": "Mason likes to hum. Irene carries her flute to school every day.",
           "props": [
             {
-              "emoji": "🧒",
-              "label": "Mason"
-            },
-            {
               "emoji": "🎶",
               "label": "hum"
-            },
-            {
-              "emoji": "👧",
-              "label": "Irene"
             },
             {
               "emoji": "🪈",
@@ -358,12 +344,8 @@
           },
           "props": [
             {
-              "emoji": "👩‍🎤",
+              "emoji": "🎤",
               "label": "singer"
-            },
-            {
-              "emoji": "🎵",
-              "label": "note"
             }
           ]
         },
@@ -383,13 +365,7 @@
           "explain": {
             "id": "c4e",
             "text": "Pop music is modern and many people enjoy listening to it."
-          },
-          "props": [
-            {
-              "emoji": "📻",
-              "label": "radio"
-            }
-          ]
+          }
         },
         {
           "id": "c5",
@@ -412,11 +388,7 @@
           },
           "props": [
             {
-              "emoji": "🧑",
-              "label": "Simon"
-            },
-            {
-              "emoji": "👩‍🎤",
+              "emoji": "🎤",
               "label": "singer"
             }
           ]
@@ -490,10 +462,6 @@
             {
               "emoji": "🎸",
               "label": "instrument"
-            },
-            {
-              "emoji": "💨",
-              "label": "air"
             }
           ]
         },
@@ -518,16 +486,8 @@
           },
           "props": [
             {
-              "emoji": "👩",
-              "label": "Karen"
-            },
-            {
               "emoji": "🎷",
               "label": "saxophone"
-            },
-            {
-              "emoji": "🌙",
-              "label": "night"
             }
           ]
         },

@@ -242,13 +242,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I'm Lingo, and I love a rainy day.",
-          "props": [
-            {
-              "emoji": "🌧️",
-              "label": "rainy"
-            }
-          ]
+          "text": "Hello, friends! I'm Lingo, and I love a rainy day."
         },
         {
           "id": "l2",
@@ -257,52 +251,16 @@
             {
               "emoji": "🧥👖",
               "label": "clothes"
-            },
-            {
-              "emoji": "☀️🌧️",
-              "label": "weather"
             }
           ]
         },
         {
           "id": "l3",
-          "text": "Some days are sunny. Some days are cold, windy, or stormy!",
-          "props": [
-            {
-              "emoji": "☀️",
-              "label": "sunny"
-            },
-            {
-              "emoji": "🥶",
-              "label": "cold"
-            },
-            {
-              "emoji": "💨",
-              "label": "windy"
-            },
-            {
-              "emoji": "⛈️",
-              "label": "stormy"
-            }
-          ]
+          "text": "Some days are sunny. Some days are cold, windy, or stormy!"
         },
         {
           "id": "l4",
-          "text": "Let's see what Mia, Leo and Grandpa wear today.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "🧒",
-              "label": "Leo"
-            },
-            {
-              "emoji": "👴",
-              "label": "Grandpa"
-            }
-          ]
+          "text": "Let's see what Mia, Leo and Grandpa wear today."
         }
       ],
       "question": {
@@ -353,20 +311,12 @@
               "label": "jacket"
             },
             {
-              "emoji": "👖🪙",
+              "emoji": "👖",
               "label": "pocket"
             },
             {
               "emoji": "🍪",
               "label": "snack"
-            },
-            {
-              "emoji": "☀️",
-              "label": "sunny"
-            },
-            {
-              "emoji": "🏃",
-              "label": "running"
             }
           ],
           "caption": {
@@ -408,15 +358,11 @@
               "label": "clouds"
             },
             {
-              "emoji": "⛈️",
-              "label": "storm"
-            },
-            {
               "emoji": "📱",
               "label": "phone"
             },
             {
-              "emoji": "👖🪙",
+              "emoji": "👖",
               "label": "pocket"
             }
           ],
@@ -458,16 +404,8 @@
               "label": "lightning"
             },
             {
-              "emoji": "🔊",
+              "emoji": "⛈️",
               "label": "thunder"
-            },
-            {
-              "emoji": "✨",
-              "label": "shine"
-            },
-            {
-              "emoji": "💧",
-              "label": "wet"
             }
           ],
           "caption": {
@@ -514,14 +452,6 @@
             {
               "emoji": "👖",
               "label": "pants"
-            },
-            {
-              "emoji": "😊",
-              "label": "smile"
-            },
-            {
-              "emoji": "💧",
-              "label": "wet"
             }
           ],
           "caption": {
@@ -558,24 +488,12 @@
           ],
           "props": [
             {
-              "emoji": "💡",
-              "label": "lamp"
-            },
-            {
               "emoji": "📖",
               "label": "folktale"
             },
             {
               "emoji": "⛈️",
               "label": "storm"
-            },
-            {
-              "emoji": "✨",
-              "label": "shine"
-            },
-            {
-              "emoji": "😊",
-              "label": "smile"
             }
           ],
           "caption": {
@@ -663,7 +581,7 @@
           "wordId": "CPP1-U9-SB-1053",
           "props": [
             {
-              "emoji": "👖🪙",
+              "emoji": "👖",
               "label": "pocket"
             },
             {
@@ -695,14 +613,6 @@
               "label": "shoes"
             },
             {
-              "emoji": "🏠",
-              "label": "house"
-            },
-            {
-              "emoji": "💧",
-              "label": "wet"
-            },
-            {
               "emoji": "🚪",
               "label": "door"
             }
@@ -732,7 +642,7 @@
               "label": "phone"
             },
             {
-              "emoji": "👖🪙",
+              "emoji": "👖",
               "label": "pocket"
             }
           ],
@@ -823,10 +733,6 @@
             {
               "emoji": "🛋️",
               "label": "room"
-            },
-            {
-              "emoji": "🌑",
-              "label": "dark"
             }
           ],
           "prompt": {

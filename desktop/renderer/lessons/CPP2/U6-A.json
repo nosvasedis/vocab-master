@@ -256,10 +256,6 @@
           "text": "Hello, I am Lingo, and I love owls and dinosaurs!",
           "props": [
             {
-              "emoji": "🦉",
-              "label": "owl"
-            },
-            {
               "emoji": "🦕",
               "label": "dinosaur"
             }
@@ -276,26 +272,12 @@
             {
               "emoji": "🌍",
               "label": "Earth"
-            },
-            {
-              "emoji": "🔢",
-              "label": "million"
             }
           ]
         },
         {
           "id": "l3",
-          "text": "Some were enormous, and some were very small.",
-          "props": [
-            {
-              "emoji": "🐘",
-              "label": "enormous"
-            },
-            {
-              "emoji": "🐜",
-              "label": "small"
-            }
-          ]
+          "text": "Some were enormous, and some were very small."
         },
         {
           "id": "l4",
@@ -342,24 +324,8 @@
           ],
           "props": [
             {
-              "emoji": "📄",
-              "label": "text"
-            },
-            {
               "emoji": "🦕",
               "label": "dinosaur"
-            },
-            {
-              "emoji": "💡",
-              "label": "main idea"
-            },
-            {
-              "emoji": "🔍",
-              "label": "detail"
-            },
-            {
-              "emoji": "🦕❌",
-              "label": "extinct"
             }
           ],
           "caption": {
@@ -399,20 +365,8 @@
           ],
           "props": [
             {
-              "emoji": "🌲",
-              "label": "forest"
-            },
-            {
-              "emoji": "🕊️",
-              "label": "gentle"
-            },
-            {
               "emoji": "🦎",
               "label": "reptile"
-            },
-            {
-              "emoji": "🪵",
-              "label": "log"
             }
           ],
           "caption": {
@@ -453,20 +407,8 @@
               "label": "footprint"
             },
             {
-              "emoji": "🟫",
-              "label": "mud"
-            },
-            {
               "emoji": "🦕",
               "label": "dinosaur"
-            },
-            {
-              "emoji": "🦶🦶",
-              "label": "feet"
-            },
-            {
-              "emoji": "🐘",
-              "label": "enormous"
             }
           ],
           "caption": {
@@ -520,14 +462,6 @@
             {
               "emoji": "🌍",
               "label": "Earth"
-            },
-            {
-              "emoji": "🔢",
-              "label": "million"
-            },
-            {
-              "emoji": "💥➡️",
-              "label": "cause"
             }
           ],
           "caption": {
@@ -570,14 +504,6 @@
             {
               "emoji": "🧑‍🔬",
               "label": "scientist"
-            },
-            {
-              "emoji": "🦕❌",
-              "label": "extinct"
-            },
-            {
-              "emoji": "🦕❌",
-              "label": "extinction"
             },
             {
               "emoji": "🦎",
@@ -623,14 +549,6 @@
             {
               "emoji": "🦕",
               "label": "dinosaur"
-            },
-            {
-              "emoji": "📄",
-              "label": "text"
-            },
-            {
-              "emoji": "🦕❌",
-              "label": "extinct"
             }
           ],
           "prompt": {
@@ -653,12 +571,6 @@
           "id": "c2",
           "kind": "pickPicture",
           "wordId": "CPP2-U6-SB-747",
-          "props": [
-            {
-              "emoji": "💡",
-              "label": "main idea"
-            }
-          ],
           "prompt": {
             "id": "c2q",
             "text": "Which word means a small piece of information about something?"
@@ -679,16 +591,6 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-748",
-          "props": [
-            {
-              "emoji": "🧍",
-              "label": "Gus"
-            },
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            }
-          ],
           "prompt": {
             "id": "c3q",
             "text": "Gus is gentle. He is kind and careful with his friends."
@@ -707,12 +609,6 @@
           "id": "c4",
           "kind": "oddOneOut",
           "wordId": "CPP2-U6-SB-749",
-          "props": [
-            {
-              "emoji": "🦎",
-              "label": "reptile"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "Which one is NOT a reptile?"
@@ -789,16 +685,6 @@
           "id": "c7",
           "kind": "pickPicture",
           "wordId": "CPP2-U6-SB-756",
-          "props": [
-            {
-              "emoji": "🟫",
-              "label": "mud"
-            },
-            {
-              "emoji": "🦶",
-              "label": "foot"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "Which word is the mark a foot leaves in the mud?"
@@ -819,16 +705,6 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-753",
-          "props": [
-            {
-              "emoji": "💯",
-              "label": "one hundred"
-            },
-            {
-              "emoji": "🔢",
-              "label": "million"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "A million is the number one hundred."
@@ -851,10 +727,6 @@
             {
               "emoji": "🪨",
               "label": "rock"
-            },
-            {
-              "emoji": "🌌",
-              "label": "space"
             }
           ],
           "prompt": {
@@ -877,12 +749,6 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-770",
-          "props": [
-            {
-              "emoji": "🐜",
-              "label": "small"
-            }
-          ],
           "prompt": {
             "id": "c10q",
             "text": "Enormous means very small."

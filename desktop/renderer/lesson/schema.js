@@ -84,7 +84,17 @@ export function lessonLines(lesson) {
    Props are pictures of the things a line talks about: { emoji, label } where label is the word as
    it appears in the text. The player shows them and lights each one up when its word is spoken. */
 const isProp = (p) => isObj(p) && typeof p.emoji === "string" && p.emoji.trim() && typeof p.label === "string" && p.label.trim();
-const stem = (w) => String(w).toLowerCase().replace(/[^a-z' -]/g, "").replace(/(ies)$/, "y").replace(/(es|s)$/, "");
+/** Singular stem for matching nouns to prop labels: babies→baby, boxes→box, houses→house, bus/class stay. */
+export const stem = (w) => {
+  const s = String(w).toLowerCase().replace(/[’]/g, "'").replace(/[^a-z' -]/g, "").replace(/'s?$/, "");
+  if (/(cook|mov|p|t|brown|zomb|selfie|hood|goal)ies$/.test(s) && !/(stud|famil|bab|part|cit|countr|stor|lad|bod|hobb|lorr|ponies)ies$/.test(s)) return s.slice(0, -1);
+  if (/ies$/.test(s)) return `${s.slice(0, -3)}y`;
+  const IRREGULAR = { buses: "bus", potatoes: "potato", tomatoes: "tomato", heroes: "hero", mangoes: "mango" };
+  if (IRREGULAR[s]) return IRREGULAR[s];
+  if (/(ss|x|z|ch|sh)es$/.test(s)) return s.slice(0, -2);
+  if (/[^sui]s$/.test(s)) return s.slice(0, -1);
+  return s;
+};
 
 /** Concrete nouns (from `nouns`, a Set) mentioned in `text`. */
 export function mentionedNouns(text, nouns) {
@@ -134,7 +144,7 @@ export const BACKDROP_WORDS = {
   castle: "castle tower towers",
   market: "market stall stalls fruit vegetables",
 };
-const backdropWords = (key) => (BACKDROP_WORDS[key] || "").split(" ");
+export const backdropWords = (key) => (BACKDROP_WORDS[key] || "").split(" ");
 
 /** Everything a line mentions that the screen doesn't show: [{ where, noun, text }]. */
 export function visibilityIssues(lesson, nouns) {

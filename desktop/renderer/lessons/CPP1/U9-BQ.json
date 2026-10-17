@@ -182,16 +182,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
-      "props": [
-        {
-          "emoji": "🌧️",
-          "label": "raining"
-        },
-        {
-          "emoji": "👕",
-          "label": "T-shirt"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -200,30 +190,12 @@
             {
               "emoji": "👚",
               "label": "clothes"
-            },
-            {
-              "emoji": "👥",
-              "label": "friends"
             }
           ]
         },
         {
           "id": "l2",
-          "text": "Mia opens her wardrobe every morning. She asks, what should I wear today?",
-          "props": [
-            {
-              "emoji": "🚪",
-              "label": "wardrobe"
-            },
-            {
-              "emoji": "🌅",
-              "label": "morning"
-            },
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            }
-          ]
+          "text": "Mia opens her wardrobe every morning. She asks, what should I wear today?"
         },
         {
           "id": "l3",
@@ -240,10 +212,6 @@
             {
               "emoji": "👕",
               "label": "T-shirt"
-            },
-            {
-              "emoji": "👧",
-              "label": "Mia"
             }
           ]
         },
@@ -310,16 +278,6 @@
             "id": "c2q",
             "text": "What is the ____ like today? It is sunny and warm."
           },
-          "props": [
-            {
-              "emoji": "☀️",
-              "label": "sunny"
-            },
-            {
-              "emoji": "🥵",
-              "label": "warm"
-            }
-          ],
           "options": [
             "T-shirt",
             "weather",
@@ -344,10 +302,6 @@
             {
               "emoji": "👔",
               "label": "smart clothes"
-            },
-            {
-              "emoji": "💒",
-              "label": "wedding"
             }
           ],
           "options": [
@@ -378,10 +332,6 @@
             {
               "emoji": "👟",
               "label": "shoe"
-            },
-            {
-              "emoji": "🦶",
-              "label": "feet"
             }
           ],
           "options": [
@@ -426,10 +376,6 @@
             {
               "emoji": "🌳",
               "label": "park"
-            },
-            {
-              "emoji": "🏃",
-              "label": "run"
             }
           ],
           "options": [
@@ -514,14 +460,6 @@
             {
               "emoji": "👕",
               "label": "T-shirt"
-            },
-            {
-              "emoji": "🧑",
-              "label": "head"
-            },
-            {
-              "emoji": "🔥",
-              "label": "warm"
             }
           ],
           "options": [
@@ -543,10 +481,6 @@
             "text": "Mia wears a ____ to the party. It is one long piece of clothing."
           },
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
             {
               "emoji": "🎉",
               "label": "party"
@@ -572,12 +506,8 @@
       "game": "memory",
       "props": [
         {
-          "emoji": "🃏",
+          "emoji": "🖼️",
           "label": "picture"
-        },
-        {
-          "emoji": "🔤",
-          "label": "word"
         }
       ],
       "lines": [
@@ -612,13 +542,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, everyone! You met the big question today.",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "question"
-            }
-          ]
+          "text": "Brilliant work, everyone! You met the big question today."
         },
         {
           "id": "l2",
@@ -627,14 +551,6 @@
             {
               "emoji": "👚",
               "label": "clothes"
-            },
-            {
-              "emoji": "☀️",
-              "label": "weather"
-            },
-            {
-              "emoji": "🎉",
-              "label": "occasion"
             }
           ]
         },
@@ -643,20 +559,8 @@
           "text": "Next time, we will read about a year of clothes with Mia and Nasreddin.",
           "props": [
             {
-              "emoji": "📅",
-              "label": "year"
-            },
-            {
               "emoji": "👚",
               "label": "clothes"
-            },
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "🧔",
-              "label": "Nasreddin"
             }
           ]
         }
@@ -668,17 +572,7 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "Tell me one thing you wear when the weather is cold.",
-          "props": [
-            {
-              "emoji": "🌦️",
-              "label": "weather"
-            },
-            {
-              "emoji": "🥶",
-              "label": "cold"
-            }
-          ]
+          "text": "Tell me one thing you wear when the weather is cold."
         },
         {
           "id": "e2",
@@ -687,10 +581,6 @@
             {
               "emoji": "👚",
               "label": "clothes"
-            },
-            {
-              "emoji": "🎉",
-              "label": "occasion"
             }
           ]
         }

@@ -258,11 +258,7 @@
           "label": "bathroom"
         },
         {
-          "emoji": "💇",
-          "label": "hair"
-        },
-        {
-          "emoji": "👪",
+          "emoji": "👨‍👩‍👧",
           "label": "family"
         }
       ],
@@ -324,14 +320,6 @@
           ],
           "props": [
             {
-              "emoji": "🏠",
-              "label": "house"
-            },
-            {
-              "emoji": "💡",
-              "label": "light"
-            },
-            {
               "emoji": "🍳",
               "label": "kitchen"
             },
@@ -381,7 +369,7 @@
               "label": "milk"
             },
             {
-              "emoji": "🥤🌀",
+              "emoji": "🥤",
               "label": "blender"
             },
             {
@@ -434,14 +422,6 @@
             {
               "emoji": "🛁",
               "label": "bath"
-            },
-            {
-              "emoji": "💇",
-              "label": "hair"
-            },
-            {
-              "emoji": "💨💇",
-              "label": "hair dryer"
             }
           ],
           "caption": {
@@ -480,22 +460,6 @@
             {
               "emoji": "🧹",
               "label": "vacuum cleaner"
-            },
-            {
-              "emoji": "🧸💔",
-              "label": "broken"
-            },
-            {
-              "emoji": "🟥🟨🟥",
-              "label": "rug"
-            },
-            {
-              "emoji": "🖐️",
-              "label": "by hand"
-            },
-            {
-              "emoji": "👵",
-              "label": "Grandma"
             },
             {
               "emoji": "🎩",
@@ -545,16 +509,12 @@
               "label": "socks"
             },
             {
-              "emoji": "👕🌀",
+              "emoji": "🧺",
               "label": "washing machine"
             },
             {
               "emoji": "👕👖",
               "label": "clothes"
-            },
-            {
-              "emoji": "🖐️",
-              "label": "by hand"
             }
           ],
           "caption": {
@@ -599,20 +559,12 @@
               "label": "battery"
             },
             {
-              "emoji": "🌑",
-              "label": "dark"
-            },
-            {
               "emoji": "🕯️",
               "label": "candle"
             },
             {
               "emoji": "⚡",
               "label": "electricity"
-            },
-            {
-              "emoji": "💡",
-              "label": "light"
             }
           ],
           "caption": {
@@ -688,10 +640,6 @@
           "wordId": "CPP3-U8-SB-1085",
           "props": [
             {
-              "emoji": "👩",
-              "label": "Mum"
-            },
-            {
               "emoji": "🧦🧦",
               "label": "socks"
             }
@@ -720,14 +668,6 @@
             {
               "emoji": "🛁",
               "label": "bath"
-            },
-            {
-              "emoji": "💇",
-              "label": "hair"
-            },
-            {
-              "emoji": "💨💇",
-              "label": "hair dryer"
             }
           ],
           "prompt": {
@@ -768,16 +708,6 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1082",
-          "props": [
-            {
-              "emoji": "🎮",
-              "label": "remote control"
-            },
-            {
-              "emoji": "🫙",
-              "label": "empty"
-            }
-          ],
           "prompt": {
             "id": "c6q",
             "text": "My remote control needs a new ____ because it is empty."
@@ -823,10 +753,6 @@
           "kind": "gap",
           "wordId": "CPP3-U8-SB-1089",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
             {
               "emoji": "🧹",
               "label": "vacuum cleaner"

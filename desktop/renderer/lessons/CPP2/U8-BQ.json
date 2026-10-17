@@ -211,11 +211,7 @@
           "text": "Some heroes wear a cape. Some heroes wear a helmet.",
           "props": [
             {
-              "emoji": "🦸",
-              "label": "cape"
-            },
-            {
-              "emoji": "🪖",
+              "emoji": "⛑️",
               "label": "helmet"
             }
           ]
@@ -224,10 +220,6 @@
           "id": "l4",
           "text": "Some heroes are your friends, or your family.",
           "props": [
-            {
-              "emoji": "👫",
-              "label": "friends"
-            },
             {
               "emoji": "👨‍👩‍👧",
               "label": "family"
@@ -278,14 +270,6 @@
             {
               "emoji": "🐈",
               "label": "cat"
-            },
-            {
-              "emoji": "🌳",
-              "label": "tree"
-            },
-            {
-              "emoji": "🚨",
-              "label": "emergency"
             }
           ],
           "caption": {
@@ -352,12 +336,6 @@
             "id": "c1q",
             "text": "My dad is very ____. He isn't scared of anything!"
           },
-          "props": [
-            {
-              "emoji": "👨",
-              "label": "dad"
-            }
-          ],
           "options": [
             "brave",
             "caring",
@@ -378,12 +356,6 @@
             "id": "c2q",
             "text": "Which word means to stop a fire from burning?"
           },
-          "props": [
-            {
-              "emoji": "🔥",
-              "label": "fire"
-            }
-          ],
           "options": [
             "CPP2-U8-SB-965",
             "CPP2-U8-SB-964",
@@ -452,10 +424,6 @@
             {
               "emoji": "🐈",
               "label": "cat"
-            },
-            {
-              "emoji": "🌳",
-              "label": "tree"
             }
           ],
           "options": [
@@ -482,10 +450,6 @@
             {
               "emoji": "📞",
               "label": "phone"
-            },
-            {
-              "emoji": "💬",
-              "label": "conversation"
             }
           ],
           "options": [
@@ -556,16 +520,6 @@
             "id": "c9q",
             "text": "My best friend is a very ____ person. She is kind and always looks after people."
           },
-          "props": [
-            {
-              "emoji": "🧑‍🤝‍🧑",
-              "label": "friend"
-            },
-            {
-              "emoji": "🧑",
-              "label": "person"
-            }
-          ],
           "options": [
             "caring",
             "brave",
@@ -586,12 +540,6 @@
             "id": "c10q",
             "text": "Our neighbour is very ____. She is always ready to help other people."
           },
-          "props": [
-            {
-              "emoji": "👩",
-              "label": "neighbour"
-            }
-          ],
           "options": [
             "helpful",
             "brave",

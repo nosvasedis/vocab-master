@@ -217,23 +217,11 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hoo hoo! Hello, music friends! I am Lingo the owl.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            }
-          ]
+          "text": "Hoo hoo! Hello, music friends! I am Lingo the owl."
         },
         {
           "id": "l2",
-          "text": "Close your eyes. What can you hear right now?",
-          "props": [
-            {
-              "emoji": "👀",
-              "label": "eyes"
-            }
-          ]
+          "text": "Close your eyes. What can you hear right now?"
         },
         {
           "id": "l3",
@@ -246,22 +234,12 @@
             {
               "emoji": "🚗",
               "label": "car"
-            },
-            {
-              "emoji": "🎶",
-              "label": "song"
             }
           ]
         },
         {
           "id": "l4",
-          "text": "Today we start a big question: What is music?",
-          "props": [
-            {
-              "emoji": "🎵",
-              "label": "music"
-            }
-          ]
+          "text": "Today we start a big question: What is music?"
         }
       ],
       "question": {
@@ -304,20 +282,8 @@
           ],
           "props": [
             {
-              "emoji": "🙋💡",
-              "label": "suggestion"
-            },
-            {
               "emoji": "🎺",
               "label": "trumpet"
-            },
-            {
-              "emoji": "🎵",
-              "label": "music"
-            },
-            {
-              "emoji": "💡",
-              "label": "idea"
             }
           ],
           "caption": {
@@ -360,22 +326,6 @@
             {
               "emoji": "📝🎵",
               "label": "playlist"
-            },
-            {
-              "emoji": "🪕",
-              "label": "folk music"
-            },
-            {
-              "emoji": "🎵",
-              "label": "music"
-            },
-            {
-              "emoji": "😊💬",
-              "label": "express"
-            },
-            {
-              "emoji": "😊",
-              "label": "feelings"
             }
           ],
           "caption": {
@@ -451,16 +401,6 @@
             "id": "c3q",
             "text": "Music helps me ____ my feelings."
           },
-          "props": [
-            {
-              "emoji": "🎵",
-              "label": "music"
-            },
-            {
-              "emoji": "😊",
-              "label": "feelings"
-            }
-          ],
           "options": [
             "suggest",
             "play",
@@ -480,16 +420,6 @@
             "id": "c4q",
             "text": "Let's decide what to do! My ____ is to play tennis."
           },
-          "props": [
-            {
-              "emoji": "🤔",
-              "label": "decide"
-            },
-            {
-              "emoji": "🎾",
-              "label": "tennis"
-            }
-          ],
           "options": [
             "suggestion",
             "piano",
@@ -517,10 +447,6 @@
             {
               "emoji": "📚",
               "label": "book"
-            },
-            {
-              "emoji": "🧑",
-              "label": "person"
             }
           ],
           "options": [
@@ -563,16 +489,8 @@
           },
           "props": [
             {
-              "emoji": "👧",
-              "label": "Tonia"
-            },
-            {
               "emoji": "📱",
               "label": "phone"
-            },
-            {
-              "emoji": "🎶",
-              "label": "songs"
             }
           ],
           "options": [
@@ -596,16 +514,8 @@
           },
           "props": [
             {
-              "emoji": "🪕",
-              "label": "folk music"
-            },
-            {
               "emoji": "🏘️",
               "label": "village"
-            },
-            {
-              "emoji": "👥",
-              "label": "people"
             }
           ],
           "options": [
@@ -628,16 +538,8 @@
           },
           "props": [
             {
-              "emoji": "🎻",
-              "label": "classical music"
-            },
-            {
               "emoji": "👨‍🎼",
               "label": "composers"
-            },
-            {
-              "emoji": "⌛",
-              "label": "long ago"
             }
           ],
           "options": [
@@ -662,10 +564,6 @@
             {
               "emoji": "🏫",
               "label": "school"
-            },
-            {
-              "emoji": "👂",
-              "label": "listen"
             }
           ],
           "options": [

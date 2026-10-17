@@ -229,20 +229,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
-      "props": [
-        {
-          "emoji": "🧑🧒👵",
-          "label": "people"
-        },
-        {
-          "emoji": "🏠",
-          "label": "home"
-        },
-        {
-          "emoji": "🌍",
-          "label": "world"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -301,16 +287,8 @@
           ],
           "props": [
             {
-              "emoji": "🍾🍾",
+              "emoji": "🧴",
               "label": "bottle"
-            },
-            {
-              "emoji": "🥫🥫",
-              "label": "can"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "community"
             }
           ],
           "caption": {
@@ -347,10 +325,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "💡",
-              "label": "suggestion"
-            },
             {
               "emoji": "📝",
               "label": "list"
@@ -391,12 +365,8 @@
           ],
           "props": [
             {
-              "emoji": "🍾🍾",
+              "emoji": "🧴",
               "label": "bottle"
-            },
-            {
-              "emoji": "🥫🥫",
-              "label": "can"
             },
             {
               "emoji": "🛍️",
@@ -454,10 +424,6 @@
             {
               "emoji": "👴👵",
               "label": "resident"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "community"
             }
           ],
           "caption": {
@@ -500,10 +466,6 @@
             {
               "emoji": "🐕",
               "label": "dog"
-            },
-            {
-              "emoji": "🚶",
-              "label": "walk"
             }
           ],
           "caption": {
@@ -563,10 +525,6 @@
               "label": "park"
             },
             {
-              "emoji": "🏫",
-              "label": "school"
-            },
-            {
               "emoji": "🎒",
               "label": "bag"
             }
@@ -592,14 +550,6 @@
           "kind": "trueFalse",
           "wordId": "CPP1-U6-SB-667",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
             {
               "emoji": "📝",
               "label": "list"
@@ -627,12 +577,6 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP1-U6-SB-668",
-          "props": [
-            {
-              "emoji": "🎶",
-              "label": "songs"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "We visit the ____ and sing songs with the older people who live there and get help."

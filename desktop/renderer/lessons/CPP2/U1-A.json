@@ -269,13 +269,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, everyone! It's Lingo, your owl friend.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            }
-          ]
+          "text": "Hello, everyone! It's Lingo, your owl friend."
         },
         {
           "id": "l2",
@@ -292,13 +286,7 @@
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite place in your neighbourhood?",
-        "props": [
-          {
-            "emoji": "🏘️",
-            "label": "neighbourhood"
-          }
-        ]
+        "text": "What is your favourite place in your neighbourhood?"
       }
     },
     {
@@ -336,14 +324,6 @@
           ],
           "props": [
             {
-              "emoji": "🏛️",
-              "label": "museum"
-            },
-            {
-              "emoji": "👧👦👧",
-              "label": "class"
-            },
-            {
               "emoji": "🏙️",
               "label": "city"
             }
@@ -356,13 +336,7 @@
             {
               "id": "p1a",
               "who": "carla",
-              "text": "Welcome! I am Ms Carla, the security guard here.",
-              "props": [
-                {
-                  "emoji": "👮",
-                  "label": "security guard"
-                }
-              ]
+              "text": "Welcome! I am Ms Carla, the security guard here."
             },
             {
               "id": "p1b",
@@ -388,7 +362,7 @@
           ],
           "props": [
             {
-              "emoji": "🧍🕯️",
+              "emoji": "🗿",
               "label": "wax figure"
             },
             {
@@ -398,10 +372,6 @@
             {
               "emoji": "🖼️🖼️",
               "label": "exhibit"
-            },
-            {
-              "emoji": "🚫✋",
-              "label": "touch"
             }
           ],
           "caption": {
@@ -422,10 +392,6 @@
                 {
                   "emoji": "🖼️🖼️",
                   "label": "exhibit"
-                },
-                {
-                  "emoji": "🚫✋",
-                  "label": "touch"
                 }
               ]
             }
@@ -450,14 +416,6 @@
             {
               "emoji": "⚡",
               "label": "electricity"
-            },
-            {
-              "emoji": "💡➡️🌑",
-              "label": "goes out"
-            },
-            {
-              "emoji": "🌑",
-              "label": "dark"
             },
             {
               "emoji": "🔦",
@@ -528,10 +486,6 @@
           ],
           "props": [
             {
-              "emoji": "🏛️",
-              "label": "museum"
-            },
-            {
               "emoji": "📄",
               "label": "leaflet"
             },
@@ -540,16 +494,8 @@
               "label": "heading"
             },
             {
-              "emoji": "📑",
-              "label": "section"
-            },
-            {
               "emoji": "👮",
               "label": "security guard"
-            },
-            {
-              "emoji": "🦸",
-              "label": "heroes"
             },
             {
               "emoji": "🏠",
@@ -569,10 +515,6 @@
                 {
                   "emoji": "📰",
                   "label": "heading"
-                },
-                {
-                  "emoji": "📑",
-                  "label": "section"
                 }
               ]
             },
@@ -584,10 +526,6 @@
                 {
                   "emoji": "👮",
                   "label": "security guard"
-                },
-                {
-                  "emoji": "🦸",
-                  "label": "heroes"
                 }
               ]
             }
@@ -627,16 +565,6 @@
           "id": "c2",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-16",
-          "props": [
-            {
-              "emoji": "📄",
-              "label": "text"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
-            }
-          ],
           "prompt": {
             "id": "c2q",
             "text": "The first ____ of the text has three paragraphs about our neighbourhood."
@@ -723,12 +651,6 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-37",
-          "props": [
-            {
-              "emoji": "🌑",
-              "label": "dark"
-            }
-          ],
           "prompt": {
             "id": "c6q",
             "text": "Use your ____ to see in the dark."
@@ -748,16 +670,6 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-36",
-          "props": [
-            {
-              "emoji": "🔔",
-              "label": "rang"
-            },
-            {
-              "emoji": "🏃",
-              "label": "ran"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "The ____ rang loudly, so everyone ran outside."
@@ -805,10 +717,6 @@
             {
               "emoji": "💧",
               "label": "water"
-            },
-            {
-              "emoji": "💡",
-              "label": "lights"
             }
           ],
           "prompt": {
@@ -830,10 +738,6 @@
           "kind": "gap",
           "wordId": "CPP2-U1-SB-50",
           "props": [
-            {
-              "emoji": "💡",
-              "label": "lights"
-            },
             {
               "emoji": "🔦",
               "label": "flashlight"
@@ -905,10 +809,6 @@
             {
               "emoji": "📰",
               "label": "heading"
-            },
-            {
-              "emoji": "📑",
-              "label": "section"
             },
             {
               "emoji": "🏛️",

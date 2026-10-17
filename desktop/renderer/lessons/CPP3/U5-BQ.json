@@ -217,13 +217,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love exploring the world.",
-          "props": [
-            {
-              "emoji": "🌍",
-              "label": "world"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love exploring the world."
         },
         {
           "id": "l2",
@@ -254,26 +248,12 @@
             {
               "emoji": "⛰️",
               "label": "mountain"
-            },
-            {
-              "emoji": "✈️",
-              "label": "travel"
             }
           ]
         },
         {
           "id": "l4",
-          "text": "Today we ask a big question: why do we travel?",
-          "props": [
-            {
-              "emoji": "✈️",
-              "label": "travel"
-            },
-            {
-              "emoji": "❓",
-              "label": "question"
-            }
-          ]
+          "text": "Today we ask a big question: why do we travel?"
         }
       ],
       "question": {
@@ -332,10 +312,6 @@
               "label": "hiking"
             },
             {
-              "emoji": "🪵",
-              "label": "wood"
-            },
-            {
               "emoji": "🔥",
               "label": "campfire"
             }
@@ -380,7 +356,7 @@
               "label": "castle"
             },
             {
-              "emoji": "👥",
+              "emoji": "📸",
               "label": "tourists"
             },
             {
@@ -388,16 +364,8 @@
               "label": "photos"
             },
             {
-              "emoji": "✈️",
-              "label": "travel"
-            },
-            {
               "emoji": "🎁",
               "label": "souvenir"
-            },
-            {
-              "emoji": "👵",
-              "label": "grandma"
             }
           ],
           "caption": {
@@ -438,26 +406,6 @@
             {
               "emoji": "📝",
               "label": "questionnaire"
-            },
-            {
-              "emoji": "✈️",
-              "label": "travel"
-            },
-            {
-              "emoji": "🧑🧑🧑",
-              "label": "people"
-            },
-            {
-              "emoji": "📚",
-              "label": "learn"
-            },
-            {
-              "emoji": "🏃➡️🏆",
-              "label": "result"
-            },
-            {
-              "emoji": "😊",
-              "label": "happy"
             }
           ],
           "caption": {
@@ -491,12 +439,6 @@
           "id": "c1",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-629",
-          "props": [
-            {
-              "emoji": "🌍",
-              "label": "countries"
-            }
-          ],
           "prompt": {
             "id": "c1q",
             "text": "When I grow up, I want to ____ to many different countries."
@@ -596,14 +538,6 @@
             {
               "emoji": "⛺",
               "label": "tent"
-            },
-            {
-              "emoji": "🌳",
-              "label": "outdoors"
-            },
-            {
-              "emoji": "😄",
-              "label": "fun"
             }
           ],
           "prompt": {
@@ -648,10 +582,6 @@
             {
               "emoji": "🏪",
               "label": "shop"
-            },
-            {
-              "emoji": "🧳",
-              "label": "trip"
             }
           ],
           "prompt": {
@@ -673,12 +603,6 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-630",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "questions"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "Please answer all the questions in the ____."
@@ -698,16 +622,6 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP3-U5-SB-632",
-          "props": [
-            {
-              "emoji": "📝",
-              "label": "test"
-            },
-            {
-              "emoji": "👍",
-              "label": "good"
-            }
-          ],
           "prompt": {
             "id": "c9q",
             "text": "The ____ of our test was very good."
@@ -735,18 +649,6 @@
             {
               "emoji": "🏙️",
               "label": "city"
-            },
-            {
-              "emoji": "🏨",
-              "label": "hotel"
-            },
-            {
-              "emoji": "🏢",
-              "label": "floors"
-            },
-            {
-              "emoji": "🌲",
-              "label": "forest"
             }
           ],
           "prompt": {

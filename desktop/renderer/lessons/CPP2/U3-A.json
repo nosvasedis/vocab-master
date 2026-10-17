@@ -275,10 +275,6 @@
           "text": "Mia is making a fresh salad for lunch.",
           "props": [
             {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
               "emoji": "🥗",
               "label": "salad"
             },
@@ -305,14 +301,6 @@
             {
               "emoji": "🧅",
               "label": "onion"
-            },
-            {
-              "emoji": "👃💨",
-              "label": "smelly"
-            },
-            {
-              "emoji": "😭",
-              "label": "cry"
             }
           ]
         }
@@ -363,10 +351,6 @@
             {
               "emoji": "🧅",
               "label": "onion"
-            },
-            {
-              "emoji": "👃💨",
-              "label": "smelly"
             }
           ],
           "caption": {
@@ -407,12 +391,8 @@
               "label": "onion"
             },
             {
-              "emoji": "🛢️💧",
+              "emoji": "🛢️",
               "label": "oil"
-            },
-            {
-              "emoji": "👀",
-              "label": "eyes"
             },
             {
               "emoji": "💧",
@@ -466,18 +446,6 @@
               "label": "gas"
             },
             {
-              "emoji": "🌬️",
-              "label": "air"
-            },
-            {
-              "emoji": "😭",
-              "label": "cry"
-            },
-            {
-              "emoji": "🧼",
-              "label": "wash away"
-            },
-            {
               "emoji": "💧",
               "label": "water"
             }
@@ -524,16 +492,8 @@
               "label": "water"
             },
             {
-              "emoji": "💧",
-              "label": "drop"
-            },
-            {
               "emoji": "🛢️",
               "label": "oil"
-            },
-            {
-              "emoji": "🛶",
-              "label": "float"
             }
           ],
           "caption": {
@@ -565,24 +525,12 @@
           ],
           "props": [
             {
-              "emoji": "🤫",
-              "label": "secret"
-            },
-            {
-              "emoji": "💪",
-              "label": "healthy"
-            },
-            {
               "emoji": "🧅",
               "label": "onion"
             },
             {
               "emoji": "💊",
               "label": "vitamin"
-            },
-            {
-              "emoji": "🥗",
-              "label": "nutrient"
             },
             {
               "emoji": "🥗",
@@ -721,14 +669,6 @@
           },
           "props": [
             {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👀",
-              "label": "eyes"
-            },
-            {
               "emoji": "🧅",
               "label": "onion"
             }
@@ -780,14 +720,6 @@
             {
               "emoji": "💨",
               "label": "gas"
-            },
-            {
-              "emoji": "👀",
-              "label": "eyes"
-            },
-            {
-              "emoji": "💧",
-              "label": "water"
             }
           ],
           "options": [
@@ -864,10 +796,6 @@
             {
               "emoji": "🍽️",
               "label": "food"
-            },
-            {
-              "emoji": "💪",
-              "label": "healthy"
             }
           ],
           "options": [

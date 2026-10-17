@@ -201,46 +201,18 @@
         "mia",
         "nikos"
       ],
-      "props": [
-        {
-          "emoji": "🏫",
-          "label": "school"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🧑‍🏫",
-              "label": "teacher"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
-          "text": "Today we go into a school with new friends.",
-          "props": [
-            {
-              "emoji": "👫",
-              "label": "friends"
-            }
-          ]
+          "text": "Today we go into a school with new friends."
         },
         {
           "id": "l3",
-          "text": "School is a big place, full of people and noise!",
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "people"
-            },
-            {
-              "emoji": "🔊",
-              "label": "noise"
-            }
-          ]
+          "text": "School is a big place, full of people and noise!"
         },
         {
           "id": "l4",
@@ -444,18 +416,6 @@
             {
               "emoji": "🏫",
               "label": "classroom"
-            },
-            {
-              "emoji": "📍",
-              "label": "place"
-            },
-            {
-              "emoji": "🛏️",
-              "label": "sleep"
-            },
-            {
-              "emoji": "🌙",
-              "label": "night"
             }
           ],
           "options": [
@@ -557,10 +517,6 @@
           "text": "You can now talk about your teacher, your desk and your classmates.",
           "props": [
             {
-              "emoji": "🧑‍🏫",
-              "label": "teacher"
-            },
-            {
               "emoji": "🪑",
               "label": "desk"
             },
@@ -572,17 +528,7 @@
         },
         {
           "id": "l3",
-          "text": "Next time, Mia and Nikos will show us their school!",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Nikos"
-            }
-          ]
+          "text": "Next time, Mia and Nikos will show us their school!"
         }
       ],
       "badge": {

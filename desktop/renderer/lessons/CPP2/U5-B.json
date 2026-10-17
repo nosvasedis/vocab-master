@@ -256,12 +256,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "village",
-      "props": [
-        {
-          "emoji": "🎵",
-          "label": "music"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -273,38 +267,16 @@
         },
         {
           "id": "l3",
-          "text": "Did you know a sound can make you feel a tiny shake?",
-          "props": [
-            {
-              "emoji": "🔊",
-              "label": "sound"
-            },
-            {
-              "emoji": "📳",
-              "label": "shake"
-            }
-          ]
+          "text": "Did you know a sound can make you feel a tiny shake?"
         },
         {
           "id": "l4",
-          "text": "Today we will meet Nora, a kind girl in a village.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Nora"
-            }
-          ]
+          "text": "Today we will meet Nora, a kind girl in a village."
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite song, and how does it make you feel?",
-        "props": [
-          {
-            "emoji": "🎶",
-            "label": "song"
-          }
-        ]
+        "text": "What is your favourite song, and how does it make you feel?"
       }
     },
     {
@@ -383,24 +355,12 @@
           ],
           "props": [
             {
-              "emoji": "💬",
-              "label": "advice"
-            },
-            {
-              "emoji": "🛏️",
-              "label": "rest"
-            },
-            {
               "emoji": "💧",
               "label": "water"
             },
             {
               "emoji": "🍲",
               "label": "food"
-            },
-            {
-              "emoji": "🫏",
-              "label": "Dora"
             }
           ],
           "caption": {
@@ -436,28 +396,8 @@
           ],
           "props": [
             {
-              "emoji": "🎵",
-              "label": "music"
-            },
-            {
               "emoji": "🥁",
               "label": "drum"
-            },
-            {
-              "emoji": "📢",
-              "label": "loud"
-            },
-            {
-              "emoji": "📳",
-              "label": "vibration"
-            },
-            {
-              "emoji": "🟫",
-              "label": "floor"
-            },
-            {
-              "emoji": "🦻🚫",
-              "label": "deaf"
             }
           ],
           "caption": {
@@ -495,24 +435,8 @@
           ],
           "props": [
             {
-              "emoji": "🚲",
-              "label": "bike"
-            },
-            {
-              "emoji": "⛑️🚫",
+              "emoji": "⛑️",
               "label": "helmet"
-            },
-            {
-              "emoji": "⚠️",
-              "label": "dangerous"
-            },
-            {
-              "emoji": "🛡️",
-              "label": "protect"
-            },
-            {
-              "emoji": "🧠",
-              "label": "head"
             }
           ],
           "caption": {
@@ -549,18 +473,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🌇",
-              "label": "sunset"
-            },
-            {
-              "emoji": "🫏",
-              "label": "Dora"
-            },
-            {
-              "emoji": "👣",
-              "label": "follow"
-            },
             {
               "emoji": "🏠",
               "label": "home"
@@ -677,7 +589,7 @@
               "label": "bike"
             },
             {
-              "emoji": "⛑️🚫",
+              "emoji": "⛑️",
               "label": "helmet"
             }
           ],
@@ -719,20 +631,6 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP2-U5-SB-665",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Nora"
-            },
-            {
-              "emoji": "👴",
-              "label": "Grandpa"
-            },
-            {
-              "emoji": "🫏",
-              "label": "Dora"
-            }
-          ],
           "prompt": {
             "id": "c6q",
             "text": "Nora asked Grandpa for ____ on how to help Dora."
@@ -777,14 +675,6 @@
             {
               "emoji": "⛑️",
               "label": "helmet"
-            },
-            {
-              "emoji": "🧠",
-              "label": "head"
-            },
-            {
-              "emoji": "🚲",
-              "label": "cycle"
             }
           ],
           "prompt": {

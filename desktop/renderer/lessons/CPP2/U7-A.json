@@ -255,56 +255,20 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love free time.",
-          "props": [
-            {
-              "emoji": "🧑🤝🧑",
-              "label": "friends"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love free time."
         },
         {
           "id": "l2",
-          "text": "Some people collect things. Some people make things. Some people read about the past.",
-          "props": [
-            {
-              "emoji": "🧑🧑",
-              "label": "people"
-            },
-            {
-              "emoji": "📦📦",
-              "label": "things"
-            },
-            {
-              "emoji": "⏳",
-              "label": "past"
-            }
-          ]
+          "text": "Some people collect things. Some people make things. Some people read about the past."
         },
         {
           "id": "l3",
-          "text": "Today we meet Maria. She has a wonderful free-time project!",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Maria"
-            },
-            {
-              "emoji": "📁",
-              "label": "project"
-            }
-          ]
+          "text": "Today we meet Maria. She has a wonderful free-time project!"
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite thing to do in your free time?",
-        "props": [
-          {
-            "emoji": "⏰",
-            "label": "free time"
-          }
-        ]
+        "text": "What is your favourite thing to do in your free time?"
       }
     },
     {
@@ -349,14 +313,6 @@
             {
               "emoji": "⭐⭐⭐",
               "label": "sticker"
-            },
-            {
-              "emoji": "🗃️",
-              "label": "collection"
-            },
-            {
-              "emoji": "📅",
-              "label": "Sunday"
             }
           ],
           "caption": {
@@ -400,7 +356,7 @@
               "label": "table"
             },
             {
-              "emoji": "📷",
+              "emoji": "🖼️",
               "label": "photo"
             },
             {
@@ -449,24 +405,8 @@
               "label": "page"
             },
             {
-              "emoji": "🇪🇬",
-              "label": "Egypt"
-            },
-            {
-              "emoji": "🏛️",
-              "label": "ancient"
-            },
-            {
               "emoji": "🔺🏜️",
               "label": "pyramid"
-            },
-            {
-              "emoji": "⏳",
-              "label": "years"
-            },
-            {
-              "emoji": "🇪🇬",
-              "label": "Egyptians"
             }
           ],
           "caption": {
@@ -606,10 +546,6 @@
             {
               "emoji": "📔",
               "label": "scrapbook"
-            },
-            {
-              "emoji": "👀",
-              "label": "spot"
             }
           ],
           "caption": {
@@ -702,6 +638,10 @@
             {
               "emoji": "⭐",
               "label": "star"
+            },
+            {
+              "emoji": "📄",
+              "label": "page"
             }
           ]
         },
@@ -840,10 +780,6 @@
               "label": "picture"
             },
             {
-              "emoji": "🔣",
-              "label": "symbol"
-            },
-            {
               "emoji": "✍️",
               "label": "writing"
             }
@@ -948,14 +884,6 @@
             {
               "emoji": "💎",
               "label": "treasures"
-            },
-            {
-              "emoji": "🇪🇬",
-              "label": "Egypt"
-            },
-            {
-              "emoji": "🧩",
-              "label": "making things"
             }
           ]
         },

@@ -243,13 +243,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I'm Lingo, and I love the weather!",
-          "props": [
-            {
-              "emoji": "🌦️",
-              "label": "weather"
-            }
-          ]
+          "text": "Hello, friends! I'm Lingo, and I love the weather!"
         },
         {
           "id": "l2",
@@ -272,45 +266,17 @@
             {
               "emoji": "🧑‍🔬",
               "label": "scientist"
-            },
-            {
-              "emoji": "🌳",
-              "label": "nature"
-            },
-            {
-              "emoji": "📅",
-              "label": "tomorrow"
             }
           ]
         },
         {
           "id": "l4",
-          "text": "Today we will learn new words about weather and the future.",
-          "props": [
-            {
-              "emoji": "🌦️",
-              "label": "weather"
-            },
-            {
-              "emoji": "🔜",
-              "label": "future"
-            }
-          ]
+          "text": "Today we will learn new words about weather and the future."
         }
       ],
       "question": {
         "id": "q",
-        "text": "What do you do when the sky is cloudy?",
-        "props": [
-          {
-            "emoji": "🌥️",
-            "label": "sky"
-          },
-          {
-            "emoji": "☁️",
-            "label": "cloudy"
-          }
-        ]
+        "text": "What do you do when the sky is cloudy?"
       }
     },
     {
@@ -347,18 +313,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "📅",
-              "label": "tomorrow"
-            },
-            {
-              "emoji": "🌦️",
-              "label": "weather"
-            },
-            {
-              "emoji": "🔮",
-              "label": "predict"
-            },
             {
               "emoji": "🧪",
               "label": "experiment"
@@ -415,11 +369,7 @@
               "label": "cat"
             },
             {
-              "emoji": "🪑",
-              "label": "table"
-            },
-            {
-              "emoji": "🥛💥",
+              "emoji": "🥛",
               "label": "knock over"
             }
           ],
@@ -463,14 +413,6 @@
             {
               "emoji": "🐾",
               "label": "paw"
-            },
-            {
-              "emoji": "👅",
-              "label": "lick"
-            },
-            {
-              "emoji": "🔍",
-              "label": "observation"
             }
           ],
           "caption": {
@@ -507,22 +449,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🌥️",
-              "label": "sky"
-            },
-            {
-              "emoji": "🌤️",
-              "label": "conditions"
-            },
-            {
-              "emoji": "☁️",
-              "label": "cloudy"
-            },
-            {
-              "emoji": "💧",
-              "label": "wet"
-            },
             {
               "emoji": "🌧️",
               "label": "rain"
@@ -564,26 +490,6 @@
             {
               "emoji": "🌧️",
               "label": "rain"
-            },
-            {
-              "emoji": "🐱",
-              "label": "cat"
-            },
-            {
-              "emoji": "🔍",
-              "label": "observation"
-            },
-            {
-              "emoji": "🔮",
-              "label": "predict"
-            },
-            {
-              "emoji": "🔜",
-              "label": "future"
-            },
-            {
-              "emoji": "🌦️",
-              "label": "weather"
             }
           ],
           "caption": {
@@ -649,24 +555,12 @@
           "wordId": "CPP2-U9-SB-1137",
           "props": [
             {
-              "emoji": "🐱",
-              "label": "cat"
-            },
-            {
               "emoji": "🥛",
               "label": "glass"
             },
             {
-              "emoji": "💧",
-              "label": "water"
-            },
-            {
               "emoji": "🪑",
               "label": "table"
-            },
-            {
-              "emoji": "🧹",
-              "label": "floor"
             }
           ],
           "prompt": {
@@ -729,20 +623,6 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP2-U9-SB-1141",
-          "props": [
-            {
-              "emoji": "🌦️",
-              "label": "weather"
-            },
-            {
-              "emoji": "🌳🏠🚗",
-              "label": "things around us"
-            },
-            {
-              "emoji": "🌤️",
-              "label": "conditions"
-            }
-          ],
           "prompt": {
             "id": "c5q",
             "text": "Conditions means the weather and other things around us."
@@ -789,10 +669,6 @@
             {
               "emoji": "🌻🌳",
               "label": "garden"
-            },
-            {
-              "emoji": "🚶",
-              "label": "walk"
             },
             {
               "emoji": "👅",
@@ -861,14 +737,6 @@
             {
               "emoji": "🧪",
               "label": "experiment"
-            },
-            {
-              "emoji": "🎲",
-              "label": "game"
-            },
-            {
-              "emoji": "👫",
-              "label": "friends"
             }
           ],
           "prompt": {
@@ -935,10 +803,6 @@
         "id": "q",
         "text": "Ask your partner: What clues can help us predict the weather?",
         "props": [
-          {
-            "emoji": "🌦️",
-            "label": "weather"
-          },
           {
             "emoji": "🔎",
             "label": "clue"

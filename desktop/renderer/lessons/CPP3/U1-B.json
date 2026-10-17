@@ -249,12 +249,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
-      "props": [
-        {
-          "emoji": "🏘️",
-          "label": "neighbourhood"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -262,45 +256,15 @@
         },
         {
           "id": "l2",
-          "text": "Every neighbourhood has special people, games and even secrets.",
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "people"
-            },
-            {
-              "emoji": "🎮",
-              "label": "games"
-            },
-            {
-              "emoji": "🤫",
-              "label": "secrets"
-            }
-          ]
+          "text": "Every neighbourhood has special people, games and even secrets."
         },
         {
           "id": "l3",
-          "text": "Today we meet two friends in a park, and they find a big adventure.",
-          "props": [
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            },
-            {
-              "emoji": "🗺️",
-              "label": "adventure"
-            }
-          ]
+          "text": "Today we meet two friends in a park, and they find a big adventure."
         },
         {
           "id": "l4",
-          "text": "Listen carefully, and watch for the new words!",
-          "props": [
-            {
-              "emoji": "📝",
-              "label": "words"
-            }
-          ]
+          "text": "Listen carefully, and watch for the new words!"
         }
       ],
       "question": {
@@ -345,10 +309,6 @@
             {
               "emoji": "🙈🔎",
               "label": "hide-and-seek"
-            },
-            {
-              "emoji": "🎮",
-              "label": "game"
             }
           ],
           "caption": {
@@ -384,10 +344,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🌳",
-              "label": "oak tree"
-            },
             {
               "emoji": "🛤️",
               "label": "path"
@@ -429,14 +385,6 @@
             {
               "emoji": "🛤️",
               "label": "path"
-            },
-            {
-              "emoji": "🕳️",
-              "label": "cave"
-            },
-            {
-              "emoji": "🪧",
-              "label": "sign"
             },
             {
               "emoji": "🗺️",
@@ -481,14 +429,6 @@
               "label": "crowd"
             },
             {
-              "emoji": "⚽",
-              "label": "football"
-            },
-            {
-              "emoji": "🧑",
-              "label": "Sam"
-            },
-            {
               "emoji": "🏆",
               "label": "champion"
             },
@@ -527,32 +467,6 @@
             },
             {
               "who": "mia"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "👕👕",
-              "label": "team"
-            },
-            {
-              "emoji": "🏀⚽",
-              "label": "sport"
-            },
-            {
-              "emoji": "👥",
-              "label": "people"
-            },
-            {
-              "emoji": "🦸",
-              "label": "hero"
-            },
-            {
-              "emoji": "🤫",
-              "label": "secret"
-            },
-            {
-              "emoji": "🛤️",
-              "label": "path"
             }
           ],
           "caption": {
@@ -642,18 +556,6 @@
           },
           "props": [
             {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
-              "emoji": "🤫",
-              "label": "secret"
-            },
-            {
               "emoji": "🛤️",
               "label": "path"
             },
@@ -702,10 +604,6 @@
           },
           "props": [
             {
-              "emoji": "🎾",
-              "label": "tennis"
-            },
-            {
               "emoji": "🏞️",
               "label": "park"
             }
@@ -752,18 +650,6 @@
           },
           "props": [
             {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
-              "emoji": "🎮",
-              "label": "game"
-            },
-            {
               "emoji": "🏞️",
               "label": "park"
             }
@@ -788,20 +674,8 @@
           },
           "props": [
             {
-              "emoji": "⚽🏀",
-              "label": "sports"
-            },
-            {
-              "emoji": "👥",
-              "label": "people"
-            },
-            {
               "emoji": "👨‍👩‍👧",
               "label": "families"
-            },
-            {
-              "emoji": "👕👕",
-              "label": "team"
             }
           ],
           "options": [
@@ -825,14 +699,6 @@
             "text": "Leo ____ a brand new game for the park last summer. Nobody had ever played it before."
           },
           "props": [
-            {
-              "emoji": "🆕",
-              "label": "brand new"
-            },
-            {
-              "emoji": "🎮",
-              "label": "game"
-            },
             {
               "emoji": "🏞️",
               "label": "park"
@@ -912,37 +778,15 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Well done, explorers! You found the secret path and learned ten brilliant words.",
-          "props": [
-            {
-              "emoji": "🛤️",
-              "label": "path"
-            },
-            {
-              "emoji": "📝",
-              "label": "words"
-            }
-          ]
+          "text": "Well done, explorers! You found the secret path and learned ten brilliant words."
         },
         {
           "id": "l2",
           "text": "Remember, every neighbourhood has heroes, champions and new adventures waiting for you.",
           "props": [
             {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
-            },
-            {
-              "emoji": "🦸🦸",
-              "label": "heroes"
-            },
-            {
               "emoji": "🏆🏆",
               "label": "champions"
-            },
-            {
-              "emoji": "🗺️",
-              "label": "adventures"
             }
           ]
         }
@@ -954,13 +798,7 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "Write one thing you can explore in your neighbourhood.",
-          "props": [
-            {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
-            }
-          ]
+          "text": "Write one thing you can explore in your neighbourhood."
         },
         {
           "id": "e2",

@@ -246,14 +246,6 @@
           "label": "toy"
         },
         {
-          "emoji": "🎲",
-          "label": "games"
-        },
-        {
-          "emoji": "👫",
-          "label": "friends"
-        },
-        {
           "emoji": "📦",
           "label": "box"
         }
@@ -362,14 +354,6 @@
             {
               "emoji": "📦",
               "label": "box"
-            },
-            {
-              "emoji": "⭐",
-              "label": "special"
-            },
-            {
-              "emoji": "🧸📦🚫",
-              "label": "fit"
             }
           ],
           "caption": {
@@ -403,20 +387,6 @@
             },
             {
               "who": "mia"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "group"
-            },
-            {
-              "emoji": "🎲",
-              "label": "guessing game"
-            },
-            {
-              "emoji": "🧍",
-              "label": "alone"
             }
           ],
           "caption": {
@@ -456,18 +426,6 @@
             {
               "emoji": "🧸🧸",
               "label": "toys"
-            },
-            {
-              "emoji": "🪙🪙🪙",
-              "label": "collect"
-            },
-            {
-              "emoji": "🔨",
-              "label": "make"
-            },
-            {
-              "emoji": "🎲",
-              "label": "game"
             }
           ],
           "caption": {
@@ -492,20 +450,6 @@
           "characters": [
             {
               "who": "mia"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "🔨",
-              "label": "makes"
-            },
-            {
-              "emoji": "🎲",
-              "label": "game"
-            },
-            {
-              "emoji": "🧍",
-              "label": "on her own"
             }
           ],
           "caption": {
@@ -537,6 +481,10 @@
             {
               "emoji": "🎂",
               "label": "birthday"
+            },
+            {
+              "emoji": "📄",
+              "label": "paper"
             }
           ],
           "prompt": {
@@ -578,12 +526,6 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U5-SB-545",
-          "props": [
-            {
-              "emoji": "👥👥👥",
-              "label": "people"
-            }
-          ],
           "prompt": {
             "id": "c3q",
             "text": "Alone means with lots of other people around you."
@@ -648,10 +590,6 @@
               "label": "teddy bear"
             },
             {
-              "emoji": "👴",
-              "label": "grandad"
-            },
-            {
               "emoji": "🧸",
               "label": "toy"
             }
@@ -675,12 +613,6 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP1-U5-SB-550",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "hidden answer"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "In a guessing game, you try to find a hidden answer."
@@ -733,18 +665,6 @@
           "kind": "gap",
           "wordId": "CPP1-U5-SB-555",
           "props": [
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "🎲",
-              "label": "game"
-            },
             {
               "emoji": "📦",
               "label": "box"

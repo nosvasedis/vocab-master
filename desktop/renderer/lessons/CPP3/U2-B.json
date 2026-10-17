@@ -257,34 +257,18 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, I am Lingo, and I love cooking with my friends!",
-          "props": [
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            }
-          ]
+          "text": "Hello, I am Lingo, and I love cooking with my friends!"
         },
         {
           "id": "l2",
-          "text": "Today we are cooking a special meal in Jan's kitchen.",
-          "props": [
-            {
-              "emoji": "🍽️",
-              "label": "meal"
-            },
-            {
-              "emoji": "👧",
-              "label": "Jan"
-            }
-          ]
+          "text": "Today we are cooking a special meal in Jan's kitchen."
         },
         {
           "id": "l3",
           "text": "Every family has a favourite dish for special days.",
           "props": [
             {
-              "emoji": "👨👩👧",
+              "emoji": "👨‍👩‍👧",
               "label": "family"
             },
             {
@@ -344,14 +328,6 @@
           ],
           "props": [
             {
-              "emoji": "🎁",
-              "label": "surprise"
-            },
-            {
-              "emoji": "👵",
-              "label": "Grandma"
-            },
-            {
               "emoji": "🥕🥚🥛",
               "label": "ingredients"
             },
@@ -360,7 +336,7 @@
               "label": "list"
             },
             {
-              "emoji": "🚪🥫",
+              "emoji": "🗄️",
               "label": "cupboard"
             }
           ],
@@ -398,11 +374,7 @@
           ],
           "props": [
             {
-              "emoji": "🍲",
-              "label": "pot"
-            },
-            {
-              "emoji": "🚪🥫",
+              "emoji": "🗄️",
               "label": "cupboard"
             },
             {
@@ -460,14 +432,6 @@
             {
               "emoji": "🥣",
               "label": "mixture"
-            },
-            {
-              "emoji": "🍲",
-              "label": "pot"
-            },
-            {
-              "emoji": "🧂",
-              "label": "salty"
             }
           ],
           "caption": {
@@ -541,12 +505,6 @@
               "who": "dad"
             }
           ],
-          "props": [
-            {
-              "emoji": "🎁",
-              "label": "surprise"
-            }
-          ],
           "caption": {
             "id": "p5c",
             "text": "Grandma walked in. Everyone shouted, Surprise!"
@@ -578,7 +536,7 @@
           ],
           "props": [
             {
-              "emoji": "👨👩👧",
+              "emoji": "👨‍👩‍👧",
               "label": "family"
             },
             {
@@ -588,10 +546,6 @@
             {
               "emoji": "🎂",
               "label": "birthday"
-            },
-            {
-              "emoji": "🎉",
-              "label": "celebrate"
             }
           ],
           "caption": {
@@ -665,10 +619,6 @@
               "label": "recipe"
             },
             {
-              "emoji": "🥕🥚🥛",
-              "label": "food"
-            },
-            {
               "emoji": "🎂",
               "label": "cake"
             }
@@ -697,10 +647,6 @@
             {
               "emoji": "🐝",
               "label": "bee"
-            },
-            {
-              "emoji": "🌸🌸",
-              "label": "flowers"
             },
             {
               "emoji": "🍯",
@@ -833,10 +779,6 @@
             {
               "emoji": "🎂",
               "label": "cake"
-            },
-            {
-              "emoji": "✨",
-              "label": "pretty"
             }
           ],
           "prompt": {
@@ -861,10 +803,6 @@
             {
               "emoji": "🎉",
               "label": "party"
-            },
-            {
-              "emoji": "👵",
-              "label": "Grandma"
             }
           ],
           "prompt": {

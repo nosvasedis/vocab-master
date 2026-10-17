@@ -198,64 +198,30 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "home",
-      "props": [
-        {
-          "emoji": "⚡",
-          "label": "electricity"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, everyone! I am Lingo, and I am a very sleepy owl.",
-          "props": [
-            {
-              "emoji": "😴",
-              "label": "sleepy"
-            }
-          ]
+          "text": "Hello, everyone! I am Lingo, and I am a very sleepy owl."
         },
         {
           "id": "l2",
-          "text": "Yesterday the lights went out at my house, and everything stopped!",
-          "props": [
-            {
-              "emoji": "📅",
-              "label": "yesterday"
-            },
-            {
-              "emoji": "💡",
-              "label": "lights"
-            },
-            {
-              "emoji": "🏠",
-              "label": "house"
-            }
-          ]
+          "text": "Yesterday the lights went out at my house, and everything stopped!"
         },
         {
           "id": "l3",
           "text": "No fridge, no computer, no microwave. It was very quiet and very dark.",
           "props": [
             {
-              "emoji": "🚫🧊",
+              "emoji": "🧊",
               "label": "fridge"
             },
             {
-              "emoji": "🚫💻",
+              "emoji": "💻",
               "label": "computer"
             },
             {
-              "emoji": "🚫🍲",
+              "emoji": "🍲",
               "label": "microwave"
-            },
-            {
-              "emoji": "🔇",
-              "label": "quiet"
-            },
-            {
-              "emoji": "🌑",
-              "label": "dark"
             }
           ]
         },
@@ -263,10 +229,6 @@
           "id": "l4",
           "text": "Today we ask a big question: how important is electricity?",
           "props": [
-            {
-              "emoji": "❓",
-              "label": "question"
-            },
             {
               "emoji": "⚡",
               "label": "electricity"
@@ -309,24 +271,8 @@
               "label": "soup"
             },
             {
-              "emoji": "🍲",
-              "label": "micro-wave oven"
-            },
-            {
-              "emoji": "⚡",
-              "label": "power"
-            },
-            {
               "emoji": "💡",
               "label": "light bulb"
-            },
-            {
-              "emoji": "🤤",
-              "label": "hungry"
-            },
-            {
-              "emoji": "🥶",
-              "label": "cold"
             }
           ],
           "characters": [
@@ -362,10 +308,6 @@
           "id": "p2",
           "backdrop": "shop",
           "props": [
-            {
-              "emoji": "🏬",
-              "label": "electronics store"
-            },
             {
               "emoji": "🔌",
               "label": "charger"
@@ -417,10 +359,6 @@
           "backdrop": "garden",
           "props": [
             {
-              "emoji": "⚡",
-              "label": "energy"
-            },
-            {
               "emoji": "🛢️",
               "label": "oil"
             },
@@ -435,10 +373,6 @@
             {
               "emoji": "💨",
               "label": "wind"
-            },
-            {
-              "emoji": "🐷",
-              "label": "save"
             }
           ],
           "characters": [
@@ -507,7 +441,7 @@
           "wordId": "CPP3-U8-SB-1030",
           "props": [
             {
-              "emoji": "🧴",
+              "emoji": "🛍️",
               "label": "plastic"
             },
             {
@@ -662,10 +596,6 @@
             {
               "emoji": "🥛",
               "label": "glass"
-            },
-            {
-              "emoji": "📦",
-              "label": "object"
             }
           ],
           "prompt": {

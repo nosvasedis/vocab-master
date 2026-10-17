@@ -244,17 +244,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            },
-            {
-              "emoji": "🧑‍🏫",
-              "label": "teacher"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
@@ -263,14 +253,6 @@
             {
               "emoji": "🖌️",
               "label": "brush"
-            },
-            {
-              "emoji": "💭",
-              "label": "dream"
-            },
-            {
-              "emoji": "🎨",
-              "label": "paint"
             }
           ]
         },
@@ -279,32 +261,14 @@
           "text": "Today we meet Ling. She paints amazing pictures.",
           "props": [
             {
-              "emoji": "👧",
-              "label": "Ling"
-            },
-            {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🖼️🖼️",
-              "label": "pictures"
             }
           ]
         },
         {
           "id": "l4",
-          "text": "Let's learn new words and follow her story together.",
-          "props": [
-            {
-              "emoji": "🔤",
-              "label": "words"
-            },
-            {
-              "emoji": "📖",
-              "label": "story"
-            }
-          ]
+          "text": "Let's learn new words and follow her story together."
         }
       ],
       "question": {
@@ -351,16 +315,8 @@
               "label": "picture"
             },
             {
-              "emoji": "💭",
-              "label": "dream"
-            },
-            {
               "emoji": "🐴🪽",
               "label": "horse"
-            },
-            {
-              "emoji": "✏️",
-              "label": "sketch"
             }
           ],
           "caption": {
@@ -401,20 +357,8 @@
               "label": "pail"
             },
             {
-              "emoji": "🏖️",
-              "label": "beach"
-            },
-            {
               "emoji": "🧴",
               "label": "bottle"
-            },
-            {
-              "emoji": "❌",
-              "label": "empty"
-            },
-            {
-              "emoji": "👅💧",
-              "label": "thirsty"
             },
             {
               "emoji": "🏪",
@@ -456,20 +400,12 @@
           ],
           "props": [
             {
-              "emoji": "🌲",
-              "label": "forest"
-            },
-            {
               "emoji": "🌊",
               "label": "river"
             },
             {
               "emoji": "🛤️",
               "label": "path"
-            },
-            {
-              "emoji": "⚠️",
-              "label": "careful"
             }
           ],
           "caption": {
@@ -506,7 +442,7 @@
           ],
           "props": [
             {
-              "emoji": "🌀💨",
+              "emoji": "🪭",
               "label": "fan"
             },
             {
@@ -516,14 +452,6 @@
             {
               "emoji": "🍋",
               "label": "lemonade"
-            },
-            {
-              "emoji": "🥵",
-              "label": "hot"
-            },
-            {
-              "emoji": "🥛🔝",
-              "label": "full"
             }
           ],
           "caption": {
@@ -564,7 +492,7 @@
               "label": "party"
             },
             {
-              "emoji": "👕🦸",
+              "emoji": "🦸",
               "label": "costume"
             },
             {
@@ -710,20 +638,12 @@
           },
           "props": [
             {
-              "emoji": "👧",
-              "label": "Ling"
-            },
-            {
               "emoji": "🛤️",
               "label": "path"
             },
             {
               "emoji": "🌊",
               "label": "river"
-            },
-            {
-              "emoji": "⚠️",
-              "label": "careful"
             }
           ],
           "options": [
@@ -747,10 +667,6 @@
             "text": "Last night I had a strange ____ about a flying horse."
           },
           "props": [
-            {
-              "emoji": "🌙",
-              "label": "night"
-            },
             {
               "emoji": "🐴🪽",
               "label": "horse"
@@ -808,10 +724,6 @@
             {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🎨",
-              "label": "paints"
             }
           ],
           "options": [

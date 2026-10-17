@@ -253,19 +253,7 @@
           ],
           "props": [
             {
-              "emoji": "👥",
-              "label": "team"
-            },
-            {
-              "emoji": "🏁",
-              "label": "race"
-            },
-            {
-              "emoji": "🌳",
-              "label": "oak tree"
-            },
-            {
-              "emoji": "🏋️",
+              "emoji": "🏋️‍♀️",
               "label": "training"
             },
             {
@@ -309,7 +297,7 @@
           ],
           "props": [
             {
-              "emoji": "⛑️⛑️",
+              "emoji": "⛑️",
               "label": "helmet"
             },
             {
@@ -319,10 +307,6 @@
             {
               "emoji": "🐦",
               "label": "bird"
-            },
-            {
-              "emoji": "🦺",
-              "label": "safety"
             },
             {
               "emoji": "🏆",
@@ -415,13 +399,7 @@
           "explain": {
             "id": "c3e",
             "text": "Training is the practice we do to improve at a sport."
-          },
-          "props": [
-            {
-              "emoji": "⚽",
-              "label": "match"
-            }
-          ]
+          }
         },
         {
           "id": "c4",
@@ -441,21 +419,7 @@
           "explain": {
             "id": "c4e",
             "text": "To stay in shape means keeping your body fit and healthy."
-          },
-          "props": [
-            {
-              "emoji": "🧑",
-              "label": "Jerry"
-            },
-            {
-              "emoji": "🏃",
-              "label": "runs"
-            },
-            {
-              "emoji": "🥗",
-              "label": "healthy"
-            }
-          ]
+          }
         },
         {
           "id": "c5",
@@ -473,17 +437,7 @@
           "explain": {
             "id": "c5e",
             "text": "Everyone in a team works together towards the same goal."
-          },
-          "props": [
-            {
-              "emoji": "🧒🧒🧒",
-              "label": "people"
-            },
-            {
-              "emoji": "🤝",
-              "label": "together"
-            }
-          ]
+          }
         },
         {
           "id": "c6",
@@ -521,17 +475,7 @@
           "explain": {
             "id": "c7e",
             "text": "When you compete, you play or race against other people."
-          },
-          "props": [
-            {
-              "emoji": "🏁",
-              "label": "race"
-            },
-            {
-              "emoji": "⚽",
-              "label": "game"
-            }
-          ]
+          }
         },
         {
           "id": "c8",

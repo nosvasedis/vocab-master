@@ -200,21 +200,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "friends"
-            },
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            },
-            {
-              "emoji": "🧑‍🏫",
-              "label": "teacher"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
@@ -223,62 +209,20 @@
             {
               "emoji": "🏫",
               "label": "school"
-            },
-            {
-              "emoji": "👥",
-              "label": "people"
             }
           ]
         },
         {
           "id": "l3",
-          "text": "Who helps keep it clean, bright and happy?",
-          "props": [
-            {
-              "emoji": "🧹",
-              "label": "clean"
-            },
-            {
-              "emoji": "☀️",
-              "label": "bright"
-            },
-            {
-              "emoji": "😊",
-              "label": "happy"
-            }
-          ]
+          "text": "Who helps keep it clean, bright and happy?"
         },
         {
           "id": "l4",
-          "text": "Mia and Leo have a big question today.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
-              "emoji": "❓",
-              "label": "question"
-            }
-          ]
+          "text": "Mia and Leo have a big question today."
         },
         {
           "id": "l5",
-          "text": "How can we help our community?",
-          "props": [
-            {
-              "emoji": "🤝",
-              "label": "help"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "community"
-            }
-          ]
+          "text": "How can we help our community?"
         }
       ],
       "question": {
@@ -320,16 +264,6 @@
             "id": "c1q",
             "text": "We have a ____ about how we can help our community. We all talk and share ideas."
           },
-          "props": [
-            {
-              "emoji": "🏘️",
-              "label": "community"
-            },
-            {
-              "emoji": "🤝",
-              "label": "help"
-            }
-          ],
           "options": [
             "discussion",
             "chart",
@@ -350,12 +284,6 @@
             "id": "c2q",
             "text": "Point to the word for rows and boxes that show our chores."
           },
-          "props": [
-            {
-              "emoji": "🧹",
-              "label": "chores"
-            }
-          ],
           "options": [
             "CPP1-U6-SB-653",
             "CPP1-U6-SB-656",
@@ -375,12 +303,6 @@
             "id": "c3q",
             "text": "Listen: Can I suggest an idea? Which word did you hear?"
           },
-          "props": [
-            {
-              "emoji": "💭",
-              "label": "idea"
-            }
-          ],
           "options": [
             "CPP1-U6-SB-654",
             "CPP1-U6-SB-656",
@@ -400,20 +322,6 @@
             "id": "c4q",
             "text": "Dad ____ the floor every Saturday morning."
           },
-          "props": [
-            {
-              "emoji": "👨",
-              "label": "Dad"
-            },
-            {
-              "emoji": "🍳",
-              "label": "kitchen"
-            },
-            {
-              "emoji": "🧹",
-              "label": "floor"
-            }
-          ],
           "options": [
             "sweeps",
             "waters",
@@ -437,10 +345,6 @@
             {
               "emoji": "🛏️",
               "label": "bed"
-            },
-            {
-              "emoji": "✨",
-              "label": "tidy"
             }
           ],
           "options": [
@@ -483,16 +387,8 @@
           },
           "props": [
             {
-              "emoji": "👩",
-              "label": "Mum"
-            },
-            {
               "emoji": "🌱",
               "label": "plants"
-            },
-            {
-              "emoji": "☀️",
-              "label": "afternoon"
             }
           ],
           "options": [
@@ -514,20 +410,6 @@
             "id": "c8q",
             "text": "Point to the words for putting plates and forks on the table."
           },
-          "props": [
-            {
-              "emoji": "🍽️",
-              "label": "plates"
-            },
-            {
-              "emoji": "🍴",
-              "label": "forks"
-            },
-            {
-              "emoji": "🪑",
-              "label": "table"
-            }
-          ],
           "options": [
             "CPP1-U6-SB-657",
             "CPP1-U6-SB-654",
@@ -547,16 +429,6 @@
             "id": "c9q",
             "text": "Donate means to keep something just for yourself. True or false?"
           },
-          "props": [
-            {
-              "emoji": "🎁",
-              "label": "something"
-            },
-            {
-              "emoji": "🔒",
-              "label": "keep"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -581,12 +453,8 @@
               "label": "plastic"
             },
             {
-              "emoji": "🧴🧴",
+              "emoji": "🧴",
               "label": "bottle"
-            },
-            {
-              "emoji": "🥫",
-              "label": "cans"
             }
           ],
           "options": [
@@ -609,17 +477,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Time for a quick owl quiz! Show me your best helping words.",
-          "props": [
-            {
-              "emoji": "📝",
-              "label": "quiz"
-            },
-            {
-              "emoji": "🔤",
-              "label": "words"
-            }
-          ]
+          "text": "Time for a quick owl quiz! Show me your best helping words."
         }
       ]
     },
@@ -631,16 +489,8 @@
         "text": "Ask your partner: What chores do you do at home?",
         "props": [
           {
-            "emoji": "🧹",
-            "label": "chores"
-          },
-          {
             "emoji": "🏠",
             "label": "home"
-          },
-          {
-            "emoji": "👫",
-            "label": "partner"
           }
         ]
       },
@@ -664,11 +514,7 @@
             "label": "plants"
           },
           {
-            "emoji": "📅",
-            "label": "Sunday"
-          },
-          {
-            "emoji": "🧴🧴",
+            "emoji": "🧴",
             "label": "bottle"
           },
           {
@@ -691,32 +537,14 @@
           "text": "You can now talk about chores, charts and good ideas.",
           "props": [
             {
-              "emoji": "🧹",
-              "label": "chores"
-            },
-            {
               "emoji": "📊",
               "label": "charts"
-            },
-            {
-              "emoji": "💡",
-              "label": "ideas"
             }
           ]
         },
         {
           "id": "l3",
-          "text": "Next lesson, we read about helping our community together.",
-          "props": [
-            {
-              "emoji": "📖",
-              "label": "read"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "community"
-            }
-          ]
+          "text": "Next lesson, we read about helping our community together."
         }
       ],
       "badge": {
@@ -729,10 +557,6 @@
           "text": "Name one chore you can do at home.",
           "props": [
             {
-              "emoji": "🧹",
-              "label": "chore"
-            },
-            {
               "emoji": "🏠",
               "label": "home"
             }
@@ -740,17 +564,7 @@
         },
         {
           "id": "e2",
-          "text": "Which word means giving things to people who need them?",
-          "props": [
-            {
-              "emoji": "🎁",
-              "label": "things"
-            },
-            {
-              "emoji": "👥",
-              "label": "people"
-            }
-          ]
+          "text": "Which word means giving things to people who need them?"
         }
       ]
     }

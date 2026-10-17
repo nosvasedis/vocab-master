@@ -343,10 +343,6 @@
               "label": "winter"
             },
             {
-              "emoji": "❄️",
-              "label": "snow"
-            },
-            {
               "emoji": "🥣",
               "label": "breakfast"
             }
@@ -391,11 +387,11 @@
               "label": "reindeer"
             },
             {
-              "emoji": "🪵",
+              "emoji": "🦌",
               "label": "antler"
             },
             {
-              "emoji": "🧥",
+              "emoji": "🐻",
               "label": "fur"
             }
           ],
@@ -433,10 +429,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🕳️",
-              "label": "cave"
-            },
             {
               "emoji": "🦇",
               "label": "bat"
@@ -529,10 +521,6 @@
             {
               "emoji": "🔥",
               "label": "fire"
-            },
-            {
-              "emoji": "🤲",
-              "label": "hands"
             }
           ],
           "caption": {
@@ -614,7 +602,7 @@
               "label": "deer"
             },
             {
-              "emoji": "🪵",
+              "emoji": "🦌",
               "label": "antler"
             },
             {
@@ -743,10 +731,6 @@
           "wordId": "CPP1-U7-SB-764",
           "props": [
             {
-              "emoji": "👧",
-              "label": "Mila"
-            },
-            {
               "emoji": "🦇",
               "label": "bat"
             },
@@ -796,10 +780,6 @@
             {
               "emoji": "⛄",
               "label": "winter"
-            },
-            {
-              "emoji": "🟫",
-              "label": "ground"
             }
           ],
           "prompt": {

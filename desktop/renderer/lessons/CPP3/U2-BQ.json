@@ -224,30 +224,12 @@
         {
           "emoji": "👨‍👩‍👧",
           "label": "family"
-        },
-        {
-          "emoji": "👦",
-          "label": "Jan"
-        },
-        {
-          "emoji": "👧",
-          "label": "Mia"
-        },
-        {
-          "emoji": "🥣",
-          "label": "breakfast"
         }
       ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love food!",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love food!"
         },
         {
           "id": "l2",
@@ -336,10 +318,6 @@
             {
               "emoji": "🥦🥕",
               "label": "vegetables"
-            },
-            {
-              "emoji": "🥦",
-              "label": "vegetable"
             }
           ],
           "prompt": {
@@ -362,12 +340,6 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP3-U2-SB-166",
-          "props": [
-            {
-              "emoji": "🍬🍬",
-              "label": "sweets"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "Eating too many sweets every day is ____ for your body."
@@ -392,10 +364,6 @@
             {
               "emoji": "🥕🍎",
               "label": "food"
-            },
-            {
-              "emoji": "🧍",
-              "label": "body"
             }
           ],
           "prompt": {
@@ -438,20 +406,12 @@
           "wordId": "CPP3-U2-SB-161",
           "props": [
             {
-              "emoji": "🍎",
-              "label": "fruit"
-            },
-            {
               "emoji": "🥦🥕",
               "label": "vegetables"
             },
             {
               "emoji": "🥚",
               "label": "protein"
-            },
-            {
-              "emoji": "🥦",
-              "label": "vegetable"
             }
           ],
           "prompt": {
@@ -478,10 +438,6 @@
             {
               "emoji": "🍲",
               "label": "food"
-            },
-            {
-              "emoji": "👃💨",
-              "label": "smells bad"
             }
           ],
           "prompt": {

@@ -212,52 +212,20 @@
         },
         {
           "id": "l2",
-          "text": "Today we ask a big question about where we live.",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "question"
-            }
-          ]
+          "text": "Today we ask a big question about where we live."
         },
         {
           "id": "l3",
-          "text": "Every neighbourhood has special places and special helpers.",
-          "props": [
-            {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
-            },
-            {
-              "emoji": "🏥",
-              "label": "special places"
-            },
-            {
-              "emoji": "🧑‍🚒",
-              "label": "special helpers"
-            }
-          ]
+          "text": "Every neighbourhood has special places and special helpers."
         },
         {
           "id": "l4",
-          "text": "Let's explore together and find out more!",
-          "props": [
-            {
-              "emoji": "🔍",
-              "label": "explore"
-            }
-          ]
+          "text": "Let's explore together and find out more!"
         }
       ],
       "question": {
         "id": "q",
-        "text": "What is your favourite place in your neighbourhood?",
-        "props": [
-          {
-            "emoji": "⭐📍",
-            "label": "favourite place"
-          }
-        ]
+        "text": "What is your favourite place in your neighbourhood?"
       }
     },
     {
@@ -287,20 +255,6 @@
           "characters": [
             {
               "who": "mia"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
-            },
-            {
-              "emoji": "🗺️➡️",
-              "label": "directions"
-            },
-            {
-              "emoji": "🚉",
-              "label": "train station"
             }
           ],
           "caption": {
@@ -335,10 +289,6 @@
             {
               "emoji": "🚒🔥",
               "label": "fire station"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
             }
           ],
           "caption": {
@@ -372,16 +322,6 @@
           "id": "c1",
           "kind": "pickPicture",
           "wordId": "CPP2-U1-SB-1",
-          "props": [
-            {
-              "emoji": "🏠🏠",
-              "label": "houses"
-            },
-            {
-              "emoji": "🏙️",
-              "label": "streets"
-            }
-          ],
           "prompt": {
             "id": "c1q",
             "text": "Which word means the area where you live, with its houses and streets?"
@@ -402,12 +342,6 @@
           "id": "c2",
           "kind": "listen",
           "wordId": "CPP2-U1-SB-12",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            }
-          ],
           "prompt": {
             "id": "c2q",
             "text": "Listen to Lingo. Point to the word: train station."
@@ -428,12 +362,6 @@
           "id": "c3",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-2",
-          "props": [
-            {
-              "emoji": "💬",
-              "label": "discussion"
-            }
-          ],
           "prompt": {
             "id": "c3q",
             "text": "The class made some ____ so everyone knows how to behave."
@@ -453,12 +381,6 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP2-U1-SB-3",
-          "props": [
-            {
-              "emoji": "🌳🏪",
-              "label": "favourite places"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "Let's have a ____ about our favourite places."
@@ -478,12 +400,6 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP2-U1-SB-7",
-          "props": [
-            {
-              "emoji": "🗺️➡️",
-              "label": "directions"
-            }
-          ],
           "prompt": {
             "id": "c5q",
             "text": "Directions tell you how to get to a place."
@@ -526,10 +442,6 @@
             {
               "emoji": "🚒🚒",
               "label": "trucks"
-            },
-            {
-              "emoji": "🧑‍🚒",
-              "label": "helpers"
             }
           ],
           "prompt": {
@@ -551,16 +463,6 @@
           "id": "c8",
           "kind": "pickPicture",
           "wordId": "CPP2-U1-SB-10",
-          "props": [
-            {
-              "emoji": "🩺",
-              "label": "doctors"
-            },
-            {
-              "emoji": "🤒",
-              "label": "sick people"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "Which word names the place where doctors help sick people?"
@@ -582,10 +484,6 @@
           "kind": "gap",
           "wordId": "CPP2-U1-SB-11",
           "props": [
-            {
-              "emoji": "👩",
-              "label": "mom"
-            },
             {
               "emoji": "🏥",
               "label": "hospital"
@@ -669,7 +567,7 @@
           "text": "Next time, we will meet a security guard. Be ready!",
           "props": [
             {
-              "emoji": "💂",
+              "emoji": "👮",
               "label": "security guard"
             }
           ]

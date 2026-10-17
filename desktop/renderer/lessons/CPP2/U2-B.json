@@ -265,13 +265,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I'm Lingo, and I love celebrations.",
-          "props": [
-            {
-              "emoji": "🎉🎊",
-              "label": "celebrations"
-            }
-          ]
+          "text": "Hello, friends! I'm Lingo, and I love celebrations."
         },
         {
           "id": "l2",
@@ -280,14 +274,6 @@
             {
               "emoji": "🎂",
               "label": "Birthdays"
-            },
-            {
-              "emoji": "🎆",
-              "label": "New Year"
-            },
-            {
-              "emoji": "👰",
-              "label": "weddings"
             },
             {
               "emoji": "🏮",
@@ -299,10 +285,6 @@
           "id": "l3",
           "text": "On New Year's Eve, people have fancy parties and wear their best clothes.",
           "props": [
-            {
-              "emoji": "🧑🧑🧑",
-              "label": "people"
-            },
             {
               "emoji": "🥂🎉",
               "label": "parties"
@@ -320,10 +302,6 @@
             {
               "emoji": "🥂",
               "label": "party"
-            },
-            {
-              "emoji": "❓",
-              "label": "strange"
             }
           ]
         }
@@ -376,16 +354,8 @@
               "label": "diamond"
             },
             {
-              "emoji": "📿❌",
+              "emoji": "📿",
               "label": "necklace"
-            },
-            {
-              "emoji": "👩",
-              "label": "mum"
-            },
-            {
-              "emoji": "❓",
-              "label": "mystery"
             }
           ],
           "caption": {
@@ -423,28 +393,8 @@
           ],
           "props": [
             {
-              "emoji": "🏠",
-              "label": "house"
-            },
-            {
-              "emoji": "💡🚫",
-              "label": "lights"
-            },
-            {
-              "emoji": "🌑",
-              "label": "dark"
-            },
-            {
-              "emoji": "😨",
-              "label": "scared"
-            },
-            {
               "emoji": "🕵️",
               "label": "detectives"
-            },
-            {
-              "emoji": "💪",
-              "label": "brave"
             }
           ],
           "caption": {
@@ -480,16 +430,8 @@
           ],
           "props": [
             {
-              "emoji": "🔊",
-              "label": "noise"
-            },
-            {
               "emoji": "🦹",
               "label": "thief"
-            },
-            {
-              "emoji": "💡",
-              "label": "light"
             }
           ],
           "caption": {
@@ -527,16 +469,8 @@
           ],
           "props": [
             {
-              "emoji": "💡",
-              "label": "light"
-            },
-            {
               "emoji": "🕵️",
               "label": "detective"
-            },
-            {
-              "emoji": "❓",
-              "label": "mystery"
             },
             {
               "emoji": "🐱",
@@ -585,24 +519,8 @@
           ],
           "props": [
             {
-              "emoji": "❓✅",
-              "label": "mystery"
-            },
-            {
-              "emoji": "💡🚫",
-              "label": "lights"
-            },
-            {
               "emoji": "🛏️",
               "label": "bed"
-            },
-            {
-              "emoji": "📁",
-              "label": "case"
-            },
-            {
-              "emoji": "🎆",
-              "label": "New Year"
             },
             {
               "emoji": "🕵️",
@@ -647,14 +565,6 @@
             {
               "emoji": "🔍",
               "label": "clue"
-            },
-            {
-              "emoji": "🔍🔍",
-              "label": "clues"
-            },
-            {
-              "emoji": "❓❓",
-              "label": "mysteries"
             }
           ],
           "options": [
@@ -677,20 +587,6 @@
             "id": "c2q",
             "text": "If you are scared, you feel happy and calm."
           },
-          "props": [
-            {
-              "emoji": "😨",
-              "label": "scared"
-            },
-            {
-              "emoji": "😊",
-              "label": "happy"
-            },
-            {
-              "emoji": "😌",
-              "label": "calm"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -730,14 +626,6 @@
             "text": "Please ____ the light so the room is dark before you go to sleep."
           },
           "props": [
-            {
-              "emoji": "💡",
-              "label": "light"
-            },
-            {
-              "emoji": "🛏️",
-              "label": "sleep"
-            },
             {
               "emoji": "🚪",
               "label": "room"
@@ -806,10 +694,6 @@
             {
               "emoji": "📿",
               "label": "necklace"
-            },
-            {
-              "emoji": "❓",
-              "label": "mystery"
             }
           ],
           "options": [
@@ -832,12 +716,6 @@
             "id": "c8q",
             "text": "A mystery is something everyone can explain easily."
           },
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "mystery"
-            }
-          ],
           "options": [
             "True",
             "False"

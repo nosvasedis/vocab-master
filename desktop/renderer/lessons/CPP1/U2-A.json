@@ -253,10 +253,6 @@
         {
           "emoji": "🚪",
           "label": "room"
-        },
-        {
-          "emoji": "🏫",
-          "label": "school"
         }
       ],
       "lines": [
@@ -323,10 +319,6 @@
             {
               "emoji": "🪝🪝🪝",
               "label": "rack"
-            },
-            {
-              "emoji": "💧",
-              "label": "wet"
             }
           ],
           "caption": {
@@ -368,24 +360,12 @@
               "label": "art room"
             },
             {
-              "emoji": "🖌️",
-              "label": "paint"
-            },
-            {
-              "emoji": "🖍️",
-              "label": "draw"
-            },
-            {
               "emoji": "👩‍🍳",
               "label": "apron"
             },
             {
               "emoji": "👕👖",
               "label": "clothes"
-            },
-            {
-              "emoji": "🛡️",
-              "label": "protect"
             }
           ],
           "caption": {
@@ -427,16 +407,8 @@
               "label": "pencil"
             },
             {
-              "emoji": "🪨",
-              "label": "dull"
-            },
-            {
-              "emoji": "✏️➡️🔺",
+              "emoji": "✏️",
               "label": "pencil sharpener"
-            },
-            {
-              "emoji": "🖍️",
-              "label": "draw"
             }
           ],
           "caption": {
@@ -473,7 +445,7 @@
           ],
           "props": [
             {
-              "emoji": "🏃🏀",
+              "emoji": "🏋️",
               "label": "gym"
             },
             {
@@ -511,14 +483,6 @@
             {
               "emoji": "🎵",
               "label": "music room"
-            },
-            {
-              "emoji": "🎶",
-              "label": "music"
-            },
-            {
-              "emoji": "🎼",
-              "label": "song"
             }
           ],
           "caption": {
@@ -607,10 +571,6 @@
             {
               "emoji": "👕👖",
               "label": "clothes"
-            },
-            {
-              "emoji": "🖌️",
-              "label": "paint"
             }
           ],
           "options": [
@@ -640,14 +600,6 @@
             {
               "emoji": "👕👖",
               "label": "clothes"
-            },
-            {
-              "emoji": "🛡️",
-              "label": "protect"
-            },
-            {
-              "emoji": "🖌️",
-              "label": "paint"
             }
           ],
           "options": [
@@ -772,14 +724,6 @@
             {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🖍️",
-              "label": "draw"
-            },
-            {
-              "emoji": "🖌️",
-              "label": "paint"
             }
           ],
           "options": [

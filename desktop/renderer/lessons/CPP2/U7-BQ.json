@@ -223,55 +223,23 @@
           "text": "Hello, friends! I am Lingo, and I love owls, books and free time.",
           "props": [
             {
-              "emoji": "🦉",
-              "label": "owls"
-            },
-            {
               "emoji": "📚",
               "label": "books"
-            },
-            {
-              "emoji": "🕒",
-              "label": "free time"
             }
           ]
         },
         {
           "id": "l2",
-          "text": "Today we start a big question: why is free time important?",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "question"
-            },
-            {
-              "emoji": "🕒",
-              "label": "free time"
-            }
-          ]
+          "text": "Today we start a big question: why is free time important?"
         },
         {
           "id": "l3",
-          "text": "Sam loves video games.",
-          "props": [
-            {
-              "emoji": "👦",
-              "label": "Sam"
-            },
-            {
-              "emoji": "🎮",
-              "label": "video game"
-            }
-          ]
+          "text": "Sam loves video games."
         },
         {
           "id": "l4",
           "text": "Maya writes in her diary every night.",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
             {
               "emoji": "📔",
               "label": "diary"
@@ -291,13 +259,7 @@
       ],
       "question": {
         "id": "q",
-        "text": "What do you like to do in your free time?",
-        "props": [
-          {
-            "emoji": "🕒",
-            "label": "free time"
-          }
-        ]
+        "text": "What do you like to do in your free time?"
       }
     },
     {
@@ -337,10 +299,6 @@
           ],
           "answer": 0,
           "props": [
-            {
-              "emoji": "📖",
-              "label": "reading"
-            },
             {
               "emoji": "📚",
               "label": "books"
@@ -389,14 +347,6 @@
           "answer": 0,
           "props": [
             {
-              "emoji": "🏃",
-              "label": "activity"
-            },
-            {
-              "emoji": "🏊",
-              "label": "swimming"
-            },
-            {
               "emoji": "🎨",
               "label": "drawing"
             }
@@ -421,16 +371,6 @@
             "baseball"
           ],
           "answer": 1,
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "class"
-            },
-            {
-              "emoji": "🎨🎸",
-              "label": "hobbies"
-            }
-          ],
           "explain": {
             "id": "c4e",
             "text": "A survey asks questions to find out what many people do."
@@ -455,10 +395,6 @@
             {
               "emoji": "🛁",
               "label": "bath"
-            },
-            {
-              "emoji": "🔥",
-              "label": "warm"
             }
           ],
           "explain": {
@@ -502,10 +438,6 @@
             {
               "emoji": "🎬",
               "label": "movie"
-            },
-            {
-              "emoji": "🍳",
-              "label": "cook"
             },
             {
               "emoji": "🍽️",
@@ -554,16 +486,8 @@
           "answer": 1,
           "props": [
             {
-              "emoji": "👨",
-              "label": "dad"
-            },
-            {
               "emoji": "🍝",
               "label": "pasta"
-            },
-            {
-              "emoji": "📅",
-              "label": "Sundays"
             }
           ],
           "explain": {
@@ -584,16 +508,6 @@
             "False"
           ],
           "answer": 1,
-          "props": [
-            {
-              "emoji": "💪",
-              "label": "exercise"
-            },
-            {
-              "emoji": "😴",
-              "label": "sleep"
-            }
-          ],
           "explain": {
             "id": "c10e",
             "text": "To exercise means to move your body, like running or jumping."
@@ -645,13 +559,7 @@
         },
         {
           "id": "l3",
-          "text": "Next time, we will explore Ancient Egypt. See you soon!",
-          "props": [
-            {
-              "emoji": "🏺",
-              "label": "Ancient Egypt"
-            }
-          ]
+          "text": "Next time, we will explore Ancient Egypt. See you soon!"
         }
       ],
       "badge": {

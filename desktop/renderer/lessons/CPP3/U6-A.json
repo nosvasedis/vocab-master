@@ -257,35 +257,15 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
-      "props": [
-        {
-          "emoji": "⚽🏀🎾",
-          "label": "sport"
-        },
-        {
-          "emoji": "🧑‍🤝‍🧑",
-          "label": "people"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love sport!",
-          "props": [
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love sport!"
         },
         {
           "id": "l2",
           "text": "Every day, people around the world play sport in parks, pools and playgrounds.",
           "props": [
-            {
-              "emoji": "🌍",
-              "label": "world"
-            },
             {
               "emoji": "🏊",
               "label": "pool"
@@ -301,10 +281,6 @@
           "text": "Some people play sport for fun. Some people play sport to become champions.",
           "props": [
             {
-              "emoji": "🎉",
-              "label": "fun"
-            },
-            {
               "emoji": "🏆",
               "label": "champion"
             }
@@ -312,17 +288,7 @@
         },
         {
           "id": "l4",
-          "text": "Today we will meet two friends from the park and learn new sport words.",
-          "props": [
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            },
-            {
-              "emoji": "🔤",
-              "label": "words"
-            }
-          ]
+          "text": "Today we will meet two friends from the park and learn new sport words."
         }
       ],
       "question": {
@@ -365,28 +331,16 @@
           ],
           "props": [
             {
-              "emoji": "☀️",
-              "label": "morning"
-            },
-            {
               "emoji": "🏋️‍♀️",
               "label": "training"
             },
             {
-              "emoji": "🤸‍♀️",
-              "label": "gymnast"
-            },
-            {
-              "emoji": "🏃‍♀️💪",
+              "emoji": "🏃‍♀️",
               "label": "athlete"
             },
             {
               "emoji": "🤸‍♀️🤸‍♂️",
               "label": "gymnastics"
-            },
-            {
-              "emoji": "📅",
-              "label": "week"
             }
           ],
           "caption": {
@@ -427,22 +381,6 @@
             {
               "emoji": "🏃‍♂️💨",
               "label": "sprint"
-            },
-            {
-              "emoji": "🏃‍♀️🤸‍♂️",
-              "label": "exercise"
-            },
-            {
-              "emoji": "📅🔁",
-              "label": "regularly"
-            },
-            {
-              "emoji": "☀️",
-              "label": "morning"
-            },
-            {
-              "emoji": "💪",
-              "label": "strong"
             }
           ],
           "caption": {
@@ -482,22 +420,6 @@
             {
               "emoji": "🏋️‍♀️",
               "label": "training"
-            },
-            {
-              "emoji": "📋",
-              "label": "plan"
-            },
-            {
-              "emoji": "1️⃣2️⃣3️⃣",
-              "label": "order"
-            },
-            {
-              "emoji": "🔴🔵🔴🔵",
-              "label": "sequence"
-            },
-            {
-              "emoji": "🏆",
-              "label": "competition"
             }
           ],
           "caption": {
@@ -530,28 +452,6 @@
             },
             {
               "who": "sam"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "🤸‍♀️",
-              "label": "jump"
-            },
-            {
-              "emoji": "🔄",
-              "label": "turn"
-            },
-            {
-              "emoji": "🦩",
-              "label": "balance"
-            },
-            {
-              "emoji": "🦶",
-              "label": "land"
-            },
-            {
-              "emoji": "😊",
-              "label": "smile"
             }
           ],
           "caption": {
@@ -589,23 +489,11 @@
               "label": "crowd"
             },
             {
-              "emoji": "🏆",
-              "label": "competition"
-            },
-            {
               "emoji": "🤸‍♀️🤸‍♂️",
               "label": "gymnastics"
             },
             {
-              "emoji": "🤸‍♀️🔁",
-              "label": "routine"
-            },
-            {
-              "emoji": "🦵",
-              "label": "legs"
-            },
-            {
-              "emoji": "🥉",
+              "emoji": "🥇",
               "label": "medal"
             }
           ],
@@ -643,24 +531,12 @@
           ],
           "props": [
             {
-              "emoji": "😊",
-              "label": "smile"
-            },
-            {
-              "emoji": "🥉",
+              "emoji": "🥇",
               "label": "medal"
             },
             {
-              "emoji": "🏋️‍♀️📅",
-              "label": "training"
-            },
-            {
               "emoji": "🏋️‍♀️",
-              "label": "train"
-            },
-            {
-              "emoji": "📅",
-              "label": "Saturday"
+              "label": "training"
             }
           ],
           "caption": {
@@ -738,10 +614,6 @@
             {
               "emoji": "🏋️‍♀️",
               "label": "training"
-            },
-            {
-              "emoji": "👣",
-              "label": "steps"
             }
           ],
           "prompt": {
@@ -764,24 +636,6 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-797",
-          "props": [
-            {
-              "emoji": "💃",
-              "label": "dance"
-            },
-            {
-              "emoji": "🤸‍♀️",
-              "label": "jump"
-            },
-            {
-              "emoji": "🔄",
-              "label": "spin"
-            },
-            {
-              "emoji": "🦶",
-              "label": "land"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "The dance has a fixed ____ of moves: jump, spin, then land."
@@ -804,20 +658,8 @@
           "wordId": "CPP3-U6-SB-803",
           "props": [
             {
-              "emoji": "🏃‍♀️💪",
+              "emoji": "🏃‍♀️",
               "label": "athlete"
-            },
-            {
-              "emoji": "🏋️‍♀️",
-              "label": "train"
-            },
-            {
-              "emoji": "🦾",
-              "label": "strong"
-            },
-            {
-              "emoji": "📅",
-              "label": "year"
             }
           ],
           "prompt": {
@@ -858,20 +700,6 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP3-U6-SB-836",
-          "props": [
-            {
-              "emoji": "💪",
-              "label": "fit"
-            },
-            {
-              "emoji": "🦾",
-              "label": "strong"
-            },
-            {
-              "emoji": "📅",
-              "label": "week"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "To stay fit and strong, you should ____ three times a week."
@@ -936,14 +764,6 @@
             {
               "emoji": "🏃‍♂️💨",
               "label": "sprint"
-            },
-            {
-              "emoji": "🏃‍♂️🏃‍♂️🏃‍♂️",
-              "label": "marathon"
-            },
-            {
-              "emoji": "🏁",
-              "label": "race"
             }
           ],
           "prompt": {

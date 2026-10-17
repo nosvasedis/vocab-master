@@ -241,10 +241,6 @@
         {
           "emoji": "🌾🌾",
           "label": "field"
-        },
-        {
-          "emoji": "1️⃣➡️2️⃣",
-          "label": "step"
         }
       ],
       "lines": [
@@ -305,10 +301,6 @@
           ],
           "props": [
             {
-              "emoji": "🟩🌾🌾",
-              "label": "field"
-            },
-            {
               "emoji": "🌾",
               "label": "wheat"
             },
@@ -367,7 +359,7 @@
               "label": "salt"
             },
             {
-              "emoji": "🥣💧",
+              "emoji": "🥣",
               "label": "dough"
             }
           ],
@@ -405,7 +397,7 @@
           ],
           "props": [
             {
-              "emoji": "🥣💧",
+              "emoji": "🥣",
               "label": "dough"
             },
             {
@@ -415,10 +407,6 @@
             {
               "emoji": "☁️",
               "label": "cloud"
-            },
-            {
-              "emoji": "🔥",
-              "label": "oven"
             }
           ],
           "caption": {
@@ -459,7 +447,7 @@
               "label": "ant"
             },
             {
-              "emoji": "🟡🟡🟡",
+              "emoji": "🌾",
               "label": "grain"
             },
             {
@@ -514,10 +502,6 @@
           ],
           "props": [
             {
-              "emoji": "🔥",
-              "label": "oven"
-            },
-            {
               "emoji": "⏲️",
               "label": "timer"
             },
@@ -532,10 +516,6 @@
             {
               "emoji": "🐜",
               "label": "ant"
-            },
-            {
-              "emoji": "🔸",
-              "label": "crumb"
             }
           ],
           "caption": {
@@ -625,10 +605,6 @@
             {
               "emoji": "🥯🥯",
               "label": "buns"
-            },
-            {
-              "emoji": "🔥",
-              "label": "oven"
             }
           ],
           "prompt": {
@@ -707,14 +683,6 @@
             {
               "emoji": "🐜",
               "label": "ant"
-            },
-            {
-              "emoji": "🌊",
-              "label": "sea"
-            },
-            {
-              "emoji": "🌳",
-              "label": "land"
             }
           ],
           "prompt": {
@@ -821,10 +789,6 @@
             {
               "emoji": "🐶",
               "label": "dog"
-            },
-            {
-              "emoji": "😴",
-              "label": "sleeping"
             }
           ],
           "prompt": {

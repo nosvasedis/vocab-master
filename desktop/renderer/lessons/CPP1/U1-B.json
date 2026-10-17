@@ -265,7 +265,7 @@
           "label": "bedtime"
         },
         {
-          "emoji": "👨👩👧",
+          "emoji": "👨‍👩‍👧",
           "label": "family"
         }
       ],
@@ -276,13 +276,7 @@
         },
         {
           "id": "l2",
-          "text": "Today we visit Timmy at bedtime.",
-          "props": [
-            {
-              "emoji": "🧒",
-              "label": "Timmy"
-            }
-          ]
+          "text": "Today we visit Timmy at bedtime."
         },
         {
           "id": "l3",
@@ -418,14 +412,6 @@
             {
               "emoji": "🥛",
               "label": "milk"
-            },
-            {
-              "emoji": "🔥",
-              "label": "warm"
-            },
-            {
-              "emoji": "😴",
-              "label": "sleep"
             }
           ],
           "caption": {
@@ -456,10 +442,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🛏️🚪",
-              "label": "bedroom"
-            },
             {
               "emoji": "🧸🐯",
               "label": "toy tiger"
@@ -499,16 +481,8 @@
           ],
           "props": [
             {
-              "emoji": "📖",
-              "label": "story"
-            },
-            {
               "emoji": "👸",
               "label": "princess"
-            },
-            {
-              "emoji": "📅",
-              "label": "tomorrow"
             }
           ],
           "caption": {
@@ -546,10 +520,6 @@
             "text": "My mum's sister is my ____."
           },
           "props": [
-            {
-              "emoji": "👩",
-              "label": "mum"
-            },
             {
               "emoji": "👧",
               "label": "sister"
@@ -635,12 +605,6 @@
             "id": "c5q",
             "text": "Good night! My eyes are closing. I want to ____ now."
           },
-          "props": [
-            {
-              "emoji": "🌙",
-              "label": "night"
-            }
-          ],
           "options": [
             "glue",
             "sleep",
@@ -661,12 +625,6 @@
             "id": "c6q",
             "text": "It is late and I am too tired to talk. Time to ____."
           },
-          "props": [
-            {
-              "emoji": "🕙",
-              "label": "late"
-            }
-          ],
           "options": [
             "tell a story",
             "spend time",
@@ -717,16 +675,6 @@
             "id": "c8q",
             "text": "When you miss someone, you feel happy because they are not here. True or false?"
           },
-          "props": [
-            {
-              "emoji": "👩",
-              "label": "someone"
-            },
-            {
-              "emoji": "😊",
-              "label": "happy"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -765,16 +713,6 @@
             "id": "c10q",
             "text": "It is nine o'clock at night. I go to sleep now. It is ____."
           },
-          "props": [
-            {
-              "emoji": "🕘",
-              "label": "nine o'clock"
-            },
-            {
-              "emoji": "🌙",
-              "label": "night"
-            }
-          ],
           "options": [
             "bedtime",
             "bedroom",

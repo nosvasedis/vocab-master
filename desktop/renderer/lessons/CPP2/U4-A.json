@@ -342,20 +342,12 @@
           "backdrop": "mountain",
           "props": [
             {
-              "emoji": "⛰️",
-              "label": "mountain"
-            },
-            {
               "emoji": "❄️",
               "label": "snow"
             },
             {
               "emoji": "☀️",
               "label": "summer"
-            },
-            {
-              "emoji": "🧊➡️💧",
-              "label": "melts"
             },
             {
               "emoji": "💧",
@@ -396,10 +388,6 @@
           "backdrop": "snow",
           "props": [
             {
-              "emoji": "❄️",
-              "label": "snow"
-            },
-            {
               "emoji": "⛰️",
               "label": "hill"
             },
@@ -414,10 +402,6 @@
             {
               "emoji": "🌊",
               "label": "river"
-            },
-            {
-              "emoji": "⬇️",
-              "label": "flows down"
             }
           ],
           "characters": [
@@ -453,23 +437,11 @@
           "backdrop": "street",
           "props": [
             {
-              "emoji": "🌍💥",
-              "label": "earthquake"
-            },
-            {
-              "emoji": "🌱",
-              "label": "ground"
-            },
-            {
-              "emoji": "↔️",
-              "label": "shaking"
-            },
-            {
               "emoji": "🌍",
               "label": "earth"
             },
             {
-              "emoji": "🟫",
+              "emoji": "🌍",
               "label": "crust"
             },
             {
@@ -521,28 +493,12 @@
           "backdrop": "volcano",
           "props": [
             {
-              "emoji": "🌋",
-              "label": "volcano"
-            },
-            {
-              "emoji": "💥",
-              "label": "erupts"
-            },
-            {
               "emoji": "🔥",
               "label": "lava"
             },
             {
               "emoji": "🌫️",
               "label": "ash"
-            },
-            {
-              "emoji": "☁️",
-              "label": "sky"
-            },
-            {
-              "emoji": "➡️",
-              "label": "flows"
             },
             {
               "emoji": "🏖️",
@@ -697,10 +653,6 @@
             {
               "emoji": "💧",
               "label": "liquid"
-            },
-            {
-              "emoji": "🔥",
-              "label": "lava"
             }
           ],
           "prompt": {
@@ -725,10 +677,6 @@
             {
               "emoji": "🌍",
               "label": "earth"
-            },
-            {
-              "emoji": "🦶",
-              "label": "feet"
             }
           ],
           "prompt": {
@@ -799,10 +747,6 @@
             {
               "emoji": "❄️",
               "label": "snow"
-            },
-            {
-              "emoji": "🌡️",
-              "label": "hot"
             }
           ],
           "prompt": {
@@ -939,14 +883,6 @@
             {
               "emoji": "🌊",
               "label": "river"
-            },
-            {
-              "emoji": "🌍💥",
-              "label": "earthquakes"
-            },
-            {
-              "emoji": "🌋",
-              "label": "volcanoes"
             }
           ],
           "text": "You learned words for snow, rivers, earthquakes and volcanoes."

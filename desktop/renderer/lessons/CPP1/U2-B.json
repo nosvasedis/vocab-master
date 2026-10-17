@@ -272,14 +272,6 @@
         {
           "emoji": "📚",
           "label": "books"
-        },
-        {
-          "emoji": "👧👦",
-          "label": "friends"
-        },
-        {
-          "emoji": "💡",
-          "label": "ideas"
         }
       ],
       "lines": [
@@ -346,10 +338,6 @@
             {
               "emoji": "🎒",
               "label": "bag"
-            },
-            {
-              "emoji": "🔵",
-              "label": "blue"
             }
           ],
           "caption": {
@@ -387,14 +375,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "📚🏛️",
-              "label": "library"
-            },
-            {
-              "emoji": "📖",
-              "label": "book"
-            },
             {
               "emoji": "🏷️",
               "label": "title"
@@ -446,16 +426,12 @@
           ],
           "props": [
             {
-              "emoji": "🖼️🖼️",
+              "emoji": "🖼️",
               "label": "picture"
             },
             {
               "emoji": "📖",
               "label": "book"
-            },
-            {
-              "emoji": "🌈",
-              "label": "bright"
             }
           ],
           "caption": {
@@ -653,16 +629,6 @@
           "id": "c3",
           "kind": "pickPicture",
           "wordId": "CPP1-U2-SB-217",
-          "props": [
-            {
-              "emoji": "📚",
-              "label": "books"
-            },
-            {
-              "emoji": "🏫",
-              "label": "school"
-            }
-          ],
           "prompt": {
             "id": "c3q",
             "text": "Find the picture: the bag you carry your books in to school."
@@ -683,12 +649,6 @@
           "id": "c4",
           "kind": "listen",
           "wordId": "CPP1-U2-SB-214",
-          "props": [
-            {
-              "emoji": "📚",
-              "label": "books"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "Listen and choose: library."
@@ -786,12 +746,6 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U2-SB-231",
-          "props": [
-            {
-              "emoji": "🏞️",
-              "label": "park"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "I am so happy. What a ____ day!"
@@ -839,16 +793,6 @@
           "id": "c10",
           "kind": "pickPicture",
           "wordId": "CPP1-U2-SB-224",
-          "props": [
-            {
-              "emoji": "🍞🍞",
-              "label": "bread"
-            },
-            {
-              "emoji": "🍎🍌",
-              "label": "food"
-            }
-          ],
           "prompt": {
             "id": "c10q",
             "text": "Find the picture: two slices of bread with food inside."

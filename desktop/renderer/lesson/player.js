@@ -11,6 +11,7 @@ import { createStage } from "./stage.js";
 import { createMascot } from "./mascot.js";
 import { narrate, stopAll, setNarration } from "./narrator.js";
 import { setCalm, rise, pop, award } from "./motion.js";
+import { createPopper, matchProps, splitToken } from "./wordpop.js";
 import hook from "./scenes/hook.js";
 import reveal from "./scenes/reveal.js";
 import story from "./scenes/story.js";
@@ -126,13 +127,32 @@ export function openPlayer(o) {
       setPose: (p) => m.setPose(p),
       level: (v) => m.level(v),
     },
-    /** Karaoke HTML: every word a .kw span; focus words .fw (tappable); "____" drawn as a gap. */
-    karaoke(text, { gaps = false } = {}) {
-      return String(text || "").split(/(\s+)/).map((part) => {
+    /**
+     * Karaoke HTML: every word a .kw span; focus words .fw (tappable); "____" drawn as a gap.
+     * `props` ({emoji,label}): each mentioned thing gets its picture right after its word (.pw) and pops up
+     * when the voice reaches it. `focusPics`: focus words pop their lesson picture too (story / warm-up / quiz).
+     */
+    karaoke(text, { gaps = false, props = [], focusPics = false } = {}) {
+      const parts = String(text || "").split(/(\s+)/);
+      const tokens = parts.filter((x) => x && !/^\s+$/.test(x));
+      const matched = matchProps(tokens, props);
+      const usedFocus = new Set();
+      let focusAdded = 0;
+      let t = -1;
+      return parts.map((part) => {
         if (!part || /^\s+$/.test(part)) return part;
+        t++;
         if (gaps && /_{2,}/.test(part)) return `<span class="kw gap">${esc(part.replace(/_{2,}/, "      ")).replace(/ /g, "&nbsp;")}</span>`;
         const w = markWord(part);
-        return w ? `<span class="kw fw" data-word="${esc(w.english)}">${esc(part)}</span>` : `<span class="kw">${esc(part)}</span>`;
+        let pic = matched.get(t)?.emoji || "";
+        // New words pop their picture too — only things (nouns), and never more than two pictures in a line.
+        if (!pic && focusPics && w?.emoji && /^n|^n.|noun/i.test(String(w.type || "")) && !usedFocus.has(w.id) && matched.size + focusAdded < 2) { pic = w.emoji; focusAdded++; }
+        if (pic && w) usedFocus.add(w.id);
+        const cls = `kw${w ? " fw" : ""}${pic ? " pw" : ""}`;
+        const data = `${w ? ` data-word="${esc(w.english)}"` : ""}${pic ? ` data-pop="${esc(pic)}"` : ""}`;
+        if (!pic) return `<span class="${cls}"${data}>${esc(part)}</span>`;
+        const { lead, core, trail } = splitToken(part);
+        return `<span class="${cls}"${data}>${esc(lead)}${esc(core)}<span class="pw-pic" aria-hidden="true">${o.picture(pic) || esc(pic)}</span>${esc(trail)}</span>`;
       }).join("");
     },
     async say(line, { sceneId, key, el = null, who } = {}) {
@@ -150,9 +170,9 @@ export function openPlayer(o) {
       });
       if (lingo) m.level(0);
     },
-    async speakBubble(line, { sceneId } = {}) {
+    async speakBubble(line, { sceneId, props = [], focusPics = true } = {}) {
       bubble.hidden = false;
-      bubble.innerHTML = `<p>${ctx.karaoke(line.text)}</p>`;
+      bubble.innerHTML = `<p>${ctx.karaoke(line.text, { props: [...(line.props || []), ...props], focusPics })}</p>`;
       bubble.querySelectorAll(".fw").forEach((f) => f.addEventListener("click", () => ctx.sayWordText(f.dataset.word)));
       pop(bubble, { scale: 0.6 });
       await ctx.say(line, { sceneId, el: bubble.querySelector("p") });
@@ -184,6 +204,8 @@ export function openPlayer(o) {
     setKeyCapture(fn) { P.keyCapture = fn; },
   };
   P.ctx = ctx;
+  P.popper = createPopper({ stageEl: stage.el, picFit: ctx.picFit });
+  P.popper.watch(stage.el);
 
   // Toolbar
   root.addEventListener("click", (e) => {
@@ -264,6 +286,7 @@ async function goTo(sceneIdx, step, dir = 1) {
   P.step = Math.max(0, Math.min(step, P.current.steps - 1));
   P.keyCapture = null;
   stopAll();
+  P.popper?.clear();
   renderMap();
   const seq = ++P.seq;
   let res;
@@ -297,6 +320,7 @@ function finish() {
   P.finished = true;
   P.seq++;
   stopAll();
+  P.popper?.clear();
   const { ctx, o } = P;
   ctx.clearBubble();
   ctx.mascot.place("left");
@@ -364,6 +388,7 @@ export function closePlayer() {
   const { root, stage, o } = P;
   P.current?.destroy?.();
   stopAll();
+  P.popper?.destroy();
   audioSettings.tts = P.savedTts;
   setNarration(true);
   window.removeEventListener("keydown", onKey, true);

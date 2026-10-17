@@ -208,41 +208,15 @@
         },
         {
           "id": "l2",
-          "text": "Today we begin a new unit.",
-          "props": [
-            {
-              "emoji": "📚",
-              "label": "unit"
-            }
-          ]
+          "text": "Today we begin a new unit."
         },
         {
           "id": "l3",
-          "text": "Our Big Question is: What is imagination?",
-          "props": [
-            {
-              "emoji": "💭",
-              "label": "imagination"
-            }
-          ]
+          "text": "Our Big Question is: What is imagination?"
         },
         {
           "id": "l4",
-          "text": "Imagination helps us make art and stories.",
-          "props": [
-            {
-              "emoji": "💭",
-              "label": "imagination"
-            },
-            {
-              "emoji": "🎨",
-              "label": "art"
-            },
-            {
-              "emoji": "📖",
-              "label": "stories"
-            }
-          ]
+          "text": "Imagination helps us make art and stories."
         },
         {
           "id": "l5",
@@ -333,14 +307,6 @@
               "label": "camera"
             },
             {
-              "emoji": "🖼️",
-              "label": "painting"
-            },
-            {
-              "emoji": "💭",
-              "label": "imagination"
-            },
-            {
               "emoji": "🏺",
               "label": "clay"
             },
@@ -428,10 +394,6 @@
             {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🖌️",
-              "label": "paint"
             }
           ],
           "options": [

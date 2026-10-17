@@ -292,10 +292,6 @@
             {
               "emoji": "🤖",
               "label": "robot"
-            },
-            {
-              "emoji": "❌",
-              "label": "broken"
             }
           ],
           "caption": {
@@ -387,10 +383,6 @@
             {
               "emoji": "📱",
               "label": "tablet"
-            },
-            {
-              "emoji": "⬇️",
-              "label": "drop"
             }
           ],
           "caption": {
@@ -424,20 +416,6 @@
             },
             {
               "who": "caren"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "💭",
-              "label": "imagination"
-            },
-            {
-              "emoji": "💡",
-              "label": "idea"
-            },
-            {
-              "emoji": "🌟",
-              "label": "brilliant"
             }
           ],
           "caption": {
@@ -633,12 +611,6 @@
             "id": "c6q",
             "text": "To drop something means to pick it up carefully."
           },
-          "props": [
-            {
-              "emoji": "🥚⬇️",
-              "label": "drop"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -657,16 +629,6 @@
             "id": "c7q",
             "text": "Caren uses her ____ to make up new stories."
           },
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Caren"
-            },
-            {
-              "emoji": "📖",
-              "label": "stories"
-            }
-          ],
           "options": [
             "imagination",
             "cable",

@@ -233,40 +233,16 @@
         {
           "emoji": "👕🧥🧣",
           "label": "clothes"
-        },
-        {
-          "emoji": "☀️🌧️❄️",
-          "label": "weather"
         }
       ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, the owl. Hoo, hoo!",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, the owl. Hoo, hoo!"
         },
         {
           "id": "l2",
-          "text": "Some days are sunny and warm. Some days are cold and wet!",
-          "props": [
-            {
-              "emoji": "☀️",
-              "label": "sunny"
-            },
-            {
-              "emoji": "🥶",
-              "label": "cold"
-            },
-            {
-              "emoji": "💧",
-              "label": "wet"
-            }
-          ]
+          "text": "Some days are sunny and warm. Some days are cold and wet!"
         },
         {
           "id": "l3",
@@ -274,17 +250,7 @@
         },
         {
           "id": "l4",
-          "text": "Today we meet Eleni and her friend Nasreddin. Let's listen!",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Eleni"
-            },
-            {
-              "emoji": "🧔",
-              "label": "Nasreddin"
-            }
-          ]
+          "text": "Today we meet Eleni and her friend Nasreddin. Let's listen!"
         }
       ],
       "question": {
@@ -333,10 +299,6 @@
             {
               "emoji": "🧥",
               "label": "jacket"
-            },
-            {
-              "emoji": "🥶",
-              "label": "cold"
             }
           ],
           "caption": {
@@ -412,14 +374,6 @@
           ],
           "props": [
             {
-              "emoji": "☁️",
-              "label": "sky"
-            },
-            {
-              "emoji": "💧💧",
-              "label": "drops"
-            },
-            {
               "emoji": "💦",
               "label": "water"
             },
@@ -456,24 +410,12 @@
           ],
           "props": [
             {
-              "emoji": "❄️",
-              "label": "snowy"
-            },
-            {
               "emoji": "⛄",
               "label": "snowman"
             },
             {
               "emoji": "🧤🧤",
               "label": "gloves"
-            },
-            {
-              "emoji": "🖐️",
-              "label": "hands"
-            },
-            {
-              "emoji": "🥶",
-              "label": "cold"
             }
           ],
           "caption": {
@@ -516,10 +458,6 @@
             {
               "emoji": "🩳",
               "label": "shorts"
-            },
-            {
-              "emoji": "❄️",
-              "label": "snow"
             },
             {
               "emoji": "🧥",
@@ -573,14 +511,6 @@
             {
               "emoji": "🟡",
               "label": "gold"
-            },
-            {
-              "emoji": "🌸☀️🍂❄️",
-              "label": "season"
-            },
-            {
-              "emoji": "🍁",
-              "label": "fall"
             }
           ],
           "caption": {
@@ -614,16 +544,6 @@
           "id": "c1",
           "kind": "pickPicture",
           "wordId": "CPP1-U9-SB-1025",
-          "props": [
-            {
-              "emoji": "⛰️",
-              "label": "mountains"
-            },
-            {
-              "emoji": "❄️",
-              "label": "snow"
-            }
-          ],
           "prompt": {
             "id": "c1q",
             "text": "Pick the word: everything is covered with snow."
@@ -676,12 +596,6 @@
           "id": "c3",
           "kind": "trueFalse",
           "wordId": "CPP1-U9-SB-1023",
-          "props": [
-            {
-              "emoji": "💨",
-              "label": "wind"
-            }
-          ],
           "prompt": {
             "id": "c3q",
             "text": "Windy means it is very quiet and still outside."
@@ -700,12 +614,6 @@
           "id": "c4",
           "kind": "listen",
           "wordId": "CPP1-U9-SB-1024",
-          "props": [
-            {
-              "emoji": "🧥",
-              "label": "raincoat"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "Listen: 'When it's rainy, I wear my raincoat.' Which word did you hear?"
@@ -725,24 +633,6 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP1-U9-SB-1026",
-          "props": [
-            {
-              "emoji": "🧢",
-              "label": "hat"
-            },
-            {
-              "emoji": "🧣",
-              "label": "scarf"
-            },
-            {
-              "emoji": "🖐️",
-              "label": "hands"
-            },
-            {
-              "emoji": "🥶",
-              "label": "cold"
-            }
-          ],
           "prompt": {
             "id": "c5q",
             "text": "It's cold. Wear a warm ____ on each hand."
@@ -808,12 +698,6 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U9-SB-1037",
-          "props": [
-            {
-              "emoji": "🥶",
-              "label": "cold"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "Put on your ____! It is cold outside."
@@ -834,10 +718,6 @@
           "kind": "gap",
           "wordId": "CPP1-U9-SB-1038",
           "props": [
-            {
-              "emoji": "📅",
-              "label": "year"
-            },
             {
               "emoji": "🌷",
               "label": "spring"

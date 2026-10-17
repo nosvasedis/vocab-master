@@ -274,12 +274,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
-      "props": [
-        {
-          "emoji": "🌤️",
-          "label": "sky"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -287,13 +281,7 @@
         },
         {
           "id": "l2",
-          "text": "Nature can be gentle, like a sunny morning in the park.",
-          "props": [
-            {
-              "emoji": "☀️",
-              "label": "sunny morning"
-            }
-          ]
+          "text": "Nature can be gentle, like a sunny morning in the park."
         },
         {
           "id": "l3",
@@ -311,17 +299,7 @@
         },
         {
           "id": "l4",
-          "text": "Today, we will meet Maya and Leo and learn new words together.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            }
-          ]
+          "text": "Today, we will meet Maya and Leo and learn new words together."
         }
       ],
       "question": {
@@ -366,14 +344,6 @@
             {
               "emoji": "☁️☁️",
               "label": "clouds"
-            },
-            {
-              "emoji": "🌤️",
-              "label": "sky"
-            },
-            {
-              "emoji": "👴",
-              "label": "Grandpa"
             },
             {
               "emoji": "⛈️",
@@ -464,24 +434,12 @@
               "label": "rain"
             },
             {
-              "emoji": "🏞️",
-              "label": "river"
-            },
-            {
-              "emoji": "💧",
-              "label": "water"
-            },
-            {
-              "emoji": "👜🏖️",
+              "emoji": "🏖️",
               "label": "sandbags"
             },
             {
               "emoji": "🥾",
               "label": "boots"
-            },
-            {
-              "emoji": "🟤💧",
-              "label": "mud"
             },
             {
               "emoji": "🛣️",
@@ -523,7 +481,7 @@
           ],
           "props": [
             {
-              "emoji": "👪",
+              "emoji": "👨‍👩‍👧",
               "label": "family"
             },
             {
@@ -533,10 +491,6 @@
             {
               "emoji": "⛈️",
               "label": "storm"
-            },
-            {
-              "emoji": "🔊",
-              "label": "loud"
             }
           ],
           "caption": {
@@ -572,20 +526,12 @@
           ],
           "props": [
             {
-              "emoji": "🌤️",
-              "label": "sky"
-            },
-            {
               "emoji": "🐛",
               "label": "caterpillar"
             },
             {
               "emoji": "🍃",
               "label": "leaf"
-            },
-            {
-              "emoji": "🦋",
-              "label": "butterfly"
             }
           ],
           "caption": {
@@ -706,16 +652,6 @@
           "id": "c5",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-423",
-          "props": [
-            {
-              "emoji": "🏘️",
-              "label": "village"
-            },
-            {
-              "emoji": "🌊",
-              "label": "water"
-            }
-          ],
           "prompt": {
             "id": "c5q",
             "text": "To flood means to make a place very dry."
@@ -790,10 +726,6 @@
             {
               "emoji": "🌳",
               "label": "tree"
-            },
-            {
-              "emoji": "🌧️",
-              "label": "rain"
             }
           ],
           "prompt": {
@@ -815,16 +747,6 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-435",
-          "props": [
-            {
-              "emoji": "🪨",
-              "label": "rock"
-            },
-            {
-              "emoji": "🏃",
-              "label": "running"
-            }
-          ],
           "prompt": {
             "id": "c9q",
             "text": "If something is still, it is moving very fast."

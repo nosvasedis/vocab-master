@@ -273,34 +273,16 @@
         },
         {
           "id": "l3",
-          "text": "She helps her friend every single day.",
-          "props": [
-            {
-              "emoji": "🧑‍🤝‍🧑",
-              "label": "friend"
-            }
-          ]
+          "text": "She helps her friend every single day."
         },
         {
           "id": "l4",
-          "text": "Let's find out what happens when there is an emergency!",
-          "props": [
-            {
-              "emoji": "🚨",
-              "label": "emergency"
-            }
-          ]
+          "text": "Let's find out what happens when there is an emergency!"
         }
       ],
       "question": {
         "id": "q",
-        "text": "Who is your hero, and why?",
-        "props": [
-          {
-            "emoji": "🦸",
-            "label": "hero"
-          }
-        ]
+        "text": "Who is your hero, and why?"
       }
     },
     {
@@ -339,20 +321,12 @@
               "label": "guide dog"
             },
             {
-              "emoji": "🦮",
-              "label": "Lulu"
-            },
-            {
               "emoji": "🪢",
               "label": "harness"
             },
             {
               "emoji": "🥣",
               "label": "breakfast"
-            },
-            {
-              "emoji": "🦯",
-              "label": "blind"
             }
           ],
           "caption": {
@@ -378,20 +352,6 @@
           "characters": [
             {
               "who": "anna"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "🦮",
-              "label": "Lulu"
-            },
-            {
-              "emoji": "👃💨",
-              "label": "scent"
-            },
-            {
-              "emoji": "🧠",
-              "label": "smart"
             }
           ],
           "caption": {
@@ -430,18 +390,6 @@
             {
               "emoji": "📱",
               "label": "phone"
-            },
-            {
-              "emoji": "🚨",
-              "label": "emergency"
-            },
-            {
-              "emoji": "🔢",
-              "label": "number"
-            },
-            {
-              "emoji": "🦮",
-              "label": "Lulu"
             }
           ],
           "caption": {
@@ -472,24 +420,8 @@
           ],
           "props": [
             {
-              "emoji": "🦮",
-              "label": "Lulu"
-            },
-            {
-              "emoji": "🚑",
-              "label": "paramedic"
-            },
-            {
               "emoji": "💨",
               "label": "smoke"
-            },
-            {
-              "emoji": "🧠",
-              "label": "smart"
-            },
-            {
-              "emoji": "🚶🛣️",
-              "label": "cross"
             }
           ],
           "caption": {
@@ -537,14 +469,6 @@
             {
               "emoji": "🐶",
               "label": "dog"
-            },
-            {
-              "emoji": "🦸",
-              "label": "heroic"
-            },
-            {
-              "emoji": "🦮",
-              "label": "Lulu"
             }
           ],
           "caption": {
@@ -651,7 +575,7 @@
           },
           "props": [
             {
-              "emoji": "🚑🩺",
+              "emoji": "🧑‍⚕️",
               "label": "paramedic"
             }
           ]
@@ -846,41 +770,15 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, friends! You learned ten new words today.",
-          "props": [
-            {
-              "emoji": "🔤",
-              "label": "words"
-            }
-          ]
+          "text": "Brilliant work, friends! You learned ten new words today."
         },
         {
           "id": "l2",
-          "text": "Lulu was a heroic dog, and you were heroic learners too!",
-          "props": [
-            {
-              "emoji": "🦮",
-              "label": "Lulu"
-            },
-            {
-              "emoji": "🦸",
-              "label": "heroic"
-            },
-            {
-              "emoji": "🧑‍🎓",
-              "label": "learners"
-            }
-          ]
+          "text": "Lulu was a heroic dog, and you were heroic learners too!"
         },
         {
           "id": "l3",
-          "text": "Next time, we will meet more heroes together.",
-          "props": [
-            {
-              "emoji": "🦸🦸",
-              "label": "heroes"
-            }
-          ]
+          "text": "Next time, we will meet more heroes together."
         }
       ],
       "badge": {
@@ -895,10 +793,6 @@
             {
               "emoji": "🦮",
               "label": "guide dog"
-            },
-            {
-              "emoji": "🦯",
-              "label": "blind"
             }
           ]
         },
@@ -906,10 +800,6 @@
           "id": "e2",
           "text": "Which word means a clever animal? Write one sentence with it.",
           "props": [
-            {
-              "emoji": "🧠",
-              "label": "clever"
-            },
             {
               "emoji": "🐘",
               "label": "animal"

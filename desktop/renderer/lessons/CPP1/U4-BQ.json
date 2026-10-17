@@ -175,37 +175,15 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, everyone! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            },
-            {
-              "emoji": "🧑‍🏫",
-              "label": "teacher"
-            }
-          ]
+          "text": "Hello, everyone! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
-          "text": "Today we ask a big question: What is a friend?",
-          "props": [
-            {
-              "emoji": "🧑‍🤝‍🧑",
-              "label": "friend"
-            }
-          ]
+          "text": "Today we ask a big question: What is a friend?"
         },
         {
           "id": "l3",
-          "text": "Friends can share, play, and help each other.",
-          "props": [
-            {
-              "emoji": "🧒🧒",
-              "label": "friends"
-            }
-          ]
+          "text": "Friends can share, play, and help each other."
         },
         {
           "id": "l4",
@@ -218,33 +196,17 @@
             {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🧒🧒",
-              "label": "friends"
             }
           ]
         },
         {
           "id": "l5",
-          "text": "Let's find out what friends like to do together!",
-          "props": [
-            {
-              "emoji": "🧒🧒",
-              "label": "friends"
-            }
-          ]
+          "text": "Let's find out what friends like to do together!"
         }
       ],
       "question": {
         "id": "q",
-        "text": "What do you like to do with your friends?",
-        "props": [
-          {
-            "emoji": "🧒🧒",
-            "label": "friends"
-          }
-        ]
+        "text": "What do you like to do with your friends?"
       }
     },
     {
@@ -282,10 +244,6 @@
             {
               "emoji": "🚲🚲",
               "label": "bikes"
-            },
-            {
-              "emoji": "🚲",
-              "label": "bike"
             }
           ],
           "caption": {
@@ -319,10 +277,6 @@
             {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🎨",
-              "label": "draw"
             }
           ],
           "caption": {
@@ -473,10 +427,6 @@
             {
               "emoji": "🌳",
               "label": "park"
-            },
-            {
-              "emoji": "📅",
-              "label": "Saturday"
             }
           ],
           "prompt": {
@@ -540,14 +490,6 @@
           "wordId": "CPP1-U4-SB-444",
           "props": [
             {
-              "emoji": "📖",
-              "label": "reading"
-            },
-            {
-              "emoji": "📚",
-              "label": "stories"
-            },
-            {
               "emoji": "🎨",
               "label": "drawing"
             },
@@ -582,16 +524,8 @@
           "text": "Let's play memory! Find the picture and its word.",
           "props": [
             {
-              "emoji": "🧠",
-              "label": "memory"
-            },
-            {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🔤",
-              "label": "word"
             }
           ]
         }

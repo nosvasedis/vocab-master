@@ -269,26 +269,12 @@
         {
           "emoji": "⛑️",
           "label": "helmet"
-        },
-        {
-          "emoji": "💭",
-          "label": "imagination"
-        },
-        {
-          "emoji": "🏁",
-          "label": "ready"
         }
       ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
@@ -351,10 +337,6 @@
               "label": "astronaut"
             },
             {
-              "emoji": "🌌",
-              "label": "space"
-            },
-            {
               "emoji": "⛑️",
               "label": "helmet"
             }
@@ -403,10 +385,6 @@
             {
               "emoji": "📦",
               "label": "cardboard"
-            },
-            {
-              "emoji": "🏁",
-              "label": "ready"
             }
           ],
           "caption": {
@@ -459,7 +437,7 @@
               "label": "glue"
             },
             {
-              "emoji": "📄✨",
+              "emoji": "📄",
               "label": "tissue paper"
             }
           ],
@@ -500,12 +478,8 @@
               "label": "cloud"
             },
             {
-              "emoji": "📄✨",
+              "emoji": "📄",
               "label": "tissue paper"
-            },
-            {
-              "emoji": "📄✊",
-              "label": "crumple"
             }
           ],
           "caption": {
@@ -613,16 +587,6 @@
           "id": "c3",
           "kind": "listen",
           "wordId": "CPP1-U8-SB-891",
-          "props": [
-            {
-              "emoji": "🧴",
-              "label": "glue"
-            },
-            {
-              "emoji": "🃏",
-              "label": "card"
-            }
-          ],
           "prompt": {
             "id": "c3q",
             "text": "Listen: 'Next, put the glue on the card.' Which word did you hear?"
@@ -687,16 +651,6 @@
           "id": "c6",
           "kind": "gap",
           "wordId": "CPP1-U8-SB-897",
-          "props": [
-            {
-              "emoji": "🧍",
-              "label": "body"
-            },
-            {
-              "emoji": "👀",
-              "label": "eyes"
-            }
-          ],
           "prompt": {
             "id": "c6q",
             "text": "First, draw the body. Next, add the arms. ____, add two big eyes."
@@ -746,10 +700,6 @@
           "kind": "trueFalse",
           "wordId": "CPP1-U8-SB-909",
           "props": [
-            {
-              "emoji": "🧴",
-              "label": "bottle"
-            },
             {
               "emoji": "💧",
               "label": "liquid"

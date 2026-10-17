@@ -19,7 +19,15 @@ language english greek music art science math maths sport sports game games hobb
 voice sound noise smell taste touch sight hearing body mind heart brain idea ideas favorite favourite
 partner people person everyone someone nothing something anything thing things lot
 show play watch cook walk ride drink swing jump run call visit rest dance sleep kiss hug smile laugh wave look turn stop lift fall back light mean match fly swim race practice sign train
-can will may must friend friends sunny ground air hero paint hand hands eye eyes ear ears head arm arms leg legs foot feet hair face nose mouth`.split(/\s+/).filter(Boolean));
+can will may must friend friends sunny ground air hero paint hand hands eye eyes ear ears head arm arms leg legs foot feet hair face nose mouth
+cause result sequence similarity extinction damage disruption directions direction step steps edge drop break tie crack earthquake
+mud dirt floor rug stripe stripes jumper
+activity activities adventure adventures advice amazing balance beat beginning bite breath celebration celebrations ceremony
+changing clever cold collection comment competition condition conditions congratulations conversation detail details emergency
+event events exercise explanation feel healthy heroic hunt imagination invention large memory memories message messages
+middle million mystery mysteries news nutrient object objects observation occasion order pair pattern purpose
+quiz read reading recess routine season seasons secret secrets section special spot suggestion summary symbol tomorrow yesterday
+touch version vibration wish forehead land rhythm tune scent oven habitat interview whistle brand sunday monday saturday`.split(/\s+/).filter(Boolean));
 
 const EVERYDAY = `hat cap scarf glove gloves coat jacket shirt t-shirt dress skirt trousers jeans shoe shoes boot boots sock socks
 photo picture camera phone computer tablet book books notebook pen pencil crayon ruler bag backpack box ball kite doll teddy
@@ -28,7 +36,10 @@ spoon fork knife glass bottle cake bread apple banana orange milk water juice eg
 tree flower flowers grass leaf leaves sun moon star stars cloud rain snow river lake sea beach mountain hill garden park
 dog cat bird fish horse cow sheep chicken duck rabbit mouse frog bee butterfly owl lion tiger elephant monkey bear
 house home school shop market street road bridge tower castle tent letter card present gift balloon candle umbrella
-key map money coin ticket guitar drum piano violin trumpet whistle flag poster board desk bin`.split(/\s+/).filter(Boolean);
+key map money coin ticket guitar drum piano violin trumpet flag poster board desk bin
+paper page leaflet stamp mirror soap torch spade wool bulb vacuum island
+turtle tortoise lamb parrot unicorn dragon dinosaur snake spider whale dolphin shark penguin giraffe zebra
+thief detective guard firefighter doctor nurse police pilot chef farmer clinic hospital`.split(/\s+/).filter(Boolean);
 
 const nouns = new Set(EVERYDAY);
 for (const w of CPP_WORDBANK) {

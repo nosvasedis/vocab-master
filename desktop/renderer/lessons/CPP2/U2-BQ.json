@@ -224,13 +224,7 @@
         },
         {
           "id": "l2",
-          "text": "Today we ask a big question: Why are celebrations important?",
-          "props": [
-            {
-              "emoji": "🎉",
-              "label": "celebration"
-            }
-          ]
+          "text": "Today we ask a big question: Why are celebrations important?"
         },
         {
           "id": "l3",
@@ -314,10 +308,6 @@
             {
               "emoji": "🕯️🕯️",
               "label": "candle"
-            },
-            {
-              "emoji": "🎆",
-              "label": "New Year's Eve"
             }
           ],
           "caption": {
@@ -356,10 +346,6 @@
             {
               "emoji": "🎉",
               "label": "party"
-            },
-            {
-              "emoji": "🎆",
-              "label": "New Year's"
             },
             {
               "emoji": "🎁",
@@ -406,18 +392,6 @@
             {
               "emoji": "🎈🎈",
               "label": "balloons"
-            },
-            {
-              "emoji": "🎵",
-              "label": "music"
-            },
-            {
-              "emoji": "🎊",
-              "label": "celebration"
-            },
-            {
-              "emoji": "🥳",
-              "label": "celebrate"
             }
           ],
           "caption": {
@@ -446,20 +420,6 @@
             },
             {
               "who": "emilia"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "👍",
-              "label": "positive"
-            },
-            {
-              "emoji": "💬",
-              "label": "respond"
-            },
-            {
-              "emoji": "💬",
-              "label": "message"
             }
           ],
           "caption": {
@@ -492,16 +452,6 @@
             "id": "c1q",
             "text": "Which word means the small light you blow out on a cake?"
           },
-          "props": [
-            {
-              "emoji": "🎂",
-              "label": "cake"
-            },
-            {
-              "emoji": "🔥",
-              "label": "small light"
-            }
-          ],
           "options": [
             "CPP2-U2-SB-150",
             "CPP2-U2-SB-152",
@@ -522,16 +472,6 @@
             "id": "c2q",
             "text": "Listen: gift. Which word did you hear?"
           },
-          "props": [
-            {
-              "emoji": "🎉",
-              "label": "party"
-            },
-            {
-              "emoji": "🎁",
-              "label": "wrapped box"
-            }
-          ],
           "options": [
             "CPP2-U2-SB-150",
             "CPP2-U2-SB-145",
@@ -635,16 +575,8 @@
           },
           "props": [
             {
-              "emoji": "🦉",
-              "label": "Lingo"
-            },
-            {
               "emoji": "🎨",
               "label": "drawing"
-            },
-            {
-              "emoji": "🗨️",
-              "label": "comment"
             }
           ],
           "options": [
@@ -666,16 +598,6 @@
             "id": "c7q",
             "text": "Which word is a card that asks you to come to a party?"
           },
-          "props": [
-            {
-              "emoji": "💌",
-              "label": "card"
-            },
-            {
-              "emoji": "🎉",
-              "label": "party"
-            }
-          ],
           "options": [
             "CPP2-U2-SB-149",
             "CPP2-U2-SB-155",
@@ -696,20 +618,6 @@
             "id": "c8q",
             "text": "Please listen to your friend and ____ to the message."
           },
-          "props": [
-            {
-              "emoji": "👂",
-              "label": "listen"
-            },
-            {
-              "emoji": "🧑‍🤝‍🧑",
-              "label": "friend"
-            },
-            {
-              "emoji": "💬",
-              "label": "message"
-            }
-          ],
           "options": [
             "respond",
             "celebrate",
@@ -729,16 +637,6 @@
             "id": "c9q",
             "text": "New Year's is the celebration when a new year begins."
           },
-          "props": [
-            {
-              "emoji": "📅",
-              "label": "1 January"
-            },
-            {
-              "emoji": "🎉",
-              "label": "celebration"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -757,24 +655,6 @@
             "id": "c10q",
             "text": "Our class ____ is on Friday, with music and games."
           },
-          "props": [
-            {
-              "emoji": "🏫",
-              "label": "class"
-            },
-            {
-              "emoji": "📅",
-              "label": "Friday"
-            },
-            {
-              "emoji": "🎵",
-              "label": "music"
-            },
-            {
-              "emoji": "🎲",
-              "label": "games"
-            }
-          ],
           "options": [
             "celebration",
             "gift",
@@ -802,7 +682,7 @@
           "text": "Flip two cards. Can you match a picture with its word?",
           "props": [
             {
-              "emoji": "🃏",
+              "emoji": "💌",
               "label": "card"
             }
           ]
@@ -847,10 +727,6 @@
             {
               "emoji": "🎂",
               "label": "birthdays"
-            },
-            {
-              "emoji": "🌍",
-              "label": "world"
             }
           ]
         }

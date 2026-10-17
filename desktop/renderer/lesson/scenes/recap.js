@@ -51,7 +51,7 @@ export default {
         ctx.mascot.place("corner");
         ctx.mascot.setPose("think");
         const qs = scene.exitTicket || [];
-        ctx.ui.innerHTML = `<div class="rc-exit"><h2>🎟️ Exit ticket</h2>${qs.map((q, k) => `<div class="rc-q"><span class="rc-n">${k + 1}</span><p>${ctx.karaoke(q.text)}</p></div>`).join("")}</div>`;
+        ctx.ui.innerHTML = `<div class="rc-exit"><h2>🎟️ Exit ticket</h2>${qs.map((q, k) => `<div class="rc-q"><span class="rc-n">${k + 1}</span><p>${ctx.karaoke(q.text, { props: q.props || [] })}</p></div>`).join("")}</div>`;
         rise(ctx.ui.querySelectorAll(".rc-q"), { stagger: 0.2 });
         const els = ctx.ui.querySelectorAll(".rc-q p");
         for (let k = 0; k < qs.length; k++) { if (!alive || !live()) break; await ctx.say(qs[k], { sceneId: scene.id, el: els[k] }); await ctx.wait(400); }

@@ -40,7 +40,7 @@ export default {
           <span class="pr-emoji">${def.emoji}</span>
           <h2>Game time: ${ctx.esc(def.title)}</h2>
           <p>${ctx.esc(def.description)}</p>
-          ${(scene.lines || []).length ? `<div class="pr-lines">${scene.lines.map((l) => `<p>${ctx.karaoke(l.text)}</p>`).join("")}</div>` : ""}
+          ${(scene.lines || []).length ? `<div class="pr-lines">${scene.lines.map((l) => `<p>${ctx.karaoke(l.text, { props: l.props || [] })}</p>`).join("")}</div>` : ""}
           <button type="button" class="ls-btn primary pr-play">▶ Play with our ${ctx.deck.length} words</button>
         </div>`;
       pop(ctx.ui.querySelector(".pr-card"), { scale: 0.7 });

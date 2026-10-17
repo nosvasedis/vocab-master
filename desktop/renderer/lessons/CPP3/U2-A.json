@@ -280,10 +280,6 @@
           "label": "birthday"
         },
         {
-          "emoji": "🧒",
-          "label": "Jan"
-        },
-        {
           "emoji": "🍳",
           "label": "breakfast"
         },
@@ -303,27 +299,11 @@
         },
         {
           "id": "l3",
-          "text": "Breakfast is the first meal of the day, and food can be very interesting.",
-          "props": [
-            {
-              "emoji": "🍽️",
-              "label": "meal"
-            },
-            {
-              "emoji": "☀️",
-              "label": "day"
-            }
-          ]
+          "text": "Breakfast is the first meal of the day, and food can be very interesting."
         },
         {
           "id": "l4",
-          "text": "Let's see what food is for, and how people make it.",
-          "props": [
-            {
-              "emoji": "👥",
-              "label": "people"
-            }
-          ]
+          "text": "Let's see what food is for, and how people make it."
         }
       ],
       "question": {
@@ -427,23 +407,11 @@
               "label": "pen"
             },
             {
-              "emoji": "⬜➡️⬜➡️⬜",
+              "emoji": "📊",
               "label": "flow chart"
             },
             {
-              "emoji": "👣",
-              "label": "step"
-            },
-            {
-              "emoji": "1️⃣2️⃣3️⃣",
-              "label": "order"
-            },
-            {
-              "emoji": "🔤➖",
-              "label": "underline"
-            },
-            {
-              "emoji": "⬜",
+              "emoji": "📦",
               "label": "box"
             }
           ],
@@ -481,20 +449,12 @@
           ],
           "props": [
             {
-              "emoji": "👣",
-              "label": "step"
-            },
-            {
               "emoji": "🧈",
               "label": "butter"
             },
             {
               "emoji": "🍳",
               "label": "pan"
-            },
-            {
-              "emoji": "🔥",
-              "label": "melt"
             }
           ],
           "caption": {
@@ -537,10 +497,6 @@
             {
               "emoji": "🧅",
               "label": "onion"
-            },
-            {
-              "emoji": "👅",
-              "label": "taste"
             },
             {
               "emoji": "🎂",
@@ -588,10 +544,6 @@
             {
               "emoji": "📖",
               "label": "dictionary"
-            },
-            {
-              "emoji": "🔤",
-              "label": "word"
             },
             {
               "emoji": "🥞",
@@ -805,10 +757,6 @@
             {
               "emoji": "⭕",
               "label": "circle"
-            },
-            {
-              "emoji": "🔤",
-              "label": "word"
             }
           ],
           "prompt": {

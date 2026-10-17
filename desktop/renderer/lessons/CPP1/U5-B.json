@@ -252,13 +252,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
@@ -272,17 +266,7 @@
         },
         {
           "id": "l3",
-          "text": "We will meet Mia and Leo. They always have fun!",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            }
-          ]
+          "text": "We will meet Mia and Leo. They always have fun!"
         },
         {
           "id": "l4",
@@ -335,10 +319,6 @@
             {
               "emoji": "👟",
               "label": "shoelace"
-            },
-            {
-              "emoji": "🪢",
-              "label": "tie"
             }
           ],
           "caption": {
@@ -362,10 +342,6 @@
               "who": "leo",
               "text": "Wait, I need to tie my shoelace first.",
               "props": [
-                {
-                  "emoji": "🪢",
-                  "label": "tie"
-                },
                 {
                   "emoji": "👟",
                   "label": "shoelace"
@@ -394,10 +370,6 @@
             {
               "emoji": "🗑️🗑️",
               "label": "trash"
-            },
-            {
-              "emoji": "🏖️",
-              "label": "sand"
             }
           ],
           "caption": {
@@ -434,20 +406,8 @@
           ],
           "props": [
             {
-              "emoji": "🐚",
-              "label": "shell"
-            },
-            {
-              "emoji": "🏖️",
-              "label": "sand"
-            },
-            {
               "emoji": "🏰",
               "label": "sandcastle"
-            },
-            {
-              "emoji": "🤩",
-              "label": "amazing"
             }
           ],
           "caption": {
@@ -483,14 +443,6 @@
             }
           ],
           "props": [
-            {
-              "emoji": "🏃🏃",
-              "label": "race"
-            },
-            {
-              "emoji": "🛝",
-              "label": "swings"
-            },
             {
               "emoji": "👟",
               "label": "shoelace"
@@ -536,10 +488,6 @@
             {
               "emoji": "🎒",
               "label": "bag"
-            },
-            {
-              "emoji": "🤩",
-              "label": "amazing"
             }
           ],
           "caption": {
@@ -550,13 +498,7 @@
             {
               "id": "p5a",
               "who": "leo",
-              "text": "Try it! You roll it down and pull it up.",
-              "props": [
-                {
-                  "emoji": "🪀",
-                  "label": "yo-yo"
-                }
-              ]
+              "text": "Try it! You roll it down and pull it up."
             },
             {
               "id": "p5b",
@@ -566,10 +508,6 @@
                 {
                   "emoji": "🪀",
                   "label": "yo-yo"
-                },
-                {
-                  "emoji": "🤩",
-                  "label": "amazing"
                 }
               ]
             }
@@ -641,10 +579,6 @@
           "kind": "trueFalse",
           "wordId": "CPP1-U5-SB-586",
           "props": [
-            {
-              "emoji": "👧👦",
-              "label": "Mia and Leo"
-            },
             {
               "emoji": "🗑️",
               "label": "trash"
@@ -752,12 +686,6 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U5-SB-585",
-          "props": [
-            {
-              "emoji": "👟",
-              "label": "shoe"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "Oh no! My ____ is undone, so I might fall!"
@@ -886,21 +814,7 @@
         },
         {
           "id": "l2",
-          "text": "You can tie, pick up, roll and race, just like Mia and Leo.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
-              "emoji": "🏃🏃",
-              "label": "race"
-            }
-          ]
+          "text": "You can tie, pick up, roll and race, just like Mia and Leo."
         },
         {
           "id": "l3",

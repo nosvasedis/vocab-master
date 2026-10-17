@@ -187,33 +187,15 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hoo hoo! Hello, friends! I am Lingo, and I love my community.",
-          "props": [
-            {
-              "emoji": "🏘",
-              "label": "community"
-            },
-            {
-              "emoji": "👫",
-              "label": "friends"
-            }
-          ]
+          "text": "Hoo hoo! Hello, friends! I am Lingo, and I love my community."
         },
         {
           "id": "l2",
           "text": "Look at this busy street. Can you see the shops, a tree, and the people?",
           "props": [
             {
-              "emoji": "🏪🏪",
-              "label": "shops"
-            },
-            {
               "emoji": "🌳",
               "label": "tree"
-            },
-            {
-              "emoji": "🧑🧑",
-              "label": "people"
             }
           ]
         },
@@ -222,44 +204,18 @@
           "text": "Maya lives in a quiet suburb. Leo lives downtown, near the big shops.",
           "props": [
             {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
               "emoji": "🏘",
               "label": "suburb"
             },
             {
               "emoji": "🏙",
               "label": "downtown"
-            },
-            {
-              "emoji": "🏪🏪",
-              "label": "shops"
             }
           ]
         },
         {
           "id": "l4",
-          "text": "Today we ask a big question: What makes your community special?",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "question"
-            },
-            {
-              "emoji": "🏘",
-              "label": "community"
-            },
-            {
-              "emoji": "⭐",
-              "label": "special"
-            }
-          ]
+          "text": "Today we ask a big question: What makes your community special?"
         }
       ],
       "question": {
@@ -494,7 +450,7 @@
           "text": "Time to play memory! Match each word with its picture.",
           "props": [
             {
-              "emoji": "🖼",
+              "emoji": "🖼️",
               "label": "picture"
             }
           ]
@@ -504,7 +460,7 @@
           "text": "Say the word out loud as you turn over each card. Ready? Go!",
           "props": [
             {
-              "emoji": "🃏",
+              "emoji": "💌",
               "label": "card"
             }
           ]
@@ -516,17 +472,7 @@
       "type": "speak",
       "prompt": {
         "id": "q",
-        "text": "Tell your partner about your community. Use the frames to help you.",
-        "props": [
-          {
-            "emoji": "👫",
-            "label": "partner"
-          },
-          {
-            "emoji": "🏘",
-            "label": "community"
-          }
-        ]
+        "text": "Tell your partner about your community. Use the frames to help you."
       },
       "frames": [
         "I live in a ___.",
@@ -552,16 +498,8 @@
             "label": "park"
           },
           {
-            "emoji": "🧑‍🤝‍🧑",
-            "label": "friend"
-          },
-          {
             "emoji": "🌾",
             "label": "countryside"
-          },
-          {
-            "emoji": "🤝",
-            "label": "in common"
           }
         ]
       }
@@ -572,49 +510,15 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Brilliant work, friends! You now know eight Big Question words.",
-          "props": [
-            {
-              "emoji": "🔤",
-              "label": "words"
-            }
-          ]
+          "text": "Brilliant work, friends! You now know eight Big Question words."
         },
         {
           "id": "l2",
-          "text": "Your community is special, and you can talk about it in English!",
-          "props": [
-            {
-              "emoji": "🏘",
-              "label": "community"
-            },
-            {
-              "emoji": "⭐",
-              "label": "special"
-            },
-            {
-              "emoji": "🇬🇧",
-              "label": "English"
-            }
-          ]
+          "text": "Your community is special, and you can talk about it in English!"
         },
         {
           "id": "l3",
-          "text": "Next time, Maya and Leo will meet in a new story. See you soon!",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Maya"
-            },
-            {
-              "emoji": "👦",
-              "label": "Leo"
-            },
-            {
-              "emoji": "📖",
-              "label": "story"
-            }
-          ]
+          "text": "Next time, Maya and Leo will meet in a new story. See you soon!"
         }
       ],
       "badge": {
@@ -624,31 +528,11 @@
       "exitTicket": [
         {
           "id": "e1",
-          "text": "Name one word from today that describes your community.",
-          "props": [
-            {
-              "emoji": "🔤",
-              "label": "word"
-            },
-            {
-              "emoji": "🏘",
-              "label": "community"
-            }
-          ]
+          "text": "Name one word from today that describes your community."
         },
         {
           "id": "e2",
-          "text": "Finish the sentence: My community is special because ___.",
-          "props": [
-            {
-              "emoji": "🏘",
-              "label": "community"
-            },
-            {
-              "emoji": "⭐",
-              "label": "special"
-            }
-          ]
+          "text": "Finish the sentence: My community is special because ___."
         }
       ]
     }

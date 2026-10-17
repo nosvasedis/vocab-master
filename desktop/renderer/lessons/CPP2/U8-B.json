@@ -236,12 +236,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "park",
-      "props": [
-        {
-          "emoji": "🦸",
-          "label": "hero"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -253,31 +247,11 @@
         },
         {
           "id": "l3",
-          "text": "Some heroes help us when we feel unwell or hurt.",
-          "props": [
-            {
-              "emoji": "🤒",
-              "label": "unwell"
-            },
-            {
-              "emoji": "🩹",
-              "label": "hurt"
-            }
-          ]
+          "text": "Some heroes help us when we feel unwell or hurt."
         },
         {
           "id": "l4",
-          "text": "Today, we meet Mia and her friend Ben, at the park.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "👦",
-              "label": "Ben"
-            }
-          ]
+          "text": "Today, we meet Mia and her friend Ben, at the park."
         }
       ],
       "question": {
@@ -314,14 +288,6 @@
             {
               "emoji": "🧺",
               "label": "picnic"
-            },
-            {
-              "emoji": "☀️",
-              "label": "sunny"
-            },
-            {
-              "emoji": "🌸",
-              "label": "flowers"
             }
           ],
           "characters": [
@@ -357,10 +323,6 @@
             {
               "emoji": "🐝",
               "label": "bee"
-            },
-            {
-              "emoji": "💪",
-              "label": "arm"
             }
           ],
           "characters": [
@@ -386,12 +348,6 @@
         {
           "id": "p3",
           "backdrop": "park",
-          "props": [
-            {
-              "emoji": "💪",
-              "label": "arm"
-            }
-          ],
           "characters": [
             {
               "who": "ben"
@@ -426,16 +382,8 @@
           "backdrop": "park",
           "props": [
             {
-              "emoji": "🔴🔴",
-              "label": "spots"
-            },
-            {
-              "emoji": "🔴",
+              "emoji": "🔴🔴🔴",
               "label": "hives"
-            },
-            {
-              "emoji": "💪💪",
-              "label": "arms"
             }
           ],
           "characters": [
@@ -471,20 +419,6 @@
         {
           "id": "p5",
           "backdrop": "park",
-          "props": [
-            {
-              "emoji": "📣",
-              "label": "charge"
-            },
-            {
-              "emoji": "🤧",
-              "label": "allergic reaction"
-            },
-            {
-              "emoji": "💨",
-              "label": "breathe"
-            }
-          ],
           "characters": [
             {
               "who": "mia"
@@ -520,20 +454,8 @@
           "backdrop": "park",
           "props": [
             {
-              "emoji": "📞",
-              "label": "calls"
-            },
-            {
               "emoji": "🚑",
               "label": "ambulance"
-            },
-            {
-              "emoji": "🌳",
-              "label": "park"
-            },
-            {
-              "emoji": "🦸",
-              "label": "hero"
             }
           ],
           "characters": [
@@ -618,10 +540,6 @@
             {
               "emoji": "🐝",
               "label": "bee"
-            },
-            {
-              "emoji": "💪",
-              "label": "arm"
             }
           ],
           "prompt": {
@@ -714,11 +632,7 @@
           "wordId": "CPP2-U8-SB-1028",
           "props": [
             {
-              "emoji": "🐝",
-              "label": "sting"
-            },
-            {
-              "emoji": "🔴🔴",
+              "emoji": "🔴🔴🔴",
               "label": "hives"
             }
           ],
@@ -741,16 +655,6 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP2-U8-SB-1054",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
-            {
-              "emoji": "🆘",
-              "label": "help"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "Mia was calm, so she ____ and called for help."
@@ -792,7 +696,7 @@
           "wordId": "CPP2-U8-SB-1027",
           "props": [
             {
-              "emoji": "🔴🔴",
+              "emoji": "🔴🔴🔴",
               "label": "hives"
             }
           ],

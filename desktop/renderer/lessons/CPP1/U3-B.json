@@ -279,7 +279,7 @@
           "label": "puppet"
         },
         {
-          "emoji": "🧔🪚",
+          "emoji": "🪚",
           "label": "carpenter"
         },
         {
@@ -347,14 +347,6 @@
             {
               "emoji": "🪵",
               "label": "wood"
-            },
-            {
-              "emoji": "🪚",
-              "label": "carpenter"
-            },
-            {
-              "emoji": "🎭🪆",
-              "label": "puppet"
             }
           ],
           "caption": {
@@ -389,10 +381,6 @@
             {
               "emoji": "🧒",
               "label": "kid"
-            },
-            {
-              "emoji": "💪",
-              "label": "arms"
             }
           ],
           "caption": {
@@ -424,16 +412,6 @@
               "who": "lena"
             }
           ],
-          "props": [
-            {
-              "emoji": "🟤",
-              "label": "mud"
-            },
-            {
-              "emoji": "🖐️",
-              "label": "hands"
-            }
-          ],
           "caption": {
             "id": "p3c",
             "text": "Lena plays in the mud all afternoon."
@@ -458,16 +436,6 @@
             },
             {
               "who": "pino"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "🖐️",
-              "label": "hands"
-            },
-            {
-              "emoji": "😊",
-              "label": "happy"
             }
           ],
           "caption": {
@@ -501,10 +469,6 @@
             {
               "emoji": "🐦",
               "label": "bird"
-            },
-            {
-              "emoji": "🗄️",
-              "label": "shelf"
             }
           ],
           "caption": {
@@ -552,12 +516,6 @@
           "id": "c2",
           "kind": "listen",
           "wordId": "CPP1-U3-SB-336",
-          "props": [
-            {
-              "emoji": "🍽️",
-              "label": "table"
-            }
-          ],
           "prompt": {
             "id": "c2q",
             "text": "Listen and pick the word: wood."
@@ -610,12 +568,6 @@
           "id": "c4",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-341",
-          "props": [
-            {
-              "emoji": "🌳",
-              "label": "park"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "Lena is a ____. She is a child and loves to play."
@@ -635,16 +587,6 @@
           "id": "c5",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-337",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Lena"
-            },
-            {
-              "emoji": "🖐️",
-              "label": "hands"
-            }
-          ],
           "prompt": {
             "id": "c5q",
             "text": "Lena is smiling and pleased. She feels ____."
@@ -664,20 +606,6 @@
           "id": "c6",
           "kind": "trueFalse",
           "wordId": "CPP1-U3-SB-338",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Lena"
-            },
-            {
-              "emoji": "🟤",
-              "label": "mud"
-            },
-            {
-              "emoji": "🖐️",
-              "label": "hands"
-            }
-          ],
           "prompt": {
             "id": "c6q",
             "text": "In the story, Lena's hands are dirty after she plays in the mud."
@@ -754,14 +682,6 @@
           "kind": "gap",
           "wordId": "CPP1-U3-SB-364",
           "props": [
-            {
-              "emoji": "🎨",
-              "label": "paint"
-            },
-            {
-              "emoji": "💧",
-              "label": "wet"
-            },
             {
               "emoji": "🪑",
               "label": "chair"

@@ -172,12 +172,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "farm",
-      "props": [
-        {
-          "emoji": "🐄🐄",
-          "label": "cows"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -371,12 +365,6 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP1-U7-SB-754",
-          "props": [
-            {
-              "emoji": "🎤",
-              "label": "sing"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "When I sing, my ____ is loud and happy."
@@ -466,13 +454,7 @@
         },
         {
           "id": "l2",
-          "text": "Now you can ask where food comes from, just like Mia.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            }
-          ]
+          "text": "Now you can ask where food comes from, just like Mia."
         },
         {
           "id": "l3",

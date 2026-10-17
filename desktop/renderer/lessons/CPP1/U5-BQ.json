@@ -184,27 +184,11 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl teacher"
-            },
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
-          "text": "Today we start a big question.",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "question"
-            }
-          ]
+          "text": "Today we start a big question."
         },
         {
           "id": "l3",
@@ -212,21 +196,7 @@
         },
         {
           "id": "l4",
-          "text": "Do you dance, paint, or play games?",
-          "props": [
-            {
-              "emoji": "💃",
-              "label": "dance"
-            },
-            {
-              "emoji": "🎨",
-              "label": "paint"
-            },
-            {
-              "emoji": "🎲",
-              "label": "play games"
-            }
-          ]
+          "text": "Do you dance, paint, or play games?"
         }
       ],
       "question": {
@@ -272,7 +242,7 @@
               "label": "toy"
             },
             {
-              "emoji": "🐉🥢",
+              "emoji": "🎭",
               "label": "stick puppet"
             }
           ],
@@ -303,14 +273,6 @@
             {
               "emoji": "🍪",
               "label": "cookie"
-            },
-            {
-              "emoji": "💃",
-              "label": "dance"
-            },
-            {
-              "emoji": "🎨",
-              "label": "paint"
             }
           ],
           "caption": {
@@ -439,10 +401,6 @@
             {
               "emoji": "🍪",
               "label": "cookie"
-            },
-            {
-              "emoji": "🔥",
-              "label": "oven"
             }
           ]
         },
@@ -467,10 +425,6 @@
             {
               "emoji": "🖼️",
               "label": "picture"
-            },
-            {
-              "emoji": "🌈",
-              "label": "colours"
             }
           ]
         },
@@ -499,10 +453,6 @@
             {
               "emoji": "🥘",
               "label": "food"
-            },
-            {
-              "emoji": "🔥",
-              "label": "oven"
             }
           ]
         },
@@ -567,14 +517,6 @@
           },
           "props": [
             {
-              "emoji": "⏰",
-              "label": "break"
-            },
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            },
-            {
               "emoji": "🛝",
               "label": "playground"
             },
@@ -606,10 +548,6 @@
             {
               "emoji": "👟",
               "label": "shoes"
-            },
-            {
-              "emoji": "🎵",
-              "label": "music"
             }
           ]
         }

@@ -245,16 +245,8 @@
       "backdrop": "park",
       "props": [
         {
-          "emoji": "💧🌿",
-          "label": "pond"
-        },
-        {
           "emoji": "🪨",
           "label": "rock"
-        },
-        {
-          "emoji": "🏠",
-          "label": "home"
         }
       ],
       "lines": [
@@ -314,12 +306,6 @@
             },
             {
               "who": "lingo"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "💧🌿",
-              "label": "pond"
             }
           ],
           "caption": {
@@ -401,16 +387,8 @@
               "label": "water"
             },
             {
-              "emoji": "💦",
-              "label": "splash"
-            },
-            {
               "emoji": "🐟",
               "label": "fish"
-            },
-            {
-              "emoji": "🔊",
-              "label": "noise"
             }
           ],
           "caption": {
@@ -448,11 +426,7 @@
           ],
           "props": [
             {
-              "emoji": "💧🌿",
-              "label": "pond"
-            },
-            {
-              "emoji": "🐸👶",
+              "emoji": "🐸",
               "label": "tadpole"
             },
             {
@@ -497,11 +471,7 @@
           ],
           "props": [
             {
-              "emoji": "💧🌿",
-              "label": "pond"
-            },
-            {
-              "emoji": "🪽🪰",
+              "emoji": "🪰",
               "label": "dragonfly"
             },
             {
@@ -661,7 +631,7 @@
           "wordId": "CPP1-U3-SB-308",
           "props": [
             {
-              "emoji": "🪽🪰",
+              "emoji": "🪰",
               "label": "dragonfly"
             },
             {
@@ -711,10 +681,6 @@
             {
               "emoji": "🪲",
               "label": "insect"
-            },
-            {
-              "emoji": "🦷",
-              "label": "bite"
             }
           ],
           "prompt": {
@@ -757,16 +723,6 @@
           "id": "c8",
           "kind": "gap",
           "wordId": "CPP1-U3-SB-323",
-          "props": [
-            {
-              "emoji": "🤫",
-              "label": "Shh"
-            },
-            {
-              "emoji": "💦",
-              "label": "splash"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "Shh! Can you ____ a noise?"
@@ -817,12 +773,6 @@
           "id": "c10",
           "kind": "trueFalse",
           "wordId": "CPP1-U3-SB-295",
-          "props": [
-            {
-              "emoji": "🤔💡",
-              "label": "figure out"
-            }
-          ],
           "prompt": {
             "id": "c10q",
             "text": "To figure out something means to understand it or find the answer."

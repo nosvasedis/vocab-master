@@ -162,22 +162,10 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "classroom",
-      "props": [
-        {
-          "emoji": "🦕",
-          "label": "dinosaur"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love mysteries.",
-          "props": [
-            {
-              "emoji": "❓",
-              "label": "mystery"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love mysteries."
         },
         {
           "id": "l2",
@@ -199,13 +187,7 @@
         },
         {
           "id": "l3",
-          "text": "Then they disappeared. Why did that happen?",
-          "props": [
-            {
-              "emoji": "💨",
-              "label": "disappeared"
-            }
-          ]
+          "text": "Then they disappeared. Why did that happen?"
         },
         {
           "id": "l4",
@@ -214,10 +196,6 @@
             {
               "emoji": "🔍",
               "label": "clue"
-            },
-            {
-              "emoji": "🔍🔍",
-              "label": "clues"
             },
             {
               "emoji": "🕵️",
@@ -263,10 +241,6 @@
           ],
           "props": [
             {
-              "emoji": "🕳️",
-              "label": "cave"
-            },
-            {
               "emoji": "🦕",
               "label": "giant"
             },
@@ -275,7 +249,7 @@
               "label": "neck"
             },
             {
-              "emoji": "🦕🌿",
+              "emoji": "🦕",
               "label": "herbivore"
             },
             {
@@ -317,20 +291,8 @@
           ],
           "props": [
             {
-              "emoji": "📄✅",
-              "label": "fact file"
-            },
-            {
-              "emoji": "💡",
-              "label": "explanation"
-            },
-            {
-              "emoji": "🦕🌿",
+              "emoji": "🦕",
               "label": "herbivore"
-            },
-            {
-              "emoji": "🍎🦷",
-              "label": "chew"
             },
             {
               "emoji": "🍞",
@@ -370,16 +332,12 @@
           ],
           "props": [
             {
-              "emoji": "🦖🥩",
+              "emoji": "🦖",
               "label": "carnivore"
             },
             {
               "emoji": "🥩",
               "label": "meat"
-            },
-            {
-              "emoji": "🦷",
-              "label": "teeth"
             },
             {
               "emoji": "🐦",
@@ -390,8 +348,8 @@
               "label": "wing"
             },
             {
-              "emoji": "💡",
-              "label": "explanation"
+              "emoji": "🕵️",
+              "label": "detectives"
             }
           ],
           "caption": {
@@ -500,10 +458,6 @@
           "wordId": "CPP2-U6-SB-743",
           "props": [
             {
-              "emoji": "🦖",
-              "label": "T. rex"
-            },
-            {
               "emoji": "🥩",
               "label": "meat"
             }
@@ -553,14 +507,6 @@
           "kind": "trueFalse",
           "wordId": "CPP2-U6-SB-739",
           "props": [
-            {
-              "emoji": "📄✅",
-              "label": "fact file"
-            },
-            {
-              "emoji": "📖",
-              "label": "story"
-            },
             {
               "emoji": "🐉",
               "label": "dragons"

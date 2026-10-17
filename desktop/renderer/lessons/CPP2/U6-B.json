@@ -251,13 +251,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! It is me, Lingo the owl. Hoo, hoo!",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            }
-          ]
+          "text": "Hello, friends! It is me, Lingo the owl. Hoo, hoo!"
         },
         {
           "id": "l2",
@@ -274,10 +268,6 @@
             {
               "emoji": "🧔",
               "label": "giant"
-            },
-            {
-              "emoji": "🗣️",
-              "label": "voice"
             }
           ]
         },
@@ -318,16 +308,8 @@
           "backdrop": "jungle",
           "props": [
             {
-              "emoji": "▶️",
-              "label": "beginning"
-            },
-            {
               "emoji": "🛤️",
               "label": "path"
-            },
-            {
-              "emoji": "🌴🌴",
-              "label": "jungle"
             },
             {
               "emoji": "☀️",
@@ -336,14 +318,6 @@
             {
               "emoji": "🌳🌳",
               "label": "trees"
-            },
-            {
-              "emoji": "📖",
-              "label": "story"
-            },
-            {
-              "emoji": "🌳",
-              "label": "tree"
             }
           ],
           "characters": [
@@ -382,28 +356,8 @@
           "backdrop": "forest",
           "props": [
             {
-              "emoji": "🟫",
-              "label": "ground"
-            },
-            {
               "emoji": "🌧️",
               "label": "rain"
-            },
-            {
-              "emoji": "🌳",
-              "label": "tree"
-            },
-            {
-              "emoji": "💥",
-              "label": "bumped into"
-            },
-            {
-              "emoji": "🟫💧",
-              "label": "muddy"
-            },
-            {
-              "emoji": "🧊",
-              "label": "slippery"
             }
           ],
           "characters": [
@@ -440,24 +394,8 @@
           "backdrop": "forest",
           "props": [
             {
-              "emoji": "🗣️",
-              "label": "voice"
-            },
-            {
-              "emoji": "🔊",
-              "label": "booming"
-            },
-            {
-              "emoji": "🌳🌳",
-              "label": "trees"
-            },
-            {
               "emoji": "🛤️",
               "label": "path"
-            },
-            {
-              "emoji": "🔁",
-              "label": "echoed"
             }
           ],
           "characters": [
@@ -496,20 +434,6 @@
         {
           "id": "p4",
           "backdrop": "cave",
-          "props": [
-            {
-              "emoji": "🕳️",
-              "label": "cave"
-            },
-            {
-              "emoji": "🏔️⬇️",
-              "label": "edge"
-            },
-            {
-              "emoji": "🌑",
-              "label": "dark"
-            }
-          ],
           "characters": [
             {
               "who": "nigel"
@@ -621,10 +545,6 @@
             {
               "emoji": "🌱🌱",
               "label": "plant"
-            },
-            {
-              "emoji": "☀️",
-              "label": "sun"
             }
           ],
           "prompt": {
@@ -649,16 +569,8 @@
           "wordId": "CPP2-U6-SB-791",
           "props": [
             {
-              "emoji": "🟫💧",
-              "label": "muddy"
-            },
-            {
               "emoji": "🌲🌲",
               "label": "forest"
-            },
-            {
-              "emoji": "🟫",
-              "label": "ground"
             }
           ],
           "prompt": {
@@ -723,10 +635,6 @@
             {
               "emoji": "⛈️",
               "label": "thunder"
-            },
-            {
-              "emoji": "☁️",
-              "label": "sky"
             }
           ],
           "prompt": {
@@ -779,14 +687,6 @@
             {
               "emoji": "🛤️",
               "label": "path"
-            },
-            {
-              "emoji": "🏔️⬇️",
-              "label": "edge"
-            },
-            {
-              "emoji": "🎯",
-              "label": "middle"
             }
           ],
           "prompt": {
@@ -807,16 +707,6 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP2-U6-SB-796",
-          "props": [
-            {
-              "emoji": "📖",
-              "label": "story"
-            },
-            {
-              "emoji": "👧👦",
-              "label": "friends"
-            }
-          ],
           "prompt": {
             "id": "c9q",
             "text": "The friends had just set off on their walk. This is the ____ of the story."

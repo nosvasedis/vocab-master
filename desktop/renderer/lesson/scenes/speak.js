@@ -15,10 +15,10 @@ export default {
     function render(stepIdx) {
       ctx.ui.innerHTML = `
         <div class="sp">
-          <div class="sp-head"><span class="sp-pair">${scene.partner === false ? "🙋" : "👫"}</span><p class="sp-prompt">${ctx.karaoke(scene.prompt.text)}</p></div>
+          <div class="sp-head"><span class="sp-pair">${scene.partner === false ? "🙋" : "👫"}</span><p class="sp-prompt">${ctx.karaoke(scene.prompt.text, { props: scene.prompt.props || [] })}</p></div>
           <div class="sp-frames">${frames.map((f) => `<div class="sp-frame">${f}</div>`).join("")}</div>
           ${stepIdx >= 1 ? `<div class="sp-timer"><div class="sp-clock"><b>${fmt(left)}</b><span>${running ? "Talk with your partner" : "Paused"}</span></div><div class="sp-bar"><i style="width:${(left / (scene.timerSec || 60)) * 100}%"></i></div><button type="button" class="ls-btn ghost sp-toggle">${running ? "⏸ Pause" : "▶ Start"}</button></div>` : ""}
-          ${stepIdx >= 2 && scene.model ? `<div class="sp-model"><span>⭐ Example answer</span><p>${ctx.karaoke(scene.model.text)}</p></div>` : ""}
+          ${stepIdx >= 2 && scene.model ? `<div class="sp-model"><span>⭐ Example answer</span><p>${ctx.karaoke(scene.model.text, { props: scene.model.props || [] })}</p></div>` : ""}
         </div>`;
       ctx.ui.querySelector(".sp-toggle")?.addEventListener("click", () => (running ? pause() : start()));
     }

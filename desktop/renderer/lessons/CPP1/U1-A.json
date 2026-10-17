@@ -262,10 +262,6 @@
           "label": "family"
         },
         {
-          "emoji": "🏠",
-          "label": "home"
-        },
-        {
           "emoji": "🐶🐄",
           "label": "animal"
         }
@@ -344,10 +340,6 @@
           ],
           "props": [
             {
-              "emoji": "🏠",
-              "label": "house"
-            },
-            {
               "emoji": "🐄🚜",
               "label": "farm"
             }
@@ -389,14 +381,6 @@
             {
               "emoji": "👩",
               "label": "parent"
-            },
-            {
-              "emoji": "🐄🚜",
-              "label": "farm"
-            },
-            {
-              "emoji": "🐄🐄",
-              "label": "cow"
             },
             {
               "emoji": "🐴🐴",
@@ -519,10 +503,6 @@
               "label": "owl"
             },
             {
-              "emoji": "👨‍👩‍👧",
-              "label": "family"
-            },
-            {
               "emoji": "🐄🚜",
               "label": "farm"
             }
@@ -558,10 +538,6 @@
           "kind": "gap",
           "wordId": "CPP1-U1-SB-28",
           "props": [
-            {
-              "emoji": "👦",
-              "label": "Timmy"
-            },
             {
               "emoji": "🐄🚜",
               "label": "farm"
@@ -673,10 +649,6 @@
           "wordId": "CPP1-U1-SB-34",
           "props": [
             {
-              "emoji": "👦",
-              "label": "Timmy"
-            },
-            {
               "emoji": "👨‍👩‍👧",
               "label": "family"
             },
@@ -711,7 +683,7 @@
           "wordId": "CPP1-U1-SB-25",
           "props": [
             {
-              "emoji": "👨‍👩‍👧↔️👩‍👦",
+              "emoji": "👨‍👩‍👧",
               "label": "family"
             }
           ],
@@ -753,12 +725,6 @@
           "id": "c9",
           "kind": "gap",
           "wordId": "CPP1-U1-SB-26",
-          "props": [
-            {
-              "emoji": "👦",
-              "label": "Timmy"
-            }
-          ],
           "prompt": {
             "id": "c9q",
             "text": "Timmy plays with his soft ____ every night."

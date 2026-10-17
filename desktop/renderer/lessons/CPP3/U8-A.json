@@ -247,22 +247,12 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! Lingo here, ready for a stormy story.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            }
-          ]
+          "text": "Hello, friends! Lingo here, ready for a stormy story."
         },
         {
           "id": "l2",
           "text": "Imagine the sky turns dark grey, and the wind starts to howl.",
           "props": [
-            {
-              "emoji": "🌌",
-              "label": "sky"
-            },
             {
               "emoji": "🌬️",
               "label": "wind"
@@ -274,16 +264,8 @@
           "text": "Then, a loud crack comes from the clouds, and all the lights go off!",
           "props": [
             {
-              "emoji": "💥",
-              "label": "crack"
-            },
-            {
               "emoji": "☁️",
               "label": "clouds"
-            },
-            {
-              "emoji": "💡",
-              "label": "lights"
             }
           ]
         },
@@ -298,23 +280,13 @@
             {
               "emoji": "🔌",
               "label": "electricity"
-            },
-            {
-              "emoji": "🌱",
-              "label": "clean energy"
             }
           ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What do you do when the lights go off at home?",
-        "props": [
-          {
-            "emoji": "💡",
-            "label": "lights"
-          }
-        ]
+        "text": "What do you do when the lights go off at home?"
       }
     },
     {
@@ -360,11 +332,7 @@
               "label": "thunderstorm"
             },
             {
-              "emoji": "🏘️",
-              "label": "village"
-            },
-            {
-              "emoji": "🔊",
+              "emoji": "⛈️",
               "label": "thunder"
             }
           ],
@@ -402,24 +370,8 @@
           },
           "props": [
             {
-              "emoji": "✨",
-              "label": "flash"
-            },
-            {
-              "emoji": "🌌",
-              "label": "sky"
-            },
-            {
-              "emoji": "🪟",
-              "label": "window"
-            },
-            {
               "emoji": "⚡",
               "label": "lightning"
-            },
-            {
-              "emoji": "💪",
-              "label": "powerful"
             }
           ],
           "speech": [
@@ -456,16 +408,8 @@
           },
           "props": [
             {
-              "emoji": "💡",
-              "label": "lights"
-            },
-            {
-              "emoji": "🧊🚪",
+              "emoji": "🧊",
               "label": "fridge"
-            },
-            {
-              "emoji": "🔌",
-              "label": "power"
             },
             {
               "emoji": "🔦",
@@ -515,28 +459,12 @@
           },
           "props": [
             {
-              "emoji": "🌀",
-              "label": "turbines"
-            },
-            {
-              "emoji": "☀️",
-              "label": "solar panels"
-            },
-            {
               "emoji": "🌬️",
               "label": "wind power"
             },
             {
-              "emoji": "☀️🔋",
-              "label": "solar power"
-            },
-            {
               "emoji": "🪨",
               "label": "coal"
-            },
-            {
-              "emoji": "🔥",
-              "label": "burn"
             }
           ],
           "speech": [
@@ -578,24 +506,8 @@
               "label": "sun"
             },
             {
-              "emoji": "💡",
-              "label": "lights"
-            },
-            {
-              "emoji": "🌱",
-              "label": "clean energy"
-            },
-            {
-              "emoji": "🔋",
-              "label": "power"
-            },
-            {
               "emoji": "🪔",
               "label": "lamp"
-            },
-            {
-              "emoji": "🪫",
-              "label": "run out"
             }
           ],
           "speech": [

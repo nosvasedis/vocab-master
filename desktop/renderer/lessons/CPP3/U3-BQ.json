@@ -221,45 +221,15 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love owls, trees and wild places.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owls"
-            },
-            {
-              "emoji": "🌳",
-              "label": "trees"
-            },
-            {
-              "emoji": "🏞️",
-              "label": "wild places"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love owls, trees and wild places."
         },
         {
           "id": "l2",
-          "text": "Today we begin a big question: Why do we need to take care of nature?",
-          "props": [
-            {
-              "emoji": "🌿🌍",
-              "label": "nature"
-            }
-          ]
+          "text": "Today we begin a big question: Why do we need to take care of nature?"
         },
         {
           "id": "l3",
-          "text": "Let's walk into the forest and listen very carefully.",
-          "props": [
-            {
-              "emoji": "🌲",
-              "label": "forest"
-            },
-            {
-              "emoji": "👂",
-              "label": "listen"
-            }
-          ]
+          "text": "Let's walk into the forest and listen very carefully."
         },
         {
           "id": "l4",
@@ -326,24 +296,12 @@
           ],
           "props": [
             {
-              "emoji": "🌴",
-              "label": "rainforest"
-            },
-            {
               "emoji": "🐝",
               "label": "honeybee"
             },
             {
               "emoji": "🌸",
               "label": "flower"
-            },
-            {
-              "emoji": "🌿🐸",
-              "label": "habitat"
-            },
-            {
-              "emoji": "🐒🦜",
-              "label": "animals"
             }
           ],
           "caption": {
@@ -381,10 +339,6 @@
           ],
           "props": [
             {
-              "emoji": "🪧",
-              "label": "sign"
-            },
-            {
               "emoji": "🦧",
               "label": "orangutan"
             },
@@ -395,14 +349,6 @@
             {
               "emoji": "🏠",
               "label": "home"
-            },
-            {
-              "emoji": "⚠️",
-              "label": "endangered"
-            },
-            {
-              "emoji": "🦕",
-              "label": "extinction"
             }
           ],
           "caption": {
@@ -440,14 +386,6 @@
           "kind": "gap",
           "wordId": "CPP3-U3-SB-345",
           "props": [
-            {
-              "emoji": "🐶🐱",
-              "label": "pets"
-            },
-            {
-              "emoji": "🧳",
-              "label": "holiday"
-            },
             {
               "emoji": "👵",
               "label": "grandmother"
@@ -509,10 +447,6 @@
             {
               "emoji": "🏠",
               "label": "home"
-            },
-            {
-              "emoji": "🏞️🐸",
-              "label": "habitat"
             }
           ],
           "prompt": {
@@ -533,16 +467,6 @@
           "id": "c4",
           "kind": "listen",
           "wordId": "CPP3-U3-SB-350",
-          "props": [
-            {
-              "emoji": "🌲",
-              "label": "forest"
-            },
-            {
-              "emoji": "🐘",
-              "label": "animals"
-            }
-          ],
           "prompt": {
             "id": "c4q",
             "text": "Listen to Lingo: Let us protect the forest and its animals. Which word did you hear?"
@@ -585,14 +509,6 @@
           "wordId": "CPP3-U3-SB-355",
           "props": [
             {
-              "emoji": "🐺🐺",
-              "label": "wolves"
-            },
-            {
-              "emoji": "🇬🇷",
-              "label": "Greece"
-            },
-            {
               "emoji": "🐾",
               "label": "animals"
             }
@@ -621,10 +537,6 @@
             {
               "emoji": "🦕",
               "label": "animal"
-            },
-            {
-              "emoji": "🌍",
-              "label": "world"
             }
           ],
           "prompt": {
@@ -649,14 +561,6 @@
             {
               "emoji": "🐯🐯",
               "label": "tigers"
-            },
-            {
-              "emoji": "🌳🌳",
-              "label": "habitats"
-            },
-            {
-              "emoji": "🌳💨",
-              "label": "disappearing"
             }
           ],
           "prompt": {
@@ -681,7 +585,7 @@
           "wordId": "CPP3-U3-SB-359",
           "props": [
             {
-              "emoji": "🥤🛍️",
+              "emoji": "🛍️",
               "label": "plastic"
             },
             {

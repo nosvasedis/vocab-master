@@ -231,10 +231,6 @@
           "text": "Look at this wide, golden land with tall grass.",
           "props": [
             {
-              "emoji": "🏜️",
-              "label": "land"
-            },
-            {
               "emoji": "🌿🌿",
               "label": "grass"
             }
@@ -329,28 +325,8 @@
           ],
           "props": [
             {
-              "emoji": "📖",
-              "label": "reading"
-            },
-            {
-              "emoji": "🌾☀️",
-              "label": "savanna"
-            },
-            {
-              "emoji": "🌿🌿",
-              "label": "grass"
-            },
-            {
               "emoji": "🌳",
               "label": "tree"
-            },
-            {
-              "emoji": "📄",
-              "label": "text"
-            },
-            {
-              "emoji": "✏️",
-              "label": "sentences"
             }
           ],
           "caption": {
@@ -396,11 +372,7 @@
               "label": "elephant"
             },
             {
-              "emoji": "🏜️",
-              "label": "land"
-            },
-            {
-              "emoji": "🕳️💧",
+              "emoji": "💧",
               "label": "waterhole"
             }
           ],
@@ -438,7 +410,7 @@
           ],
           "props": [
             {
-              "emoji": "🕳️💧",
+              "emoji": "💧",
               "label": "waterhole"
             },
             {
@@ -446,16 +418,8 @@
               "label": "water"
             },
             {
-              "emoji": "😟",
-              "label": "worried"
-            },
-            {
               "emoji": "🐘🐘🐘",
               "label": "herd"
-            },
-            {
-              "emoji": "🐘➡️",
-              "label": "migrate"
             }
           ],
           "caption": {
@@ -503,14 +467,6 @@
             {
               "emoji": "💧",
               "label": "water"
-            },
-            {
-              "emoji": "🧠",
-              "label": "memories"
-            },
-            {
-              "emoji": "📅",
-              "label": "year"
             }
           ],
           "caption": {
@@ -551,20 +507,12 @@
               "label": "school"
             },
             {
-              "emoji": "📝",
-              "label": "summary"
-            },
-            {
               "emoji": "🐘🐘🐘",
               "label": "herd"
             },
             {
               "emoji": "💧",
               "label": "water"
-            },
-            {
-              "emoji": "💡",
-              "label": "ideas"
             }
           ],
           "caption": {
@@ -653,10 +601,6 @@
             {
               "emoji": "🧭",
               "label": "south"
-            },
-            {
-              "emoji": "☀️",
-              "label": "warmer places"
             }
           ],
           "options": [
@@ -727,16 +671,6 @@
             "id": "c6q",
             "text": "To summarize a story, you tell every single detail."
           },
-          "props": [
-            {
-              "emoji": "📖",
-              "label": "story"
-            },
-            {
-              "emoji": "🔍",
-              "label": "detail"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -755,16 +689,6 @@
             "id": "c7q",
             "text": "A short version of a story is a ____."
           },
-          "props": [
-            {
-              "emoji": "📄",
-              "label": "version"
-            },
-            {
-              "emoji": "📖",
-              "label": "story"
-            }
-          ],
           "options": [
             "summary",
             "memory",
@@ -829,16 +753,6 @@
             "id": "c10q",
             "text": "Worried means feeling calm and very happy."
           },
-          "props": [
-            {
-              "emoji": "😌",
-              "label": "calm"
-            },
-            {
-              "emoji": "😀",
-              "label": "happy"
-            }
-          ],
           "options": [
             "True",
             "False"

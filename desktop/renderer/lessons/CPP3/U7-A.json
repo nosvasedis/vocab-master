@@ -249,28 +249,14 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, explorers! I am Lingo, and I love learning about the past.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "Lingo"
-            },
-            {
-              "emoji": "🔍",
-              "label": "explorers"
-            }
-          ]
+          "text": "Hello, explorers! I am Lingo, and I love learning about the past."
         },
         {
           "id": "l2",
           "text": "Long ago, people hid gold, coins and jewels, and kept them secret.",
           "props": [
             {
-              "emoji": "🧑‍🤝‍🧑",
-              "label": "people"
-            },
-            {
-              "emoji": "🥇",
+              "emoji": "🟡",
               "label": "gold"
             },
             {
@@ -280,26 +266,12 @@
             {
               "emoji": "💎💎",
               "label": "jewels"
-            },
-            {
-              "emoji": "🤫",
-              "label": "secret"
             }
           ]
         },
         {
           "id": "l3",
-          "text": "Today, archaeologists still find amazing things under the ground.",
-          "props": [
-            {
-              "emoji": "🧑‍🔬",
-              "label": "archaeologists"
-            },
-            {
-              "emoji": "🟫",
-              "label": "ground"
-            }
-          ]
+          "text": "Today, archaeologists still find amazing things under the ground."
         },
         {
           "id": "l4",
@@ -308,14 +280,6 @@
             {
               "emoji": "💰",
               "label": "treasure"
-            },
-            {
-              "emoji": "🌊",
-              "label": "sea"
-            },
-            {
-              "emoji": "🏖️🔽",
-              "label": "buried"
             },
             {
               "emoji": "⚰️",
@@ -331,10 +295,6 @@
           {
             "emoji": "📦",
             "label": "box"
-          },
-          {
-            "emoji": "🏖️",
-            "label": "sand"
           }
         ]
       }
@@ -388,10 +348,6 @@
             {
               "emoji": "🪨",
               "label": "rock"
-            },
-            {
-              "emoji": "🏖️🔽",
-              "label": "buried"
             }
           ],
           "caption": {
@@ -480,14 +436,6 @@
             {
               "emoji": "💎",
               "label": "jewel"
-            },
-            {
-              "emoji": "🟫",
-              "label": "dirt"
-            },
-            {
-              "emoji": "💥",
-              "label": "break"
             }
           ],
           "caption": {
@@ -524,20 +472,12 @@
           ],
           "props": [
             {
-              "emoji": "🏖️",
-              "label": "sand"
-            },
-            {
-              "emoji": "🪖",
+              "emoji": "⛑️",
               "label": "helmet"
             },
             {
-              "emoji": "🚢💥",
+              "emoji": "🚢",
               "label": "shipwreck"
-            },
-            {
-              "emoji": "🌊",
-              "label": "sank"
             },
             {
               "emoji": "🪨",
@@ -666,16 +606,8 @@
           },
           "props": [
             {
-              "emoji": "🧑‍🔬",
-              "label": "archaeologists"
-            },
-            {
               "emoji": "🪙🪙",
               "label": "coins"
-            },
-            {
-              "emoji": "🟫",
-              "label": "dirt"
             }
           ],
           "options": [
@@ -728,16 +660,12 @@
           },
           "props": [
             {
-              "emoji": "🥇",
+              "emoji": "🟡",
               "label": "gold"
             },
             {
               "emoji": "🪙🪙",
               "label": "coins"
-            },
-            {
-              "emoji": "🤫",
-              "label": "secret"
             },
             {
               "emoji": "🏝️",
@@ -844,7 +772,7 @@
               "label": "ship"
             },
             {
-              "emoji": "🚢💥",
+              "emoji": "🚢",
               "label": "shipwreck"
             },
             {
@@ -874,12 +802,6 @@
             "id": "c10q",
             "text": "Ancient soldiers wore a bronze ____ to protect their heads."
           },
-          "props": [
-            {
-              "emoji": "💂",
-              "label": "soldiers"
-            }
-          ],
           "options": [
             "jewel",
             "tomb",

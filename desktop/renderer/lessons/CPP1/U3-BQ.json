@@ -190,17 +190,7 @@
         },
         {
           "id": "l3",
-          "text": "Our wooden friend Pinocchio has a big question today.",
-          "props": [
-            {
-              "emoji": "🪵",
-              "label": "Pinocchio"
-            },
-            {
-              "emoji": "❓",
-              "label": "question"
-            }
-          ]
+          "text": "Our wooden friend Pinocchio has a big question today."
         },
         {
           "id": "l4",
@@ -368,12 +358,6 @@
             "id": "c6q",
             "text": "Which word is not an insect: ant, bee, earthworm, butterfly?"
           },
-          "props": [
-            {
-              "emoji": "🪲",
-              "label": "insect"
-            }
-          ],
           "options": [
             "bee",
             "ant",
@@ -470,13 +454,7 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Wonderful work, explorers! You know so many living things now.",
-          "props": [
-            {
-              "emoji": "🌱🐝",
-              "label": "living things"
-            }
-          ]
+          "text": "Wonderful work, explorers! You know so many living things now."
         },
         {
           "id": "l2",
@@ -489,10 +467,6 @@
             {
               "emoji": "🐝🐝",
               "label": "bees"
-            },
-            {
-              "emoji": "🦋🦋",
-              "label": "butterflies"
             },
             {
               "emoji": "🌿",

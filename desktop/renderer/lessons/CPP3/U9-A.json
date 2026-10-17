@@ -242,22 +242,12 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, and I love music.",
-          "props": [
-            {
-              "emoji": "🎶",
-              "label": "music"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, and I love music."
         },
         {
           "id": "l2",
           "text": "Music is everywhere: at home, at school, and in the park.",
           "props": [
-            {
-              "emoji": "🎶",
-              "label": "music"
-            },
             {
               "emoji": "🏠",
               "label": "home"
@@ -279,14 +269,6 @@
             {
               "emoji": "🌙",
               "label": "lullaby"
-            },
-            {
-              "emoji": "👶",
-              "label": "baby"
-            },
-            {
-              "emoji": "🎸🥁",
-              "label": "band"
             }
           ]
         },
@@ -295,33 +277,15 @@
           "text": "Today, we will learn new words to talk about music and instruments.",
           "props": [
             {
-              "emoji": "🎶",
-              "label": "music"
-            },
-            {
               "emoji": "🎸",
               "label": "instrument"
-            },
-            {
-              "emoji": "📝",
-              "label": "words"
             }
           ]
         }
       ],
       "question": {
         "id": "q",
-        "text": "What song makes you feel happy?",
-        "props": [
-          {
-            "emoji": "🎶",
-            "label": "song"
-          },
-          {
-            "emoji": "😊",
-            "label": "happy"
-          }
-        ]
+        "text": "What song makes you feel happy?"
       }
     },
     {
@@ -369,10 +333,6 @@
             {
               "emoji": "🫘",
               "label": "beans"
-            },
-            {
-              "emoji": "💡",
-              "label": "idea"
             }
           ],
           "caption": {
@@ -383,13 +343,7 @@
             {
               "id": "p1a",
               "who": "mason",
-              "text": "I want to create a song today!",
-              "props": [
-                {
-                  "emoji": "🎶",
-                  "label": "song"
-                }
-              ]
+              "text": "I want to create a song today!"
             },
             {
               "id": "p1b",
@@ -419,10 +373,6 @@
             {
               "emoji": "⭐⭐",
               "label": "stars"
-            },
-            {
-              "emoji": "🟥⬜🟥",
-              "label": "stripe"
             }
           ],
           "caption": {
@@ -454,20 +404,12 @@
               "label": "bedtime"
             },
             {
-              "emoji": "🎶",
-              "label": "tune"
-            },
-            {
               "emoji": "👧",
               "label": "sister"
             },
             {
               "emoji": "🌙",
               "label": "lullaby"
-            },
-            {
-              "emoji": "😴",
-              "label": "sleep"
             }
           ],
           "caption": {
@@ -483,17 +425,7 @@
             {
               "id": "p3b",
               "who": "mason",
-              "text": "Music helps me express how I feel inside.",
-              "props": [
-                {
-                  "emoji": "🎶",
-                  "label": "music"
-                },
-                {
-                  "emoji": "😊",
-                  "label": "feel"
-                }
-              ]
+              "text": "Music helps me express how I feel inside."
             }
           ],
           "highlight": [
@@ -512,27 +444,15 @@
           ],
           "props": [
             {
-              "emoji": "🧑‍🎓🧑‍🎓🧑‍🎓",
-              "label": "class"
-            },
-            {
               "emoji": "🎻🪈",
               "label": "instrument"
-            },
-            {
-              "emoji": "🎻",
-              "label": "double bass"
-            },
-            {
-              "emoji": "🔊",
-              "label": "sound"
             },
             {
               "emoji": "🪈",
               "label": "piccolo"
             },
             {
-              "emoji": "🎵💨",
+              "emoji": "🎵",
               "label": "harmonica"
             }
           ],
@@ -573,22 +493,6 @@
             {
               "emoji": "🧻",
               "label": "tube"
-            },
-            {
-              "emoji": "🎀⭐",
-              "label": "decorated"
-            },
-            {
-              "emoji": "👥",
-              "label": "everyone"
-            },
-            {
-              "emoji": "👏",
-              "label": "clapped"
-            },
-            {
-              "emoji": "🎶",
-              "label": "tune"
             }
           ],
           "caption": {
@@ -630,10 +534,6 @@
             {
               "emoji": "🧻",
               "label": "tube"
-            },
-            {
-              "emoji": "🎶",
-              "label": "song"
             }
           ],
           "options": [
@@ -752,16 +652,6 @@
             "id": "c6q",
             "text": "Mason wants to ____ his feelings with music."
           },
-          "props": [
-            {
-              "emoji": "😊",
-              "label": "feelings"
-            },
-            {
-              "emoji": "🎶",
-              "label": "music"
-            }
-          ],
           "options": [
             "create",
             "support",
@@ -802,16 +692,6 @@
             "id": "c8q",
             "text": "The ____ is very large, and its sound is deep and warm."
           },
-          "props": [
-            {
-              "emoji": "🐘",
-              "label": "large"
-            },
-            {
-              "emoji": "🔊",
-              "label": "sound"
-            }
-          ],
           "options": [
             "harmonica",
             "piccolo",
@@ -836,10 +716,6 @@
             {
               "emoji": "🪈",
               "label": "piccolo"
-            },
-            {
-              "emoji": "🎶",
-              "label": "notes"
             }
           ],
           "options": [
@@ -860,12 +736,6 @@
             "id": "c10q",
             "text": "This ____ is lively, and it has a good rhythm."
           },
-          "props": [
-            {
-              "emoji": "🥁",
-              "label": "rhythm"
-            }
-          ],
           "options": [
             "tune",
             "lullaby",

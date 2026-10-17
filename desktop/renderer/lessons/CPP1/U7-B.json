@@ -253,10 +253,6 @@
             {
               "emoji": "⛱️",
               "label": "shade"
-            },
-            {
-              "emoji": "💨",
-              "label": "air"
             }
           ]
         },
@@ -285,10 +281,6 @@
             {
               "emoji": "🚜",
               "label": "farm"
-            },
-            {
-              "emoji": "🧒",
-              "label": "Mia"
             }
           ]
         }
@@ -373,10 +365,6 @@
             {
               "emoji": "🌿",
               "label": "leaves"
-            },
-            {
-              "emoji": "💨",
-              "label": "air"
             }
           ],
           "caption": {
@@ -414,16 +402,8 @@
           ],
           "props": [
             {
-              "emoji": "🐝🏠",
-              "label": "hive"
-            },
-            {
               "emoji": "🍯",
               "label": "honey"
-            },
-            {
-              "emoji": "🐝",
-              "label": "bees"
             }
           ],
           "caption": {
@@ -465,10 +445,6 @@
             {
               "emoji": "🐄🐑",
               "label": "animals"
-            },
-            {
-              "emoji": "🐄",
-              "label": "cows"
             },
             {
               "emoji": "🚪",
@@ -690,16 +666,6 @@
             "id": "c7q",
             "text": "Let's walk outside and ____ some fresh air."
           },
-          "props": [
-            {
-              "emoji": "🚶",
-              "label": "walk"
-            },
-            {
-              "emoji": "💨",
-              "label": "air"
-            }
-          ],
           "options": [
             "moo",
             "sting",

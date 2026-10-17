@@ -257,40 +257,16 @@
       "lines": [
         {
           "id": "l1",
-          "text": "Hello, friends! I am Lingo, your owl teacher.",
-          "props": [
-            {
-              "emoji": "🦉",
-              "label": "owl"
-            }
-          ]
+          "text": "Hello, friends! I am Lingo, your owl teacher."
         },
         {
           "id": "l2",
-          "text": "Today we visit Emilia and her grandma in Greece.",
-          "props": [
-            {
-              "emoji": "👧",
-              "label": "Emilia"
-            },
-            {
-              "emoji": "👵",
-              "label": "grandma"
-            },
-            {
-              "emoji": "🇬🇷",
-              "label": "Greece"
-            }
-          ]
+          "text": "Today we visit Emilia and her grandma in Greece."
         },
         {
           "id": "l3",
           "text": "It is New Year's Day, and there is a very special cake.",
           "props": [
-            {
-              "emoji": "🎆",
-              "label": "New Year's Day"
-            },
             {
               "emoji": "🎂",
               "label": "cake"
@@ -304,10 +280,6 @@
             {
               "emoji": "🍲🍞🍇",
               "label": "food"
-            },
-            {
-              "emoji": "🎉🎈",
-              "label": "fun"
             }
           ]
         }
@@ -354,18 +326,6 @@
             {
               "emoji": "🎂",
               "label": "cake"
-            },
-            {
-              "emoji": "🍽️",
-              "label": "table"
-            },
-            {
-              "emoji": "🎆",
-              "label": "New Year's Day"
-            },
-            {
-              "emoji": "⭕",
-              "label": "round"
             }
           ],
           "caption": {
@@ -401,28 +361,8 @@
           ],
           "props": [
             {
-              "emoji": "📖",
-              "label": "story"
-            },
-            {
               "emoji": "🎂",
               "label": "cake"
-            },
-            {
-              "emoji": "🔪",
-              "label": "cutting"
-            },
-            {
-              "emoji": "🇬🇷",
-              "label": "Greece"
-            },
-            {
-              "emoji": "🔁📅",
-              "label": "tradition"
-            },
-            {
-              "emoji": "📅",
-              "label": "every year"
             }
           ],
           "caption": {
@@ -466,20 +406,8 @@
               "label": "birthday"
             },
             {
-              "emoji": "⬜",
+              "emoji": "🟦",
               "label": "square"
-            },
-            {
-              "emoji": "🍎↔️🍌",
-              "label": "different"
-            },
-            {
-              "emoji": "👫",
-              "label": "both"
-            },
-            {
-              "emoji": "🔍",
-              "label": "compare"
             }
           ],
           "caption": {
@@ -527,10 +455,6 @@
             {
               "emoji": "🎂🎂",
               "label": "cake"
-            },
-            {
-              "emoji": "🔴🟠",
-              "label": "similar"
             }
           ],
           "caption": {
@@ -573,14 +497,6 @@
             {
               "emoji": "🪙",
               "label": "coin"
-            },
-            {
-              "emoji": "🍀",
-              "label": "luck"
-            },
-            {
-              "emoji": "🌠",
-              "label": "wish"
             },
             {
               "emoji": "🎂",
@@ -704,10 +620,6 @@
             {
               "emoji": "📐",
               "label": "corners"
-            },
-            {
-              "emoji": "📏",
-              "label": "sides"
             }
           ],
           "prompt": {
@@ -770,20 +682,6 @@
           "id": "c7",
           "kind": "gap",
           "wordId": "CPP2-U2-SB-166",
-          "props": [
-            {
-              "emoji": "👩",
-              "label": "Martha"
-            },
-            {
-              "emoji": "👩",
-              "label": "Kate"
-            },
-            {
-              "emoji": "🧑🤝🧑",
-              "label": "friends"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "I like Martha and Kate. I like ____."
@@ -830,20 +728,6 @@
           "id": "c9",
           "kind": "trueFalse",
           "wordId": "CPP2-U2-SB-169",
-          "props": [
-            {
-              "emoji": "👵",
-              "label": "Yiayia"
-            },
-            {
-              "emoji": "👧",
-              "label": "Emilia"
-            },
-            {
-              "emoji": "🌠",
-              "label": "wish"
-            }
-          ],
           "prompt": {
             "id": "c9q",
             "text": "In the story, Yiayia tells Emilia to make a wish first."

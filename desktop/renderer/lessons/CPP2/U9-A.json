@@ -215,28 +215,12 @@
       "backdrop": "home",
       "props": [
         {
-          "emoji": "🦉",
-          "label": "owls"
-        },
-        {
-          "emoji": "💡",
-          "label": "invention"
-        },
-        {
-          "emoji": "💭",
-          "label": "idea"
-        },
-        {
-          "emoji": "🍞🔥",
+          "emoji": "🍞",
           "label": "toaster"
         },
         {
           "emoji": "📱",
           "label": "smartphone"
-        },
-        {
-          "emoji": "📦",
-          "label": "object"
         }
       ],
       "lines": [
@@ -299,11 +283,11 @@
               "label": "smoke"
             },
             {
-              "emoji": "🍞🔥",
+              "emoji": "🍞",
               "label": "toaster"
             },
             {
-              "emoji": "🍞⬛",
+              "emoji": "🍞",
               "label": "bread"
             }
           ],
@@ -340,10 +324,6 @@
             {
               "emoji": "🍞",
               "label": "bread"
-            },
-            {
-              "emoji": "🍞🔥",
-              "label": "toaster"
             }
           ],
           "caption": {
@@ -373,10 +353,6 @@
             {
               "emoji": "👖",
               "label": "jeans"
-            },
-            {
-              "emoji": "👖👖",
-              "label": "pair"
             },
             {
               "emoji": "🏫",
@@ -457,20 +433,8 @@
               "label": "slice"
             },
             {
-              "emoji": "🍞",
-              "label": "toast"
-            },
-            {
               "emoji": "🧑‍🔬",
               "label": "inventor"
-            },
-            {
-              "emoji": "💭",
-              "label": "idea"
-            },
-            {
-              "emoji": "🛠️",
-              "label": "invent"
             }
           ],
           "caption": {
@@ -524,12 +488,6 @@
           "id": "c2",
           "kind": "pickPicture",
           "wordId": "CPP2-U9-SB-1096",
-          "props": [
-            {
-              "emoji": "🍞",
-              "label": "bread"
-            }
-          ],
           "prompt": {
             "id": "c2q",
             "text": "Which word means a machine that makes bread hot and crispy?"
@@ -551,10 +509,6 @@
           "kind": "gap",
           "wordId": "CPP2-U9-SB-1090",
           "props": [
-            {
-              "emoji": "👧",
-              "label": "Mia"
-            },
             {
               "emoji": "👖",
               "label": "jeans"
@@ -585,7 +539,7 @@
           "wordId": "CPP2-U9-SB-1108",
           "props": [
             {
-              "emoji": "🍞⬛",
+              "emoji": "🍞",
               "label": "bread"
             }
           ],

@@ -275,12 +275,6 @@
       "id": "hook",
       "type": "hook",
       "backdrop": "city",
-      "props": [
-        {
-          "emoji": "🏙️",
-          "label": "town"
-        }
-      ],
       "lines": [
         {
           "id": "l1",
@@ -288,39 +282,11 @@
         },
         {
           "id": "l2",
-          "text": "Every place has special people, streets and sights.",
-          "props": [
-            {
-              "emoji": "🧑🧑",
-              "label": "people"
-            },
-            {
-              "emoji": "🛣️",
-              "label": "streets"
-            },
-            {
-              "emoji": "🏰",
-              "label": "sights"
-            }
-          ]
+          "text": "Every place has special people, streets and sights."
         },
         {
           "id": "l3",
-          "text": "Some places are very old. Some are new. Some are simply fun!",
-          "props": [
-            {
-              "emoji": "🏛️",
-              "label": "old"
-            },
-            {
-              "emoji": "🆕",
-              "label": "new"
-            },
-            {
-              "emoji": "🎡",
-              "label": "fun"
-            }
-          ]
+          "text": "Some places are very old. Some are new. Some are simply fun!"
         },
         {
           "id": "l4",
@@ -363,20 +329,6 @@
             },
             {
               "who": "leo"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "🛣️",
-              "label": "street"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
-            },
-            {
-              "emoji": "👥",
-              "label": "everyone"
             }
           ],
           "caption": {
@@ -472,14 +424,6 @@
             {
               "emoji": "🏝️",
               "label": "island"
-            },
-            {
-              "emoji": "🌊",
-              "label": "bay"
-            },
-            {
-              "emoji": "👥",
-              "label": "people"
             }
           ],
           "caption": {
@@ -524,16 +468,12 @@
               "label": "hill"
             },
             {
-              "emoji": "🧑📷",
+              "emoji": "📸",
               "label": "tourists"
             },
             {
               "emoji": "☀️",
               "label": "summer"
-            },
-            {
-              "emoji": "👥⭐",
-              "label": "popular"
             }
           ],
           "caption": {
@@ -566,28 +506,6 @@
             },
             {
               "who": "leo"
-            }
-          ],
-          "props": [
-            {
-              "emoji": "🎡",
-              "label": "amusement park"
-            },
-            {
-              "emoji": "💡",
-              "label": "lights"
-            },
-            {
-              "emoji": "🏙️",
-              "label": "town"
-            },
-            {
-              "emoji": "🥇😊",
-              "label": "proud"
-            },
-            {
-              "emoji": "🧑🤝🧑",
-              "label": "buddy"
             }
           ],
           "caption": {
@@ -634,10 +552,6 @@
             {
               "emoji": "🥧",
               "label": "apple pie"
-            },
-            {
-              "emoji": "🏘️",
-              "label": "neighbourhood"
             }
           ],
           "caption": {
@@ -710,10 +624,6 @@
           "wordId": "CPP3-U1-SB-40",
           "props": [
             {
-              "emoji": "👥",
-              "label": "everyone"
-            },
-            {
               "emoji": "🏠",
               "label": "home"
             }
@@ -748,15 +658,11 @@
               "label": "car"
             },
             {
-              "emoji": "➡️",
-              "label": "moves"
-            },
-            {
               "emoji": "⛰️",
               "label": "hill"
             },
             {
-              "emoji": "🪢",
+              "emoji": "🔌",
               "label": "wire"
             }
           ],
@@ -802,10 +708,6 @@
             {
               "emoji": "🍲",
               "label": "soup"
-            },
-            {
-              "emoji": "👃",
-              "label": "smells"
             }
           ],
           "prompt": {
@@ -828,16 +730,6 @@
           "id": "c7",
           "kind": "trueFalse",
           "wordId": "CPP3-U1-SB-60",
-          "props": [
-            {
-              "emoji": "🥇😊",
-              "label": "proud"
-            },
-            {
-              "emoji": "😢",
-              "label": "sad"
-            }
-          ],
           "prompt": {
             "id": "c7q",
             "text": "If you feel proud, you feel sad about something."

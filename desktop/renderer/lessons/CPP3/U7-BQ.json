@@ -170,18 +170,6 @@
           "text": "Yesterday, a news report said an archaeologist found a huge stone statue.",
           "props": [
             {
-              "emoji": "📅",
-              "label": "yesterday"
-            },
-            {
-              "emoji": "📺",
-              "label": "news report"
-            },
-            {
-              "emoji": "🧑‍🔬",
-              "label": "archaeologist"
-            },
-            {
               "emoji": "🪨",
               "label": "stone"
             },
@@ -193,39 +181,11 @@
         },
         {
           "id": "l3",
-          "text": "Archaeologists dig in the ground to find old things from long ago.",
-          "props": [
-            {
-              "emoji": "🧑‍🔬",
-              "label": "archaeologists"
-            },
-            {
-              "emoji": "⛏️",
-              "label": "dig"
-            },
-            {
-              "emoji": "🌍",
-              "label": "ground"
-            },
-            {
-              "emoji": "🏺",
-              "label": "old things"
-            }
-          ]
+          "text": "Archaeologists dig in the ground to find old things from long ago."
         },
         {
           "id": "l4",
-          "text": "Those old things help us understand how people lived in the past.",
-          "props": [
-            {
-              "emoji": "🏺",
-              "label": "old things"
-            },
-            {
-              "emoji": "👥",
-              "label": "people"
-            }
-          ]
+          "text": "Those old things help us understand how people lived in the past."
         }
       ],
       "question": {
@@ -259,12 +219,6 @@
             "id": "c1q",
             "text": "Look at this old clay pot. Which word is it?"
           },
-          "props": [
-            {
-              "emoji": "🏺",
-              "label": "clay pot"
-            }
-          ],
           "options": [
             "CPP3-U7-SB-940",
             "CPP3-U7-SB-939",
@@ -309,10 +263,6 @@
             {
               "emoji": "🌳",
               "label": "park"
-            },
-            {
-              "emoji": "🧑",
-              "label": "poet"
             }
           ],
           "options": [
@@ -336,14 +286,6 @@
             "text": "Ancient builders cut huge ____ to make the temple walls."
           },
           "props": [
-            {
-              "emoji": "👷",
-              "label": "builders"
-            },
-            {
-              "emoji": "🏛️",
-              "label": "temple"
-            },
             {
               "emoji": "🧱",
               "label": "wall"
@@ -369,20 +311,6 @@
             "id": "c5q",
             "text": "A news report on TV tells people about recent events."
           },
-          "props": [
-            {
-              "emoji": "📺",
-              "label": "TV"
-            },
-            {
-              "emoji": "🎉",
-              "label": "events"
-            },
-            {
-              "emoji": "🤩",
-              "label": "news"
-            }
-          ],
           "options": [
             "True",
             "False"
@@ -403,16 +331,8 @@
           },
           "props": [
             {
-              "emoji": "📏",
-              "label": "metre"
-            },
-            {
               "emoji": "📐",
               "label": "measure"
-            },
-            {
-              "emoji": "⚖️",
-              "label": "heavy"
             }
           ],
           "options": [

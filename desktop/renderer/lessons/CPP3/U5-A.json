@@ -265,10 +265,6 @@
         {
           "emoji": "🎒🎒",
           "label": "bag"
-        },
-        {
-          "emoji": "🌳",
-          "label": "nature"
         }
       ],
       "lines": [
@@ -321,10 +317,6 @@
           "backdrop": "kitchen",
           "props": [
             {
-              "emoji": "🗺️",
-              "label": "map"
-            },
-            {
               "emoji": "🎒",
               "label": "backpacking"
             },
@@ -335,14 +327,6 @@
             {
               "emoji": "☀️",
               "label": "summer"
-            },
-            {
-              "emoji": "🎯",
-              "label": "purpose"
-            },
-            {
-              "emoji": "🧳",
-              "label": "trip"
             }
           ],
           "characters": [
@@ -381,14 +365,6 @@
             {
               "emoji": "🚪",
               "label": "gate"
-            },
-            {
-              "emoji": "🗺️",
-              "label": "route"
-            },
-            {
-              "emoji": "🛤️",
-              "label": "path"
             },
             {
               "emoji": "⛰️",
@@ -432,10 +408,6 @@
           "backdrop": "forest",
           "props": [
             {
-              "emoji": "🔊",
-              "label": "roar"
-            },
-            {
               "emoji": "💦",
               "label": "waterfall"
             },
@@ -444,15 +416,11 @@
               "label": "rocks"
             },
             {
-              "emoji": "🏞️",
-              "label": "view"
-            },
-            {
               "emoji": "🛶",
               "label": "canoe"
             },
             {
-              "emoji": "🌊",
+              "emoji": "🏞️",
               "label": "lake"
             }
           ],
@@ -490,14 +458,6 @@
           "id": "p4",
           "backdrop": "river",
           "props": [
-            {
-              "emoji": "🌊",
-              "label": "lake"
-            },
-            {
-              "emoji": "🗑️",
-              "label": "rubbish"
-            },
             {
               "emoji": "🏠",
               "label": "home"
@@ -539,10 +499,6 @@
           "id": "p5",
           "backdrop": "village",
           "props": [
-            {
-              "emoji": "💬",
-              "label": "message"
-            },
             {
               "emoji": "👵",
               "label": "grandmother"
@@ -586,10 +542,6 @@
             {
               "emoji": "🏔️",
               "label": "mountains"
-            },
-            {
-              "emoji": "🧳",
-              "label": "trip"
             }
           ],
           "prompt": {
@@ -634,7 +586,7 @@
           "wordId": "CPP3-U5-SB-646",
           "props": [
             {
-              "emoji": "📷",
+              "emoji": "🖼️",
               "label": "photo"
             }
           ],
@@ -698,16 +650,12 @@
           "wordId": "CPP3-U5-SB-651",
           "props": [
             {
-              "emoji": "🧔",
+              "emoji": "🧑‍🏫",
               "label": "tour guide"
             },
             {
               "emoji": "👧👦",
               "label": "visitors"
-            },
-            {
-              "emoji": "🏞️",
-              "label": "places"
             }
           ],
           "prompt": {
@@ -757,10 +705,6 @@
             {
               "emoji": "👵",
               "label": "grandmother"
-            },
-            {
-              "emoji": "🧳",
-              "label": "trip"
             }
           ],
           "prompt": {
@@ -810,10 +754,6 @@
             {
               "emoji": "🏝️",
               "label": "islands"
-            },
-            {
-              "emoji": "🎒",
-              "label": "rucksacks"
             }
           ],
           "prompt": {

@@ -306,18 +306,20 @@
 .pf svg { width: 1em; height: 1em; }
 .st-actor-in { display: flex; flex-direction: column; align-items: center; position: relative; }
 
-/* ── Props: what the text talks about, labelled ───────────────────── */
-.st-props { position: absolute; left: 50%; top: 262px; translate: -50% 0; display: flex; gap: 18px; justify-content: center; max-width: 1700px; }
-.st-prop { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 150px; padding: 14px 18px 12px; border-radius: 28px;
-  background: rgba(255, 255, 255, 0.9); box-shadow: 0 12px 30px rgba(29, 22, 64, 0.16); transition: transform 250ms var(--spring), box-shadow 250ms, background 250ms; }
-.st-prop figcaption { font: 700 30px var(--font-play); color: #1d1640; }
-.st-prop.lit { transform: scale(1.12); background: #fffbea; box-shadow: 0 0 0 6px #ffd23f, 0 18px 40px rgba(240, 165, 0, 0.35); }
-.st-props.n6 .st-prop, .st-props.n7 .st-prop, .st-props.n8 .st-prop { min-width: 120px; padding: 10px 12px; }
-.st-prop.sm { min-width: 110px; padding: 8px 12px; border-radius: 20px; }
-.st-prop.sm figcaption { font-size: 24px; }
-.st-prop.sm.lit, .ck-props .st-prop { transform: none; }
-.hk-props { position: absolute; left: 50%; top: 360px; translate: -38% 0; display: flex; gap: 22px; justify-content: center; }
-.ck-props { display: flex; gap: 14px; justify-content: center; margin: -6px 0 14px; }
+/* ── Word pops: things the text mentions sit right after their words and zoom up when spoken ── */
+.pw { white-space: nowrap; cursor: pointer; }
+.pw-pic { display: inline-block; font-size: 0.92em; margin-left: 0.14em; line-height: 1; vertical-align: -0.1em; transition: transform 220ms var(--spring), opacity 160ms; filter: drop-shadow(0 3px 4px rgba(29, 22, 64, 0.18)); }
+.pw-pic svg, .pw-pic img { width: 1em; height: 1em; vertical-align: top; }
+.pw.on .pw-pic { transform: scale(1.12); }
+.pw-pic.away { opacity: 0.12; transform: scale(0.6); }
+.pw-pic.land { animation: pw-land 480ms var(--spring); }
+.pw-pic.pulse { animation: pw-pulse 520ms ease-in-out; }
+@keyframes pw-land { 0% { transform: scale(1.7); } 100% { transform: scale(1); } }
+@keyframes pw-pulse { 50% { transform: scale(1.5); } }
+.ls-pops { position: absolute; inset: 0; pointer-events: none; z-index: 40; overflow: hidden; }
+.wp-big { position: absolute; left: 0; top: 0; width: 320px; height: 320px; display: grid; place-items: center; will-change: transform; }
+.wp-glow { position: absolute; inset: -40px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(255, 250, 220, 0.9) 38%, rgba(255, 244, 196, 0.45) 56%, rgba(255, 244, 196, 0) 70%); }
+.wp-big .pf { position: relative; filter: drop-shadow(0 16px 24px rgba(29, 22, 64, 0.3)); }
 /* "Say it with me!" — the word lights up like a highlighter stroke while the class repeats it */
 .rv-word.say { display: inline-block; padding: 0 22px; border-radius: 26px; background: linear-gradient(transparent 52%, #fff07a 52%, #ffe14d 92%, transparent 92%); transition: background 300ms; }
 .rv-word.say .ls-letter { display: inline-block; text-shadow: 0 6px 0 rgba(29, 22, 64, 0.08); transition: color 250ms; }

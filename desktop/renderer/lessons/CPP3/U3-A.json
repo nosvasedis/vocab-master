@@ -269,14 +269,6 @@
       "backdrop": "beach",
       "props": [
         {
-          "emoji": "🦉",
-          "label": "Lingo"
-        },
-        {
-          "emoji": "🌊",
-          "label": "sea"
-        },
-        {
           "emoji": "🗑️",
           "label": "trash"
         },
@@ -287,10 +279,6 @@
         {
           "emoji": "🐢",
           "label": "turtle"
-        },
-        {
-          "emoji": "📖",
-          "label": "words"
         }
       ],
       "lines": [
@@ -431,16 +419,8 @@
               "label": "sea turtle"
             },
             {
-              "emoji": "🕸️",
+              "emoji": "🎣",
               "label": "fishing net"
-            },
-            {
-              "emoji": "🐚",
-              "label": "shell"
-            },
-            {
-              "emoji": "💥",
-              "label": "damage"
             }
           ],
           "caption": {
@@ -488,10 +468,6 @@
             {
               "emoji": "🐢",
               "label": "turtle"
-            },
-            {
-              "emoji": "🌊",
-              "label": "waves"
             }
           ],
           "caption": {
@@ -546,16 +522,8 @@
               "label": "animal"
             },
             {
-              "emoji": "🌊",
-              "label": "sea"
-            },
-            {
               "emoji": "🐢",
               "label": "turtle"
-            },
-            {
-              "emoji": "🦸",
-              "label": "heroes"
             }
           ],
           "caption": {
@@ -766,16 +734,6 @@
           "id": "c8",
           "kind": "trueFalse",
           "wordId": "CPP3-U3-SB-373",
-          "props": [
-            {
-              "emoji": "🐢",
-              "label": "turtle"
-            },
-            {
-              "emoji": "⚠️",
-              "label": "danger"
-            }
-          ],
           "prompt": {
             "id": "c8q",
             "text": "To endanger something means to put it in danger."
@@ -820,10 +778,6 @@
           "kind": "gap",
           "wordId": "CPP3-U3-SB-361",
           "props": [
-            {
-              "emoji": "🪼",
-              "label": "jellyfish"
-            },
             {
               "emoji": "🌊",
               "label": "sea"
