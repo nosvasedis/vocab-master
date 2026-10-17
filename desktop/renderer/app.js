@@ -10,6 +10,7 @@ import {
   selectSmartCoursebookWords,
   lookupCoursebookWord,
 } from "./coursebook-data.js";
+import { sanitizeVocabField, rejectionNote } from "./vocab-quality.js";
 import {
   buildArcadeDeck,
   buildDetectiveQuestions,
@@ -2704,10 +2705,11 @@ function phraseWithTargetHtml(phrase, english) {
 function formatVocabCell(v, pictureStyle = "emoji") {
   let html = `<div class="v-top"><span class="v-num">${escapeHtml(v.number)}</span><span class="v-word">${escapeHtml(v.english)}</span>`;
   if (v.type?.trim()) html += `<span class="v-pos">${escapeHtml(v.type.trim())}</span>`;
+  // Greek sits on the same line: "be born phr. = γεννιέμαι" (saves a line per word).
+  if (v.greek?.trim()) html += `<span class="v-tr"><span class="v-eq">=</span> <span class="v-greek">${escapeHtml(v.greek.trim())}</span></span>`;
   const pics = v.emojis ? textWithPictures(v.emojis, pictureStyle).trim() : "";
   if (pics) html += `<span class="v-emoji">${pics}</span>`;
   html += `</div>`;
-  if (v.greek) html += `<div class="v-greek">${escapeHtml(v.greek)}</div>`;
   if (v.collocation) html += `<div class="vocab-coll v-coll">${phraseWithTargetHtml(v.collocation, v.english)}</div>`;
   normalizeDerivativesList(v.derivatives).forEach((d) => {
     const line = formatDerivativeLine(d);
@@ -3994,7 +3996,9 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .pic { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: -0.28em; color: var(--ink); }
 .v-emoji .pic { width: 7.5mm; height: 7.5mm; }
 .item-text .pic { width: 1.6em; height: 1.6em; vertical-align: -0.45em; margin: 0 0.1em; }
-.v-greek { font-size: 10.4pt; font-weight: 600; margin: 0.4mm 0 0 6.2mm; }
+.v-tr { display: inline-flex; gap: 1.2mm; align-items: baseline; min-width: 0; }
+.v-eq { flex: none; font-size: 10pt; font-weight: 700; color: var(--ink-3); }
+.v-greek { font-size: 10.4pt; font-weight: 600; }
 .v-coll { font-size: 9.4pt; font-style: italic; color: var(--ink-2); margin: 0.6mm 0 0 6.2mm; }
 .v-coll::before { content: "“"; }
 .v-coll::after { content: "”"; }
@@ -4297,10 +4301,10 @@ async function buildLingoDocx(data) {
     if (v) {
       const top = [badge(v.number, 16), run(`  ${v.english}`, { display: true, bold: true, size: 23 })];
       if (v.type?.trim()) top.push(run(`  ${v.type.trim()}`, { italics: true, size: 17, color: k.GREY }));
+      if (v.greek?.trim()) top.push(run("  =  ", { bold: true, size: 19, color: k.GREY }), run(v.greek.trim(), { bold: true, size: 20 }));
       if (v.emojis) top.push(run("  "), ...textRuns(v.emojis, { size: 19, pic: 22 }));
       lines.push(para(top));
       const sub = (runs) => para(runs, { indent: { left: 6 * MM } });
-      if (v.greek) lines.push(sub([run(v.greek, { bold: true, size: 20 })]));
       if (v.collocation) {
         const phrase = splitTargetInPhrase(v.collocation, v.english).map((p) => run(p.text, p.bold ? { italics: true, bold: true, size: 19, color: k.INK } : { italics: true, size: 19, color: "444444" }));
         lines.push(sub([run("“", { italics: true, size: 19, color: "444444" }), ...phrase, run("”", { italics: true, size: 19, color: "444444" })]));
@@ -4491,8 +4495,43 @@ function autofillValueText(value) {
 
 const normEnglish = (s) => String(s || "").toLowerCase().replace(/[’']/g, "'").replace(/[-‐–]/g, " ").replace(/\s+/g, " ").trim();
 
+/** The fields whose AI answers get rule-checked and reviewed (the others are free text). */
+const VOCAB_CHECKED_FIELDS = ["emojis", "derivatives", "synonyms", "antonyms"];
+
+const AUTOFILL_EMOJI_GUIDE = `PICKING THE EMOJI (the picture a student sees next to the word — it must make them think of THIS word):
+- First decide the sense (use provided greek / type / collocation), then in "picture" describe in a few words the single clearest thing to draw, THEN choose the emoji for that picture.
+- Concrete nouns → the thing itself (apple 🍎, helmet ⛑️, lighthouse 🗼 not 🏠). Animals/plants/foods → that exact animal/plant/food.
+- Verbs → the action or its tell-tale object (climb 🧗, cut ✂️, swim 🏊, hide 🙈, whisper 🤫, rescue 🛟, explore 🧭, invent 💡).
+- Adjectives → a clear prototype of the quality (hot 🔥, cold 🥶, huge 🐘, tiny 🐜, fast 🐆, exhausted 😩, brave 🦁, noisy 📢). Feelings → the matching face.
+- Abstract words → a concrete symbol or tiny scene people instantly link to it (success 🏆, danger ⚠️, secret 🤐, idea 💡, journey 🧳, time ⏰, money 💰).
+- Prepositions / adverbs / function words → a spatial or symbolic emoji (up ⬆️, under ⬇️, together 🤝, always 🔁).
+- Match the sense: bat (animal) 🦇 vs bat (cricket) 🏏; seal (verb) ✉️ vs seal (animal) 🦭; match (game) ⚽ vs match (fire) 🔥.
+- 1 emoji is best. Use 2 only when a single one cannot show the meaning (e.g. object + action: ✂️💇). Never 3+, never the same emoji twice.
+- NEVER use: placeholders (❓❗🔤🔠ℹ️🆗✅❌), flags or national symbols, letters/numbers/keycaps, plain coloured shapes, or a face for a word that is not an emotion.
+- Use well-established emojis (Unicode 13 or older) so every device and every picture style can draw them; avoid brand-new emojis.`;
+
+const AUTOFILL_FAMILY_GUIDE = `WORD FAMILY ("derivatives") — the rules that matter most:
+- A word family = DIFFERENT words built from the same root by adding or changing a prefix/suffix, often changing the part of speech: compete → competition (n.), competitor (n.), competitive (adj.), competitively (adv.); teach → teacher (n.); happy → happiness (n.), unhappy (adj.), happily (adv.); excite → excitement (n.), excited (adj.), exciting (adj.).
+- NEVER list the headword itself, and NEVER list a mere inflection of it: not "compete" for compete, not competes/competed/competing, not plural of a noun, not happier/happiest for happy, not running/ran for run, not the same spelling with another part of speech (water (v.) for water (n.)).
+- Participle adjectives (excited, boring) and -ing nouns (building from build) are fine ONLY when they are a different part of speech from the headword.
+- Every entry must be a real, common English word that genuinely shares the root and meaning — no made-up forms, no look-alikes with a different root (cat ≠ catalogue, bear ≠ beard), no synonyms/opposites that merely relate in meaning.
+- Phrasal verbs and fixed phrases: use the family of the key word (give up → none usually; take care of → careful (adj.), carefully (adv.), careless (adj.)).
+- Format: "word (type) - Greek" with the Greek for THAT word; prefer the most useful and level-appropriate forms first.
+- If the word has no real derivatives (pencil, table, yesterday), return "" and add "derivatives" to "none" — do NOT pad the list with the headword or forms of it.`;
+
+const AUTOFILL_RELATION_GUIDE = `SYNONYMS & OPPOSITES:
+- synonyms: words with (nearly) the SAME meaning in THIS sense and the SAME part of speech, interchangeable in the collocation (big ↔ large, begin ↔ start, tired ↔ exhausted). Prefer simple, common words that the class level can understand; a single word is better than a phrase. Never the headword, an inflection of it, a definition, an opposite, or a merely related word (dog ≠ puppy ≠ animal).
+- antonyms: the natural OPPOSITE in THIS sense and the same part of speech, as "word - Greek" (e.g. cold - κρύος). Adjectives: hot/cold, brave/afraid; verbs: open/close, win/lose; nouns: the opposite concept (winner/loser, success/failure). A negated form of the same word (unhappy for happy) is allowed only if no better opposite exists; never "not + word". Never reuse a synonym as an antonym.
+- If a pair is not genuinely possible (an opposite of pencil, a synonym of Monday), return "" and list the field in "none".`;
+
+function vocabFieldLimits(profile) {
+  const max = profile.maxDerivatives >= 99 ? 5 : Math.max(1, profile.maxDerivatives);
+  return { derivatives: max, synonyms: max <= 1 ? 1 : max <= 2 ? 2 : 3, antonyms: max <= 1 ? 1 : 2 };
+}
+
 async function autofillBatch(apiKey, profileId, requests, { strict = false } = {}) {
   const profile = CLASS_PROFILES[profileId];
+  const limits = vocabFieldLimits(profile);
   const allFields = VOCAB_AUTOFILL_FIELDS;
   const schemaFields = allFields.map((k) => `"${k}": string`).join(", ");
 
@@ -4501,28 +4540,37 @@ async function autofillBatch(apiKey, profileId, requests, { strict = false } = {
 ${getProfilePromptBlock(profileId)}
 ${VOCAB_SENSE_DISAMBIGUATION_RULES}
 
-Schema: { "items": [ { "english": string, ${schemaFields}, "none": string[] } ] }
+Schema: { "items": [ { "english": string, "sense": string, "picture": string, ${schemaFields}, "none": string[] } ] }
 
 Rules:
 - One item per input word, in the SAME ORDER as the input; "english" must be copied exactly from the input
-- Each word has "fill" (fields to generate) and optional "provided" (teacher hints — LOCKED, copy exactly)
+- Each word has "fill" (fields to generate) and optional "provided" (teacher hints — LOCKED, copy exactly) and optional "avoid" (answers already rejected — never give those again)
 - Return EVERY key listed in "fill" with real content, PLUS echo every key in "provided" unchanged
+- "sense": FIRST decide the exact meaning of this word (a 3–8 word English gloss, e.g. "to close an envelope"). Everything else must fit it. "picture": 2–6 words naming what the emoji will show. Both are scratch notes for accuracy — always return them
 - type: standard abbreviation n., v., adj., adv., phr. v., prep., conj., pron., det., interj. Must match the locked sense from provided type/greek
 - greek: natural Greek for students at ${profile.label} level — must match provided greek if given, or match provided type
-- emojis: exactly 1 relevant emoji for THIS sense (2 only if one cannot show it); never 3+; never leave empty
+- emojis: 1 emoji (2 only if one cannot show the meaning); never 3+; never leave empty
 - collocation: short natural phrase (3–7 words) using the word in the locked sense — not a dictionary definition; never leave empty
-- derivatives: comma-separated "word (type) - Greek" — other members of the SAME word family (noun/verb/adjective/adverb forms, e.g. compete → competition (n.) - διαγωνισμός, competitive (adj.) - ανταγωνιστικός). Prefer forms suitable for ${profile.cefr}; up to ${profile.maxDerivatives}. Phrasal verbs and fixed phrases can use the family of their key word
-- synonyms: comma-separated, 1–2 simple words or short phrases with the same meaning in this sense
-- antonyms: comma-separated "word - Greek", the natural opposite in this sense (for nouns, the opposite concept, e.g. winner ↔ loser, success ↔ failure)
+- derivatives: comma-separated "word (type) - Greek"; up to ${limits.derivatives}, suitable for ${profile.cefr}
+- synonyms: comma-separated, up to ${limits.synonyms}
+- antonyms: comma-separated "word - Greek", up to ${limits.antonyms}
 - Only if a requested field truly has NO correct answer in English (e.g. an opposite of "pencil"), return "" for it AND list the field name in "none". Never invent wrong or unnatural words just to fill a field${strict ? `
-- SECOND PASS: these fields came back empty last time. Think again carefully — most words DO have a word family, a synonym and an opposite. Use "none" only when an answer is genuinely impossible` : ""}
+- SECOND PASS: these fields came back empty or were rejected last time (see "avoid"). Think again carefully — most words DO have a word family, a synonym and an opposite. Use "none" only when an answer is genuinely impossible` : ""}
+
+${AUTOFILL_EMOJI_GUIDE}
+
+${AUTOFILL_FAMILY_GUIDE}
+
+${AUTOFILL_RELATION_GUIDE}
 
 Examples:
-- { "english": "seal", "provided": { "type": "v." }, "fill": ["greek","emojis","collocation"] } → type "v.", greek "σφραγίζω", emojis about closing/sealing, collocation "seal an envelope"
-- { "english": "seal", "provided": { "greek": "φώκια" }, "fill": ["type","emojis","collocation"] } → type "n.", emojis 🦭, collocation about the animal
-- { "english": "brave", "fill": ["derivatives","synonyms","antonyms"] } → derivatives "bravery (n.) - θάρρος, bravely (adv.) - γενναία", synonyms "courageous", antonyms "afraid - φοβισμένος"`;
+- { "english": "seal", "provided": { "type": "v." }, "fill": ["greek","emojis","collocation"] } → sense "to close something tightly", type "v.", greek "σφραγίζω", picture "sealed envelope", emojis "✉️", collocation "seal an envelope"
+- { "english": "seal", "provided": { "greek": "φώκια" }, "fill": ["type","emojis","collocation"] } → sense "sea animal with flippers", type "n.", emojis "🦭", collocation "a seal on the rocks"
+- { "english": "brave", "fill": ["emojis","derivatives","synonyms","antonyms"] } → emojis "🦁", derivatives "bravery (n.) - θάρρος, bravely (adv.) - γενναία", synonyms "courageous", antonyms "afraid - φοβισμένος"
+- { "english": "compete", "provided": {"type":"v."}, "fill": ["derivatives"] } → derivatives "competition (n.) - διαγωνισμός, competitor (n.) - αντίπαλος, competitive (adj.) - ανταγωνιστικός" (NOT "compete", "competing" or "competes")
+- { "english": "pencil", "fill": ["derivatives","antonyms"] } → derivatives "", antonyms "", none ["derivatives","antonyms"]`;
 
-  const userPrompt = `Return json items for these words. Respect "fill" and "provided" on each:\n${JSON.stringify(requests, null, 2)}`;
+  const userPrompt = `Return json items for these words. Respect "fill", "provided" and "avoid" on each:\n${JSON.stringify(requests, null, 2)}`;
   const result = await callDeepSeek(apiKey, systemPrompt, userPrompt);
   const items = Array.isArray(result.items) ? result.items : [];
   const byEnglish = new Map(items.filter((it) => it?.english).map((it) => [normEnglish(it.english), it]));
@@ -4531,11 +4579,50 @@ Examples:
 }
 
 /**
+ * Second opinion on what the first pass wrote. A separate call acts as a strict teacher: it checks
+ * each emoji, word family, synonym and opposite against the word's sense, and returns corrected
+ * values ONLY for the fields it found faulty.
+ * @param rows [{ english, sense, type, greek, collocation, emojis?, derivatives?, synonyms?, antonyms?, issues? }]
+ * @returns one object per row with the corrected fields (empty object = approved).
+ */
+async function reviewBatch(apiKey, profileId, rows) {
+  const profile = CLASS_PROFILES[profileId];
+  const limits = vocabFieldLimits(profile);
+  const systemPrompt = `You are a strict English teacher for Greek ${profile.label} students (${profile.cefr}) checking AI-written vocabulary cards. Return valid json only.
+
+Schema: { "items": [ { "english": string, "emojis"?: string, "derivatives"?: string, "synonyms"?: string, "antonyms"?: string } ] }
+
+For each row, audit ONLY the fields present in "check". Return the row with a key ONLY for a field that is wrong and needs replacing, containing the corrected value. Return just { "english": ... } when everything is correct. Never touch fields outside "check". The sense is fixed by "sense", "type", "greek" and "collocation".
+
+How to audit:
+- emojis: Imagine a student who sees ONLY the emoji (no text). Would they think of THIS word in THIS sense? Replace it if it shows a different meaning or a homograph, is too vague, is a placeholder, or is a poor stand-in when a clearer emoji exists. Keep a good one. Never return an empty emoji.
+- derivatives: every entry must be a different, real word from the same root (different spelling from the headword and not merely an inflection of it). Remove the headword, plurals/-s/-ed/-ing/-er/-est forms of it, invented words, look-alikes with a different root, and entries without the right Greek. Add the most useful genuine derivatives if the list is thin (up to ${limits.derivatives}). Return "" if none truly exist.
+- synonyms: same meaning in THIS sense and same part of speech, simple and level-appropriate, up to ${limits.synonyms}. Remove the headword, inflections, definitions, opposites and loosely related words.
+- antonyms: "word - Greek", the natural opposite in THIS sense and the same part of speech, up to ${limits.antonyms}. Remove the headword, "not + word" and synonyms. Return "" if there is no genuine opposite.
+- "issues" lists problems already detected automatically (e.g. words that were thrown out); fix those fields.
+
+${AUTOFILL_EMOJI_GUIDE}
+
+${AUTOFILL_FAMILY_GUIDE}`;
+  const userPrompt = `Audit these rows and return json items in the SAME ORDER:\n${JSON.stringify(rows, null, 2)}`;
+  const result = await callDeepSeek(apiKey, systemPrompt, userPrompt);
+  const items = Array.isArray(result.items) ? result.items : [];
+  const byEnglish = new Map(items.filter((it) => it?.english).map((it) => [normEnglish(it.english), it]));
+  return rows.map((r, i) => byEnglish.get(normEnglish(r.english)) || (items.length === rows.length ? items[i] : null) || {});
+}
+
+/**
  * AI-fill vocabulary rows. Every requested field is filled unless the AI says it has no genuine
  * answer (then it is listed in the result's `unavailable` map: english → [fields]).
  * Works in small batches so long word lists are never cut short, and retries empty fields once.
+ * Each answer is rule-checked (a word family never repeats the headword, an opposite is never a
+ * synonym, an emoji must be a real picture) and, for emojis / families / synonyms / opposites,
+ * reviewed by a second AI call before it reaches the teacher.
+ * @param {object} [options]
+ * @param {(emoji: string) => boolean} [options.emojiDrawable] true when every picture style can draw this emoji
+ * @param {(message: string) => void} [options.onStage] progress text for the UI
  */
-async function autofillVocabulary(apiKey, profileId, wordRequests) {
+async function autofillVocabulary(apiKey, profileId, wordRequests, options = {}) {
   const profile = CLASS_PROFILES[profileId];
   if (!profile) throw new Error("Invalid class profile");
   const requests = buildAutofillRequests(wordRequests);
@@ -4548,32 +4635,133 @@ async function autofillVocabulary(apiKey, profileId, wordRequests) {
   }
 
   const BATCH = 8;
+  const limits = vocabFieldLimits(profile);
   const merged = requests.map((r) => ({ english: r.english, ...Object.fromEntries(Object.entries(r.provided)) }));
   const none = requests.map(() => new Set());
+  const aiMade = requests.map(() => new Set()); // checked fields the AI (not the teacher) wrote
+  const rejected = requests.map(() => ({})); // field → answers thrown out, so a retry never repeats them
+  const notes = requests.map(() => ({ sense: "", picture: "" }));
+  const stage = (msg) => { try { options.onStage?.(msg); } catch { /* UI only */ } };
+
+  const ctxFor = (i, key) => ({
+    english: requests[i].english,
+    type: merged[i].type || "",
+    synonyms: merged[i].synonyms || "",
+    max: limits[key],
+    isDrawable: options.emojiDrawable,
+  });
+  // Rule-check one AI answer and keep it in `merged`. Returns true when something usable was kept.
+  const accept = (i, key, raw) => {
+    const text = autofillValueText(raw);
+    if (!text) return false;
+    if (!VOCAB_CHECKED_FIELDS.includes(key)) { merged[i][key] = text; return true; }
+    const { value, rejected: bad } = sanitizeVocabField(key, text, ctxFor(i, key));
+    if (bad.length) rejected[i][key] = [...new Set([...(rejected[i][key] || []), ...bad])];
+    if (!value) return false;
+    merged[i][key] = value;
+    aiMade[i].add(key);
+    return true;
+  };
 
   const runPass = async (indexes, strict) => {
     for (let b = 0; b < indexes.length; b += BATCH) {
       const slice = indexes.slice(b, b + BATCH);
-      const batch = slice.map((i) => ({
-        english: requests[i].english,
-        fill: requests[i].fill.filter((k) => !merged[i][k] && !none[i].has(k)),
-        provided: { ...requests[i].provided, ...Object.fromEntries(requests[i].fill.filter((k) => merged[i][k]).map((k) => [k, merged[i][k]])) },
-      }));
+      const batch = slice.map((i) => {
+        const fill = requests[i].fill.filter((k) => !merged[i][k] && !none[i].has(k));
+        const avoid = Object.fromEntries(fill.filter((k) => rejected[i][k]?.length).map((k) => [k, rejected[i][k]]));
+        return {
+          english: requests[i].english,
+          fill,
+          provided: { ...requests[i].provided, ...Object.fromEntries(requests[i].fill.filter((k) => merged[i][k]).map((k) => [k, merged[i][k]])) },
+          ...(Object.keys(avoid).length ? { avoid } : {}),
+        };
+      });
       const answers = await autofillBatch(apiKey, profileId, batch, { strict });
       answers.forEach((item, j) => {
         const i = slice[j];
-        (Array.isArray(item.none) ? item.none : []).forEach((k) => none[i].add(k));
-        for (const key of batch[j].fill) {
-          const text = autofillValueText(item[key]);
-          if (text) merged[i][key] = text;
+        if (item.sense) notes[i].sense = String(item.sense).trim();
+        if (item.picture) notes[i].picture = String(item.picture).trim();
+        const fields = [...batch[j].fill].sort((a, c) => VOCAB_AUTOFILL_FIELDS.indexOf(a) - VOCAB_AUTOFILL_FIELDS.indexOf(c));
+        const said = Array.isArray(item.none) ? item.none : [];
+        for (const key of fields) {
+          // synonyms come before antonyms, so an opposite can be checked against them
+          if (!accept(i, key, item[key]) && said.includes(key) && !rejected[i][key]?.length) none[i].add(key);
         }
       });
     }
   };
 
-  await runPass(requests.map((_, i) => i), false);
-  const missing = requests.map((r, i) => i).filter((i) => requests[i].fill.some((k) => !merged[i][k] && !none[i].has(k)));
-  if (missing.length) await runPass(missing, true);
+  // The second AI opinion on emojis, word families, synonyms and opposites.
+  const reviewPass = async () => {
+    const indexes = requests.map((_, i) => i).filter((i) => aiMade[i].size);
+    for (let b = 0; b < indexes.length; b += BATCH) {
+      const slice = indexes.slice(b, b + BATCH);
+      const rows = slice.map((i) => {
+        const check = VOCAB_CHECKED_FIELDS.filter((k) => aiMade[i].has(k));
+        const issues = check.filter((k) => rejected[i][k]?.length).map((k) => `${k}: ${rejectionNote(k, rejected[i][k])}`);
+        return {
+          english: requests[i].english,
+          sense: notes[i].sense || undefined,
+          type: merged[i].type || undefined,
+          greek: merged[i].greek || undefined,
+          collocation: merged[i].collocation || undefined,
+          check,
+          ...Object.fromEntries(check.map((k) => [k, merged[i][k]])),
+          ...(issues.length ? { issues } : {}),
+        };
+      });
+      let fixes;
+      try {
+        fixes = await reviewBatch(apiKey, profileId, rows);
+      } catch (err) {
+        if (err?.fatal) throw err;
+        continue; // the review is a bonus — never lose the first answers because of it
+      }
+      fixes.forEach((fix, j) => {
+        const i = slice[j];
+        for (const key of [...rows[j].check].sort((a, c) => VOCAB_AUTOFILL_FIELDS.indexOf(a) - VOCAB_AUTOFILL_FIELDS.indexOf(c))) {
+          if (!(key in (fix || {}))) continue;
+          const text = autofillValueText(fix[key]);
+          const before = merged[i][key];
+          if (!text) {
+            // The reviewer found nothing valid. Emojis must stay; other fields may legitimately end up empty.
+            if (key === "emojis") continue;
+            merged[i][key] = "";
+            none[i].add(key);
+            continue;
+          }
+          const { value, rejected: bad } = sanitizeVocabField(key, text, ctxFor(i, key));
+          if (bad.length) rejected[i][key] = [...new Set([...(rejected[i][key] || []), ...bad])];
+          merged[i][key] = value || before;
+        }
+        // The cleaned synonyms may have changed: re-check the opposites against them.
+        if (aiMade[i].has("antonyms") && merged[i].antonyms) {
+          merged[i].antonyms = sanitizeVocabField("antonyms", merged[i].antonyms, ctxFor(i, "antonyms")).value || merged[i].antonyms;
+        }
+      });
+    }
+  };
+
+  const allIdx = requests.map((_, i) => i);
+  const missingIdx = () => allIdx.filter((i) => requests[i].fill.some((k) => !merged[i][k] && !none[i].has(k)));
+
+  stage("Writing phrases, pictures and word families…");
+  await runPass(allIdx, false);
+  const missing = missingIdx();
+  if (missing.length) {
+    stage("Taking a second look at fields that came back empty…");
+    await runPass(missing, true);
+  }
+  if (allIdx.some((i) => aiMade[i].size)) {
+    stage("Checking pictures, word families, synonyms and opposites…");
+    await reviewPass();
+  }
+  // The reviewer may have emptied a field; ask once more for anything still missing without a "none".
+  const stillMissing = missingIdx();
+  if (stillMissing.length) {
+    stage("Filling the last gaps…");
+    await runPass(stillMissing, true);
+  }
 
   const unavailable = {};
   requests.forEach((r, i) => {
@@ -4738,6 +4926,7 @@ function parseBulkVocabularyText(rawText) {
 }
 
 export {
+  sanitizeVocabField,
   splitTargetInPhrase,
   CLASS_PROFILES,
   configurePictures,

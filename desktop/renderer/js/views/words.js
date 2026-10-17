@@ -11,6 +11,7 @@ import { getApiKey } from "../bridge.js";
 import { actions } from "../actions.js";
 import { loadPoolWords } from "./setup.js";
 import { speak } from "../../arcade/audio.js";
+import { emojiDrawableCheck } from "../pictures.js";
 
 let modeSeg;
 let filling = false;
@@ -356,13 +357,18 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
   $("fillSub").textContent = "Phrases, emojis and word families matched to your class level.";
   actions.setAiState("busy");
   const started = Date.now();
+  let stage = "Phrases, emojis and word families matched to your class level.";
   const tick = setInterval(() => {
-    $("fillSub").textContent = `Phrases, emojis and word families matched to your class level · ${Math.round((Date.now() - started) / 1000)}s`;
+    $("fillSub").textContent = `${stage.replace(/[.…]+$/, "")} · ${Math.round((Date.now() - started) / 1000)}s`;
   }, 1000);
 
   try {
     const requests = words.map((w) => ({ english: w.english.trim(), fields: { ...state.fields }, provided: lockedKeys(w) }));
-    const items = await autofillVocabulary(apiKey, state.profileId, requests);
+    const emojiDrawable = await emojiDrawableCheck().catch(() => null);
+    const items = await autofillVocabulary(apiKey, state.profileId, requests, {
+      emojiDrawable: emojiDrawable || undefined,
+      onStage: (msg) => { stage = msg; },
+    });
     words.forEach((w, i) => {
       const item = items?.[i];
       if (!item) return;
