@@ -589,6 +589,26 @@
       "outTok": 161,
       "usd": 0.00146,
       "job": "audition d-gran-only"
+    },
+    {
+      "t": "2026-10-17T10:36:11.474Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 6,
+      "outTok": 72,
+      "usd": 0.000435,
+      "job": "probe generateContent voices"
+    },
+    {
+      "t": "2026-10-17T10:39:24.467Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "batch",
+      "inTok": 11,
+      "outTok": 109,
+      "usd": 0.00033,
+      "job": "batch probe"
     }
   ]
 }

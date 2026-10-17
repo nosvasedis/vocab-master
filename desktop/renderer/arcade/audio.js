@@ -109,8 +109,16 @@ if (typeof window !== "undefined" && "speechSynthesis" in window) {
   window.speechSynthesis.onvoiceschanged = () => { voice = pickVoice(); };
 }
 
+/* Recorded studio voice (voice.js) gets the first chance to say a line. */
+let delegate = null;
+let delegateStop = null;
+export function setSpeakDelegate(fn, stop) { delegate = fn; delegateStop = stop; }
+
 export function speak(text, { force = false, rate = 0.92 } = {}) {
   if (!force && !settings.tts) return;
+  try { window.speechSynthesis?.cancel(); } catch { /* ignore */ }
+  if (delegate && delegate(String(text || ""))) return;
+  delegateStop?.();
   if (!("speechSynthesis" in window)) return;
   const clean = String(text || "").replace(/_{2,}/g, " blank ").replace(/\s+/g, " ").trim();
   if (!clean) return;
@@ -156,4 +164,5 @@ export function speakAsync(text, { force = false, rate = 0.92, pitch = 1, onWord
 
 export function stopSpeaking() {
   try { window.speechSynthesis?.cancel(); } catch { /* ignore */ }
+  delegateStop?.();
 }

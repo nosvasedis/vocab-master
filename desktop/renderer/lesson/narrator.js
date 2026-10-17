@@ -74,6 +74,7 @@ export async function narrate({ key, text, persona = "", el = null, onLevel = nu
       },
     });
     cancelAnimationFrame(timer);
+    if (my !== token) return; // interrupted by the next line: don't fall back to the system voice
     if (res?.played) { finish(); return; }
   }
 

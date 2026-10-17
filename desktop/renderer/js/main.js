@@ -23,6 +23,7 @@ import { openSettings, openHelp, applyTheme } from "./dialogs.js";
 import { openArcade, isArcadeOpen } from "../arcade/arcade.js";
 import { buildArcadeDeck } from "../arcade/deck.js";
 import { configureAudio } from "../arcade/audio.js";
+import { initVoice } from "../arcade/voice.js";
 import { ensurePictureStyle, pictureSvg } from "./pictures.js";
 import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
 import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, bookLabel } from "../lesson/lesson.js";
@@ -303,6 +304,7 @@ async function boot() {
     applyTheme();
     configureAudio({ sfx: prefs.sfx, tts: prefs.tts });
     await ensurePictureStyle(prefs.pictureStyle);
+    initVoice();
 
     const hadDraft = loadDraft();
     if (state.sessionId) {

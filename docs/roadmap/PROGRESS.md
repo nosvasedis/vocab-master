@@ -3,8 +3,8 @@
 **Branch:** `feature/lessons-experience` · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
 ## Current state
-- **Phase:** 1b done → 1c (voice) next
-- **Next step:** read the user-supplied Gemini 3.8 Flash TTS developer guide (https://aistudio.google.com/learn/gemini-3-8-flash-tts-developer-guide) and follow it for every TTS call. Then write `scripts/audio/audition.mjs` and run it (about $0.05), and ask the user to pick voices.
+- **Phase:** 1c (voice) in progress. The pipeline is built; the next step waits on the user's voice picks.
+- **Next step:** read the user's picks (pasted from the audition page) into `content/voices.json`, then run the pilot audio build (see Phase 1c).
 - **Waiting on the user:**
   - **Cloudflare API token:** not created, because the agent's permission system blocked the dashboard. The user can create it (Account → Workers AI: Edit + Workers R2 Storage: Edit) and paste `CF_ACCOUNT_ID` / `CF_API_TOKEN` into `.env.local`, or allow the action. Only needed for Phase 1d/1e.
   - **Pilot review:** the 9 pilot lessons are `status: draft` and need a human read-through before `approved`.
@@ -45,10 +45,30 @@
 - [x] **Verified in the browser preview:** all 9 pilots play start to finish (37–49 steps each), with no console errors on fast forward/back
 - [ ] **Later polish:** a "Calm motion" toggle in Settings (`prefs.calmMotion` is already read by `teachLesson`); a header layout for narrow windows
 
-## Phase 1c: voice
-- [ ] Audition (the user picks voices) → `content/voices.json`
-- [ ] `build-audio.mjs` (batch, capped) → pilots → all narration → words
-- [ ] `arcade/voice.js`, `voice-index.js`; `speak()` delegation
+## Phase 1c: voice (in progress)
+Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
+- verbatim `text`, with direction in a per-turn `speech_metadata.style`;
+- inline `<tags>`, IPA in `/slashes/`, conversational mode for 2 prebuilt voices;
+- Voice Design for custom voices.
+
+**API facts learned by probing (2026-10-17):**
+- Interactions API (`POST /v1beta/interactions`) reports real usage (`usage.total_output_tokens`, 25 tokens per second of audio).
+- `generateContent` + `batchGenerateContent` also work for 3.8 TTS, at half price. They accept studio voices (Sulafat…) and library voices (en-gb-tutor-6…), but **not designed `voice_…` ids** and **not style**. A 2-clip batch finished in under 3 minutes; results are under `metadata.output.inlinedResponses.inlinedResponses`.
+- Voice Design rejects child voices (safety policy). Child characters use youthful studio voices (Puck, Fenrir, Leda, Laomedeia).
+
+**Done so far:**
+- [x] `scripts/lib/gemini-tts.mjs` (Interactions client, voices list, ledger)
+- [x] `scripts/audio/audition.mjs`: designed lingo_f, lingo_m and grandma (ids in `content/voices.json`), plus 48 clips for $0.05. Published as an Artifact: https://claude.ai/artifact/K8178vE61HfYL1ZjEndMxe (local copy: `work/audition/index.html`)
+- [x] `scripts/audio/build-audio.mjs`:
+  - routing: style or designed voice → standard; otherwise → batch;
+  - Opus 20 kbps, silence trim, loudnorm;
+  - manifest at `desktop/renderer/assets/audio/manifest.json`;
+  - `--dry-run`, `--collect`, `--retake`, `--narrator <voice>`
+- [x] `arcade/voice.js` + `voice-index.js`: clip player with lip-sync level, wired into the narrator and into `speak()`, so the arcade gets the recorded voice too. `tests/voice.test.mjs`
+- [ ] **Waiting on the user's voice picks.** Measured cost with a studio/library narrator (batch) and style only on dialogue: pilots $0.28, all 81 lessons ≈ $2.55, words ≈ $0.22. A designed narrator forces the standard API, so 81 lessons ≈ $4.60, which is over the cap.
+- [ ] After the picks, update `content/voices.json` (`cast.*`, `picked: true`), then:
+  `node scripts/audio/build-audio.mjs --lessons CPP1-U1-BQ,CPP1-U1-A,CPP1-U1-B,CPP2-U1-BQ,CPP2-U1-A,CPP2-U1-B,CPP3-U1-BQ,CPP3-U1-A,CPP3-U1-B --only lessons`
+  then `--collect` a few minutes later, then words (`--only words`)
 
 ## Phase 1d: art · 1e: packs and delivery · 1f: remaining 72 lessons
 - [ ] See PLAN.md §4, §6, §10. Remaining lessons: `node scripts/lessons/draft-lessons.mjs --all` (about $0.60)
