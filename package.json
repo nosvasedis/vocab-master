@@ -7,7 +7,7 @@
     "start": "node proxy.js",
     "desktop": "npm --prefix desktop start",
     "smoke": "npm --prefix desktop run smoke",
-    "dist": "npm --prefix desktop run dist",
+    "dist": "npm --prefix desktop run dist && node scripts/verify-package.mjs",
     "test": "node --test \"tests/*.test.mjs\""
   },
   "dependencies": {
