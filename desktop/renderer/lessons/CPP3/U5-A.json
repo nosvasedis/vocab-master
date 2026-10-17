@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-644",
-      "emoji": "🤝",
+      "emoji": "🗣️➡️🙂",
       "kidDefinition": "To make someone agree to do something.",
       "examples": [
         "Leo tried to persuade me to swim, but I said no.",
@@ -540,7 +540,7 @@
           "backdrop": "village",
           "props": [
             {
-              "emoji": "📱",
+              "emoji": "💬",
               "label": "message"
             },
             {

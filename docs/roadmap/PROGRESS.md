@@ -25,6 +25,23 @@
   4. Phase 2: live Kahoot-style games (no-phones host first, then Firebase phone mode). See PLAN §9.
 - **Known:** the local router (fritz.box) cached a negative DNS answer for the brand-new r2.dev host; it expires by itself. Content was verified through Cloudflare's IP.
 
+## Pedagogical revision "show what you say" (2026-10-17 evening, from the user)
+- **User's requirements:** everything a lesson says must be visible; lessons must be pedagogically exact; visuals calmer; a new Lingo voice recorded now; no scheduled tasks (the daily task was deleted).
+- **Schema:** `props` ({emoji,label}) on story panels, hook scene/lines and quiz items. `visibilityIssues()` uses `content/visual-lexicon.json` (picturable nouns, built by `scripts/lessons/build-lexicon.mjs`), plus backdrop words and cast words. A test enforces 0 unshown mentions in every lesson. Focus-word pictures must be unique per lesson.
+- **Pipeline (all re-runnable):**
+  - `revise-lessons.mjs` (Claude Haiku 5.5 with a strict rubric);
+  - `qa-checks.mjs` (DeepSeek V4.1 Flash, the user's choice; one right answer, topic distractors);
+  - `polish-lessons.mjs` (backdrop from caption, missing props);
+  - `fix-pictures.mjs` (hand-reviewed picture fixes after auditing all 810 word pictures).
+  - `print-lesson.mjs <id>` prints a lesson as a readable script for review.
+- **Player:**
+  - labelled prop shelf that lights up with the spoken word;
+  - `ctx.picFit` sizes 1–5 emoji compositions;
+  - calmer motion (no endless floats or drifts; fly-ins animate an inner wrapper so characters don't jump);
+  - new owl beak/mouth with `svgOrigin` pivots, and a talking flap for system voices.
+- **New settings:** 16 backdrops (cave, snow, zoo, river, museum, mountain, jungle, underwater, bedroom, library, station, volcano, savanna, camp, castle, market). They have procedural scenes now; **AI art is not generated yet**, because the free Workers AI allowance was used up. Run `node scripts/art/build-art.mjs --only backdrops` after 00:00 UTC.
+- **Voice:** Lingo = `en-gb-tutor-6` (also the words voice). Everything is recorded through the Gemini Batch API (`voices.json` `forceBatch`), with no daily cap. Characters use studio/library voice pools.
+
 ## Fixes after the first classroom test (2026-10-17, from the user)
 - **Silent lessons and bubbles skipping:** the lessons obeyed the arcade's "read words aloud" pref, which the user had set off. Lesson narration now has its own toolbar switch (on by default; the arcade pref is restored on close). When muted, lines still pause for reading time (`narrator.readSilently`).
 - **Owl bubble covered the game's Play button:** a z-index put the actors-layer bubble above the UI layer. Removed. Game intro lines are now read inside the game card.

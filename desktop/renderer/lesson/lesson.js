@@ -4,6 +4,10 @@ import { buildArcadeDeck, firstEmoji } from "../arcade/deck.js";
 import { openPlayer, isPlayerOpen, closePlayer } from "./player.js";
 
 const byId = new Map(CPP_WORDBANK.map((w) => [w.id, w]));
+// Most word-bank emojis are generic fillers (✨ sits on 200+ words); trust one only when ≤2 words share it.
+const bankShare = new Map();
+for (const w of CPP_WORDBANK) if (w.emojis) bankShare.set(w.emojis, (bankShare.get(w.emojis) || 0) + 1);
+const trustedEmoji = (w) => ((bankShare.get(w.emojis) || 0) <= 2 ? firstEmoji(w.emojis) : "");
 let catalogPromise = null;
 let artPromise = null;
 
@@ -84,7 +88,8 @@ export async function openLesson(entryOrId, opts) {
     artUrl: (key) => (art.backdrops?.[key] ? `./assets/art/${art.backdrops[key]}` : null),
     lesson,
     words,
-    wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: firstEmoji(w.emojis) } : null; },
+    // Non-focus words (quiz distractors): the lesson's own picture, else a trusted bank emoji.
+    wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: lesson.pictures?.[id] || trustedEmoji(w) } : null; },
     deck,
     picture: opts.picture,
     bookLabel: label,

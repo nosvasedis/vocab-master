@@ -274,7 +274,7 @@
           "text": "Today we ask: what is a friend? Let's explore!",
           "props": [
             {
-              "emoji": "👫",
+              "emoji": "🧑‍🤝‍🧑",
               "label": "friend"
             }
           ]
@@ -668,7 +668,7 @@
               "label": "friends"
             },
             {
-              "emoji": "🤝",
+              "emoji": "📝",
               "label": "homework"
             }
           ],

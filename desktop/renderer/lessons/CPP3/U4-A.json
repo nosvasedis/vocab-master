@@ -285,7 +285,7 @@
               "label": "child"
             },
             {
-              "emoji": "🤲🟤",
+              "emoji": "🏺",
               "label": "clay"
             }
           ]
@@ -403,7 +403,7 @@
               "label": "label"
             },
             {
-              "emoji": "🤲🟤",
+              "emoji": "🏺",
               "label": "clay"
             }
           ],
@@ -455,7 +455,7 @@
               "label": "vase"
             },
             {
-              "emoji": "🤲🟤",
+              "emoji": "🏺",
               "label": "clay"
             },
             {
@@ -463,7 +463,7 @@
               "label": "hands"
             },
             {
-              "emoji": "🔶🔷",
+              "emoji": "🔷",
               "label": "shape"
             }
           ],
@@ -641,7 +641,7 @@
               "label": "pottery"
             },
             {
-              "emoji": "🦕",
+              "emoji": "🔷",
               "label": "shape"
             },
             {
@@ -649,7 +649,7 @@
               "label": "cup"
             },
             {
-              "emoji": "🎨",
+              "emoji": "🏺",
               "label": "vase"
             }
           ]
@@ -673,7 +673,7 @@
           },
           "props": [
             {
-              "emoji": "🎨",
+              "emoji": "🏺",
               "label": "vase"
             },
             {
@@ -727,7 +727,7 @@
               "label": "star"
             },
             {
-              "emoji": "🎨",
+              "emoji": "🏺",
               "label": "vase"
             }
           ]
@@ -777,11 +777,11 @@
               "label": "cup"
             },
             {
-              "emoji": "🎨",
+              "emoji": "🏺",
               "label": "vase"
             },
             {
-              "emoji": "💭",
+              "emoji": "🏺",
               "label": "clay"
             }
           ]
@@ -805,7 +805,7 @@
           },
           "props": [
             {
-              "emoji": "👦",
+              "emoji": "🏰",
               "label": "sandcastle"
             },
             {
@@ -839,7 +839,7 @@
           },
           "props": [
             {
-              "emoji": "💭",
+              "emoji": "🏺",
               "label": "clay"
             },
             {

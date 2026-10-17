@@ -138,7 +138,7 @@ function encode(wav, hash) {
   const tmp = path.join(TMP, `${hash}.wav`);
   fs.writeFileSync(tmp, wav);
   const trim = "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05";
-  execFileSync(ffmpegPath, ["-y", "-loglevel", "error", "-i", tmp, "-af", `${trim},areverse,${trim},areverse,loudnorm=I=-18:TP=-2:LRA=11`, "-ac", "1", "-ar", "24000", "-c:a", "libopus", "-b:a", "20k", "-application", "voip", out]);
+  execFileSync(ffmpegPath, ["-y", "-loglevel", "error", "-i", tmp, "-af", `${trim},areverse,${trim},areverse,loudnorm=I=-18:TP=-2:LRA=11`, "-ac", "1", "-ar", "24000", "-c:a", "libopus", "-b:a", "20k", "-application", "voip", out], { timeout: 60_000 });
   fs.rmSync(tmp, { force: true });
   return rel;
 }
@@ -243,7 +243,7 @@ function encodeSegment(srcFile, [a, b], hash) {
   const out = path.join(AUDIO_DIR, rel);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   const trim = "silenceremove=start_periods=1:start_threshold=-50dB:start_silence=0.05";
-  execFileSync(ffmpegPath, ["-y", "-loglevel", "error", "-ss", a.toFixed(3), "-to", b.toFixed(3), "-i", srcFile, "-af", `${trim},areverse,${trim},areverse,loudnorm=I=-18:TP=-2:LRA=11`, "-ac", "1", "-ar", "24000", "-c:a", "libopus", "-b:a", "20k", "-application", "voip", out]);
+  execFileSync(ffmpegPath, ["-y", "-loglevel", "error", "-ss", a.toFixed(3), "-to", b.toFixed(3), "-i", srcFile, "-af", `${trim},areverse,${trim},areverse,loudnorm=I=-18:TP=-2:LRA=11`, "-ac", "1", "-ar", "24000", "-c:a", "libopus", "-b:a", "20k", "-application", "voip", out], { timeout: 60_000 });
   return rel;
 }
 
@@ -325,10 +325,18 @@ async function runOpenRouter(list) {
 
 /* ── Batch (generateContent) ─────────────────────────────────────── */
 async function api(method, url, body) {
-  const res = await fetch(url, { method, headers: { "x-goog-api-key": requireEnv("GEMINI_API_KEY"), "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
-  const text = await res.text();
-  if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0, 300)}`);
-  return JSON.parse(text);
+  // Batch results can be ~100 MB of inline audio; a stalled download must not hang the run forever.
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const res = await fetch(url, { method, headers: { "x-goog-api-key": requireEnv("GEMINI_API_KEY"), "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined, signal: AbortSignal.timeout(300_000) });
+      const text = await res.text();
+      if (!res.ok) throw Object.assign(new Error(`HTTP ${res.status}: ${text.slice(0, 300)}`), { fatal: res.status < 500 && res.status !== 429 });
+      return JSON.parse(text);
+    } catch (e) {
+      if (e.fatal || attempt >= 3) throw e;
+      console.log(`    retry ${attempt} (${e.name === "TimeoutError" ? "timed out" : e.message.slice(0, 80)})`);
+    }
+  }
 }
 
 async function submitBatches(list) {
@@ -375,7 +383,12 @@ async function collectBatches(jobsByHash) {
       inTok += it.response.usageMetadata?.promptTokenCount || 0;
       outTok += it.response.usageMetadata?.candidatesTokenCount || Math.ceil(seconds * PRICING.audioTokensPerSecond);
       const job = jobsByHash.get(hash) || { hash, key: state.clips[hash]?.key, text: "", spoken: "" };
-      const rel = encode(wav, hash);
+      let rel;
+      try { rel = encode(wav, hash); } catch (e) {
+        state.clips[hash] = { status: "error", key: job.key, error: `encode: ${e.code || e.message}`.slice(0, 200) };
+        console.log(`    ✗ ${job.key || hash}: encode failed (${e.code || "error"}) — retake later`);
+        continue;
+      }
       if (job.key) registerClip(job, rel, seconds); else state.clips[hash] = { status: "done", f: rel, d: seconds };
       ok++;
     }

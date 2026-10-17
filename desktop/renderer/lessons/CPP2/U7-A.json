@@ -502,7 +502,7 @@
               "label": "page"
             },
             {
-              "emoji": "🦅👁️",
+              "emoji": "📜",
               "label": "hieroglyphics"
             },
             {
@@ -543,7 +543,7 @@
           ],
           "props": [
             {
-              "emoji": "🧩",
+              "emoji": "🔺",
               "label": "model"
             },
             {
@@ -551,7 +551,7 @@
               "label": "pyramid"
             },
             {
-              "emoji": "🧱",
+              "emoji": "🧵",
               "label": "material"
             },
             {
@@ -750,15 +750,15 @@
           },
           "props": [
             {
-              "emoji": "👫",
+              "emoji": "📦",
               "label": "cardboard"
             },
             {
-              "emoji": "💭",
+              "emoji": "🧵",
               "label": "material"
             },
             {
-              "emoji": "👩‍🏫",
+              "emoji": "🔺",
               "label": "model"
             },
             {
@@ -832,7 +832,7 @@
           },
           "props": [
             {
-              "emoji": "⛺",
+              "emoji": "📜",
               "label": "hieroglyphics"
             },
             {
@@ -840,11 +840,11 @@
               "label": "picture"
             },
             {
-              "emoji": "💡",
+              "emoji": "🔣",
               "label": "symbol"
             },
             {
-              "emoji": "🏫",
+              "emoji": "✍️",
               "label": "writing"
             }
           ]
@@ -874,7 +874,7 @@
               "label": "box"
             },
             {
-              "emoji": "🎉",
+              "emoji": "🔩",
               "label": "metal"
             }
           ]
@@ -900,7 +900,7 @@
           },
           "props": [
             {
-              "emoji": "🏘️",
+              "emoji": "🔒",
               "label": "lock"
             }
           ]

@@ -458,7 +458,7 @@
               "label": "respond"
             },
             {
-              "emoji": "✉️",
+              "emoji": "💬",
               "label": "message"
             }
           ],
@@ -702,11 +702,11 @@
               "label": "listen"
             },
             {
-              "emoji": "👫",
+              "emoji": "🧑‍🤝‍🧑",
               "label": "friend"
             },
             {
-              "emoji": "🤝",
+              "emoji": "💬",
               "label": "message"
             }
           ],

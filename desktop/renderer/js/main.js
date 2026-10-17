@@ -188,14 +188,17 @@ async function newUnit() {
 }
 
 function deckContext() {
-  const lookup = (eng) => lookupCoursebookWord(eng, bookTitle(), unitNumber());
+  // Word-bank emojis are mostly generic fillers; games only get the trusted ones.
+  const trusted = (row) => (row ? { ...row, emojis: engine.trustedBankEmoji(row) } : row);
+  const lookup = (eng) => trusted(lookupCoursebookWord(eng, bookTitle(), unitNumber()));
   const label = `${bookTitle() || "Your unit"}${unitNumber() ? ` · Unit ${unitNumber()}` : ""}`;
-  const words = filledWords();
+  // Step 2 rows saved before the emoji fix may still hold the bank's filler for that word.
+  const words = filledWords().map((w) => (engine.isJunkBankEmoji(w.english, w.emojis) ? { ...w, emojis: "" } : w));
   if (words.length >= 3) return { deck: buildArcadeDeck(words, lookup), title: label };
   const vocab = state.data?.lingoLauncher?.vocabulary || [];
   if (vocab.length >= 3) return { deck: buildArcadeDeck(vocab, lookup), title: label };
   if (isCpp()) {
-    const picked = pickFromQuery(coursebookQuery());
+    const picked = pickFromQuery(coursebookQuery()).map(trusted);
     if (picked.length >= 3) return { deck: buildArcadeDeck(picked, lookup), title: `${CPP_BOOKS[state.cpp.bookId].title} · Unit ${state.cpp.unit}` };
   }
   return null;

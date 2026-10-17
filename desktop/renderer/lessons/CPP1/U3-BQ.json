@@ -535,5 +535,9 @@
   "qaBy": {
     "model": "deepseek/deepseek-v4.1-flash",
     "date": "2026-10-17"
+  },
+  "pictures": {
+    "CPP1-U3-SB-287": "🖼️",
+    "CPP1-U3-SB-288": "🧩"
   }
 }
