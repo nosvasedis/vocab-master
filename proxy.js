@@ -14,6 +14,8 @@ const PORT = Number(process.env.PORT) || 8787;
 const TARGET = "api.deepseek.com";
 // One source of truth: the web version serves the same renderer as the desktop app.
 const RENDERER_DIR = path.join(__dirname, "desktop", "renderer");
+// desktop/package.json is the single source of the app version (web + desktop).
+const APP_VERSION = JSON.parse(fs.readFileSync(path.join(__dirname, "desktop", "package.json"), "utf8")).version;
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -151,6 +153,11 @@ const server = http.createServer(async (req, res) => {
     return proxyDeepSeek(req, res, "POST", "/chat/completions", body);
   }
 
+  if (req.method === "GET" && urlPath === "/app-info") {
+    res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
+    return res.end(JSON.stringify({ version: APP_VERSION }));
+  }
+
   if (req.method === "GET" && urlPath === "/user/balance") {
     return proxyDeepSeek(req, res, "GET", "/user/balance", null);
   }
@@ -175,7 +182,7 @@ server.on("error", (err) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Vocab Master Studio 2.0: http://localhost:${PORT}/`);
+  console.log(`Vocab Master ${APP_VERSION}: http://localhost:${PORT}/`);
   console.log(`DeepSeek proxy:          http://localhost:${PORT}/chat/completions`);
   console.log(`DOCX export:             http://localhost:${PORT}/export/docx`);
   console.log("Press Ctrl+C to stop.");

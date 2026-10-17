@@ -289,7 +289,8 @@ async function boot() {
       const info = await d.info().catch(() => null);
       $("appVersion").textContent = info ? `v${info.version}` : "";
     } else {
-      $("appVersion").textContent = "Web";
+      const info = await fetch("/app-info").then((r) => (r.ok ? r.json() : null)).catch(() => null);
+      $("appVersion").textContent = info?.version ? `v${info.version} · Web` : "Web";
     }
     setAiState();
     updateLibraryCount();

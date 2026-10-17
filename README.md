@@ -1,4 +1,4 @@
-# Vocab Master — Teacher Studio 2.0 🎓
+# Vocab Master — Teacher Studio 3.0 🎓
 
 **AI-Powered Vocabulary ("Lingo Launcher") & Assessment ("Dictation") Worksheet Architect for ESL Teachers (A–E Senior / CEFR Early A1 to B1).**
 
@@ -12,8 +12,8 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 
 1. Go to the [**GitHub Releases**](../../releases/latest) page.
 2. Choose either download option:
-   - **💿 `Vocab-Master-Setup-2.0.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
-   - **🧳 `Vocab-Master-Portable-2.0.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
+   - **💿 `Vocab-Master-Setup-3.0.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
+   - **🧳 `Vocab-Master-Portable-3.0.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
 3. On first launch, click **Sample unit** in the top bar to explore a complete unit right away, or open **Settings** (bottom of the sidebar) to paste your [DeepSeek API key](https://platform.deepseek.com/api_keys) (stored encrypted on your PC via Windows DPAPI).
 
 ---
