@@ -149,3 +149,45 @@ test('worksheet vocabulary table is exactly the Step 2 table (deleted fields sta
     assert.equal(v[1].greek, ''); assert.deepEqual(v[1].synonyms, []); assert.equal(v[0].greek, 'γενναίος');
   } finally { globalThis.fetch = original; }
 });
+
+test('word-bank filler emojis are not trusted; specific ones are', async () => {
+  const { CPP_WORDBANK, trustedBankEmoji, isJunkBankEmoji } = await import('../desktop/renderer/app.js');
+  const predict = CPP_WORDBANK.find((e) => e.english === 'predict');
+  assert.equal(predict.emojis, '✨');
+  assert.equal(trustedBankEmoji(predict), '');
+  assert.ok(isJunkBankEmoji('predict', '✨'));
+  assert.ok(!isJunkBankEmoji('predict', '🔮'));
+  const carrot = CPP_WORDBANK.find((e) => e.english === 'carrot');
+  assert.equal(trustedBankEmoji(carrot), carrot.emojis);
+  const kept = CPP_WORDBANK.filter((e) => trustedBankEmoji(e)).length;
+  assert.ok(kept > 100 && kept < CPP_WORDBANK.length / 5);
+});
+
+test('AI fill never gives two words the same emoji', async () => {
+  const { autofillVocabulary } = await import('../desktop/renderer/app.js');
+  const original = globalThis.fetch;
+  const prompts = [];
+  const reply = (obj) => ({ ok: true, json: async () => ({ choices: [{ message: { content: JSON.stringify(obj) } }] }) });
+  globalThis.fetch = async (_u, init) => {
+    const body = JSON.parse(init.body);
+    const sys = body.messages[0].content, user = body.messages[1].content;
+    prompts.push(user);
+    if (sys.includes('picks emojis') || sys.includes('You pick emojis')) {
+      return reply({ items: [{ english: 'jog', emojis: '🏃‍♂️' }, { english: 'sprint', emojis: '💨' }] });
+    }
+    if (sys.includes('strict English teacher')) return reply({ items: [] });
+    // first pass: the AI reuses 🏃 for three words, one of which the unit already owns
+    return reply({ items: [{ english: 'run', emojis: '🏃' }, { english: 'jog', emojis: '🏃' }, { english: 'sprint', emojis: '🏃' }] });
+  };
+  try {
+    const f = { emojis: true };
+    const out = await autofillVocabulary('k', 'B_SENIOR', ['run', 'jog', 'sprint'].map((english) => ({ english, fields: f, provided: { type: 'v.' } })), {
+      siblingEmojis: [{ english: 'walk', emojis: '🚶' }],
+    });
+    const heads = out.map((o) => o.emojis);
+    assert.equal(heads[0], '🏃');
+    assert.equal(new Set(heads).size, 3);
+    assert.ok(heads.every(Boolean));
+    assert.ok(prompts[0].includes('ALREADY USED') && prompts[0].includes('🚶'));
+  } finally { globalThis.fetch = original; }
+});
