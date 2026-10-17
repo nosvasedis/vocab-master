@@ -62,6 +62,7 @@ export default {
       await ctx.sayWord(w);
       if (!alive || !live()) return;
       const def = $(".rv-def");
+      if (!def) return;
       if (def.textContent) { def.hidden = false; rise(def, { y: 20 }); await ctx.say({ id: `def:${w.id}`, text: w.kidDefinition }, { key: `d:${ctx.lesson.id}:${w.id}`, el: null }); }
       if (!alive || !live()) return;
       const ex = $(".rv-ex");
