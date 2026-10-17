@@ -3,986 +3,575 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' app: data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' app: data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' data: blob:; connect-src 'self'" />
   <title>Vocab Master</title>
   <link rel="icon" type="image/png" href="./assets/vocab-master-mark.png" />
   <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles/base.css" />
+  <link rel="stylesheet" href="./styles/app.css" />
+  <link rel="stylesheet" href="./styles/arcade.css" />
 </head>
 <body>
-  <div class="app">
-    <!-- ── Top bar ─────────────────────────────────────────────── -->
-    <header class="topbar">
-      <div class="brand">
-        <div class="brand-logo" aria-hidden="true">
-          <img src="./assets/vocab-master-mark.png" alt="" width="48" height="48" />
+  <!-- ── Icon sprite ─────────────────────────────────────────────── -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 19l-7-7 7-7"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol>
+    <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-graduation" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2.5 9 2.5 12 0v-5"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7l10-5z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8zM5 2l.6 1.4L7 4l-1.4.6L5 6l-.6-1.4L3 4l1.4-.6z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+    <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.98 3.59l-.6 6A3 3 0 0 0 5.08 18c.93 0 1.8-.43 2.36-1.17L8.5 15.5h7l1.06 1.33A3 3 0 0 0 21.9 14.6l-.6-6A4 4 0 0 0 17.32 5z"/></symbol>
+    <symbol id="i-library" viewBox="0 0 24 24"><path d="M16 6l4 14M12 6v14M8 8v12M4 4v16"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="m15 5 4 4"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4zM15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+    <symbol id="i-volume-off" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4"/></symbol>
+    <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24M2 2l20 20"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+    <symbol id="i-sort" viewBox="0 0 24 24"><path d="m3 16 4 4 4-4M7 20V4M20 8h-5M15 10V6.5a2.5 2.5 0 0 1 5 0V10M15 14h5l-5 6h5"/></symbol>
+    <symbol id="i-eraser" viewBox="0 0 24 24"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21M22 21H7M5 11l9 9"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2z"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><path d="M10 2h4M12 14l3-3"/><circle cx="12" cy="14" r="8"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m6 3 14 9-14 9V3z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5M9 18h6M10 22h4"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="M16.5 9.4 7.55 4.24M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05M12 22.08V12"/></symbol>
+    <symbol id="i-word" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 12l1.5 6 2.5-4.5 2.5 4.5L16 12"/></symbol>
+    <symbol id="i-pdf" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 12v6M9 15l3 3 3-3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"/></symbol>
+    <symbol id="i-maximize" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+    <symbol id="i-zoom-in" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></symbol>
+    <symbol id="i-zoom-out" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M8 11h6"/></symbol>
+    <symbol id="i-wand" viewBox="0 0 24 24"><path d="m15 4-1-1M15 4l1-1M15 4V2M15 4v2M19 8h2M17.5 5.5 19 4M9 21 21 9l-3-3L6 18zM14 9l3 3"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/></symbol>
+    <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></symbol>
+    <symbol id="i-skip" viewBox="0 0 24 24"><path d="m5 4 10 8-10 8V4zM19 5v14"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></symbol>
+  </svg>
+
+  <div class="app" id="app">
+    <!-- ══ Sidebar ══ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sb-brand">
+        <div class="sb-logo"><img src="./assets/vocab-master-mark.png" alt="" width="36" height="36" /></div>
+        <div class="sb-brand-text">
+          <strong>Vocab Master</strong>
+          <span>Teacher Studio</span>
         </div>
-        <div class="brand-text">
-          <div class="brand-title-row">
-            <h1>Vocab Master</h1>
-            <span class="studio-badge">Teacher Studio 2.0</span>
-          </div>
-          <p class="brand-tagline">AI Vocabulary &amp; Dictation Worksheet Architect · A–E Senior</p>
-        </div>
       </div>
 
-      <div class="context-bar-pill" id="contextBarPill" title="Active unit summary">
-        <span class="ctx-item" id="ctxBook">No book selected</span>
-        <span class="ctx-sep">·</span>
-        <span class="ctx-item ctx-badge" id="ctxLevel">Select level</span>
-        <span class="ctx-sep">·</span>
-        <span class="ctx-item" id="ctxWords">0 words</span>
-      </div>
-
-      <div class="topbar-actions">
-        <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeTop" title="Launch interactive smartboard vocabulary games (Flashcards, Memory Match, Spell Bee, Context Detective, Hot-Seat Taboo)">
-          🎮 Classroom Games
-        </button>
-        <button type="button" class="btn btn-soft btn-sm" id="btnLoadSample" title="Load a complete sample unit to explore all features without an API key">
-          🎓 Sample Unit
-        </button>
-        <button type="button" class="icon-btn" id="btnHelp" title="Teacher Guide &amp; Shortcuts (?)" aria-label="Teacher Guide and Shortcuts">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </button>
-        <button type="button" class="icon-btn" id="btnTheme" title="Toggle light / dark theme" aria-label="Toggle theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="19" height="19"><circle cx="12" cy="12" r="4.4" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3 17 7M7 17l-1.7 1.7"/></g></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="19" height="19"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="currentColor"/></svg>
-        </button>
-        <button type="button" class="btn btn-ghost" id="btnNew" title="Start the next unit (Ctrl+N)">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-          New
-        </button>
-        <button type="button" class="btn btn-ghost" id="btnHistory" title="Saved worksheets &amp; backups">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
-          History
-          <span class="nav-count-badge hidden" id="historyCountBadge">0</span>
-        </button>
-        <button type="button" class="btn btn-ghost" id="btnSettings" title="DeepSeek API key &amp; data folder">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.01a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.01a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
-          Settings
-        </button>
-      </div>
-    </header>
-
-    <!-- ── Stepper ─────────────────────────────────────────────── -->
-    <nav class="stepper" id="stepNav" aria-label="Worksheet steps">
-      <button type="button" class="step active" data-step="1">
-        <span class="step-dot">1</span>
-        <span class="step-text">
-          <span class="step-label">Unit Setup</span>
-          <span class="step-sub" id="stepSub1">Book &amp; class level</span>
-        </span>
+      <button type="button" class="btn btn-primary btn-block sb-new" id="btnNew" data-tip="Start a fresh unit (Ctrl+N)" data-tip-pos="bottom">
+        <svg class="i i-sm"><use href="#i-plus"/></svg><span>New unit</span>
       </button>
-      <span class="step-line"></span>
-      <button type="button" class="step" data-step="2">
-        <span class="step-dot">2</span>
-        <span class="step-text">
-          <span class="step-label">Vocabulary Studio</span>
-          <span class="step-sub" id="stepSub2">0 words</span>
-        </span>
-      </button>
-      <span class="step-line"></span>
-      <button type="button" class="step" data-step="3">
-        <span class="step-dot">3</span>
-        <span class="step-text">
-          <span class="step-label">Exercise Architect</span>
-          <span class="step-sub" id="stepSub3">Pick &amp; generate</span>
-        </span>
-      </button>
-      <span class="step-line"></span>
-      <button type="button" class="step" data-step="4">
-        <span class="step-dot">4</span>
-        <span class="step-text">
-          <span class="step-label">Preview &amp; Export</span>
-          <span class="step-sub" id="stepSub4">Edit, project &amp; print</span>
-        </span>
-      </button>
-    </nav>
 
-    <main class="content">
-      <!-- ══ STEP 1 · Unit setup ══ -->
-      <section class="card step-section" data-step="1">
-        <div class="card-head-split">
-          <div class="card-head">
-            <h2>1 · Unit &amp; Class Setup</h2>
-            <p class="card-lead">Pick your class level and coursebook unit. Choose <strong>Cambridge Primary Path 1–3</strong> for automatic unit/page vocabulary or <strong>Custom Coursebook</strong> for any other book.</p>
-          </div>
-          <div class="sample-callout">
-            <button type="button" class="btn btn-secondary btn-sm" id="btnSampleStep1">🎓 Load Sample Unit</button>
-          </div>
-        </div>
-
-        <!-- 1A. Class Level Cards -->
-        <div class="field-block">
-          <label class="field-label">1. Select Class Level (A–E Senior)</label>
-          <div class="level-cards-grid" id="classLevelCards" role="radiogroup" aria-label="Class level"></div>
-          <!-- Hidden/synced select kept for full engine & smoke test compatibility -->
-          <div class="sr-select-row">
-            <label class="field-label" for="classProfile">Class profile dropdown</label>
-            <select id="classProfile">
-              <option value="">Select class…</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- 1B. Primary Coursebook Mode Tabs -->
-        <div class="setup-mode-bar">
-          <label class="field-label" style="margin:0">2. Choose Coursebook &amp; Unit</label>
-          <div class="setup-mode-tabs" id="setupModeTabs" role="tablist" aria-label="Coursebook selection mode">
-            <button type="button" class="setup-mode-tab active" data-setup-mode="cpp" role="tab">
-              📚 Cambridge Primary Path 1–3 <span class="mode-pill-tag">Smart Wordbank</span>
-            </button>
-            <button type="button" class="setup-mode-tab" data-setup-mode="custom" role="tab">
-              ✏️ Custom / Any Other Coursebook
-            </button>
-          </div>
-        </div>
-
-        <!-- Synced Coursebook / Unit / Page inputs bar (shown when Custom Coursebook tab is active) -->
-        <div class="grid-3-setup hidden" id="customCoursebookFields">
-          <div class="field book-title-field">
-            <label class="field-label" for="bookTitle">Coursebook Title</label>
-            <input id="bookTitle" list="bookTitleList" value="Cambridge Primary Paths 1" placeholder="e.g. Oxford Discover 2, Super Minds 3…" autocomplete="off" />
-            <datalist id="bookTitleList">
-              <option value="Cambridge Primary Paths 1"></option>
-              <option value="Cambridge Primary Paths 2"></option>
-              <option value="Cambridge Primary Paths 3"></option>
-              <option value="Cambridge Primary Paths 4"></option>
-            </datalist>
-            <div class="recent-books-bar" id="recentBooksBar"></div>
-          </div>
-          <div class="field">
-            <label class="field-label" for="unit">Unit Number</label>
-            <div class="input-with-addon">
-              <input id="unit" type="number" min="1" max="20" value="1" placeholder="e.g. 1" />
-              <button type="button" class="btn btn-soft btn-sm addon-btn" id="btnNextUnit" title="Increment to next unit (+1)">+1</button>
-            </div>
-          </div>
-          <div class="field">
-            <label class="field-label" for="pageRange">Page Range (Optional — auto-detects unit!)</label>
-            <input id="pageRange" placeholder="e.g. 118–120 (or leave blank for full unit)" autocomplete="off" />
-          </div>
-        </div>
-
-        <!-- ── Smart Coursebook Wordbank Studio (CPP 1 / 2 / 3) with Clean Tabs & Subtabs ── -->
-        <div class="coursebook-smart-panel" id="coursebookSmartPanel">
-          <!-- Top Book Switcher Tabs (CPP 1 / 2 / 3) -->
-          <div class="cb-book-tabs-bar">
-            <div class="cb-book-tabs" id="cbBookTabs" role="tablist" aria-label="Cambridge Primary Path Book">
-              <button type="button" class="cb-book-tab active" data-cpp-book="Cambridge Primary Paths 1" role="tab">
-                <span class="cb-book-icon">📘</span>
-                <span class="cb-book-txt">
-                  <strong>Primary Path 1</strong>
-                  <small>A Senior · Early A1–A1</small>
-                </span>
-              </button>
-              <button type="button" class="cb-book-tab" data-cpp-book="Cambridge Primary Paths 2" role="tab">
-                <span class="cb-book-icon">📗</span>
-                <span class="cb-book-txt">
-                  <strong>Primary Path 2</strong>
-                  <small>B Senior · A1–A1+</small>
-                </span>
-              </button>
-              <button type="button" class="cb-book-tab" data-cpp-book="Cambridge Primary Paths 3" role="tab">
-                <span class="cb-book-icon">📙</span>
-                <span class="cb-book-txt">
-                  <strong>Primary Path 3</strong>
-                  <small>C Senior · A2–A2+</small>
-                </span>
-              </button>
-            </div>
-
-            <div class="cb-panel-actions">
-              <label class="cb-auto-toggle" title="Automatically load matching words into Step 2 whenever you pick a Book, Unit, or Page Range">
-                <input type="checkbox" id="cbAutoAssign" checked />
-                <span>⚡ Auto-Load Words</span>
-              </label>
-              <button type="button" class="btn btn-primary btn-sm" id="btnCbAssignNow" title="Load the selected words into Step 2 Vocabulary Studio now">
-                📥 Load into Step 2 (<span id="cbAssignCountBtn">0</span>)
-              </button>
-              <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeStep1" title="Play interactive classroom games with this unit's words right now!">
-                🎮 Play Games
-              </button>
-            </div>
-          </div>
-
-          <!-- Unit Tabs Strip (Unit 1 – Unit 9) -->
-          <div class="cb-unit-strip-wrap">
-            <div class="cb-unit-pills" id="cbUnitPills" role="tablist" aria-label="Coursebook units"></div>
-          </div>
-
-          <!-- Active Unit Summary Banner + Section Subtabs -->
-          <div class="cb-unit-hero">
-            <div class="cb-unit-hero-info">
-              <div class="cb-title-badges">
-                <span class="cb-badge">📚 Official SB + WB + 2nd Ed.</span>
-                <span class="cb-cefr-pill" id="cbCefrPill">CEFR A1–A2</span>
-              </div>
-              <h3 id="cbPanelTitle">Cambridge Primary Paths — Select a Unit</h3>
-              <p class="cb-panel-sub" id="cbPanelSub">Pick a unit tab above or enter a page range to load vocabulary automatically.</p>
-            </div>
-
-            <!-- Section / Page Range Subtabs + Quick Page Input -->
-            <div class="cb-section-subtabs-wrap" id="cbSectionPresetsRow">
-              <span class="cb-subtab-label">Section / Pages:</span>
-              <div class="cb-section-pills" id="cbSectionPills" role="tablist" aria-label="Section page presets"></div>
-              <input id="cbCustomPageInput" class="cb-custom-page-input" placeholder="or type pages (e.g. 14–17)" title="Type any Student's Book page or page range (auto-detects unit!)" autocomplete="off" />
-            </div>
-          </div>
-
-          <!-- Inner Subtabs: [1. Word Sources & Options] vs [2. Browse & Pick Unit Words] -->
-          <div class="cb-inner-subtabs-bar">
-            <div class="cb-inner-subtabs" id="cbInnerSubtabs" role="tablist">
-              <button type="button" class="cb-inner-subtab active" data-cb-subview="sources" role="tab">
-                ⚙️ Word Sources &amp; Workbook Options
-              </button>
-              <button type="button" class="cb-inner-subtab" data-cb-subview="words" role="tab">
-                🔤 Browse &amp; Hand-Pick Words (<span id="cbBrowseTabCount">0</span>)
-              </button>
-            </div>
-            <span id="cbPreviewSummary" class="cb-preview-summary-inline"></span>
-          </div>
-
-          <!-- Subview 1: Word Sources & Workbook Toggle Cards -->
-          <div class="cb-subview" id="cbSubviewSources">
-            <div class="cb-filters-bar">
-              <label class="cb-filter-chip active" id="lblCbSb" title="Include official Student's Book words for the selected unit/pages">
-                <input type="checkbox" id="cbIncludeSb" checked />
-                <span class="cb-chip-title">📗 Student's Book</span>
-                <span class="cb-count-pill" id="cbCountSb">0</span>
-              </label>
-
-              <div class="cb-wb-group">
-                <label class="cb-filter-chip active" id="lblCbWb" title="Include official Workbook words in the Student's Book unit/pages">
-                  <input type="checkbox" id="cbIncludeWb" checked />
-                  <span class="cb-chip-title">📘 Include Workbook</span>
-                  <span class="cb-count-pill" id="cbCountWb">0</span>
-                </label>
-                <select id="cbWbScope" class="cb-select-sm" title="Include all Workbook words of this unit across all sections/pages, or only Workbook pages mapped to the selected section">
-                  <option value="unit" selected>All Unit WB words</option>
-                  <option value="section">Mapped to section/pages</option>
-                </select>
-              </div>
-
-              <label class="cb-filter-chip cb-filter-enriched active" id="lblCbEnriched" title="Include Cambridge Primary Path 2nd Edition Key Words, reading vocabulary &amp; CEFR-matched word families">
-                <input type="checkbox" id="cbIncludeEnriched" checked />
-                <span class="cb-chip-title">✨ 2nd Ed. Extra Words</span>
-                <span class="cb-count-pill" id="cbCountEnriched">0</span>
-              </label>
-
-              <label class="cb-filter-chip active" id="lblCbHideBasic" title="Hide ultra-basic sight words (e.g. I, you, big, cat, see) so your worksheet focuses on rich target vocabulary">
-                <input type="checkbox" id="cbHideBasic" checked />
-                <span class="cb-chip-title">🎯 Hide Basic Sight Words</span>
-              </label>
-
-              <div class="cb-cap-group">
-                <label for="cbAssignLimit" class="cb-cap-label">Word Count:</label>
-                <select id="cbAssignLimit" class="cb-select-sm" title="How many matching words to auto-assign into Step 2">
-                  <option value="smart" selected>Smart (All on pages · Top 15 for Unit)</option>
-                  <option value="0">All matching words (No limit)</option>
-                  <option value="8">Top 8 words (A Senior)</option>
-                  <option value="10">Top 10 words (B Senior)</option>
-                  <option value="12">Top 12 words (C/D Senior)</option>
-                  <option value="15">Top 15 words (Standard Unit)</option>
-                  <option value="20">Top 20 words (Extended)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- Subview 2: Interactive Wordbank Chip Browser -->
-          <div class="cb-subview hidden" id="cbSubviewWords">
-            <div class="cb-wordbank-preview" id="cbWordbankPreview">
-              <div class="cb-preview-head">
-                <span class="cb-preview-hint">Click any word chip below to toggle it in or out of Step 2 (`✓` = currently included):</span>
-                <div class="cb-preview-tools">
-                  <input type="search" id="cbWordSearch" class="cb-search-input" placeholder="🔍 Search unit words or Greek…" autocomplete="off" />
-                  <button type="button" class="btn btn-soft btn-sm" id="btnCbSelectAll" title="Assign all matching words into Step 2">Select All Matching</button>
-                </div>
-              </div>
-              <div class="cb-word-chips" id="cbWordChips"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="profile-info" id="profileInfo"></div>
-
-        <div class="row-actions split">
-          <span class="step-hint-note">💡 Words load with official English, Part of Speech &amp; Greek — then click <strong>✨ Generate with AI</strong> in Step 2 for fresh collocations!</span>
-          <button type="button" class="btn btn-primary" id="toStep2">
-            Continue to Vocabulary Studio
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </button>
-        </div>
-      </section>
-
-      <!-- ══ STEP 2 · Vocabulary ══ -->
-      <section class="card step-section hidden" data-step="2">
-        <div class="card-head-split">
-          <div class="card-head">
-            <h2>2 · Vocabulary Studio</h2>
-            <p class="card-lead">Review your unit words and click <strong>✨ Generate Collocations &amp; Fill with AI</strong> so AI crafts natural, level-appropriate collocations, emojis, and word families.</p>
-          </div>
-          <div class="tabs" role="tablist">
-            <button type="button" class="tab active" role="tab" data-tab="structured">📋 Structured Studio</button>
-            <button type="button" class="tab" role="tab" data-tab="freeform">📝 Freeform Brief</button>
-          </div>
-        </div>
-
-        <div class="tab-panel active" id="panel-structured">
-          <!-- Active Coursebook Wordbank Bar in Step 2 -->
-          <div class="cb-step2-bar hidden" id="cbStep2Bar">
-            <div class="cb-step2-info">
-              <span class="cb-badge">📚 Coursebook Linked</span>
-              <span id="cbStep2Summary">Cambridge Primary Paths</span>
-            </div>
-            <div class="cb-step2-actions">
-              <label class="cb-mini-toggle" title="Include or exclude Workbook words for this unit">
-                <input type="checkbox" id="cbStep2WbToggle" checked />
-                <span>📘 Include Workbook</span>
-              </label>
-              <label class="cb-mini-toggle" title="Include or exclude 2nd Edition CEFR Booster words">
-                <input type="checkbox" id="cbStep2EnrichedToggle" checked />
-                <span>✨ 2nd Ed. Booster</span>
-              </label>
-              <button type="button" class="btn btn-soft btn-sm" id="btnStep2ResyncCb" title="Re-apply coursebook words for the selected unit &amp; pages">
-                🔄 Reset Unit Words
-              </button>
-              <button type="button" class="btn btn-secondary btn-sm" id="btnStep2EditUnit" title="Jump back to Step 1 to pick a different unit, section, or hand-pick word chips">
-                📖 Change Unit / Pages
-              </button>
-            </div>
-          </div>
-
-          <!-- Studio control bar -->
-          <div class="vocab-studio-bar">
-            <div class="vocab-studio-top">
-              <div class="vocab-stats-group">
-                <p id="vocabWordCount" class="vocab-count"><strong>0</strong> words</p>
-                <span class="vocab-target-pill" id="vocabTargetHint">Recommended: 8–14 words</span>
-                <span class="vocab-dup-pill hidden" id="vocabDupWarning">⚠️ Duplicate words</span>
-              </div>
-              <div class="vocab-quick-actions">
-                <button type="button" class="btn btn-primary btn-sm" id="btnAiFillTop" title="Use DeepSeek AI to generate fresh natural collocations, emojis, derivatives, synonyms &amp; antonyms for all words">
-                  ✨ Generate Collocations &amp; Fill with AI
-                </button>
-                <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeStep2" title="Play interactive classroom games with your current vocabulary words">
-                  🎮 Play Games
-                </button>
-                <button type="button" class="btn btn-secondary btn-sm" id="btnOpenBulkImport" title="Paste a list of words, translations, or textbook lines">
-                  📥 Bulk Paste
-                </button>
-                <button type="button" class="btn btn-soft btn-sm" id="btnSortVocab" title="Sort vocabulary words alphabetically (A–Z)">
-                  🔤 Sort A–Z
-                </button>
-                <button type="button" class="btn btn-soft btn-sm" id="btnCleanEmptyVocab" title="Remove empty word cards">
-                  🧹 Clean Empty
-                </button>
-                <button type="button" class="btn btn-soft btn-sm" id="btnToggleVocabCompact" title="Switch between compact and detailed card view">
-                  📐 Compact View
-                </button>
-              </div>
-            </div>
-
-            <!-- Batch field toggles across all words -->
-            <div class="batch-toggles-row" id="batchFieldToggles">
-              <span class="batch-label" title="Toggle fields across all vocabulary cards at once">All cards fields:</span>
-              <button type="button" class="chip-batch active" data-batch-field="type">Type (n./v.)</button>
-              <button type="button" class="chip-batch active" data-batch-field="greek">Greek</button>
-              <button type="button" class="chip-batch active" data-batch-field="emojis">Emojis</button>
-              <button type="button" class="chip-batch active" data-batch-field="collocation">Collocation</button>
-              <button type="button" class="chip-batch" data-batch-field="derivatives">Derivatives</button>
-              <button type="button" class="chip-batch" data-batch-field="synonyms">Synonyms</button>
-              <button type="button" class="chip-batch" data-batch-field="antonyms">Antonyms</button>
-              <span class="vocab-tip-inline">Tip: Click <strong>✨ Generate Collocations &amp; Fill with AI</strong> anytime to generate or refresh AI collocations &amp; word families!</span>
-            </div>
-          </div>
-
-          <div id="vocabRows"></div>
-
-          <div class="row-actions">
-            <button type="button" class="btn btn-primary" id="fillAllVocab">✨ Generate Collocations &amp; Fill All Words with AI</button>
-            <button type="button" class="btn btn-secondary" id="addVocabRow">+ Add word</button>
-            <button type="button" class="btn btn-soft" id="addFiveVocabRows">+ Add 5 rows</button>
-          </div>
-          <div id="vocabFillStatus" class="status hidden"></div>
-        </div>
-
-        <div class="tab-panel" id="panel-freeform">
-          <label class="field-label" for="freeform">Describe the unit topic, paste textbook text, or list lesson notes</label>
-          <textarea id="freeform" placeholder="Example: Unit 6 about outdoor adventures and extreme sports. Target words: cliff, canyon, equipment, survive, rescue, exhausted, thrilling, brave…"></textarea>
-          <p class="modal-note">In Freeform mode, the AI will extract and build the appropriate number of vocabulary entries and exercises for your selected class profile.</p>
-        </div>
-
-        <div class="row-actions split">
-          <button type="button" class="btn btn-secondary" id="backStep1">← Back to Unit Setup</button>
-          <button type="button" class="btn btn-primary" id="toStep3">Continue to Exercise Architect →</button>
-        </div>
-      </section>
-
-      <!-- ══ STEP 3 · Generate ══ -->
-      <section class="card step-section hidden" data-step="3">
-        <div class="card-head">
-          <h2>3 · Exercise Architect</h2>
-          <p class="card-lead">Choose how exercises are selected for your Dictation assessment and Lingo Launcher study sheet. Every unit word is guaranteed to be tested in Dictation.</p>
-        </div>
-
-        <div class="exercise-mode-cards" role="radiogroup" aria-label="Exercise selection mode">
-          <label class="mode-card">
-            <input type="radio" name="exerciseMode" value="random" checked />
-            <span class="mode-card-body">
-              <span class="mode-card-top">
-                <span class="mode-card-icon" aria-hidden="true">🎲</span>
-                <span class="mode-card-title">Smart Pedagogical Mix</span>
-                <span class="mode-card-badge">Recommended</span>
-              </span>
-              <span class="mode-card-desc">Automatically balances Recognition, Productive, and Analysis exercise types suited to your class level. Use Shuffle to preview different combinations.</span>
-            </span>
-          </label>
-          <label class="mode-card">
-            <input type="radio" name="exerciseMode" value="custom" />
-            <span class="mode-card-body">
-              <span class="mode-card-top">
-                <span class="mode-card-icon" aria-hidden="true">✅</span>
-                <span class="mode-card-title">Custom Exercise Menu</span>
-              </span>
-              <span class="mode-card-desc">Hand-pick exact exercise formats or start from a teaching preset (Recognition, Productive, Cambridge Exam Prep, Word Families).</span>
-            </span>
-          </label>
-        </div>
-
-        <!-- Random Mix Count Controls -->
-        <div id="randomMixControls" class="random-mix-bar">
-          <div class="rm-field">
-            <label for="randomDictCount">Dictation exercises:</label>
-            <select id="randomDictCount">
-              <option value="0">Auto (3–5 balanced)</option>
-              <option value="3">3 exercises (shorter quiz)</option>
-              <option value="4">4 exercises (standard)</option>
-              <option value="5">5 exercises (comprehensive)</option>
-            </select>
-          </div>
-          <div class="rm-field">
-            <label for="randomLingoCount">Lingo Launcher practice:</label>
-            <select id="randomLingoCount">
-              <option value="0">Auto (1–2 exercises)</option>
-              <option value="1">1 practice exercise</option>
-              <option value="2">2 practice exercises</option>
-            </select>
-          </div>
-          <button type="button" class="btn btn-secondary btn-sm" id="shufflePlan">🔀 Shuffle Exercise Mix</button>
-        </div>
-
-        <!-- Custom Exercise Picker -->
-        <div id="exercisePicker" class="exercise-picker hidden">
-          <div class="exercise-picker-head">
-            <div>
-              <h3>Your Exercise Menu</h3>
-              <p class="exercise-picker-hint">Tick at least one Dictation and one Lingo type, or apply a quick teaching preset below. Synonym, opposite, and derivative types unlock when enabled in Step 2.</p>
-            </div>
-            <div class="preset-bar" id="exercisePresetBar">
-              <span class="preset-label">Presets:</span>
-              <button type="button" class="btn btn-soft btn-sm" data-preset="balanced">⚖️ Balanced</button>
-              <button type="button" class="btn btn-soft btn-sm" data-preset="recognition">🎯 Recognition</button>
-              <button type="button" class="btn btn-soft btn-sm" data-preset="productive">✍️ Productive</button>
-              <button type="button" class="btn btn-soft btn-sm" data-preset="exam">🎓 Exam Prep</button>
-              <button type="button" class="btn btn-soft btn-sm" data-preset="families">🌳 Word Families</button>
-              <button type="button" class="btn btn-ghost btn-sm" data-preset="clear">Clear</button>
-            </div>
-          </div>
-
-          <div class="family-filter-bar" id="exerciseFamilyFilter">
-            <span class="preset-label">Filter by skill:</span>
-            <button type="button" class="chip-filter active" data-family="all">All Types</button>
-            <button type="button" class="chip-filter" data-family="recognition">🟢 Recognition (Matching / Choice)</button>
-            <button type="button" class="chip-filter" data-family="productive">🔵 Productive (Cloze / Word Building)</button>
-            <button type="button" class="chip-filter" data-family="analysis">🟣 Analysis (Error Fix / Ordering)</button>
-          </div>
-
-          <div class="exercise-section">
-            <p class="exercise-section-label"><span>📝</span> Dictation Assessment Exercises</p>
-            <div id="dictationPicker" class="exercise-pick-grid"></div>
-          </div>
-          <div class="exercise-section">
-            <p class="exercise-section-label"><span>🚀</span> Lingo Launcher Practice Exercises</p>
-            <div id="lingoPicker" class="exercise-pick-grid"></div>
-          </div>
-        </div>
-
-        <div class="plan-badge" id="planPreview">Generation plan will appear here…</div>
-
-        <div class="row-actions">
-          <button type="button" class="btn btn-primary btn-generate" id="btnGenerate">
-            <span class="btn-spark" aria-hidden="true">✨</span> Generate Worksheets with AI
-          </button>
-          <button type="button" class="btn btn-soft" id="regenDictation" disabled title="Keep Lingo Launcher and regenerate only the Dictation worksheet">🔄 Regenerate Dictation Only</button>
-          <button type="button" class="btn btn-soft" id="regenLingo" disabled title="Keep Dictation and regenerate only the Lingo Launcher practice">🔄 Regenerate Lingo Practice Only</button>
-        </div>
-
-        <div id="genStatus" class="status hidden"></div>
-
-        <div class="row-actions split">
-          <button type="button" class="btn btn-secondary" id="backStep2">← Back to Vocabulary</button>
-          <button type="button" class="btn btn-primary hidden" id="toStep4">Open Preview &amp; Editor →</button>
-        </div>
-      </section>
-
-      <!-- ══ STEP 4 · Preview & Export ══ -->
-      <section class="card step-section hidden step-preview" data-step="4">
-        <div class="card-head-split">
-          <div class="card-head">
-            <h2>4 · Preview, Live Editor &amp; Export</h2>
-            <p class="card-lead">Click any vocabulary box or exercise line to edit it live. Project in Classroom Mode, print, or export as Word (<code>.docx</code>) and A4 PDF.</p>
-          </div>
-          <div class="pack-export-cta">
-            <button type="button" class="btn btn-primary" id="btnExportPack" title="Export Lingo Launcher, Dictation, and Answer Key (Word + PDF) into one folder">
-              📦 Export Full Unit Pack
-            </button>
-          </div>
-        </div>
-
-        <div id="validationPanel"></div>
-
-        <!-- Primary Sheet Switcher & Export Bar -->
-        <div class="sheet-toolbar">
-          <div class="segmented" role="tablist" aria-label="Worksheet">
-            <button type="button" class="preview-tab active" role="tab" data-preview="lingo">🚀 Lingo Launcher</button>
-            <button type="button" class="preview-tab" role="tab" data-preview="dictation">📝 Dictation</button>
-            <button type="button" class="preview-tab" role="tab" data-preview="answer">📋 Answer Key</button>
-          </div>
-
-          <div class="sheet-actions">
-            <button type="button" class="btn btn-arcade-pill" id="btnOpenArcadeStep4" title="Launch interactive smartboard games with this unit's vocabulary">
-              🎮 Classroom Games
-            </button>
-            <button type="button" class="btn btn-soft" id="btnClassroomMode" title="Open full-screen interactive whiteboard view for classroom projection">
-              🖥️ Classroom Mode
-            </button>
-            <button type="button" class="btn btn-soft" id="exPrint" title="Print current sheet (Ctrl+P)">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-              Print
-            </button>
-            <button type="button" class="btn btn-soft" id="exPdf" title="Save current sheet as A4 PDF">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 12v6M9 15l3 3 3-3"/></svg>
-              PDF
-            </button>
-            <button type="button" class="btn btn-primary" id="exDocx" title="Save current sheet as an editable Word (.docx) document">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-              Word (.docx)
-            </button>
-          </div>
-        </div>
-
-        <!-- Teacher Formatting & Inspection Sub-toolbar -->
-        <div class="teacher-view-bar">
-          <div class="tv-left">
-            <label class="chip-toggle" title="Overlay correct answers in green directly on the worksheet preview">
-              <input type="checkbox" id="toggleShowAnswers" />
-              👁️ Show Answers Inline
-            </label>
-            <label class="chip-toggle" title="Include a printable Name / Date / Class / Score block at the top of worksheets">
-              <input type="checkbox" id="toggleStudentHeader" />
-              📝 Student Name/Date Header
-            </label>
-          </div>
-          <div class="tv-right">
-            <label class="tv-density-label" for="selectDensity">Page Spacing:</label>
-            <select id="selectDensity" class="density-select">
-              <option value="compact">Compact (fit more on 1 page)</option>
-              <option value="standard" selected>Standard A4</option>
-              <option value="comfortable">Comfortable (larger writing space)</option>
-            </select>
-          </div>
-        </div>
-
-        <p class="preview-tip hidden" id="previewTip">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-          <span><strong>Live Editor:</strong> Click any <strong>vocabulary table cell</strong> or <strong>exercise item line</strong> below to edit it — changes auto-save to History.</span>
-        </p>
-
-        <div class="preview-frame" id="previewFrame"></div>
-
-        <div class="answer-key-bar">
-          <div>
-            <strong>📋 Teacher Answer Key Quick Export</strong>
-            <span>Download the complete Answer Key for both worksheets, including tested target words per line.</span>
-          </div>
-          <div class="sheet-actions">
-            <button type="button" class="btn btn-soft" id="exKeyPrint">🖨️ Print Key</button>
-            <button type="button" class="btn btn-soft" id="exKeyPdf">📄 Key PDF</button>
-            <button type="button" class="btn btn-soft" id="exKeyDocx">📘 Key Word (.docx)</button>
-          </div>
-        </div>
-
-        <details class="coverage-details" id="coverageDetails" open>
-          <summary><span id="coverageSummary">Word coverage</span></summary>
-          <div id="coveragePanel"></div>
-        </details>
-
-        <div class="row-actions split">
-          <button type="button" class="btn btn-secondary" id="backStep3">← Back to Exercise Architect</button>
-          <button type="button" class="btn btn-soft" id="btnDuplicateCurrent">📑 Duplicate Unit for Another Class</button>
-        </div>
-      </section>
-    </main>
-
-    <footer class="statusbar">
-      <span class="statusbar-left">
-        <span class="storage-pill" id="storagePill" title="Where your worksheets are saved">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
-          <span id="storageLabel">Saving to this device</span>
-        </span>
-      </span>
-      <span class="statusbar-right">
-        <span id="connState" class="conn-state" title="AI connection">
-          <span class="conn-dot"></span><span id="connLabel">ready</span>
-        </span>
-        <span id="appVersion" class="version"></span>
-      </span>
-    </footer>
-  </div>
-
-  <!-- ══ Settings modal ══ -->
-  <div class="modal-overlay hidden" id="settingsModal">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-      <div class="modal-head">
-        <h2 id="settingsTitle">⚙️ Settings &amp; API Key</h2>
-        <button type="button" class="icon-btn" id="closeSettingsX" title="Close" aria-label="Close settings">✕</button>
-      </div>
-      <label class="field-label" for="apiKey" style="margin-top:0.75rem">DeepSeek API Key</label>
-      <div class="api-key-row">
-        <input id="apiKey" type="password" placeholder="sk-…" autocomplete="off" />
-        <button type="button" class="icon-btn" id="toggleKeyVisible" title="Show / hide key" aria-label="Show or hide API key">
-          <svg class="icon-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-          <svg class="icon-eye-off" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10.5 10.5 0 0 1 12 19c-6.5 0-10-7-10-7a19.6 19.6 0 0 1 4.1-5.1M2 2l20 20M9.9 4.2A10.2 10.2 0 0 1 12 4c6.5 0 10 7 10 7a19.6 19.6 0 0 1-2.6 3.7"/><path d="M9.9 9.9a3 3 0 1 0 4.2 4.2"/></svg>
+      <nav class="sb-nav" aria-label="Main">
+        <div class="sb-label">Create</div>
+        <button type="button" class="sb-item" data-nav="setup">
+          <span class="sb-step" data-step-dot="1">1</span>
+          <span class="sb-item-text"><span>Unit setup</span><small id="navSub-setup">Level &amp; coursebook</small></span>
         </button>
-        <button type="button" class="btn btn-soft" id="testApiKey">Test key</button>
-      </div>
-      <p id="keyStatus" class="key-status hidden" aria-live="polite"></p>
-      <p class="modal-note">Stored encrypted on this computer only — never shared with any third party.
-        Need a key? Create one at <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">platform.deepseek.com</a>.</p>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-soft" id="openDataFolder">📂 Data folder</button>
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-secondary" id="closeSettings">Cancel</button>
-        <button type="button" class="btn btn-primary" id="saveSettings">Save Key</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ History modal ══ -->
-  <div class="modal-overlay hidden" id="historyModal">
-    <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="historyTitle">
-      <div class="modal-head">
-        <h2 id="historyTitle">🗂️ Saved Worksheets &amp; Library</h2>
-        <button type="button" class="icon-btn" id="closeHistory" title="Close" aria-label="Close history">✕</button>
-      </div>
-      <p class="modal-note">Every generated or edited unit is saved automatically. Search by book or unit, duplicate for another class, or export a backup file.</p>
-      <div class="history-toolbar">
-        <input type="search" id="historySearch" placeholder="🔍 Search book title, unit, or page…" autocomplete="off" />
-        <select id="historyClassFilter">
-          <option value="">All classes</option>
-        </select>
-        <button type="button" class="btn btn-soft btn-sm" id="btnExportBackup" title="Export all saved worksheets to a JSON backup file">📤 Backup</button>
-        <button type="button" class="btn btn-soft btn-sm" id="btnImportBackup" title="Restore worksheets from a JSON backup file">📥 Restore</button>
-        <input type="file" id="backupFileInput" accept=".json,application/json" class="hidden" />
-      </div>
-      <div id="historyContent" class="history-content"></div>
-    </div>
-  </div>
-
-  <!-- ══ Bulk Import Vocabulary modal ══ -->
-  <div class="modal-overlay hidden" id="bulkImportModal">
-    <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="bulkImportTitle">
-      <div class="modal-head">
-        <h2 id="bulkImportTitle">📥 Bulk Paste / Smart Vocabulary Import</h2>
-        <button type="button" class="icon-btn" id="closeBulkImport" title="Close" aria-label="Close bulk import">✕</button>
-      </div>
-      <p class="modal-note">
-        Paste a list of words (one per line, or comma-separated). Smart parser automatically recognizes optional parts of speech, Greek translations, collocations, derivatives, synonyms, and antonyms!
-      </p>
-      <div class="bulk-format-hint">
-        <code>compete (v.) - συναγωνίζομαι | compete in a race &gt; competition (n.) ≈ contest ≠ give up</code>
-      </div>
-      <textarea id="bulkImportText" rows="7" placeholder="Paste words here, e.g.:&#10;1. explore (v.) - εξερευνώ | explore a cave&#10;2. equipment (n.) - εξοπλισμός&#10;3. exhausted (adj.) - εξαντλημένος ≈ tired ≠ energetic&#10;4. rescue"></textarea>
-      <div class="bulk-import-preview" id="bulkImportPreview">Paste text above to preview parsed words…</div>
-      <div class="modal-actions">
-        <label class="chip-toggle">
-          <input type="checkbox" id="bulkReplaceExisting" />
-          Replace existing empty/current rows
-        </label>
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-secondary" id="cancelBulkImport">Cancel</button>
-        <button type="button" class="btn btn-primary" id="confirmBulkImport">Import Words</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ Vocab Cell Editor modal (Step 4 live vocabulary table editing) ══ -->
-  <div class="modal-overlay hidden" id="vocabEditorModal">
-    <div class="modal modal-editor" role="dialog" aria-modal="true" aria-labelledby="vocabEditorTitle">
-      <div class="modal-head">
-        <div class="editor-head-text">
-          <h2 id="vocabEditorTitle">Edit Vocabulary Entry</h2>
-          <p id="vocabEditorSub" class="modal-note">Updates both Lingo Launcher table and Step 2 vocabulary card.</p>
-        </div>
-        <button type="button" class="icon-btn" id="closeVocabEditor" title="Close" aria-label="Close vocabulary editor">✕</button>
-      </div>
-      <div class="editor-body">
-        <div class="grid-2 editor-grid-2">
-          <div class="field">
-            <label class="field-label" for="veEnglish">English Word / Phrase</label>
-            <input id="veEnglish" placeholder="English headword" autocomplete="off" />
-          </div>
-          <div class="field">
-            <label class="field-label" for="veType">Part of Speech (Type)</label>
-            <input id="veType" placeholder="n., v., adj., phr. v." autocomplete="off" />
-          </div>
-        </div>
-        <div class="grid-2 editor-grid-2">
-          <div class="field">
-            <label class="field-label" for="veGreek">Greek Meaning</label>
-            <input id="veGreek" placeholder="ελληνική σημασία" autocomplete="off" />
-          </div>
-          <div class="field">
-            <label class="field-label" for="veEmojis">Emojis</label>
-            <input id="veEmojis" placeholder="🎯✨" autocomplete="off" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="field-label" for="veCollocation">Collocation / Example Phrase</label>
-          <input id="veCollocation" placeholder="Short natural phrase" autocomplete="off" />
-        </div>
-        <div class="field">
-          <label class="field-label" for="veDerivatives">Derivatives (optional)</label>
-          <input id="veDerivatives" placeholder="e.g. competition (n.) - διαγωνισμός" autocomplete="off" />
-        </div>
-        <div class="grid-2 editor-grid-2">
-          <div class="field">
-            <label class="field-label" for="veSynonyms">Synonyms (optional)</label>
-            <input id="veSynonyms" placeholder="near-same words" autocomplete="off" />
-          </div>
-          <div class="field">
-            <label class="field-label" for="veAntonyms">Antonyms (optional)</label>
-            <input id="veAntonyms" placeholder="opposite words" autocomplete="off" />
-          </div>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-secondary" id="cancelVocabEditor">Cancel</button>
-        <button type="button" class="btn btn-primary" id="saveVocabEditor">Save Vocabulary Entry</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ Item editor modal ══ -->
-  <div class="modal-overlay hidden" id="itemEditorModal">
-    <div class="modal modal-editor" role="dialog" aria-modal="true" aria-labelledby="itemEditorTitle">
-      <div class="modal-head">
-        <div class="editor-head-text">
-          <h2 id="itemEditorTitle">Edit line</h2>
-          <p id="itemEditorSub" class="modal-note"></p>
-        </div>
-        <button type="button" class="icon-btn" id="closeItemEditor" title="Close" aria-label="Close editor">✕</button>
-      </div>
-      <div class="editor-body">
-        <div class="field">
-          <label class="field-label" for="itemPrompt">Prompt / sentence</label>
-          <textarea id="itemPrompt" rows="3" placeholder="Student-facing sentence or task"></textarea>
-        </div>
-        <div class="grid-2 editor-grid-2">
-          <div class="field" id="itemAnswerWrap">
-            <label class="field-label" for="itemAnswer">Answer</label>
-            <input id="itemAnswer" placeholder="Correct answer" autocomplete="off" />
-          </div>
-          <div class="field hidden" id="itemStemWrap">
-            <label class="field-label" for="itemStem">Stem clue (bold, uppercase)</label>
-            <input id="itemStem" placeholder="e.g. EMBARRASSMENT" autocomplete="off" />
-          </div>
-        </div>
-        <div class="field hidden" id="itemTestsWrap">
-          <label class="field-label" for="itemTests">Tests words (comma separated)</label>
-          <input id="itemTests" placeholder="words this line tests" autocomplete="off" />
-        </div>
-        <div class="field hidden" id="itemBankWrap">
-          <label class="field-label" for="itemBank">Word bank (one per line)</label>
-          <textarea id="itemBank" rows="3" placeholder="shuffled words for this exercise"></textarea>
-        </div>
-        <div class="field hidden" id="itemListWrap">
-          <label class="field-label" for="itemList">Word list (one per line)</label>
-          <textarea id="itemList" rows="3" placeholder="shuffled words for this exercise"></textarea>
-        </div>
-        <p class="editor-validation" id="itemEditorValidation"></p>
-        <p class="editor-note">Saved automatically to History after each edit, with instant re-validation.</p>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-soft btn-sm" id="btnAddItemAfter" title="Insert a new item right after this line">+ Add line below</button>
-        <button type="button" class="btn btn-soft btn-sm" id="btnDeleteItem" title="Remove this item from the exercise" style="color:var(--bad)">🗑️ Delete line</button>
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-secondary" id="cancelItemEditor">Cancel</button>
-        <button type="button" class="btn btn-primary" id="saveItemEditor">Save changes</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ Classroom / Projector Mode Overlay ══ -->
-  <div class="classroom-overlay hidden" id="classroomModal" role="dialog" aria-modal="true" aria-label="Classroom Whiteboard Mode">
-    <header class="classroom-bar">
-      <div class="classroom-title-group">
-        <span class="classroom-badge">🖥️ Classroom Projector</span>
-        <strong id="classroomUnitLabel">Unit Worksheet</strong>
-      </div>
-      <div class="classroom-controls">
-        <div class="segmented" role="tablist">
-          <button type="button" class="cr-tab active" data-cr-sheet="lingo">🚀 Lingo Launcher</button>
-          <button type="button" class="cr-tab" data-cr-sheet="dictation">📝 Dictation</button>
-          <button type="button" class="cr-tab" data-cr-sheet="answer">📋 Answer Key</button>
-        </div>
-        <button type="button" class="btn btn-arcade-pill btn-sm" id="btnOpenArcadeProjector" title="Switch to Classroom Vocabulary Games">🎮 Classroom Games</button>
-        <button type="button" class="btn btn-soft btn-sm" id="crZoomOut" title="Decrease text size">A−</button>
-        <button type="button" class="btn btn-soft btn-sm" id="crZoomIn" title="Increase text size">A+</button>
-        <button type="button" class="btn btn-secondary btn-sm" id="crRevealAll">👁️ Reveal All Answers</button>
-        <button type="button" class="btn btn-primary btn-sm" id="closeClassroomMode">✕ Exit Projector (Esc)</button>
-      </div>
-    </header>
-    <div class="classroom-hint-strip">
-      💡 <strong>Interactive Whiteboard:</strong> Click any exercise item to reveal or hide its answer one by one during class review!
-    </div>
-    <div class="classroom-stage" id="classroomStage"></div>
-  </div>
-
-  <!-- ══ Lingo Arcade — Smart Classroom Games Overlay ══ -->
-  <div class="arcade-overlay hidden" id="arcadeModal" role="dialog" aria-modal="true" aria-label="Lingo Arcade Classroom Games">
-    <header class="arcade-topbar">
-      <div class="arcade-brand">
-        <span class="arcade-badge">🎮 Lingo Arcade</span>
-        <div class="arcade-unit-meta">
-          <strong id="arcadeUnitTitle">Interactive Classroom Games</strong>
-          <span class="arcade-deck-pill" id="arcadeDeckCount">0 words loaded</span>
-        </div>
-      </div>
-
-      <!-- 5 Game Mode Tabs -->
-      <nav class="arcade-game-tabs" id="arcadeGameTabs" role="tablist" aria-label="Select classroom game">
-        <button type="button" class="arcade-tab active" data-game="flashcards" role="tab">
-          <span class="at-icon">🃏</span>
-          <span class="at-text">3D Flashcards &amp; Oracy</span>
+        <button type="button" class="sb-item" data-nav="words">
+          <span class="sb-step" data-step-dot="2">2</span>
+          <span class="sb-item-text"><span>Vocabulary</span><small id="navSub-words">0 words</small></span>
         </button>
-        <button type="button" class="arcade-tab" data-game="memory" role="tab">
-          <span class="at-icon">🧩</span>
-          <span class="at-text">Memory Match</span>
+        <button type="button" class="sb-item" data-nav="exercises">
+          <span class="sb-step" data-step-dot="3">3</span>
+          <span class="sb-item-text"><span>Exercises</span><small id="navSub-exercises">Plan &amp; generate</small></span>
         </button>
-        <button type="button" class="arcade-tab" data-game="spellbee" role="tab">
-          <span class="at-icon">🐝</span>
-          <span class="at-text">Spell Bee</span>
+        <button type="button" class="sb-item" data-nav="preview">
+          <span class="sb-step" data-step-dot="4">4</span>
+          <span class="sb-item-text"><span>Preview &amp; export</span><small id="navSub-preview">Not generated yet</small></span>
         </button>
-        <button type="button" class="arcade-tab" data-game="detective" role="tab">
-          <span class="at-icon">🕵️</span>
-          <span class="at-text">Context Detective</span>
+
+        <div class="sb-label">Classroom</div>
+        <button type="button" class="sb-item" data-action="open-arcade">
+          <span class="sb-ico games"><svg class="i"><use href="#i-gamepad"/></svg></span>
+          <span class="sb-item-text"><span>Lingo Arcade</span><small>5 smartboard games</small></span>
         </button>
-        <button type="button" class="arcade-tab" data-game="hotseat" role="tab">
-          <span class="at-icon">⏱️</span>
-          <span class="at-text">Hot-Seat Taboo</span>
+        <button type="button" class="sb-item" data-action="open-projector">
+          <span class="sb-ico"><svg class="i"><use href="#i-monitor"/></svg></span>
+          <span class="sb-item-text"><span>Projector mode</span><small>Reveal answers live</small></span>
+        </button>
+
+        <div class="sb-label">Library</div>
+        <button type="button" class="sb-item" data-nav="library">
+          <span class="sb-ico"><svg class="i"><use href="#i-library"/></svg></span>
+          <span class="sb-item-text"><span>Saved units</span><small>History &amp; backups</small></span>
+          <span class="sb-count hidden" id="libraryCount">0</span>
         </button>
       </nav>
 
-      <div class="arcade-actions">
-        <button type="button" class="btn btn-soft btn-sm" id="arcadeTeamToggle" title="Cycle between Solo Mode, 2 Teams, and 3 Teams scoreboard">
-          🏆 2 Teams
+      <div class="sb-foot">
+        <button type="button" class="ai-card" id="aiStatusCard">
+          <span class="ai-dot" id="aiDot"></span>
+          <span class="ai-text">
+            <strong id="aiTitle">AI not connected</strong>
+            <small id="aiSub">Add your DeepSeek key</small>
+          </span>
+          <svg class="i i-sm"><use href="#i-chevron-right"/></svg>
         </button>
-        <button type="button" class="btn btn-soft btn-sm active" id="arcadeSfxToggle" title="Toggle classroom sound effects">
-          🔔 Sound ON
-        </button>
-        <button type="button" class="btn btn-soft btn-sm active" id="arcadeTtsToggle" title="Automatically speak English words aloud with Text-to-Speech">
-          🔊 Voice ON
-        </button>
-        <button type="button" class="btn btn-soft btn-sm" id="arcadeShuffleDeck" title="Shuffle vocabulary deck &amp; restart current game">
-          🔀 New Round
-        </button>
-        <button type="button" class="btn btn-primary btn-sm" id="closeArcadeModal">
-          ✕ Exit Arcade (Esc)
-        </button>
-      </div>
-    </header>
-
-    <!-- Live Classroom Team Scoreboard Strip -->
-    <div class="arcade-scoreboard-bar" id="arcadeScoreboardBar">
-      <div class="arcade-teams-wrap" id="arcadeTeamsWrap"></div>
-      <div class="arcade-streak-wrap">
-        <span class="arcade-streak-pill" id="arcadeStreakPill">🔥 Streak: 0</span>
-        <button type="button" class="btn btn-ghost btn-xs" id="arcadeResetScores" title="Reset team scores to 0">Reset Scores</button>
-      </div>
-    </div>
-
-    <!-- Interactive Game Stage -->
-    <div class="arcade-stage" id="arcadeStage"></div>
-
-    <!-- Confetti layer -->
-    <div class="arcade-confetti-layer" id="arcadeConfettiLayer" aria-hidden="true"></div>
-  </div>
-
-  <!-- ══ Teacher Guide & Shortcuts modal ══ -->
-  <div class="modal-overlay hidden" id="helpModal">
-    <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
-      <div class="modal-head">
-        <h2 id="helpTitle">🎓 Vocab Master — Teacher Studio Guide</h2>
-        <button type="button" class="icon-btn" id="closeHelp" title="Close" aria-label="Close guide">✕</button>
-      </div>
-      <div class="help-body">
-        <div class="help-grid">
-          <div class="help-card">
-            <h3>1. Level-Matched Pedagogy</h3>
-            <p>Each Greek ESL profile (<strong>A Senior</strong> to <strong>E Senior</strong>) enforces strict sentence-length caps, age-appropriate themes, and CEFR-aligned exercise types.</p>
-          </div>
-          <div class="help-card">
-            <h3>2. Smart Vocabulary Studio</h3>
-            <p>Use <strong>📥 Bulk Paste</strong> to import word lists in seconds, or type English words and click <strong>✨ Fill all words with AI</strong> to generate Greek, emojis, collocations, and derivatives.</p>
-          </div>
-          <div class="help-card">
-            <h3>3. Live Worksheet Editing</h3>
-            <p>In Step 4, click <strong>any vocabulary cell</strong> or <strong>any exercise line</strong> directly on the worksheet to tweak wording, answers, word banks, or add/remove lines.</p>
-          </div>
-          <div class="help-card">
-            <h3>4. Classroom Mode &amp; Full Pack</h3>
-            <p>Open <strong>🖥️ Classroom Mode</strong> to project on your interactive whiteboard and click lines to reveal answers. Click <strong>📦 Export Full Unit Pack</strong> to save all Word &amp; PDF files at once.</p>
-          </div>
-        </div>
-        <div class="shortcuts-box">
-          <h4>⌨️ Keyboard Shortcuts</h4>
-          <div class="shortcuts-list">
-            <span><kbd>Ctrl</kbd> + <kbd>N</kbd> New Unit</span>
-            <span><kbd>Ctrl</kbd> + <kbd>P</kbd> Print Active Sheet</span>
-            <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> Generate / Save Edit</span>
-            <span><kbd>Enter</kbd> (in Word Card) Next Word</span>
-            <span><kbd>?</kbd> Teacher Guide</span>
-            <span><kbd>Esc</kbd> Close Modal / Projector</span>
-          </div>
+        <div class="sb-foot-row">
+          <button type="button" class="icon-btn" id="btnSettings" data-tip="Settings" aria-label="Settings"><svg class="i"><use href="#i-settings"/></svg></button>
+          <button type="button" class="icon-btn" id="btnHelp" data-tip="Guide &amp; shortcuts (?)" aria-label="Guide and shortcuts"><svg class="i"><use href="#i-help"/></svg></button>
+          <button type="button" class="icon-btn" id="btnTheme" data-tip="Toggle dark mode" aria-label="Toggle theme">
+            <svg class="i theme-sun"><use href="#i-sun"/></svg><svg class="i theme-moon"><use href="#i-moon"/></svg>
+          </button>
+          <span class="sb-version" id="appVersion"></span>
         </div>
       </div>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-soft" id="btnHelpLoadSample">🎓 Load Sample Unit Now</button>
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-primary" id="closeHelpBtn">Got it</button>
+    </aside>
+
+    <!-- ══ Main ══ -->
+    <div class="main">
+      <header class="topbar">
+        <div class="tb-title">
+          <h1 id="pageTitle">Unit setup</h1>
+          <p id="pageSub">Choose the class level and the coursebook unit.</p>
+        </div>
+        <div class="tb-context" id="ctxChips"></div>
+        <div class="tb-actions">
+          <button type="button" class="btn btn-secondary btn-sm" id="btnSample" data-tip="A complete C Senior unit — no API key needed" data-tip-pos="bottom">
+            <svg class="i i-sm"><use href="#i-graduation"/></svg>Sample unit
+          </button>
+          <button type="button" class="btn btn-accent btn-sm" id="btnPlayTop">
+            <svg class="i i-sm"><use href="#i-gamepad"/></svg>Play games
+          </button>
+        </div>
+      </header>
+
+      <div class="scroller" id="scroller">
+        <!-- ══ 1 · Setup ══ -->
+        <section class="view" data-view="setup">
+          <div class="view-inner">
+            <div class="welcome card hidden" id="welcomeCard">
+              <div class="welcome-art" aria-hidden="true">
+                <span class="w-blob b1"></span><span class="w-blob b2"></span><span class="w-blob b3"></span>
+                <span class="w-emoji e1">📚</span><span class="w-emoji e2">✨</span><span class="w-emoji e3">🎯</span>
+              </div>
+              <div class="welcome-text">
+                <span class="badge brand"><svg class="i i-xs"><use href="#i-sparkles"/></svg>Welcome to Vocab Master</span>
+                <h2>Build a complete vocabulary unit in four calm steps.</h2>
+                <p>Pick a class level and a coursebook unit, review the words, let AI write the exercises, then print, export or play it on the smartboard.</p>
+                <div class="welcome-actions">
+                  <button type="button" class="btn btn-primary" data-action="dismiss-welcome">Let's start<svg class="i i-sm"><use href="#i-arrow-right"/></svg></button>
+                  <button type="button" class="btn btn-ghost" data-action="load-sample">Explore the sample unit</button>
+                </div>
+              </div>
+              <button type="button" class="icon-btn welcome-close" data-action="dismiss-welcome" aria-label="Dismiss"><svg class="i"><use href="#i-x"/></svg></button>
+            </div>
+
+            <div class="card card-pad">
+              <div class="card-head">
+                <div>
+                  <h2 class="card-title"><span class="num">1</span>Class level</h2>
+                  <p class="card-sub">Sets sentence length, CEFR level and which exercise formats are allowed.</p>
+                </div>
+              </div>
+              <div class="level-grid" id="levelGrid" role="radiogroup" aria-label="Class level"></div>
+              <div class="level-detail" id="levelDetail"></div>
+            </div>
+
+            <div class="card card-pad">
+              <div class="card-head">
+                <div>
+                  <h2 class="card-title"><span class="num">2</span>Coursebook &amp; unit</h2>
+                  <p class="card-sub">Cambridge Primary Path 1–3 loads the official word list instantly. Any other book works too.</p>
+                </div>
+                <div class="segmented lg" id="sourceSeg" data-segmented>
+                  <span class="seg-thumb"></span>
+                  <button type="button" data-value="cpp"><svg class="i i-sm"><use href="#i-book-open"/></svg>Primary Path 1–3</button>
+                  <button type="button" data-value="custom"><svg class="i i-sm"><use href="#i-pencil"/></svg>Other coursebook</button>
+                </div>
+              </div>
+
+              <!-- CPP picker -->
+              <div class="cpp-pane" id="cppPane">
+                <div class="sub-label">Book</div>
+                <div class="book-grid" id="bookGrid"></div>
+
+                <div class="sub-label">Unit</div>
+                <div class="unit-grid" id="unitGrid"></div>
+
+                <div class="unit-focus" id="unitFocus"></div>
+              </div>
+
+              <!-- Custom book -->
+              <div class="custom-pane hidden" id="customPane">
+                <div class="custom-grid">
+                  <div class="field">
+                    <label class="label" for="customBook">Coursebook title</label>
+                    <div class="input-group">
+                      <svg class="i i-sm"><use href="#i-book"/></svg>
+                      <input class="input" id="customBook" list="bookList" placeholder="e.g. Super Minds 3, Think 1…" autocomplete="off" />
+                    </div>
+                    <datalist id="bookList"></datalist>
+                    <div class="recent-books" id="recentBooks"></div>
+                  </div>
+                  <div class="field">
+                    <label class="label" for="customUnit">Unit</label>
+                    <div class="stepper-input">
+                      <button type="button" data-step-unit="-1" aria-label="Previous unit"><svg class="i i-sm"><use href="#i-minus"/></svg></button>
+                      <input id="customUnit" type="number" min="1" max="30" value="1" />
+                      <button type="button" data-step-unit="1" aria-label="Next unit"><svg class="i i-sm"><use href="#i-plus"/></svg></button>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="label" for="customPages">Pages <span class="opt">optional</span></label>
+                    <input class="input" id="customPages" placeholder="e.g. 118–120" autocomplete="off" />
+                  </div>
+                </div>
+                <p class="hint">Next, add your words in Step 2 — type them, paste a list, or describe the unit and let AI pick them.</p>
+              </div>
+            </div>
+
+            <!-- Word pool (CPP only) -->
+            <div class="card card-pad" id="poolCard">
+              <div class="card-head">
+                <div>
+                  <h2 class="card-title"><span class="num">3</span>Word pool</h2>
+                  <p class="card-sub" id="poolSub">Tap words to add or remove them from your unit.</p>
+                </div>
+                <div class="pool-head-actions">
+                  <label class="field-inline">
+                    <span class="label">Load</span>
+                    <select class="select sm" id="poolLimit">
+                      <option value="smart">Smart pick</option>
+                      <option value="8">Top 8</option>
+                      <option value="10">Top 10</option>
+                      <option value="12">Top 12</option>
+                      <option value="15">Top 15</option>
+                      <option value="20">Top 20</option>
+                      <option value="0">All words</option>
+                    </select>
+                  </label>
+                  <button type="button" class="btn btn-soft btn-sm" id="btnPoolReload" data-tip="Replace your list with the pick above">
+                    <svg class="i i-sm"><use href="#i-refresh"/></svg>Reload pick
+                  </button>
+                </div>
+              </div>
+
+              <div class="pool-filters">
+                <label class="source-toggle sb"><input type="checkbox" id="srcSb" checked /><span class="st-dot"></span><span>Student's Book</span><b id="countSb">0</b></label>
+                <label class="source-toggle wb"><input type="checkbox" id="srcWb" checked /><span class="st-dot"></span><span>Workbook</span><b id="countWb">0</b></label>
+                <select class="select sm" id="wbScope" aria-label="Workbook scope">
+                  <option value="unit">All unit WB words</option>
+                  <option value="section">Only matching pages</option>
+                </select>
+                <label class="source-toggle en"><input type="checkbox" id="srcEnriched" checked /><span class="st-dot"></span><span>2nd Ed. extras</span><b id="countEnriched">0</b></label>
+                <span class="pool-sep"></span>
+                <label class="switch"><input type="checkbox" id="hideBasic" checked /><span class="track"></span><span>Hide basic words</span></label>
+                <div class="input-group pool-search">
+                  <svg class="i i-sm"><use href="#i-search"/></svg>
+                  <input class="input sm" id="poolSearch" type="search" placeholder="Search words or Greek…" autocomplete="off" />
+                </div>
+              </div>
+
+              <div class="pool-chips" id="poolChips"></div>
+              <div class="pool-foot">
+                <span id="poolSummary"></span>
+                <span class="spacer"></span>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnPoolAll">Select all</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnPoolNone">Clear</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ 2 · Words ══ -->
+        <section class="view" data-view="words">
+          <div class="view-inner">
+            <div class="linked-banner hidden" id="linkedBanner"></div>
+
+            <div class="words-top">
+              <div class="segmented" id="modeSeg" data-segmented>
+                <span class="seg-thumb"></span>
+                <button type="button" data-value="structured"><svg class="i i-sm"><use href="#i-list"/></svg>Word list</button>
+                <button type="button" data-value="freeform"><svg class="i i-sm"><use href="#i-file"/></svg>Describe the unit</button>
+              </div>
+              <div class="words-stats" id="wordsStats"></div>
+            </div>
+
+            <div id="structuredPane">
+              <div class="words-toolbar card">
+                <div class="wt-left">
+                  <button type="button" class="btn btn-magic" id="btnAiFill"><svg class="i i-sm"><use href="#i-sparkles"/></svg>Fill everything with AI</button>
+                  <button type="button" class="btn btn-secondary" id="btnBulk"><svg class="i i-sm"><use href="#i-clipboard"/></svg>Paste a list</button>
+                </div>
+                <div class="wt-right">
+                  <button type="button" class="icon-btn" id="btnSortWords" data-tip="Sort A–Z" aria-label="Sort A to Z"><svg class="i"><use href="#i-sort"/></svg></button>
+                  <button type="button" class="icon-btn" id="btnCleanWords" data-tip="Remove empty rows" aria-label="Remove empty rows"><svg class="i"><use href="#i-eraser"/></svg></button>
+                  <button type="button" class="icon-btn danger" id="btnClearWords" data-tip="Clear all words" aria-label="Clear all words"><svg class="i"><use href="#i-trash"/></svg></button>
+                </div>
+                <div class="wt-fields">
+                  <span class="wt-fields-label">On the worksheet</span>
+                  <div class="field-chips" id="fieldChips"></div>
+                </div>
+              </div>
+
+              <div class="fill-progress hidden" id="fillProgress">
+                <div class="fp-orb"><span></span></div>
+                <div class="fp-text"><strong id="fillTitle">AI is writing…</strong><small id="fillSub"></small></div>
+              </div>
+
+              <div class="word-list" id="wordList"></div>
+
+              <button type="button" class="add-word" id="btnAddWord">
+                <svg class="i"><use href="#i-plus"/></svg><span>Add a word</span><kbd>Enter</kbd>
+              </button>
+            </div>
+
+            <div id="freeformPane" class="hidden">
+              <div class="card card-pad">
+                <div class="field">
+                  <label class="label" for="freeform">Describe the unit, paste a reading text, or list your lesson notes</label>
+                  <textarea class="textarea freeform-area" id="freeform" placeholder="Example: Unit 6 is about outdoor adventures and extreme sports. Target words: cliff, canyon, equipment, survive, rescue, exhausted, thrilling, brave…"></textarea>
+                </div>
+                <div class="callout info"><svg class="i"><use href="#i-sparkles"/></svg><span>AI will choose the right number of words for <strong id="freeformLevel">your level</strong> and build the whole unit from this brief.</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ 3 · Exercises ══ -->
+        <section class="view" data-view="exercises">
+          <div class="view-inner">
+            <div class="card card-pad">
+              <div class="card-head">
+                <div>
+                  <h2 class="card-title"><svg class="i"><use href="#i-layers"/></svg>Exercise plan</h2>
+                  <p class="card-sub">Every unit word is guaranteed to appear in the Dictation.</p>
+                </div>
+                <div class="segmented lg" id="exModeSeg" data-segmented>
+                  <span class="seg-thumb"></span>
+                  <button type="button" data-value="random"><svg class="i i-sm"><use href="#i-wand"/></svg>Smart mix</button>
+                  <button type="button" data-value="custom"><svg class="i i-sm"><use href="#i-sliders"/></svg>Hand-pick</button>
+                </div>
+              </div>
+
+              <div id="smartPane">
+                <div class="smart-controls">
+                  <label class="field-inline">
+                    <span class="label">Dictation</span>
+                    <select class="select sm" id="dictCount">
+                      <option value="0">Auto (3–5)</option>
+                      <option value="3">3 exercises</option>
+                      <option value="4">4 exercises</option>
+                      <option value="5">5 exercises</option>
+                    </select>
+                  </label>
+                  <label class="field-inline">
+                    <span class="label">Lingo practice</span>
+                    <select class="select sm" id="lingoCount">
+                      <option value="0">Auto (1–2)</option>
+                      <option value="1">1 exercise</option>
+                      <option value="2">2 exercises</option>
+                    </select>
+                  </label>
+                  <span class="spacer"></span>
+                  <button type="button" class="btn btn-secondary btn-sm" id="btnShuffle"><svg class="i i-sm"><use href="#i-shuffle"/></svg>Shuffle mix</button>
+                </div>
+              </div>
+
+              <div id="customPaneEx" class="hidden">
+                <div class="picker-bar">
+                  <div class="preset-row">
+                    <span class="label">Presets</span>
+                    <button type="button" class="chip" data-preset="balanced">⚖️ Balanced</button>
+                    <button type="button" class="chip" data-preset="recognition">🎯 Recognition</button>
+                    <button type="button" class="chip" data-preset="productive">✍️ Productive</button>
+                    <button type="button" class="chip" data-preset="exam">🎓 Exam prep</button>
+                    <button type="button" class="chip" data-preset="families">🌳 Word families</button>
+                    <button type="button" class="btn btn-ghost btn-sm" data-preset="clear">Clear</button>
+                  </div>
+                  <div class="segmented sm" id="familySeg" data-segmented>
+                    <span class="seg-thumb"></span>
+                    <button type="button" data-value="all">All</button>
+                    <button type="button" data-value="recognition"><span class="fam-dot recognition"></span>Recognition</button>
+                    <button type="button" data-value="productive"><span class="fam-dot productive"></span>Productive</button>
+                    <button type="button" data-value="analysis"><span class="fam-dot analysis"></span>Analysis</button>
+                  </div>
+                </div>
+                <div class="ex-section-title"><span>📝</span>Dictation <small>assessment</small><span class="ex-picked" id="pickedDict"></span></div>
+                <div class="ex-grid" id="dictGrid"></div>
+                <div class="ex-section-title"><span>🚀</span>Lingo Launcher <small>practice</small><span class="ex-picked" id="pickedLingo"></span></div>
+                <div class="ex-grid" id="lingoGrid"></div>
+              </div>
+
+              <div class="plan" id="planPreview"></div>
+            </div>
+
+            <div class="generate-card" id="generateCard">
+              <div class="gen-glow" aria-hidden="true"></div>
+              <div class="gen-idle" id="genIdle">
+                <div class="gen-summary" id="genSummary"></div>
+                <div class="gen-actions">
+                  <button type="button" class="btn btn-magic btn-xl" id="btnGenerate"><svg class="i"><use href="#i-sparkles"/></svg>Generate worksheets</button>
+                  <div class="gen-regen hidden" id="genRegen">
+                    <button type="button" class="btn btn-ghost btn-sm" id="btnRegenDict"><svg class="i i-sm"><use href="#i-refresh"/></svg>Rewrite Dictation only</button>
+                    <button type="button" class="btn btn-ghost btn-sm" id="btnRegenLingo"><svg class="i i-sm"><use href="#i-refresh"/></svg>Rewrite Lingo practice only</button>
+                  </div>
+                </div>
+              </div>
+              <div class="gen-busy hidden" id="genBusy">
+                <div class="gen-orb"><span></span><span></span><span></span></div>
+                <div class="gen-busy-text">
+                  <strong id="genBusyTitle">Writing your worksheets…</strong>
+                  <p id="genBusyStage">Planning the exercise mix</p>
+                  <div class="gen-bar"><span id="genBar"></span></div>
+                  <small id="genBusyTime">0s · usually 30–90 seconds</small>
+                </div>
+              </div>
+              <div class="gen-error hidden" id="genError"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ 4 · Preview ══ -->
+        <section class="view view-wide" data-view="preview">
+          <div class="preview-layout">
+            <div class="paper-col">
+              <div class="paper-toolbar">
+                <div class="segmented" id="sheetSeg" data-segmented>
+                  <span class="seg-thumb"></span>
+                  <button type="button" data-value="lingo">🚀 Lingo Launcher</button>
+                  <button type="button" data-value="dictation">📝 Dictation</button>
+                  <button type="button" data-value="answer">📋 Answer key</button>
+                </div>
+                <span class="spacer"></span>
+                <div class="zoom-ctl">
+                  <button type="button" class="icon-btn sm" id="zoomOut" aria-label="Zoom out"><svg class="i i-sm"><use href="#i-zoom-out"/></svg></button>
+                  <span id="zoomLabel">100%</span>
+                  <button type="button" class="icon-btn sm" id="zoomIn" aria-label="Zoom in"><svg class="i i-sm"><use href="#i-zoom-in"/></svg></button>
+                </div>
+              </div>
+              <div class="edit-hint" id="editHint"><svg class="i i-sm"><use href="#i-pencil"/></svg>Click any word box or exercise line to edit it. Changes save automatically.</div>
+              <div class="paper-stage" id="paperStage">
+                <div class="paper" id="paper"></div>
+              </div>
+            </div>
+
+            <aside class="inspector" id="inspector">
+              <div class="insp-card">
+                <div class="insp-title"><svg class="i i-sm"><use href="#i-package"/></svg>Export</div>
+                <button type="button" class="btn btn-primary btn-block btn-lg" id="btnExportPack"><svg class="i"><use href="#i-package"/></svg>Export full unit pack</button>
+                <p class="insp-note" id="packNote">Lingo Launcher, Dictation &amp; Answer Key as Word + PDF.</p>
+                <div class="insp-sub">Current sheet</div>
+                <div class="export-row">
+                  <button type="button" class="export-btn" id="btnDocx"><svg class="i"><use href="#i-word"/></svg><span>Word</span></button>
+                  <button type="button" class="export-btn" id="btnPdf"><svg class="i"><use href="#i-pdf"/></svg><span>PDF</span></button>
+                  <button type="button" class="export-btn" id="btnPrint"><svg class="i"><use href="#i-printer"/></svg><span>Print</span></button>
+                </div>
+              </div>
+
+              <div class="insp-card">
+                <div class="insp-title"><svg class="i i-sm"><use href="#i-check-circle"/></svg>Quality check</div>
+                <div id="qualityPanel"></div>
+              </div>
+
+              <div class="insp-card">
+                <div class="insp-title"><svg class="i i-sm"><use href="#i-target"/></svg>Word coverage</div>
+                <div id="coveragePanel"></div>
+              </div>
+
+              <div class="insp-card">
+                <div class="insp-title"><svg class="i i-sm"><use href="#i-sliders"/></svg>Layout</div>
+                <label class="switch"><input type="checkbox" id="optAnswers" /><span class="track"></span><span class="sw-text">Show answers<small>Preview only — never printed</small></span></label>
+                <label class="switch"><input type="checkbox" id="optHeader" /><span class="track"></span><span class="sw-text">Student name header<small>Name · Date · Class · Score</small></span></label>
+                <div class="insp-sub">Spacing</div>
+                <div class="segmented sm seg-block" id="densitySeg" data-segmented>
+                  <span class="seg-thumb"></span>
+                  <button type="button" data-value="compact">Compact</button>
+                  <button type="button" data-value="standard">Standard</button>
+                  <button type="button" data-value="comfortable">Roomy</button>
+                </div>
+              </div>
+
+              <div class="insp-card">
+                <div class="insp-title"><svg class="i i-sm"><use href="#i-users"/></svg>In class</div>
+                <div class="class-actions">
+                  <button type="button" class="btn btn-secondary btn-block" data-action="open-projector"><svg class="i i-sm"><use href="#i-monitor"/></svg>Projector mode</button>
+                  <button type="button" class="btn btn-accent btn-block" data-action="open-arcade"><svg class="i i-sm"><use href="#i-gamepad"/></svg>Play games</button>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm btn-block" id="btnDuplicate"><svg class="i i-sm"><use href="#i-copy"/></svg>Duplicate for another class</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- ══ Library ══ -->
+        <section class="view" data-view="library">
+          <div class="view-inner">
+            <div class="library-bar">
+              <div class="input-group lib-search">
+                <svg class="i i-sm"><use href="#i-search"/></svg>
+                <input class="input" id="libSearch" type="search" placeholder="Search book, unit or pages…" autocomplete="off" />
+              </div>
+              <select class="select lib-filter" id="libLevel"><option value="">All levels</option></select>
+              <span class="spacer"></span>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnBackup"><svg class="i i-sm"><use href="#i-download"/></svg>Back up</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="btnRestore"><svg class="i i-sm"><use href="#i-upload"/></svg>Restore</button>
+              <input type="file" id="restoreInput" accept=".json,application/json" class="hidden" />
+            </div>
+            <div class="library-grid" id="libraryGrid"></div>
+          </div>
+        </section>
       </div>
+
+      <footer class="flowbar" id="flowbar">
+        <button type="button" class="btn btn-ghost" id="flowBack"><svg class="i i-sm"><use href="#i-arrow-left"/></svg><span>Back</span></button>
+        <div class="flow-dots" id="flowDots"></div>
+        <button type="button" class="btn btn-primary" id="flowNext"><span>Continue</span><svg class="i i-sm"><use href="#i-arrow-right"/></svg></button>
+      </footer>
     </div>
   </div>
 
-  <!-- ══ Confirm modal ══ -->
-  <div class="modal-overlay hidden" id="confirmModal">
-    <div class="modal modal-sm" role="dialog" aria-modal="true">
-      <h2 id="confirmTitle">Are you sure?</h2>
-      <p id="confirmBody" class="modal-note">This action cannot be undone.</p>
-      <div class="modal-actions">
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-secondary" id="confirmCancel">Cancel</button>
-        <button type="button" class="btn btn-danger" id="confirmOk">Delete</button>
-      </div>
-    </div>
-  </div>
+  <div id="overlayRoot"></div>
+  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
 
-  <div id="toastRegion" class="toast-region" aria-live="polite"></div>
-
-  <script type="module" src="./renderer.js"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>

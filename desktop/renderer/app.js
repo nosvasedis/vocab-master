@@ -15,13 +15,12 @@ import {
   buildDetectiveQuestions,
   buildTabooCard,
   maskWordInText,
-  createArcadeController,
-} from "./arcade.js";
+} from "./arcade/deck.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
 const SAVES_KEY = "lingo_maker_saves";
-const MAX_SAVES = 30;
+const MAX_SAVES = 100;
 
 /** Worksheet typography — preview, print, and .docx (Segoe UI covers Latin + Greek on Windows) */
 const WORKSHEET_FONTS = {
@@ -414,7 +413,7 @@ function saveWorksheetSession(form, data, plan, options = {}) {
     profileId: form.classProfile,
     signature: plan.signature || "",
     savedAt: new Date().toISOString(),
-    label: `Unit ${form.unit} · ${form.bookTitle}`,
+    label: form.unit ? `Unit ${form.unit} · ${form.bookTitle}` : form.bookTitle || "Untitled unit",
     pageRange: form.pageRange,
     validationOk: validation ? validation.valid : true,
     validationIssues: validation?.issues?.slice(0, 8) || [],
@@ -2247,7 +2246,9 @@ function validateWorksheet(data) {
 }
 
 function subtitleLine(meta) {
-  return `${meta.bookTitle}: Unit ${meta.unit} (p. ${meta.pageRange})`;
+  const unit = meta.unit ? `: Unit ${meta.unit}` : "";
+  const pages = String(meta.pageRange || "").trim();
+  return `${meta.bookTitle || "Worksheet"}${unit}${pages ? ` (p. ${pages})` : ""}`;
 }
 
 function formatVocabCell(v) {
@@ -3838,7 +3839,8 @@ async function exportDocx(type, data, filename) {
 }
 
 function fileBaseName(meta) {
-  return `Unit ${meta.unit}, p.${meta.pageRange}`;
+  const pages = String(meta?.pageRange || "").trim();
+  return [meta?.unit ? `Unit ${meta.unit}` : "Worksheet", pages ? `p.${pages}` : ""].filter(Boolean).join(", ");
 }
 
 /**
@@ -3996,10 +3998,29 @@ function parseBulkVocabularyText(rawText) {
       continue;
     }
 
+    // A plain comma list inside a longer paste: "rescue, brave, cliff"
+    if (line.includes(",") && !/[-–—:=\t|()>≈≠]/.test(line) && !hasGreek(line)) {
+      line.split(",").map((s) => s.replace(/^\s*(?:\d+[.)]|[-•*])\s*/, "").trim()).filter(Boolean).forEach((english) => {
+        rows.push({
+          english, type: "", greek: "", emojis: "", collocation: "", derivatives: "", synonyms: "", antonyms: "",
+          fieldToggles: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: false, antonyms: false },
+        });
+      });
+      continue;
+    }
+
+    // Inline word-family markers on the same line: "… > competition (n.) ≈ contest ≠ give up"
+    const inline = { derivatives: [], synonyms: [], antonyms: [] };
+    const body = line.replace(/\s+([>≈≠])\s*([^>≈≠]*?)(?=\s+[>≈≠]|$)/g, (_m, mark, val) => {
+      const v = val.trim();
+      if (v) inline[mark === ">" ? "derivatives" : mark === "≈" ? "synonyms" : "antonyms"].push(v);
+      return "";
+    });
+
     // Extract emojis if any
-    const foundEmojis = line.match(emojiRegex) || [];
+    const foundEmojis = body.match(emojiRegex) || [];
     const emojis = foundEmojis.join("");
-    let cleaned = line.replace(emojiRegex, "").replace(/^\s*(?:\d+[.)]|[-•*])\s*/, "").trim();
+    let cleaned = body.replace(emojiRegex, "").replace(/^\s*(?:\d+[.)]|[-•*])\s*/, "").trim();
     if (!cleaned) continue;
 
     // Optional pipe for collocation: "word (v.) - greek | collocation phrase"
@@ -4059,6 +4080,13 @@ function parseBulkVocabularyText(rawText) {
         antonyms: false,
       },
     });
+    const added = rows[rows.length - 1];
+    for (const key of ["derivatives", "synonyms", "antonyms"]) {
+      if (inline[key].length) {
+        added[key] = inline[key].join(", ");
+        added.fieldToggles[key] = true;
+      }
+    }
   }
   return rows;
 }
@@ -4291,6 +4319,5 @@ export {
   buildDetectiveQuestions,
   buildTabooCard,
   maskWordInText,
-  createArcadeController,
 };
 

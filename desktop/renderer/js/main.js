@@ -1,0 +1,310 @@
+/* ══════════════════════════════════════════════════════════════════
+   Vocab Master — app shell: boot, navigation, top bar, sidebar, shortcuts.
+   ══════════════════════════════════════════════════════════════════ */
+import { desktop, hydrateStorage, getApiKey } from "./bridge.js";
+import * as engine from "../app.js";
+import {
+  CLASS_PROFILES, CPP_BOOKS, getSampleUnitData, getSavedSession, normalizeWorksheetExercises,
+  validateWorksheet, saveWorksheetSession, lookupCoursebookWord,
+} from "../app.js";
+import { $, $$, esc, icon, plural, toast, confirmDialog, closeTopDialog, hasOpenDialog } from "./ui.js";
+import {
+  state, prefs, savePrefs, emit, on, loadDraft, flushDraft, resetState, applyForm, filledWords,
+  bookTitle, unitNumber, pageRange, isCpp, LEVEL_COLORS, BOOK_COLORS, coursebookQuery, pickFromQuery,
+} from "./state.js";
+import { actions } from "./actions.js";
+import { initSetup, loadPoolWords, validateSetup, renderSetup, highlightSetupGap } from "./views/setup.js";
+import { initWords, renderWords } from "./views/words.js";
+import { initExercises, enterExercises, runGenerate } from "./views/exercises.js";
+import { initPreview, renderPreview, printSheet } from "./views/preview.js";
+import { initLibrary, renderLibrary, updateLibraryCount } from "./views/library.js";
+import { openProjector, isProjectorOpen } from "./views/projector.js";
+import { openSettings, openHelp, applyTheme } from "./dialogs.js";
+import { openArcade, isArcadeOpen } from "../arcade/arcade.js";
+import { buildArcadeDeck } from "../arcade/deck.js";
+import { configureAudio } from "../arcade/audio.js";
+
+const FLOW = ["setup", "words", "exercises", "preview"];
+const VIEW_META = {
+  setup: { title: "Unit setup", sub: "Choose the class level and the coursebook unit." },
+  words: { title: "Vocabulary", sub: "Review the words — AI adds phrases, emojis and word families." },
+  exercises: { title: "Exercises", sub: "Plan the exercise mix and let AI write the worksheets." },
+  preview: { title: "Preview & export", sub: "Click any line to edit. Export, print or take it to class." },
+  library: { title: "Saved units", sub: "Everything you've made — open, edit, duplicate or back up." },
+};
+
+/* ── Navigation ──────────────────────────────────────────────────── */
+function go(view, { force = false, silent = false } = {}) {
+  if (!VIEW_META[view]) view = "setup";
+  const idx = FLOW.indexOf(view);
+  if (!force && idx >= 1) {
+    const err = validateSetup();
+    if (err) {
+      if (!silent) { toast(err, "warn"); setTimeout(highlightSetupGap, 60); }
+      view = "setup";
+    }
+  }
+  if (!force && view === "preview" && !state.data) {
+    if (!silent) toast("Generate the worksheets first — or open the sample unit.", "info");
+    view = "exercises";
+  }
+  state.view = view;
+  $$(".view").forEach((v) => v.classList.toggle("active", v.dataset.view === view));
+  $("scroller").scrollTo({ top: 0, behavior: "instant" });
+  if (view === "setup") renderSetup();
+  if (view === "words") renderWords();
+  if (view === "exercises") enterExercises();
+  if (view === "preview") renderPreview();
+  if (view === "library") renderLibrary();
+  renderChrome();
+  emit("view");
+}
+
+/* ── Chrome: sidebar, top bar, flow bar ──────────────────────────── */
+function stepDone(step) {
+  if (step === "setup") return !validateSetup();
+  if (step === "words") return state.inputMode === "freeform" ? state.freeform.trim().length > 10 : filledWords().length > 0;
+  if (step === "exercises") return !!state.data;
+  return false;
+}
+
+function renderChrome() {
+  const view = state.view;
+  const meta = VIEW_META[view];
+  $("pageTitle").textContent = meta.title;
+  $("pageSub").textContent = meta.sub;
+
+  $$(".sb-item[data-nav]").forEach((b) => b.classList.toggle("active", b.dataset.nav === view));
+  FLOW.forEach((step, i) => {
+    const dot = document.querySelector(`[data-step-dot="${i + 1}"]`);
+    if (dot) dot.classList.toggle("done", step !== view && stepDone(step));
+  });
+  const p = CLASS_PROFILES[state.profileId];
+  $("navSub-setup").textContent = p ? `${p.label} · ${isCpp() ? `PP${state.cpp.bookId.slice(-1)} ` : ""}Unit ${unitNumber()}` : "Level & coursebook";
+  $("navSub-words").textContent = state.inputMode === "freeform" ? "Freeform brief" : plural(filledWords().length, "word");
+  $("navSub-exercises").textContent = state.plan ? `${state.plan.dictationExerciseCount} Dictation · ${state.plan.lingoPracticeCount} Lingo` : "Plan & generate";
+  $("navSub-preview").textContent = state.data ? "Ready to export" : "Not generated yet";
+  document.querySelector('.sb-item[data-action="open-projector"]').disabled = !state.data;
+
+  // Context chips
+  const chips = [];
+  if (p) chips.push(`<button type="button" class="ctx-chip" data-goto="setup"><span class="ctx-ico" style="background:${LEVEL_COLORS[p.id]}">${esc(p.label[0])}</span><span>${esc(p.label)} · ${esc(p.cefr)}</span></button>`);
+  if (bookTitle()) {
+    const color = isCpp() ? BOOK_COLORS[state.cpp.bookId] : "var(--text-3)";
+    chips.push(`<button type="button" class="ctx-chip shrink" data-goto="setup" title="${esc(bookTitle())}"><span class="ctx-ico" style="background:${color}">${icon("book")}</span><span>${esc(bookTitle())} · Unit ${esc(unitNumber())}${pageRange() ? ` · p. ${esc(pageRange())}` : ""}</span></button>`);
+  }
+  if (state.inputMode === "structured") chips.push(`<button type="button" class="ctx-chip" data-goto="words"><span class="ctx-ico" style="background:var(--brand)">${icon("list")}</span><span>${plural(filledWords().length, "word")}</span></button>`);
+  $("ctxChips").innerHTML = chips.join("");
+
+  // Flow bar
+  const idx = FLOW.indexOf(view);
+  $("flowbar").classList.toggle("hidden", idx < 0);
+  if (idx >= 0) {
+    $("flowDots").innerHTML = FLOW.map((s, i) => `<span class="${i === idx ? "active" : i < idx || stepDone(s) ? "done" : ""}"></span>`).join("");
+    $("flowBack").style.visibility = idx === 0 ? "hidden" : "visible";
+    $("flowBack").querySelector("span").textContent = idx > 0 ? VIEW_META[FLOW[idx - 1]].title : "";
+    const next = $("flowNext");
+    const label = {
+      setup: "Continue to vocabulary",
+      words: "Continue to exercises",
+      exercises: state.data ? "Open the preview" : "Generate worksheets",
+      preview: "Play classroom games",
+    }[view];
+    next.querySelector("span").textContent = label;
+    next.className = `btn ${view === "exercises" && !state.data ? "btn-magic" : view === "preview" ? "btn-accent" : "btn-primary"}`;
+    next.disabled = view === "exercises" && state.busy;
+  }
+}
+
+function flowNext() {
+  const view = state.view;
+  if (view === "setup") go("words");
+  else if (view === "words") go("exercises");
+  else if (view === "exercises") { if (state.data) go("preview"); else runGenerate("full"); }
+  else if (view === "preview") openGames();
+}
+
+function flowBack() {
+  const i = FLOW.indexOf(state.view);
+  if (i > 0) go(FLOW[i - 1]);
+}
+
+/* ── AI status ───────────────────────────────────────────────────── */
+let aiState = "auto";
+function setAiState(next = "auto", message = "") {
+  aiState = next;
+  const dot = $("aiDot");
+  const hasKey = !!getApiKey();
+  let cls = hasKey ? "on" : "off";
+  let title = hasKey ? "AI ready" : "AI not connected";
+  let sub = hasKey ? "DeepSeek key saved" : "Add your DeepSeek key";
+  if (next === "busy") { cls = "busy"; title = "AI is working…"; sub = "This can take a minute"; }
+  if (next === "error") { cls = "error"; title = "Last AI request failed"; sub = message || "Check your key or connection"; }
+  dot.className = `ai-dot ${cls}`;
+  $("aiTitle").textContent = title;
+  $("aiSub").textContent = sub;
+  $("aiStatusCard").title = message || sub;
+}
+
+/* ── Sample, new unit, games ─────────────────────────────────────── */
+function loadSample() {
+  const sample = getSampleUnitData();
+  applyForm(sample.form, sample.plan);
+  state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(sample.data)));
+  state.plan = sample.plan;
+  state.sessionId = null;
+  try {
+    state.sessionId = saveWorksheetSession(sample.form, state.data, state.plan, { validation: validateWorksheet(state.data) });
+  } catch { /* storage unavailable */ }
+  prefs.welcomeDismissed = true;
+  savePrefs();
+  emit("setup", "words", "level", "data", "library");
+  go("preview", { force: true });
+  toast("Sample C Senior unit loaded — click any line to edit, or try Projector mode and the games.", "ok", { ms: 6000 });
+}
+
+async function newUnit() {
+  if (state.busy) { toast("Please wait for the AI to finish first.", "warn"); return; }
+  const unsaved = !state.data && filledWords().length > 0;
+  if (unsaved) {
+    const ok = await confirmDialog({
+      title: "Start a new unit?",
+      body: "Your current word list hasn't been turned into worksheets yet, so it isn't in the library.",
+      okLabel: "Start new unit",
+      tone: "brand",
+      iconName: "plus",
+    });
+    if (!ok) return;
+  }
+  resetState();
+  if (isCpp()) loadPoolWords({ silent: true });
+  emit("setup", "words", "data", "level");
+  go("setup", { force: true });
+  toast("Fresh unit started — everything you generated is in your library.", "info", { ms: 3000 });
+}
+
+function deckContext() {
+  const lookup = (eng) => lookupCoursebookWord(eng, bookTitle(), unitNumber());
+  const label = `${bookTitle() || "Your unit"}${unitNumber() ? ` · Unit ${unitNumber()}` : ""}`;
+  const words = filledWords();
+  if (words.length >= 3) return { deck: buildArcadeDeck(words, lookup), title: label };
+  const vocab = state.data?.lingoLauncher?.vocabulary || [];
+  if (vocab.length >= 3) return { deck: buildArcadeDeck(vocab, lookup), title: label };
+  if (isCpp()) {
+    const picked = pickFromQuery(coursebookQuery());
+    if (picked.length >= 3) return { deck: buildArcadeDeck(picked, lookup), title: `${CPP_BOOKS[state.cpp.bookId].title} · Unit ${state.cpp.unit}` };
+  }
+  const sample = getSampleUnitData();
+  return { deck: buildArcadeDeck(sample.data.lingoLauncher.vocabulary, lookup), title: `${sample.form.bookTitle} · Unit ${sample.form.unit} (sample)` };
+}
+
+function openGames() {
+  const { deck, title } = deckContext();
+  openArcade({
+    deck,
+    title,
+    prefs: { sfx: prefs.sfx, tts: prefs.tts },
+    onPrefs: ({ sfx, tts }) => { prefs.sfx = sfx; prefs.tts = tts; savePrefs(); },
+  });
+}
+
+/* ── Wiring ──────────────────────────────────────────────────────── */
+function wire() {
+  $$(".sb-item[data-nav]").forEach((b) => b.addEventListener("click", () => go(b.dataset.nav)));
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-action]");
+    if (a?.dataset.action === "open-arcade") openGames();
+    if (a?.dataset.action === "open-projector") openProjector();
+    if (a?.dataset.action === "load-sample") loadSample();
+    const g = e.target.closest("[data-goto]");
+    if (g) go(g.dataset.goto);
+  });
+  $("btnNew").addEventListener("click", newUnit);
+  $("btnSample").addEventListener("click", loadSample);
+  $("btnPlayTop").addEventListener("click", openGames);
+  $("btnSettings").addEventListener("click", () => openSettings());
+  $("aiStatusCard").addEventListener("click", () => openSettings());
+  $("btnHelp").addEventListener("click", openHelp);
+  $("btnTheme").addEventListener("click", () => {
+    prefs.theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    savePrefs();
+    applyTheme();
+  });
+  window.matchMedia?.("(prefers-color-scheme: dark)").addEventListener?.("change", () => { if (prefs.theme === "system") applyTheme(); });
+  $("flowNext").addEventListener("click", flowNext);
+  $("flowBack").addEventListener("click", flowBack);
+
+  window.addEventListener("keydown", (e) => {
+    if (e.defaultPrevented || isArcadeOpen() || isProjectorOpen()) return;
+    const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
+    if (e.key === "Escape" && hasOpenDialog()) { e.preventDefault(); closeTopDialog(); return; }
+    if (hasOpenDialog()) return;
+    const mod = e.ctrlKey || e.metaKey;
+    if (mod && e.key.toLowerCase() === "n") { e.preventDefault(); newUnit(); return; }
+    if (mod && e.key.toLowerCase() === "p") { e.preventDefault(); printSheet(); return; }
+    if (mod && e.key === "Enter") { e.preventDefault(); flowNext(); return; }
+    if (e.altKey && /^[1-4]$/.test(e.key)) { e.preventDefault(); go(FLOW[Number(e.key) - 1]); return; }
+    if (e.key === "?" && !typing) { e.preventDefault(); openHelp(); }
+  });
+
+  const d = desktop();
+  d?.onMenu?.((action) => {
+    if (action === "new") newUnit();
+    if (action === "print") printSheet();
+  });
+  d?.onDownloadDone?.(({ state: st, filename }) => {
+    if (st === "completed") toast(`Saved ${filename}.`, "ok");
+    else if (st === "interrupted") toast(`Saving ${filename} was interrupted.`, "error");
+  });
+  window.addEventListener("beforeunload", flushDraft);
+
+  on("*", () => renderChrome());
+}
+
+/* ── Boot ────────────────────────────────────────────────────────── */
+async function boot() {
+  try {
+    await hydrateStorage();
+    applyTheme();
+    configureAudio({ sfx: prefs.sfx, tts: prefs.tts });
+
+    const hadDraft = loadDraft();
+    if (state.sessionId) {
+      const s = getSavedSession(state.sessionId);
+      if (s) state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(s.data)));
+      else state.sessionId = null;
+    }
+    if (!hadDraft && isCpp()) loadPoolWords({ silent: true });
+
+    Object.assign(actions, { go, openSettings, openArcade: openGames, openProjector, loadSample, setAiState });
+    initSetup();
+    initWords();
+    initExercises();
+    initPreview();
+    initLibrary();
+    wire();
+
+    const d = desktop();
+    if (d) {
+      const info = await d.info().catch(() => null);
+      $("appVersion").textContent = info ? `v${info.version}` : "";
+    } else {
+      $("appVersion").textContent = "Web";
+    }
+    setAiState();
+    updateLibraryCount();
+    go(state.view || "setup", { silent: true });
+  } catch (err) {
+    console.error(err);
+    const banner = document.createElement("div");
+    banner.className = "callout danger";
+    banner.style.cssText = "position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:999;max-width:640px";
+    banner.textContent = `Vocab Master couldn't start: ${err.message}`;
+    document.body.appendChild(banner);
+  }
+  // Hooks for the desktop smoke test.
+  window.__LINGO_ENGINE__ = engine;
+  window.__VM__ = { state, go, emit, loadSample, openGames, openProjector, actions };
+}
+
+boot();

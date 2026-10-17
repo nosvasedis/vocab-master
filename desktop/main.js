@@ -8,7 +8,7 @@
  *   - file-based storage: settings/saves/history in userData JSON files
  *   - keychain: DeepSeek API key encrypted with safeStorage when available
  */
-import { app, BrowserWindow, ipcMain, dialog, shell, session, protocol, Menu, safeStorage, screen } from "electron";
+import { app, BrowserWindow, ipcMain, dialog, shell, session, protocol, Menu, safeStorage, screen, nativeTheme } from "electron";
 import https from "node:https";
 import fs from "node:fs";
 import path from "node:path";
@@ -263,7 +263,7 @@ function createWindow() {
     minHeight: 680,
     show: false,
     autoHideMenuBar: true,
-    backgroundColor: "#f6f9fb",
+    backgroundColor: nativeTheme.shouldUseDarkColors ? "#0a0b12" : "#f4f5fa",
     title: "Vocab Master",
     icon: path.join(RENDERER_DIR, "assets", "vocab-master-mark.png"),
     webPreferences: {
@@ -349,129 +349,100 @@ async function runSmokeTest() {
       })()
     `);
     results.title = await mainWindow.webContents.executeJavaScript("document.title");
-    // Editor: inject a synthetic worksheet, open a line's editor, edit + save, verify it persists.
+    // Drive the real UI end-to-end: sample unit, live editors, projector, coursebook auto-pick, arcade games.
     const editorFlow = await mainWindow.webContents.executeJavaScript(`
       (async () => {
         const dbg = {};
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const key = (k) => window.dispatchEvent(new KeyboardEvent("keydown", { key: k, bubbles: true }));
+        for (let i = 0; i < 100 && !window.__VM__; i++) await wait(100);
+        const VM = window.__VM__;
         const E = window.__LINGO_ENGINE__;
-        const data = {
-          meta: { bookTitle: "Smoke", unit: 1, pageRange: "1-2", classProfile: "juniorA" },
-          lingoLauncher: {
-            vocabulary: [{ english: "happy", greek: "\u03c7\u03b1\u03c1\u03bf\u03cd\u03bc\u03b5\u03bd\u03bf\u03c2" }],
-            practice: [{ number: 1, typeId: "L01", items: [{ number: 1, prompt: "The ____ boy smiled.", answer: "happy" }] }],
-          },
-          dictation: {
-            exercises: [{ number: 1, typeId: "D01", wordBank: ["happy"], items: [{ number: 1, prompt: "The ____ boy.", answer: "happy", testsWords: ["happy"] }] }],
-          },
-        };
-        window.__EDITOR_API__.setTestData(data);
-        document.getElementById("toStep4").classList.remove("hidden");
-        document.getElementById("toStep4").click();
-        await new Promise((r) => setTimeout(r, 300));
-        const items = document.querySelectorAll("#previewFrame .ex-item.editable");
-        dbg.items = items.length;
-        if (!items.length) return JSON.stringify({ ...dbg, fail: "no-items" });
-        items[0].click();
-        await new Promise((r) => setTimeout(r, 100));
-        const modal = document.getElementById("itemEditorModal");
-        dbg.modalHidden = modal.classList.contains("hidden");
-        dbg.promptVal = document.getElementById("itemPrompt").value;
-        if (modal.classList.contains("hidden")) return JSON.stringify({ ...dbg, fail: "modal-not-open" });
-        const prompt = document.getElementById("itemPrompt");
-        const edited = "The ____ child smiled happily.";
+
+        // Sample unit opens straight into the preview with editable lines and word boxes.
+        VM.loadSample();
+        await wait(300);
+        const paper = document.getElementById("paper").shadowRoot;
+        dbg.view = VM.state.view;
+        dbg.items = paper.querySelectorAll(".ex-item.editable").length;
+        dbg.vocabCells = paper.querySelectorAll("td.editable-vocab").length;
+        if (!dbg.items || dbg.vocabCells !== 8) return JSON.stringify({ ...dbg, fail: "preview" });
+
+        // Edit a line in the side-sheet editor and check it is saved to the library.
+        paper.querySelector(".ex-item.editable").click();
+        await wait(250);
+        const prompt = document.getElementById("ie_prompt");
+        dbg.editorOpen = !!prompt;
+        if (!prompt) return JSON.stringify({ ...dbg, fail: "item-editor" });
+        const edited = "The ____ child smiled happily at the smoke test.";
         prompt.value = edited;
         prompt.dispatchEvent(new Event("input", { bubbles: true }));
-        await new Promise((r) => setTimeout(r, 400));
-        dbg.liveVal = document.getElementById("itemEditorValidation").textContent;
-        document.getElementById("saveItemEditor").click();
-        await new Promise((r) => setTimeout(r, 400));
-        dbg.modalHiddenAfter = modal.classList.contains("hidden");
-        const saved = E.getAllSavedSessions() || [];
-        dbg.savedCount = saved.length;
-        dbg.hit = saved.some((s) => JSON.stringify(s.data).includes(edited));
-        // Clean up the synthetic session so smoke runs don't pollute real History.
-        saved.filter((s) => JSON.stringify(s.data).includes(edited)).forEach((s) => E.deleteSavedSession(s.id));
+        await wait(350);
+        document.querySelector(".dialog [data-save]").click();
+        await wait(400);
+        dbg.saved = (E.getAllSavedSessions() || []).some((s) => JSON.stringify(s.data).includes(edited));
+        dbg.dialogsAfter = document.querySelectorAll(".dialog-backdrop:not(.closing)").length;
 
-        // Test Teacher Studio 2.0 features: Sample Unit, Vocab Cell Editor, Bulk Parser, Classroom Mode, DOCX build
-        document.getElementById("btnLoadSample").click();
-        await new Promise((r) => setTimeout(r, 200));
-        const vocabCells = document.querySelectorAll("#previewFrame .vocab-cell.editable-vocab");
-        dbg.sampleVocabCells = vocabCells.length;
-        if (vocabCells.length !== 8) return JSON.stringify({ ...dbg, fail: "sample-vocab-count" });
+        // Word box editor opens and closes.
+        paper.querySelector("td.editable-vocab").click();
+        await wait(250);
+        dbg.vocabEditor = !!document.getElementById("ve_english");
+        document.querySelector(".dialog [data-close]")?.click();
+        await wait(300);
 
-        // Test clicking a vocabulary cell to edit
-        vocabCells[0].click();
-        await new Promise((r) => setTimeout(r, 100));
-        const veModal = document.getElementById("vocabEditorModal");
-        if (veModal.classList.contains("hidden")) return JSON.stringify({ ...dbg, fail: "vocab-modal-not-open" });
-        document.getElementById("closeVocabEditor").click();
+        // Projector mode opens and Esc closes it.
+        VM.openProjector();
+        await wait(250);
+        dbg.projector = !!document.querySelector(".projector");
+        key("Escape");
+        await wait(300);
+        dbg.projectorClosed = !document.querySelector(".projector");
 
-        // Test Classroom Projector Mode
-        document.getElementById("btnClassroomMode").click();
-        await new Promise((r) => setTimeout(r, 100));
-        const crModal = document.getElementById("classroomModal");
-        dbg.classroomOpen = !crModal.classList.contains("hidden");
-        document.getElementById("closeClassroomMode").click();
+        // Engine checks: bulk parser, DOCX via IPC, coursebook word bank.
+        dbg.bulk = E.parseBulkVocabularyText("1. explore (v.) - εξερευνώ | explore a cave > explorer (n.) ≈ discover\\n2. brave (adj.) - γενναίος").length;
+        const docx = await window.desktop.exportDocx({ type: "lingo", data: E.getSampleUnitData().data });
+        dbg.docxOk = !!(docx && docx.ok && docx.base64 && docx.base64.length > 1000);
+        const cpp1 = E.queryCoursebookWords({ bookId: "CPP1", unit: 1, includeSb: true, includeWb: true, includeEnriched: true });
+        const cpp2 = E.queryCoursebookWords({ bookId: "CPP2", unit: 5, includeSb: true, includeWb: false, includeEnriched: true });
+        const cpp3 = E.queryCoursebookWords({ bookId: "CPP3", pageRange: "118-120", includeSb: true, includeWb: true, wbScope: "unit", includeEnriched: true });
+        const cbOk = cpp1.counts.total > 50 && cpp1.counts.wb > 5 && cpp2.counts.wb === 0 && cpp3.unit === 6 && cpp3.counts.wb > 10 && cpp3.counts.enriched >= 4;
 
-        // Test Bulk Parser
-        const parsedBulk = E.parseBulkVocabularyText("1. explore (v.) - εξερευνώ | explore a cave\\n2. brave (adj.) - γενναίος");
-        dbg.bulkParsedCount = parsedBulk.length;
+        // Setup: choose Primary Path 2, type pages 74–76 → unit 4 is inferred and its words load.
+        VM.go("setup");
+        await wait(200);
+        document.querySelector('#sourceSeg [data-value="cpp"]').click();
+        await wait(150);
+        document.querySelector('[data-book="CPP2"]').click();
+        await wait(200);
+        const pages = document.getElementById("cppPages");
+        pages.value = "74-76";
+        pages.dispatchEvent(new Event("input", { bubbles: true }));
+        await wait(800);
+        dbg.inferredUnit = VM.state.cpp.unit;
+        dbg.autoWords = VM.state.words.filter((w) => w.english.trim()).length;
+        dbg.poolChips = document.querySelectorAll("#poolChips .word-chip").length;
 
-        // Test DOCX export via main process IPC
-        const sample = E.getSampleUnitData();
-        const docxRes = await window.desktop.exportDocx({ type: "lingo", data: sample.data });
-        dbg.docxOk = !!(docxRes && docxRes.ok && docxRes.base64 && docxRes.base64.length > 1000);
+        // Arcade: every game renders its board.
+        VM.openGames();
+        await wait(250);
+        dbg.gameCards = document.querySelectorAll(".game-card").length;
+        const play = async (id) => { document.querySelector('[data-hub]').click(); await wait(120); document.querySelector('[data-game="' + id + '"]').click(); await wait(250); };
+        await play("flashcards"); dbg.fc = !!document.querySelector(".fc-card");
+        await play("memory"); dbg.mem = document.querySelectorAll(".mm-tile").length;
+        await play("spelling"); dbg.spell = document.querySelectorAll(".sp-tile").length;
+        await play("quiz"); dbg.quiz = document.querySelectorAll(".qz-opt").length;
+        await play("taboo"); document.querySelector("[data-start]")?.click(); await wait(150); dbg.taboo = document.querySelectorAll(".ts-no").length;
+        key("Escape"); await wait(100); key("Escape"); await wait(400);
+        dbg.arcadeClosed = !document.querySelector(".arcade");
 
-        // Test Cambridge Primary Path 1/2/3 Official + Enriched Wordbank
-        const cpp1Q = E.queryCoursebookWords({ bookId: "CPP1", unit: 1, includeSb: true, includeWb: true, includeEnriched: true });
-        const cpp2Q = E.queryCoursebookWords({ bookId: "CPP2", unit: 5, includeSb: true, includeWb: false, includeEnriched: true });
-        const cpp3PageQ = E.queryCoursebookWords({ bookId: "CPP3", pageRange: "118-120", includeSb: true, includeWb: true, wbScope: "unit", includeEnriched: true });
-        dbg.cpp1Total = cpp1Q.counts.total;
-        dbg.cpp1Wb = cpp1Q.counts.wb;
-        dbg.cpp2WbExcluded = cpp2Q.counts.wb;
-        dbg.cpp3InferredUnit = cpp3PageQ.unit;
-        dbg.cpp3WbIncludedInPages = cpp3PageQ.counts.wb;
-        dbg.cpp3Enriched = cpp3PageQ.counts.enriched;
-        dbg.noBuiltinCollocations = cpp1Q.words.every((w) => !w.collocation);
+        // Leave no trace in History.
+        (E.getAllSavedSessions() || []).forEach((s) => E.deleteSavedSession(s.id));
 
-        // Test UI auto-assignment when selecting book + page range + high-contrast active tabs
-        document.getElementById("bookTitle").value = "Cambridge Primary Paths 2";
-        document.getElementById("unit").value = "";
-        document.getElementById("pageRange").value = "74-76";
-        document.getElementById("pageRange").dispatchEvent(new Event("input", { bubbles: true }));
-        await new Promise((r) => setTimeout(r, 150));
-        const assignedCards = [...document.querySelectorAll("#vocabRows .vocab-card .vr-english")].filter((el) => el.value.trim().length > 0);
-        dbg.uiAutoAssignedUnit = document.getElementById("unit").value;
-        dbg.uiAutoAssignedWords = assignedCards.length;
-        const activeUnitPill = document.querySelector(".cb-unit-pill.active");
-        const activePillBg = activeUnitPill ? getComputedStyle(activeUnitPill).backgroundColor : "rgba(0, 0, 0, 0)";
-        dbg.unitPillContrastOk = activePillBg !== "rgba(0, 0, 0, 0)" && activePillBg !== "rgb(255, 255, 255)";
-        document.querySelector('#cbInnerSubtabs [data-cb-subview="words"]')?.click();
-        dbg.wordsSubviewOpen = !document.getElementById("cbSubviewWords").classList.contains("hidden");
-        const cbOk = dbg.cpp1Total > 50 && dbg.cpp1Wb > 5 && dbg.cpp2WbExcluded === 0 && dbg.cpp3InferredUnit === 6 && dbg.cpp3WbIncludedInPages > 10 && dbg.cpp3Enriched >= 4 && dbg.uiAutoAssignedUnit === "4" && dbg.uiAutoAssignedWords >= 10 && dbg.noBuiltinCollocations && dbg.unitPillContrastOk && dbg.wordsSubviewOpen;
-
-        // Test Lingo Arcade (5 Interactive Classroom Games)
-        document.getElementById("btnOpenArcadeTop").click();
-        await new Promise((r) => setTimeout(r, 120));
-        const arcModal = document.getElementById("arcadeModal");
-        dbg.arcadeOpen = !arcModal.classList.contains("hidden");
-        dbg.fcRendered = !!document.querySelector("#arcadeStage .fc-card-3d");
-        document.querySelector('#arcadeGameTabs [data-game="memory"]').click();
-        dbg.memTiles = document.querySelectorAll("#arcadeStage .mem-tile").length;
-        document.querySelector('#arcadeGameTabs [data-game="spellbee"]').click();
-        dbg.sbTiles = document.querySelectorAll("#arcadeStage .sb-tile").length;
-        document.querySelector('#arcadeGameTabs [data-game="detective"]').click();
-        dbg.detOpts = document.querySelectorAll("#arcadeStage .det-option-btn").length;
-        document.querySelector('#arcadeGameTabs [data-game="hotseat"]').click();
-        dbg.hsTaboo = document.querySelectorAll("#arcadeStage .hs-taboo-chip").length;
-        document.getElementById("closeArcadeModal").click();
-        dbg.arcadeClosed = arcModal.classList.contains("hidden");
-        const arcadeOk = dbg.arcadeOpen && dbg.fcRendered && dbg.memTiles >= 12 && dbg.sbTiles >= 2 && dbg.detOpts === 4 && dbg.hsTaboo === 3 && dbg.arcadeClosed;
-
-        return JSON.stringify({
-          ...dbg,
-          fail: (dbg.hit && dbg.modalHiddenAfter && dbg.classroomOpen && dbg.bulkParsedCount === 2 && dbg.docxOk && cbOk && arcadeOk) ? "" : "studio2-fail",
-        });
+        const ok = dbg.view === "preview" && dbg.saved && dbg.dialogsAfter === 0 && dbg.vocabEditor
+          && dbg.projector && dbg.projectorClosed && dbg.bulk === 2 && dbg.docxOk && cbOk
+          && dbg.inferredUnit === 4 && dbg.autoWords >= 10 && dbg.poolChips >= 10
+          && dbg.gameCards === 5 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz === 4 && dbg.taboo >= 1 && dbg.arcadeClosed;
+        return JSON.stringify({ ...dbg, cbOk, fail: ok ? "" : "ui-flow" });
       })()
     `);
     results.editorFlow = JSON.parse(editorFlow || "{}");

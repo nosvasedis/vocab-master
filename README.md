@@ -14,55 +14,53 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 2. Choose either download option:
    - **💿 `Vocab-Master-Setup-2.0.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
    - **🧳 `Vocab-Master-Portable-2.0.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
-3. On first launch, click **🎓 Sample Unit** in the top bar to explore a complete unit right away, or click **⚙️ Settings** to paste your [DeepSeek API key](https://platform.deepseek.com/api_keys) (stored encrypted on your PC via Windows DPAPI).
+3. On first launch, click **Sample unit** in the top bar to explore a complete unit right away, or open **Settings** (bottom of the sidebar) to paste your [DeepSeek API key](https://platform.deepseek.com/api_keys) (stored encrypted on your PC via Windows DPAPI).
 
 ---
 
-## ✨ What's New in Teacher Studio 2.0
+## ✨ A tour of the app
 
-### 1. Unit & Class Level Architect + Built-In Cambridge Primary Path 1–3 Wordbank (Step 1)
-- **📚 Built-In Cambridge Primary Path 1, 2 & 3 (2nd Edition) Smart Wordbank (`3,769` Entries)**:
-  - Select `Cambridge Primary Paths 1`, `2`, or `3` and pick a **Unit (`1`–`9`)** or type any **Page Range** (e.g., `118–120`). The app automatically infers the unit/section, matches the recommended class level (`A Senior`, `B Senior`, `C Senior`), and assigns the exact words to Step 2 with **zero AI wait time**.
-  - **Official Student's Book + Workbook Integration**: Includes all `2,904` Student's Book entries and `650` Workbook entries across all units (`U1`–`U9`) and sections (`Big Question`, `Section A` Nonfiction, `Section B` Fiction).
-  - **Optional Workbook Toggle & Scope Selector**: Easily check/uncheck **Include Workbook (`WB`)** in Step 1 or Step 2, and choose between **All Unit WB words** or **Mapped to section/pages**.
-  - **✨ 2nd Edition & CEFR Booster Vocabulary (`+215` Enriched Entries)**: Adds authentic 2nd Edition reading/oracy key words, phrasal verbs, and richer CEFR-matched vocabulary (`Early A1` to `A2+`) with full Greek meanings, natural collocations, emojis, derivatives, synonyms, and antonyms — plus a **Hide ultra-basic words** filter.
-- **Interactive Class Level Cards (`A Senior` – `E Senior`)**: Visual cards displaying CEFR level (`Early A1` to `B1`), Greek school grade equivalents (`Γ' Δημοτικού` to `Α'–Β' Γυμνασίου`), age ranges, and strict sentence-length caps.
-- **25+ Coursebook Presets & Recent Books Chips**: Instant autocomplete and 1-click chips for popular coursebooks (*Cambridge Primary Paths*, *Super Minds*, *Prepare*, *Eyes Open*, *Think*, *Go Getter*, *Burlington*, etc.).
-- **`+1` Next Unit Button & Zero-Key Sample Unit**: Increment units in one click, or load a pre-built C Senior unit without an API key.
+Vocab Master is a calm, four-step studio with a sidebar that always shows where you are, a light and a dark theme, and everything saved automatically — including your unfinished draft, so closing the app never loses work.
 
-### 2. Smart Vocabulary Studio (Step 2)
-- **⚡ Instant Offline Coursebook Lookup**: Any word present in the `3,769`-entry Cambridge Primary Path wordbank is filled **instantly offline** before calling DeepSeek AI for custom words.
-- **📥 Bulk Paste / Smart Import**: Paste word lists directly from PDFs, Word documents, or notes (`1. compete (v.) - συναγωνίζομαι | compete in a race > competition (n.) ≈ contest ≠ give up`). Automatically parses English headwords, parts of speech, Greek meanings, emojis, collocations, derivatives, synonyms, and antonyms.
-- **🎛️ Batch Field Toggles**: Enable or disable `Type`, `Greek`, `Emojis`, `Collocation`, `Derivatives`, `Synonyms`, or `Antonyms` across all vocabulary cards simultaneously.
-- **AI Sense-Locked Autofill**: Fill all words or individual cards with AI. Providing a part of speech (`v.`) or Greek meaning (`σφραγίζω`) locks the exact word sense.
-- **Fast Teacher Workflow**: Press `Enter` in any English word input to jump to the next card (or create a new row), reorder words (`↑`/`↓`), sort `A–Z`, clean empty rows, or switch between **Compact** and **Detailed** views. Live duplicate detection highlights repeated words.
+### 1 · Unit setup
+- **Class level cards (A–E Senior)** with CEFR level, Greek school grades, sentence-length limit and a recommended word count.
+- **Cambridge Primary Path 1–3 word bank (3,769 entries).** Pick a book and a unit, tap a section (Big Question, A/B reading…) or type any pages — the unit is detected from the page numbers and the official Student's Book, Workbook and 2nd-edition words load instantly, with Greek meanings.
+- **Word pool:** tap words in or out, filter by source, hide basic sight words, or reload a smart pick. Every automatic change can be undone from the notification.
+- **Any other coursebook** works too: type the title, unit and (optional) pages.
 
-### 3. Pedagogical Exercise Architect (Step 3)
-- **35 Exercise Formats**: 25 Dictation types (`D01`–`D25`) and 10 Lingo Launcher practice types (`L01`–`L10`), each tagged with its cognitive skill (`Recognition`, `Productive`, `Analysis`) and a concrete student-facing example.
-- **Teaching Presets & Skill Filters**: Choose **Smart Pedagogical Mix** (with customizable exercise counts) or **Custom Exercise Menu** with 1-click presets (*⚖️ Balanced*, *🎯 Recognition*, *✍️ Productive*, *🎓 Exam Prep*, *🌳 Word Families*).
+### 2 · Vocabulary
+- An editable word list with part of speech, Greek, emojis, a natural phrase and the word family (derivatives, synonyms, opposites). Choose which fields appear on the worksheet with one click.
+- **Fill everything with AI** completes empty fields at the right level; the ✨ on a row rewrites just that word. Part of speech and Greek act as "sense locks" (e.g. *seal* the verb, not the animal).
+- **Paste a list** from Word, PDFs or notes — numbered lines, `word (v.) - Greek | phrase > derivative ≈ synonym ≠ opposite`, or plain comma lists.
+- Drag to reorder (or <kbd>Alt</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>), <kbd>Enter</kbd> for the next word, duplicate warnings, and a progress meter towards the recommended word count.
+- Prefer prose? **Describe the unit** and the AI chooses the words.
 
-### 4. Live Worksheet Editor, Classroom Projector & Full Pack Export (Step 4)
-- **Click-to-Edit Everything**:
-  - Click any **Vocabulary Table Cell** on the Lingo Launcher sheet to edit its English headword, part of speech, Greek meaning, emojis, collocation, or word family live.
-  - Click any **Exercise Line** on Lingo Launcher or Dictation to edit its prompt, answer, stem clue, tested words, or word bank, with live validation, `+ Add line below`, and `🗑️ Delete line`.
-- **3 Preview Tabs & Teacher Formatting Controls**:
-  - Preview `🚀 Lingo Launcher`, `📝 Dictation`, and `📋 Answer Key` directly.
-  - Toggle **👁️ Show Answers Inline**, **📝 Student Name/Date/Class/Score Header**, and **Page Spacing Density** (`Compact`, `Standard A4`, `Comfortable`).
-- **🖥️ Classroom / Interactive Whiteboard Mode**: Full-screen, high-contrast projection view with zoom controls (`A−` / `A+`) where clicking any exercise line reveals or hides its answer one by one during class review.
-- **📦 One-Click Export Full Unit Pack**: Choose a folder once to export all 6 files (`Lingo Launcher`, `Dictation`, and `Answer Key` in both editable `.docx` Word format and print-ready A4 `.pdf`).
+### 3 · Exercises
+- **Smart mix** balances recognition, productive and analysis exercises for the level (shuffle until you like it), or **hand-pick** from 25 Dictation and 10 Lingo Launcher formats with presets and skill filters. Formats that need synonyms/opposites/derivatives tell you what to turn on.
+- **Generate** writes the Lingo Launcher study sheet, the Dictation test and the answer key — every unit word is guaranteed to be tested. You can rewrite only the Dictation or only the Lingo practice later.
 
-### 5. 🎮 Lingo Arcade — 5 Interactive Smartboard Classroom Games
-Launch **🎮 Classroom Games** from the top bar, Step 1 Unit Browser, Step 2 Studio, or Step 4 Preview with **zero AI wait time**:
-- **🃏 1. 3D Flashcards & Oracy Studio**: Tactile 3D-flipping cards (`Space` to flip, `←`/`→` to navigate) with **🇬🇷 Greek → 🇬🇧 English** or **🇬🇧 English → 🇬🇷 Greek & Word Family** modes, 1-click **🔊 Pronunciation**, and live **🎤 Oracy Speaking Prompts** for partner discussion.
-- **🧩 2. Smartboard Memory Match**: 12-tile or 16-tile numbered grid (`1`–`16`) so students can call out tile numbers from their desks. Match **🇬🇧 Word ↔ 🇬🇷 Greek** or **🇬🇧 Word ↔ 💬 Collocation**.
-- **🐝 3. Spell Bee & Collocation Anagram**: Interactive scrambled letter tiles + keyboard typing with gapped collocation clues, **🔊 Hear Word**, and **💡 Hint (+1 Letter)**.
-- **🕵️ 4. Context Detective — Game Show Quiz**: 4-option multiple-choice challenge combining Context Cloze, Word Family Detective, and Bilingual Speed rounds — complete with a **✂️ 50/50 Lifeline** and **🔥 Streak Multiplier**.
-- **⏱️ 5. Hot-Seat Taboo & Charades Timer**: Built for the classic ESL hot-seat game! Displays the giant Target Word alongside **🚫 3 Forbidden Taboo Words** and a **60s / 90s Circular Countdown Ring**.
-- **🏆 Live Team Scoreboard & Web Audio FX**: Built-in **2 Teams / 3 Teams / Solo Scoreboard** (`⚡ Team Sparks`, `🔥 Team Blazers`, `🦁 Team Lions`), synthesized Web Audio sound effects, native **Text-to-Speech (TTS)** pronunciation, and victory confetti!
+### 4 · Preview & export
+- A true **A4 preview** (identical to the PDF). Click any word box or exercise line to edit it in a side panel with live checking; add or delete lines with undo.
+- **Quality check** with one-click quick fixes or AI rewrites, and a **word coverage** map.
+- Export the **full unit pack** (Word + PDF for all three sheets), or the current sheet as Word, PDF or print. Toggle the student name header, answer preview and spacing.
+- **Duplicate** a unit to adapt it for another class.
 
-### 6. Searchable Library & JSON Backups
-- Every generated or edited unit is auto-saved to **History**.
-- Search by book/unit, filter by class level, **Duplicate** units for another class, or **Export / Restore JSON Backups** to move your library between computers.
+### 🖥️ Projector mode
+Full-screen worksheet for the interactive whiteboard. Tap a line — or press <kbd>Space</kbd> — to reveal answers one by one; zoom for the back row.
+
+### 🎮 Lingo Arcade — five smartboard games
+Whole class or 2–4 named teams with a live scoreboard (tap a team's score to adjust it), synthesized sound effects and English read-aloud.
+- **Flashcards** — giant 3D cards, English-first or Greek-first, swipe or press <kbd>1</kbd>/<kbd>2</kbd> to sort into "still learning" and "I know it", then practise just the tricky ones.
+- **Memory Match** — numbered tiles students can call out; match words with Greek, emojis or phrases. A match keeps the turn.
+- **Spell Bee** — hear the word, read the clue, build it from letter tiles or type it; hints cost points.
+- **Quiz Show** — gap, meaning and word-family questions with a countdown, streak bonus and a 50:50 per team.
+- **Hot Seat** — timed taboo rounds: describe the word without the forbidden ones; the board tallies each team's round.
+
+### 🗂️ Library & backups
+Every generated or edited unit is saved automatically. Search by book, unit or word, filter by level, open or edit, and **back up / restore** your whole library as one file.
+
+### ⌨️ Shortcuts
+<kbd>Ctrl</kbd>+<kbd>N</kbd> new unit · <kbd>Ctrl</kbd>+<kbd>P</kbd> print · <kbd>Ctrl</kbd>+<kbd>Enter</kbd> next step / save an edit · <kbd>Alt</kbd>+<kbd>1–4</kbd> jump to a step · <kbd>?</kbd> guide · <kbd>Esc</kbd> close
 
 ---
 
@@ -80,7 +78,7 @@ npm run dist       # Build Windows Setup Installer (.exe) + Portable (.exe) in d
 ### Local Web App (Node.js Proxy)
 ```bash
 npm install
-npm start          # Starts local server on http://localhost:8787/ (or double-click start.bat)
+npm start          # Serves desktop/renderer on http://localhost:8787/ (or double-click start.bat)
 ```
 
 ---

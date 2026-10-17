@@ -23,7 +23,13 @@ Running `npm run dist` inside `desktop/` produces two ready-to-share Windows exe
   - One-click Full Unit Pack folder export (`pack:export`)
   - Atomic JSON persistence (`store.json`) and DPAPI-encrypted API key storage (`keychain.bin`)
 - **`preload.cjs`** — Context-isolated bridge exposing `window.desktop`
-- **`renderer/`** — Teacher Studio 2.0 UI (`index.html`, `styles.css`, `renderer.js`, and shared `app.js`)
+- **`renderer/`** — the whole app UI, also served by `../proxy.js` for the web version:
+  - `index.html` — app shell (sidebar, views, icon sprite)
+  - `styles/` — `base.css` (design tokens, controls, dialogs), `app.css` (layout & views), `arcade.css` (games)
+  - `js/` — `main.js` (navigation, shortcuts, boot), `state.js`, `bridge.js` (desktop/web storage & IPC), `ui.js`, `dialogs.js`, and one module per view in `js/views/`
+  - `arcade/` — Lingo Arcade shell, `deck.js` helpers, Web Audio `audio.js`, `fx.js`, and one module per game in `arcade/games/`
+  - `app.js` + `coursebook-data.js` — the worksheet engine (AI prompts, validation, rendering, `.docx` builders) and the Cambridge Primary Path word bank
+  - `assets/fonts/` — bundled Inter, Manrope and Fredoka (OFL) so the app looks the same offline
 
 ## Commands
 

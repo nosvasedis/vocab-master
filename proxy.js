@@ -12,8 +12,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 8787;
 const TARGET = "api.deepseek.com";
-const ROOT = __dirname;
-const RENDERER_FALLBACK = path.join(ROOT, "desktop", "renderer");
+// One source of truth: the web version serves the same renderer as the desktop app.
+const RENDERER_DIR = path.join(__dirname, "desktop", "renderer");
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -25,7 +25,9 @@ const MIME = {
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
-  ".md": "text/plain; charset=utf-8",
+  ".woff2": "font/woff2",
+  ".woff": "font/woff",
+  ".txt": "text/plain; charset=utf-8",
 };
 
 function readBody(req) {
@@ -42,16 +44,11 @@ function serveStatic(req, res) {
   if (urlPath === "/" || urlPath === "") urlPath = "/index.html";
   const rel = path.normalize(urlPath).replace(/^(\.\.[/\\])+/, "").replace(/^[/\\]+/, "");
 
-  const primaryPath = path.resolve(ROOT, rel);
-  const fallbackPath = path.resolve(RENDERER_FALLBACK, rel);
-
-  const candidates = [];
-  if (primaryPath.startsWith(ROOT)) candidates.push(primaryPath);
-  if (fallbackPath.startsWith(RENDERER_FALLBACK)) candidates.push(fallbackPath);
-
-  const found = candidates.find((p) => {
-    try { return fs.statSync(p).isFile(); } catch { return false; }
-  });
+  const filePath = path.resolve(RENDERER_DIR, rel);
+  let found = null;
+  try {
+    if (filePath.startsWith(RENDERER_DIR + path.sep) && fs.statSync(filePath).isFile()) found = filePath;
+  } catch { /* not found */ }
 
   if (!found) {
     res.writeHead(404);
@@ -75,7 +72,7 @@ function serveStatic(req, res) {
 async function handleDocxExport(res, body) {
   try {
     const { type, data } = JSON.parse(body);
-    const m = await import(pathToFileURL(path.join(ROOT, "app.js")).href);
+    const m = await import(pathToFileURL(path.join(RENDERER_DIR, "app.js")).href);
     let blob;
     if (type === "lingo") blob = await m.buildLingoDocx(data);
     else if (type === "dictation") blob = await m.buildDictationDocx(data);
