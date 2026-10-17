@@ -33,3 +33,6 @@ picture-samples/
 firebase/.firebase/
 firebase/public/vendor/
 firebase/*.log
+
+# ChatGPT/Codex originals (the app uses the WebP copies in desktop/renderer/assets/art)
+art-brief/incoming/
