@@ -360,7 +360,9 @@ export function validateLesson(lesson, getWord, { hasClip, nouns, strictVisibili
   }
 
   if (lesson.status === "approved" && hasClip) {
-    const missing = lessonLines(lesson).filter((l) => !hasClip(l.key));
+    // Only clips the player can play: it shows a word's first example, so later examples are never voiced (see build-audio).
+    const played = (l) => !(l.kind === "example" && !l.key.endsWith(":0"));
+    const missing = lessonLines(lesson).filter((l) => played(l) && !hasClip(l.key));
     if (missing.length) err(`${missing.length} line(s) have no audio clip (first: ${missing[0].key})`);
   }
   return { errors, warnings };
