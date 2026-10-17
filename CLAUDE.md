@@ -17,4 +17,4 @@ An AI vocabulary and worksheet studio for Greek-L1 ESL classes (A–E Senior), b
 
 ## Rules
 - Never commit `.env.local` or print keys. Paid API calls must go through `scripts/lib/ledger.mjs`.
-- End each roadmap phase with: tests green → PROGRESS.md updated → `checkpoint:` commit on `feature/lessons-experience`.
+- End each roadmap phase with: tests green → PROGRESS.md updated → `checkpoint:` commit. The lessons work was merged into `main` on 2026-10-17; start new phases on a fresh branch off `main` and ask before merging.

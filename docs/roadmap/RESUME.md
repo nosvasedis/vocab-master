@@ -2,7 +2,7 @@
 
 1. Read `docs/roadmap/PROGRESS.md` first: it says the current phase, the exact next command and any open questions for the user.
 2. The full design is `docs/roadmap/PLAN.md`. Don't re-plan; continue it.
-3. Work on branch `feature/lessons-experience`. End every phase or sub-phase with a checkpoint:
+3. Work on a fresh branch off `main` (feature/lessons-experience was merged into main on 2026-10-17). End every phase or sub-phase with a checkpoint:
    - `npm test` passes and the phase's checks are done;
    - `PROGRESS.md` is updated (tick boxes, set "Next command");
    - commit `checkpoint: phase X — <summary>`.

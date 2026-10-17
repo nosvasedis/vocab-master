@@ -1,6 +1,6 @@
 # Progress — lessons & live games roadmap
 
-**Branch:** `feature/lessons-experience` · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
+**Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
 ## Current state (2026-10-17 night, end of session 2)
 - **Done:**
