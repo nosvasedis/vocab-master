@@ -99,6 +99,10 @@ Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
 ## Decisions log
 - 2026-10-17: Gemini TTS within a €3.50 budget (Flash for narration, Flash-Lite for words, Batch API). OpenRouter (Claude Haiku 5.5) drafts the lesson text. Cloudflare provides free art (Workers AI) and pack hosting (R2). Firebase handles phones.
 
+## Merging main (notes from other sessions, 2026-10-17)
+- `main` moved to e076a28. It changes `app.js` (autofillVocabulary takes an optional 4th options argument; inline Greek "word type = Greek" in worksheets and Word export; **don't revert that layout**), plus `vocab-quality.js`, `pictures.js`, `words.js`, and the `package.json` test script, which adds `tests/vocab-quality.test.mjs`.
+- When merging, the only expected conflict is the `package.json` "test" script. Keep this branch's glob `node --test "tests/*.test.mjs"`; it already picks up `vocab-quality.test.mjs`.
+
 ## Known issues
 - In Git Bash heredocs, a double backslash can collapse to a single one. Write files containing backslashes with the Write tool.
 - The word bank uses "neighbor" (US) while lessons use "neighbour" (UK). The validator's stem matching tolerates this.
