@@ -40,8 +40,12 @@ function kindsFor(w, deck, { greek }) {
   return kinds;
 }
 
-function wordOptions(target, deck) {
-  const opts = shuffle([target.english, ...distractorsFor(target, deck, 3)]);
+function wordOptions(target, deck, avoidText = "") {
+  // Never offer a wrong answer that already appears in the sentence on screen.
+  const avoid = String(avoidText).toLowerCase();
+  const inSentence = (w) => avoid.split(/[^a-z'-]+/).includes(w.english.toLowerCase());
+  const pool = avoid ? deck.filter((w) => w.english === target.english || !inSentence(w)) : deck;
+  const opts = shuffle([target.english, ...distractorsFor(target, pool, 3)]);
   return { options: opts.map((t) => ({ text: t })), answer: opts.indexOf(target.english) };
 }
 
@@ -92,7 +96,7 @@ function make(kind, w, deck, i) {
   const base = { id: `lq${i + 1}`, kind, kindLabel: KIND_LABEL[kind], word: w, sayAnswer: w.english };
   if (kind === "pic2word") return { ...base, prompt: "What's this?", picture: pic(w), ...wordOptions(w, deck) };
   if (kind === "word2pic") return { ...base, prompt: `Which picture is “${w.english}”?`, ...pictureOptions(w, deck) };
-  if (kind === "gap") return { ...base, prompt: gapSentence(w), picture: "", sayPrompt: w.example || "", ...wordOptions(w, deck) };
+  if (kind === "gap") { const prompt = gapSentence(w); return { ...base, prompt, picture: "", sayPrompt: w.example || "", ...wordOptions(w, deck, prompt) }; }
   if (kind === "greek") return { ...base, prompt: w.greek, promptLang: "el", ...wordOptions(w, deck) };
   if (kind === "truefalse") {
     const truth = Math.random() < 0.5;

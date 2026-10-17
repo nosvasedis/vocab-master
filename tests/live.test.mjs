@@ -70,3 +70,29 @@ test("quiz questions keep Greek out of clues and prompts when Greek is off", () 
   }
   assert.equal(typeName("phr. v."), "phrasal verb");
 });
+
+import { scorePhoneRound, assignTeams } from "../desktop/renderer/arcade/live/scoring.js";
+
+test("phone round: speed points, team averages, histogram, fastest", () => {
+  const r = scorePhoneRound({
+    answers: { a: { opt: 2, at: 1000 }, b: { opt: 2, at: 11000 }, c: { opt: 0, at: 2000 } },
+    players: ["a", "b", "c", "d"],
+    teamOf: { a: 0, b: 1, c: 0, d: 1 },
+    answer: 2, startedAt: 1000, limitMs: 20000, streaks: { a: 1 }, teamCount: 2,
+  });
+  assert.equal(r.perPlayer.a.pts, 1000 + 100); // instant, second right answer in a row
+  assert.equal(r.perPlayer.b.pts, 750);
+  assert.equal(r.perPlayer.c.pts, 0);
+  assert.equal(r.perPlayer.d.opt, null);
+  assert.deepEqual(r.teamPts, [550, 375]);
+  assert.deepEqual(r.dist, [1, 0, 2, 0]);
+  assert.equal(r.fastest, "a");
+});
+
+test("team assignment stays balanced and keeps existing members", () => {
+  const t = assignTeams(["a", "b", "c", "d", "e"], { a: 1 }, 2);
+  assert.equal(t.a, 1);
+  const sizes = [0, 0];
+  Object.values(t).forEach((x) => sizes[x]++);
+  assert.ok(Math.abs(sizes[0] - sizes[1]) <= 1);
+});

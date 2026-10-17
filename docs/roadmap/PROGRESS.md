@@ -18,8 +18,28 @@
   1. After 00:00 UTC: `node scripts/art/build-art.mjs --only backdrops` (AI art for the 16 new backdrops, free allowance). Then `npm run dist`.
   2. Optional: exclude bundled `.ogg` from the installer (`"!renderer/assets/audio/**/*.ogg"` in desktop/package.json files), since clips stream from R2 with an offline cache. The installer is about 137 MB now.
   3. Per-lesson story-panel art and focus-word picture cards (`build-art.mjs`, free daily neurons).
-  4. Phase 2b: phone mode for Lingo Live (Firebase). See "Arcade revamp + Lingo Live" below and PLAN §9.
+  4. Phase 2c: classroom pilot of Lingo Live phones (see Phase 2b below).
 - **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
+
+## Phase 2b: phones for Lingo Live ✅ (2026-10-17 night)
+- **Firebase project** `vocab-master-live` (Spark, free) on the user's Google account nvasedis@gmail.com.
+  - Realtime Database `vocab-master-live-default-rtdb` in **europe-west1**.
+  - Anonymous Auth.
+  - Hosting at **https://vocab-master-live.web.app** (the phone page).
+  - Config is in `firebase/` (firebase.json, .firebaserc, database.rules.json, public/).
+- **Rules** (`firebase/database.rules.json`): rooms can't be listed. A player writes only their own `players/{uid}` (nickname ≤16 characters, avatar) and one answer per open question (write-once, only while `state.phase === "question"` and `state.qkey` matches, server timestamp). Everything else is host-only.
+- **Host** (`arcade/live/net.js`, used by `games/live.js` when the lobby is switched to "📱 Phones"):
+  - 6-digit PIN, QR code (vendored `vendor/qrcode`), player wall, tap twice to remove a player.
+  - Balanced teams (`assignTeams`), live answer counter, auto-reveal when everyone has answered.
+  - Answer histogram, fastest player, team points = average of the team's players (`scorePhoneRound`), player leaderboard and podium for the whole class.
+  - Results are pushed to every phone; the room is deleted when the show ends.
+- **Phone page** (`firebase/public/index.html, play.js, play.css`): PIN (or `?pin=` from the QR) → nickname + animal → lobby → shapes only → locked → right/wrong + points + rank → final rank. Reloading the page keeps the same player (local persistence).
+- **SDK:** Firebase JS 12.19.0 ESM vendored in `desktop/renderer/vendor/firebase` (imports rewritten to local). The CSP allows the `*.firebasedatabase.app`, identitytoolkit and securetoken hosts.
+- **Deploy:** `node scripts/live/build-play.mjs --deploy` (copies the SDK + net-config into firebase/public/vendor, then deploys hosting + rules).
+- **Test locally:** launch config "lingo-live-phone" (`scripts/live/serve-play.mjs`, :5055). Bots: `node scripts/live/bots.mjs <pin> 5`.
+- **Clear leftover rooms:** in Git Bash run `MSYS_NO_PATHCONV=1 npx firebase-tools database:remove /rooms --force --project vocab-master-live`. Only do this when no game is running.
+- **Verified 2026-10-17:** desktop host plus a phone page plus 5 bots played a full 5-question show (live counter, auto-reveal, histogram, averages, leaderboard, podium, phone results, room deleted).
+- **Next (2c):** a classroom pilot. Possible extras: lesson check items pushed to phones, a reconnection banner on the host, a player-count limit (free plan: 100 simultaneous connections).
 
 ## Arcade revamp + Lingo Live (Phase 2a) ✅ (2026-10-17 night)
 - **Greek:** one switch for the whole arcade (ΕΛ button / G key, saved in `vm_arcade_greek`, **off by default**). Greek UI carries class `gk`, hidden by CSS unless the host has `.show-greek`. Games get `ctx.greek()` and may implement `onGreek(on)`. Games that type letters set `capturesLetters` so G stays a letter.
@@ -132,7 +152,7 @@ Follows the user-supplied Gemini 3.8 Flash TTS developer guide:
 - [ ] See PLAN.md §4, §6, §10. Remaining lessons: `node scripts/lessons/draft-lessons.mjs --all` (about $0.60)
 
 ## Phase 2: live games
-- [x] 2a no-phones host (Lingo Live) · [ ] 2b Firebase + phone client · [ ] 2c team mode / load test
+- [x] 2a no-phones host (Lingo Live) · [x] 2b Firebase + phone client · [ ] 2c classroom pilot / load test
 
 ## Decisions log
 - 2026-10-17: Gemini TTS within a €3.50 budget (Flash for narration, Flash-Lite for words, Batch API). OpenRouter (Claude Haiku 5.5) drafts the lesson text. Cloudflare provides free art (Workers AI) and pack hosting (R2). Firebase handles phones.

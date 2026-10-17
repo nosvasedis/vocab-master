@@ -28,3 +28,47 @@ export function rankTeams(scores) {
   });
   return rows;
 }
+
+/**
+ * Score one question answered on phones.
+ * @param {{ answers: Object<string,{opt:number,at:number}>, players: string[], teamOf?: Object<string,number>,
+ *   answer: number, startedAt: number, limitMs: number, streaks: Object<string,number>, teamCount?: number, nOpts?: number }} o
+ * @returns {{ perPlayer: Object<string,{pts:number, correct:boolean, opt:number|null, streak:number}>, teamPts: number[], dist: number[], fastest: string|null }}
+ * Team points are the average of the team's players (players who did not answer count as 0), so team size doesn't matter.
+ */
+export function scorePhoneRound({ answers = {}, players = [], teamOf = {}, answer, startedAt, limitMs, streaks = {}, teamCount = 0, nOpts = 4 }) {
+  const perPlayer = {};
+  const dist = Array.from({ length: nOpts }, () => 0);
+  let fastest = null;
+  let fastestMs = Infinity;
+  for (const uid of players) {
+    const a = answers[uid];
+    const opt = a && Number.isInteger(a.opt) ? a.opt : null;
+    if (opt != null && opt < nOpts) dist[opt]++;
+    const correct = opt === answer;
+    const streak = correct ? (streaks[uid] || 0) + 1 : 0;
+    const elapsed = a ? Math.max(0, (a.at || startedAt) - startedAt) : limitMs;
+    const pts = pointsFor({ correct, elapsedMs: elapsed, limitMs, streak });
+    perPlayer[uid] = { pts, correct, opt, streak };
+    if (correct && elapsed < fastestMs) { fastestMs = elapsed; fastest = uid; }
+  }
+  const teamPts = Array.from({ length: teamCount }, (_, t) => {
+    const members = players.filter((uid) => teamOf[uid] === t);
+    return members.length ? Math.round(members.reduce((s, uid) => s + perPlayer[uid].pts, 0) / members.length) : 0;
+  });
+  return { perPlayer, teamPts, dist, fastest };
+}
+
+/** Balanced team assignment: keep existing members, put newcomers in the smallest team. */
+export function assignTeams(playerIds, current = {}, teamCount = 2) {
+  const out = {};
+  const sizes = Array.from({ length: teamCount }, () => 0);
+  for (const uid of playerIds) if (Number.isInteger(current[uid]) && current[uid] < teamCount) { out[uid] = current[uid]; sizes[current[uid]]++; }
+  for (const uid of playerIds) {
+    if (uid in out) continue;
+    const t = sizes.indexOf(Math.min(...sizes));
+    out[uid] = t;
+    sizes[t]++;
+  }
+  return out;
+}

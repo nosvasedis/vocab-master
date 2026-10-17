@@ -1,0 +1,30 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$pin": {
+        ".read": "auth != null",
+        ".write": "auth != null && (!data.exists() || data.child('meta/host').val() === auth.uid)",
+        ".validate": "$pin.matches(/^[0-9]{6}$/)",
+        "meta": {
+          ".validate": "newData.child('host').val() === auth.uid && newData.child('createdAt').isNumber()"
+        },
+        "players": {
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid && root.child('rooms/' + $pin + '/meta').exists() && (!data.exists() || newData.exists())",
+            ".validate": "newData.hasChildren(['name', 'avatar', 'joinedAt']) && newData.child('name').isString() && newData.child('name').val().length >= 1 && newData.child('name').val().length <= 16 && newData.child('avatar').isString() && newData.child('avatar').val().length <= 16 && newData.child('joinedAt').val() === now"
+          }
+        },
+        "answers": {
+          "$qkey": {
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid && !data.exists() && root.child('rooms/' + $pin + '/players/' + $uid).exists() && root.child('rooms/' + $pin + '/state/phase').val() === 'question' && root.child('rooms/' + $pin + '/state/qkey').val() === $qkey",
+              ".validate": "newData.hasChildren(['opt', 'at']) && newData.child('opt').isNumber() && newData.child('opt').val() >= 0 && newData.child('opt').val() < root.child('rooms/' + $pin + '/state/nOpts').val() && newData.child('at').val() === now"
+            }
+          }
+        }
+      }
+    }
+  }
+}

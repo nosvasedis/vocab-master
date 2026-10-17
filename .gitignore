@@ -28,3 +28,8 @@ work/tmp/
 build/packs/
 desktop/renderer/assets/audio/**/*.ogg
 picture-samples/
+
+# Firebase (phone page vendor files are copied by scripts/live/build-play.mjs)
+firebase/.firebase/
+firebase/public/vendor/
+firebase/*.log
