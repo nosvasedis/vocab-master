@@ -2740,8 +2740,9 @@ function renderLingoLauncher(data, options = {}) {
     `<tr><td class="${left ? "vocab-cell" : "vocab-empty"}" ${left ? `data-vocab-num="${left.number}"` : ""}>${left ? formatVocabCell(left, layout.pictureStyle) : ""}</td><td class="${right ? "vocab-cell" : "vocab-empty"}" ${right ? `data-vocab-num="${right.number}"` : ""}>${right ? formatVocabCell(right, layout.pictureStyle) : ""}</td></tr>`);
 
   let practiceHtml = "";
-  data.lingoLauncher.practice.forEach((ex) => {
-    practiceHtml += `<section class="ex-block">${exerciseHeadHtml(ex, layout)}`;
+  data.lingoLauncher.practice.forEach((ex, exIndex) => {
+    // The heading is part of the first exercise's block, so the two always sit on the same page.
+    practiceHtml += `<section class="ex-block">${exIndex === 0 ? worksheetSectionHtml("Let’s practise") : ""}${exerciseHeadHtml(ex, layout)}`;
     if (ex.wordList?.length) {
       practiceHtml += `<div class="word-list">${ex.wordList.map((w) => `<span>${escapeHtml(w)}</span>`).join("")}</div>`;
     }
@@ -2756,7 +2757,6 @@ function renderLingoLauncher(data, options = {}) {
       ${worksheetHeaderHtml(meta, { title: "Lingo Launcher", kind: "Vocabulary study sheet", layout })}
       ${worksheetSectionHtml(`Words to learn · ${vocab.length}`)}
       <table class="vocab-table"><tbody>${rows.join("")}</tbody></table>
-      ${worksheetSectionHtml("Let’s practise")}
       ${practiceHtml}
     </div>`;
 }
@@ -2815,11 +2815,8 @@ function renderAnswerKey(data, options = {}) {
     });
     return h + `</section>`;
   };
-  let body = worksheetSectionHtml("Lingo Launcher practice") + `<div class="key-grid">`;
-  (data.lingoLauncher?.practice || []).forEach((ex) => { body += exBlock(ex, "Lingo"); });
-  body += `</div>` + worksheetSectionHtml("Dictation") + `<div class="key-grid">`;
-  (data.dictation?.exercises || []).forEach((ex) => { body += exBlock(ex, "Dictation"); });
-  body += `</div>`;
+  const keySection = (label, list, sheetLabel) => (list.length ? `<div class="key-section">${worksheetSectionHtml(label)}<div class="key-grid">${list.map((ex) => exBlock(ex, sheetLabel)).join("")}</div></div>` : "");
+  const body = keySection("Lingo Launcher practice", data.lingoLauncher?.practice || [], "Lingo") + keySection("Dictation", data.dictation?.exercises || [], "Dictation");
 
   return `
     <div class="worksheet answer-key-sheet density-${escapeHtml(density)}">
@@ -3981,9 +3978,11 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .ws-reuse { margin-top: 2.6mm; padding: 1.8mm 3.4mm; border: 0.8pt dashed var(--ink-3); border-radius: 2mm; font-size: 8.6pt; color: var(--ink-2); text-align: center; }
 
 /* Section labels */
-.ws-section { display: flex; align-items: center; gap: 3mm; margin: 5mm 0 2.6mm; font: 800 8.4pt/1 ${WORKSHEET_FONTS.display}; letter-spacing: 0.16em; text-transform: uppercase; }
+.ws-section { break-after: avoid; page-break-after: avoid; display: flex; align-items: center; gap: 3mm; margin: 5mm 0 2.6mm; font: 800 8.4pt/1 ${WORKSHEET_FONTS.display}; letter-spacing: 0.16em; text-transform: uppercase; }
 .ws-section::after { content: ""; flex: 1; border-top: 0.8pt solid var(--ink); }
 .ws-head + .ws-section { margin-top: 0; }
+.ex-block > .ws-section { margin-top: 0; }
+.ws-head + .key-section > .ws-section { margin-top: 0; }
 
 /* Vocabulary table */
 .vocab-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 0 0 2mm; border: 1pt solid var(--ink); border-radius: 2.6mm; overflow: hidden; table-layout: fixed; }
@@ -4037,7 +4036,7 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .match-def-line b { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 5mm; height: 5mm; border-radius: 1.4mm; border: 0.8pt solid var(--ink); color: var(--ink); font: 800 8pt/1 ${WORKSHEET_FONTS.display}; margin-top: 0.2mm; }
 
 /* Answer key */
-.key-grid { columns: 2; column-gap: 7mm; }
+.key-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 7mm; align-items: start; }
 .key-block { break-inside: avoid; margin-bottom: 4mm; padding: 2.6mm 3.2mm; border: 0.8pt solid var(--rule); border-radius: 2.4mm; }
 .key-head { display: flex; align-items: center; gap: 2.2mm; margin-bottom: 1.6mm; flex-wrap: wrap; }
 .key-head .ex-num { width: 5.6mm; height: 5.6mm; font-size: 8pt; }
@@ -4254,7 +4253,7 @@ async function docxKit(meta, sheet) {
     rows: [new d.TableRow({
       children: [new d.TableCell({
         margins: { top: 1.6 * MM, bottom: 1.6 * MM, left: 3 * MM, right: 3 * MM },
-        children: [para(words.flatMap((w, i) => [...(i ? [run("   •   ", { size: 18, color: GREY })] : []), run(w, { display: true, bold: true, size: 20 })]))],
+        children: [para(words.flatMap((w, i) => [...(i ? [run("   •   ", { size: 18, color: GREY })] : []), run(w, { display: true, bold: true, size: 20 })]), { keepNext: true })],
       })],
     })],
   });
@@ -4339,10 +4338,10 @@ async function buildLingoDocx(data) {
     rows: buildVocabTablePairs(vocab).map(({ left, right }, i) => new d.TableRow({ cantSplit: true, children: [cell(left, i % 2 === 1), cell(right, i % 2 === 1)] })),
   }));
 
-  children.push(k.section("Let’s practise"));
+  if (data.lingoLauncher.practice.length) children.push(k.section("Let’s practise"));
   data.lingoLauncher.practice.forEach((ex) => {
     children.push(...k.exerciseHead(ex));
-    if (ex.wordList?.length) children.push(k.chipsBox(ex.wordList), para([], { spacing: { after: 1 * MM } }));
+    if (ex.wordList?.length) children.push(k.chipsBox(ex.wordList), para([], { spacing: { after: 1 * MM }, keepNext: true }));
     ex.items.forEach((it) => children.push(k.item(it.number, textRuns(stripLeadingItemNumber(it.prompt), { pic: 20 }))));
   });
   return d.Packer.toBlob(k.document(children));
@@ -4359,11 +4358,11 @@ async function buildDictationDocx(data) {
       if (ex.typeId === "D13") {
         ex.wordBank.forEach((entry) => {
           const m = String(entry).match(/^([A-Z])\.\s*(.*)$/i);
-          children.push(para(m ? [k.badge(m[1].toUpperCase(), 16), run(`  ${m[2]}`, { size: 20 })] : [run(entry, { size: 20 })], { indent: { left: 8 * MM }, spacing: { after: 0.8 * MM } }));
+          children.push(para(m ? [k.badge(m[1].toUpperCase(), 16), run(`  ${m[2]}`, { size: 20 })] : [run(entry, { size: 20 })], { indent: { left: 8 * MM }, spacing: { after: 0.8 * MM }, keepNext: true }));
         });
-        children.push(para([], { spacing: { after: 1 * MM } }));
+        children.push(para([], { spacing: { after: 1 * MM }, keepNext: true }));
       } else {
-        children.push(k.chipsBox(ex.wordBank), para([], { spacing: { after: 1 * MM } }));
+        children.push(k.chipsBox(ex.wordBank), para([], { spacing: { after: 1 * MM }, keepNext: true }));
       }
     }
     if (ex.stemHeader) children.push(para([run(ex.stemHeader, { size: 19, color: "444444" })], { indent: { left: 8 * MM } }));
@@ -4394,9 +4393,9 @@ async function buildAnswerKeyDocx(data) {
       children.push(k.item(it.number, [run(it.answer || "—", { bold: true, size: 20 }), ...(words ? [run(`   ${words}`, { size: 16, color: k.GREY })] : [])]));
     });
   };
-  children.push(k.section("Lingo Launcher practice"));
+  if ((data.lingoLauncher?.practice || []).length) children.push(k.section("Lingo Launcher practice"));
   (data.lingoLauncher?.practice || []).forEach((ex) => block(ex, "Lingo"));
-  children.push(k.section("Dictation"));
+  if ((data.dictation?.exercises || []).length) children.push(k.section("Dictation"));
   (data.dictation?.exercises || []).forEach((ex) => block(ex, "Dictation"));
   return d.Packer.toBlob(k.document(children));
 }
