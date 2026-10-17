@@ -119,6 +119,476 @@
       "outTok": 14748,
       "usd": 0.007847,
       "job": "draft CPP3-U1-B #1"
+    },
+    {
+      "t": "2026-10-17T10:26:56.726Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 13,
+      "outTok": 120,
+      "usd": 0.000727,
+      "job": "probe"
+    },
+    {
+      "t": "2026-10-17T10:27:25.569Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 42,
+      "usd": 0.000253,
+      "job": "probe generateContent"
+    },
+    {
+      "t": "2026-10-17T10:30:17.132Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 303,
+      "usd": 0.002745,
+      "job": "audition n-voice_66japla7cydg"
+    },
+    {
+      "t": "2026-10-17T10:30:23.404Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 305,
+      "usd": 0.002763,
+      "job": "audition n-voice_4rdqc20aq05l"
+    },
+    {
+      "t": "2026-10-17T10:30:29.999Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 264,
+      "usd": 0.002394,
+      "job": "audition n-Sulafat"
+    },
+    {
+      "t": "2026-10-17T10:30:35.388Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 250,
+      "usd": 0.002268,
+      "job": "audition n-Achird"
+    },
+    {
+      "t": "2026-10-17T10:30:40.979Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 248,
+      "usd": 0.00225,
+      "job": "audition n-Aoede"
+    },
+    {
+      "t": "2026-10-17T10:30:46.575Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 235,
+      "usd": 0.002133,
+      "job": "audition n-Laomedeia"
+    },
+    {
+      "t": "2026-10-17T10:30:52.425Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 280,
+      "usd": 0.002538,
+      "job": "audition n-Vindemiatrix"
+    },
+    {
+      "t": "2026-10-17T10:30:58.347Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 275,
+      "usd": 0.002493,
+      "job": "audition n-en-gb-tutor-6"
+    },
+    {
+      "t": "2026-10-17T10:31:04.302Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 277,
+      "usd": 0.002511,
+      "job": "audition n-en-gb-tutor-4"
+    },
+    {
+      "t": "2026-10-17T10:31:10.322Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 284,
+      "usd": 0.002574,
+      "job": "audition n-en-gb-storyteller-2"
+    },
+    {
+      "t": "2026-10-17T10:31:16.330Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 273,
+      "usd": 0.002475,
+      "job": "audition n-en-gb-tutor-13"
+    },
+    {
+      "t": "2026-10-17T10:31:20.849Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 303,
+      "usd": 0.001836,
+      "job": "audition n-lite-lingo_f"
+    },
+    {
+      "t": "2026-10-17T10:31:25.320Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 39,
+      "usd": 0.000236,
+      "job": "audition w-grandmother-lingo_f-lite"
+    },
+    {
+      "t": "2026-10-17T10:31:28.424Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 52,
+      "usd": 0.000313,
+      "job": "audition w-grandmother-lingo_f-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:31:32.247Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 35,
+      "usd": 0.000211,
+      "job": "audition w-grandmother-Sulafat-lite"
+    },
+    {
+      "t": "2026-10-17T10:31:35.337Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 47,
+      "usd": 0.000284,
+      "job": "audition w-grandmother-Sulafat-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:31:37.961Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 33,
+      "usd": 0.000199,
+      "job": "audition w-grandmother-en-gb-tutor-6-lite"
+    },
+    {
+      "t": "2026-10-17T10:31:40.778Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 42,
+      "usd": 0.000253,
+      "job": "audition w-grandmother-en-gb-tutor-6-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:31:44.545Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 47,
+      "usd": 0.000425,
+      "job": "audition w-grandmother-lingo_f-flash-style"
+    },
+    {
+      "t": "2026-10-17T10:31:48.386Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 4,
+      "outTok": 38,
+      "usd": 0.00023,
+      "job": "audition w-in common-lingo_f-lite"
+    },
+    {
+      "t": "2026-10-17T10:31:51.690Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 4,
+      "outTok": 62,
+      "usd": 0.000374,
+      "job": "audition w-in common-lingo_f-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:31:55.122Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 4,
+      "outTok": 30,
+      "usd": 0.000182,
+      "job": "audition w-in common-Sulafat-lite"
+    },
+    {
+      "t": "2026-10-17T10:31:58.041Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 4,
+      "outTok": 48,
+      "usd": 0.00029,
+      "job": "audition w-in common-Sulafat-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:32:00.712Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 4,
+      "outTok": 29,
+      "usd": 0.000176,
+      "job": "audition w-in common-en-gb-tutor-6-lite"
+    },
+    {
+      "t": "2026-10-17T10:32:03.480Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 4,
+      "outTok": 47,
+      "usd": 0.000284,
+      "job": "audition w-in common-en-gb-tutor-6-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:32:06.902Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 4,
+      "outTok": 57,
+      "usd": 0.000515,
+      "job": "audition w-in common-lingo_f-flash-style"
+    },
+    {
+      "t": "2026-10-17T10:32:10.965Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 27,
+      "usd": 0.000163,
+      "job": "audition w-neighbour-lingo_f-lite"
+    },
+    {
+      "t": "2026-10-17T10:32:14.950Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 47,
+      "usd": 0.000284,
+      "job": "audition w-neighbour-lingo_f-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:32:17.740Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 29,
+      "usd": 0.000176,
+      "job": "audition w-neighbour-Sulafat-lite"
+    },
+    {
+      "t": "2026-10-17T10:32:21.439Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 43,
+      "usd": 0.00026,
+      "job": "audition w-neighbour-Sulafat-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:32:25.037Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 25,
+      "usd": 0.000151,
+      "job": "audition w-neighbour-en-gb-tutor-6-lite"
+    },
+    {
+      "t": "2026-10-17T10:32:28.128Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 34,
+      "usd": 0.000206,
+      "job": "audition w-neighbour-en-gb-tutor-6-lite-style"
+    },
+    {
+      "t": "2026-10-17T10:32:31.319Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 3,
+      "outTok": 42,
+      "usd": 0.00038,
+      "job": "audition w-neighbour-lingo_f-flash-style"
+    },
+    {
+      "t": "2026-10-17T10:32:35.954Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 17,
+      "outTok": 131,
+      "usd": 0.000794,
+      "job": "audition s-example"
+    },
+    {
+      "t": "2026-10-17T10:32:39.957Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 20,
+      "outTok": 180,
+      "usd": 0.00109,
+      "job": "audition s-explain"
+    },
+    {
+      "t": "2026-10-17T10:32:45.235Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 20,
+      "outTok": 143,
+      "usd": 0.001297,
+      "job": "audition s-question"
+    },
+    {
+      "t": "2026-10-17T10:32:51.500Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 36,
+      "outTok": 321,
+      "usd": 0.002907,
+      "job": "audition d-convo"
+    },
+    {
+      "t": "2026-10-17T10:32:56.959Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 23,
+      "outTok": 115,
+      "usd": 0.000701,
+      "job": "audition g-el-gr-tutor-6"
+    },
+    {
+      "t": "2026-10-17T10:33:00.485Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 23,
+      "outTok": 114,
+      "usd": 0.000696,
+      "job": "audition g-el-gr-assistant-5"
+    },
+    {
+      "t": "2026-10-17T10:33:04.459Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-lite-tts",
+      "mode": "standard",
+      "inTok": 23,
+      "outTok": 117,
+      "usd": 0.000714,
+      "job": "audition g-el-gr-training-4"
+    },
+    {
+      "t": "2026-10-17T10:33:23.072Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 22,
+      "outTok": 155,
+      "usd": 0.001406,
+      "job": "audition d-boy-Puck"
+    },
+    {
+      "t": "2026-10-17T10:33:28.230Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 22,
+      "outTok": 159,
+      "usd": 0.001442,
+      "job": "audition d-boy-Fenrir"
+    },
+    {
+      "t": "2026-10-17T10:33:32.825Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 16,
+      "outTok": 117,
+      "usd": 0.001061,
+      "job": "audition d-girl-Leda"
+    },
+    {
+      "t": "2026-10-17T10:33:37.511Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 16,
+      "outTok": 118,
+      "usd": 0.00107,
+      "job": "audition d-girl-Laomedeia"
+    },
+    {
+      "t": "2026-10-17T10:33:42.694Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 23,
+      "outTok": 161,
+      "usd": 0.00146,
+      "job": "audition d-gran-only"
     }
   ]
 }

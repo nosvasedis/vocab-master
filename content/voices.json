@@ -1,0 +1,44 @@
+{
+  "_note": "Voice casting for build-audio.mjs. Designed voice ids live in the Gemini project (1-year TTL, renewed on use). Fill picks after the audition (work/audition or the published Audition artifact).",
+  "designed": {
+    "lingo_f": "voice_66japla7cydg",
+    "lingo_m": "voice_4rdqc20aq05l",
+    "grandma": "voice_d9qz2iin5da8"
+  },
+  "designPrompts": {},
+  "picked": false,
+  "cast": {
+    "narrator": {
+      "voice": "voice_66japla7cydg",
+      "model": "gemini-3.8-flash-tts"
+    },
+    "words": {
+      "voice": "voice_66japla7cydg",
+      "model": "gemini-3.8-flash-lite-tts",
+      "style": "clear, warm teacher modelling a new word for young learners, slightly slow, natural falling intonation"
+    },
+    "examples": {
+      "voice": "voice_66japla7cydg",
+      "model": "gemini-3.8-flash-lite-tts"
+    },
+    "childBoy": {
+      "voice": "Puck"
+    },
+    "childGirl": {
+      "voice": "Leda"
+    },
+    "grandparent": {
+      "voice": "voice_d9qz2iin5da8"
+    },
+    "adultMan": {
+      "voice": "Charon"
+    },
+    "adultWoman": {
+      "voice": "Kore"
+    },
+    "greek": {
+      "voice": "el-gr-tutor-6",
+      "model": "gemini-3.8-flash-lite-tts"
+    }
+  }
+}
