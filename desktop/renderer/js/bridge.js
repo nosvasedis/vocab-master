@@ -15,6 +15,39 @@ const SECRET_KEYS = { [API_KEY_KEY]: "deepseek", [GEMINI_KEY_KEY]: "gemini" };
 export const desktop = () => (typeof window.desktop !== "undefined" ? window.desktop : null);
 export const realFetch = window.fetch.bind(window);
 
+let chatgptSession = { profiles: [], accountId: "", connected: false, sharing: false, ready: false, models: [], model: "", pending: false };
+export const getChatGPT = () => chatgptSession;
+export async function chatgptAction(action, payload) {
+  const d = desktop();
+  const res = d?.chatgpt ? await d.chatgpt(action, payload) : await realFetch("/chatgpt/action", {
+    method: "POST", headers: { "Content-Type": "application/json", "X-Vocab-ChatGPT": "1" }, body: JSON.stringify({ action, payload }),
+  }).then((r) => { if (!r.ok) throw new Error("ChatGPT connection is unavailable. Restart Vocab Master and try again."); return r.json(); });
+  if (!res.ok) {
+    if (/session_expired|invalid_grant|sharing.*disabled|sharing_not_enabled/.test(res.code || "")) {
+      chatgptSession = { ...chatgptSession, ready: false, sharing: false };
+      window.dispatchEvent(new Event("chatgpt-state"));
+    }
+    throw Object.assign(new Error(res.error || "ChatGPT request failed."), { code: res.code });
+  }
+  if (action !== "generate") {
+    chatgptSession = res.value;
+    window.dispatchEvent(new Event("chatgpt-state"));
+  }
+  return { ...res, value: res.value };
+}
+export async function refreshChatGPT({ models = false } = {}) {
+  await chatgptAction("status");
+  if (models && chatgptSession.sharing) await chatgptAction("models");
+  return chatgptSession;
+}
+export const isAiReady = () => getProvider() === "chatgpt" ? chatgptSession.ready : !!getApiKey();
+export const chatgptUsageLimited = (error) => getProvider() === "chatgpt" && /usage limit|sharing_usage/.test(error?.message || String(error || ""));
+export async function manageChatGPTUsage() {
+  if (desktop()?.chatgpt) return chatgptAction("usage");
+  window.open("https://chatgpt.com/settings/usage", "_blank", "noopener");
+}
+configureAi({ chatgpt: async (payload) => (await chatgptAction("generate", payload)).value });
+
 const ipcResponse = (res) => ({
   ok: res.status >= 200 && res.status < 300,
   status: res.status,
@@ -105,12 +138,15 @@ export async function hydrateStorage() {
     }
   }
   configureAi({ provider: getProvider() });
+  // Network discovery must never hold up opening saved units when offline.
+  if (getProvider() === "chatgpt") void refreshChatGPT({ models: true }).catch(() => {});
 }
 
 /* ── AI provider & keys ──────────────────────────────────────────── */
 export const PROVIDERS = {
   deepseek: { id: "deepseek", name: "DeepSeek", storageKey: API_KEY_KEY, placeholder: "sk-…", keyUrl: "https://platform.deepseek.com/api_keys", keyHost: "platform.deepseek.com" },
   gemini: { id: "gemini", name: "Google Gemini", storageKey: GEMINI_KEY_KEY, placeholder: "AIza…", keyUrl: "https://aistudio.google.com/apikey", keyHost: "aistudio.google.com" },
+  chatgpt: { id: "chatgpt", name: "ChatGPT" },
 };
 
 export function getProvider() {
@@ -129,10 +165,12 @@ export function setProvider(id) {
 }
 
 export function getApiKey(provider = getProvider()) {
+  if (provider === "chatgpt") return "";
   try { return (localStorage.getItem(PROVIDERS[provider].storageKey) || "").trim(); } catch { return ""; }
 }
 
 export function setApiKey(value, provider = getProvider()) {
+  if (provider === "chatgpt") return;
   const v = String(value || "").trim();
   const key = PROVIDERS[provider].storageKey;
   try {

@@ -3150,12 +3150,15 @@ ${JSON.stringify(plan, null, 2)}`;
 const AI_PROVIDERS = {
   deepseek: { id: "deepseek", name: "DeepSeek" },
   gemini: { id: "gemini", name: "Google Gemini" },
+  chatgpt: { id: "chatgpt", name: "ChatGPT" },
 };
 let activeProvider = "deepseek";
+let chatgptRequest = null;
 
 /** Choose which AI service every generation call uses. */
-function configureAi({ provider } = {}) {
+function configureAi({ provider, chatgpt } = {}) {
   if (AI_PROVIDERS[provider]) activeProvider = provider;
+  if (typeof chatgpt === "function") chatgptRequest = chatgpt;
 }
 function aiProviderName() {
   return AI_PROVIDERS[activeProvider].name;
@@ -3253,6 +3256,10 @@ function friendlyGeminiError(status, bodyText) {
 
 /** Every AI call goes through here; routes to the provider chosen in Settings. */
 async function callDeepSeek(apiKey, systemPrompt, userPrompt, retryHint) {
+  if (activeProvider === "chatgpt") {
+    if (!chatgptRequest) throw new Error("Connect ChatGPT in Settings first.");
+    return chatgptRequest({ systemPrompt, userPrompt, retryHint: retryHint || "" });
+  }
   if (activeProvider === "gemini") return callGemini(apiKey, systemPrompt, userPrompt, retryHint);
   const url = "http://localhost:8787/chat/completions";
   const messages = [

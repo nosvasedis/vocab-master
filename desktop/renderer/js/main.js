@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════
    Vocab Master — app shell: boot, navigation, top bar, sidebar, shortcuts.
    ══════════════════════════════════════════════════════════════════ */
-import { desktop, hydrateStorage, getApiKey, getProvider, PROVIDERS } from "./bridge.js";
+import { desktop, hydrateStorage, isAiReady, getChatGPT, getProvider, PROVIDERS } from "./bridge.js";
 import * as engine from "../app.js";
 import {
   CLASS_PROFILES, CPP_BOOKS, getSavedSession, normalizeWorksheetExercises,
@@ -140,18 +140,24 @@ let aiState = "auto";
 function setAiState(next = "auto", message = "") {
   aiState = next;
   const dot = $("aiDot");
-  const hasKey = !!getApiKey();
+  const hasKey = isAiReady();
   let cls = hasKey ? "on" : "off";
   let title = hasKey ? "AI ready" : "AI not connected";
   const providerName = PROVIDERS[getProvider()].name;
   let sub = hasKey ? `${providerName} key saved` : `Add a ${providerName} key`;
+  if (getProvider() === "chatgpt") {
+    const session = getChatGPT();
+    const model = session.models.find((m) => m.slug === session.model);
+    sub = hasKey ? `Using ChatGPT plan · ${model?.name || ""}` : "Connect ChatGPT and choose a model";
+  }
   if (next === "busy") { cls = "busy"; title = "AI is working…"; sub = "This can take a minute"; }
-  if (next === "error") { cls = "error"; title = "Last AI request failed"; sub = message || "Check your key or connection"; }
+  if (next === "error") { cls = "error"; title = "Last AI request failed"; sub = message || "Check your connection in Settings"; }
   dot.className = `ai-dot ${cls}`;
   $("aiTitle").textContent = title;
   $("aiSub").textContent = sub;
   $("aiStatusCard").title = message || sub;
 }
+window.addEventListener("chatgpt-state", () => { if (getProvider() === "chatgpt" && $("aiDot")) setAiState(aiState); });
 
 /* ── Units, new unit, games ──────────────────────────────────────── */
 /** Open a complete unit ({ form, data, plan }) in the preview and save it (used by the desktop self-test). */
