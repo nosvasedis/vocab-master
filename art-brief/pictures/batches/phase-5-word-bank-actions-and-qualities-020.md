@@ -1,0 +1,35 @@
+# Phase 5 · word-bank-actions-and-qualities · batch 020 (31 images)
+
+Follow art-brief/pictures/PROMPT.md exactly. Save each image as art-brief/pictures/incoming/<file>.
+
+- **w-watch.png** — "watch" (verb, frame: action) · Greek: βλέπω, παρακολουθώ · Example: "On weekends, we watch movies on TV."
+- **w-watch-movies.png** — "watch movies" (phrase, frame: action) · Greek: βλέπω ταινίες
+- **w-watch-out.png** — "watch out" (phrasal verb, frame: action) · Greek: προσέχω · Example: "Watch out! A car is coming!"
+- **w-water-the-plants.png** — "water the plants" (phrase, frame: action) · Greek: ποτίζω τα φυτά
+- **w-wave.png** — "wave" (verb, frame: action) · Greek: χαιρετάω από μακριά, γνέφω · Example: "There's Helen! She's waving to us from across the street."
+- **w-wear.png** — "wear" (verb, frame: action) · Greek: φοράω · Example: "Do you wear a school uniform to school?"
+- **w-wear-wore-worn.png** — "wear - wore - worn" (verb, frame: action) · Greek: φορώ · Example: "She wore a yellow dress and was very pretty."
+- **w-weird.png** — "weird" (adjective, frame: quality) · Greek: περίεργος · Example: "I feel weird. Call a doctor."
+- **w-welcome-adj.png** — "welcome" (adjective, frame: quality) · Greek: ευπρόσδεκτος · Example: "Come in! You're welcome to our house!"
+- **w-well.png** — "well" (adverb, frame: quality) · Greek: καλά · Example: "Samantha can sing very well."
+- **w-were.png** — "were" (verb, frame: action) · Greek: ήταν (για πολλούς) · Example: "We were tired after the soccer practice."
+- **w-werent.png** — "weren't" (verb, frame: action) · Greek: δεν ήταν · Example: "They weren't scared of the spider."
+- **w-wet.png** — "wet" (adjective, frame: quality) · Greek: βρεγμένος · Example: "My hands are wet. Can you open the door, please?"
+- **w-what-a-mess.png** — "What a mess!" (phrase, frame: action) · Greek: Τι χάλια! · Example: "What a mess! We should clean this room up straight away!"
+- **w-whine.png** — "whine" (verb, frame: action) · Greek: κλαψουρίζω · Example: "This little boy is whining all the time!"
+- **w-whisper.png** — "whisper" (verb, frame: action) · Greek: ψιθυρίζω · Example: "My friend whispers her secrets to me in class and the teacher gets angry!"
+- **w-whole.png** — "whole" (adjective, frame: quality) · Greek: ολόκληρος · Example: "We can't see the whole museum in one day. It's too big."
+- **w-whole-grain-2.png** — "whole-grain" (adjective, frame: quality) · Greek: ολικής άλεσης · Example: "I always have whole-grain bread for my sandwiches."
+- **w-wide.png** — "wide" (adjective, frame: quality) · Greek: διάπλατος · Example: "Open the windows wide to get some fresh air."
+- **w-wide-eyed.png** — "wide-eyed" (adjective, frame: quality) · Greek: με γουρλωμένα μάτια · Example: "The spectators watched wide-eyed as the captain of the team was sent out of the match."
+- **w-wild.png** — "wild" (adjective, frame: quality) · Greek: άγριος · Example: "Wild animals aren't pets and people should leave them alone and not try to touch them!"
+- **w-wonder.png** — "wonder" (verb, frame: action) · Greek: αναρωτιέμαι · Example: "I wonder if there is life on other planets!"
+- **w-wooden.png** — "wooden" (adjective, frame: quality) · Greek: ξύλινος · Example: "Paste your puppet on a wooden stick."
+- **w-worth.png** — "worth" (adjective, frame: quality) · Greek: (που) αξίζει · Example: "It's definitely worth visiting the Science Museum in London. It's awesome!"
+- **w-wow-factor.png** — "wow factor" (phrase, frame: action) · Greek: παράγοντας εντυπωσιασμού · Example: "Imagine the wow factor of a restaurant under the sea!"
+- **w-wrap.png** — "wrap" (verb, frame: action) · Greek: τυλίγω · Example: "Wrap the aluminum foil around the crumpled paper."
+- **w-wriggle-up-to.png** — "wriggle up to" (phrasal verb, frame: action) · Greek: σέρνομαι, στριμώχνομαι κοντά σε κάποιον · Example: "The snake wriggled up to the rabbit."
+- **w-write.png** — "write" (verb, frame: action) · Greek: γράφω · Example: "Can you write your name with your left hand?"
+- **w-yell.png** — "yell" (verb, frame: action) · Greek: φωνάζω · Example: "Stop yelling! I can hear you very well!"
+- **w-young.png** — "young" (adjective, frame: quality) · Greek: νέος · Example: "My little brother is too young. He can't ride a bike yet."
+- **w-yummy.png** — "yummy" (adjective, frame: quality) · Greek: νόστιμος · Example: "Mmm… that apple pie is yummy!"

@@ -1,0 +1,44 @@
+# Phase 1 · lesson-words-and-characters · batch 002 (40 images)
+
+Follow art-brief/pictures/PROMPT.md exactly. Save each image as art-brief/pictures/incoming/<file>.
+
+- **c-maya-child.png** — CHARACTER Maya (child). Look: 9-year-old girl, deep brown skin, black curly hair in a high puff with a coral headband, coral T-shirt, mint-green skirt over leggings, purple shoes. Personality: cheerful 10-year-old girl, curious and friendly. Appears in 9 lesson(s).
+- **c-maya-firefighter.png** — CHARACTER Maya (firefighter). Personality: calm, brave firefighter, warm and reassuring. Appears in 1 lesson(s).
+- **c-mila-child.png** — CHARACTER Mila (child). Personality: cheerful 9-year-old girl, curious and brave. Appears in 1 lesson(s).
+- **c-milo-child.png** — CHARACTER Milo (child). Personality: cheerful 10-year-old boy, funny and a little bit excited. Appears in 1 lesson(s).
+- **c-mira-child.png** — CHARACTER Mira (child). Personality: thoughtful 11-year-old girl who loves painting, calm and kind. Appears in 1 lesson(s).
+- **c-monica-child.png** — CHARACTER Monica (child). Personality: cheerful 9-year-old girl, friendly and curious. Appears in 1 lesson(s).
+- **c-mr-kostas-referee.png** — CHARACTER Mr Kostas (referee). Personality: firm but fair referee, serious tone with a smile. Appears in 1 lesson(s).
+- **c-mr-stavros-barber.png** — CHARACTER Mr Stavros (barber). Personality: warm, chatty older barber with a big laugh, kind and patient. Appears in 1 lesson(s).
+- **c-mr-stavros-carpenter.png** — CHARACTER Mr Stavros (carpenter). Personality: kind, slow-speaking village carpenter, friendly. Appears in 1 lesson(s).
+- **c-mrs-bee-bee.png** — CHARACTER Mrs. Bee (bee). Personality: kind, gentle, chatty bee who loves her hive, warm and proud. Appears in 2 lesson(s).
+- **c-mrs-bee-teacher.png** — CHARACTER Mrs. Bee (teacher). Personality: kind, patient teacher who knows lots about animals. Appears in 1 lesson(s).
+- **c-mrs-bell-teacher.png** — CHARACTER Mrs Bell (teacher). Personality: warm, encouraging music teacher, calm and patient. Appears in 1 lesson(s).
+- **c-mrs-brown-adult.png** — CHARACTER Mrs Brown (adult). Personality: kind, warm neighbour, gentle and friendly, speaks slowly. Appears in 1 lesson(s).
+- **c-mrs-elena-elder.png** — CHARACTER Mrs Elena (elder). Personality: gentle, smiling grandmother, warm and friendly. Appears in 1 lesson(s).
+- **c-ms-carla-security-guard.png** — CHARACTER Ms Carla (security-guard). Personality: calm, kind adult security guard, friendly and reassuring. Appears in 1 lesson(s).
+- **c-ms-costa-teacher.png** — CHARACTER Ms Costa (teacher). Personality: warm, encouraging art teacher, proud and calm. Appears in 1 lesson(s).
+- **c-ms-ellis-teacher.png** — CHARACTER Ms Ellis (teacher). Personality: calm, warm music teacher, encouraging and kind. Appears in 1 lesson(s).
+- **c-ms-lee-teacher.png** — CHARACTER Ms Lee (teacher). Personality: warm, encouraging music teacher with a calm voice. Appears in 1 lesson(s).
+- **c-ms-ruth-guide.png** — CHARACTER Ms Ruth (guide). Personality: calm, warm museum guide, encouraging and clear, speaks slowly. Appears in 1 lesson(s).
+- **c-mum-adult.png** — CHARACTER Mum (adult). Personality: calm, caring adult, gentle and practical. Appears in 1 lesson(s).
+- **c-nasreddin-adult.png** — CHARACTER Nasreddin (adult). Personality: cheerful, silly grown-up with a twinkle in his eye, friendly and funny. Appears in 2 lesson(s).
+- **c-nick-child.png** — CHARACTER Nick (child). Look: 9-year-old boy, light skin, brown hair sticking up at the back, one sock pulled up and one down, navy-blue T-shirt with a planet, beige shorts. Personality: cheerful 9-year-old boy, curious, a little forgetful. Appears in 3 lesson(s).
+- **c-nico-child.png** — CHARACTER Nico (child). Look: 10-year-old boy, tan skin, short curly dark-brown hair, big smile with a gap tooth, lime-green T-shirt with a rocket, grey shorts, blue trainers. Personality: friendly 10-year-old boy, funny and helpful. Appears in 4 lesson(s).
+- **c-nigel-child.png** — CHARACTER Nigel (child). Personality: cheerful 10-year-old boy, curious and funny. Appears in 1 lesson(s).
+- **c-nikos-child.png** — CHARACTER Nikos (child). Look: 10-year-old boy, light skin, wavy chestnut hair, round blue glasses, orange polo shirt, khaki trousers, brown sandals. Personality: kind 10-year-old boy, a little shy at first. Appears in 7 lesson(s).
+- **c-nikos-doctor.png** — CHARACTER Nikos (doctor). Personality: friendly adult paramedic, calm and reassuring. Appears in 1 lesson(s).
+- **c-nikos-tour-guide.png** — CHARACTER Nikos (tour-guide). Personality: calm, friendly adult tour guide with a warm, grandfatherly voice. Appears in 1 lesson(s).
+- **c-nina-child.png** — CHARACTER Nina (child). Personality: confident 11-year-old girl, team captain, encouraging. Appears in 1 lesson(s).
+- **c-nina-firefighter.png** — CHARACTER Nina (firefighter). Personality: calm, warm firefighter, reassuring and friendly. Appears in 1 lesson(s).
+- **c-nora-child.png** — CHARACTER Nora (child). Look: 9-year-old girl, medium-brown skin, two long black braids with red ribbons, red dungarees over a white top, white trainers. Personality: cheerful 10-year-old girl, kind and curious. Appears in 2 lesson(s).
+- **c-pino-puppet.png** — CHARACTER Pino (puppet). Personality: wooden puppet, shy and curious, speaks in a small voice. Appears in 1 lesson(s).
+- **c-pinocchio-puppet.png** — CHARACTER Pinocchio (puppet). Personality: curious, cheerful wooden puppet boy who wants to be real, slightly wobbly voice. Appears in 1 lesson(s).
+- **c-ranger-nikos-ranger.png** — CHARACTER Ranger Nikos (ranger). Personality: calm, kind beach ranger, warm and encouraging. Appears in 1 lesson(s).
+- **c-rex-hound.png** — CHARACTER Rex (hound). Personality: big, booming hound, grumpy at first but not cruel, curious. Appears in 1 lesson(s).
+- **c-rooster-rooster.png** — CHARACTER Rooster (rooster). Personality: proud, cheerful rooster, loud and full of ideas. Appears in 1 lesson(s).
+- **c-rosa-squirrel.png** — CHARACTER Rosa (squirrel). Personality: calm, careful 11-year-old squirrel, thoughtful and kind. Appears in 1 lesson(s).
+- **c-sam-child.png** — CHARACTER Sam (child). Look: 9-year-old child, warm brown skin, short dark hair, round face, big yellow raincoat, blue trousers, green wellies. Personality: cheerful 10-year-old boy, curious and full of questions. Appears in 2 lesson(s).
+- **c-theo-child.png** — CHARACTER Theo (child). Look: 9-year-old boy, light olive skin, short dark curly hair, dimples, teal T-shirt with a football, black shorts, white trainers. Personality: cheerful 11-year-old boy, curious and talkative. Appears in 2 lesson(s).
+- **c-timmy-child.png** — CHARACTER Timmy (child). Look: 9-year-old boy, light skin, sandy-brown bowl-cut hair, big curious eyes, red jumper with a white collar, blue shorts, muddy farm boots. Personality: cheerful 9-year-old boy, curious and excited. Appears in 3 lesson(s).
+- **c-tom-child.png** — CHARACTER Tom (child). Personality: friendly 9-year-old boy, curious and careful. Appears in 1 lesson(s).
