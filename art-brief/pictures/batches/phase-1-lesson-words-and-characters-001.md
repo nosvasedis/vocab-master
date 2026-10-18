@@ -1,0 +1,44 @@
+# Phase 1 · lesson-words-and-characters · batch 001 (40 images)
+
+Follow art-brief/pictures/PROMPT.md exactly. Save each image as art-brief/pictures/incoming/<file>.
+
+- **c-ana-child.png** — CHARACTER Ana (child). Personality: cheerful 11-year-old girl, curious and helpful. Appears in 1 lesson(s).
+- **c-anna-child.png** — CHARACTER Anna (child). Look: 9-year-old girl, pale skin, red wavy hair in a ponytail, green hoodie, grey leggings, purple trainers. Personality: calm, brave 10-year-old girl, warm and clear. Appears in 2 lesson(s).
+- **c-aunt-lena-adult.png** — CHARACTER Aunt Lena (adult). Personality: kind, gentle adult aunt, warm and storyteller. Appears in 1 lesson(s).
+- **c-ben-child.png** — CHARACTER Ben (child). Look: 9-year-old boy, pale skin, straight ginger hair, freckles, red-and-white striped T-shirt, blue jeans, green trainers. Personality: cheerful 9-year-old boy, loves playing outside, friendly and a little bossy. Appears in 3 lesson(s).
+- **c-bob-child.png** — CHARACTER Bob (child). Personality: thoughtful 9-year-old boy, a little shy but kind. Appears in 1 lesson(s).
+- **c-bruno-the-giant-giant.png** — CHARACTER Bruno the Giant (giant). Personality: deep, friendly giant, speaks slowly and warmly. Appears in 1 lesson(s).
+- **c-bun-bread-bun.png** — CHARACTER Bun (bread-bun). Personality: small, bouncy bread bun from the story, bright and brave. Appears in 1 lesson(s).
+- **c-caren-child.png** — CHARACTER Caren (child). Personality: curious 10-year-old girl, clever, calm and kind. Appears in 1 lesson(s).
+- **c-chip-chipmunk.png** — CHARACTER Chip (chipmunk). Personality: calm, helpful chipmunk, cheerful and kind. Appears in 1 lesson(s).
+- **c-coach-dana-coach.png** — CHARACTER Coach Dana (coach). Personality: calm, supportive adult coach, clear and kind. Appears in 1 lesson(s).
+- **c-dad-adult.png** — CHARACTER Dad (adult). Personality: calm, funny dad, kind and a little teasing. Appears in 2 lesson(s).
+- **c-dan-child.png** — CHARACTER Dan (child). Personality: curious 9-year-old boy, friendly and talkative. Appears in 1 lesson(s).
+- **c-dimitris-child.png** — CHARACTER Dimitris (child). Personality: cheerful 10-year-old boy, helpful and a little chatty. Appears in 1 lesson(s).
+- **c-donkey-donkey.png** — CHARACTER Donkey (donkey). Personality: gentle, kind old donkey, slow and thoughtful. Appears in 1 lesson(s).
+- **c-dr-maya-scientist.png** — CHARACTER Dr. Maya (scientist). Personality: calm, clear-speaking scientist, kind and patient. Appears in 1 lesson(s).
+- **c-dr-sofia-guide.png** — CHARACTER Dr Sofia (guide). Personality: calm, friendly adult guide, warm and clear. Appears in 1 lesson(s).
+- **c-eleni-child.png** — CHARACTER Eleni (child). Look: 9-year-old girl, olive skin, long wavy black hair with a white headband, bright blue T-shirt with a Greek-key border, white skirt, blue sandals. Personality: cheerful 9-year-old girl, excited and full of energy. Appears in 2 lesson(s).
+- **c-ella-child.png** — CHARACTER Ella (child). Look: 9-year-old girl, light skin, honey-blonde curly hair, purple glasses, pink jumper with a heart, blue jeans. Personality: cheerful 11-year-old girl, proud of her town, friendly and chatty. Appears in 2 lesson(s).
+- **c-ellie-child.png** — CHARACTER Ellie (child). Look: 9-year-old girl, light skin, long straight blonde hair with a pink clip, lavender dress with white dots, white socks, pink shoes. Personality: cheerful 9-year-old girl, curious and kind. Appears in 3 lesson(s).
+- **c-emilia-child.png** — CHARACTER Emilia (child). Look: 9-year-old girl, olive skin, dark hair in a long side braid, teal cardigan over a white top, yellow skirt, red shoes. Personality: cheerful 9-year-old girl, curious and excited. Appears in 3 lesson(s).
+- **c-enitan-child.png** — CHARACTER Enitan (child). Look: 9-year-old boy, dark brown skin, short black hair with a neat side part, bright purple T-shirt, white shorts, orange trainers. Personality: curious, friendly 10-year-old girl, new to the village, eager to learn. Appears in 3 lesson(s).
+- **c-grandma-elder.png** — CHARACTER Grandma (elder). Look: kind grandmother, light skin, short curly white hair, round glasses on a chain, lilac jumper, grey skirt. Personality: warm, gentle grandmother, loves stories and surprises. Appears in 2 lesson(s).
+- **c-grandma-rose-elder.png** — CHARACTER Grandma Rose (elder). Personality: kind, patient grandmother, gently teasing, loves baking. Appears in 1 lesson(s).
+- **c-grandpa-elder.png** — CHARACTER Grandpa (elder). Look: storyteller grandfather, brown skin, short grey beard, round glasses, green cardigan, beige trousers, walking stick. Personality: calm, warm storyteller, slow and gentle voice. Appears in 2 lesson(s).
+- **c-grandpa-leo-elder.png** — CHARACTER Grandpa Leo (elder). Personality: gentle older man, warm and slow-speaking. Appears in 1 lesson(s).
+- **c-grandpa-nikos-elder.png** — CHARACTER Grandpa Nikos (elder). Look: Greek grandfather, tanned skin, white moustache, bald on top with white hair at the sides, flat cap, light-blue shirt, brown waistcoat, grey trousers. Personality: warm, slightly silly grandfather who loves telling stories. Appears in 2 lesson(s).
+- **c-gus-giant.png** — CHARACTER Gus (giant). Personality: kind, slow-speaking giant, deep and gentle voice, smiling. Appears in 1 lesson(s).
+- **c-hector-hare.png** — CHARACTER Hector (hare). Personality: gentle, shy hare from the forest, slightly lonely, speaks softly. Appears in 1 lesson(s).
+- **c-helen-child.png** — CHARACTER Helen (child). Personality: curious, brave 10-year-old girl who loves solving puzzles, excited and confident. Appears in 1 lesson(s).
+- **c-hetty-hare.png** — CHARACTER Hetty (hare). Personality: quick, brave young hare, a little out of breath, friendly. Appears in 1 lesson(s).
+- **c-irene-child.png** — CHARACTER Irene (child). Personality: friendly 11-year-old girl, confident, loves playing instruments. Appears in 1 lesson(s).
+- **c-jan-child.png** — CHARACTER Jan (child). Look: 9-year-old boy, light skin, short straw-blond hair, rosy cheeks, green-and-white checked shirt, brown trousers, blue wellies. Personality: cheerful 11-year-old girl, curious and excited about cooking. Appears in 3 lesson(s).
+- **c-kostas-child.png** — CHARACTER Kostas (child). Personality: cheerful 10-year-old boy, playful and full of questions. Appears in 1 lesson(s).
+- **c-lefteris-firefighter.png** — CHARACTER Lefteris (firefighter). Personality: calm, friendly adult firefighter who loves helping children. Appears in 1 lesson(s).
+- **c-lena-child.png** — CHARACTER Lena (child). Personality: cheerful 9-year-old girl, curious and bubbly. Appears in 1 lesson(s).
+- **c-lily-child.png** — CHARACTER Lily (child). Personality: cheerful 9-year-old girl, curious and kind. Appears in 1 lesson(s).
+- **c-ling-child.png** — CHARACTER Ling (child). Look: 9-year-old girl, light East Asian complexion, black bob with a straight fringe, mint-green T-shirt with a paint splash, rainbow-striped leggings, white trainers. Personality: cheerful 9-year-old girl, creative and dreamy. Appears in 3 lesson(s).
+- **c-maria-child.png** — CHARACTER Maria (child). Look: 9-year-old girl, light-tan skin, short brown hair with a side fringe, orange cardigan, green dress, yellow shoes. Personality: friendly 9-year-old girl, helpful, bright. Appears in 2 lesson(s).
+- **c-mason-child.png** — CHARACTER Mason (child). Look: 9-year-old boy, medium brown skin, short black twists, yellow-and-black baseball cap worn backwards, white T-shirt, red shorts. Personality: cheerful, curious 11-year-old boy who loves new ideas. Appears in 3 lesson(s).
+- **c-max-child.png** — CHARACTER Max (child). Personality: cheerful 9-year-old boy, curious and always hungry. Appears in 1 lesson(s).

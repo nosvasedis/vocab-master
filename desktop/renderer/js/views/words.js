@@ -7,7 +7,7 @@ import {
   state, emit, on, FIELD_KEYS, FIELD_LABELS, WORD_TARGETS, BOOK_COLORS,
   makeWord, filledWords, duplicateKeys, isCpp, unitStructure, bookTitle, unitNumber,
 } from "../state.js";
-import { getApiKey } from "../bridge.js";
+import { getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 import { loadPoolWords } from "./setup.js";
 import { speak } from "../../arcade/audio.js";
@@ -352,9 +352,9 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
   }
 
   const apiKey = getApiKey();
-  if (!apiKey) {
+  if (!isAiReady()) {
     if (fromBook) emit("words");
-    toast(fromBook ? "Filled meanings from the coursebook. Add an AI key in Settings (Google Gemini is free) for phrases and word families." : "Add an AI key in Settings (Google Gemini is free) to fill words with AI.", "warn", {
+    toast(fromBook ? "Filled meanings from the coursebook. Connect an AI service in Settings for phrases and word families." : "Connect an AI service in Settings to fill words with AI.", "warn", {
       actions: [{ label: "Open settings", run: () => actions.openSettings() }],
     });
     return;
@@ -415,7 +415,7 @@ export async function fillWithAi(targets, { regenerate = false } = {}) {
     }
   } catch (err) {
     actions.setAiState("error", err.message);
-    toast(err.message || String(err), "error");
+    toast(err.message || String(err), "error", { actions: chatgptUsageLimited(err) ? [{ label: "Manage usage", run: () => manageChatGPTUsage().catch(() => actions.openSettings()) }] : [] });
     rows.forEach((r) => r.classList.remove("filling"));
   } finally {
     clearInterval(tick);

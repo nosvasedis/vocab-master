@@ -5,6 +5,8 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("desktop", {
+  /** ChatGPT operations return account display data or generated JSON, never OAuth tokens. */
+  chatgpt: (action, payload) => ipcRenderer.invoke("chatgpt:action", { action, payload }),
   /** POST to api.deepseek.com via main process. Returns { status, body }. */
   chat: (payload) => ipcRenderer.invoke("deepseek:chat", payload),
 

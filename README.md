@@ -14,7 +14,7 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 2. Choose either download option:
    - **💿 `Vocab-Master-Setup-3.0.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
    - **🧳 `Vocab-Master-Portable-3.0.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
-3. On first launch, open **Settings** (bottom of the sidebar), choose **Google Gemini** (free — get a key at [aistudio.google.com](https://aistudio.google.com/apikey)) or **DeepSeek** ([platform.deepseek.com](https://platform.deepseek.com/api_keys)), and paste your key. It is stored encrypted on your PC via Windows DPAPI.
+3. On first launch, open **Settings** (bottom of the sidebar). Choose **Google Gemini** or **DeepSeek** and paste your API key, or choose **ChatGPT** → **Continue with ChatGPT** to use an eligible ChatGPT Plus or Pro plan without an API key. For ChatGPT, allow plan usage in your browser, choose a model, then Save. Luna is selected first when available. Desktop credentials are stored encrypted on your PC via Windows DPAPI.
 
 ---
 
@@ -51,7 +51,13 @@ Vocab Master is a calm, four-step studio with a sidebar that always shows where 
 Each word’s emoji can be drawn in four looks — **colour emoji**, **outline drawings** (OpenMoji, lightest on toner), **bold outline** (Microsoft Fluent high contrast) or **line icons** (Lucide, with outline drawings where Lucide has no match) — or switched off. One choice in the Preview’s Layout panel or in Settings applies to worksheets, PDFs, Word files and the games. Credits: OpenMoji (CC BY-SA 4.0), Fluent Emoji (MIT), Lucide (ISC).
 
 ### 🤖 AI services
-Choose in **Settings**: **Google Gemini** (free tier with a Google AI Studio key — daily limits apply; the app picks the newest Flash model and falls back to Flash-Lite when the free quota runs out) or **DeepSeek** (pay-as-you-go, very cheap). Keys are stored encrypted on your PC.
+Choose in **Settings**:
+
+- **Google Gemini**: free tier with a Google AI Studio key, or your project's billing/eligible developer credits. Daily limits apply; the app tries Flash and Flash-Lite models.
+- **DeepSeek**: pay-as-you-go with a topped-up API account.
+- **ChatGPT**: sign in with an eligible Plus or Pro account and allow ChatGPT plan usage. Choose from the models available to that account; Luna is the initial choice when available. Your choice is saved per connection. A missing model requires a new choice; the app never silently switches to a different ChatGPT model. **Manage usage** opens ChatGPT's usage settings. Account and model changes take effect immediately; Save selects the AI service.
+
+ChatGPT uses the official public OAuth and Responses API flow for local apps. It does not read your ChatGPT conversations. Desktop tokens stay encrypted in the main process and never enter the renderer, browser storage, or backups. In the local web edition, tokens remain in server memory; restarting the server requires sign-in again. The integration is subject to OpenAI's preview availability and plan limits. See [ChatGPT integration](docs/chatgpt.md).
 
 ### 🖥️ Projector mode
 Full-screen worksheet for the interactive whiteboard. Tap a line — or press <kbd>Space</kbd> — to reveal answers one by one; zoom for the back row.

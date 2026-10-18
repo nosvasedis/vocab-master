@@ -13,6 +13,7 @@ import https from "node:https";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { createChatGPT, CHATGPT_USAGE_URL, chatgptError } from "./chatgpt.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RENDERER_DIR = path.join(__dirname, "renderer");
@@ -54,6 +55,29 @@ if (process.argv.includes("--smoke")) {
 
 let mainWindow = null;
 let enginePromise = null;
+let chatgpt = null;
+
+function chatgptRuntime() {
+  if (chatgpt) return chatgpt;
+  const file = dataFile("chatgpt-accounts.bin");
+  const requireEncryption = () => {
+    if (!safeStorage.isEncryptionAvailable() || (safeStorage.getSelectedStorageBackend?.() === "basic_text")) throw new Error("Secure credential storage is unavailable. ChatGPT sign-in needs Windows credential encryption.");
+  };
+  chatgpt = createChatGPT({
+    readState() {
+      if (!fs.existsSync(file)) return null;
+      requireEncryption();
+      return JSON.parse(safeStorage.decryptString(fs.readFileSync(file)));
+    },
+    writeState(value) {
+      requireEncryption();
+      const tmp = `${file}.tmp`;
+      fs.writeFileSync(tmp, safeStorage.encryptString(JSON.stringify(value)), { mode: 0o600 });
+      fs.renameSync(tmp, file);
+    },
+  });
+  return chatgpt;
+}
 
 /* ── Storage (userData JSON files — replaces localStorage) ────────────────── */
 
@@ -596,6 +620,29 @@ function pdfOptions(footer) {
 /* ── IPC handlers ─────────────────────────────────────────────────────────── */
 
 function registerIpc() {
+  // Only the app's top-level renderer can invoke ChatGPT operations. Tokens never cross IPC.
+  ipcMain.handle("chatgpt:action", async (event, { action, payload } = {}) => {
+    if (event.sender !== mainWindow?.webContents || event.senderFrame !== event.sender.mainFrame || !event.senderFrame.url.startsWith("app://")) return { ok: false, error: "Untrusted ChatGPT request." };
+    try {
+      const runtime = chatgptRuntime();
+      let value;
+      if (action === "status") value = runtime.status();
+      else if (action === "signIn") {
+        const url = await runtime.startSignIn(payload?.accountId || "");
+        try { await shell.openExternal(url); } catch { runtime.cancelSignIn(); throw new Error("Couldn't open your browser. Please try again."); }
+        value = runtime.status();
+      } else if (action === "cancel") { runtime.cancelSignIn(); value = runtime.status(); }
+      else if (action === "models") value = await runtime.listModels();
+      else if (action === "model") value = runtime.selectModel(payload?.model);
+      else if (action === "account") value = runtime.selectAccount(payload?.accountId);
+      else if (action === "signOut") value = await runtime.signOut();
+      else if (action === "acknowledge") value = runtime.acknowledge();
+      else if (action === "usage") { await shell.openExternal(CHATGPT_USAGE_URL); value = runtime.status(); }
+      else if (action === "generate") value = await runtime.generate(payload || {});
+      else throw new Error("Unknown ChatGPT action.");
+      return { ok: true, value };
+    } catch (e) { return { ok: false, error: chatgptError(e), code: e.code || "chatgpt_error" }; }
+  });
   ipcMain.handle("deepseek:chat", async (_event, { body, auth }) => proxyDeepSeek(body, auth));
   ipcMain.handle("deepseek:balance", async (_event, { apiKey }) =>
     deepSeekRequest("GET", "/user/balance", `Bearer ${String(apiKey || "").trim()}`, null, 20_000));
@@ -750,6 +797,7 @@ function registerIpc() {
 /* ── App lifecycle ────────────────────────────────────────────────────────── */
 
 const gotLock = app.requestSingleInstanceLock();
+app.on("before-quit", () => chatgpt?.close());
 if (!gotLock) {
   app.quit();
 } else {

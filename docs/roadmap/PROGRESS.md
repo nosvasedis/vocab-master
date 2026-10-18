@@ -26,6 +26,28 @@
 - **Fix:** `onePicture()` (`lesson/wordmatch.js`) keeps the first emoji and adds U+FE0F to text-style emoji. It's used for lesson words, props and unit heroes. The data was rewritten by `scripts/lessons/one-picture.mjs` with hand-chosen pictures from `scripts/lessons/word-pictures.mjs`; pictures stay distinct within each lesson. A test fails on any multi-emoji picture.
 - **Fast speech:** when the voice reaches a new pictured word, the current pop finishes 4× faster and the new word pops next. Words the voice already passed are dropped instead of queueing (`wordpop.js`).
 
+## Picture set brief: illustrations replace emoji (2026-10-18, branch feature/picture-set)
+- **Why:** emoji are ambiguous. 169 groups of lesson words share one emoji (sing/chant 🎤; 🏃 = gym, race, escape, compete…).
+- **Brief for Codex/ChatGPT:** `art-brief/pictures/PROMPT.md`, plus `jobs.json`/`jobs.csv` (2,828 jobs), `batches/` (73 paste-ready batches), `lookalikes.md` and `characters.md`. Built by `scripts/art/picture-jobs.mjs` from the lessons and word bank; fixed character looks are in `scripts/art/character-looks.mjs`.
+- **Phases:**
+
+  | phase | content | images |
+  |---|---|---|
+  | 0 | anchors | 12 |
+  | 1 | characters + lesson words | 781 |
+  | 2 | story props | 230 |
+  | 3 | avatars and team mascots | 20 |
+  | 4 | word-bank nouns | 994 |
+  | 5 | word-bank verbs, adjectives and phrases | 791 |
+
+- **Tools:**
+  - `check-pictures.mjs` reports progress and validates size/transparency, writing `art-brief/pictures/PROGRESS.md`.
+  - `picture-sheet.mjs` makes contact sheets.
+  - `import-pictures.mjs` writes 512 px WebP with alpha to `desktop/renderer/assets/pics/` and `manifest.json` (`words` by "english|type", `nouns` by stem for props, `characters` by "lesson|castKey", `ui`).
+- **Next, when pictures arrive:**
+  - Wire the manifest into the app: lesson word cards, word pops (`ctx.picFit`), story actors, and arcade/Lingo Live (`picture()`), falling back to emoji when a picture is missing.
+  - Consider streaming the pictures from R2 like the audio (the full set is about 60 MB).
+
 ## Word pops replace the prop boxes (2026-10-17 night, from the user)
 - **Why:** the labelled prop cards looked like a worksheet, and many icons were rebus combinations (🧠🟰🧠, 🌱➡️🌳), abstract words (brave, beginning) or simply wrong (tune 🔧, wardrobe 🚪).
 - **Now (`lesson/wordpop.js`, `lesson/wordmatch.js`):** a pictured word carries a small picture right after it ("my hat 🎩"). When the karaoke reaches the word, the picture zooms up next to the text with a soft glow, holds, and flies back. Tap a pictured word to pop it again. Calm motion makes it pulse instead.

@@ -6,7 +6,7 @@ import {
 } from "../../app.js";
 import { $, $$, esc, icon, plural, toast, segmented, confirmDialog } from "../ui.js";
 import { state, emit, on, buildForm, filledWords, bookTitle, unitNumber, pageRange } from "../state.js";
-import { getApiKey } from "../bridge.js";
+import { getApiKey, isAiReady, getProvider, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 
 let modeSeg;
@@ -63,6 +63,7 @@ export function initExercises() {
   $("btnRegenDict").addEventListener("click", () => runGenerate("dictation"));
   $("btnRegenLingo").addEventListener("click", () => runGenerate("lingo"));
   $("genError").addEventListener("click", (e) => {
+    if (e.target.closest("[data-action=usage]")) manageChatGPTUsage().catch(() => actions.openSettings());
     if (e.target.closest("[data-action=retry]")) runGenerate("full");
     if (e.target.closest("[data-action=settings]")) actions.openSettings();
   });
@@ -274,12 +275,15 @@ function setBusy(on, title = "") {
 }
 
 function showGenError(message) {
-  const keyIssue = /api key|401|unauthor|quota|429/i.test(message);
+  const chatgpt = getProvider() === "chatgpt";
+  const limited = chatgptUsageLimited(message);
+  const keyIssue = /api key|401|unauthor|quota|429/i.test(message) || chatgpt;
   $("genError").classList.remove("hidden");
   $("genError").innerHTML = `<div class="callout danger">${icon("alert")}<div><strong>Generation didn't finish.</strong> ${esc(message)}
     <div style="margin-top:8px;display:flex;gap:6px">
+      ${limited ? `<button type="button" class="btn btn-primary btn-sm" data-action="usage">Manage usage</button>` : ""}
       <button type="button" class="btn btn-secondary btn-sm" data-action="retry">${icon("refresh", "i-sm")}Try again</button>
-      ${keyIssue ? `<button type="button" class="btn btn-ghost btn-sm" data-action="settings">${icon("key", "i-sm")}Check API key</button>` : ""}
+      ${keyIssue ? `<button type="button" class="btn btn-ghost btn-sm" data-action="settings">${icon("key", "i-sm")}${chatgpt ? "ChatGPT settings" : "Check API key"}</button>` : ""}
     </div></div></div>`;
   requestAnimationFrame(() => $("genError").scrollIntoView({ block: "nearest", behavior: "smooth" }));
 }
@@ -289,8 +293,8 @@ export async function runGenerate(mode = "full") {
   const err = planError();
   if (err) { toast(err, "warn"); return; }
   const apiKey = getApiKey();
-  if (!apiKey) {
-    toast("Add an AI key in Settings (Google Gemini is free) to generate worksheets.", "warn", { actions: [{ label: "Open settings", run: () => actions.openSettings() }] });
+  if (!isAiReady()) {
+    toast("Connect an AI service in Settings to generate worksheets.", "warn", { actions: [{ label: "Open settings", run: () => actions.openSettings() }] });
     actions.openSettings();
     return;
   }

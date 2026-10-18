@@ -1,6 +1,7 @@
 /* Settings and Help dialogs. */
 import { $, esc, icon, openDialog, toast } from "./ui.js";
-import { desktop, getApiKey, setApiKey, checkApiKey, getProvider, setProvider, PROVIDERS } from "./bridge.js";
+import { desktop, getApiKey, setApiKey, checkApiKey, getProvider, setProvider, getChatGPT, PROVIDERS } from "./bridge.js";
+import { chatgptSettingsHtml, mountChatGPTSettings } from "./chatgpt-settings.js";
 import { prefs, savePrefs } from "./state.js";
 import { PICTURE_STYLES } from "./pictures.js";
 import { actions } from "./actions.js";
@@ -13,12 +14,14 @@ export function applyTheme() {
 const PROVIDER_CARDS = {
   gemini: { tag: "Free", tagTone: "success", blurb: "Free tier with a Google AI Studio key — daily limits apply." },
   deepseek: { tag: "Pay as you go", tagTone: "", blurb: "Very low cost per unit; needs a topped-up DeepSeek account." },
+  chatgpt: { tag: "Your plan", tagTone: "", blurb: "Connect ChatGPT and choose a model. Uses your plan's allowance." },
 };
 
 export function openSettings({ focusKey = true } = {}) {
   let provider = getProvider();
   // Keys being edited, per provider, until Save.
   const drafts = { deepseek: getApiKey("deepseek"), gemini: getApiKey("gemini") };
+  let chatgptPanel;
   openDialog({
     title: "Settings",
     subtitle: "Your AI service, appearance and data.",
@@ -28,12 +31,13 @@ export function openSettings({ focusKey = true } = {}) {
       <section class="settings-section">
         <h4>AI service</h4>
         <div class="provider-pick">
-          ${["gemini", "deepseek"].map((id) => `<button type="button" class="provider-opt" data-provider="${id}">
+          ${["gemini", "deepseek", "chatgpt"].map((id) => `<button type="button" class="provider-opt" data-provider="${id}" aria-pressed="false">
             <span class="po-top"><strong>${esc(PROVIDERS[id].name)}</strong><span class="badge ${PROVIDER_CARDS[id].tagTone}">${esc(PROVIDER_CARDS[id].tag)}</span></span>
             <span class="po-blurb">${esc(PROVIDER_CARDS[id].blurb)}</span>
             <span class="po-state" data-provider-state="${id}"></span>
           </button>`).join("")}
         </div>
+        <div id="apiKeySettings">
         <label class="label" for="setKey" id="setKeyLabel"></label>
         <div class="key-row">
           <div class="input-group">
@@ -45,6 +49,8 @@ export function openSettings({ focusKey = true } = {}) {
         </div>
         <div id="setKeyStatus" class="hidden"></div>
         <p class="hint" id="setKeyHint"></p>
+        </div>
+        ${chatgptSettingsHtml()}
       </section>
       <section class="settings-section">
         <h4>Worksheets</h4>
@@ -90,25 +96,35 @@ export function openSettings({ focusKey = true } = {}) {
       const where = desktop() ? "encrypted on this computer" : "in this browser";
       const renderProvider = () => {
         const p = PROVIDERS[provider];
-        root.querySelectorAll("[data-provider]").forEach((b) => b.classList.toggle("active", b.dataset.provider === provider));
+        root.querySelectorAll("[data-provider]").forEach((b) => { b.classList.toggle("active", b.dataset.provider === provider); b.setAttribute("aria-pressed", String(b.dataset.provider === provider)); });
+        q("#apiKeySettings").classList.toggle("hidden", provider === "chatgpt");
+        q("#chatgptSettings").classList.toggle("hidden", provider !== "chatgpt");
+        q("#setKeyRemove").classList.toggle("hidden", provider === "chatgpt");
         root.querySelectorAll("[data-provider-state]").forEach((s) => {
+          if (s.dataset.providerState === "chatgpt") {
+            s.textContent = getChatGPT().sharing ? "Plan connected" : getChatGPT().connected ? "Plan permission needed" : "Not connected";
+            s.classList.toggle("has-key", getChatGPT().sharing);
+            return;
+          }
           s.textContent = drafts[s.dataset.providerState] ? "Key added" : "No key yet";
           s.classList.toggle("has-key", !!drafts[s.dataset.providerState]);
         });
+        if (provider === "chatgpt") return;
         q("#setKeyLabel").textContent = `${p.name} API key`;
         input.placeholder = p.placeholder;
         input.value = drafts[provider];
         q("#setKeyRemove").disabled = !drafts[provider];
         status.className = "hidden";
         q("#setKeyHint").innerHTML = provider === "gemini"
-          ? `Free: sign in at <a href="${p.keyUrl}" target="_blank" rel="noopener">${p.keyHost}</a> with your Google account and click <b>Create API key</b>. Stored ${where}. On the free tier Google may use requests to improve its models — the app only sends word lists and exercise instructions, never student data. Your Google AI Pro subscription isn't needed and isn't used.`
+          ? `Get a key at <a href="${p.keyUrl}" target="_blank" rel="noopener">${p.keyHost}</a>. Free tier limits or your project's billing apply. Eligible Google AI Pro developer credits can cover usage when activated for that project. Stored ${where}. The app sends your word lists and exercise instructions; avoid entering student data.`
           : `Stored ${where} and only ever sent to DeepSeek. Get a key at <a href="${p.keyUrl}" target="_blank" rel="noopener">${p.keyHost}</a>.`;
       };
       root.querySelectorAll("[data-provider]").forEach((b) => b.addEventListener("click", () => {
-        drafts[provider] = input.value.trim();
+        if (provider !== "chatgpt") drafts[provider] = input.value.trim();
         provider = b.dataset.provider;
         renderProvider();
-        input.focus();
+        if (provider === "chatgpt") chatgptPanel.load();
+        else input.focus();
       }));
       input.addEventListener("input", () => {
         drafts[provider] = input.value.trim();
@@ -156,7 +172,7 @@ export function openSettings({ focusKey = true } = {}) {
         toast(`${PROVIDERS[provider].name} key removed.`, "info");
       });
       const save = () => {
-        drafts[provider] = input.value.trim();
+        if (provider !== "chatgpt") drafts[provider] = input.value.trim();
         setApiKey(drafts.deepseek, "deepseek");
         setApiKey(drafts.gemini, "gemini");
         setProvider(provider);
@@ -166,12 +182,15 @@ export function openSettings({ focusKey = true } = {}) {
         actions.setAiState();
         actions.settingsSaved?.();
         close();
-        toast(drafts[provider] ? `Settings saved — using ${PROVIDERS[provider].name}.` : `Settings saved — add a ${PROVIDERS[provider].name} key to use AI.`, "ok", { ms: 3000 });
+        toast(provider === "chatgpt" ? (getChatGPT().ready ? "Settings saved — using your ChatGPT plan." : "Settings saved — connect ChatGPT and choose a model to use AI.") : drafts[provider] ? `Settings saved — using ${PROVIDERS[provider].name}.` : `Settings saved — add a ${PROVIDERS[provider].name} key to use AI.`, "ok", { ms: 3000 });
       };
       q("#setSave").addEventListener("click", save);
       input.addEventListener("keydown", (e) => { if (e.key === "Enter") save(); });
       renderProvider();
+      chatgptPanel = mountChatGPTSettings(root, () => { renderProvider(); actions.setAiState(); });
+      if (provider === "chatgpt") chatgptPanel.load();
     },
+    onClose() { chatgptPanel?.close(); },
   });
 }
 

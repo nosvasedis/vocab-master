@@ -10,7 +10,7 @@ import { ROOT } from "./lib/env.mjs";
 const require = createRequire(path.join(ROOT, "desktop", "package.json"));
 const asar = require("@electron/asar");
 const archive = path.join(ROOT, "desktop", "release", "win-unpacked", "resources", "app.asar");
-const files = asar.listPackage(archive).map((f) => f.replace(/^[\\/]/, "")).filter((f) => f.startsWith(`renderer${path.sep}`) || ["main.js", "preload.cjs"].includes(f));
+const files = asar.listPackage(archive).map((f) => f.replace(/^[\\/]/, "")).filter((f) => f.startsWith(`renderer${path.sep}`) || ["main.js", "preload.cjs", "chatgpt.js"].includes(f));
 let checked = 0;
 const bad = [];
 for (const rel of files) {

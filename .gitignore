@@ -36,3 +36,9 @@ firebase/*.log
 
 # ChatGPT/Codex originals (the app uses the WebP copies in desktop/renderer/assets/art)
 art-brief/incoming/
+
+# Picture set originals and review sheets (large; the app uses the WebP copies in desktop/renderer/assets/pics)
+art-brief/pictures/incoming/
+art-brief/pictures/done/
+art-brief/pictures/sheets/
+art-brief/pictures/PROGRESS.md

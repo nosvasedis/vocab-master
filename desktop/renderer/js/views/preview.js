@@ -10,7 +10,7 @@ import { state, emit, on, buildForm, makeWord, prefs } from "../state.js";
 import { worksheetFontCss } from "../fonts.js";
 import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictures.js";
 import { savePrefs } from "../state.js";
-import { desktop, getApiKey } from "../bridge.js";
+import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 
 let sheetSeg;
@@ -274,7 +274,7 @@ async function runFix(kind, btn) {
     return;
   }
   const apiKey = getApiKey();
-  if (!apiKey) { actions.openSettings(); return; }
+  if (!isAiReady()) { actions.openSettings(); return; }
   await withBusy(btn, async () => {
     actions.setAiState("busy");
     try {
@@ -286,7 +286,7 @@ async function runFix(kind, btn) {
       toast(result.message || "Fixed.", result.validation?.valid ? "ok" : "warn");
     } catch (err) {
       actions.setAiState("error", err.message);
-      toast(err.message || String(err), "error");
+      toast(err.message || String(err), "error", { actions: chatgptUsageLimited(err) ? [{ label: "Manage usage", run: () => manageChatGPTUsage().catch(() => actions.openSettings()) }] : [] });
     }
   });
   renderPreview();
