@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U2-SB-172",
-      "emoji": "⬜➡️⬜➡️⬜",
+      "emoji": "📊",
       "kidDefinition": "A diagram with arrows that shows steps in order.",
       "examples": [
         "Our teacher drew a flow chart to show how bread is made.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-175",
-      "emoji": "🔤➖",
+      "emoji": "🔤",
       "kidDefinition": "To draw a line under important words.",
       "examples": [
         "Please underline the date in your letter.",
@@ -284,7 +284,7 @@
           "label": "breakfast"
         },
         {
-          "emoji": "🥕🍞",
+          "emoji": "🥕",
           "label": "food"
         }
       ],
@@ -661,7 +661,7 @@
               "label": "butter"
             },
             {
-              "emoji": "🥕🍞",
+              "emoji": "🥕",
               "label": "food"
             },
             {

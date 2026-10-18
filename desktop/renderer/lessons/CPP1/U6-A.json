@@ -91,7 +91,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-668",
-      "emoji": "👵👴🏡",
+      "emoji": "👵",
       "kidDefinition": "A place where older people live and get help.",
       "examples": [
         "My grandpa lives in a retirement home.",
@@ -107,7 +107,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-670",
-      "emoji": "🧓🏠",
+      "emoji": "🧓",
       "kidDefinition": "A person who lives in a place.",
       "examples": [
         "The residents enjoy our visits.",
@@ -156,7 +156,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-675",
-      "emoji": "🏠🐕",
+      "emoji": "🐕",
       "kidDefinition": "A place that looks after animals without homes.",
       "examples": [
         "The dogs at the animal shelter need our love.",
@@ -422,7 +422,7 @@
               "label": "retirement home"
             },
             {
-              "emoji": "👴👵",
+              "emoji": "👴",
               "label": "resident"
             }
           ],
@@ -460,7 +460,7 @@
           ],
           "props": [
             {
-              "emoji": "🏠🐕",
+              "emoji": "🏠",
               "label": "animal shelter"
             },
             {
@@ -659,11 +659,11 @@
           "wordId": "CPP1-U6-SB-675",
           "props": [
             {
-              "emoji": "🐕🐕",
+              "emoji": "🐕",
               "label": "dogs"
             },
             {
-              "emoji": "🐈🐈",
+              "emoji": "🐈",
               "label": "cats"
             }
           ],

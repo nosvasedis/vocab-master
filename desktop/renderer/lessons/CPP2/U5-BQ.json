@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-603",
-      "emoji": "🎻🎼",
+      "emoji": "🎼",
       "kidDefinition": "Music from long ago, written by famous composers.",
       "examples": [
         "Ian likes classical music. It helps him relax.",
@@ -139,7 +139,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-599",
-      "emoji": "🙋💡",
+      "emoji": "💡",
       "kidDefinition": "An idea you offer to help someone decide what to do.",
       "examples": [
         "Can I make a suggestion? Let's sing together!",
@@ -156,7 +156,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-600",
-      "emoji": "📖🧑",
+      "emoji": "📖",
       "kidDefinition": "A book that tells the true story of someone's life.",
       "examples": [
         "I read a biography of a famous singer.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-601",
-      "emoji": "📝🎵",
+      "emoji": "📝",
       "kidDefinition": "A list of songs you choose to play in order.",
       "examples": [
         "Tonia has a very nice playlist on her phone.",
@@ -188,7 +188,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-602",
-      "emoji": "😊💬",
+      "emoji": "😊",
       "kidDefinition": "To show what you think or feel.",
       "examples": [
         "Music helps me express my feelings.",
@@ -324,7 +324,7 @@
               "label": "guitar"
             },
             {
-              "emoji": "📝🎵",
+              "emoji": "📝",
               "label": "playlist"
             }
           ],

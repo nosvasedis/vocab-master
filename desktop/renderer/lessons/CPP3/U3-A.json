@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-364",
-      "emoji": "🗑️⬇️",
+      "emoji": "🚮",
       "kidDefinition": "To drop or throw something away carelessly.",
       "examples": [
         "Please don't dump your trash on the beach.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-361",
-      "emoji": "🔍🪼",
+      "emoji": "🔍",
       "kidDefinition": "To recognise what something is or who someone is.",
       "examples": [
         "Can you identify this bird from its song?",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-368",
-      "emoji": "🐟🕸️",
+      "emoji": "🎣",
       "kidDefinition": "A big net used to catch fish.",
       "examples": [
         "A fishing net can trap sea turtles.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-366",
-      "emoji": "🪤😣",
+      "emoji": "🪤",
       "kidDefinition": "To be unable to move or leave somewhere.",
       "examples": [
         "My shoe got stuck in the mud.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-371",
-      "emoji": "💥🐚",
+      "emoji": "💥",
       "kidDefinition": "To harm something so it is broken or spoilt.",
       "examples": [
         "Walking on the flowers will damage them.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-369",
-      "emoji": "🏃💨",
+      "emoji": "🏃",
       "kidDefinition": "To get free from a place or a trap.",
       "examples": [
         "The rabbit escaped through a hole in the fence.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-365",
-      "emoji": "🙈❌",
+      "emoji": "🙈",
       "kidDefinition": "Not on purpose; by accident.",
       "examples": [
         "I picked up your bag by mistake. Sorry!",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-373",
-      "emoji": "🐢⚠️",
+      "emoji": "🐢",
       "kidDefinition": "To put someone or something in danger.",
       "examples": [
         "Plastic bags can endanger sea animals.",
@@ -335,7 +335,7 @@
           ],
           "props": [
             {
-              "emoji": "🗑️🗑️",
+              "emoji": "🗑️",
               "label": "trash"
             }
           ],
@@ -658,7 +658,7 @@
           "wordId": "CPP3-U3-SB-368",
           "props": [
             {
-              "emoji": "🐢🐢",
+              "emoji": "🐢",
               "label": "sea turtles"
             },
             {

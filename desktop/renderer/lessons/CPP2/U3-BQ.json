@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U3-SB-294",
-      "emoji": "🍎🥦🍞",
+      "emoji": "🍎",
       "kidDefinition": "Things we eat to stay healthy and strong.",
       "examples": [
         "Healthy food helps our bodies grow strong.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-295",
-      "emoji": "👧🤝🦉",
+      "emoji": "👍",
       "kidDefinition": "To have the same opinion as someone else.",
       "examples": [
         "I agree with you, Maya. Bread is yummy!",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-296",
-      "emoji": "👧↔️🦉",
+      "emoji": "👎",
       "kidDefinition": "To have a different opinion from someone.",
       "examples": [
         "I disagree. I think carrots taste sweet.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-298",
-      "emoji": "📋🍕",
+      "emoji": "📋",
       "kidDefinition": "A list of foods you can order in a restaurant.",
       "examples": [
         "The menu has pizza, soup and ice cream.",
@@ -207,7 +207,7 @@
           "text": "Today we ask a big question: Why is food important?",
           "props": [
             {
-              "emoji": "🍎🥦🍞",
+              "emoji": "🍎",
               "label": "food"
             }
           ]
@@ -217,7 +217,7 @@
           "text": "Food gives us energy to run, jump and learn.",
           "props": [
             {
-              "emoji": "🍎🥦🍞",
+              "emoji": "🍎",
               "label": "food"
             }
           ]
@@ -342,7 +342,7 @@
           },
           "props": [
             {
-              "emoji": "📋🍕",
+              "emoji": "📋",
               "label": "menu"
             },
             {
@@ -426,7 +426,7 @@
               "label": "cheese"
             },
             {
-              "emoji": "🍞🍞",
+              "emoji": "🍞",
               "label": "slice"
             },
             {
@@ -541,7 +541,7 @@
           "text": "Food helps us grow, learn and play every day.",
           "props": [
             {
-              "emoji": "🍎🥦🍞",
+              "emoji": "🍎",
               "label": "food"
             }
           ]

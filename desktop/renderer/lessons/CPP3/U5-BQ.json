@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-633",
-      "emoji": "🧳📷",
+      "emoji": "🧳",
       "kidDefinition": "A person who visits a place on holiday.",
       "examples": [
         "The tourist took a photo of the old bridge.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-638",
-      "emoji": "🗼🎁",
+      "emoji": "🗼",
       "kidDefinition": "A small thing you buy to remember a place.",
       "examples": [
         "I bought a souvenir of a red lighthouse.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-635",
-      "emoji": "🛖🌲",
+      "emoji": "🛖",
       "kidDefinition": "A small wooden house, often in the forest.",
       "examples": [
         "The wooden cabin had two small rooms.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-636",
-      "emoji": "🪵🔥",
+      "emoji": "🔥",
       "kidDefinition": "A fire outdoors, used for cooking and warmth.",
       "examples": [
         "We sang songs around the campfire at night.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-637",
-      "emoji": "🥾⛰️",
+      "emoji": "🥾",
       "kidDefinition": "Walking for a long time on hills or mountains.",
       "examples": [
         "On Sunday, we went hiking up a big hill.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-630",
-      "emoji": "📝❓",
+      "emoji": "📝",
       "kidDefinition": "A list of questions people answer to give information.",
       "examples": [
         "Please fill in this questionnaire about your holidays.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-632",
-      "emoji": "🏃➡️🏆",
+      "emoji": "🏆",
       "kidDefinition": "What happens because of something, like the end of a game.",
       "examples": [
         "The result of the game was a big surprise.",
@@ -228,7 +228,7 @@
               "label": "tent"
             },
             {
-              "emoji": "⭐⭐⭐",
+              "emoji": "⭐",
               "label": "stars"
             }
           ]

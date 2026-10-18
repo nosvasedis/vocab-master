@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U6-SB-785",
-      "emoji": "🏫🤸",
+      "emoji": "🤸",
       "kidDefinition": "A school lesson where you run, jump and play sports.",
       "examples": [
         "I love PE because we play games in the sunshine.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-786",
-      "emoji": "👥⚽",
+      "emoji": "👥",
       "kidDefinition": "A group of people who play a sport together.",
       "examples": [
         "Our soccer team practises four times a week.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-787",
-      "emoji": "🐦🎉",
+      "emoji": "🐦",
       "kidDefinition": "A special character or animal that makes a team fun.",
       "examples": [
         "Our team mascot is a big pink bird.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-788",
-      "emoji": "🏃💪",
+      "emoji": "💪",
       "kidDefinition": "To keep your body healthy and strong through exercise.",
       "examples": [
         "Jerry goes jogging three times a week to keep in shape.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-789",
-      "emoji": "🏃🏁🏃",
+      "emoji": "🏁",
       "kidDefinition": "To take part in a race or game against other people.",
       "examples": [
         "Tom first competed in a professional match two years ago.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-794",
-      "emoji": "⛑️🦺",
+      "emoji": "⛑️",
       "kidDefinition": "Being protected from harm or danger.",
       "examples": [
         "Always wear a helmet for your safety when you cycle.",
@@ -199,7 +199,7 @@
           "text": "Some people play for fun. Some play to win trophies!",
           "props": [
             {
-              "emoji": "🏆🏆",
+              "emoji": "🏆",
               "label": "trophy"
             }
           ]
@@ -209,7 +209,7 @@
           "text": "Let's meet two friends from the Speedy Squirrels story.",
           "props": [
             {
-              "emoji": "🐿️🐿️",
+              "emoji": "🐿️",
               "label": "squirrel"
             }
           ]

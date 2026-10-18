@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-497",
-      "emoji": "🐕🏃",
+      "emoji": "💨",
       "kidDefinition": "To run after someone to catch them.",
       "examples": [
         "Dogs like to chase balls in the park.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-501",
-      "emoji": "🏃💨",
+      "emoji": "🏃",
       "kidDefinition": "To go quickly away from danger.",
       "examples": [
         "When the bell rings, we run away from the storm.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-506",
-      "emoji": "🍀🏃",
+      "emoji": "🍀",
       "kidDefinition": "A safe getaway from danger, by good luck.",
       "examples": [
         "The cat jumped away. What a lucky escape!",
@@ -554,7 +554,7 @@
           "wordId": "CPP1-U4-SB-497",
           "props": [
             {
-              "emoji": "🐕🐕",
+              "emoji": "🐕",
               "label": "hounds"
             },
             {
@@ -562,7 +562,7 @@
               "label": "hare"
             },
             {
-              "emoji": "🌲🌲",
+              "emoji": "🌲",
               "label": "forest"
             }
           ],

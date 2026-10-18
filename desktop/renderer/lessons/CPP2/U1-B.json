@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U1-SB-73",
-      "emoji": "🏠🛣️🏪",
+      "emoji": "🛣️",
       "kidDefinition": "A road in a town, with houses or shops along it.",
       "examples": [
         "Our school is on a quiet street.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-77",
-      "emoji": "💇✂️",
+      "emoji": "💇",
       "kidDefinition": "When someone cuts your hair to make it shorter.",
       "examples": [
         "I want a short haircut for the summer.",
@@ -86,7 +86,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-99",
-      "emoji": "🌱➡️🌳",
+      "emoji": "🌱",
       "kidDefinition": "To get bigger over time.",
       "examples": [
         "Trees grow very tall in the forest.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-100",
-      "emoji": "👤☝️",
+      "emoji": "👤",
       "kidDefinition": "The part of your face above your eyes.",
       "examples": [
         "Put a cold cloth on your forehead when you are hot.",
@@ -118,7 +118,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-104",
-      "emoji": "🏠🧍🌳",
+      "emoji": "🧍",
       "kidDefinition": "In the middle space of two things.",
       "examples": [
         "The cat sleeps between the two pillows.",
@@ -134,7 +134,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-105",
-      "emoji": "🧍➡️🪞",
+      "emoji": "🪞",
       "kidDefinition": "On the front side of something, facing it.",
       "examples": [
         "The bus stops in front of the bakery.",
@@ -150,7 +150,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-103",
-      "emoji": "🧱🐕",
+      "emoji": "🧱",
       "kidDefinition": "On the far side of something, not in front.",
       "examples": [
         "The ball rolled behind the sofa.",
@@ -402,7 +402,7 @@
               "label": "mirror"
             },
             {
-              "emoji": "🪟🪟",
+              "emoji": "🪟",
               "label": "window"
             }
           ],

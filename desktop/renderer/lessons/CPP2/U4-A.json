@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U4-SB-465",
-      "emoji": "🏔️❄️",
+      "emoji": "🏔️",
       "kidDefinition": "Covered with a lot of snow.",
       "examples": [
         "The mountain looks beautiful and snowy in winter.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-466",
-      "emoji": "🧊➡️💧",
+      "emoji": "🧊",
       "kidDefinition": "To change from solid to liquid because of heat.",
       "examples": [
         "Snow melts when the weather gets warm.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-467",
-      "emoji": "💧⬇️",
+      "emoji": "💧",
       "kidDefinition": "To move downhill like water.",
       "examples": [
         "The river flows down to the sea.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-470",
-      "emoji": "🌍🟫",
+      "emoji": "🌍",
       "kidDefinition": "The hard, outer layer of the Earth.",
       "examples": [
         "The crust of the Earth is divided into huge plates.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-472",
-      "emoji": "🪨🪨",
+      "emoji": "🪨",
       "kidDefinition": "A huge piece of the Earth's crust.",
       "examples": [
         "The plates move slowly under our feet.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-477",
-      "emoji": "🌍↔️",
+      "emoji": "📳",
       "kidDefinition": "To move quickly from side to side.",
       "examples": [
         "The bus shakes on the bumpy road.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-484",
-      "emoji": "🌍💥",
+      "emoji": "💥",
       "kidDefinition": "When the ground suddenly shakes very strongly.",
       "examples": [
         "There was an earthquake, but everyone was safe.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-491",
-      "emoji": "🌋💥",
+      "emoji": "🌋",
       "kidDefinition": "To burst out suddenly. Volcanoes do this.",
       "examples": [
         "The volcano erupted yesterday.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-493",
-      "emoji": "🔥🪨",
+      "emoji": "🔥",
       "kidDefinition": "Hot melted rock that flows out of a volcano.",
       "examples": [
         "Lava is hot and bright orange when it flows.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-480",
-      "emoji": "🌋🌫️",
+      "emoji": "🌫️",
       "kidDefinition": "Tiny grey dust from a volcano.",
       "examples": [
         "The ash from the volcano covered the sky.",
@@ -445,7 +445,7 @@
               "label": "crust"
             },
             {
-              "emoji": "🪨🪨",
+              "emoji": "🪨",
               "label": "plate"
             }
           ],

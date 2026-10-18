@@ -167,7 +167,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1038",
-      "emoji": "🌸☀️🍂❄️",
+      "emoji": "🍂",
       "kidDefinition": "One of the four parts of the year.",
       "examples": [
         "What's your favourite season of the year?",
@@ -231,7 +231,7 @@
       "backdrop": "village",
       "props": [
         {
-          "emoji": "👕🧥🧣",
+          "emoji": "👕",
           "label": "clothes"
         }
       ],
@@ -339,7 +339,7 @@
               "label": "wind"
             },
             {
-              "emoji": "🧣🧣",
+              "emoji": "🧣",
               "label": "scarf"
             }
           ],
@@ -414,7 +414,7 @@
               "label": "snowman"
             },
             {
-              "emoji": "🧤🧤",
+              "emoji": "🧤",
               "label": "gloves"
             }
           ],
@@ -501,7 +501,7 @@
               "label": "party"
             },
             {
-              "emoji": "🍂🍂",
+              "emoji": "🍂",
               "label": "leaves"
             },
             {
@@ -744,11 +744,11 @@
           "wordId": "CPP1-U9-SB-1031",
           "props": [
             {
-              "emoji": "🍂🍂",
+              "emoji": "🍂",
               "label": "leaves"
             },
             {
-              "emoji": "🌳🌳",
+              "emoji": "🌳",
               "label": "tree"
             }
           ],

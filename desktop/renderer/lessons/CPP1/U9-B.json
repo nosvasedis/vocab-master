@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1053",
-      "emoji": "👖🪙",
+      "emoji": "👛",
       "kidDefinition": "A small part in clothes for holding things.",
       "examples": [
         "Mia keeps a tissue in her coat pocket.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1054",
-      "emoji": "👞⬆️",
+      "emoji": "👞",
       "kidDefinition": "To remove clothes or shoes from your body.",
       "examples": [
         "Please take off your wet coat, Leo.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1055",
-      "emoji": "🤲🧸",
+      "emoji": "🧸",
       "kidDefinition": "To have something and not lose or throw it.",
       "examples": [
         "Grandpa keeps his old stories in a special box.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP1-U9-SB-1061",
-      "emoji": "☀️✨",
+      "emoji": "☀️",
       "kidDefinition": "To give out bright light.",
       "examples": [
         "The sun shines on the beach today.",
@@ -249,7 +249,7 @@
           "text": "Today we learn about clothes and the weather.",
           "props": [
             {
-              "emoji": "🧥👖",
+              "emoji": "🧥",
               "label": "clothes"
             }
           ]
@@ -354,7 +354,7 @@
           ],
           "props": [
             {
-              "emoji": "☁️☁️",
+              "emoji": "☁️",
               "label": "clouds"
             },
             {
@@ -556,7 +556,7 @@
               "label": "scarf"
             },
             {
-              "emoji": "🧥👖",
+              "emoji": "🧥",
               "label": "clothes"
             }
           ],

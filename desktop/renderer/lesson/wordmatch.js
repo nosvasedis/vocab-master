@@ -1,6 +1,22 @@
 /* Word pops — pure matching of prop pictures to the words of a line (DOM-free; tested in Node). */
 import { stem } from "./schema.js";
 
+const graphemes = typeof Intl !== "undefined" && Intl.Segmenter ? new Intl.Segmenter("en", { granularity: "grapheme" }) : null;
+const TEXT_STYLE = /^\p{Extended_Pictographic}$/u;
+const COLOUR_STYLE = /\p{Emoji_Presentation}/u;
+
+/**
+ * Exactly one picture: the first emoji of `e`, drawn in colour. Rebus runs ("🧑🧑🏘") overflow the inline
+ * word pops, the zoom and the unit cards, so lessons only ever show one. Emoji that default to the black text
+ * style (🏘 🏙 ☀ ✏) get U+FE0F, otherwise Windows draws them as a monochrome glyph.
+ */
+export function onePicture(e) {
+  const s = String(e || "").trim();
+  if (!s) return "";
+  const first = graphemes ? [...graphemes.segment(s)][0].segment : Array.from(s)[0];
+  return TEXT_STYLE.test(first) && !COLOUR_STYLE.test(first) ? `${first}️` : first;
+}
+
 /** Word core of a token: "“Hat," → { lead: "“", core: "Hat", trail: "," }. */
 export function splitToken(token) {
   const m = String(token).match(/^([^A-Za-z0-9]*)(.*?)([^A-Za-z0-9]*)$/s);

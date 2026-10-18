@@ -46,7 +46,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U6-SB-855",
-      "emoji": "👄💨",
+      "emoji": "😗",
       "kidDefinition": "A small loud object you blow to make a sound to start or stop a game.",
       "examples": [
         "The lifeguard blew her whistle when the children swam too far.",
@@ -80,7 +80,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-858",
-      "emoji": "🧤🥅",
+      "emoji": "🧤",
       "kidDefinition": "The player who stands in front of the goal and tries to stop the ball.",
       "examples": [
         "Our goalkeeper caught the ball with both hands.",
@@ -114,7 +114,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-854",
-      "emoji": "🦵🦶",
+      "emoji": "🦶",
       "kidDefinition": "The joint where your foot connects to your leg.",
       "examples": [
         "I hurt my ankle when I jumped off the wall.",
@@ -131,7 +131,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-867",
-      "emoji": "⚽➡️",
+      "emoji": "⚽",
       "kidDefinition": "To send the ball to a teammate by kicking or throwing it.",
       "examples": [
         "Pass me the ball, Sam! I'm free!",
@@ -148,7 +148,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-885",
-      "emoji": "⚽🟰⚽",
+      "emoji": "🤝",
       "kidDefinition": "A result in a game when both teams have the same score.",
       "examples": [
         "The chess game ended in a tie, so nobody won.",
@@ -165,7 +165,7 @@
     },
     {
       "wordId": "CPP3-U6-SB-903",
-      "emoji": "🏃🔥",
+      "emoji": "🏃",
       "kidDefinition": "Gentle exercise you do before a sport to get your body ready.",
       "examples": [
         "We always do a warm-up before we run.",
@@ -304,7 +304,7 @@
               "label": "ball"
             },
             {
-              "emoji": "🏃🔥",
+              "emoji": "🏃",
               "label": "warm-up"
             }
           ],
@@ -324,7 +324,7 @@
               "text": "Let's do a quick warm-up first. Then you will feel better, Theo!",
               "props": [
                 {
-                  "emoji": "🏃🔥",
+                  "emoji": "🏃",
                   "label": "warm-up"
                 }
               ]
@@ -351,7 +351,7 @@
               "label": "field"
             },
             {
-              "emoji": "🏃🏃",
+              "emoji": "🏃",
               "label": "players"
             }
           ],
@@ -430,7 +430,7 @@
           ],
           "props": [
             {
-              "emoji": "🦵🦶",
+              "emoji": "🦵",
               "label": "ankle"
             }
           ],

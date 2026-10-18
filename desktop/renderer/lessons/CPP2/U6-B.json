@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-791",
-      "emoji": "🦶🟫",
+      "emoji": "🟫",
       "kidDefinition": "The surface you walk on outside.",
       "examples": [
         "The ground is soft after the rain.",
@@ -91,7 +91,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-795",
-      "emoji": "🚶💥🌳",
+      "emoji": "💥",
       "kidDefinition": "To hit something by accident while moving.",
       "examples": [
         "I bumped into my friend in the corridor.",
@@ -107,7 +107,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-796",
-      "emoji": "▶️1️⃣",
+      "emoji": "▶️",
       "kidDefinition": "The first part of something.",
       "examples": [
         "At the beginning of the film, a dog ran away.",
@@ -124,7 +124,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-799",
-      "emoji": "🧔⬆️🧒",
+      "emoji": "🧔",
       "kidDefinition": "A very, very big person in a story.",
       "examples": [
         "The giant had big feet and a big smile.",
@@ -141,7 +141,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-800",
-      "emoji": "🌴🐒",
+      "emoji": "🌴",
       "kidDefinition": "A hot forest with many tall trees and animals.",
       "examples": [
         "Monkeys swing from trees in the jungle.",
@@ -175,7 +175,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-805",
-      "emoji": "🔊💥",
+      "emoji": "🔊",
       "kidDefinition": "Very loud and deep, like thunder.",
       "examples": [
         "The booming drum made everyone jump.",
@@ -191,7 +191,7 @@
     },
     {
       "wordId": "CPP2-U6-SB-806",
-      "emoji": "🏔️⬇️",
+      "emoji": "🏔️",
       "kidDefinition": "The very outside part of something.",
       "examples": [
         "Do not stand too close to the edge of the cliff.",
@@ -244,7 +244,7 @@
       "backdrop": "forest",
       "props": [
         {
-          "emoji": "🌴🌴",
+          "emoji": "🌴",
           "label": "jungle"
         }
       ],
@@ -316,7 +316,7 @@
               "label": "daylight"
             },
             {
-              "emoji": "🌳🌳",
+              "emoji": "🌳",
               "label": "trees"
             }
           ],
@@ -543,7 +543,7 @@
           "wordId": "CPP2-U6-SB-793",
           "props": [
             {
-              "emoji": "🌱🌱",
+              "emoji": "🌱",
               "label": "plant"
             }
           ],
@@ -569,7 +569,7 @@
           "wordId": "CPP2-U6-SB-791",
           "props": [
             {
-              "emoji": "🌲🌲",
+              "emoji": "🌲",
               "label": "forest"
             }
           ],

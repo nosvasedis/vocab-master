@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U3-SB-335",
-      "emoji": "🎭🪆",
+      "emoji": "🎭",
       "kidDefinition": "A toy you move with strings or your hand.",
       "examples": [
         "My little sister has a puppet made of cloth.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-340",
-      "emoji": "🧔🪚",
+      "emoji": "🪚",
       "kidDefinition": "A person who makes things from wood.",
       "examples": [
         "My uncle is a carpenter in our village.",
@@ -124,7 +124,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-338",
-      "emoji": "🖐️🟤",
+      "emoji": "🟤",
       "kidDefinition": "Not clean. Covered in dirt or mud.",
       "examples": [
         "My shoes are dirty after football.",
@@ -140,7 +140,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-339",
-      "emoji": "🧼🫧",
+      "emoji": "🧼",
       "kidDefinition": "Not dirty. Free from dirt or mess.",
       "examples": [
         "My room is clean now.",
@@ -275,7 +275,7 @@
       "backdrop": "classroom",
       "props": [
         {
-          "emoji": "🎭🪆",
+          "emoji": "🎭",
           "label": "puppet"
         },
         {

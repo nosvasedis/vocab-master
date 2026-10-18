@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U5-SB-613",
-      "emoji": "🕺➡️",
+      "emoji": "🕺",
       "kidDefinition": "To change place, or make your body or things go.",
       "examples": [
         "Please move your bag off the chair.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-614",
-      "emoji": "🧑🔗🧑",
+      "emoji": "🔗",
       "kidDefinition": "To join two things or people together.",
       "examples": [
         "This bridge connects the two villages.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-615",
-      "emoji": "😊😢",
+      "emoji": "😊",
       "kidDefinition": "What you feel inside, like happy or sad.",
       "examples": [
         "Music helps me show my feelings.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-617",
-      "emoji": "🌍🎶",
+      "emoji": "🌍",
       "kidDefinition": "The customs and music of a group of people.",
       "examples": [
         "Different cultures have different kinds of music.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-618",
-      "emoji": "👵🎶➡️👧",
+      "emoji": "🪕",
       "kidDefinition": "Old, and passed down from one generation to the next.",
       "examples": [
         "Do you like traditional music?",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-629",
-      "emoji": "🧑🎹",
+      "emoji": "🧑‍🎤",
       "kidDefinition": "A person who plays or writes music.",
       "examples": [
         "Dominic is a musician. He can play three instruments.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-640",
-      "emoji": "🥁👏🥁👏",
+      "emoji": "🥁",
       "kidDefinition": "The steady beat pattern in music.",
       "examples": [
         "Listen to the rhythm and clap along.",
@@ -677,7 +677,7 @@
           },
           "props": [
             {
-              "emoji": "🎹🥁🎻",
+              "emoji": "🎹",
               "label": "instruments"
             }
           ],

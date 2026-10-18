@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-665",
-      "emoji": "💬✅",
+      "emoji": "💬",
       "kidDefinition": "Words that tell someone what they should do.",
       "examples": [
         "Can you give me some advice, please?",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-674",
-      "emoji": "🦻🚫",
+      "emoji": "🦻",
       "kidDefinition": "Not able to hear anything, or not able to hear well.",
       "examples": [
         "My grandma is deaf, so she reads my lips.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-680",
-      "emoji": "👧👣",
+      "emoji": "👣",
       "kidDefinition": "To go after someone, behind them, in the same way.",
       "examples": [
         "Follow me, please, and stay close.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP2-U5-SB-707",
-      "emoji": "🌙🎶",
+      "emoji": "🌙",
       "kidDefinition": "A soft, slow song that helps a baby fall asleep.",
       "examples": [
         "My mum sings a lullaby every night.",
@@ -478,7 +478,7 @@
               "label": "home"
             },
             {
-              "emoji": "🌙🎶",
+              "emoji": "🌙",
               "label": "lullaby"
             }
           ],

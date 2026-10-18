@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { matchProps, splitToken } from "../desktop/renderer/lesson/wordmatch.js";
+import { matchProps, splitToken, onePicture } from "../desktop/renderer/lesson/wordmatch.js";
 import { allLessonFiles } from "../scripts/lessons/lib/catalog.mjs";
 
 const toks = (s) => s.split(/\s+/).filter(Boolean);
@@ -65,4 +65,27 @@ test("pops avoid characters' faces and prefer below a high caption", () => {
   const faces = [{ x: 470, y: 800, w: 260, h: 260 }, { x: 1300, y: 800, w: 260, h: 260 }];
   const s = pickSpot({ cx: 900, cy: 230, avoid: faces });
   assert.ok(s.y > 230 && s.y + 140 < 800, `expected between caption and faces, got y=${s.y}`);
+});
+
+test("onePicture keeps one emoji and draws text-style emoji in colour", () => {
+  assert.equal(onePicture("🧑🧑🏘"), "🧑");
+  assert.equal(onePicture("🏘"), "🏘️");
+  assert.equal(onePicture("🏘️"), "🏘️");
+  assert.equal(onePicture("👨‍👩‍👧🏠"), "👨‍👩‍👧");
+  assert.equal(onePicture("1️⃣2️⃣"), "1️⃣");
+  assert.equal(onePicture(""), "");
+});
+
+test("every lesson picture is one colour emoji (no rebus runs that overflow pops and unit cards)", () => {
+  const bad = [];
+  const walk = (o, where) => {
+    if (Array.isArray(o)) return o.forEach((x) => walk(x, where));
+    if (!o || typeof o !== "object") return;
+    if (typeof o.emoji === "string" && (o.label || o.wordId) && onePicture(o.emoji) !== o.emoji) bad.push(`${where} ${o.label || o.wordId} ${o.emoji}`);
+    for (const v of Object.values(o)) walk(v, where);
+  };
+  for (const file of allLessonFiles()) { const l = JSON.parse(fs.readFileSync(file, "utf8")); walk(l.focusWords, l.id); walk(l.scenes, l.id); }
+  const index = JSON.parse(fs.readFileSync(new URL("../desktop/renderer/lessons/index.json", import.meta.url), "utf8"));
+  for (const l of index.lessons) if (l.hero && onePicture(l.hero) !== l.hero) bad.push(`${l.id} hero ${l.hero}`);
+  assert.deepEqual(bad, []);
 });

@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U1-SB-28",
-      "emoji": "👩👨",
+      "emoji": "👩",
       "kidDefinition": "A mother or a father.",
       "examples": [
         "Timmy's parent works on a farm.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-32",
-      "emoji": "👵👴",
+      "emoji": "👵",
       "kidDefinition": "The mother or father of your mum or dad.",
       "examples": [
         "My grandparents live near the sea.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-34",
-      "emoji": "👨‍👩‍👧🏠",
+      "emoji": "🏡",
       "kidDefinition": "To have your home in a place.",
       "examples": [
         "Where do you live?",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-20",
-      "emoji": "🐄🚜",
+      "emoji": "🚜",
       "kidDefinition": "A place with animals, fields and crops.",
       "examples": [
         "I like living on a farm.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-23",
-      "emoji": "🐶🐄",
+      "emoji": "🐶",
       "kidDefinition": "A living thing, like a dog or a cow.",
       "examples": [
         "What's your favourite animal?",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-25",
-      "emoji": "🍎↔️🍌",
+      "emoji": "🍎",
       "kidDefinition": "Not the same as something else.",
       "examples": [
         "My house is very different from your house.",
@@ -262,7 +262,7 @@
           "label": "family"
         },
         {
-          "emoji": "🐶🐄",
+          "emoji": "🐶",
           "label": "animal"
         }
       ],
@@ -290,7 +290,7 @@
           "text": "Some families live on farms with many animals.",
           "props": [
             {
-              "emoji": "🐄🚜",
+              "emoji": "🐄",
               "label": "farm"
             }
           ]
@@ -340,7 +340,7 @@
           ],
           "props": [
             {
-              "emoji": "🐄🚜",
+              "emoji": "🐄",
               "label": "farm"
             }
           ],
@@ -383,11 +383,11 @@
               "label": "parent"
             },
             {
-              "emoji": "🐴🐴",
+              "emoji": "🐴",
               "label": "horse"
             },
             {
-              "emoji": "🐶🐄",
+              "emoji": "🐶",
               "label": "animal"
             }
           ],
@@ -503,7 +503,7 @@
               "label": "owl"
             },
             {
-              "emoji": "🐄🚜",
+              "emoji": "🐄",
               "label": "farm"
             }
           ],
@@ -539,7 +539,7 @@
           "wordId": "CPP1-U1-SB-28",
           "props": [
             {
-              "emoji": "🐄🚜",
+              "emoji": "🐄",
               "label": "farm"
             }
           ],
@@ -657,7 +657,7 @@
               "label": "house"
             },
             {
-              "emoji": "🐄🚜",
+              "emoji": "🐄",
               "label": "farm"
             }
           ],

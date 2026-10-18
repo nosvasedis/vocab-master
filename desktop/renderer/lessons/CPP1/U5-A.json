@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-546",
-      "emoji": "👧☝️",
+      "emoji": "☝️",
       "kidDefinition": "Without help from anyone else. By yourself.",
       "examples": [
         "I can do it on my own!",
@@ -125,7 +125,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-550",
-      "emoji": "❓🎲",
+      "emoji": "🎲",
       "kidDefinition": "A game where you try to find a hidden answer.",
       "examples": [
         "Let's play a guessing game. Who wants to start?",
@@ -141,7 +141,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-552",
-      "emoji": "🪙🪙🪙",
+      "emoji": "🧺",
       "kidDefinition": "To find and keep many things of the same kind.",
       "examples": [
         "Maria collects old dolls.",
@@ -174,7 +174,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-555",
-      "emoji": "🧱🔨",
+      "emoji": "🔨",
       "kidDefinition": "To create or build something.",
       "examples": [
         "Sandra makes stick puppets for her students.",
@@ -190,7 +190,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-556",
-      "emoji": "🧸📦✅",
+      "emoji": "📦",
       "kidDefinition": "To be the right size to go inside something.",
       "examples": [
         "The doll doesn't fit in the dollhouse.",
@@ -424,7 +424,7 @@
           ],
           "props": [
             {
-              "emoji": "🧸🧸",
+              "emoji": "🧸",
               "label": "toys"
             }
           ],

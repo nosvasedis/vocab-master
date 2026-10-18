@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U3-SB-285",
-      "emoji": "🌱🐝",
+      "emoji": "🌱",
       "kidDefinition": "Something that is alive, like a plant or an animal.",
       "examples": [
         "Plants and animals are living things.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U3-SB-286",
-      "emoji": "👀👉",
+      "emoji": "👉",
       "kidDefinition": "To let someone see something.",
       "examples": [
         "Can you show me how to draw a bee?",
@@ -183,7 +183,7 @@
               "label": "plant"
             },
             {
-              "emoji": "🐞🐝",
+              "emoji": "🐞",
               "label": "insects"
             }
           ]
@@ -461,11 +461,11 @@
           "text": "Ants, bees, butterflies, grass and earthworms are all alive.",
           "props": [
             {
-              "emoji": "🐜🐜",
+              "emoji": "🐜",
               "label": "ants"
             },
             {
-              "emoji": "🐝🐝",
+              "emoji": "🐝",
               "label": "bees"
             },
             {
@@ -473,7 +473,7 @@
               "label": "grass"
             },
             {
-              "emoji": "🪱🪱",
+              "emoji": "🪱",
               "label": "earthworms"
             }
           ]

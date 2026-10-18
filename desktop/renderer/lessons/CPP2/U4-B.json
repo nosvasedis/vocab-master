@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U4-SB-527",
-      "emoji": "🌾☀️",
+      "emoji": "🌾",
       "kidDefinition": "A wide, dry land with tall grass and few trees.",
       "examples": [
         "The savanna is hot and dry in the summer.",
@@ -52,7 +52,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-525",
-      "emoji": "🐘🐘🐘",
+      "emoji": "🐘",
       "kidDefinition": "A large group of animals that move together.",
       "examples": [
         "A herd of cows walks slowly across the field.",
@@ -68,7 +68,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-526",
-      "emoji": "🕳️💧",
+      "emoji": "💧",
       "kidDefinition": "A small pool of water where animals drink.",
       "examples": [
         "Animals drink water at the waterhole.",
@@ -84,7 +84,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-528",
-      "emoji": "🌿🌿",
+      "emoji": "🌿",
       "kidDefinition": "The green plant that covers fields and lawns.",
       "examples": [
         "Cows eat fresh green grass every day.",
@@ -100,7 +100,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-524",
-      "emoji": "🐦✈️",
+      "emoji": "🐦",
       "kidDefinition": "To travel from one place to another when seasons change.",
       "examples": [
         "Birds migrate south when winter comes.",
@@ -116,7 +116,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-537",
-      "emoji": "🐘➡️🐘🐘",
+      "emoji": "🚩",
       "kidDefinition": "To guide someone to a place, showing the way.",
       "examples": [
         "Can you lead us to the park?",
@@ -164,7 +164,7 @@
     },
     {
       "wordId": "CPP2-U4-SB-529",
-      "emoji": "📖➡️📝",
+      "emoji": "✍️",
       "kidDefinition": "To make a short version that keeps only the main ideas.",
       "examples": [
         "Please summarize the story in three sentences.",
@@ -231,7 +231,7 @@
           "text": "Look at this wide, golden land with tall grass.",
           "props": [
             {
-              "emoji": "🌿🌿",
+              "emoji": "🌿",
               "label": "grass"
             }
           ]
@@ -245,7 +245,7 @@
               "label": "tree"
             },
             {
-              "emoji": "🦒🦓",
+              "emoji": "🦒",
               "label": "animals"
             }
           ]
@@ -255,7 +255,7 @@
           "text": "Some animals walk very far to find water.",
           "props": [
             {
-              "emoji": "🦒🦓",
+              "emoji": "🦒",
               "label": "animals"
             },
             {
@@ -269,7 +269,7 @@
           "text": "Today we visit the savanna. Let's explore it together!",
           "props": [
             {
-              "emoji": "🌾☀️",
+              "emoji": "🌾",
               "label": "savanna"
             }
           ]
@@ -364,7 +364,7 @@
           ],
           "props": [
             {
-              "emoji": "🐘🐘🐘",
+              "emoji": "🐘",
               "label": "herd"
             },
             {
@@ -418,7 +418,7 @@
               "label": "water"
             },
             {
-              "emoji": "🐘🐘🐘",
+              "emoji": "🐘",
               "label": "herd"
             }
           ],
@@ -461,7 +461,7 @@
               "label": "elephant"
             },
             {
-              "emoji": "🐘🐘🐘",
+              "emoji": "🐘",
               "label": "herd"
             },
             {
@@ -507,7 +507,7 @@
               "label": "school"
             },
             {
-              "emoji": "🐘🐘🐘",
+              "emoji": "🐘",
               "label": "herd"
             },
             {
@@ -595,7 +595,7 @@
               "label": "winter"
             },
             {
-              "emoji": "🐦🐦",
+              "emoji": "🐦",
               "label": "birds"
             },
             {

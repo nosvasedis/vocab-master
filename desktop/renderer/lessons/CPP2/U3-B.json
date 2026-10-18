@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-374",
-      "emoji": "🌾➡️⚪",
+      "emoji": "🥖",
       "kidDefinition": "a white powder made from wheat, used for baking",
       "examples": [
         "Grandma puts flour into a big bowl.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-376",
-      "emoji": "🥣💧",
+      "emoji": "🥣",
       "kidDefinition": "a soft mix of flour and water, ready to bake",
       "examples": [
         "The dough is soft and warm in my hands.",
@@ -86,7 +86,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-377",
-      "emoji": "🥣🔄",
+      "emoji": "🥄",
       "kidDefinition": "to stir different things together into one",
       "examples": [
         "Mix the eggs and sugar in a bowl.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-378",
-      "emoji": "🔥🍞",
+      "emoji": "🔥",
       "kidDefinition": "a hot box where we bake food",
       "examples": [
         "The cake is ready. Take it out of the oven.",
@@ -134,7 +134,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-380",
-      "emoji": "🟡🟡🟡",
+      "emoji": "🌽",
       "kidDefinition": "a tiny, hard seed from a plant like wheat",
       "examples": [
         "Birds eat grain from the ground.",
@@ -167,7 +167,7 @@
     },
     {
       "wordId": "CPP2-U3-SB-386",
-      "emoji": "🍎➡️🧺",
+      "emoji": "🧺",
       "kidDefinition": "to gather things and keep them in one place",
       "examples": [
         "Let's collect the eggs from the hen house.",
@@ -239,7 +239,7 @@
           "label": "plant"
         },
         {
-          "emoji": "🌾🌾",
+          "emoji": "🌾",
           "label": "field"
         }
       ],
@@ -401,7 +401,7 @@
               "label": "dough"
             },
             {
-              "emoji": "🥯🥯",
+              "emoji": "🥯",
               "label": "buns"
             },
             {
@@ -455,7 +455,7 @@
               "label": "wheat"
             },
             {
-              "emoji": "🍎🥕",
+              "emoji": "🍎",
               "label": "food"
             },
             {
@@ -603,7 +603,7 @@
           "wordId": "CPP2-U3-SB-376",
           "props": [
             {
-              "emoji": "🥯🥯",
+              "emoji": "🥯",
               "label": "buns"
             }
           ],
@@ -648,7 +648,7 @@
           "wordId": "CPP2-U3-SB-377",
           "props": [
             {
-              "emoji": "🥚🥚",
+              "emoji": "🥚",
               "label": "eggs"
             },
             {
@@ -729,7 +729,7 @@
               "label": "butter"
             },
             {
-              "emoji": "🍳☕",
+              "emoji": "🍳",
               "label": "breakfast"
             }
           ],
@@ -758,7 +758,7 @@
               "label": "ant"
             },
             {
-              "emoji": "🍎🥕",
+              "emoji": "🍎",
               "label": "food"
             },
             {

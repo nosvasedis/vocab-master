@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U4-SB-554",
-      "emoji": "🐦🌸",
+      "emoji": "🐦",
       "kidDefinition": "A tiny bird that can hover in the air.",
       "examples": [
         "Hummingbirds are tiny but very colourful!",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-555",
-      "emoji": "🧴🛍️",
+      "emoji": "🛍️",
       "kidDefinition": "A light material used to make bottles and bags.",
       "examples": [
         "This water bottle is made of plastic.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-556",
-      "emoji": "🧴🔴",
+      "emoji": "🧴",
       "kidDefinition": "The round top you take off a bottle.",
       "examples": [
         "I found a red bottle cap on the beach.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-560",
-      "emoji": "🖼️🙂",
+      "emoji": "🖼️",
       "kidDefinition": "A picture of a person, especially their face.",
       "examples": [
         "The portrait of my grandmother hangs in our hall.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U4-SB-600",
-      "emoji": "🎨🖼️",
+      "emoji": "🎨",
       "kidDefinition": "A stand that holds a painting or poster board.",
       "examples": [
         "Put the poster board on the easel.",
@@ -335,7 +335,7 @@
           ],
           "props": [
             {
-              "emoji": "🐦🌸",
+              "emoji": "🐦",
               "label": "hummingbird"
             }
           ],

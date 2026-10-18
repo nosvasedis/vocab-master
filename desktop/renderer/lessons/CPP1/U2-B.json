@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-211",
-      "emoji": "🪑🕸️",
+      "emoji": "🕸️",
       "kidDefinition": "Used for a long time. Not new.",
       "examples": [
         "This old book is very interesting.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-214",
-      "emoji": "📚🏛️",
+      "emoji": "📚",
       "kidDefinition": "A room with many books you can borrow.",
       "examples": [
         "We borrow books from the library on Friday.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-219",
-      "emoji": "📖🏷️",
+      "emoji": "📖",
       "kidDefinition": "The name of a book or story.",
       "examples": [
         "What is the title of this book?",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-216",
-      "emoji": "👀💬",
+      "emoji": "👀",
       "kidDefinition": "To say what something or someone is like.",
       "examples": [
         "Can you describe your best friend?",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-236",
-      "emoji": "🕛🍽️",
+      "emoji": "🍽️",
       "kidDefinition": "A time in the day when you stop and eat.",
       "examples": [
         "At lunch break, we eat in the school yard.",
@@ -489,7 +489,7 @@
               "label": "lunch"
             },
             {
-              "emoji": "🍎🍌",
+              "emoji": "🍎",
               "label": "food"
             }
           ],
@@ -534,7 +534,7 @@
               "label": "branch"
             },
             {
-              "emoji": "🎒🎒",
+              "emoji": "🎒",
               "label": "bags"
             },
             {

@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-162",
-      "emoji": "🪝🪝🪝",
+      "emoji": "🪝",
       "kidDefinition": "A stand with hooks or bars for hanging things.",
       "examples": [
         "Put your coat on the rack.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-164",
-      "emoji": "🧥🪝",
+      "emoji": "👚",
       "kidDefinition": "To put something up so it stays on a hook.",
       "examples": [
         "Hang your bag on the hook.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-158",
-      "emoji": "✏️➡️🔺",
+      "emoji": "✏️",
       "kidDefinition": "A small tool that makes your pencil pointed again.",
       "examples": [
         "Can I use your pencil sharpener, please?",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-157",
-      "emoji": "✏️🪨",
+      "emoji": "🖍️",
       "kidDefinition": "Not sharp. A dull pencil does not have a point.",
       "examples": [
         "My pencils are dull. I can't draw.",
@@ -182,7 +182,7 @@
     },
     {
       "wordId": "CPP1-U2-SB-166",
-      "emoji": "🏃🏀",
+      "emoji": "🏀",
       "kidDefinition": "A big room where children play sports.",
       "examples": [
         "We run and jump in the gym.",
@@ -317,7 +317,7 @@
               "label": "coat"
             },
             {
-              "emoji": "🪝🪝🪝",
+              "emoji": "🪝",
               "label": "rack"
             }
           ],
@@ -364,7 +364,7 @@
               "label": "apron"
             },
             {
-              "emoji": "👕👖",
+              "emoji": "👕",
               "label": "clothes"
             }
           ],
@@ -569,7 +569,7 @@
           },
           "props": [
             {
-              "emoji": "👕👖",
+              "emoji": "👕",
               "label": "clothes"
             }
           ],
@@ -598,7 +598,7 @@
               "label": "apron"
             },
             {
-              "emoji": "👕👖",
+              "emoji": "👕",
               "label": "clothes"
             }
           ],
@@ -646,7 +646,7 @@
               "label": "coat"
             },
             {
-              "emoji": "🪝🪝🪝",
+              "emoji": "🪝",
               "label": "rack"
             }
           ],

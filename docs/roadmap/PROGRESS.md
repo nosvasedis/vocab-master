@@ -21,6 +21,11 @@
   4. Phase 2c: classroom pilot of Lingo Live phones (see Phase 2b below).
 - **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
 
+## One picture per word; pops keep up with fast speech (2026-10-18, from the user)
+- **Bug:** 392 focus words had rebus pictures (community 🧑🧑🏘, instrument 🎸🎻🥁). They wrapped and overflowed in the word pops, the reveal circle and the Lessons unit cards (a duplicate icon spilled under the hero). 🏘 without U+FE0F also drew as a black glyph.
+- **Fix:** `onePicture()` (`lesson/wordmatch.js`) keeps the first emoji and adds U+FE0F to text-style emoji. It's used for lesson words, props and unit heroes. The data was rewritten by `scripts/lessons/one-picture.mjs` with hand-chosen pictures from `scripts/lessons/word-pictures.mjs`; pictures stay distinct within each lesson. A test fails on any multi-emoji picture.
+- **Fast speech:** when the voice reaches a new pictured word, the current pop finishes 4× faster and the new word pops next. Words the voice already passed are dropped instead of queueing (`wordpop.js`).
+
 ## Word pops replace the prop boxes (2026-10-17 night, from the user)
 - **Why:** the labelled prop cards looked like a worksheet, and many icons were rebus combinations (🧠🟰🧠, 🌱➡️🌳), abstract words (brave, beginning) or simply wrong (tune 🔧, wardrobe 🚪).
 - **Now (`lesson/wordpop.js`, `lesson/wordmatch.js`):** a pictured word carries a small picture right after it ("my hat 🎩"). When the karaoke reaches the word, the picture zooms up next to the text with a soft glow, holds, and flies back. Tap a pictured word to pop it again. Calm motion makes it pulse instead.

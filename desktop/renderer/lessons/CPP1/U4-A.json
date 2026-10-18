@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U4-SB-447",
-      "emoji": "👧🟰👦",
+      "emoji": "👯",
       "kidDefinition": "How things are alike or the same.",
       "examples": [
         "Can you see the similarities between these two pictures?",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-448",
-      "emoji": "🍎↔️🍌",
+      "emoji": "🍌",
       "kidDefinition": "How things are not the same.",
       "examples": [
         "There are many differences between my brother and me.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-451",
-      "emoji": "👧➕👦",
+      "emoji": "👫",
       "kidDefinition": "The two of them together.",
       "examples": [
         "Both my sister and I like flying our kites.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-455",
-      "emoji": "👧🤝👦",
+      "emoji": "🤝",
       "kidDefinition": "One person and the other person.",
       "examples": [
         "We help each other with our homework.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-464",
-      "emoji": "🧠🟰🧠",
+      "emoji": "👍",
       "kidDefinition": "To think the same as someone.",
       "examples": [
         "You're right! I agree with you!",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-467",
-      "emoji": "🧠↔️🧠",
+      "emoji": "👎",
       "kidDefinition": "To think something different from someone.",
       "examples": [
         "I disagree! I think cats are the best pets!",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-457",
-      "emoji": "✏️➡️👦",
+      "emoji": "✏️",
       "kidDefinition": "To give something to someone for a short time.",
       "examples": [
         "Can you lend me your pencil?",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-454",
-      "emoji": "📖⏳",
+      "emoji": "⏳",
       "kidDefinition": "In the middle of an activity or time.",
       "examples": [
         "My best friend and I share our snacks during recess.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP1-U4-SB-460",
-      "emoji": "🍽️➡️⚽",
+      "emoji": "⚽",
       "kidDefinition": "Later than a time or an event.",
       "examples": [
         "First I do my homework and after that, I play.",
@@ -290,7 +290,7 @@
           ],
           "props": [
             {
-              "emoji": "🎒🎒",
+              "emoji": "🎒",
               "label": "backpacks"
             }
           ],

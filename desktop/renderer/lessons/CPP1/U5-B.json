@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-581",
-      "emoji": "🤲⬆️",
+      "emoji": "🤲",
       "kidDefinition": "To lift something up from the ground.",
       "examples": [
         "Please pick up your toys before dinner.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-584",
-      "emoji": "🏃🏃",
+      "emoji": "🏁",
       "kidDefinition": "A fast contest to see who wins.",
       "examples": [
         "We have a running race on Friday.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-585",
-      "emoji": "👟🪢",
+      "emoji": "👟",
       "kidDefinition": "A string that you tie to close your shoes.",
       "examples": [
         "My shoelace is untied again!",
@@ -165,7 +165,7 @@
     },
     {
       "wordId": "CPP1-U5-SB-602",
-      "emoji": "⚽💨",
+      "emoji": "⚽",
       "kidDefinition": "To move by turning over and over.",
       "examples": [
         "The ball will roll down the hill.",
@@ -368,7 +368,7 @@
           ],
           "props": [
             {
-              "emoji": "🗑️🗑️",
+              "emoji": "🗑️",
               "label": "trash"
             }
           ],

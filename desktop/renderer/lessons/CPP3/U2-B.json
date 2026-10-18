@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-246",
-      "emoji": "🥕🥚🥛",
+      "emoji": "🥕",
       "kidDefinition": "the foods you need to make a recipe",
       "examples": [
         "Check the ingredients before you start cooking.",
@@ -91,7 +91,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-249",
-      "emoji": "🚪🥫",
+      "emoji": "🚪",
       "kidDefinition": "a cabinet with doors where you keep food",
       "examples": [
         "Open the cupboard and get the big plates.",
@@ -124,7 +124,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-257",
-      "emoji": "🥄🥣",
+      "emoji": "🥄",
       "kidDefinition": "to move food around in a pot with a spoon",
       "examples": [
         "Stir the milk slowly so it does not burn.",
@@ -157,7 +157,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-258",
-      "emoji": "🎂✨",
+      "emoji": "🎂",
       "kidDefinition": "to make something look pretty with extra things",
       "examples": [
         "We decorate the classroom for the school party.",
@@ -190,7 +190,7 @@
     },
     {
       "wordId": "CPP3-U2-SB-280",
-      "emoji": "🎁😲",
+      "emoji": "😲",
       "kidDefinition": "something unexpected that makes you happy",
       "examples": [
         "The party was a wonderful surprise for her.",
@@ -282,7 +282,7 @@
           "text": "Let's find out what food can do for us!",
           "props": [
             {
-              "emoji": "🍎🥦",
+              "emoji": "🍎",
               "label": "food"
             }
           ]
@@ -328,7 +328,7 @@
           ],
           "props": [
             {
-              "emoji": "🥕🥚🥛",
+              "emoji": "🥕",
               "label": "ingredients"
             },
             {
@@ -386,11 +386,11 @@
               "label": "cake"
             },
             {
-              "emoji": "🌭🌭",
+              "emoji": "🌭",
               "label": "sausage"
             },
             {
-              "emoji": "🧑🧑🧑",
+              "emoji": "🧑",
               "label": "guests"
             }
           ],
@@ -472,7 +472,7 @@
               "label": "cake"
             },
             {
-              "emoji": "🍓🍓",
+              "emoji": "🍓",
               "label": "strawberries"
             }
           ],

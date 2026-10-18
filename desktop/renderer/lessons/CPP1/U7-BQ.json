@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U7-SB-756",
-      "emoji": "🐄➡️🥛",
+      "emoji": "🥛",
       "kidDefinition": "To start from a place, plant, or animal.",
       "examples": [
         "Milk comes from cows, not from shops.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-755",
-      "emoji": "🥕🥬🍅",
+      "emoji": "🥕",
       "kidDefinition": "Food that farmers grow or make.",
       "examples": [
         "Farmers grow fresh produce on their land.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-757",
-      "emoji": "🏪🥕",
+      "emoji": "🛒",
       "kidDefinition": "A place where people buy and sell things.",
       "examples": [
         "We buy eggs at the market on Sunday.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-759",
-      "emoji": "🫙🍓",
+      "emoji": "🍓",
       "kidDefinition": "Sweet fruit spread you eat on bread.",
       "examples": [
         "I like strawberry jam on my toast.",
@@ -133,7 +133,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-761",
-      "emoji": "🐑➡️👕",
+      "emoji": "🧵",
       "kidDefinition": "Material made from wool, cotton, or other fibres.",
       "examples": [
         "My jumper is made of soft cloth.",
@@ -186,11 +186,11 @@
           "text": "Plants and animals live here, and they give us so much.",
           "props": [
             {
-              "emoji": "🌱🌾",
+              "emoji": "🌱",
               "label": "plants"
             },
             {
-              "emoji": "🐔🐑",
+              "emoji": "🐔",
               "label": "animals"
             }
           ]
@@ -270,7 +270,7 @@
           "wordId": "CPP1-U7-SB-756",
           "props": [
             {
-              "emoji": "🥔🥔",
+              "emoji": "🥔",
               "label": "potatoes"
             }
           ],
@@ -461,11 +461,11 @@
           "text": "Next time, we will explore how plants and animals help us.",
           "props": [
             {
-              "emoji": "🌱🌾",
+              "emoji": "🌱",
               "label": "plants"
             },
             {
-              "emoji": "🐔🐑",
+              "emoji": "🐔",
               "label": "animals"
             }
           ]

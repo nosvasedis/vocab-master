@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U9-SB-1091",
-      "emoji": "🛠️💡",
+      "emoji": "🛠️",
       "kidDefinition": "To make something new that did not exist before.",
       "examples": [
         "Scientists invent new machines to help people every day.",
@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1096",
-      "emoji": "🍞🔥",
+      "emoji": "🍞",
       "kidDefinition": "A machine that makes bread hot and crispy.",
       "examples": [
         "Put two slices of bread in the toaster, please.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1107",
-      "emoji": "🍞⬆️",
+      "emoji": "⬆️",
       "kidDefinition": "To come out quickly with a small sound.",
       "examples": [
         "The toast will pop out when it is ready.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1108",
-      "emoji": "🍞⬛",
+      "emoji": "🔥",
       "kidDefinition": "Black and spoiled because of too much heat.",
       "examples": [
         "Oh no, my pancake is burnt!",
@@ -133,7 +133,7 @@
     },
     {
       "wordId": "CPP2-U9-SB-1090",
-      "emoji": "🧦🧦",
+      "emoji": "🧦",
       "kidDefinition": "Two things that are used together, like shoes.",
       "examples": [
         "I need a pair of socks for school.",
@@ -429,7 +429,7 @@
           ],
           "props": [
             {
-              "emoji": "🍞🔪",
+              "emoji": "🍞",
               "label": "slice"
             },
             {

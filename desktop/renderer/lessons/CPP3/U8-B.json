@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U8-SB-1080",
-      "emoji": "💡🚫",
+      "emoji": "🌑",
       "kidDefinition": "To stop a light or machine working by pressing a button.",
       "examples": [
         "Maya switched off the TV before dinner.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1081",
-      "emoji": "🥤🌀",
+      "emoji": "🥤",
       "kidDefinition": "An electric machine that mixes fruit and drinks together.",
       "examples": [
         "Leo put bananas and milk in the blender.",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1087",
-      "emoji": "💧🗑️",
+      "emoji": "🗑️",
       "kidDefinition": "To use something carelessly, when it is not needed.",
       "examples": [
         "Don't waste water when you brush your teeth.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1083",
-      "emoji": "💨💇",
+      "emoji": "💇",
       "kidDefinition": "An electric machine that blows hot air to dry hair.",
       "examples": [
         "Grandma used the hair dryer on her wet hair.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1084",
-      "emoji": "🧹⚡",
+      "emoji": "🧹",
       "kidDefinition": "An electric machine that sucks up dirt from floors and carpets.",
       "examples": [
         "Maya used the vacuum cleaner on the carpet.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1089",
-      "emoji": "🧸💔",
+      "emoji": "💔",
       "kidDefinition": "Not working, because it has been damaged.",
       "examples": [
         "The lamp is broken, so we need a new one.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1085",
-      "emoji": "👕🌀",
+      "emoji": "🧺",
       "kidDefinition": "A machine that washes clothes for you.",
       "examples": [
         "Our washing machine washes the clothes in one hour.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U8-SB-1096",
-      "emoji": "🖐️👕",
+      "emoji": "🖐️",
       "kidDefinition": "Done with your hands, not with a machine.",
       "examples": [
         "Grandma washes her lace curtains by hand.",
@@ -377,7 +377,7 @@
               "label": "smoothie"
             },
             {
-              "emoji": "🍞🥕",
+              "emoji": "🍞",
               "label": "food"
             },
             {
@@ -505,7 +505,7 @@
               "label": "basket"
             },
             {
-              "emoji": "🧦🧦",
+              "emoji": "🧦",
               "label": "socks"
             },
             {
@@ -513,7 +513,7 @@
               "label": "washing machine"
             },
             {
-              "emoji": "👕👖",
+              "emoji": "👕",
               "label": "clothes"
             }
           ],
@@ -640,7 +640,7 @@
           "wordId": "CPP3-U8-SB-1085",
           "props": [
             {
-              "emoji": "🧦🧦",
+              "emoji": "🧦",
               "label": "socks"
             }
           ],

@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-950",
-      "emoji": "🏖️🔽",
+      "emoji": "🏖️",
       "kidDefinition": "Hidden under the ground or sand.",
       "examples": [
         "My grandfather found a coin buried in his garden.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-952",
-      "emoji": "🚢💥",
+      "emoji": "🚢",
       "kidDefinition": "A ship that has been destroyed at sea.",
       "examples": [
         "Divers explored the shipwreck at the bottom of the bay.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-956",
-      "emoji": "🌊⬇️",
+      "emoji": "🌊",
       "kidDefinition": "To go down under water.",
       "examples": [
         "The stone will sink if you drop it in the pool.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP3-U7-SB-953",
-      "emoji": "🏺⚰️",
+      "emoji": "⚰️",
       "kidDefinition": "A place where a dead person is buried.",
       "examples": [
         "Explorers opened the old tomb very carefully.",
@@ -260,11 +260,11 @@
               "label": "gold"
             },
             {
-              "emoji": "🪙🪙",
+              "emoji": "🪙",
               "label": "coins"
             },
             {
-              "emoji": "💎💎",
+              "emoji": "💎",
               "label": "jewels"
             }
           ]
@@ -606,7 +606,7 @@
           },
           "props": [
             {
-              "emoji": "🪙🪙",
+              "emoji": "🪙",
               "label": "coins"
             }
           ],
@@ -664,7 +664,7 @@
               "label": "gold"
             },
             {
-              "emoji": "🪙🪙",
+              "emoji": "🪙",
               "label": "coins"
             },
             {

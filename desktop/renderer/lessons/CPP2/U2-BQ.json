@@ -241,7 +241,7 @@
           "text": "Maybe there are candles, a cake and balloons!",
           "props": [
             {
-              "emoji": "🕯️🕯️",
+              "emoji": "🕯️",
               "label": "candle"
             },
             {
@@ -249,7 +249,7 @@
               "label": "cake"
             },
             {
-              "emoji": "🎈🎈",
+              "emoji": "🎈",
               "label": "balloons"
             }
           ]
@@ -306,7 +306,7 @@
               "label": "cake"
             },
             {
-              "emoji": "🕯️🕯️",
+              "emoji": "🕯️",
               "label": "candle"
             }
           ],
@@ -390,7 +390,7 @@
               "label": "party"
             },
             {
-              "emoji": "🎈🎈",
+              "emoji": "🎈",
               "label": "balloons"
             }
           ],

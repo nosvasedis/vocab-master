@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-5",
-      "emoji": "🏠🧑🏠",
+      "emoji": "🏘️",
       "kidDefinition": "A person who lives near your home.",
       "examples": [
         "My neighbour has a big dog.",
@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-6",
-      "emoji": "👦🎵🤝🎵👧",
+      "emoji": "🤝",
       "kidDefinition": "Things that two people or groups both have.",
       "examples": [
         "Timmy and Sam have a lot in common.",
@@ -86,7 +86,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-7",
-      "emoji": "🎩🟰🎩",
+      "emoji": "🎩",
       "kidDefinition": "Not different. Alike in some way.",
       "examples": [
         "Your bag and my bag are the same.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-10",
-      "emoji": "👩👶",
+      "emoji": "👩",
       "kidDefinition": "A woman who is a parent. Mum.",
       "examples": [
         "This is my mother.",
@@ -119,7 +119,7 @@
     },
     {
       "wordId": "CPP1-U1-SB-8",
-      "emoji": "👨👶",
+      "emoji": "👨",
       "kidDefinition": "A man who is a parent. Dad.",
       "examples": [
         "What is your father's name?",
@@ -331,7 +331,7 @@
           ],
           "props": [
             {
-              "emoji": "🎩🎩",
+              "emoji": "🎩",
               "label": "hat"
             }
           ],

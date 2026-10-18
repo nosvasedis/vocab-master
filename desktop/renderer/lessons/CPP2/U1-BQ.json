@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-2",
-      "emoji": "📜✅",
+      "emoji": "📜",
       "kidDefinition": "Basic rules that everyone agrees to follow together",
       "examples": [
         "Let's agree to the ground rules of the discussion.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-7",
-      "emoji": "🗺️➡️",
+      "emoji": "🗺️",
       "kidDefinition": "Instructions that show you how to get somewhere",
       "examples": [
         "Can you give me directions to the train station, please?",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-9",
-      "emoji": "🚒🔥",
+      "emoji": "🚒",
       "kidDefinition": "The building where fire engines and firefighters are based",
       "examples": [
         "We visited the fire station to learn about what firefighters do.",
@@ -287,7 +287,7 @@
           ],
           "props": [
             {
-              "emoji": "🚒🔥",
+              "emoji": "🚒",
               "label": "fire station"
             }
           ],
@@ -440,7 +440,7 @@
           "wordId": "CPP2-U1-SB-9",
           "props": [
             {
-              "emoji": "🚒🚒",
+              "emoji": "🚒",
               "label": "trucks"
             }
           ],

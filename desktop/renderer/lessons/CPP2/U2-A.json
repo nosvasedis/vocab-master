@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U2-SB-159",
-      "emoji": "🔍🎂🎂",
+      "emoji": "🔍",
       "kidDefinition": "To look at two things and see how they are alike or different.",
       "examples": [
         "Let's compare our two drawings.",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-161",
-      "emoji": "🔴🟠",
+      "emoji": "👯",
       "kidDefinition": "Almost the same, but not exactly the same.",
       "examples": [
         "Our shoes are similar, but yours are white.",
@@ -74,7 +74,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-162",
-      "emoji": "🍎↔️🍌",
+      "emoji": "🍎",
       "kidDefinition": "Not the same as something else.",
       "examples": [
         "My brother and I are very different.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-174",
-      "emoji": "🔁📅",
+      "emoji": "🎎",
       "kidDefinition": "Something a family or group does the same way, again and again.",
       "examples": [
         "Eating soup on Sunday is our family tradition.",
@@ -278,7 +278,7 @@
           "text": "Let's find out why we celebrate with food and fun!",
           "props": [
             {
-              "emoji": "🍲🍞🍇",
+              "emoji": "🍲",
               "label": "food"
             }
           ]
@@ -398,7 +398,7 @@
           ],
           "props": [
             {
-              "emoji": "🎂🎂",
+              "emoji": "🎂",
               "label": "cake"
             },
             {
@@ -449,11 +449,11 @@
           ],
           "props": [
             {
-              "emoji": "🪙🪙",
+              "emoji": "🪙",
               "label": "coin"
             },
             {
-              "emoji": "🎂🎂",
+              "emoji": "🎂",
               "label": "cake"
             }
           ],
@@ -540,7 +540,7 @@
               "label": "birthday"
             },
             {
-              "emoji": "🎂🎂",
+              "emoji": "🎂",
               "label": "cake"
             }
           ],

@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U8-SB-1023",
-      "emoji": "🔴🔴🔴",
+      "emoji": "🔴",
       "kidDefinition": "Red, itchy spots on your skin that appear suddenly.",
       "examples": [
         "I have hives on my arms after the plant.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1024",
-      "emoji": "🎈➡️🎈🎈",
+      "emoji": "🎈",
       "kidDefinition": "To become bigger and rounder, often after an injury.",
       "examples": [
         "My ankle swelled after I fell off my bike.",
@@ -85,7 +85,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1027",
-      "emoji": "💅🤚",
+      "emoji": "🤚",
       "kidDefinition": "To rub your skin with your nails because it feels itchy.",
       "examples": [
         "Please do not scratch the mosquito bite.",
@@ -101,7 +101,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1028",
-      "emoji": "🧑➡️🔴🔴",
+      "emoji": "🤒",
       "kidDefinition": "To suddenly get spots or hives on your body.",
       "examples": [
         "The baby broke out in spots after the medicine.",
@@ -117,7 +117,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1029",
-      "emoji": "🐝👆",
+      "emoji": "🐝",
       "kidDefinition": "To hurt someone with a sharp point, like a bee does.",
       "examples": [
         "A wasp stung my friend on the leg.",
@@ -166,7 +166,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-1054",
-      "emoji": "🧑📣",
+      "emoji": "📣",
       "kidDefinition": "To be the person who decides what to do in an emergency.",
       "examples": [
         "The captain took charge when the boat was in trouble.",
@@ -382,7 +382,7 @@
           "backdrop": "park",
           "props": [
             {
-              "emoji": "🔴🔴🔴",
+              "emoji": "🔴",
               "label": "hives"
             }
           ],
@@ -632,7 +632,7 @@
           "wordId": "CPP2-U8-SB-1028",
           "props": [
             {
-              "emoji": "🔴🔴🔴",
+              "emoji": "🔴",
               "label": "hives"
             }
           ],
@@ -696,7 +696,7 @@
           "wordId": "CPP2-U8-SB-1027",
           "props": [
             {
-              "emoji": "🔴🔴🔴",
+              "emoji": "🔴",
               "label": "hives"
             }
           ],

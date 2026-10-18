@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP3-U9-SB-1144",
-      "emoji": "🎨🎵",
+      "emoji": "🎨",
       "kidDefinition": "To make something new.",
       "examples": [
         "We can create music with a box and a stick.",
@@ -53,7 +53,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1145",
-      "emoji": "🪵🕳️",
+      "emoji": "🪵",
       "kidDefinition": "Empty on the inside, with no solid middle.",
       "examples": [
         "A hollow tube makes a lovely sound when you blow into it.",
@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1148",
-      "emoji": "🎀⭐",
+      "emoji": "🎀",
       "kidDefinition": "Covered with colours, pictures or nice things.",
       "examples": [
         "The old drum was decorated with pictures of wild animals.",
@@ -104,7 +104,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1149",
-      "emoji": "👶🌙",
+      "emoji": "🌙",
       "kidDefinition": "A soft, gentle song to help a baby sleep.",
       "examples": [
         "Adrian sang a lullaby to the baby to help it fall asleep.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1157",
-      "emoji": "😊🗣️",
+      "emoji": "😊",
       "kidDefinition": "To show your feelings or ideas.",
       "examples": [
         "Monica prefers to express her feelings through music.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1150",
-      "emoji": "🎵💨",
+      "emoji": "🎵",
       "kidDefinition": "A small instrument you play by blowing into it.",
       "examples": [
         "The cowboy played a happy tune on his harmonica.",
@@ -155,7 +155,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1151",
-      "emoji": "🎻⬇️",
+      "emoji": "🎻",
       "kidDefinition": "A very large, deep string instrument.",
       "examples": [
         "Wendy loves the sound the double bass makes, it is very deep.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP3-U9-SB-1152",
-      "emoji": "🪈⬆️",
+      "emoji": "🪈",
       "kidDefinition": "A tiny flute that makes very high sounds.",
       "examples": [
         "Joanne plays the piccolo in our orchestra.",
@@ -371,7 +371,7 @@
               "label": "tube"
             },
             {
-              "emoji": "⭐⭐",
+              "emoji": "⭐",
               "label": "stars"
             }
           ],
@@ -444,7 +444,7 @@
           ],
           "props": [
             {
-              "emoji": "🎻🪈",
+              "emoji": "🎻",
               "label": "instrument"
             },
             {
@@ -602,7 +602,7 @@
               "label": "tube"
             },
             {
-              "emoji": "⭐⭐⭐",
+              "emoji": "⭐",
               "label": "stars"
             }
           ],

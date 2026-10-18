@@ -12,6 +12,7 @@ import { createMascot } from "./mascot.js";
 import { narrate, stopAll, setNarration } from "./narrator.js";
 import { setCalm, rise, pop, award } from "./motion.js";
 import { createPopper, matchProps, splitToken } from "./wordpop.js";
+import { onePicture } from "./wordmatch.js";
 import hook from "./scenes/hook.js";
 import reveal from "./scenes/reveal.js";
 import story from "./scenes/story.js";
@@ -144,7 +145,7 @@ export function openPlayer(o) {
         t++;
         if (gaps && /_{2,}/.test(part)) return `<span class="kw gap">${esc(part.replace(/_{2,}/, "      ")).replace(/ /g, "&nbsp;")}</span>`;
         const w = markWord(part);
-        let pic = matched.get(t)?.emoji || "";
+        let pic = onePicture(matched.get(t)?.emoji);
         // New words pop their picture too — only things (nouns), and never more than two pictures in a line.
         if (!pic && focusPics && w?.emoji && /^n|^n.|noun/i.test(String(w.type || "")) && !usedFocus.has(w.id) && matched.size + focusAdded < 2) { pic = w.emoji; focusAdded++; }
         if (pic && w) usedFocus.add(w.id);

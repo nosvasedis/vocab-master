@@ -41,7 +41,7 @@
   "focusWords": [
     {
       "wordId": "CPP1-U6-SB-706",
-      "emoji": "🧦👕",
+      "emoji": "🧦",
       "kidDefinition": "not neat; dirty and in a mess",
       "examples": [
         "Oh! Your room is very messy!",
@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-707",
-      "emoji": "🐶💥🧺",
+      "emoji": "💥",
       "kidDefinition": "something that stops things from being calm and normal",
       "examples": [
         "A dog running through the picnic is a disruption!",
@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-690",
-      "emoji": "🐶😜",
+      "emoji": "😜",
       "kidDefinition": "behaving badly; not good or well-behaved",
       "examples": [
         "Stop, naughty dog! Don't take my sandwich!",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-697",
-      "emoji": "🐱🍼",
+      "emoji": "🐱",
       "kidDefinition": "a baby cat",
       "examples": [
         "Look at that little kitten! It's so cute!",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-698",
-      "emoji": "🐱⬇️🌳",
+      "emoji": "🌳",
       "kidDefinition": "move from high up to low down",
       "examples": [
         "My cat is on the fridge. She can't get down!",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-699",
-      "emoji": "👩‍🚒🚒",
+      "emoji": "👩‍🚒",
       "kidDefinition": "a person who puts out fires and helps people",
       "examples": [
         "Firefighters rescue people, animals and stop fires!",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-700",
-      "emoji": "👩‍🚒🪜🐱",
+      "emoji": "🪜",
       "kidDefinition": "to save someone from danger",
       "examples": [
         "The firefighter rescued the kitten from the tree.",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-701",
-      "emoji": "🛡️😊",
+      "emoji": "🛡️",
       "kidDefinition": "not in danger; protected from harm",
       "examples": [
         "It's ok now! You're safe! Don't be scared!",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-695",
-      "emoji": "1️⃣➡️2️⃣➡️3️⃣",
+      "emoji": "➡️",
       "kidDefinition": "the order in which things happen",
       "examples": [
         "We need to understand the sequence of events.",
@@ -194,7 +194,7 @@
     },
     {
       "wordId": "CPP1-U6-SB-696",
-      "emoji": "📅🎉",
+      "emoji": "🎉",
       "kidDefinition": "something that happens, often important or unusual",
       "examples": [
         "There are some strange events in the story.",
@@ -263,7 +263,7 @@
           "text": "Sometimes a day gets messy. Sometimes an animal needs our help!",
           "props": [
             {
-              "emoji": "🐶🐱",
+              "emoji": "🐶",
               "label": "animal"
             }
           ]
@@ -525,7 +525,7 @@
           "wordId": "CPP1-U6-SB-706",
           "props": [
             {
-              "emoji": "🛏️🧦👕",
+              "emoji": "🛏️",
               "label": "room"
             }
           ],

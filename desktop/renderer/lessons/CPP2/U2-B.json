@@ -87,7 +87,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-214",
-      "emoji": "💡🚫",
+      "emoji": "🌑",
       "kidDefinition": "To make a light or machine stop working.",
       "examples": [
         "Turn off the TV before you go to sleep.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP2-U2-SB-224",
-      "emoji": "🥂🎉",
+      "emoji": "🥂",
       "kidDefinition": "A special party where people wear their best clothes.",
       "examples": [
         "Our neighbours have a fancy party every New Year.",
@@ -286,11 +286,11 @@
           "text": "On New Year's Eve, people have fancy parties and wear their best clothes.",
           "props": [
             {
-              "emoji": "🥂🎉",
+              "emoji": "🥂",
               "label": "parties"
             },
             {
-              "emoji": "👔👗",
+              "emoji": "👔",
               "label": "clothes"
             }
           ]
@@ -346,7 +346,7 @@
           ],
           "props": [
             {
-              "emoji": "🥂🎉",
+              "emoji": "🥂",
               "label": "fancy party"
             },
             {
@@ -756,7 +756,7 @@
           },
           "props": [
             {
-              "emoji": "👔👗",
+              "emoji": "👔",
               "label": "clothes"
             }
           ],

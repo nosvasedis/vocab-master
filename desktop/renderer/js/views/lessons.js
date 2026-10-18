@@ -3,6 +3,7 @@ import { CPP_BOOKS } from "../../app.js";
 import { $, esc, icon, toast } from "../ui.js";
 import { state, BOOK_COLORS } from "../state.js";
 import { loadCatalog, loadArt } from "../../lesson/lesson.js";
+import { onePicture } from "../../lesson/wordmatch.js";
 import { downloadAllForOffline, offlineStatus } from "../../arcade/voice.js";
 
 const SECTION_NAMES = { BQ: "Big Question", A: "Part A", B: "Part B" };
@@ -63,7 +64,7 @@ export async function renderLessons() {
       ${units.map((u, i) => {
         const info = bookDef.units[u];
         const mine = ["BQ", "A", "B"].map((s) => lessons.find((l) => l.bookId === book && l.unit === u && l.section === s));
-        const hero = mine.find((l) => l?.hero)?.hero || "📚";
+        const hero = onePicture(mine.find((l) => l?.hero)?.hero) || "📚";
         const heroImg = art.units?.[`${book}-U${u}`];
         return `<article class="lsn-unit${heroImg ? " has-art" : ""}" style="--book:${BOOK_COLORS[book]};animation-delay:${i * 40}ms">
           ${heroImg ? `<img class="lsn-art" src="./assets/art/${esc(heroImg)}" alt="" loading="lazy">` : ""}

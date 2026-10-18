@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-651",
-      "emoji": "🧔🗺️",
+      "emoji": "🗺️",
       "kidDefinition": "A person who shows visitors around and explains places.",
       "examples": [
         "Our tour guide showed us a very old church.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-646",
-      "emoji": "👀🗣️",
+      "emoji": "👀",
       "kidDefinition": "To say in words what something looks like or is like.",
       "examples": [
         "Please describe the view from the top of the hill.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-657",
-      "emoji": "🏞️💦",
+      "emoji": "🏞️",
       "kidDefinition": "A river that falls down over high rocks.",
       "examples": [
         "We swam near a huge waterfall in the forest.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-693",
-      "emoji": "😲✨",
+      "emoji": "😲",
       "kidDefinition": "So amazing that it is hard to believe.",
       "examples": [
         "The sunset from the hill was incredible!",
@@ -160,7 +160,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-644",
-      "emoji": "🗣️➡️🙂",
+      "emoji": "🗣️",
       "kidDefinition": "To make someone agree to do something.",
       "examples": [
         "Leo tried to persuade me to swim, but I said no.",
@@ -177,7 +177,7 @@
     },
     {
       "wordId": "CPP3-U5-SB-658",
-      "emoji": "🌳♻️",
+      "emoji": "♻️",
       "kidDefinition": "Careful to do the right thing and look after places.",
       "examples": [
         "A responsible traveller takes their rubbish home.",
@@ -263,7 +263,7 @@
       "backdrop": "forest",
       "props": [
         {
-          "emoji": "🎒🎒",
+          "emoji": "🎒",
           "label": "bag"
         }
       ],
@@ -654,7 +654,7 @@
               "label": "tour guide"
             },
             {
-              "emoji": "👧👦",
+              "emoji": "👧",
               "label": "visitors"
             }
           ],

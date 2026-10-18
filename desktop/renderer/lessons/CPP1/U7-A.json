@@ -75,7 +75,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-778",
-      "emoji": "🦌🌿",
+      "emoji": "🫎",
       "kidDefinition": "The hard, branched horns on the head of a deer.",
       "examples": [
         "The deer shakes its big antlers.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-771",
-      "emoji": "🐻🧥",
+      "emoji": "🐻",
       "kidDefinition": "The soft, thick hair that covers an animal's body.",
       "examples": [
         "My cat has soft, white fur.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-770",
-      "emoji": "🐶🐋🦇",
+      "emoji": "🐋",
       "kidDefinition": "An animal that feeds its babies milk and has hair or fur.",
       "examples": [
         "Whales are mammals, not fish.",
@@ -265,7 +265,7 @@
           "text": "Animals are amazing. Some fly. Some swim. Some live in the snow.",
           "props": [
             {
-              "emoji": "🐘🦋",
+              "emoji": "🐘",
               "label": "animal"
             },
             {
@@ -279,7 +279,7 @@
           "text": "Today we will meet some animals and visit a very mysterious cave.",
           "props": [
             {
-              "emoji": "🐘🦋",
+              "emoji": "🐘",
               "label": "animal"
             },
             {
@@ -438,7 +438,7 @@
               "label": "wall"
             },
             {
-              "emoji": "🐶🐋",
+              "emoji": "🐶",
               "label": "mammal"
             }
           ],

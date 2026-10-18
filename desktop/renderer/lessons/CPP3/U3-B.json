@@ -58,7 +58,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-420",
-      "emoji": "🗣️⚠️",
+      "emoji": "⚠️",
       "kidDefinition": "tell someone about danger before it happens",
       "examples": [
         "The sign warns drivers about slippery roads.",
@@ -92,7 +92,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-419",
-      "emoji": "🌳🌿",
+      "emoji": "🌳",
       "kidDefinition": "a part of a tree that grows out from the trunk",
       "examples": [
         "A bird sat on a high branch.",
@@ -109,7 +109,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-423",
-      "emoji": "🏘️🌊",
+      "emoji": "🌊",
       "kidDefinition": "cover a place with a lot of water",
       "examples": [
         "Heavy rain can flood the streets.",
@@ -126,7 +126,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-453",
-      "emoji": "👜🏖️",
+      "emoji": "👜",
       "kidDefinition": "a bag filled with sand to stop water",
       "examples": [
         "We put sandbags at the front door.",
@@ -143,7 +143,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-426",
-      "emoji": "🟤💧",
+      "emoji": "🟤",
       "kidDefinition": "wet, soft earth that sticks to your shoes",
       "examples": [
         "After the flood, the streets were full of mud."
@@ -159,7 +159,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-478",
-      "emoji": "🏠☔",
+      "emoji": "☔",
       "kidDefinition": "a safe place that protects you from weather or danger",
       "examples": [
         "We found shelter under a big tree.",
@@ -176,7 +176,7 @@
     },
     {
       "wordId": "CPP3-U3-SB-435",
-      "emoji": "🧍⏸️",
+      "emoji": "🧍",
       "kidDefinition": "not moving at all",
       "examples": [
         "The lake was still and calm.",
@@ -342,7 +342,7 @@
           ],
           "props": [
             {
-              "emoji": "☁️☁️",
+              "emoji": "☁️",
               "label": "clouds"
             },
             {
@@ -609,7 +609,7 @@
               "label": "wind"
             },
             {
-              "emoji": "🍂🍂",
+              "emoji": "🍂",
               "label": "leaves"
             }
           ],
@@ -720,7 +720,7 @@
           "wordId": "CPP3-U3-SB-478",
           "props": [
             {
-              "emoji": "🐦🐦",
+              "emoji": "🐦",
               "label": "birds"
             },
             {

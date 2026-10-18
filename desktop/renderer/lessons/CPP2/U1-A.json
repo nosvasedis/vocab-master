@@ -70,7 +70,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-32",
-      "emoji": "👮🛡️",
+      "emoji": "👮",
       "kidDefinition": "A person whose job is to protect a building.",
       "examples": [
         "My sister works as a security guard in a museum.",
@@ -121,7 +121,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-46",
-      "emoji": "🧍🕯️",
+      "emoji": "🕯️",
       "kidDefinition": "A copy of a person made from wax.",
       "examples": [
         "I like most the wax figures of famous movie stars.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP2-U1-SB-50",
-      "emoji": "💡➡️🌑",
+      "emoji": "💡",
       "kidDefinition": "To stop shining or working, like a light.",
       "examples": [
         "The electricity goes out very often in the summer.",
@@ -370,7 +370,7 @@
               "label": "singer"
             },
             {
-              "emoji": "🖼️🖼️",
+              "emoji": "🖼️",
               "label": "exhibit"
             }
           ],
@@ -390,7 +390,7 @@
               "text": "Every exhibit here is special. Please don't touch them.",
               "props": [
                 {
-                  "emoji": "🖼️🖼️",
+                  "emoji": "🖼️",
                   "label": "exhibit"
                 }
               ]

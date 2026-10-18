@@ -69,7 +69,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-827",
-      "emoji": "🍃💨",
+      "emoji": "🍃",
       "kidDefinition": "A light, gentle wind that feels cool.",
       "examples": [
         "What a lovely breeze! It's cool and fresh.",
@@ -102,7 +102,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-813",
-      "emoji": "😮💨",
+      "emoji": "🫁",
       "kidDefinition": "To take air into your body and let it out.",
       "examples": [
         "Let's go outside to breathe some fresh air.",
@@ -118,7 +118,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-810",
-      "emoji": "🐝🏠",
+      "emoji": "🐝",
       "kidDefinition": "A home where bees live together.",
       "examples": [
         "Bees live all together in a hive.",
@@ -152,7 +152,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-817",
-      "emoji": "🐝💢",
+      "emoji": "🩹",
       "kidDefinition": "To hurt someone with a sharp point, like a bee.",
       "examples": [
         "Bees can sting you when they feel in danger.",
@@ -168,7 +168,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-820",
-      "emoji": "🐄🔊",
+      "emoji": "🐄",
       "kidDefinition": "The sound a cow makes.",
       "examples": [
         "We live on a farm and we can hear the cows moo all the time.",
@@ -184,7 +184,7 @@
     },
     {
       "wordId": "CPP1-U7-SB-819",
-      "emoji": "🐑💃",
+      "emoji": "🐑",
       "kidDefinition": "To jump and move around happily.",
       "examples": [
         "Baby kids and lambs like prancing in the grass!",
@@ -359,7 +359,7 @@
           ],
           "props": [
             {
-              "emoji": "🍃💨",
+              "emoji": "🍃",
               "label": "breeze"
             },
             {
@@ -443,7 +443,7 @@
           ],
           "props": [
             {
-              "emoji": "🐄🐑",
+              "emoji": "🐄",
               "label": "animals"
             },
             {
@@ -594,7 +594,7 @@
           },
           "props": [
             {
-              "emoji": "🍃💨",
+              "emoji": "🍃",
               "label": "breeze"
             },
             {

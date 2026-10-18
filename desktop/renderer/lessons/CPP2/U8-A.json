@@ -36,7 +36,7 @@
   "focusWords": [
     {
       "wordId": "CPP2-U8-SB-973",
-      "emoji": "🖼️📝",
+      "emoji": "🖼️",
       "kidDefinition": "The words under a picture that explain it.",
       "examples": [
         "The caption under this photo says: Lovely beach day.",
@@ -138,7 +138,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-989",
-      "emoji": "🐕🪢",
+      "emoji": "🐕‍🦺",
       "kidDefinition": "Straps a dog wears so a person can guide it.",
       "examples": [
         "The dog's harness is bright yellow.",
@@ -172,7 +172,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-980",
-      "emoji": "👃💨",
+      "emoji": "👃",
       "kidDefinition": "A smell that you can notice.",
       "examples": [
         "The flowers have a sweet scent.",
@@ -189,7 +189,7 @@
     },
     {
       "wordId": "CPP2-U8-SB-987",
-      "emoji": "🚶🛣️",
+      "emoji": "🚶",
       "kidDefinition": "To go from one side of a road to the other.",
       "examples": [
         "Look left and right before you cross the road.",
@@ -256,7 +256,7 @@
           "text": "Hello, friends! I am Lingo, and I love stories about brave animals.",
           "props": [
             {
-              "emoji": "🐶🐱🐘",
+              "emoji": "🐶",
               "label": "animal"
             }
           ]

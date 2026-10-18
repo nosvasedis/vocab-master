@@ -11,6 +11,7 @@ export { matchProps, splitToken } from "./wordmatch.js";
 const W = 1920;
 const H = 1080;
 const BIG = 230; // px on the 1920×1080 stage
+const HURRY = 4; // how much faster a pop finishes when the voice has already reached the next pictured word
 
 /**
  * The pop engine for one lesson player.
@@ -40,7 +41,8 @@ export function createPopper({ stageEl, picFit }) {
       pic.classList.remove("pulse");
       void pic.offsetWidth;
       pic.classList.add("pulse");
-      running = setTimeout(() => { running = null; run(); }, 500);
+      const id = setTimeout(() => { running = null; run(); }, 500);
+      running = { span, kill: () => clearTimeout(id) };
       return;
     }
     const r = toStage(pic.getBoundingClientRect());
@@ -55,7 +57,7 @@ export function createPopper({ stageEl, picFit }) {
     layer.appendChild(big);
     const start = Math.max(0.12, r.h / BIG);
     pic.classList.add("away");
-    const hold = queue.length ? 0.45 : 0.95;
+    const hold = 0.95;
     running = gsap.timeline({
       onComplete: () => {
         big.remove();
@@ -68,15 +70,19 @@ export function createPopper({ stageEl, picFit }) {
       },
     })
       .set(big, { x: cx, y: cy, xPercent: -50, yPercent: -50, scale: start, opacity: 1 })
-      .to(big, { x: tx, y: ty, scale: 1, duration: 0.55, ease: "back.out(1.5)" })
+      .to(big, { x: tx, y: ty, scale: 1, duration: 0.4, ease: "back.out(1.5)" })
       .to(big, { scale: 1.06, duration: hold / 2, yoyo: true, repeat: 1, ease: "sine.inOut" })
       .to(big, { x: cx, y: cy, scale: start, duration: 0.42, ease: "power2.in" });
+    running.span = span;
   }
 
+  // Keep up with fast speech: when the voice reaches a new pictured word, the current picture hurries home and
+  // the new word pops next. Words the voice has already passed are dropped rather than popping seconds late.
   function popNow(span) {
-    if (!span?.dataset?.pop) return;
-    if (!queue.includes(span)) queue.push(span);
-    run();
+    if (!span?.dataset?.pop || running?.span === span) return;
+    queue = [span];
+    if (running) running.timeScale?.(HURRY);
+    else run();
   }
 
   return {
@@ -102,8 +108,7 @@ export function createPopper({ stageEl, picFit }) {
     /** Stop everything (step change, close). */
     clear() {
       queue = [];
-      if (running && typeof running.kill === "function") running.kill();
-      else clearTimeout(running);
+      running?.kill();
       running = null;
       layer.innerHTML = "";
       stageEl.querySelectorAll(".pw-pic.away").forEach((p) => p.classList.remove("away"));

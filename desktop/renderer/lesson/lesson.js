@@ -2,6 +2,7 @@
 import { CPP_WORDBANK, CPP_BOOKS } from "../coursebook-data.js";
 import { buildArcadeDeck, firstEmoji } from "../arcade/deck.js";
 import { openPlayer, isPlayerOpen, closePlayer } from "./player.js";
+import { onePicture } from "./wordmatch.js";
 
 const byId = new Map(CPP_WORDBANK.map((w) => [w.id, w]));
 // Most word-bank emojis are generic fillers (✨ sits on 200+ words); trust one only when ≤2 words share it.
@@ -50,7 +51,7 @@ export function lessonWords(lesson) {
       type: row.type,
       greek: row.greek,
       example: row.example,
-      emoji: fw.emoji || firstEmoji(row.emojis),
+      emoji: onePicture(fw.emoji || firstEmoji(row.emojis)),
       emojis: fw.emoji || row.emojis,
       kidDefinition: fw.kidDefinition || "",
       examples: fw.examples || [],
