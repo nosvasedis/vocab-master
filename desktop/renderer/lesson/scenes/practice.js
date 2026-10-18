@@ -16,8 +16,12 @@ export default {
 
     const teams = {
       solo: true,
+      mode: "class",
       get teams() { return [{ name: "Class", emoji: "⭐", color: "#ffd23f", score }]; },
+      get groups() { return this.teams; },
       active: () => ({ name: "Class", emoji: "⭐", color: "#ffd23f", score }),
+      player: () => null,
+      turnHtml: () => "",
       award(points, { from = null } = {}) {
         score += points;
         const pill = ctx.ui.querySelector(".pr-score b");

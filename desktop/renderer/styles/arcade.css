@@ -554,3 +554,92 @@
 .arcade .sp-emoji img.vpic { width: 1.7em; height: 1.7em; }
 .arcade .ts-pic img.vpic { width: 1.8em; height: 1.8em; vertical-align: -0.5em; }
 .arcade .qz-clue:not(.big) img.vpic { width: 1.9em; height: 1.9em; vertical-align: -0.6em; }
+
+/* ── Who is playing: whole class, players, teams of named members (arcade/players.js) ── */
+.ht-label em { font-style: normal; font-weight: 600; font-size: 13px; color: var(--ink-3); margin-left: 4px; }
+.ht-class { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ht-class select, .ht-class input, .ht-add input { height: 36px; border-radius: 11px; border: 1px solid var(--line); background: rgba(0, 0, 0, 0.25); color: var(--ink); font: 600 14px var(--font-ui); padding: 0 12px; outline: none; }
+.ht-class select { min-width: 190px; }
+.ht-class select option { color: #1b1640; }
+.ht-class input { width: 170px; }
+.ht-class input:focus, .ht-add input:focus, .ht-class select:focus { border-color: #8b7cff; box-shadow: 0 0 0 3px rgba(139, 124, 255, 0.25); }
+.arc-btn.danger { border-color: rgba(255, 94, 122, 0.6); background: rgba(255, 94, 122, 0.18); color: #ffd1da; }
+.ht-roster, .ht-members { display: flex; flex-wrap: wrap; gap: 8px; }
+.ht-chip { --team: #7b6bff; display: inline-flex; align-items: center; border-radius: 99px; background: color-mix(in srgb, var(--team) 18%, rgba(255, 255, 255, 0.04)); border: 1px solid color-mix(in srgb, var(--team) 45%, transparent); overflow: hidden; transition: opacity 160ms, filter 160ms; }
+.ht-chip > button { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 10px 0 4px; color: var(--ink); font: 600 14px var(--font-ui); }
+.ht-chip > button:first-child img.vpic, .ht-chip > button:first-child .vpic-emoji { width: 28px; height: 28px; font-size: 22px; vertical-align: 0; }
+.ht-chip .hc-away, .ht-chip .hc-del { padding: 0 8px; color: var(--ink-3); font-size: 14px; }
+.ht-chip .hc-del { font-size: 18px; }
+.ht-chip .hc-away:hover, .ht-chip .hc-del:hover { color: var(--ink); background: rgba(255, 255, 255, 0.08); }
+.ht-chip.away { opacity: 0.45; filter: grayscale(0.8); }
+.ht-chip.away b { text-decoration: line-through; text-decoration-thickness: 2px; }
+.ht-empty { color: var(--ink-3); font-size: 13.5px; padding: 6px 2px; }
+.ht-add { display: flex; gap: 8px; }
+.ht-add input { flex: 1; min-width: 0; }
+.ht-tip { color: var(--ink-3); font-size: 12.5px; margin-top: -4px; }
+.ht-start { display: flex; flex-direction: column; gap: 10px; color: var(--ink-2); font-size: 14px; }
+.ht-start .ht-add { max-width: 520px; }
+.ht-teambar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ht-cols { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: 12px; }
+.ht-col { --team: #7b6bff; display: flex; flex-direction: column; gap: 10px; padding: 12px; border-radius: 16px; background: color-mix(in srgb, var(--team) 10%, rgba(0, 0, 0, 0.18)); border: 1.5px solid color-mix(in srgb, var(--team) 45%, transparent); min-width: 0; }
+.ht-col .ht-name { align-self: stretch; }
+.ht-col .ht-name input { width: 100%; min-width: 0; }
+.ht-count { color: var(--ink-3); font-size: 12px; margin-top: auto; }
+@media (max-width: 900px) { .ht-cols { grid-template-columns: 1fr 1fr; } }
+
+/* Whose turn: "Maria for Rockets" chips in the games' banners */
+.who-chip { --team: #7b6bff; display: inline-flex; align-items: center; gap: 6px; padding: 2px 12px 2px 3px; border-radius: 99px; background: color-mix(in srgb, var(--team) 26%, rgba(255, 255, 255, 0.08)); border: 1.5px solid color-mix(in srgb, var(--team) 60%, transparent); }
+.who-chip img.vpic, .who-chip .vpic-emoji { width: 1.6em; height: 1.6em; vertical-align: 0; }
+.who-chip b { font-weight: 700; }
+.who-for { opacity: 0.75; font-weight: 600; margin: 0 6px; }
+.who-team { --team: #7b6bff; display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: color-mix(in srgb, var(--team) 60%, #fff); }
+.turn-banner { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ts-up { display: block; font-size: 0.7em; opacity: 0.85; margin-top: 6px; }
+.arc-team .t-who { display: block; font-size: 11.5px; font-weight: 600; color: color-mix(in srgb, var(--team) 55%, #fff); line-height: 1.1; }
+.arc-team.arc-up .t-emoji img.vpic { width: 26px; height: 26px; vertical-align: 0; }
+.arc-team.arc-up .t-name { max-width: 180px; color: var(--ink); }
+.arc-spin, .arc-board-btn { display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font: 650 13.5px var(--font-ui); transition: transform 150ms, background 150ms; }
+.arc-spin { font-size: 18px; }
+.arc-spin span { font-size: 13.5px; }
+.arc-board-btn.icon { padding: 0 12px; font-size: 18px; }
+.arc-spin:hover, .arc-board-btn:hover { background: rgba(255, 255, 255, 0.16); transform: translateY(-1px); }
+
+/* Spinner overlay: names light up in turn, slow down and land on the pick */
+.arc-spinner, .arc-board { position: absolute; inset: 0; z-index: 40; display: grid; place-items: center; padding: 24px; background: rgba(12, 8, 34, 0.72); backdrop-filter: blur(6px); animation: arc-fade-in 200ms both; }
+.sp-box, .bd-box { width: min(1100px, 100%); max-height: 100%; overflow: auto; padding: 28px 30px; border-radius: 26px; background: linear-gradient(160deg, #2a2260, #1b1640); border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
+.sp-box h2 { font: 700 40px var(--font-play); text-align: center; margin: 0 0 20px; }
+.sp-names { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.sp-name { --team: #7b6bff; display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px 6px 6px; border-radius: 99px; font: 700 22px var(--font-play); background: rgba(255, 255, 255, 0.06); border: 2px solid transparent; transition: transform 90ms, background 90ms, border-color 90ms; }
+.sp-name img.vpic, .sp-name .vpic-emoji { width: 44px; height: 44px; font-size: 34px; vertical-align: 0; }
+.sp-name.had { opacity: 0.35; }
+.sp-name.hot { background: color-mix(in srgb, var(--team) 45%, transparent); border-color: var(--team); transform: scale(1.08); opacity: 1; }
+.sp-name.picked { transform: scale(1.35); box-shadow: 0 0 0 6px color-mix(in srgb, var(--team) 35%, transparent), 0 16px 50px color-mix(in srgb, var(--team) 60%, transparent); }
+.sp-hint { text-align: center; color: var(--ink-3); margin: 22px 0 0; font-size: 14px; }
+
+/* Leaderboard */
+.bd-box header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.bd-box h2 { font: 700 30px var(--font-play); margin: 0; }
+.bd-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 8px; }
+.bd-list li { --team: #7b6bff; display: flex; align-items: center; gap: 10px; padding: 6px 10px 6px 8px; border-radius: 14px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line); }
+.bd-list li.up { border-color: var(--team); background: color-mix(in srgb, var(--team) 18%, transparent); }
+.bd-list img.vpic, .bd-list .vpic-emoji { width: 34px; height: 34px; font-size: 26px; vertical-align: 0; }
+.bd-rank { width: 26px; text-align: center; font: 700 16px var(--font-play); color: var(--ink-3); }
+.bd-list b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; }
+.bd-team img.vpic { width: 24px; height: 24px; }
+.bd-turns { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+.bd-score { font: 700 22px var(--font-play); min-width: 36px; text-align: right; }
+.bd-list button { font: 600 12px var(--font-ui); color: var(--ink-2); padding: 4px 8px; border-radius: 8px; background: rgba(255, 255, 255, 0.06); opacity: 0; transition: opacity 120ms; }
+.bd-list li:hover button { opacity: 1; }
+
+/* End screen extras */
+.fin-stars { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; font-weight: 650; }
+.fin-stars > span { color: #ffd23f; margin-right: 4px; }
+.fin-stars em { font-style: normal; font: 700 18px var(--font-play); margin-right: 10px; }
+.fin-rest { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 14px; margin: 0; padding: 0; list-style-position: inside; color: var(--ink-2); max-width: 900px; }
+.fin-rest li { display: inline-flex; align-items: center; gap: 6px; }
+.fin-rest img.vpic { width: 26px; height: 26px; vertical-align: 0; }
+.fin-rest em { font-style: normal; font-weight: 700; color: var(--ink); }
+.pod-emoji img.vpic { width: 1.4em; height: 1.4em; }
+@keyframes arc-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .sp-name, .sp-name.picked { transition: none; animation: none; } }
+@media (max-width: 1150px) { .arc-spin span, .arc-board-btn span, .arc-game-name, .arc-brand-text small { display: none; } .arc-spin, .arc-board-btn { padding: 0 11px; } } /* narrow screens: icons only */

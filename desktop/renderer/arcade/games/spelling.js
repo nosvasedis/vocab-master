@@ -58,7 +58,7 @@ export default {
       ctx.setProgress(`Word <b>${r + 1}</b> / ${rounds.length} · ${correctCount} correct`);
       stage.innerHTML = `
         <div class="spell">
-          ${teams.solo ? "" : `<div class="turn-banner" style="--team:${teams.active().color}">${teamPic(teams.active().emoji)} ${esc(teams.active().name)}, spell it!</div>`}
+          ${teams.solo ? "" : `<div class="turn-banner" style="--team:${teams.active().color}">${teams.turnHtml()}<span>spell it!</span></div>`}
           <div class="sp-clue">
             ${clueHtml(w)}
           </div>
@@ -252,6 +252,10 @@ export default {
     startRound();
 
     return {
+      onTurn() {
+        const b = stage.querySelector(".turn-banner");
+        if (b) { b.style.setProperty("--team", teams.active().color); b.innerHTML = `${teams.turnHtml()}<span>spell it!</span>`; }
+      },
       capturesLetters: true, // typing a "g" spells, it does not toggle Greek
       onKey(e) {
         if (e.ctrlKey || e.metaKey || e.altKey) return;

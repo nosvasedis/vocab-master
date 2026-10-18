@@ -35,7 +35,7 @@ export default {
       stage.innerHTML = `
         <div class="qz">
           <div class="qz-top">
-            ${teams.solo ? `<span></span>` : `<div class="turn-banner" style="--team:${team.color}">Question for ${teamPic(team.emoji)} ${esc(team.name)}</div>`}
+            ${teams.solo ? `<span></span>` : `<div class="turn-banner" style="--team:${team.color}"><span>Question for</span>${teams.turnHtml()}</div>`}
             <div class="qz-tools">
               <button type="button" class="arc-btn ghost sm" data-fifty ${lifelines.get(teamIdx) ? "disabled" : ""}>${svg("scissors", "i-sm")}50 : 50</button>
               <button type="button" class="arc-btn ghost sm" data-timer>${svg("timer", "i-sm")}${timerOn ? "Timer on" : "Timer off"}</button>
@@ -162,6 +162,11 @@ export default {
     render();
 
     return {
+      /** The teacher spun or picked someone else: show who answers now. */
+      onTurn() {
+        const b = stage.querySelector(".turn-banner");
+        if (b && !answered) { b.style.setProperty("--team", teams.active().color); b.innerHTML = `<span>Question for</span>${teams.turnHtml()}`; }
+      },
       onKey(e) {
         const k = e.key.toLowerCase();
         const idx = ["1", "2", "3", "4"].indexOf(k) >= 0 ? Number(k) - 1 : ["a", "b", "c", "d"].indexOf(k);

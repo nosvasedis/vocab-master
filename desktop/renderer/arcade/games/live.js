@@ -60,8 +60,9 @@ export default {
     const qkey = () => `s${showNo}q${qi}`;
     const later = (fn, ms) => { const t = setTimeout(fn, ms); timers.push(t); return t; };
     const clearTimers = () => { timers.forEach(clearTimeout); timers = []; clearInterval(tick); tick = null; };
-    const solo = () => teams.teams.length < 2;
-    const T = () => teams.teams;
+    // Answer cards: teams answer together; individual players play as one class here (phones are per player).
+    const solo = () => teams.groups.length < 2;
+    const T = () => teams.groups;
 
     // Speak only with the recorded voice (the system voice sounds wrong in a show); "listen" questions need sound regardless.
     const say = (text, { must = false } = {}) => { if (text && (hasVoiceFor(text) || must)) ctx.speak(text, { force: must }); };

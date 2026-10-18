@@ -2,6 +2,22 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
+## Arcade: players, teams of members, saved classes; Lingo Live fixes (2026-10-19, branches fix/live-pictures-voice + feature/arcade-players, from the user)
+- **Bugs fixed:**
+  - Lingo Live used the browser voice when the voice toggle was off. Forced lines (Listen questions, Listen again) now always use the recording (`voice.js` speak delegate).
+  - Pictures were blank in Lingo Live, the deck list and "Which picture is…?". Word-bank pictures came only from R2, which some networks can't reach (r2.dev is also rate-limited). All 2,828 pictures now ship with the app (`assets/pics/bank/`, about 36 MB, committed). A picture that fails tries R2, then shows the word's emoji.
+  - Gap answers lost their ending ("I have two ___" offered "uncle"). `deck.js` `surfaceForm` / `inflectLike` / `gapOptions` give the form the sentence needs ("uncles") and the same ending to the wrong answers ("aunts"). Used by Quiz Show and Lingo Live.
+- **Who's playing (`arcade/players.js`, pure, `tests/players.test.mjs`):**
+  - Three modes: **Whole class** (one score), **Players** (each child scores), and **Teams** (2–4 teams of named members; teams alternate and members take turns inside their team; team score plus each member's points; uneven teams are fine).
+  - Fair rotation: everyone present answers once before anyone repeats.
+  - The 🎲 spinner picks among those who haven't answered yet; the teacher can also hand the turn to anyone from the 🏆 leaderboard.
+  - Children marked "away today" are skipped (not saved).
+  - Saved classes in localStorage (`vm_classes`: first names, team assignment, team names). They stay on this computer only. You can paste a whole class list, shuffle teams, tap a name to move it to another team, and delete a class with a two-tap confirm.
+  - Games read the same `teams` API, extended with `mode`, `player()`, `turnHtml()`, `groups` and an optional `onTurn()` hook. Banners show "🦊 Maria · 🚀 Rockets".
+  - Taboo: one hot-seat round per child (up to 12) in Players mode.
+  - Lingo Live: answer cards use `groups` (teams, or the class in Players mode); phones are per child as before.
+  - End screens: the player podium plus the rest of the ranking, or the team podium plus "Stars of the game".
+
 ## Current state (2026-10-17 night, end of session 2)
 - **Done:**
   - 81 lessons revised under the "show what you say" rules (draft status, all valid; 0 unshown mentions, enforced by test).

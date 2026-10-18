@@ -19,7 +19,8 @@ export default {
     let paused = false;
     let round = { got: [], skipped: [] };
     let roundNo = 0;
-    const totalRounds = () => Math.max(1, teams.teams.length) * 2;
+    // Teams: two rounds each. Players: each child once in the hot seat (up to 12 rounds).
+    const totalRounds = () => (teams.mode === "players" ? Math.min(12, teams.teams.length) : Math.max(1, teams.teams.length) * 2);
     const timers = [];
 
     function drawCard() {
@@ -34,9 +35,9 @@ export default {
       stage.innerHTML = `
         <div class="ts-lobby">
           <div class="ts-seat" style="--team:${team.color}">
-            <span class="ts-emoji">${teams.solo ? "🪑" : teamPic(team.emoji)}</span>
-            <h2>${teams.solo ? "Who's in the hot seat?" : `${esc(team.name)}, you're up!`}</h2>
-            <p>One student sits with their back to the board. Everyone else describes each word — in English, without the forbidden words.</p>
+            <span class="ts-emoji">${teams.solo ? "🪑" : teams.player() ? avatarPic(teams.player().emoji) : teamPic(team.emoji)}</span>
+            <h2>${teams.solo ? "Who's in the hot seat?" : teams.player() ? `${teams.turnHtml()}<span class="ts-up">you're in the hot seat!</span>` : `${esc(team.name)}, you're up!`}</h2>
+            <p>${teams.player() ? `${esc(teams.player().name)} sits with their back to the board. ${teams.mode === "teams" ? "Their team" : "Everyone else"} describes each word — in English, without the forbidden words.` : "One student sits with their back to the board. Everyone else describes each word — in English, without the forbidden words."}</p>
           </div>
           <div class="ts-settings">
             <span class="ts-label">${svg("timer", "i-sm")}Round length</span>

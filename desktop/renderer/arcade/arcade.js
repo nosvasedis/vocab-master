@@ -1,6 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════
    Lingo Arcade — full-screen classroom games for the smartboard.
-   Shell: hub, teams & scoreboard, game lifecycle, end screens.
+   Shell: hub (who's playing, games, deck), scoreboard, turns, spinner, end screens.
+   Who plays — whole class, individual players, or teams of named members — lives in arcade/players.js.
    ══════════════════════════════════════════════════════════════════ */
 import { sfx, speak, stopSpeaking, configureAudio, audioSettings } from "./audio.js";
 import { confetti, floatText } from "./fx.js";
@@ -13,18 +14,27 @@ import quiz from "./games/quiz.js";
 import taboo from "./games/taboo.js";
 import live from "./games/live.js";
 import { teamPic, avatarPic } from "../js/pics.js";
+import * as P from "./players.js";
 
 export const GAMES = [live, flashcards, memory, spelling, quiz, taboo];
+export const TEAM_PRESETS = P.TEAM_PRESETS;
 
-export const TEAM_PRESETS = [
-  { name: "Rockets", emoji: "🚀", color: "#7b6bff" },
-  { name: "Tigers", emoji: "🐯", color: "#ff8a4c" },
-  { name: "Dolphins", emoji: "🐬", color: "#22c3ee" },
-  { name: "Dragons", emoji: "🐉", color: "#34d399" },
+const MODES = [
+  { id: "class", label: "Whole class", hint: "Everyone plays together for one class score — perfect for warm-ups and revision." },
+  { id: "players", label: "Players", hint: "Each child plays for themselves. Turns go round fairly; spin for a surprise pick." },
+  { id: "teams", label: "Teams", hint: "Teams take turns, and team members take turns answering. Teams can be different sizes." },
 ];
 
-
 let session = null;
+
+/* ── Saved classes (this computer only; first names) ─────────────────── */
+function store(key, value) { try { localStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value)); } catch { /* storage unavailable */ } }
+function loadClasses() {
+  const list = safeJSON(localStorage.getItem("vm_classes"), []);
+  return Array.isArray(list) ? list.filter((c) => c && c.id && Array.isArray(c.players)) : [];
+}
+const saveClasses = () => store("vm_classes", session.classes);
+const currentClass = () => session.classes.find((c) => c.id === session.classId) || null;
 
 /**
  * Open the arcade.
@@ -33,22 +43,26 @@ let session = null;
 export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
   if (session) return;
   configureAudio(prefs);
-  const teamCount = Number(localStorage.getItem("vm_arcade_teams") ?? 2);
-  const savedNames = safeJSON(localStorage.getItem("vm_arcade_names"), []);
+  const classes = loadClasses();
+  const savedMode = localStorage.getItem("vm_arcade_mode");
+  const legacyTeams = Number(localStorage.getItem("vm_arcade_teams") ?? 2); // before modes: 1 = whole class
   session = {
     deck,
     title,
     onPrefs,
-    teamCount: Number.isFinite(teamCount) ? teamCount : 2,
-    teams: [],
-    active: 0,
+    classes,
+    classId: localStorage.getItem("vm_arcade_class") || classes[0]?.id || null,
+    mode: MODES.some((m) => m.id === savedMode) ? savedMode : legacyTeams === 1 ? "class" : "teams",
+    absent: new Set(),       // away today (not saved)
+    play: null,
     game: null,
     gameDef: null,
-    names: savedNames,
+    delArm: false,
     greek: localStorage.getItem("vm_arcade_greek") === "on", // hidden by default, like the lessons
     picture: picture || ((t) => esc(t)),
   };
-  buildTeams();
+  if (!currentClass()) session.classId = classes[0]?.id || null;
+  buildPlay();
 
   const root = document.createElement("div");
   root.className = "arcade";
@@ -92,19 +106,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
     syncToggles();
     session.onPrefs?.({ sfx: audioSettings.sfx, tts: audioSettings.tts });
   }));
-  root.querySelector("#arcTeams").addEventListener("click", (e) => {
-    const adj = e.target.closest("[data-adj]");
-    const pill = e.target.closest("[data-team]");
-    if (!pill) return;
-    const t = session.teams[Number(pill.dataset.team)];
-    if (adj) {
-      t.score = Math.max(0, t.score + Number(adj.dataset.adj));
-      Number(adj.dataset.adj) > 0 ? sfx.points() : sfx.pointsDown();
-      renderTeams();
-      return;
-    }
-    if (session.teams.length > 1) { session.active = Number(pill.dataset.team); sfx.tap(); renderTeams(); }
-  });
+  root.querySelector("#arcTeams").addEventListener("click", onScoreboardClick);
   // A faint glass tick when the mouse moves onto a game card (not on touch boards).
   root.addEventListener("pointerover", (e) => {
     if (e.pointerType !== "mouse") return;
@@ -137,7 +139,7 @@ function safeJSON(raw, fallback) {
 
 function toggleGreek() {
   session.greek = !session.greek;
-  try { localStorage.setItem("vm_arcade_greek", session.greek ? "on" : "off"); } catch { /* ignore */ }
+  store("vm_arcade_greek", session.greek ? "on" : "off");
   syncToggles();
   sfx.tap();
   session.game?.onGreek?.(session.greek);
@@ -159,56 +161,170 @@ function syncToggles() {
   ttsBtn.title = audioSettings.tts ? "Reading words aloud" : "Voice off";
 }
 
-/* ── Teams ───────────────────────────────────────────────────────── */
-function buildTeams() {
-  const n = Math.max(1, Math.min(4, session.teamCount));
-  session.teams = n === 1
-    ? [{ name: "Class", emoji: "⭐", color: "#ffd23f", score: 0 }]
-    : TEAM_PRESETS.slice(0, n).map((t, i) => ({ ...t, name: session.names[i] || t.name, score: 0 }));
-  session.active = 0;
+/* ── Who's playing → a fresh line-up for each game ─────────────────── */
+function buildPlay() {
+  const cls = currentClass();
+  session.play = P.createPlay({ mode: session.mode, cls, absent: session.absent, teamCount: cls?.teamCount || 2, teamNames: cls?.teamNames || [] });
 }
 
+const sideIcon = (s) => (session.play.mode === "players" ? avatarPic(s.emoji) : teamPic(s.emoji));
+const playerChip = (p) => (p ? `<span class="who-chip" style="--team:${p.color}">${avatarPic(p.emoji)}<b>${esc(p.name)}</b></span>` : "");
+
+/** "🦊 Maria" (players), "🦊 Maria · 🚀 Rockets" (teams), "" (class) — for the games' turn banners. */
+function turnHtml() {
+  const { side, player } = P.current(session.play);
+  if (session.play.mode === "players") return playerChip(player);
+  if (session.play.mode === "teams") return `${playerChip(player)}<span class="who-for">·</span><span class="who-team" style="--team:${side.color}">${teamPic(side.emoji)} ${esc(side.name)}</span>`;
+  return "";
+}
+
+/* ── Scoreboard (top bar) ─────────────────────────────────────────── */
 function renderTeams() {
   const wrap = session.root.querySelector("#arcTeams");
-  const solo = session.teams.length === 1;
-  wrap.innerHTML = session.teams.map((t, i) => `
-    <div class="arc-team${!solo && i === session.active ? " active" : ""}" data-team="${i}" style="--team:${t.color}" title="${solo ? "Class score" : "Click to make it this team's turn"}">
+  const play = session.play;
+  const spinBtn = play.mode !== "class" ? `<button type="button" class="arc-spin" data-spin title="Spin to pick who answers">🎲<span>Spin</span></button>` : "";
+  if (play.mode === "players") {
+    const { player } = P.current(play);
+    const top = P.rankPlayers(play)[0];
+    wrap.innerHTML = `
+      <div class="arc-team active arc-up" style="--team:${player?.color || "#7b6bff"}" title="Whose turn it is">
+        <span class="t-emoji">${player ? avatarPic(player.emoji) : ""}</span>
+        <span class="t-name">${esc(player?.name || "")}</span>
+        <span class="t-score">${player?.score ?? 0}</span>
+        <span class="t-adj"><button type="button" data-adj="1" aria-label="Add a point">+</button><button type="button" data-adj="-1" aria-label="Remove a point">−</button></span>
+      </div>
+      ${spinBtn}
+      <button type="button" class="arc-board-btn" data-board title="All players' scores">🏆<span>${top && top.score > 0 ? `${esc(top.name)} ${top.score}` : `${play.players.length} players`}</span></button>`;
+    return;
+  }
+  const solo = play.mode === "class";
+  const { player } = P.current(play);
+  wrap.innerHTML = P.sides(play).map((t, i) => `
+    <div class="arc-team${!solo && i === play.team ? " active" : ""}" data-team="${i}" style="--team:${t.color}" title="${solo ? "Class score" : "Click to make it this team's turn"}">
       <span class="t-emoji">${teamPic(t.emoji)}</span>
-      <span class="t-name">${esc(t.name)}</span>
+      <span class="t-name">${esc(t.name)}${!solo && i === play.team && player ? `<small class="t-who">${esc(player.name)}</small>` : ""}</span>
       <span class="t-score">${t.score}</span>
       <span class="t-adj"><button type="button" data-adj="1" aria-label="Add a point">+</button><button type="button" data-adj="-1" aria-label="Remove a point">−</button></span>
-    </div>`).join("");
+    </div>`).join("") + spinBtn + (play.mode === "teams" ? `<button type="button" class="arc-board-btn icon" data-board title="Players' points">🏅</button>` : "");
+}
+
+function onScoreboardClick(e) {
+  const play = session.play;
+  if (e.target.closest("[data-spin]")) { openSpinner(); return; }
+  if (e.target.closest("[data-board]")) { openBoard(); return; }
+  const adj = e.target.closest("[data-adj]");
+  const pill = e.target.closest(".arc-team");
+  if (!pill) return;
+  const side = play.mode === "players" ? P.activeSide(play) : P.sides(play)[Number(pill.dataset.team)];
+  if (adj) {
+    if (!side) return;
+    side.score = Math.max(0, side.score + Number(adj.dataset.adj));
+    Number(adj.dataset.adj) > 0 ? sfx.points() : sfx.pointsDown();
+    renderTeams();
+    return;
+  }
+  if (play.mode === "teams") { P.choose(play, { team: Number(pill.dataset.team) }); sfx.tap(); afterTurnChange(); }
+}
+
+/** Tell the running game that the teacher changed whose turn it is. */
+function afterTurnChange() {
+  renderTeams();
+  session.game?.onTurn?.();
+}
+
+/* ── Spinner: a random pick among those who haven't answered yet ─────── */
+function openSpinner() {
+  const play = session.play;
+  if (play.mode === "class" || session.root.querySelector(".arc-spinner")) return;
+  const { pick, pool } = P.spin(play);
+  if (!pick) return;
+  const ov = document.createElement("div");
+  ov.className = "arc-spinner";
+  ov.innerHTML = `<div class="sp-box"><h2>🎲 Who's next?</h2><div class="sp-names">${pool.map((p) => `<span class="sp-name${play.had.has(p.id) ? " had" : ""}" data-id="${p.id}" style="--team:${p.color}">${avatarPic(p.emoji)}<b>${esc(p.name)}</b></span>`).join("")}</div><p class="sp-hint">Click anywhere to continue</p></div>`;
+  session.root.appendChild(ov);
+  const chips = [...ov.querySelectorAll(".sp-name")];
+  const fresh = chips.filter((c) => !c.classList.contains("had"));
+  const order = fresh.length ? fresh : chips;
+  const target = chips.find((c) => c.dataset.id === pick.id);
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let step = 0;
+  const total = reduced ? 0 : 14 + order.length + order.indexOf(target);
+  const land = () => {
+    chips.forEach((c) => c.classList.remove("hot"));
+    target.classList.add("hot", "picked");
+    sfx.star();
+    renderTeams();
+    session.game?.onTurn?.();
+  };
+  const tickOnce = () => {
+    if (!ov.isConnected) return;
+    if (step >= total) { land(); return; }
+    chips.forEach((c) => c.classList.remove("hot"));
+    order[step % order.length].classList.add("hot");
+    sfx.tick();
+    step++;
+    setTimeout(tickOnce, 55 + Math.pow(step / Math.max(1, total), 3) * 320); // slows down before it lands
+  };
+  tickOnce();
+  ov.addEventListener("click", () => { if (step >= total) ov.remove(); });
+}
+
+/* ── Leaderboard: every player's points ─────────────────────────────── */
+function openBoard() {
+  if (session.root.querySelector(".arc-board")) return;
+  const play = session.play;
+  const ov = document.createElement("div");
+  ov.className = "arc-board";
+  const ranked = P.rankPlayers(play);
+  const teamOf = (p) => (play.mode === "teams" && play.teams[p.team] ? `<span class="bd-team" style="--team:${play.teams[p.team].color}">${teamPic(play.teams[p.team].emoji)}</span>` : "");
+  ov.innerHTML = `<div class="bd-box">
+    <header><h2>${play.mode === "teams" ? "🏅 Players' points" : "🏆 Scores"}</h2><button type="button" class="arc-btn ghost" data-close-board>${svg("x", "i-sm")}Close</button></header>
+    <ol class="bd-list">${ranked.map((p) => `<li style="--team:${p.color}" class="${p.id === play.player ? "up" : ""}"><span class="bd-rank">${p.rank}</span>${avatarPic(p.emoji)}<b>${esc(p.name)}</b>${teamOf(p)}<span class="bd-turns">${p.right}/${p.turns} right</span><span class="bd-score">${p.score}</span><button type="button" data-pick="${p.id}" title="Make it ${esc(p.name)}'s turn">Their turn</button></li>`).join("")}</ol>
+  </div>`;
+  session.root.appendChild(ov);
+  ov.addEventListener("click", (e) => {
+    const pick = e.target.closest("[data-pick]");
+    if (pick) { P.choose(play, { player: pick.dataset.pick }); sfx.tap(); ov.remove(); afterTurnChange(); return; }
+    if (e.target === ov || e.target.closest("[data-close-board]")) ov.remove();
+  });
 }
 
 function teamApi() {
+  const play = session.play;
+  const pill = () => session.root.querySelector(play.mode === "players" ? ".arc-up" : `[data-team="${play.team}"]`);
   return {
-    get solo() { return session.teams.length === 1; },
-    get teams() { return session.teams; },
-    active: () => session.teams[session.active],
+    /** Whole-class mode (no turns). */
+    get solo() { return play.mode === "class"; },
+    get mode() { return play.mode; },
+    /** Scoring sides: [class], the players, or the teams. */
+    get teams() { return P.sides(play); },
+    /** Lingo Live with answer cards: teams answer together; individual players answer as one class (phones are per player). */
+    get groups() { return play.mode === "teams" ? play.teams : [play.classSide]; },
+    active: () => P.activeSide(play),
+    player: () => P.current(play).player,
+    turnHtml,
     award(points, { from = null } = {}) {
-      const team = session.teams[session.active];
-      team.score += points;
+      const side = P.award(play, points);
       renderTeams();
-      const pill = session.root.querySelector(`[data-team="${session.active}"]`);
-      pill?.classList.add("bump");
-      setTimeout(() => pill?.classList.remove("bump"), 600);
-      floatText(from || pill, `+${points}`, { color: team.color });
+      const el = pill();
+      el?.classList.add("bump");
+      setTimeout(() => el?.classList.remove("bump"), 600);
+      floatText(from || el, `+${points}`, { color: side?.color || "#ffd23f" });
       sfx.points();
     },
-    /** Points for a specific team (live show: several teams score on the same question). */
+    /** Points for one group (Lingo Live: several teams score on the same question). */
     awardTo(index, points, { from = null, quiet = false } = {}) {
-      const team = session.teams[index];
-      if (!team) return;
-      team.score += points;
+      const group = this.groups[index];
+      if (!group) return;
+      group.score += points;
       renderTeams();
-      const pill = session.root.querySelector(`[data-team="${index}"]`);
-      pill?.classList.add("bump");
-      setTimeout(() => pill?.classList.remove("bump"), 600);
-      if (!quiet) floatText(from || pill, `+${points}`, { color: team.color });
+      const el = session.root.querySelector(`[data-team="${index}"]`);
+      el?.classList.add("bump");
+      setTimeout(() => el?.classList.remove("bump"), 600);
+      if (!quiet) floatText(from || el, `+${points}`, { color: group.color });
     },
     nextTurn() {
-      if (session.teams.length < 2) return;
-      session.active = (session.active + 1) % session.teams.length;
+      P.nextTurn(play);
       renderTeams();
     },
   };
@@ -222,7 +338,58 @@ function firstPicture(emojis) {
 
 /* ── Hub ─────────────────────────────────────────────────────────── */
 function clearFx() {
-  session.root?.querySelectorAll(".arc-confetti").forEach((c) => c.remove());
+  session.root?.querySelectorAll(".arc-confetti, .arc-spinner, .arc-board").forEach((c) => c.remove());
+}
+
+/** The "Who's playing?" panel: mode, class, names (away today), teams. */
+function whoHtml() {
+  const mode = MODES.find((m) => m.id === session.mode);
+  const cls = currentClass();
+  const seg = `<div class="arc-seg" id="modeSeg">${MODES.map((m) => `<button type="button" data-mode="${m.id}" class="${m.id === session.mode ? "on" : ""}">${m.label}</button>`).join("")}</div>`;
+  if (session.mode === "class") {
+    return `<div class="ht-head"><span class="ht-label">${svg("users", "i-sm")}Who's playing?</span>${seg}</div><p class="ht-solo">${mode.hint}</p>`;
+  }
+  const classPick = `<div class="ht-class">
+      <select id="clsSel" aria-label="Class">${session.classes.map((c) => `<option value="${esc(c.id)}" ${c.id === session.classId ? "selected" : ""}>${esc(c.name)} · ${c.players.length}</option>`).join("")}<option value="__new">＋ New class…</option></select>
+      ${cls ? `<input id="clsName" value="${esc(cls.name)}" maxlength="30" spellcheck="false" aria-label="Class name" title="Rename the class">
+      <button type="button" class="arc-btn ghost sm${session.delArm ? " danger" : ""}" data-del-class>${session.delArm ? "Tap again to delete" : "Delete class"}</button>` : ""}
+    </div>`;
+  if (!cls) {
+    return `<div class="ht-head"><span class="ht-label">${svg("users", "i-sm")}Who's playing?</span>${seg}</div>
+      <div class="ht-start"><p>${mode.hint}</p><p><b>Start a class list</b> — the names stay on this computer only.</p>
+      <div class="ht-add"><input id="newCls" placeholder="Class name, e.g. B Senior" maxlength="30"><button type="button" class="arc-btn primary sm" data-new-class>Create</button></div></div>`;
+  }
+  const present = cls.players.filter((p) => !session.absent.has(p.id));
+  const chip = (p, i) => {
+    const away = session.absent.has(p.id);
+    const av = P.PLAYER_AVATARS[cls.players.indexOf(p) % P.PLAYER_AVATARS.length];
+    return `<span class="ht-chip${away ? " away" : ""}" style="--team:${P.PLAYER_COLORS[cls.players.indexOf(p) % P.PLAYER_COLORS.length]}">
+      <button type="button" data-tap="${p.id}" title="${session.mode === "teams" ? "Move to the next team" : away ? "Back today" : "Away today"}">${avatarPic(av)}<b>${esc(p.name)}</b></button>
+      ${session.mode === "teams" ? `<button type="button" class="hc-away" data-away="${p.id}" title="${away ? "Back today" : "Away today"}">${away ? "↩" : "💤"}</button>` : ""}
+      <button type="button" class="hc-del" data-del="${p.id}" title="Remove from the class">×</button></span>`;
+  };
+  let roster;
+  if (session.mode === "teams") {
+    const n = cls.teamCount || 2;
+    P.fillTeams(cls, cls.players.map((p) => p.id), n);
+    roster = `<div class="ht-teambar"><div class="arc-seg" id="teamSeg">${[2, 3, 4].map((k) => `<button type="button" data-n="${k}" class="${k === n ? "on" : ""}">${k} teams</button>`).join("")}</div>
+        <button type="button" class="arc-btn ghost sm" data-shuffle>🔀 Shuffle teams</button></div>
+      <div class="ht-cols" style="--cols:${n}">${P.TEAM_PRESETS.slice(0, n).map((t, ti) => {
+        const members = cls.players.filter((p) => cls.assign[p.id] === ti);
+        return `<div class="ht-col" style="--team:${t.color}"><label class="ht-name"><span>${teamPic(t.emoji)}</span><input data-tname="${ti}" value="${esc(cls.teamNames?.[ti] || t.name)}" maxlength="16" spellcheck="false" aria-label="Team ${ti + 1} name"></label>
+          <div class="ht-members">${members.map(chip).join("") || `<p class="ht-empty">Tap a name to move it here</p>`}</div>
+          <small class="ht-count">${members.filter((p) => !session.absent.has(p.id)).length} playing</small></div>`;
+      }).join("")}</div>`;
+  } else {
+    roster = `<div class="ht-roster">${cls.players.map(chip).join("") || `<p class="ht-empty">No names yet — add the class below.</p>`}</div>`;
+  }
+  const tip = session.mode === "teams" ? "Tap a name to move them to the next team · 💤 away today · × remove" : "Tap a name if they're away today · × removes them from the class";
+  return `<div class="ht-head"><span class="ht-label">${svg("users", "i-sm")}Who's playing? <em>${present.length} of ${cls.players.length}</em></span>${seg}</div>
+    ${classPick}
+    <p class="ht-solo">${mode.hint}</p>
+    ${roster}
+    <div class="ht-add"><input id="addNames" placeholder="Type a name and press Enter — or paste the whole class list" maxlength="2000" spellcheck="false"><button type="button" class="arc-btn primary sm" data-add>Add</button></div>
+    <p class="ht-tip">${tip}</p>`;
 }
 
 function showHub() {
@@ -232,6 +399,7 @@ function showHub() {
   session.game = null;
   session.gameDef = null;
   stopSpeaking();
+  buildPlay();
   const main = session.root.querySelector("#arcMain");
   session.root.querySelector("#arcCrumb").innerHTML = "";
   renderTeams();
@@ -243,18 +411,7 @@ function showHub() {
         <p><b>${deck.length}</b> words ready · ${esc(session.title)}</p>
       </section>
 
-      <section class="hub-teams">
-        <div class="ht-head">
-          <span class="ht-label">${svg("users", "i-sm")}Who's playing?</span>
-          <div class="arc-seg" id="teamSeg">
-            ${[1, 2, 3, 4].map((n) => `<button type="button" data-n="${n}" class="${session.teams.length === n ? "on" : ""}">${n === 1 ? "Whole class" : `${n} teams`}</button>`).join("")}
-          </div>
-        </div>
-        <div class="ht-names">
-          ${session.teams.length > 1 ? session.teams.map((t, i) => `
-            <label class="ht-name" style="--team:${t.color}"><span>${teamPic(t.emoji)}</span><input data-name="${i}" value="${esc(t.name)}" maxlength="16" spellcheck="false" aria-label="Team ${i + 1} name" /></label>`).join("") : `<p class="ht-solo">Everyone plays together — perfect for warm-ups and revision.</p>`}
-        </div>
-      </section>
+      <section class="hub-teams" id="hubWho">${whoHtml()}</section>
 
       <section class="hub-games">
         ${GAMES.map((g, i) => {
@@ -289,25 +446,104 @@ function showHub() {
         <div class="hd-words">${deck.map((w) => `<button type="button" class="hd-word" data-say="${esc(w.english)}">${firstPicture(w.emojis) ? `<span class="hd-pic">${firstPicture(w.emojis)}</span>` : ""}${esc(w.english)}</button>`).join("")}</div>
       </section>
     </div>`;
-
-  main.querySelector("#teamSeg").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-n]");
-    if (!b) return;
-    session.teamCount = Number(b.dataset.n);
-    try { localStorage.setItem("vm_arcade_teams", String(session.teamCount)); } catch { /* ignore */ }
-    buildTeams();
-    sfx.tap();
-    showHub();
-  });
-  main.querySelectorAll("[data-name]").forEach((inp) => inp.addEventListener("input", () => {
-    const i = Number(inp.dataset.name);
-    session.teams[i].name = inp.value.trim() || TEAM_PRESETS[i].name;
-    session.names[i] = inp.value.trim();
-    try { localStorage.setItem("vm_arcade_names", JSON.stringify(session.names)); } catch { /* ignore */ }
-    renderTeams();
-  }));
+  const who = main.querySelector("#hubWho");
+  who.addEventListener("click", onWhoClick); // once per hub: the panel re-renders inside it
+  wireWho(who);
   main.querySelectorAll("[data-game]").forEach((b) => b.addEventListener("click", () => startGame(b.dataset.game)));
   main.querySelectorAll("[data-say]").forEach((b) => b.addEventListener("click", () => speak(b.dataset.say, { force: true })));
+}
+
+/** Re-render only the "Who's playing?" panel (keeps the page scroll and focus calm). */
+function refreshWho(focusAdd = false) {
+  const host = session.root.querySelector("#hubWho");
+  if (!host) return;
+  host.innerHTML = whoHtml();
+  wireWho(host);
+  buildPlay();
+  renderTeams();
+  if (focusAdd) host.querySelector("#addNames, #newCls")?.focus();
+}
+
+function onWhoClick(e) {
+  const host = e.currentTarget;
+  const cls = currentClass();
+  const changed = () => { saveClasses(); refreshWho(); };
+  {
+    const t = e.target.closest("button");
+    if (!t) return;
+    if (t.dataset.mode) { session.mode = t.dataset.mode; store("vm_arcade_mode", session.mode); session.delArm = false; sfx.tap(); refreshWho(); return; }
+    if (t.dataset.n && cls) { cls.teamCount = Number(t.dataset.n); P.balanceTeams(cls, cls.players.map((p) => p.id), cls.teamCount); sfx.tap(); changed(); return; }
+    if (t.hasAttribute("data-shuffle") && cls) { P.balanceTeams(cls, cls.players.filter((p) => !session.absent.has(p.id)).map((p) => p.id), cls.teamCount || 2); sfx.whoosh(); changed(); return; }
+    if (t.hasAttribute("data-new-class")) { createClass(host.querySelector("#newCls")?.value); return; }
+    if (t.hasAttribute("data-add")) { addNames(host.querySelector("#addNames")?.value); return; }
+    if (t.hasAttribute("data-del-class") && cls) {
+      if (!session.delArm) { session.delArm = true; refreshWho(); setTimeout(() => { if (session?.delArm) { session.delArm = false; refreshWho(); } }, 4000); return; }
+      session.classes = session.classes.filter((c) => c.id !== cls.id);
+      session.classId = session.classes[0]?.id || null;
+      session.delArm = false;
+      store("vm_arcade_class", session.classId || "");
+      sfx.pointsDown();
+      changed();
+      return;
+    }
+    const id = t.dataset.tap || t.dataset.away || t.dataset.del;
+    if (!id || !cls) return;
+    if (t.dataset.del) { cls.players = cls.players.filter((p) => p.id !== id); delete cls.assign[id]; session.absent.delete(id); sfx.pointsDown(); changed(); return; }
+    if (t.dataset.tap && session.mode === "teams") { const n = cls.teamCount || 2; cls.assign[id] = ((cls.assign[id] ?? 0) + 1) % n; sfx.tap(); changed(); return; }
+    session.absent.has(id) ? session.absent.delete(id) : session.absent.add(id); // away today (not saved)
+    sfx.tap();
+    refreshWho();
+  }
+}
+
+/** Inputs inside the panel (they are re-created on every refresh). */
+function wireWho(host) {
+  const cls = currentClass();
+  const changed = () => { saveClasses(); refreshWho(); };
+  host.querySelector("#clsSel")?.addEventListener("change", (e) => {
+    if (e.target.value === "__new") { session.classId = null; refreshWho(true); return; }
+    session.classId = e.target.value;
+    session.absent.clear();
+    store("vm_arcade_class", session.classId);
+    sfx.tap();
+    refreshWho();
+  });
+  host.querySelector("#clsName")?.addEventListener("change", (e) => { if (cls) { cls.name = e.target.value.trim() || cls.name; changed(); } });
+  host.querySelectorAll("[data-tname]").forEach((inp) => inp.addEventListener("input", () => {
+    if (!cls) return;
+    cls.teamNames = cls.teamNames || [];
+    cls.teamNames[Number(inp.dataset.tname)] = inp.value.trim();
+    saveClasses();
+    buildPlay();
+    renderTeams();
+  }));
+  host.querySelector("#addNames")?.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); addNames(e.target.value); } });
+  host.querySelector("#addNames")?.addEventListener("paste", (e) => {
+    const text = e.clipboardData?.getData("text") || "";
+    if (/[\n,;\t]/.test(text)) { e.preventDefault(); addNames(text); } // a pasted class list goes straight in
+  });
+  host.querySelector("#newCls")?.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); createClass(e.target.value); } });
+}
+
+function createClass(name) {
+  const cls = P.newClass(name || `Class ${session.classes.length + 1}`);
+  session.classes.push(cls);
+  session.classId = cls.id;
+  store("vm_arcade_class", cls.id);
+  saveClasses();
+  sfx.pop();
+  refreshWho(true);
+}
+
+function addNames(text) {
+  const cls = currentClass();
+  const names = P.parseNames(text);
+  if (!cls || !names.length) return;
+  const ids = P.addPlayers(cls, names);
+  P.fillTeams(cls, cls.players.map((p) => p.id), cls.teamCount || 2);
+  saveClasses();
+  if (ids.length) sfx.pop();
+  refreshWho(true);
 }
 
 /* ── Game lifecycle ──────────────────────────────────────────────── */
@@ -317,6 +553,8 @@ function startGame(id) {
   clearFx();
   session.game?.destroy?.();
   session.gameDef = def;
+  buildPlay(); // a fresh line-up and scores for every game
+  renderTeams();
   sfx.whoosh();
   const main = session.root.querySelector("#arcMain");
   session.root.querySelector("#arcCrumb").innerHTML = `
@@ -343,23 +581,31 @@ function startGame(id) {
 function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extraAction = null } = {}) {
   session.game?.destroy?.();
   session.game = { destroy() {} };
+  clearFx();
   const main = session.root.querySelector("#arcMain");
-  const teams = [...session.teams].sort((a, b) => b.score - a.score);
-  const solo = session.teams.length === 1;
-  const tie = !solo && teams.length > 1 && teams[0].score === teams[1].score;
-  const winner = teams[0];
+  const play = session.play;
+  const solo = play.mode === "class";
+  const ranked = play.mode === "players" ? P.rankPlayers(play) : [...P.sides(play)].sort((a, b) => b.score - a.score);
+  const tie = !solo && ranked.length > 1 && ranked[0].score === ranked[1].score;
+  const winner = ranked[0];
+  const heading = solo ? title : tie ? "It's a tie!" : play.mode === "players" ? `${winner.name} wins!` : `${winner.name} win!`;
+  const podium = ranked.slice(0, play.mode === "players" ? 3 : 4);
+  const stars = play.mode === "teams" ? P.rankPlayers(play).filter((p) => p.score > 0).slice(0, 3) : [];
+  const rest = play.mode === "players" ? ranked.slice(3) : [];
   sfx.win();
   main.innerHTML = `
     <div class="arc-finish">
       <div class="fin-trophy">🏆</div>
-      <h1>${esc(solo ? title : tie ? "It's a tie!" : `${winner.name} win!`)}</h1>
+      <h1>${esc(heading)}</h1>
       ${subtitle ? `<p class="fin-sub">${esc(subtitle)}</p>` : ""}
       ${stats.length ? `<div class="fin-stats">${stats.map((s) => `<div><b>${esc(s.value)}</b><span>${esc(s.label)}</span></div>`).join("")}</div>` : ""}
-      ${!solo ? `<div class="podium">${teams.map((t, i) => `
+      ${!solo ? `<div class="podium">${podium.map((t, i) => `
         <div class="pod" style="--team:${t.color};--h:${Math.max(44, Math.round((t.score / Math.max(1, winner.score)) * 160))}px;animation-delay:${i * 120}ms">
-          <span class="pod-emoji">${teamPic(t.emoji)}</span><span class="pod-name">${esc(t.name)}</span>
+          <span class="pod-emoji">${sideIcon(t)}</span><span class="pod-name">${esc(t.name)}</span>
           <span class="pod-bar"><b>${t.score}</b></span>
         </div>`).join("")}</div>` : `<div class="fin-score"><b>${winner.score}</b><span>class points</span></div>`}
+      ${stars.length ? `<div class="fin-stars"><span>⭐ Stars of the game</span>${stars.map((p) => `${playerChip(p)}<em>${p.score}</em>`).join("")}</div>` : ""}
+      ${rest.length ? `<ol class="fin-rest" start="4">${rest.map((p) => `<li>${avatarPic(p.emoji)}<b>${esc(p.name)}</b><em>${p.score}</em></li>`).join("")}</ol>` : ""}
       <div class="fin-actions">
         ${extraAction ? `<button type="button" class="arc-btn ghost" data-extra>${esc(extraAction.label)}</button>` : ""}
         <button type="button" class="arc-btn ghost" data-hub2>${svg("grid", "i-sm")}All games</button>
@@ -376,15 +622,18 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
 
 function onKey(e) {
   if (!session) return;
-  const typing = ["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName);
+  const typing = ["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName);
   if (e.key === "Escape") {
     e.preventDefault();
     e.stopPropagation();
+    const overlay = session.root.querySelector(".arc-spinner, .arc-board");
+    if (overlay) { overlay.remove(); return; }
     if (session.gameDef) showHub();
     else closeArcade();
     return;
   }
   if (typing) return;
+  if (session.root.querySelector(".arc-spinner, .arc-board")) { e.preventDefault(); e.stopPropagation(); return; } // keys wait while a pick or the scores are open
   if ((e.key === "g" || e.key === "G") && !session.game?.capturesLetters) { e.preventDefault(); toggleGreek(); return; }
   if (session.game?.onKey) {
     session.game.onKey(e);

@@ -94,7 +94,7 @@ export default {
       const secs = Math.round((Date.now() - started) / 1000);
       ctx.setProgress(`<b>${found}</b> / ${tiles.length / 2} pairs · ${moves} moves · ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`);
       const turn = stage.querySelector("#mmTurn");
-      if (turn) turn.innerHTML = teams.solo ? "" : `<span style="--team:${teams.active().color}">Turn: ${teamPic(teams.active().emoji)} ${esc(teams.active().name)}</span>`;
+      if (turn) turn.innerHTML = teams.solo ? "" : `<span class="mm-who" style="--team:${teams.active().color}">Turn: ${teams.turnHtml()}</span>`;
     }
 
     function flipTile(idx) {
@@ -172,6 +172,7 @@ export default {
     let typed = "";
     let typedTimer = null;
     return {
+      onTurn: () => updateBar(),
       onKey(e) {
         // Type a tile number (e.g. 1 then 2 for tile 12).
         if (/^\d$/.test(e.key)) {
