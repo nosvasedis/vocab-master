@@ -93,3 +93,63 @@ Each character is ONE consistent design used in every lesson it appears in. Fixe
 
 ## Looks chosen (append here)
 
+c-ana-child: 11-year-old girl with medium olive skin, shoulder-length wavy chestnut hair, orange cardigan over a teal shirt, teal skirt, white trainers
+c-aunt-lena-adult: kind adult aunt with warm brown skin, thick salt-and-pepper curls, cobalt-blue blouse, terracotta ankle-length skirt, simple flats
+c-bob-child: thoughtful shy but kind 9-year-old boy with deep brown skin, tight black curls, teal-and-white striped jumper, mustard trousers, and red sneakers
+c-bruno-the-giant-giant: very tall gentle giant with warm brown skin, wavy dark auburn hair, kind face, simple lavender tunic and moss-green trousers; include a tiny tree by his ankle for scale
+c-bun-bread-bun: round golden-brown bread bun with a friendly face, tiny arms and legs, a little bouncy brave stance, no clothing
+c-caren-child: curious calm kind 10-year-old girl with light brown skin, straight black hair in a low side ponytail, sea-green jacket over a yellow dress, plum shoes
+c-chip-chipmunk: natural chestnut-brown chipmunk with cream belly and fluffy striped tail
+c-coach-dana-coach: supportive adult woman with dark skin, short coiled hair, turquoise sports polo, navy track trousers, clean trainers, holding a simple ball
+c-dad-adult: calm funny dad with tan skin, short dark wavy hair, soft green sweater over a cream shirt, brown trousers and casual shoes
+c-dan-child: curious friendly talkative 9-year-old boy with medium tan skin, dark curly hair, bright orange sweatshirt, blue jeans and green trainers
+c-dimitris-child: cheerful helpful 10-year-old boy with warm olive skin, short dark-brown hair, mustard-yellow T-shirt under a navy vest, pale blue shorts and red trainers
+c-donkey-donkey: gentle natural donkey with soft grey-brown coat, pale muzzle, long ears (one slightly bent), dark mane and friendly eyes, no clothing
+c-dr-maya-scientist: calm kind scientist woman with medium brown skin, short natural curls, white lab coat over a teal blouse, dark trousers, comfortable shoes, holding a small glass beaker with colored water
+c-dr-sofia-guide: friendly adult woman guide with light olive skin, shoulder-length dark hair tucked behind ears, lavender jacket over white blouse, navy trousers, brown walking shoes, holding a small folded map with pictures only
+c-grandma-rose-elder: patient grandmother with fair skin, soft silver curls, dusty-rose cardigan, pale blue dress and a tiny flowered baking apron, comfortable shoes
+c-grandpa-leo-elder: gentle older man with fair warm skin, fluffy white hair and neat white moustache, round glasses, olive-green cable-knit sweater vest over a cream shirt, brown trousers and brown loafers
+c-gus-giant: very tall gentle giant with fair rosy skin, fluffy sandy-blond hair, a soft friendly face, simple plum tunic and teal trousers; tiny tree by his ankle for scale
+c-hector-hare: natural soft warm-brown hare with cream belly, long drooping ears and a slight rosy blush, gentle shy eyes, no clothing
+c-helen-child: brave curious 10-year-old girl with medium-brown skin, short dark curls held by a turquoise headband, purple hoodie, mustard trousers and blue shoes
+c-hetty-hare: natural sandy hare with cream belly and one perky upright ear
+c-irene-child: friendly confident 11-year-old girl with tan skin, long dark hair in a low braid, purple glasses, coral sweater, navy skirt over leggings, and teal shoes; one simple small violin beside her
+c-kostas-child: cheerful playful 10-year-old boy with olive skin, curly chestnut-brown hair, yellow-and-teal striped polo shirt, denim shorts and orange trainers
+c-lefteris-firefighter: calm friendly adult male firefighter with olive skin, short dark hair, safe yellow helmet, bright red jacket with yellow reflective bands, navy trousers, boots, holding a coiled hose
+c-lena-child: cheerful bubbly 9-year-old girl with light olive skin, dark hair in two short braids tied with teal ribbons, purple T-shirt, yellow skirt over leggings, white trainers
+c-lily-child: kind curious 9-year-old girl with pale skin, straight black bob with a pink hair clip, turquoise sweater, coral trousers and yellow shoes
+c-max-child: curious always-hungry 9-year-old boy with medium-brown skin, close dark curls, orange-and-white raglan shirt, turquoise shorts, purple trainers, holding a small apple
+c-maya-firefighter: brave reassuring adult woman firefighter with deep brown skin, tightly curled hair tucked under a yellow helmet, navy jacket with coral-red panels and yellow reflective bands, matching trousers and sturdy boots, holding a coiled hose
+c-mila-child: cheerful curious brave 9-year-old girl with dark brown skin, long black twists tied into a high ponytail, bright aqua jacket, plum skirt over leggings, yellow shoes
+c-milo-child: funny excited 10-year-old boy with pale skin, sandy blond curls, lime-green hoodie, blue shorts and orange sneakers
+c-mira-child: thoughtful kind 11-year-old girl with light olive skin, short black bob, lilac artist smock over coral leggings, turquoise shoes, holding a small paintbrush
+c-monica-child: cheerful curious 9-year-old girl with deep tan skin, thick dark curls in two buns, blue-and-white striped top, raspberry overalls, mint shoes
+c-mr-kostas-referee: fair-skinned adult male referee with short salt-and-pepper hair, black-and-white striped shirt with no badge or writing, black shorts, tall socks, whistle on a plain cord
+c-mr-stavros-barber: warm older barber with olive skin, silver hair and a neat grey moustache, pale blue barber shirt, dark green apron, charcoal trousers, holding a comb and scissors pointed safely down
+c-mr-stavros-carpenter: kind slow-speaking village carpenter, middle-aged olive-skinned man, thick dark hair with grey at temples, forest-green work shirt, tan canvas apron, brown trousers, holding a small wooden mallet and plank
+c-mrs-bee-bee: kind gentle chatty anthropomorphic golden bee character, round striped yellow-and-black body, translucent wings, friendly face, tiny purple flower behind one ear, small arms and feet, no human clothes
+c-mrs-bee-teacher: patient animal-loving adult woman teacher with light skin, soft brown bob, teal blouse under a mustard cardigan, dark skirt and flats, holding a picture book with plain pages
+c-mrs-bell-teacher: warm music teacher adult woman with fair skin, curly auburn hair, sea-blue blouse, plum long skirt, simple flats, holding a small ukulele
+c-mrs-brown-adult: kind slow-speaking middle-aged neighbor woman with warm tan skin, short silver-streaked dark curls, sage-green sweater, coral trousers and comfortable brown shoes
+c-mrs-elena-elder: gentle smiling grandmother with olive skin, silver hair in a loose low bun, soft lavender cardigan over a cream dress, simple slippers and small pearl earrings
+c-ms-carla-security-guard: calm reassuring adult woman security guard with medium-brown skin, short neat black curls, navy-blue uniform shirt with plain shoulder patches, dark trousers, black shoes, simple cap without badge
+c-ms-costa-teacher: warm art teacher with olive skin, curly brown hair in a loose ponytail, paint-splashed teal smock over a coral shirt, indigo trousers, comfortable shoes, holding a brush and blank palette
+c-ms-ellis-teacher: calm music teacher with fair skin, straight dark hair in a neat bob, lavender cardigan over mint blouse, dark teal skirt and low shoes, holding a small hand drum
+c-ms-lee-teacher: warm encouraging music teacher with light East Asian complexion, shoulder-length dark hair, pale yellow blouse, blue-green cardigan, charcoal trousers, comfortable shoes, holding a small tambourine
+c-ms-ruth-guide: calm museum guide with medium-dark skin, short natural hair, plum jacket over a cream blouse, olive trousers and walking shoes, holding a small picture-only museum map
+c-mum-adult: caring practical adult mother with light brown skin, dark wavy hair in a low bun, soft coral sweater, dark blue jeans and mint sneakers
+c-nasreddin-adult: cheerful silly middle-aged storyteller with warm tan skin, rounded face and neat dark moustache, teal tunic, rust-red vest, soft cream trousers, simple brown shoes, small woven cap
+c-nigel-child: cheerful funny 10-year-old boy with pale skin, straight black hair with a side part, cobalt-blue polo, lime-green shorts and orange shoes
+c-nikos-doctor: friendly adult paramedic with olive skin, short dark hair and a calm smile, pale blue paramedic shirt with small red medical cross patch only, navy trousers and sturdy boots, holding a small first-aid kit with no labels
+c-nikos-tour-guide: calm friendly adult male tour guide, warm olive skin, silver hair and neat moustache, forest-green guide jacket, khaki trousers, comfortable walking boots, holding a picture-only folded map
+c-nina-child: confident encouraging 11-year-old girl team captain with deep brown skin, neat black braids tied with yellow bands, bright yellow jacket, navy leggings and red sneakers
+c-nina-firefighter: calm reassuring adult woman firefighter with medium tan skin, dark curly hair under a red safety helmet, navy jacket with bright yellow reflective bands, matching trousers and boots, holding a coiled hose
+c-pino-puppet: small wooden puppet boy with visible round wooden joints, short dark walnut hair, simple blue vest over cream shirt, brown shorts, short ordinary nose and no hat
+c-ranger-nikos-ranger: kind adult male beach ranger with warm olive skin, silver-brown hair and gentle moustache, dark teal ranger shirt, khaki shorts, wide sun hat and sandals, holding a small shell-shaped badge with no writing
+c-rex-hound: large friendly brown hound with floppy ears, broad muzzle, soft eyes, blue collar with a plain round tag, natural animal proportions, no scary expression
+c-rooster-rooster: proud cheerful rooster with bright red comb, golden neck feathers, chestnut body, blue-green tail feathers and friendly eyes, standing naturally
+c-rosa-squirrel: natural russet squirrel with cream belly, fluffy curled tail, calm careful eyes and a tiny lavender flower tucked behind one ear, no clothes
+c-tom-child: friendly careful 9-year-old boy with medium tan skin, short dark hair brushed neatly to the side, teal polo shirt, beige shorts, blue trainers
+c-troy-child: cheerful 10-year-old boy who worries a little when things break, pale olive skin, short sandy hair, striped purple-and-orange sweatshirt, charcoal trousers and green sneakers
+c-zip-squirrel: energetic natural russet squirrel with cream chest and very fluffy upright tail, alert friendly face, one small sky-blue acorn pouch on a plain strap, no writing
+c-pinocchio-puppet: wooden toy boy with visible round joints, long nose, green cap and red shirt

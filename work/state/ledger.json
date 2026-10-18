@@ -9939,6 +9939,66 @@
       "outTok": 34168,
       "usd": 0.15475,
       "job": "batch batches/bjftnw8g8n9na9ilc9thj9sqj7d71v1sa3rz (315/315)"
+    },
+    {
+      "t": "2026-10-18T12:06:00.680Z",
+      "provider": "gemini-images",
+      "model": "gemini-nano-banana-2.1",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 0,
+      "usd": 0.0504,
+      "job": "sheet s1-CPP1-U4-A-1"
+    },
+    {
+      "t": "2026-10-18T12:06:35.882Z",
+      "provider": "gemini-images",
+      "model": "gemini-nano-banana-2.1",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 0,
+      "usd": 0.0504,
+      "job": "single w-live.png"
+    },
+    {
+      "t": "2026-10-18T12:06:59.404Z",
+      "provider": "gemini-images",
+      "model": "gemini-nano-banana-2.1",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 0,
+      "usd": 0.0504,
+      "job": "single c-pinocchio-puppet.png"
+    },
+    {
+      "t": "2026-10-18T12:07:59.783Z",
+      "provider": "gemini-images",
+      "model": "gemini-nano-banana-2.1",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 0,
+      "usd": 0.0504,
+      "job": "sheet s1-CPP1-U4-A-1"
+    },
+    {
+      "t": "2026-10-18T12:12:53.087Z",
+      "provider": "gemini-images",
+      "model": "gemini-nano-banana-2.1",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 0,
+      "usd": 0.0336,
+      "job": "alpha test apple 1K"
+    },
+    {
+      "t": "2026-10-18T12:17:18.265Z",
+      "provider": "gemini-images",
+      "model": "gemini-nano-banana-2.1",
+      "mode": "batch",
+      "inTok": 0,
+      "outTok": 0,
+      "usd": 0.504,
+      "job": "batch batches/95wbwq3sv5vfrzcpk217htx5wm2zt1kmy64m (20 sheets, estimate)"
     }
   ]
 }

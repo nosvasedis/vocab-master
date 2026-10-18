@@ -2,7 +2,7 @@
 /* Contact sheet for reviewing pictures: tiles a batch or a phase (in job order) on a soft lilac background.
    Usage: node scripts/art/picture-sheet.mjs --batch phase-1-lesson-words-and-characters-001.md
           node scripts/art/picture-sheet.mjs --phase 0
-   Output: art-brief/pictures/review/<name>.png (also prints the order, so you can match tiles to files). */
+   Output: art-brief/pictures/review/<name>.png, or <name>-p1.png, -p2… above 48 pictures (also prints the order, so you can match tiles to files). */
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -33,18 +33,23 @@ const present = files.map((f) => ({ f, p: find(f) })).filter((x) => x.p).map((x)
 if (!present.length) { console.log("No pictures yet for this selection."); process.exit(0); }
 
 const TILE = 220;
-const cols = Math.min(8, present.length);
-const rowsN = Math.ceil(present.length / cols);
+const PAGE = 48; // tiles per sheet; bigger selections are split into -p1, -p2… (one ffmpeg command line stays short enough)
 fs.mkdirSync(path.join(DIR, "review"), { recursive: true });
-const out = path.join(DIR, "review", `${name}.png`);
-// Each picture: magenta keyed out (if any), scaled, placed on a lilac canvas tile, then the tiles are stacked.
-const inputs = present.flatMap((x) => ["-i", x.p]);
-const parts = present.map((x, i) => `[${i}:v]format=rgba,${x.alpha ? "" : "colorkey=0xFF00FF:0.3:0.1,"}scale=${TILE - 20}:${TILE - 20}:force_original_aspect_ratio=decrease[s${i}];color=c=0xF3EFFF:s=${TILE}x${TILE}:d=1[g${i}];[g${i}][s${i}]overlay=(W-w)/2:(H-h)/2:shortest=1,format=rgb24[t${i}]`);
-const blanks = cols * rowsN - present.length;
-const fill = Array.from({ length: blanks }, (_, k) => `color=c=0xF3EFFF:s=${TILE}x${TILE}:d=1,format=rgb24[b${k}]`);
-const cells = [...present.map((_, i) => `[t${i}]`), ...Array.from({ length: blanks }, (_, k) => `[b${k}]`)];
-const layout = cells.map((_, i) => `${(i % cols) * TILE}_${Math.floor(i / cols) * TILE}`).join("|");
-const graph = [...parts, ...fill, `${cells.join("")}xstack=inputs=${cells.length}:layout=${layout}:fill=0xF3EFFF[out]`].join(";");
-execFileSync(ffmpegPath, ["-y", "-loglevel", "error", ...inputs, "-filter_complex", graph, "-map", "[out]", "-frames:v", "1", out]);
-console.log(`Sheet: ${path.relative(ROOT, out)} (${present.length}/${files.length} pictures, ${cols} per row)`);
-present.forEach((x, i) => console.log(`  ${String(i + 1).padStart(2)}. ${x.f}`));
+const pages = Math.ceil(present.length / PAGE);
+for (let pg = 0; pg < pages; pg++) {
+  const page = present.slice(pg * PAGE, (pg + 1) * PAGE);
+  const cols = Math.min(8, page.length);
+  const rowsN = Math.ceil(page.length / cols);
+  const out = path.join(DIR, "review", `${name}${pages > 1 ? `-p${pg + 1}` : ""}.png`);
+  // Each picture: magenta keyed out (if any), scaled, placed on a lilac canvas tile, then the tiles are stacked.
+  const inputs = page.flatMap((x) => ["-i", x.p]);
+  const parts = page.map((x, i) => `[${i}:v]format=rgba,${x.alpha ? "" : "colorkey=0xFF00FF:0.3:0.1,"}scale=${TILE - 20}:${TILE - 20}:force_original_aspect_ratio=decrease[s${i}];color=c=0xF3EFFF:s=${TILE}x${TILE}:d=1[g${i}];[g${i}][s${i}]overlay=(W-w)/2:(H-h)/2:shortest=1,format=rgb24[t${i}]`);
+  const blanks = cols * rowsN - page.length;
+  const fill = Array.from({ length: blanks }, (_, k) => `color=c=0xF3EFFF:s=${TILE}x${TILE}:d=1,format=rgb24[b${k}]`);
+  const cells = [...page.map((_, i) => `[t${i}]`), ...Array.from({ length: blanks }, (_, k) => `[b${k}]`)];
+  const layout = cells.map((_, i) => `${(i % cols) * TILE}_${Math.floor(i / cols) * TILE}`).join("|");
+  const graph = [...parts, ...fill, `${cells.join("")}xstack=inputs=${cells.length}:layout=${layout}:fill=0xF3EFFF[out]`].join(";");
+  execFileSync(ffmpegPath, ["-y", "-loglevel", "error", ...inputs, "-filter_complex", graph, "-map", "[out]", "-frames:v", "1", out]);
+  console.log(`Sheet: ${path.relative(ROOT, out)} (${page.length} of ${present.length}/${files.length} pictures, ${cols} per row)`);
+  page.forEach((x, i) => console.log(`  ${String(pg * PAGE + i + 1).padStart(3)}. ${x.f}`));
+}

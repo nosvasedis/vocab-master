@@ -214,7 +214,7 @@ Most pictures are drawn **six at a time on one sheet** and cut apart by a script
    7. If a whole sheet comes out badly (wrong layout, merged items), delete its pictures from `incoming/`, delete the sheet from `sheets-done/` and generate the sheet again once. If it fails twice, draw its jobs as singles.
 4. **After every 10 sheets:**
    1. Run `node scripts/art/check-pictures.mjs` (progress, problems, flagged cells, next sheets).
-   2. Run `node scripts/art/picture-sheet.mjs --phase <n>` and look at `review/phase-<n>.png`. **Redo** (as singles) any picture that breaks a rule: text or letters, cut off, background not transparent, wrong meaning, looks like one of its look-alikes, off-style, scary.
+   2. Run `node scripts/art/picture-sheet.mjs --phase <n>` and look at `review/phase-<n>.png` (or `phase-<n>-p1.png`, `-p2`… when there are more than 48 pictures; check the newest pages). **Redo** (as singles) any picture that breaks a rule: text or letters, cut off, background not transparent, wrong meaning, looks like one of its look-alikes, off-style, scary.
 5. **Truly unpicturable words** (rare, for example *yourself*, *type* in the abstract sense): add `{ "id": "<id>", "reason": "<why>" }` to `art-brief/pictures/skipped.json` instead of drawing, and leave its cell empty if its sheet isn't drawn yet. Use this for under 1 % of jobs; almost every word can be shown as a concrete moment.
 6. When a phase is complete (no missing jobs and no flagged cells left in it), run `node scripts/art/import-pictures.mjs`. It converts `incoming/` pictures for the app and moves the originals to `done/`. Then continue with the next phase. Stop only when `check-pictures` reports 0 missing.
 
