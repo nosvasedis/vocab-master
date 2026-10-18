@@ -30,6 +30,9 @@ function pngInfo(file) {
 const problems = [];
 const unknown = [];
 const ok = new Set(done);
+// Imported pictures count as made: the originals in done/ may be deleted once the app has its WebP copies.
+const PICS = path.join(ROOT, "desktop", "renderer", "assets", "pics");
+for (const j of jobs) if (fs.existsSync(path.join(PICS, `${j.id}.webp`)) || fs.existsSync(path.join(PICS, "bank", `${j.id}.webp`))) ok.add(j.file);
 for (const f of incoming) {
   const job = byFile.get(f);
   if (!job) { unknown.push(f); continue; }
