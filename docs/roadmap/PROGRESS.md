@@ -21,6 +21,21 @@
   4. Phase 2c: classroom pilot of Lingo Live phones (see Phase 2b below).
 - **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
 
+## Story characters at real size, bigger game pictures, new Lessons header (2026-10-18, merged into main, from the user)
+- **Problem:** every character picture is normalised the same way (the figure fills about 77 % of its height, with about 11 % empty below the feet). So children, adults, giants and squirrels were all equally tall, about 240 px on the 1080 px stage, and they floated above the ground.
+- **Story characters (`lesson/scenes/story.js`):**
+  - `figureOf()` gives real-world heights by role, taken from the picture id (`@c-timmy-child` → child): child 500 px, elder 600, grown-ups 640, giant 780, donkey 440, hound 330, hare 290, rooster 250, squirrel 210, bee 190 (flies, with its name tag).
+  - `import-pictures.mjs` measures each character's figure box into `manifest.figures` (`[top, bottom, width]`). The picture is sized so the figure is exactly that height, and the feet stand on the ground line.
+  - Panels with 4 characters now have slots; the 4th used to get `left: undefined%`.
+- **Speech bubbles:** they live on the stage and are placed by scoring several spots (above the head, centred or slid sideways; beside the head, high, mid or low). The score keeps them clear of the caption, the stage edges, other characters' faces and bodies, and the speaker. Crowded panels get narrower bubbles. Word pops avoid the visible figure (`.st-hit`) and open bubbles.
+- **Games:** memory picture tiles fill the card. Illustrated pictures are larger in flashcards (back), spelling, taboo, quiz clues and the Lingo Live word card.
+- **Lessons header:** rebuilt for the finished product:
+  - no "81 approved" counter;
+  - a kicker, headline, short description and three "how to teach" steps;
+  - Mia, Grandma Eleni and Leo standing on a hill;
+  - one offline-voices button that turns green when every voice is saved.
+- **Tests:** `tests/pics.test.mjs` also checks that every character's height fits the stage and that children < adults < giants.
+
 ## Lingo redesigned: a truly animated owl (2026-10-18, merged into main, from the user)
 - **Ask:** the old SVG owl felt plain. A more beautiful, expressive, animated Lingo; voice and speech bubbles unchanged.
 - **Drawing (`lesson/lingo-art.js`):** hand-built SVG in the picture set's soft flat-vector style (indigo outline, gentle gradients): big head with a lilac face disc, amber eyes with two highlights, feather brows, ear tufts, scalloped belly, feathered wings, feet, graduation cap with a swinging tassel. No image files. Ids get a per-drawing suffix, so several Lingos can share a page. `lingoBadge()` is the head alone; it replaces 🦉 in the lesson top bar and the Lessons page kicker.

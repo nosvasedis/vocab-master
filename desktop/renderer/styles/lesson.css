@@ -4,20 +4,35 @@
 
 /* ── Library view ─────────────────────────────────────────────────── */
 .sb-ico.lessons { background: linear-gradient(135deg, #8b6cff, #5b3df5); color: #fff; }
+/* Hero: what the lessons are, how to teach one, and the story characters standing on a hill. */
 .lsn-hero {
-  display: flex; gap: 24px; align-items: center; justify-content: space-between;
-  padding: 26px 30px; border-radius: var(--radius-xl); color: #fff; margin-bottom: 18px;
-  background: radial-gradient(circle at 85% 20%, rgba(255, 210, 63, 0.35), transparent 40%), linear-gradient(135deg, #5b3df5 0%, #8b5cf6 55%, #c056f0 100%);
+  position: relative; overflow: hidden; isolation: isolate;
+  display: grid; grid-template-columns: minmax(0, 1fr) clamp(260px, 32%, 420px); gap: 20px; align-items: stretch;
+  padding: 28px 0 28px 32px; border-radius: var(--radius-xl); color: #fff; margin-bottom: 18px; min-height: 236px;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(255, 214, 102, 0.55), transparent 32%),
+    radial-gradient(circle at 70% 120%, rgba(255, 255, 255, 0.18), transparent 45%),
+    linear-gradient(135deg, #4b2fd8 0%, #7b4cf0 50%, #b44fe6 100%);
   box-shadow: var(--shadow-brand);
 }
-.lsn-kicker { font: 600 13px var(--font-ui); opacity: 0.85; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 6px; }
+.lsn-hero-text { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.lsn-kicker { display: inline-flex; align-items: center; gap: 7px; font: 700 12px var(--font-ui); letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px 4px 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.16); }
 .lsn-kicker-owl { width: 22px; height: 22px; }
-.lsn-hero h2 { font: 700 30px var(--font-play); margin: 6px 0 8px; }
-.lsn-hero p { max-width: 640px; opacity: 0.92; line-height: 1.55; font-size: 14.5px; }
-.lsn-hero-stats { display: flex; gap: 12px; }
-.lsn-hero-stats div { background: rgba(255, 255, 255, 0.16); border-radius: var(--radius-lg); padding: 12px 18px; text-align: center; min-width: 92px; backdrop-filter: blur(6px); }
-.lsn-hero-stats b { display: block; font: 700 28px var(--font-play); }
-.lsn-hero-stats span { font-size: 12px; opacity: 0.85; }
+.lsn-hero h2 { font: 700 32px/1.12 var(--font-play); margin: 12px 0 8px; text-wrap: balance; }
+.lsn-hero p { max-width: 58ch; opacity: 0.92; line-height: 1.55; font-size: 14.5px; margin: 0; }
+.lsn-steps { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 16px 0 18px; padding: 0; font: 600 13.5px var(--font-ui); }
+.lsn-steps li { display: flex; align-items: center; gap: 8px; }
+.lsn-steps b { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: #ffd23f; color: #3a1f8f; font: 700 13px var(--font-play); flex: none; }
+.lsn-steps em { font-style: normal; text-decoration: underline; text-decoration-color: rgba(255, 210, 63, 0.9); text-underline-offset: 3px; }
+.lsn-steps kbd { font: 700 13px var(--font-ui); color: #fff; padding: 1px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.24); border: 1px solid rgba(255, 255, 255, 0.35); border-bottom-width: 2px; }
+.lsn-hero-art { position: relative; align-self: stretch; margin: -28px 0; }
+.lsn-hill { position: absolute; left: -10%; right: -20%; bottom: -46%; height: 78%; border-radius: 50%; background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.1) 70%); }
+/* Real proportions: two children and their grandma, feet on the hill (pictures have ~6-11 % empty space below the feet). */
+.lsn-cast { position: absolute; translate: -50% 0; width: auto; max-width: none; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(29, 12, 90, 0.35)); user-select: none; }
+.lsn-cast.c0 { left: 24%; height: 76%; bottom: -2%; z-index: 2; } /* Mia */
+.lsn-cast.c1 { left: 52%; height: 92%; bottom: -3%; z-index: 1; } /* Grandma Eleni */
+.lsn-cast.c2 { left: 79%; height: 74%; bottom: -5%; z-index: 2; } /* Leo */
+@media (max-width: 760px) { .lsn-hero { grid-template-columns: 1fr; padding-right: 28px; } .lsn-hero-art { display: none; } }
 .lsn-tabs { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
 .lsn-tab { display: flex; flex-direction: column; align-items: flex-start; padding: 10px 16px; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--border); color: var(--text-2); transition: all var(--dur) var(--ease); }
 .lsn-tab b { font: 700 15px var(--font-display); color: var(--text); }
@@ -191,13 +206,23 @@
 .st-page { position: absolute; right: 50px; top: 50px; font: 700 36px var(--font-play); padding: 10px 26px; border-radius: 99px; background: rgba(29, 22, 64, 0.8); color: #fff; }
 .st-caption { left: 50%; top: 96px; translate: -50% 0; max-width: 1500px; padding: 20px 44px; font: 600 44px/1.3 var(--font-play); text-align: center; border-radius: 30px; background: #fffbea; border: 5px solid #ffd23f; }
 .st-cast { position: absolute; inset: 0; }
-.st-actor { position: absolute; bottom: 70px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
-.st-emoji { line-height: 1; filter: drop-shadow(0 24px 24px rgba(0, 0, 0, 0.18)); transition: transform 300ms var(--spring); }
+.st-actor { position: absolute; bottom: 64px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+.st-emoji { position: relative; line-height: 1; filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.16)); transform-origin: 50% 100%; transition: transform 300ms var(--spring); }
+/* Illustrated characters at real-world height (story.js figureOf): the picture is sized so the figure is
+   the right height, and pulled down by its empty bottom margin so the feet stand on the ground. */
+.st-fig { display: block; }
+.st-fig img.vpic { display: block; width: var(--img); height: var(--img); margin-bottom: calc(0px - var(--foot, 0px)); vertical-align: 0; }
+.st-hit { position: absolute; left: 50%; bottom: 0; translate: -50% 0; pointer-events: none; } /* the visible figure, for word pops to avoid */
+.st-emoji:not(.st-fig) .st-hit { inset: 0; translate: none; }
 
-.st-actor.talking .st-emoji { transform: scale(1.08); }
-.st-name { position: relative; z-index: 2; font: 700 36px var(--font-play); padding: 6px 26px; border-radius: 99px; background: #fff; color: #1d1640; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12); margin-top: -10px; }
-.st-bubble { position: absolute; bottom: 330px; left: 50%; translate: -50% 0; width: max-content; max-width: 760px; padding: 26px 38px; border-radius: 40px; background: #fff; font: 600 46px/1.32 var(--font-play); box-shadow: 0 20px 50px rgba(29, 22, 64, 0.2); text-align: center; }
-.st-bubble::after { content: ""; position: absolute; bottom: -30px; left: 50%; translate: -50% 0; border: 30px solid transparent; border-top-color: #fff; border-bottom: 0; }
+.st-actor.talking .st-emoji { transform: scale(1.035); }
+.st-name { position: relative; z-index: 2; font: 700 36px var(--font-play); padding: 6px 26px; border-radius: 99px; background: #fff; color: #1d1640; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12); margin-top: 6px; }
+/* Speech bubbles live on the stage (not inside the actor) so story.js can place them above or beside the head. */
+.st-bubble { position: absolute; z-index: 5; width: max-content; max-width: 720px; padding: 26px 38px; border-radius: 40px; background: #fff; font: 600 46px/1.32 var(--font-play); box-shadow: 0 20px 50px rgba(29, 22, 64, 0.2); text-align: center; }
+.st-bubble::after { content: ""; position: absolute; border: 30px solid transparent; }
+.st-bubble.up::after { bottom: -30px; left: var(--tail, 50%); translate: -50% 0; border-top-color: #fff; border-bottom: 0; }
+.st-bubble.right::after { left: -30px; top: var(--tail-y, 50%); translate: 0 -50%; border-right-color: #fff; border-left: 0; }
+.st-bubble.left::after { right: -30px; top: var(--tail-y, 50%); translate: 0 -50%; border-left-color: #fff; border-right: 0; }
 
 /* Check (Kahoot colours) */
 .ck { left: 50%; top: 50%; translate: -50% -52%; width: 1720px; padding: 40px 54px 50px; }
@@ -296,9 +321,9 @@
 .lsn-unit.has-art { padding-top: 0; overflow: hidden; }
 .lsn-art { display: block; width: calc(100% + 32px); max-width: none; margin: 0 -16px 12px; aspect-ratio: 16 / 9; object-fit: cover; }
 
-.lsn-hero-side { display: flex; flex-direction: column; gap: 10px; align-items: stretch; flex: none; }
-.lsn-offline { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 14px; border-radius: var(--radius); background: rgba(255, 255, 255, 0.18); color: #fff; font: 600 13px var(--font-ui); }
-.lsn-offline:hover { background: rgba(255, 255, 255, 0.3); }
+.lsn-offline { margin-top: auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 14px; border-radius: 99px; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.28); color: #fff; font: 600 13px var(--font-ui); }
+.lsn-offline:hover { background: rgba(255, 255, 255, 0.28); }
+.lsn-offline.done { background: rgba(52, 211, 153, 0.22); border-color: rgba(52, 211, 153, 0.6); }
 .lsn-offline:disabled { opacity: 0.8; cursor: progress; }
 
 .pr-lines { font: 600 36px/1.4 var(--font-play); color: #1d1640; margin: -12px 0 30px; }
