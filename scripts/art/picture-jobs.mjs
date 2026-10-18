@@ -256,7 +256,33 @@ fs.writeFileSync(path.join(OUT, "lookalikes.md"), `# Look-alike groups\n\nThese 
 const chars = list.filter((j) => j.kind === "character");
 fs.writeFileSync(path.join(OUT, "characters.md"), `# Story characters (${chars.length})\n\nEach character is ONE consistent design used in every lesson it appears in. Fixed looks are given for the recurring ones; for the others, design a look that matches the role and personality, and add one line to the "Looks chosen" list at the bottom so later images stay consistent.\n\n| file | name | role | look | personality | lessons |\n|---|---|---|---|---|---|\n${chars.map((c) => `| ${c.file} | ${c.name} | ${c.role} | ${c.look || "_design it_"} | ${c.personas[0] || ""} | ${c.lessons.length} |`).join("\n")}\n\n## Looks chosen (append here)\n\n`);
 
+/* Sheet mode: 6 pictures per generation in a 3 × 2 grid (1536 × 1024, 512 px cells), cut apart by
+   scripts/art/slice-sheet.mjs. Anchors (phase 0) and story characters stay single images. Lesson words are
+   grouped by lesson, so a lesson's words — and its look-alikes — are drawn side by side. */
+const SHEET = 6;
+const sheets = [];
+const lessonOrder = new Map([...lessonWords.keys()].map((id, k) => [id, k]));
+const sheetable = list.filter((j) => j.phase > 0 && j.kind !== "character");
+const balanced = (items) => { const n = Math.ceil(items.length / SHEET); const size = Math.ceil(items.length / n); const out = []; for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size)); return out; };
+const pushSheet = (phase, name, items) => sheets.push({ id: `s${phase}-${name}`, phase, cells: items.map((j, k) => ({ cell: k + 1, id: j.id, file: j.file })) });
+// Phase 1: by first lesson.
+const byLesson = new Map();
+for (const j of sheetable.filter((x) => x.phase === 1)) {
+  const first = [...(j.lessons || [])].sort((a, b) => lessonOrder.get(a) - lessonOrder.get(b))[0] || "other";
+  byLesson.set(first, [...(byLesson.get(first) || []), j]);
+}
+for (const [lesson, items] of [...byLesson.entries()].sort((a, b) => (lessonOrder.get(a[0]) ?? 999) - (lessonOrder.get(b[0]) ?? 999))) {
+  balanced(items).forEach((chunk, k) => pushSheet(1, `${lesson}-${k + 1}`, chunk));
+}
+// Phases 2–5: in job order, 6 per sheet.
+for (const phase of [2, 3, 4, 5]) {
+  const items = sheetable.filter((j) => j.phase === phase);
+  for (let i = 0; i < items.length; i += SHEET) pushSheet(phase, String(i / SHEET + 1).padStart(3, "0"), items.slice(i, i + SHEET));
+}
+const singles = list.filter((j) => j.phase === 0 || j.kind === "character").map((j) => j.id);
+fs.writeFileSync(path.join(OUT, "sheets.json"), JSON.stringify({ v: 1, grid: { cols: 3, rows: 2, width: 1536, height: 1024, cell: 512 }, singles, count: sheets.length, sheets }, null, 1) + "\n");
+
 const counts = Object.fromEntries([0, 1, 2, 3, 4, 5].map((p) => [p, list.filter((j) => j.phase === p).length]));
 fs.writeFileSync(path.join(OUT, "batches", "INDEX.md"), `# Batches\n\n| phase | batch | images |\n|---|---|---|\n${batchIndex.map((b) => `| ${b.phase} | ${b.name} | ${b.count} |`).join("\n")}\n\nTotal: ${list.length} images. Per phase: ${Object.entries(counts).map(([p, n]) => `${p}: ${n}`).join(" · ")}\n`);
-console.log(`${list.length} jobs → art-brief/pictures (per phase ${JSON.stringify(counts)}); ${batchIndex.length} batches; ${groups.length} look-alike groups; ${chars.length} characters`);
+console.log(`${list.length} jobs → art-brief/pictures (per phase ${JSON.stringify(counts)}); ${batchIndex.length} batches; ${sheets.length} sheets + ${singles.length} singles; ${groups.length} look-alike groups; ${chars.length} characters`);
 if (missingAnchors.length) console.log(`! anchors not found: ${missingAnchors.join(", ")}`);

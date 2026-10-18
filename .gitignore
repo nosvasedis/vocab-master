@@ -40,5 +40,8 @@ art-brief/incoming/
 # Picture set originals and review sheets (large; the app uses the WebP copies in desktop/renderer/assets/pics)
 art-brief/pictures/incoming/
 art-brief/pictures/done/
-art-brief/pictures/sheets/
+art-brief/pictures/review/
+art-brief/pictures/sheets-incoming/*.png
+art-brief/pictures/sheets-done/
+art-brief/pictures/sheets-flagged.json
 art-brief/pictures/PROGRESS.md

@@ -2,7 +2,7 @@
 /* Contact sheet for reviewing pictures: tiles a batch or a phase (in job order) on a soft lilac background.
    Usage: node scripts/art/picture-sheet.mjs --batch phase-1-lesson-words-and-characters-001.md
           node scripts/art/picture-sheet.mjs --phase 0
-   Output: art-brief/pictures/sheets/<name>.png (also prints the order, so you can match tiles to files). */
+   Output: art-brief/pictures/review/<name>.png (also prints the order, so you can match tiles to files). */
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -35,8 +35,8 @@ if (!present.length) { console.log("No pictures yet for this selection."); proce
 const TILE = 220;
 const cols = Math.min(8, present.length);
 const rowsN = Math.ceil(present.length / cols);
-fs.mkdirSync(path.join(DIR, "sheets"), { recursive: true });
-const out = path.join(DIR, "sheets", `${name}.png`);
+fs.mkdirSync(path.join(DIR, "review"), { recursive: true });
+const out = path.join(DIR, "review", `${name}.png`);
 // Each picture: magenta keyed out (if any), scaled, placed on a lilac canvas tile, then the tiles are stacked.
 const inputs = present.flatMap((x) => ["-i", x.p]);
 const parts = present.map((x, i) => `[${i}:v]format=rgba,${x.alpha ? "" : "colorkey=0xFF00FF:0.3:0.1,"}scale=${TILE - 20}:${TILE - 20}:force_original_aspect_ratio=decrease[s${i}];color=c=0xF3EFFF:s=${TILE}x${TILE}:d=1[g${i}];[g${i}][s${i}]overlay=(W-w)/2:(H-h)/2:shortest=1,format=rgb24[t${i}]`);
