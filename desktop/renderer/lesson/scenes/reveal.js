@@ -14,7 +14,7 @@ export default {
 
     const wall = () => {
       ctx.mascot.place("corner");
-      ctx.mascot.setPose("cheer");
+      ctx.mascot.setPose("happy");
       ctx.clearBubble();
       ctx.ui.innerHTML = `
         <div class="rv-wall">

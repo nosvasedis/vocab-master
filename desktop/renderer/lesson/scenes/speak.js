@@ -31,7 +31,7 @@ export default {
       if (clock) clock.textContent = fmt(Math.max(0, left));
       if (bar) bar.style.width = `${(Math.max(0, left) / (scene.timerSec || 60)) * 100}%`;
       if (left <= 5 && left > 0) ctx.sfx.tick();
-      if (left <= 0) { pause(); ctx.sfx.buzzer(); ctx.mascot.setPose("cheer"); }
+      if (left <= 0) { pause(); ctx.sfx.buzzer(); ctx.mascot.setPose("happy"); }
     }
     function start() { if (left <= 0) left = scene.timerSec || 60; running = true; clearInterval(timer); timer = setInterval(tick, 1000); render(1); }
     function pause() { running = false; clearInterval(timer); timer = null; const t = ctx.ui.querySelector(".sp-toggle"); if (t) t.textContent = "▶ Start"; const s = ctx.ui.querySelector(".sp-clock span"); if (s) s.textContent = "Paused"; }
@@ -53,6 +53,7 @@ export default {
         }
         if (i === 1) {
           start();
+          ctx.mascot.setPose("listening");
           rise(ctx.ui.querySelector(".sp-timer"), { y: 30 });
           return { auto: false };
         }

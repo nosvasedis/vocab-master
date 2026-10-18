@@ -9,6 +9,7 @@ import { maskWordInText } from "../arcade/deck.js";
 import { audioKey } from "./schema.js";
 import { createStage } from "./stage.js";
 import { createMascot } from "./mascot.js";
+import { lingoBadge } from "./lingo-art.js";
 import { narrate, stopAll, setNarration } from "./narrator.js";
 import { setCalm, rise, pop, award } from "./motion.js";
 import { createPopper, matchProps, splitToken } from "./wordpop.js";
@@ -59,7 +60,7 @@ export function openPlayer(o) {
   root.setAttribute("aria-label", `Lesson: ${lesson.title}`);
   root.innerHTML = `
     <header class="ls-top">
-      <div class="ls-brand"><span class="ls-logo">🦉</span><span class="ls-brand-text"><b>${esc(lesson.title)}</b><small>${esc(o.bookLabel)} · ${lesson.section === "BQ" ? "Big Question" : `Part ${esc(lesson.section)}`}${lesson.status !== "approved" ? ` · <em class="ls-draft">${esc(lesson.status)}</em>` : ""}</small></span></div>
+      <div class="ls-brand"><span class="ls-logo">${lingoBadge()}</span><span class="ls-brand-text"><b>${esc(lesson.title)}</b><small>${esc(o.bookLabel)} · ${lesson.section === "BQ" ? "Big Question" : `Part ${esc(lesson.section)}`}${lesson.status !== "approved" ? ` · <em class="ls-draft">${esc(lesson.status)}</em>` : ""}</small></span></div>
       <div class="ls-scene-chip" id="lsChip"></div>
       <div class="ls-stars" id="lsStars" title="Class stars">⭐ <b>0</b></div>
       <div class="ls-tools">
@@ -85,6 +86,7 @@ export function openPlayer(o) {
   const mascotHost = stage.layers.actors.querySelector(".ls-lingo");
   const bubble = stage.layers.actors.querySelector(".ls-bubble");
   const m = createMascot(mascotHost);
+  let sayToken = 0;
 
   P = {
     o, root, stage, scenes, sceneIdx: 0, step: 0, current: null, stars: 0, auto: false, greek: false,
@@ -163,7 +165,11 @@ export function openPlayer(o) {
       const speaker = who || line.who || "lingo";
       const persona = lesson.cast?.[speaker]?.persona || (speaker === "lingo" ? "owl narrator" : "");
       const lingo = speaker === "lingo";
-      if (lingo) m.setPose("talk");
+      // Lingo talks in the scene's expression when it has one (the beak lip-syncs on any pose);
+      // otherwise he switches to "talk" and settles back afterwards (a wave calms to happy).
+      const token = ++sayToken;
+      const before = lingo ? m.pose : null;
+      if (lingo && !TALK_KEEPS.has(before)) m.setPose("talk");
       await narrate({
         key: key || (sceneId ? audioKey(lesson.id, sceneId, line.id) : null),
         text: line.text,
@@ -171,7 +177,10 @@ export function openPlayer(o) {
         el,
         onLevel: lingo ? (v) => m.level(v) : null,
       });
-      if (lingo) m.level(0);
+      if (lingo) {
+        m.level(0);
+        if (token === sayToken && m.pose === "talk") m.setPose(AFTER_TALK[before] || before);
+      }
     },
     async speakBubble(line, { sceneId, props = [], focusPics = true } = {}) {
       bubble.hidden = false;
@@ -320,6 +329,11 @@ function prev() {
     return goTo(P.sceneIdx, P.current.steps - 1, -1);
   }
 }
+
+/** Pose Lingo returns to after a line, keyed by the pose he had before speaking. */
+const AFTER_TALK = { talk: "idle", idle: "idle", wave: "happy" };
+/** Poses Lingo keeps while he speaks. */
+const TALK_KEEPS = new Set(["cheer", "happy", "proud", "point", "encouraging", "surprised"]);
 
 function finish() {
   P.current?.destroy?.();
