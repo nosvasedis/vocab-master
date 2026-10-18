@@ -683,5 +683,6 @@ kbd {
    PNG-style cut-outs, a little larger than an emoji glyph so details read at small sizes. */
 img.vpic { display: inline-block; width: 1.15em; height: 1.15em; object-fit: contain; vertical-align: -0.22em; user-select: none; -webkit-user-drag: none; }
 img.vpic.vpic-off { visibility: hidden; }
+.vpic-emoji { display: inline-block; line-height: 1; } /* emoji shown when a picture can't load */
 .pf img.vpic { width: 1.1em; height: 1.1em; vertical-align: middle; }
 .rv-pic img.vpic, .rv-tile-pic img.vpic { width: 1.35em; height: 1.35em; } /* lesson word cards: fill the circle */

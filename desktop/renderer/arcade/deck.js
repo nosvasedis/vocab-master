@@ -74,6 +74,59 @@ export function maskWordInText(text, english, gap = "____") {
   return null;
 }
 
+/** The word as it is written in the text — "uncles" for "uncle", "families" for "family" — or "" when not found
+ *  as a single word (multi-word targets are masked part by part and keep their dictionary form). */
+export function surfaceForm(text, english) {
+  const raw = String(text || "");
+  const word = String(english || "").trim();
+  if (!raw || !word || /\s/.test(word)) return "";
+  const exact = new RegExp(`\\b${escapeRegex(word)}\\w*`, "i").exec(raw);
+  if (exact) return exact[0];
+  if (word.length > 4) {
+    const stem = new RegExp(`\\b${escapeRegex(word.slice(0, Math.max(3, word.length - 2)))}\\w*`, "i").exec(raw);
+    if (stem) return stem[0];
+  }
+  return "";
+}
+
+/** The ending a form adds to its base word: uncle→uncles "s", family→families "s", run→running "ing", make→made "". */
+function endingOf(base, form) {
+  const b = base.toLowerCase();
+  const f = form.toLowerCase();
+  if (f === b) return "";
+  if (f.startsWith(b)) {
+    let e = f.slice(b.length);
+    if (e.length > 2 && e[0] === b.at(-1) && ["ing", "ed", "er", "est"].includes(e.slice(1))) e = e.slice(1); // running, stopped
+    return ["s", "es", "ed", "d", "ing", "er", "est"].includes(e) ? e : "";
+  }
+  if (b.endsWith("y") && f.startsWith(`${b.slice(0, -1)}i`)) return { ies: "s", ied: "ed", ier: "er", iest: "est" }[f.slice(b.length - 1)] || "";
+  if (b.endsWith("e") && f === `${b.slice(0, -1)}ing`) return "ing";
+  return "";
+}
+
+/** Give `word` the ending that turns `base` into `form` (uncle→uncles makes aunt→aunts). Unknown endings: unchanged. */
+export function inflectLike(word, base, form) {
+  const w = String(word || "");
+  const end = endingOf(String(base || ""), String(form || ""));
+  if (!end || /\s/.test(w)) return w;
+  const cons = /[^aeiou]y$/i.test(w);
+  // Short words double their last consonant: swim → swimming, big → bigger, stop → stopped.
+  const dbl = /^[^aeiou]*[aeiou][^aeiouwxy]$/i.test(w) && end !== "s" && end !== "es" ? w.at(-1) : "";
+  if (dbl && ["ing", "ed", "er", "est"].includes(end)) return `${w}${dbl}${end}`;
+  if (end === "s" || end === "es") return /(s|x|z|ch|sh)$/i.test(w) ? `${w}es` : cons ? `${w.slice(0, -1)}ies` : `${w}s`;
+  if (end === "ed" || end === "d") return /e$/i.test(w) ? `${w}d` : cons ? `${w.slice(0, -1)}ied` : `${w}ed`;
+  if (end === "ing") return /[^e]e$/i.test(w) ? `${w.slice(0, -1)}ing` : `${w}ing`;
+  return /e$/i.test(w) ? `${w}${end.slice(1)}` : cons ? `${w.slice(0, -1)}i${end}` : `${w}${end}`; // er / est
+}
+
+/** Options for a gap: the form in the sentence plus distractors with the same ending. */
+export function gapOptions(target, distractors, text) {
+  let form = surfaceForm(text, target.english) || target.english;
+  // A capital only because the word starts the sentence would give the answer away.
+  if (!/^[A-Z]/.test(target.english)) form = form.toLowerCase();
+  return { answer: form, options: [form, ...distractors.map((d) => inflectLike(d, target.english, form))] };
+}
+
 /** A speaking prompt for the back of a flashcard (never shown before the answer). */
 export function buildOracyPrompt(item) {
   const w = item.english;
@@ -104,7 +157,7 @@ export function buildArcadeDeck(rawWords = [], lookupFn = null) {
       type,
       greek: pick("greek"),
       // The illustrated picture (picture set, "@w-…" token) replaces the emoji when the word has one.
-      emojis: isPicToken(firstEmoji(emojis)) ? emojis : picForWord(english, type) || emojis,
+      emojis: isPicToken(firstEmoji(emojis)) ? emojis : picForWord(english, type, firstEmoji(emojis)) || emojis,
       collocation: pick("collocation"),
       example: pick("example"),
       derivatives: pick("derivatives"),
@@ -150,6 +203,8 @@ export function typeName(t) {
  *  • Word family (synonym / opposite / derivative clue)
  * The clue never carries Greek; `greekClue` is shown separately and only when Greek is on.
  */
+const maskSource = (t) => (maskWordInText(t.example, t.english) ? t.example : t.collocation);
+
 export function buildDetectiveQuestions(deck = [], maxQuestions = 10, { greek = true } = {}) {
   if (!Array.isArray(deck) || deck.length < 2) return [];
   const pool = shuffle(deck).slice(0, maxQuestions);
@@ -159,11 +214,14 @@ export function buildDetectiveQuestions(deck = [], maxQuestions = 10, { greek = 
     const family = [];
     if (target.synonyms) family.push({ label: "means the same as", value: englishParts(target.synonyms).slice(0, 2).join(", ") });
     if (target.antonyms) family.push({ label: "is the opposite of", value: englishParts(target.antonyms).slice(0, 2).join(", ") });
-    const base = { id: `q${idx + 1}`, answer: target.english, options, target, greekClue: target.greek || "" };
+    const base = { id: `q${idx + 1}`, answer: target.english, say: target.english, options, target, greekClue: target.greek || "" };
     const round = idx % 3;
-    if (round === 0 && gapped) {
-      return { ...base, kind: "context", kindLabel: "Fill the gap", prompt: gapped, clue: target.emojis || "" };
-    }
+    // A gap shows the word as the sentence needs it ("uncles"), and so do the wrong answers ("aunts").
+    const gapQ = () => {
+      const g = gapOptions(target, options.filter((o) => o !== target.english), maskSource(target));
+      return { ...base, kind: "context", kindLabel: "Fill the gap", prompt: gapped, clue: target.emojis || "", answer: g.answer, options: shuffle(g.options) };
+    };
+    if (round === 0 && gapped) return gapQ();
     if (round === 2 && family.length && family[0].value) {
       const f = family[0];
       return { ...base, kind: "family", kindLabel: "Word family", prompt: `Which word ${f.label} “${f.value}”?`, clue: target.emojis || "" };
@@ -174,9 +232,7 @@ export function buildDetectiveQuestions(deck = [], maxQuestions = 10, { greek = 
     if (firstEmoji(target.emojis)) {
       return { ...base, kind: "picture", kindLabel: "What's this?", prompt: "", clue: target.emojis, bigClue: true };
     }
-    if (gapped) {
-      return { ...base, kind: "context", kindLabel: "Fill the gap", prompt: gapped, clue: target.emojis || "" };
-    }
+    if (gapped) return gapQ();
     return { ...base, kind: "listen", kindLabel: "Listen & choose", prompt: "Listen to the word and pick it!", clue: target.emojis || "", speakOnly: true };
   });
 }

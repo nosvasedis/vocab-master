@@ -156,8 +156,9 @@ export async function initVoice() {
   manifestEntries = manifest.entries || {};
   index = createVoiceIndex(manifest);
   setClipPlayer({ has: hasClip, playClip, stop: stopVoice });
+  // speak() already stays silent when the voice is off (unless a line is forced), so a forced line
+  // must still find its recording here — never the browser voice when a clip exists.
   setSpeakDelegate((text) => {
-    if (!audioSettings.tts) return false;
     const key = index.keyForText(text);
     if (!key) return false;
     playClip(key);

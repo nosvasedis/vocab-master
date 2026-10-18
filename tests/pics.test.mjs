@@ -14,9 +14,9 @@ const byId = new Map(CPP_WORDBANK.map((w) => [w.id, w]));
 const catalog = JSON.parse(fs.readFileSync("desktop/renderer/lessons/index.json", "utf8"));
 const lessons = catalog.lessons.map((e) => JSON.parse(fs.readFileSync(path.join("desktop/renderer/lessons", e.path), "utf8")));
 
-test("every manifest picture is bundled or listed for R2", () => {
+test("every manifest picture ships with the app (bank/ for the word bank)", () => {
   const files = new Set([...Object.values(M.words), ...Object.values(M.nouns), ...Object.values(M.characters), ...Object.values(M.ui)]);
-  const missing = [...files].filter((f) => !remote.has(f) && !fs.existsSync(path.join(PICS, f)));
+  const missing = [...files].filter((f) => !fs.existsSync(path.join(PICS, remote.has(f) ? "bank" : "", f)));
   assert.deepEqual(missing, []);
 });
 

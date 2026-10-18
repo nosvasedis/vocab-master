@@ -107,7 +107,7 @@ export default {
         streak = 0;
         choice == null ? sfx.buzzer() : sfx.wrong();
       }
-      speak(item.answer);
+      speak(item.say || item.answer); // the dictionary word has a recording; "uncles" may not
       foot.innerHTML = `
         <div class="qz-explain ${right ? "ok" : "no"}">
           <span class="qz-verdict">${right ? "Correct!" : choice == null ? "Time's up!" : "Not quite!"}</span>

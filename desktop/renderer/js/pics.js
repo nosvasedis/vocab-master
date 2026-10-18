@@ -1,14 +1,16 @@
 /* Illustrated pictures (the picture set, art-brief/pictures → assets/pics) that replace emoji.
  * A picture travels through the app's existing emoji fields as a token "@<id>" (e.g. "@w-house"), so lessons,
  * games and pops need no new plumbing: the shared picture() renderer turns tokens into <img>.
- * Phases 0–3 are bundled (assets/pics/<id>.webp); the rest of the word bank (manifest.remote) streams from R2
- * (remote.json → picsBase) and the browser cache keeps what has been seen. Missing pictures simply hide. */
+ * Every picture ships with the app: lessons' in assets/pics/, the rest of the word bank (manifest.remote) in
+ * assets/pics/bank/. If a file can't load, the picture tries its R2 copy (remote.json → picsBase), then shows the
+ * word's emoji, so a tile is never blank. */
 import { stem } from "../lesson/schema.js";
 
 let M = { words: {}, nouns: {}, characters: {}, ui: {} };
 let byEnglish = new Map();
 let remote = new Set();
 let remoteBase = "";
+const fallback = new Map(); // picture id → emoji to show if the picture can't load
 
 export const PIC_TOKEN = /@((?:w|c|ui)-[a-z0-9][a-z0-9-]*)/g;
 const isToken = (s) => /^@(?:w|c|ui)-[a-z0-9][a-z0-9-]*$/.test(String(s || "").trim());
@@ -36,10 +38,16 @@ export async function initPics() {
     const r = await fetch("./assets/remote.json", { cache: "no-cache" }).then((x) => (x.ok ? x.json() : {}));
     remoteBase = r.picsBase || "";
   } catch { /* offline: bundled pictures still show */ }
-  // A picture that can't load (offline, not uploaded yet) disappears instead of showing a broken image.
+  // A picture that can't load tries its R2 copy once, then turns into the word's emoji (or hides).
   if (!initPics.wired && typeof document !== "undefined") {
     initPics.wired = true;
-    document.addEventListener("error", (e) => { if (e.target?.classList?.contains("vpic")) e.target.classList.add("vpic-off"); }, true);
+    document.addEventListener("error", (e) => {
+      const img = e.target;
+      if (!img?.classList?.contains("vpic")) return;
+      if (img.dataset.r2 && !img.dataset.tried) { img.dataset.tried = "1"; img.src = img.dataset.r2; return; }
+      const fb = fallback.get(img.dataset.pic || "");
+      if (fb) { const s = document.createElement("span"); s.className = "vpic-emoji"; s.textContent = fb; img.replaceWith(s); } else img.classList.add("vpic-off");
+    }, true);
   }
   return Object.keys(M.words).length;
 }
@@ -48,11 +56,15 @@ export async function initPics() {
 const TYPE = { "n.": "noun", "v.": "verb", "adj.": "adjective", "adv.": "adverb", "phr.": "phrase", "phr. v.": "phrasal verb", "prep.": "preposition", "pron.": "pronoun" };
 export const picType = (t) => TYPE[String(t || "").trim()] || String(t || "").trim();
 
-/** Token for a word ("house", "n."), or "" when it has no picture. Falls back to any part of speech. */
-export function picForWord(english, type) {
+/** Token for a word ("house", "n."), or "" when it has no picture. Falls back to any part of speech.
+ *  `emoji`: shown instead if the picture ever fails to load. */
+export function picForWord(english, type, emoji = "") {
   const e = String(english || "").trim().toLowerCase();
   if (!e) return "";
-  return tok(M.words[`${e}|${picType(type)}`] || byEnglish.get(e));
+  const t = tok(M.words[`${e}|${picType(type)}`] || byEnglish.get(e));
+  const fb = String(emoji || "").trim().split(/\s+/)[0];
+  if (t && fb && !fb.startsWith("@") && !fallback.has(t.slice(1))) fallback.set(t.slice(1), fb);
+  return t;
 }
 /** Token for a thing a line mentions (a story prop label: "apples", "Grandma's hat"). */
 export function picForNoun(label) {
@@ -71,14 +83,14 @@ export const picForTeam = (emoji) => (TEAM_BY_EMOJI[String(emoji || "").trim()] 
 
 export function picUrl(id) {
   const f = `${id}.webp`;
-  if (!remote.has(f)) return `./assets/pics/${f}`;
-  return remoteBase ? `${remoteBase}${f}` : "";
+  return remote.has(f) ? `./assets/pics/bank/${f}` : `./assets/pics/${f}`;
 }
 
 /** <img> for a token id; sized like text (1.15em) so it drops in wherever an emoji was. */
 export function picImg(id) {
-  const src = picUrl(id);
-  return src ? `<img class="vpic" src="${src}" alt="" draggable="false" decoding="async">` : "";
+  const f = `${id}.webp`;
+  const r2 = remote.has(f) && remoteBase ? ` data-r2="${remoteBase}${f}"` : "";
+  return `<img class="vpic" src="${picUrl(id)}" data-pic="${id}"${r2} alt="" draggable="false" decoding="async">`;
 }
 
 /** Replace every "@id" token in already-safe text/HTML with its picture. */

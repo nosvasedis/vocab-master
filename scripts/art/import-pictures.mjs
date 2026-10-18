@@ -8,7 +8,7 @@
        characters: { "<lesson id>|<cast key>": file }   (story characters, per lesson)
        ui: { "<id>": file }                            (game avatars and team mascots)
    – moves the original to art-brief/pictures/done/,
-   – places phase 4–5 pictures in assets/pics/bank/ (served from R2, listed in manifest.remote); phases 0–3 stay bundled.
+   – places phase 4–5 pictures in assets/pics/bank/ (listed in manifest.remote; also uploaded to R2 as a fallback copy).
    Usage: node scripts/art/import-pictures.mjs [--dry-run] */
 import fs from "node:fs";
 import path from "node:path";
@@ -63,8 +63,8 @@ for (const f of files) {
   if (!DRY) fs.renameSync(src, path.join(DONE, f));
   imported++;
 }
-// Delivery split: phases 0–3 (lessons, characters, story props, avatars) ship inside the app; phases 4–5 (the rest
-// of the word bank) go to bank/ — gitignored, left out of the build, uploaded to R2 by scripts/packs/publish.mjs --pics.
+// Phases 0–3 (lessons, characters, story props, avatars) sit in assets/pics/; phases 4–5 (the rest of the word bank)
+// in assets/pics/bank/. Both ship with the app; bank/ is also on R2 (scripts/packs/publish.mjs --pics) as a fallback.
 const BANK = path.join(OUT, "bank");
 manifest.remote = [];
 if (!DRY) fs.mkdirSync(BANK, { recursive: true });

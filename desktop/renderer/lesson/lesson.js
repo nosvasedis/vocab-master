@@ -53,7 +53,7 @@ export function lessonWords(lesson) {
       greek: row.greek,
       example: row.example,
       // The illustrated picture (picture set) when there is one, else the lesson's / bank's emoji.
-      emoji: picForWord(row.english, row.type) || onePicture(fw.emoji || firstEmoji(row.emojis)),
+      emoji: picForWord(row.english, row.type, onePicture(fw.emoji || firstEmoji(row.emojis))) || onePicture(fw.emoji || firstEmoji(row.emojis)),
       emojis: fw.emoji || row.emojis,
       kidDefinition: fw.kidDefinition || "",
       examples: fw.examples || [],
@@ -94,7 +94,7 @@ export async function openLesson(entryOrId, opts) {
     lesson,
     words,
     // Non-focus words (quiz distractors): the lesson's own picture, else a trusted bank emoji.
-    wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: picForWord(w.english, w.type) || lesson.pictures?.[id] || trustedEmoji(w) } : null; },
+    wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: picForWord(w.english, w.type, lesson.pictures?.[id] || trustedEmoji(w)) || lesson.pictures?.[id] || trustedEmoji(w) } : null; },
     deck,
     picture: opts.picture,
     bookLabel: label,

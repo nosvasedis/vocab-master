@@ -1,6 +1,6 @@
 /* Lingo Live — question builder (pure, DOM-free; tested in Node).
    Turns any arcade deck into a varied, picture-rich Kahoot-style question set. */
-import { shuffle, maskWordInText, distractorsFor, firstEmoji } from "../deck.js";
+import { shuffle, maskWordInText, distractorsFor, firstEmoji, gapOptions } from "../deck.js";
 
 export const SHAPES = ["tri", "dia", "cir", "sq"]; // ▲ ◆ ● ■ — red, blue, yellow, green
 
@@ -27,6 +27,12 @@ export function gapSentence(w) {
 
 const pic = (w) => firstEmoji(w.emojis);
 
+/** The text the gap sentence was made from (example, else collocation). */
+function gapSource(w) {
+  const ex = String(w.example || "");
+  return ex && ex.length <= 110 && maskWordInText(ex, w.english, "_____") ? ex : String(w.collocation || "");
+}
+
 /** Which question kinds can this word support? */
 function kindsFor(w, deck, { greek }) {
   const withPics = deck.filter((d) => pic(d));
@@ -40,13 +46,16 @@ function kindsFor(w, deck, { greek }) {
   return kinds;
 }
 
-function wordOptions(target, deck, avoidText = "") {
+function wordOptions(target, deck, avoidText = "", gapText = "") {
   // Never offer a wrong answer that already appears in the sentence on screen.
   const avoid = String(avoidText).toLowerCase();
   const inSentence = (w) => avoid.split(/[^a-z'-]+/).includes(w.english.toLowerCase());
   const pool = avoid ? deck.filter((w) => w.english === target.english || !inSentence(w)) : deck;
-  const opts = shuffle([target.english, ...distractorsFor(target, pool, 3)]);
-  return { options: opts.map((t) => ({ text: t })), answer: opts.indexOf(target.english) };
+  const wrong = distractorsFor(target, pool, 3);
+  // In a gap the answer is the word as the sentence needs it ("uncles"), and the wrong answers match ("aunts").
+  const { answer, options } = gapText ? gapOptions(target, wrong, gapText) : { answer: target.english, options: [target.english, ...wrong] };
+  const opts = shuffle(options);
+  return { options: opts.map((t) => ({ text: t })), answer: opts.indexOf(answer) };
 }
 
 function pictureOptions(target, deck) {
@@ -96,7 +105,7 @@ function make(kind, w, deck, i) {
   const base = { id: `lq${i + 1}`, kind, kindLabel: KIND_LABEL[kind], word: w, sayAnswer: w.english };
   if (kind === "pic2word") return { ...base, prompt: "What's this?", picture: pic(w), ...wordOptions(w, deck) };
   if (kind === "word2pic") return { ...base, prompt: `Which picture is “${w.english}”?`, ...pictureOptions(w, deck) };
-  if (kind === "gap") { const prompt = gapSentence(w); return { ...base, prompt, picture: "", sayPrompt: w.example || "", ...wordOptions(w, deck, prompt) }; }
+  if (kind === "gap") { const prompt = gapSentence(w); return { ...base, prompt, picture: "", sayPrompt: w.example || "", ...wordOptions(w, deck, prompt, gapSource(w)) }; }
   if (kind === "greek") return { ...base, prompt: w.greek, promptLang: "el", ...wordOptions(w, deck) };
   if (kind === "truefalse") {
     const truth = Math.random() < 0.5;

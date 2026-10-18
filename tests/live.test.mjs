@@ -96,3 +96,15 @@ test("team assignment stays balanced and keeps existing members", () => {
   Object.values(t).forEach((x) => sizes[x]++);
   assert.ok(Math.abs(sizes[0] - sizes[1]) <= 1);
 });
+
+test("gap answers keep the sentence's ending, and so do the wrong answers", async () => {
+  const { gapOptions, surfaceForm } = await import("../desktop/renderer/arcade/deck.js");
+  const g = (w, wrong, text) => gapOptions({ english: w }, wrong, text);
+  assert.deepEqual(g("uncle", ["aunt", "baby", "box"], "I have two uncles."), { answer: "uncles", options: ["uncles", "aunts", "babies", "boxes"] });
+  assert.deepEqual(g("run", ["swim", "make"], "She is running fast.").options, ["running", "swimming", "making"]);
+  assert.deepEqual(g("stop", ["carry", "open"], "He stopped the car.").options, ["stopped", "carried", "opened"]);
+  assert.deepEqual(g("happy", ["big", "nice"], "It is happier now.").options, ["happier", "bigger", "nicer"]);
+  assert.equal(g("make", ["bake"], "Make a cake.").answer, "make"); // no give-away capital
+  assert.equal(surfaceForm("We like the farm.", "farm"), "farm");
+  assert.equal(surfaceForm("Go to bed now.", "go to bed"), ""); // phrases keep their dictionary form
+});

@@ -45,5 +45,3 @@ art-brief/pictures/sheets-incoming/*.png
 art-brief/pictures/sheets-done/
 art-brief/pictures/sheets-flagged.json
 art-brief/pictures/PROGRESS.md
-# Word-bank pictures (phases 4–5): served from R2 (scripts/packs/publish.mjs --pics), not bundled or committed
-desktop/renderer/assets/pics/bank/
