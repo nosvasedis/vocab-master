@@ -678,3 +678,11 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
 }
+
+/* Illustrated pictures (picture set, js/pics.js): sized like the emoji they replace. They are transparent
+   PNG-style cut-outs, a little larger than an emoji glyph so details read at small sizes. */
+img.vpic { display: inline-block; width: 1.15em; height: 1.15em; object-fit: contain; vertical-align: -0.22em; user-select: none; -webkit-user-drag: none; }
+img.vpic.vpic-off { visibility: hidden; }
+.pf img.vpic { width: 1.1em; height: 1.1em; vertical-align: middle; }
+.st-emoji img.vpic { width: 1.2em; height: 1.2em; } /* story characters: full figures */
+.rv-pic img.vpic, .rv-tile-pic img.vpic { width: 1.35em; height: 1.35em; } /* lesson word cards: fill the circle */

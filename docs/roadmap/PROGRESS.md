@@ -21,6 +21,24 @@
   4. Phase 2c: classroom pilot of Lingo Live phones (see Phase 2b below).
 - **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
 
+## Picture set in the app ✅ (2026-10-18, branch feature/picture-set-import)
+- **Pictures:** all 2,828 are drawn (Codex, Gemini and Cursor). Gemini did the visual QA. Originals are in `art-brief/pictures/done/` (gitignored, 1.6 GB).
+- **Delivery (decided with the user):**
+  - Phases 0–3 (lesson words, characters, story props, avatars and mascots; 1,043 WebP, 18 MB) are bundled in `desktop/renderer/assets/pics/`.
+  - Phases 4–5 (the rest of the word bank; 1,785 WebP, 33 MB) live in `assets/pics/bank/`, which is gitignored and excluded from the build. They are uploaded to R2 `pics/` with `node scripts/packs/publish.mjs --pics`.
+  - `import-pictures.mjs` does this split on every run and lists the R2 files in `manifest.remote`.
+  - The installer is about 165 MB, up from 146.
+- **How it works (`js/pics.js`):**
+  - A picture travels through the existing emoji fields as a token `@<id>` (e.g. `@w-house`), and the shared `picture()` in main.js renders it as `<img class="vpic">` (1.15em, so it sizes like an emoji). Every picture style shows illustrations except "No pictures".
+  - Lessons: focus words, distractors, story characters (per lesson and cast key) and story props (noun stems) use it.
+  - Arcade decks: `buildArcadeDeck` swaps in the token.
+  - Lingo Live projector: phone avatars and team mascots are drawn by `avatarPic` / `teamPic`. Phones still show emoji.
+  - A picture that can't load hides (`.vpic-off`). The CSP allows `img-src https://*.r2.dev`.
+- **Not illustrated yet:** worksheets and Word export still use the emoji or picture style. Word needs PNG/JPG, not WebP.
+- **Tests:** `tests/pics.test.mjs` checks that every focus word has a bundled picture, every story character has one, and every manifest file is bundled or listed for R2.
+- **Tools kept:** `scripts/art/gemini-pictures.mjs` and `gemini-batch-sheets.mjs`, both through the ledger. Don't use the Antigravity `art-worker.mjs`: it bypassed the ledger.
+- **Image spend:** gemini-images $0.74, in the ledger.
+
 ## Audio language for the whole app (2026-10-18, branch feature/audio-language, from the user)
 - **Ask:** sounds everywhere they help (not the lesson recorder), beautiful, and working on strong and weak machines alike.
 - **Palette (`arcade/sounds.js`):** 42 synth recipes, no audio files: soft mallets and FM glass bells in C major, airy noise for motion, warm knocks instead of harsh buzzes. Interface sounds are under 150 ms and quiet; game sounds are louder for projector speakers.

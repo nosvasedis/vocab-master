@@ -13,6 +13,7 @@ const COLOUR_STYLE = /\p{Emoji_Presentation}/u;
 export function onePicture(e) {
   const s = String(e || "").trim();
   if (!s) return "";
+  if (s.startsWith("@")) return s.split(/\s+/)[0]; // a picture-set token ("@w-house") is one picture
   const first = graphemes ? [...graphemes.segment(s)][0].segment : Array.from(s)[0];
   return TEXT_STYLE.test(first) && !COLOUR_STYLE.test(first) ? `${first}️` : first;
 }

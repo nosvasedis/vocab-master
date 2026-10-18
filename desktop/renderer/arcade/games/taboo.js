@@ -1,5 +1,6 @@
 /* Hot Seat — one student faces away; the team describes words without the forbidden ones. Timed rounds. */
 import { buildTabooCard, shuffle, typeName } from "../deck.js";
+import { teamPic, avatarPic } from "../../js/pics.js";
 
 export default {
   id: "taboo",
@@ -33,7 +34,7 @@ export default {
       stage.innerHTML = `
         <div class="ts-lobby">
           <div class="ts-seat" style="--team:${team.color}">
-            <span class="ts-emoji">${teams.solo ? "🪑" : team.emoji}</span>
+            <span class="ts-emoji">${teams.solo ? "🪑" : teamPic(team.emoji)}</span>
             <h2>${teams.solo ? "Who's in the hot seat?" : `${esc(team.name)}, you're up!`}</h2>
             <p>One student sits with their back to the board. Everyone else describes each word — in English, without the forbidden words.</p>
           </div>

@@ -26,6 +26,7 @@ import { configureAudio, play } from "../arcade/audio.js";
 import { initInterfaceSounds } from "./sound-ui.js";
 import { initVoice } from "../arcade/voice.js";
 import { ensurePictureStyle, pictureSvg } from "./pictures.js";
+import { initPics, picImg } from "./pics.js";
 import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
 import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, bookLabel } from "../lesson/lesson.js";
 
@@ -220,10 +221,15 @@ function deckContext() {
 }
 
 /** Draw a word's emojis in the chosen picture style (games and lessons use the same style as the worksheets).
+ *  Picture-set tokens ("@w-house", js/pics.js) become illustrations in every style except "No pictures".
  *  keepText: also keep (escaped) the non-emoji text around the pictures. */
 function picture(text, keepText = false) {
   const style = prefs.pictureStyle || "emoji";
-  return splitEmojiText(text || "").map((p) => {
+  const str = String(text || "");
+  if (str.includes("@")) {
+    return str.split(/(@(?:w|c|ui)-[a-z0-9][a-z0-9-]*)/).map((part, i) => (i % 2 ? (style === "none" ? "" : picImg(part.slice(1))) : picture(part, keepText))).join("").trim();
+  }
+  return splitEmojiText(str).map((p) => {
     if (!p.emoji) return keepText ? esc(p.text) : "";
     if (style === "none") return "";
     if (style === "emoji") return esc(p.text);
@@ -321,7 +327,7 @@ async function boot() {
     await hydrateStorage();
     applyTheme();
     configureAudio(soundPrefs());
-    await ensurePictureStyle(prefs.pictureStyle);
+    await Promise.all([ensurePictureStyle(prefs.pictureStyle), initPics()]);
     initVoice();
 
     const hadDraft = loadDraft();

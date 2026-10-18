@@ -1,5 +1,6 @@
 /* Spell Bee — hear it, see the clue, build the word from letter tiles (or type it). */
 import { shuffle, maskWordInText, typeName } from "../deck.js";
+import { teamPic } from "../../js/pics.js";
 
 const isLetter = (ch) => /[a-z]/i.test(ch);
 
@@ -57,7 +58,7 @@ export default {
       ctx.setProgress(`Word <b>${r + 1}</b> / ${rounds.length} · ${correctCount} correct`);
       stage.innerHTML = `
         <div class="spell">
-          ${teams.solo ? "" : `<div class="turn-banner" style="--team:${teams.active().color}">${teams.active().emoji} ${esc(teams.active().name)}, spell it!</div>`}
+          ${teams.solo ? "" : `<div class="turn-banner" style="--team:${teams.active().color}">${teamPic(teams.active().emoji)} ${esc(teams.active().name)}, spell it!</div>`}
           <div class="sp-clue">
             ${clueHtml(w)}
           </div>

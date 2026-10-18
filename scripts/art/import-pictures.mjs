@@ -7,7 +7,8 @@
        nouns: { "<singular stem>": file }               (lets story props find their picture)
        characters: { "<lesson id>|<cast key>": file }   (story characters, per lesson)
        ui: { "<id>": file }                            (game avatars and team mascots)
-   – moves the original to art-brief/pictures/done/.
+   – moves the original to art-brief/pictures/done/,
+   – places phase 4–5 pictures in assets/pics/bank/ (served from R2, listed in manifest.remote); phases 0–3 stay bundled.
    Usage: node scripts/art/import-pictures.mjs [--dry-run] */
 import fs from "node:fs";
 import path from "node:path";
@@ -62,7 +63,19 @@ for (const f of files) {
   if (!DRY) fs.renameSync(src, path.join(DONE, f));
   imported++;
 }
+// Delivery split: phases 0–3 (lessons, characters, story props, avatars) ship inside the app; phases 4–5 (the rest
+// of the word bank) go to bank/ — gitignored, left out of the build, uploaded to R2 by scripts/packs/publish.mjs --pics.
+const BANK = path.join(OUT, "bank");
+manifest.remote = [];
+if (!DRY) fs.mkdirSync(BANK, { recursive: true });
+for (const job of jobs) {
+  const f = `${job.id}.webp`;
+  const remote = job.phase >= 4;
+  const [from, to] = remote ? [path.join(OUT, f), path.join(BANK, f)] : [path.join(BANK, f), path.join(OUT, f)];
+  if (!DRY && fs.existsSync(from) && !fs.existsSync(to)) fs.renameSync(from, to);
+  if (remote) manifest.remote.push(f);
+}
 if (!DRY) fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 1) + "\n");
-const kb = fs.existsSync(OUT) ? Math.round(fs.readdirSync(OUT).filter((f) => f.endsWith(".webp")).reduce((s, f) => s + fs.statSync(path.join(OUT, f)).size, 0) / 1024) : 0;
-console.log(`${DRY ? "Would import" : "Imported"} ${imported} picture(s) → desktop/renderer/assets/pics (${kb} KB total)`);
+const kbIn = (d) => (fs.existsSync(d) ? Math.round(fs.readdirSync(d).filter((f) => f.endsWith(".webp")).reduce((s, f) => s + fs.statSync(path.join(d, f)).size, 0) / 1024) : 0);
+console.log(`${DRY ? "Would import" : "Imported"} ${imported} picture(s) → desktop/renderer/assets/pics (${kbIn(OUT)} KB bundled · ${kbIn(BANK)} KB in bank/ for R2, ${manifest.remote.length} files)`);
 if (skipped.length) console.log(`Skipped:\n  ${skipped.join("\n  ")}`);

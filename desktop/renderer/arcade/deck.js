@@ -2,6 +2,7 @@
    Vocab Master — Arcade deck helpers (pure, DOM-free)
    Shared by the engine (app.js) and the Lingo Arcade games.
    ══════════════════════════════════════════════════════════════════ */
+import { picForWord, isPicToken } from "../js/pics.js";
 
 export function shuffle(arr) {
   const out = [...arr];
@@ -96,11 +97,14 @@ export function buildArcadeDeck(rawWords = [], lookupFn = null) {
     seen.add(key);
     const cb = typeof lookupFn === "function" ? lookupFn(english) : null;
     const pick = (field) => flattenField(raw[field]) || flattenField(cb?.[field]);
+    const type = pick("type");
+    const emojis = pick("emojis");
     const item = {
       english,
-      type: pick("type"),
+      type,
       greek: pick("greek"),
-      emojis: pick("emojis"),
+      // The illustrated picture (picture set, "@w-…" token) replaces the emoji when the word has one.
+      emojis: isPicToken(firstEmoji(emojis)) ? emojis : picForWord(english, type) || emojis,
       collocation: pick("collocation"),
       example: pick("example"),
       derivatives: pick("derivatives"),

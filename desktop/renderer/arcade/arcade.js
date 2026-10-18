@@ -12,6 +12,7 @@ import spelling from "./games/spelling.js";
 import quiz from "./games/quiz.js";
 import taboo from "./games/taboo.js";
 import live from "./games/live.js";
+import { teamPic, avatarPic } from "../js/pics.js";
 
 export const GAMES = [live, flashcards, memory, spelling, quiz, taboo];
 
@@ -172,7 +173,7 @@ function renderTeams() {
   const solo = session.teams.length === 1;
   wrap.innerHTML = session.teams.map((t, i) => `
     <div class="arc-team${!solo && i === session.active ? " active" : ""}" data-team="${i}" style="--team:${t.color}" title="${solo ? "Class score" : "Click to make it this team's turn"}">
-      <span class="t-emoji">${t.emoji}</span>
+      <span class="t-emoji">${teamPic(t.emoji)}</span>
       <span class="t-name">${esc(t.name)}</span>
       <span class="t-score">${t.score}</span>
       <span class="t-adj"><button type="button" data-adj="1" aria-label="Add a point">+</button><button type="button" data-adj="-1" aria-label="Remove a point">−</button></span>
@@ -251,7 +252,7 @@ function showHub() {
         </div>
         <div class="ht-names">
           ${session.teams.length > 1 ? session.teams.map((t, i) => `
-            <label class="ht-name" style="--team:${t.color}"><span>${t.emoji}</span><input data-name="${i}" value="${esc(t.name)}" maxlength="16" spellcheck="false" aria-label="Team ${i + 1} name" /></label>`).join("") : `<p class="ht-solo">Everyone plays together — perfect for warm-ups and revision.</p>`}
+            <label class="ht-name" style="--team:${t.color}"><span>${teamPic(t.emoji)}</span><input data-name="${i}" value="${esc(t.name)}" maxlength="16" spellcheck="false" aria-label="Team ${i + 1} name" /></label>`).join("") : `<p class="ht-solo">Everyone plays together — perfect for warm-ups and revision.</p>`}
         </div>
       </section>
 
@@ -356,7 +357,7 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
       ${stats.length ? `<div class="fin-stats">${stats.map((s) => `<div><b>${esc(s.value)}</b><span>${esc(s.label)}</span></div>`).join("")}</div>` : ""}
       ${!solo ? `<div class="podium">${teams.map((t, i) => `
         <div class="pod" style="--team:${t.color};--h:${Math.max(44, Math.round((t.score / Math.max(1, winner.score)) * 160))}px;animation-delay:${i * 120}ms">
-          <span class="pod-emoji">${t.emoji}</span><span class="pod-name">${esc(t.name)}</span>
+          <span class="pod-emoji">${teamPic(t.emoji)}</span><span class="pod-name">${esc(t.name)}</span>
           <span class="pod-bar"><b>${t.score}</b></span>
         </div>`).join("")}</div>` : `<div class="fin-score"><b>${winner.score}</b><span>class points</span></div>`}
       <div class="fin-actions">

@@ -9,6 +9,7 @@ import { pointsFor, rankTeams, scorePhoneRound, assignTeams } from "../live/scor
 import qrcode from "../../vendor/qrcode/qrcode.js";
 import { playMusic, stopMusic, setTension, stings } from "../live/music.js";
 import { hasVoiceFor } from "../voice.js";
+import { teamPic, avatarPic } from "../../js/pics.js";
 
 const W = 1600;
 const H = 900;
@@ -96,7 +97,7 @@ export default {
           <div class="lv-lobby-grid">
             ${prefs.mode === "phones" ? phonesPanel() : `<section class="lv-panel lv-teams-panel">
               <h3>${solo() ? "Playing as one class" : `${T().length} teams ready`}</h3>
-              <div class="lv-team-cards">${T().map((t, i) => `<div class="lv-team-card" style="--team:${t.color};--d:${i}"><span>${t.emoji}</span><b>${esc(t.name)}</b><em>Ready!</em></div>`).join("")}</div>
+              <div class="lv-team-cards">${T().map((t, i) => `<div class="lv-team-card" style="--team:${t.color};--d:${i}"><span>${teamPic(t.emoji)}</span><b>${esc(t.name)}</b><em>Ready!</em></div>`).join("")}</div>
               <p class="lv-note">Change teams and names on the games screen.</p>
             </section>`}
             <section class="lv-panel lv-how">
@@ -139,10 +140,10 @@ export default {
     function wallHtml() {
       const ids = pids();
       if (!ids.length) return `<p class="lv-note big">Waiting for players… 📱</p>`;
-      const chip = (uid) => `<button type="button" class="lv-player${kickArm === uid ? " arm" : ""}" data-kick="${uid}" title="Tap twice to remove">${esc(players[uid].avatar)} ${esc(players[uid].name)}${kickArm === uid ? " ✕" : ""}</button>`;
+      const chip = (uid) => `<button type="button" class="lv-player${kickArm === uid ? " arm" : ""}" data-kick="${uid}" title="Tap twice to remove">${avatarPic(players[uid].avatar)} ${esc(players[uid].name)}${kickArm === uid ? " ✕" : ""}</button>`;
       const head = `<p class="lv-count-line"><b>${ids.length}</b> ${ids.length === 1 ? "player" : "players"}</p>`;
       if (solo()) return head + `<div class="lv-chips">${ids.map(chip).join("")}</div>`;
-      return head + `<div class="lv-team-cols">${T().map((t, i) => `<div class="lv-col" style="--team:${t.color}"><h4>${t.emoji} ${esc(t.name)}</h4>${ids.filter((u) => teamOf[u] === i).map(chip).join("")}</div>`).join("")}</div>`;
+      return head + `<div class="lv-team-cols">${T().map((t, i) => `<div class="lv-col" style="--team:${t.color}"><h4>${teamPic(t.emoji)} ${esc(t.name)}</h4>${ids.filter((u) => teamOf[u] === i).map(chip).join("")}</div>`).join("")}</div>`;
     }
 
     function drawQr() {
@@ -235,7 +236,7 @@ export default {
     /* ── Question ──────────────────────────────────────────────────── */
     function optionHtml(o, k, q) {
       const body = o.pic ? `<span class="lv-opt-pic">${pic(o.pic)}</span>` : `<span class="lv-opt-text">${esc(o.text)}</span>`;
-      const dock = solo() || phones() ? "" : `<span class="lv-dock">${T().map((t, i) => `<button type="button" class="lv-dock-btn" data-team="${i}" data-opt="${k}" style="--team:${t.color}" aria-label="${esc(t.name)} chose ${KEYS[k]}">${t.emoji}</button>`).join("")}</span>`;
+      const dock = solo() || phones() ? "" : `<span class="lv-dock">${T().map((t, i) => `<button type="button" class="lv-dock-btn" data-team="${i}" data-opt="${k}" style="--team:${t.color}" aria-label="${esc(t.name)} chose ${KEYS[k]}">${teamPic(t.emoji)}</button>`).join("")}</span>`;
       return `<div class="lv-opt s-${SHAPES[k]}${q.options.length === 2 ? " tf" : ""}" data-opt-tile="${k}" style="--d:${k}">
         <span class="lv-shape">${SHAPE_SVG[SHAPES[k]]}</span>${body}<span class="lv-key">${k + 1}</span>${dock}</div>`;
     }
@@ -259,7 +260,7 @@ export default {
           <div class="lv-q-mid">
             <div class="lv-timer" id="lvTimer"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52"/><circle class="prog" cx="60" cy="60" r="52"/></svg><b id="lvLeft">${prefs.time}</b></div>
             <div class="lv-q-visual">${listen ? `<button type="button" class="lv-listen" data-hear>👂<span>Listen again</span></button>` : bigPic ? `<span class="lv-q-pic">${pic(q.picture)}</span>` : q.picture ? `<span class="lv-q-pic sm">${pic(q.picture)}</span>` : ""}</div>
-            <div class="lv-q-side">${phones() ? `<div class="lv-q-answered big" id="lvAnswered"><b>0</b> / ${pids().length}<span>answers</span></div>` : solo() ? "" : `<div class="lv-q-answered" id="lvAnswered"><b>0</b> / ${T().length} answered</div><div class="lv-pick" id="lvPick">${T().map((t, i) => `<span class="lv-pick-team${i === 0 ? " on" : ""}" data-pick="${i}" style="--team:${t.color}"><kbd>${i + 1}</kbd>${t.emoji}</span>`).join("")}</div>`}</div>
+            <div class="lv-q-side">${phones() ? `<div class="lv-q-answered big" id="lvAnswered"><b>0</b> / ${pids().length}<span>answers</span></div>` : solo() ? "" : `<div class="lv-q-answered" id="lvAnswered"><b>0</b> / ${T().length} answered</div><div class="lv-pick" id="lvPick">${T().map((t, i) => `<span class="lv-pick-team${i === 0 ? " on" : ""}" data-pick="${i}" style="--team:${t.color}"><kbd>${i + 1}</kbd>${teamPic(t.emoji)}</span>`).join("")}</div>`}</div>
           </div>
           <div class="lv-timebar"><i id="lvBar"></i></div>
           <div class="lv-opts${q.options.length === 2 ? " two" : ""}" id="lvOpts">${q.options.map((o, k) => optionHtml(o, k, q)).join("")}</div>
@@ -391,13 +392,13 @@ export default {
         <div class="lv-learn">${w.emojis ? `<span class="lv-learn-pic">${pic(w.emojis.split(/\s+/)[0])}</span>` : ""}<div><b>${esc(w.english)}</b>${w.greek ? `<span class="gk" lang="el"> · ${esc(w.greek)}</span>` : ""}${exHtml ? `<p>${exHtml}</p>` : ""}</div></div>
         <div class="lv-scores">${results.map((r) => `
           <div class="lv-score ${r.correct ? "ok" : "no"}" style="--team:${r.t.color}">
-            <span class="e">${r.t.emoji}</span>
+            <span class="e">${teamPic(r.t.emoji)}</span>
             <span class="n">${solo() ? "Class" : esc(r.t.name)}</span>
             ${round ? `<span class="c">${r.correctN}/${r.n} right</span>` : ""}
             <b>${r.correct ? `+<span data-count="${r.pts}">0</span>` : r.a ? "✗" : "—"}</b>
             ${r.streak >= 2 ? `<em>🔥 ${r.streak}</em>` : ""}
           </div>`).join("")}</div>
-        ${round?.fastest && players[round.fastest] ? `<p class="lv-fastest">⚡ Fastest: <b>${esc(players[round.fastest].avatar)} ${esc(players[round.fastest].name)}</b></p>` : ""}`;
+        ${round?.fastest && players[round.fastest] ? `<p class="lv-fastest">⚡ Fastest: <b>${avatarPic(players[round.fastest].avatar)} ${esc(players[round.fastest].name)}</b></p>` : ""}`;
       const lvq = screen.querySelector(".lv-q");
       lvq.appendChild(panel);
       lvq.insertAdjacentHTML("beforeend", `<button type="button" class="lv-next" data-next>${qi + 1 < questions.length ? (solo() && !phones() ? "Next question" : "Leaderboard") : "Final results"} ${svg("arrow-right", "i-sm")}<kbd>Space</kbd></button>`);
@@ -435,11 +436,11 @@ export default {
             const t = T()[r.index];
             const was = show.prevOrder.indexOf(r.index);
             return `<div class="lv-row" data-row="${r.index}" style="--h:${rowH - 20}px;--team:${t.color};--from:${was * rowH}px;--to:${ranked.indexOf(r) * rowH}px;--w:${Math.max(6, (r.score / top) * 100)}%">
-              <span class="lv-rank">${r.rank}</span><span class="lv-row-e">${t.emoji}</span><span class="lv-row-n">${esc(t.name)}</span>
+              <span class="lv-rank">${r.rank}</span><span class="lv-row-e">${teamPic(t.emoji)}</span><span class="lv-row-n">${esc(t.name)}</span>
               <span class="lv-row-bar"><i></i></span><b class="lv-row-s" data-count="${r.score}">${r.score}</b>${show.streak[r.index] >= 2 ? `<em>🔥 ${show.streak[r.index]}</em>` : ""}</div>`;
           }).join("")}</div>
           ${phones() ? topPlayersHtml(3) : ""}
-          ${ranked[0].score > 0 ? `<p class="lv-lead">${T()[ranked[0].index].emoji} <b>${esc(T()[ranked[0].index].name)}</b> ${ranked[1] && ranked[1].score === ranked[0].score ? "share the lead!" : "are in the lead!"}</p>` : ""}
+          ${ranked[0].score > 0 ? `<p class="lv-lead">${teamPic(T()[ranked[0].index].emoji)} <b>${esc(T()[ranked[0].index].name)}</b> ${ranked[1] && ranked[1].score === ranked[0].score ? "share the lead!" : "are in the lead!"}</p>` : ""}
           <button type="button" class="lv-next" data-next>Next question ${svg("arrow-right", "i-sm")}<kbd>Space</kbd></button>
         </div>`, "is-board");
       show.prevOrder = ranked.map((r) => r.index);
@@ -450,7 +451,7 @@ export default {
       const ids = pids();
       return rankTeams(ids.map((u) => pstats[u]?.total || 0)).slice(0, n).map((o) => ({ uid: ids[o.index], rank: o.rank, score: o.score }));
     }
-    const topPlayersHtml = (n) => `<div class="lv-top">${topPlayers(n).map((p) => `<span>${p.rank}. ${esc(players[p.uid]?.avatar || "")} <b>${esc(players[p.uid]?.name || "")}</b> ${p.score}</span>`).join("")}</div>`;
+    const topPlayersHtml = (n) => `<div class="lv-top">${topPlayers(n).map((p) => `<span>${p.rank}. ${avatarPic(players[p.uid]?.avatar || "")} <b>${esc(players[p.uid]?.name || "")}</b> ${p.score}</span>`).join("")}</div>`;
 
     /** Whole class on phones: a player leaderboard (top 5). */
     function playerBoard() {
@@ -463,7 +464,7 @@ export default {
           <div class="lv-rows" style="height:${top.length * rowH}px">${top.map((p, k) => {
             const was = show.prevPlayers.indexOf(p.uid);
             return `<div class="lv-row" style="--h:${rowH - 18}px;--team:#8b6cff;--from:${(was < 0 ? top.length : was) * rowH}px;--to:${k * rowH}px;--w:${Math.max(6, (p.score / best) * 100)}%">
-              <span class="lv-rank">${p.rank}</span><span class="lv-row-e">${esc(players[p.uid]?.avatar || "")}</span><span class="lv-row-n">${esc(players[p.uid]?.name || "")}</span>
+              <span class="lv-rank">${p.rank}</span><span class="lv-row-e">${avatarPic(players[p.uid]?.avatar || "")}</span><span class="lv-row-n">${esc(players[p.uid]?.name || "")}</span>
               <span class="lv-row-bar"><i></i></span><b class="lv-row-s">${p.score}</b>${(pstats[p.uid]?.streak || 0) >= 2 ? `<em>🔥 ${pstats[p.uid].streak}</em>` : ""}</div>`;
           }).join("")}</div>
           <button type="button" class="lv-next" data-next>Next question ${svg("arrow-right", "i-sm")}<kbd>Space</kbd></button>
@@ -507,13 +508,13 @@ export default {
       // Places 2 – 1 – 3 on the stage; 4th (if any) listed below.
       const place = (n) => ranked[n] ? { ...ranked[n], t: T()[ranked[n].index] } : null;
       const p1 = place(0); const p2 = place(1); const p3 = place(2); const p4 = place(3);
-      const col = (p, cls, h) => (p ? `<div class="lv-pod ${cls}" style="--team:${p.t.color};--h:${h}px"><span class="lv-pod-e">${p.t.emoji}</span><b class="lv-pod-n">${esc(p.t.name)}</b><span class="lv-pod-s">${p.score}</span><div class="lv-pod-block"><i>${p.rank}</i></div><small>${show.right[p.index]}/${total} right</small></div>` : `<div class="lv-pod empty"></div>`);
+      const col = (p, cls, h) => (p ? `<div class="lv-pod ${cls}" style="--team:${p.t.color};--h:${h}px"><span class="lv-pod-e">${teamPic(p.t.emoji)}</span><b class="lv-pod-n">${esc(p.t.name)}</b><span class="lv-pod-s">${p.score}</span><div class="lv-pod-block"><i>${p.rank}</i></div><small>${show.right[p.index]}/${total} right</small></div>` : `<div class="lv-pod empty"></div>`);
       set(`
         <div class="lv-final">
           <h2 class="lv-final-title">And the winner is…</h2>
           <div class="lv-podium">${col(p2, "second", 190)}${col(p1, "first", 270)}${p3 ? col(p3, "third", 130) : ""}</div>
-          ${p4 ? `<p class="lv-fourth">${p4.t.emoji} ${esc(p4.t.name)} · ${p4.score} points</p>` : ""}
-          ${phones() && topPlayers(1)[0] ? `<p class="lv-fourth">🌟 Star player: ${esc(players[topPlayers(1)[0].uid]?.avatar || "")} <b>${esc(players[topPlayers(1)[0].uid]?.name || "")}</b> · ${topPlayers(1)[0].score}</p>` : ""}
+          ${p4 ? `<p class="lv-fourth">${teamPic(p4.t.emoji)} ${esc(p4.t.name)} · ${p4.score} points</p>` : ""}
+          ${phones() && topPlayers(1)[0] ? `<p class="lv-fourth">🌟 Star player: ${avatarPic(players[topPlayers(1)[0].uid]?.avatar || "")} <b>${esc(players[topPlayers(1)[0].uid]?.name || "")}</b> · ${topPlayers(1)[0].score}</p>` : ""}
           ${finalButtons()}
         </div>`, "is-podium");
       const reveal = (sel, ms) => later(() => { screen.querySelector(sel)?.classList.add("up"); sfx.whoosh(); }, ms);
@@ -534,7 +535,7 @@ export default {
     /** Whole class on phones: the top three players on the podium. */
     function playerPodium(total) {
       const top = topPlayers(3);
-      const col = (p, cls, h) => (p ? `<div class="lv-pod ${cls}" style="--team:${cls === "first" ? "#f2a900" : cls === "second" ? "#8b9bb4" : "#c47a3a"};--h:${h}px"><span class="lv-pod-e">${esc(players[p.uid]?.avatar || "")}</span><b class="lv-pod-n">${esc(players[p.uid]?.name || "")}</b><span class="lv-pod-s">${p.score}</span><div class="lv-pod-block"><i>${p.rank}</i></div><small>${pstats[p.uid]?.right || 0}/${total} right</small></div>` : "");
+      const col = (p, cls, h) => (p ? `<div class="lv-pod ${cls}" style="--team:${cls === "first" ? "#f2a900" : cls === "second" ? "#8b9bb4" : "#c47a3a"};--h:${h}px"><span class="lv-pod-e">${avatarPic(players[p.uid]?.avatar || "")}</span><b class="lv-pod-n">${esc(players[p.uid]?.name || "")}</b><span class="lv-pod-s">${p.score}</span><div class="lv-pod-block"><i>${p.rank}</i></div><small>${pstats[p.uid]?.right || 0}/${total} right</small></div>` : "");
       set(`
         <div class="lv-final">
           <h2 class="lv-final-title">And the winner is…</h2>

@@ -1,5 +1,6 @@
 /* Quiz Show — four-option questions with a countdown, streaks and a 50:50 lifeline per team. */
 import { buildDetectiveQuestions, typeName } from "../deck.js";
+import { teamPic, avatarPic } from "../../js/pics.js";
 
 const LETTERS = ["A", "B", "C", "D"];
 const TIME = 20;
@@ -34,7 +35,7 @@ export default {
       stage.innerHTML = `
         <div class="qz">
           <div class="qz-top">
-            ${teams.solo ? `<span></span>` : `<div class="turn-banner" style="--team:${team.color}">Question for ${team.emoji} ${esc(team.name)}</div>`}
+            ${teams.solo ? `<span></span>` : `<div class="turn-banner" style="--team:${team.color}">Question for ${teamPic(team.emoji)} ${esc(team.name)}</div>`}
             <div class="qz-tools">
               <button type="button" class="arc-btn ghost sm" data-fifty ${lifelines.get(teamIdx) ? "disabled" : ""}>${svg("scissors", "i-sm")}50 : 50</button>
               <button type="button" class="arc-btn ghost sm" data-timer>${svg("timer", "i-sm")}${timerOn ? "Timer on" : "Timer off"}</button>

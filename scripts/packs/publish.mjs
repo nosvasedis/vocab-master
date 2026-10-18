@@ -2,7 +2,8 @@
 /* Publish voice clips + manifest to Cloudflare R2 (bucket vocab-master-media, public r2.dev URL).
    The app streams clips from there (and caches them for offline use), so installers stay small and
    new narration reaches installed apps without a rebuild: the app also reads the remote manifest.
-   Usage: node scripts/packs/publish.mjs [--dry-run]     Resumable: work/state/publish.json */
+   --pics: word-bank pictures instead (desktop/renderer/assets/pics/bank/*.webp → pics/), which the app loads from R2.
+   Usage: node scripts/packs/publish.mjs [--pics] [--dry-run]     Resumable: work/state/publish.json */
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT, requireEnv } from "../lib/env.mjs";
@@ -24,7 +25,34 @@ async function put(key, body, type, cache) {
   throw new Error(`R2 PUT ${key} failed after retries`);
 }
 
+/** Word-bank pictures (phases 4–5 of the picture set): not bundled, served from R2 (pics/<id>.webp). */
+async function publishPics() {
+  const BANK = path.join(ROOT, "desktop", "renderer", "assets", "pics", "bank");
+  const files = (fs.existsSync(BANK) ? fs.readdirSync(BANK) : []).filter((f) => f.endsWith(".webp") && !state.uploaded[`pics/${f}`]);
+  const bytes = files.reduce((s, f) => s + fs.statSync(path.join(BANK, f)).size, 0);
+  console.log(`${files.length} new picture(s) to upload (${(bytes / 1e6).toFixed(1)} MB) → ${DELIVERY.publicBase}pics/`);
+  if (process.argv.includes("--dry-run")) return;
+  let i = 0;
+  let done = 0;
+  const failed = [];
+  const worker = async () => {
+    while (i < files.length) {
+      const f = files[i++];
+      try {
+        await put(`pics/${f}`, fs.readFileSync(path.join(BANK, f)), "image/webp", "public, max-age=31536000, immutable");
+        state.uploaded[`pics/${f}`] = 1;
+      } catch { failed.push(f); continue; }
+      if (++done % 100 === 0) { save(); process.stdout.write(`${done} `); }
+    }
+  };
+  try { await Promise.all(Array.from({ length: 6 }, worker)); } finally { save(); }
+  console.log(`
+Uploaded ${done} picture(s).${failed.length ? ` ${failed.length} failed — run again to retry them.` : ""}`);
+  if (failed.length) process.exitCode = 1;
+}
+
 async function main() {
+  if (process.argv.includes("--pics")) return publishPics();
   const manifest = JSON.parse(fs.readFileSync(path.join(AUDIO_DIR, "manifest.json"), "utf8"));
   const files = [...new Set(Object.values(manifest.entries).map((e) => e.f))].filter((f) => !state.uploaded[f] && fs.existsSync(path.join(AUDIO_DIR, f)));
   const bytes = files.reduce((s, f) => s + fs.statSync(path.join(AUDIO_DIR, f)).size, 0);

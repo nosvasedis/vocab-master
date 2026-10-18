@@ -13,6 +13,7 @@ import { narrate, stopAll, setNarration } from "./narrator.js";
 import { setCalm, rise, pop, award } from "./motion.js";
 import { createPopper, matchProps, splitToken } from "./wordpop.js";
 import { onePicture } from "./wordmatch.js";
+import { picForNoun } from "../js/pics.js";
 import hook from "./scenes/hook.js";
 import reveal from "./scenes/reveal.js";
 import story from "./scenes/story.js";
@@ -30,7 +31,7 @@ let P = null; // the open player
 const segmenter = typeof Intl !== "undefined" && Intl.Segmenter ? new Intl.Segmenter("en", { granularity: "grapheme" }) : null;
 function countEmoji(s) {
   const str = String(s || "").replace(/\s+/g, "");
-  if (!str) return 1;
+  if (!str || str.startsWith("@")) return 1; // a picture-set token is one picture
   return segmenter ? [...segmenter.segment(str)].length : Math.max(1, Math.round([...str].length / 2));
 }
 
@@ -145,7 +146,8 @@ export function openPlayer(o) {
         t++;
         if (gaps && /_{2,}/.test(part)) return `<span class="kw gap">${esc(part.replace(/_{2,}/, "      ")).replace(/ /g, "&nbsp;")}</span>`;
         const w = markWord(part);
-        let pic = onePicture(matched.get(t)?.emoji);
+        const prop = matched.get(t);
+        let pic = prop ? picForNoun(prop.label) || onePicture(prop.emoji) : "";
         // New words pop their picture too — only things (nouns), and never more than two pictures in a line.
         if (!pic && focusPics && w?.emoji && /^n|^n.|noun/i.test(String(w.type || "")) && !usedFocus.has(w.id) && matched.size + focusAdded < 2) { pic = w.emoji; focusAdded++; }
         if (pic && w) usedFocus.add(w.id);

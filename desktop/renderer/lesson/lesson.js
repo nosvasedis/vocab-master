@@ -3,6 +3,7 @@ import { CPP_WORDBANK, CPP_BOOKS } from "../coursebook-data.js";
 import { buildArcadeDeck, firstEmoji } from "../arcade/deck.js";
 import { openPlayer, isPlayerOpen, closePlayer } from "./player.js";
 import { onePicture } from "./wordmatch.js";
+import { picForWord, picForCharacter } from "../js/pics.js";
 
 const byId = new Map(CPP_WORDBANK.map((w) => [w.id, w]));
 // Most word-bank emojis are generic fillers (✨ sits on 200+ words); trust one only when ≤2 words share it.
@@ -51,7 +52,8 @@ export function lessonWords(lesson) {
       type: row.type,
       greek: row.greek,
       example: row.example,
-      emoji: onePicture(fw.emoji || firstEmoji(row.emojis)),
+      // The illustrated picture (picture set) when there is one, else the lesson's / bank's emoji.
+      emoji: picForWord(row.english, row.type) || onePicture(fw.emoji || firstEmoji(row.emojis)),
       emojis: fw.emoji || row.emojis,
       kidDefinition: fw.kidDefinition || "",
       examples: fw.examples || [],
@@ -81,6 +83,8 @@ export function bookLabel(lesson) {
 export async function openLesson(entryOrId, opts) {
   if (isPlayerOpen()) return;
   const lesson = await loadLesson(entryOrId);
+  // Story characters drawn for this lesson replace their emoji.
+  for (const [key, c] of Object.entries(lesson.cast || {})) { const p = picForCharacter(lesson.id, key); if (p && c) c.emoji = p; }
   const words = lessonWords(lesson);
   const deck = lessonDeck(words);
   const label = bookLabel(lesson);
@@ -90,7 +94,7 @@ export async function openLesson(entryOrId, opts) {
     lesson,
     words,
     // Non-focus words (quiz distractors): the lesson's own picture, else a trusted bank emoji.
-    wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: lesson.pictures?.[id] || trustedEmoji(w) } : null; },
+    wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: picForWord(w.english, w.type) || lesson.pictures?.[id] || trustedEmoji(w) } : null; },
     deck,
     picture: opts.picture,
     bookLabel: label,

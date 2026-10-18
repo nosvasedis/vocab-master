@@ -1,5 +1,6 @@
 /* Memory Match — numbered tiles; find each English word's partner. Teams keep their turn on a match. */
 import { shuffle, maskWordInText } from "../deck.js";
+import { teamPic } from "../../js/pics.js";
 
 const MODES = {
   emoji: { label: "Picture", partner: (w) => ({ main: w.emojis, sub: "", big: true }) },
@@ -93,7 +94,7 @@ export default {
       const secs = Math.round((Date.now() - started) / 1000);
       ctx.setProgress(`<b>${found}</b> / ${tiles.length / 2} pairs · ${moves} moves · ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`);
       const turn = stage.querySelector("#mmTurn");
-      if (turn) turn.innerHTML = teams.solo ? "" : `<span style="--team:${teams.active().color}">Turn: ${teams.active().emoji} ${esc(teams.active().name)}</span>`;
+      if (turn) turn.innerHTML = teams.solo ? "" : `<span style="--team:${teams.active().color}">Turn: ${teamPic(teams.active().emoji)} ${esc(teams.active().name)}</span>`;
     }
 
     function flipTile(idx) {

@@ -35,6 +35,7 @@
       "preload.cjs",
       "smoke-fixture.json",
       "renderer/**/*",
+      "!renderer/assets/pics/bank/**",
       "package.json"
     ],
     "asar": true,
