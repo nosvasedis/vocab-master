@@ -12,16 +12,19 @@ Work through `jobs.json` until every job has a picture. Follow this document exa
 |---|---|
 | `jobs.json` | **Source of truth.** 2,828 jobs, one per image: `id`, `file`, `phase`, `kind`, `frame`, `word`, `type`, `greek`, `meaning`, `examples`, `lookalikes`, `sameLesson`, plus characters' `look` and `personas`. |
 | `jobs.csv` | The same data for spreadsheets. |
+| `sheets.json` | **Sheet mode:** which jobs are drawn together, six per image, and in which cell (see §10). Also lists the 95 `singles` drawn one per image. |
 | `batches/` | The same jobs as paste-ready batches of 40, in phase order. `batches/INDEX.md` lists them. |
 | `lookalikes.md` | 169 groups of words that currently share one emoji. These are the hardest; read it before Phase 1. |
 | `characters.md` | All 86 story characters, with fixed looks for the recurring ones. Append the looks you design. |
 | `../style-reference.png` | Six of the app's lesson backgrounds. Match their colours and softness. |
-| `incoming/` | **Save every finished image here** as `incoming/<file>`, for example `incoming/w-carrot.png`. |
+| `sheets-incoming/` | **Save every generated sheet here** as `sheets-incoming/<sheet id>.png`. The slicer cuts it and moves it to `sheets-done/`. |
+| `incoming/` | Finished single pictures, `incoming/<file>` (for example `incoming/w-carrot.png`): cut from sheets by the slicer, or saved there directly for singles. |
 
 Helper scripts (run from the repository root):
 
 - `node scripts/art/check-pictures.mjs`: what's done, missing or invalid. It writes `art-brief/pictures/PROGRESS.md`.
-- `node scripts/art/picture-sheet.mjs --batch <batch file name>` or `--phase <n>`: a contact sheet in `art-brief/pictures/sheets/` for reviewing a batch at a glance.
+- `node scripts/art/slice-sheet.mjs`: cuts every sheet in `sheets-incoming/` into single pictures in `incoming/` and flags cells it could not cut cleanly.
+- `node scripts/art/picture-sheet.mjs --batch <batch file name>` or `--phase <n>`: a review sheet in `art-brief/pictures/review/` for checking finished pictures at a glance.
 - `node scripts/art/import-pictures.mjs`: converts finished pictures for the app. Claude normally runs this, but you may run it at the end of each phase.
 
 ---
@@ -170,25 +173,69 @@ The 16 phone avatars are head-and-shoulders animal portraits, big friendly eyes,
 
 ## 10. How to work (exact loop)
 
-1. **Phase 0, anchors (12 jobs).** Generate the 12 jobs in `batches/phase-0-anchors-001.md`. Then run
-   `node scripts/art/picture-sheet.mjs --phase 0`
-   and copy the sheet to `art-brief/pictures/anchor-sheet.png`. Check it against §2–§7.
-   - It must include *sing songs* and *chant* looking clearly different, Mia and Leo exactly as described, and every picture with a transparent background and no text.
-   - If a human is available, show them the anchor sheet and wait for an OK before continuing.
-   - From now on, **attach `anchor-sheet.png` and `../style-reference.png` to every generation** as style references.
-2. **Then phase by phase, batch by batch** (`batches/INDEX.md` order). For each job:
-   1. Read its fields in `jobs.json`.
-   2. Build the prompt from the template below.
-   3. Generate one image.
-   4. Save it as `incoming/<file>`.
-3. **After each batch of 40:**
-   1. Run `node scripts/art/check-pictures.mjs`.
-   2. Run `node scripts/art/picture-sheet.mjs --batch <batch file name>`.
-   3. Look at the sheet. **Redo** any picture that breaks a rule: text or letters, cut off, background not transparent, wrong meaning, looks like one of its look-alikes, off-style, scary.
-4. **Truly unpicturable words** (rare, for example *yourself*, *type* in the abstract sense): add `{ "id": "<id>", "reason": "<why>" }` to `art-brief/pictures/skipped.json` instead of drawing. Use this for under 1 % of jobs; almost every word can be shown as a concrete moment.
-5. When a phase is complete, run `node scripts/art/import-pictures.mjs`. It converts `incoming/` pictures for the app and moves the originals to `done/`. Then continue with the next phase. Stop only when `check-pictures` reports 0 missing.
+Most pictures are drawn **six at a time on one sheet** and cut apart by a script (*sheet mode*). That makes 589 generations instead of 2,828. `sheets.json` says which jobs go on which sheet.
 
-**Prompt template** (fill the angle brackets from the job):
+- **Singles (95 jobs, one image each):** the 12 Phase 0 anchors and all 83 other story characters. Faces and outfits need full attention.
+- **Sheets (494 sheets, 2,733 jobs):** everything else. Phase 1 sheets are grouped by lesson (`s1-CPP1-U1-A-1` holds lesson words from CPP1 Unit 1 Part A), so the words on a sheet are the look-alikes a child must tell apart. Drawing them side by side helps you make them different.
+
+### Sheet format (every sheet)
+
+- **1536 × 1024 PNG**, transparent background (or flat `#FF00FF` magenta), a **3 × 2 grid of invisible 512 × 512 cells**:
+
+  ```
+  +-----+-----+-----+
+  |  1  |  2  |  3  |
+  +-----+-----+-----+
+  |  4  |  5  |  6  |
+  +-----+-----+-----+
+  ```
+- Cell `n` in `sheets.json` goes in that position (row by row, left to right).
+- **Each item sits in the middle of its own cell** and stays inside the inner 80 % of it (about 410 × 410 px), so there is a **wide empty gap (at least 60 px) between items**. Nothing touches, overlaps or crosses into another cell. Shadows and small parts (music notes, motion puffs) stay close to their item.
+- **Cells not listed stay completely empty.** Many sheets have 4 or 5 items.
+- **No grid lines, no frames, no numbers, no labels, no text**, and no background scene. Only the six (or fewer) separate pictures.
+- Every item follows §2–§9 exactly as if it were drawn alone (frame, model kids, look-alikes). Plurals show two or three of the thing, close together, so they read as one item.
+
+### The loop
+
+1. **Phase 0, anchors (12 singles).** Generate the 12 jobs in `batches/phase-0-anchors-001.md`, one image each, saved as `incoming/<file>`. Then run
+   `node scripts/art/picture-sheet.mjs --phase 0`
+   and copy `art-brief/pictures/review/phase-0.png` to `art-brief/pictures/anchor-sheet.png`. Check it against §2–§7.
+   - It must include *sing songs* and *chant* looking clearly different, Mia and Leo exactly as described, and every picture with a transparent background and no text. Redo any anchor that fails, then rebuild the anchor sheet.
+   - Do not wait for a human. Continue straight away.
+   - From now on, **attach `anchor-sheet.png` and `../style-reference.png` to every generation** as style references.
+2. **Characters (83 singles, Phase 1).** Generate every job whose `kind` is `character` that is still missing, one image each, as `incoming/<file>`. Append any look you design to `characters.md`.
+3. **Sheets, in `sheets.json` order** (phase 1, then 2, 3, 4, 5). For each sheet:
+   1. Look up each cell's job in `jobs.json` (`id`).
+   2. Build the sheet prompt from the template below.
+   3. Generate one image and save it as **`sheets-incoming/<sheet id>.png`** (for example `sheets-incoming/s1-CPP1-U1-A-1.png`).
+   4. Run **`node scripts/art/slice-sheet.mjs`**. It cuts each item into `incoming/<file>` (1024 × 1024, centred) and moves the sheet to `sheets-done/`. It prints the cells it could not cut cleanly (empty, spilling into a neighbour, or touching another item).
+   5. **Open every picture it just cut** and check it shows *its own* word: an item in the wrong cell is cut under the wrong name. If a picture shows the wrong word or breaks a rule, delete it from `incoming/` and draw that job **as a single image** (1024 × 1024, template for singles below).
+   6. Draw every **flagged** cell as a single image too. `check-pictures` lists them under "Redraw as single images".
+   7. If a whole sheet comes out badly (wrong layout, merged items), delete its pictures from `incoming/`, delete the sheet from `sheets-done/` and generate the sheet again once. If it fails twice, draw its jobs as singles.
+4. **After every 10 sheets:**
+   1. Run `node scripts/art/check-pictures.mjs` (progress, problems, flagged cells, next sheets).
+   2. Run `node scripts/art/picture-sheet.mjs --phase <n>` and look at `review/phase-<n>.png`. **Redo** (as singles) any picture that breaks a rule: text or letters, cut off, background not transparent, wrong meaning, looks like one of its look-alikes, off-style, scary.
+5. **Truly unpicturable words** (rare, for example *yourself*, *type* in the abstract sense): add `{ "id": "<id>", "reason": "<why>" }` to `art-brief/pictures/skipped.json` instead of drawing, and leave its cell empty if its sheet isn't drawn yet. Use this for under 1 % of jobs; almost every word can be shown as a concrete moment.
+6. When a phase is complete (no missing jobs and no flagged cells left in it), run `node scripts/art/import-pictures.mjs`. It converts `incoming/` pictures for the app and moves the originals to `done/`. Then continue with the next phase. Stop only when `check-pictures` reports 0 missing.
+
+**Resuming:** `check-pictures` is the memory. Sheets in `sheets-done/` are finished; sheets in `sheets-incoming/` still need slicing; "Next sheets" and "Redraw as single images" in `PROGRESS.md` say what to do next. Never redraw a job whose file is already in `incoming/` or `done/`.
+
+**Sheet prompt template** (one block per listed cell):
+
+```
+STYLE: <the style bible from §3>
+REFERENCES: style-reference.png (backgrounds) and anchor-sheet.png (picture style, Mia and Leo).
+LAYOUT: one 1536x1024 PNG, transparent background, an invisible 3x2 grid of 512x512 cells numbered
+1 2 3 (top row) and 4 5 6 (bottom row). Draw exactly one separate picture in the centre of each listed
+cell, inside the inner 80% of the cell, with wide empty space between pictures. Leave unlisted cells empty.
+No grid lines, frames, numbers, labels, text or background scene.
+CELL <n>: "<word>" (<type>). Meaning: <meaning, or the sense given by the Greek "<greek>">.
+  Used in: "<examples[0]>". FRAME: <frame> — <direction>.
+  Must differ from: <lookalikes + sameLesson words>. <Your one-line plan for how it differs.>
+CELL <n>: …
+```
+
+**Single-image template** (anchors, characters, flagged or redone cells):
 
 ```
 STYLE: <the style bible from §3>
@@ -202,7 +249,7 @@ OUTPUT: 1024x1024 PNG, transparent background, subject centred with a 6% margin,
 
 For characters: `SUBJECT: story character <name> (<role>). Look: <look>. Personality: <personas[0]>. FRAME: character …`
 
-For avatars: `SUBJECT: <what>.`
+For avatars (on sheets): `CELL <n>: <what>.`
 
 ---
 
@@ -216,20 +263,20 @@ For avatars: `SUBJECT: <what>.`
 - [ ] Same style as `anchor-sheet.png`: soft flat vector, rounded, gentle gradients, no black outlines.
 - [ ] Mia and Leo look exactly like their descriptions. Named characters match `characters.md`.
 - [ ] Friendly and safe for children.
-- [ ] Saved as exactly `incoming/<file>`.
+- [ ] Saved as exactly `incoming/<file>` (singles) or cut there by the slicer (sheets), and showing *its own* word.
 
 ---
 
 ## 12. Phases and counts
 
-| phase | what | images |
-|---|---|---|
-| 0 | anchors (style check: Mia, Leo, Grandma Eleni, house, carrot, bee, beach, sing songs, chant, run, enormous, under) | 12 |
-| 1 | the other story characters and all lesson words | 781 |
-| 2 | things the stories mention (props) that aren't lesson words | 230 |
-| 3 | game avatars and team mascots | 20 |
-| 4 | the rest of the coursebook word bank: nouns (worksheets and games) | 994 |
-| 5 | the rest of the word bank: verbs, adjectives, phrases, adverbs, prepositions | 791 |
-| | **total** | **2,828** |
+| phase | what | images | generations |
+|---|---|---|---|
+| 0 | anchors (style check: Mia, Leo, Grandma Eleni, house, carrot, bee, beach, sing songs, chant, run, enormous, under) | 12 | 12 singles |
+| 1 | the other story characters and all lesson words | 781 | 83 character singles + sheets |
+| 2 | things the stories mention (props) that aren't lesson words | 230 | sheets |
+| 3 | game avatars and team mascots | 20 | sheets |
+| 4 | the rest of the coursebook word bank: nouns (worksheets and games) | 994 | sheets |
+| 5 | the rest of the word bank: verbs, adjectives, phrases, adverbs, prepositions | 791 | sheets |
+| | **total** | **2,828** | **589** (95 singles + 494 sheets) |
 
 Phases 0–3 make the lessons and the live quiz fully illustrated. Phases 4–5 cover every worksheet and game word.

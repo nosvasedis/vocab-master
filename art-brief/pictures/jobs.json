@@ -406,7 +406,6 @@
    "examples": [],
    "placeholder": "🏖️",
    "lookalikes": [
-    "sandcastle",
     "buried"
    ],
    "sameLesson": [
@@ -459,7 +458,6 @@
    "placeholder": "🐝",
    "lookalikes": [
     "hive",
-    "sting",
     "sting-stung",
     "honeybee"
    ],
@@ -554,9 +552,9 @@
    "examples": [
     "The children chanted the name of their team at the match."
    ],
-   "placeholder": "🔁🎶",
+   "placeholder": "📣",
    "lookalikes": [
-    "tradition"
+    "take charge"
    ],
    "sameLesson": [
     "instrument",
@@ -591,7 +589,6 @@
    "placeholder": "🐘",
    "lookalikes": [
     "herd",
-    "lead",
     "huge"
    ],
    "sameLesson": [
@@ -626,12 +623,7 @@
    ],
    "placeholder": "🏠",
    "lookalikes": [
-    "neighbor",
-    "animal shelter",
-    "street",
-    "between",
-    "suburb",
-    "shelter"
+    "suburb"
    ],
    "sameLesson": [
     "parent",
@@ -693,7 +685,7 @@
    "examples": [
     "We sing songs in our English class."
    ],
-   "placeholder": "🎤🎶",
+   "placeholder": "🎤",
    "lookalikes": [
     "pop music"
    ],
@@ -3027,16 +3019,11 @@
    ],
    "placeholder": "🏃",
    "lookalikes": [
-    "gym",
     "move",
     "run away",
-    "race",
-    "join",
     "escape",
-    "result",
-    "warm-up",
-    "stay in shape",
-    "compete"
+    "athlete",
+    "warm-up"
    ],
    "sameLesson": [
     "free time",
@@ -3068,7 +3055,7 @@
    "examples": [
     "Can you give me some advice, please?"
    ],
-   "placeholder": "💬✅",
+   "placeholder": "💬",
    "lookalikes": [
     "discussion",
     "respond"
@@ -3103,10 +3090,11 @@
    "examples": [
     "First I do my homework and after that, I play."
    ],
-   "placeholder": "🍽️➡️⚽",
+   "placeholder": "⚽",
    "lookalikes": [
-    "set the table",
-    "mealtime"
+    "play soccer",
+    "roll",
+    "pass"
    ],
    "sameLesson": [
     "similarity",
@@ -3139,12 +3127,9 @@
     "You're right! I agree with you!",
     "I agree with you, Maya. Bread is yummy!"
    ],
-   "placeholder": "🧠🟰🧠",
+   "placeholder": "👍",
    "lookalikes": [
-    "disagree",
-    "memory",
-    "smart",
-    "express"
+    "positive"
    ],
    "sameLesson": [
     "similarity",
@@ -3186,11 +3171,12 @@
    ],
    "placeholder": "💨",
    "lookalikes": [
+    "chase",
     "windy",
     "gas",
     "breathe",
     "blow",
-    "hair dryer"
+    "sprint"
    ],
    "sameLesson": [
     "tree",
@@ -3293,10 +3279,8 @@
    ],
    "placeholder": "🧍",
    "lookalikes": [
-    "wax figure",
-    "in front of",
-    "still",
-    "podium"
+    "between",
+    "still"
    ],
    "sameLesson": [
     "teddy bear",
@@ -3432,10 +3416,9 @@
     "Ancient Egyptians built pyramids for their kings.",
     "We visited ancient ruins in Greece."
    ],
-   "placeholder": "🏛️⏳",
+   "placeholder": "🏛️",
    "lookalikes": [
-    "museum",
-    "gallery"
+    "museum"
    ],
    "sameLesson": [
     "collection",
@@ -3476,12 +3459,8 @@
     "What's your favourite animal?",
     "Animals are amazing. Some fly. Some swim. Some live in the snow."
    ],
-   "placeholder": "🐶🐄",
-   "lookalikes": [
-    "disruption",
-    "naughty",
-    "mammal"
-   ],
+   "placeholder": "🐶",
+   "lookalikes": [],
    "sameLesson": [
     "parent",
     "grandparent",
@@ -3536,14 +3515,9 @@
    "examples": [
     "The dogs at the animal shelter need our love."
    ],
-   "placeholder": "🏠🐕",
+   "placeholder": "🐕",
    "lookalikes": [
-    "house",
-    "neighbor",
-    "street",
-    "between",
-    "suburb",
-    "shelter"
+    "hound"
    ],
    "sameLesson": [
     "community",
@@ -3577,7 +3551,7 @@
    "examples": [
     "I hurt my ankle when I jumped off the wall."
    ],
-   "placeholder": "🦵🦶",
+   "placeholder": "🦶",
    "lookalikes": [],
    "sameLesson": [
     "whistle",
@@ -3653,10 +3627,8 @@
    "examples": [
     "The deer shakes its big antlers."
    ],
-   "placeholder": "🦌🌿",
-   "lookalikes": [
-    "reindeer"
-   ],
+   "placeholder": "🫎",
+   "lookalikes": [],
    "sameLesson": [
     "snow",
     "reindeer",
@@ -3723,9 +3695,10 @@
    "examples": [
     "My best friend's dad is an archeologist. He has discovered many ancient sculptures!"
    ],
-   "placeholder": "🧑‍🔬🏺",
+   "placeholder": "🏺",
    "lookalikes": [
-    "inventor"
+    "vase",
+    "artifact"
    ],
    "sameLesson": [
     "village",
@@ -3801,8 +3774,7 @@
    "placeholder": "🏺",
    "lookalikes": [
     "vase",
-    "site",
-    "tomb"
+    "archeologist"
    ],
    "sameLesson": [
     "news report",
@@ -3865,10 +3837,9 @@
    "examples": [
     "The ash from the volcano covered the sky."
    ],
-   "placeholder": "🌋🌫️",
+   "placeholder": "🌫️",
    "lookalikes": [
-    "erupt",
-    "volcano"
+    "dusty"
    ],
    "sameLesson": [
     "snowy",
@@ -3902,13 +3873,8 @@
    "examples": [
     "An asteroid hit the Earth millions of years ago."
    ],
-   "placeholder": "🪨🌌",
-   "lookalikes": [
-    "rock",
-    "plate",
-    "stone",
-    "non-renewable"
-   ],
+   "placeholder": "☄️",
+   "lookalikes": [],
    "sameLesson": [
     "main idea",
     "detail",
@@ -3975,9 +3941,13 @@
    "examples": [
     "If you want to be a better athlete, you need to train more."
    ],
-   "placeholder": "🏃‍♀️💪",
+   "placeholder": "🏃",
    "lookalikes": [
-    "exercise"
+    "move",
+    "run away",
+    "activity",
+    "escape",
+    "warm-up"
    ],
    "sameLesson": [
     "order",
@@ -4011,7 +3981,7 @@
    "examples": [
     "The auditorium was full of parents and friends."
    ],
-   "placeholder": "💺💺",
+   "placeholder": "💺",
    "lookalikes": [],
    "sameLesson": [
     "musician",
@@ -4045,7 +4015,7 @@
    "examples": [
     "My favourite aunt is my father's sister."
    ],
-   "placeholder": "👩👧",
+   "placeholder": "👩",
    "lookalikes": [
     "parent",
     "mother"
@@ -4085,6 +4055,7 @@
    "placeholder": "🏆",
    "lookalikes": [
     "champion",
+    "result",
     "win"
    ],
    "sameLesson": [
@@ -4155,7 +4126,7 @@
    "examples": [
     "My grandmother bakes cookies on Sundays."
    ],
-   "placeholder": "🍪🔥",
+   "placeholder": "🍪",
    "lookalikes": [],
    "sameLesson": [
     "stick puppet",
@@ -4325,7 +4296,10 @@
     "She carries eggs in a small basket."
    ],
    "placeholder": "🧺",
-   "lookalikes": [],
+   "lookalikes": [
+    "collect",
+    "washing machine"
+   ],
    "sameLesson": [
     "come from",
     "produce",
@@ -4403,7 +4377,6 @@
    ],
    "placeholder": "🔋",
    "lookalikes": [
-    "run out",
     "charge"
    ],
    "sameLesson": [
@@ -4448,7 +4421,8 @@
    ],
    "placeholder": "⚠️",
    "lookalikes": [
-    "dangerous"
+    "dangerous",
+    "warn"
    ],
    "sameLesson": [
     "full",
@@ -4480,11 +4454,8 @@
    "examples": [
     "Maria has her own bedroom."
    ],
-   "placeholder": "🛏️🚪",
-   "lookalikes": [
-    "go to bed",
-    "make the bed"
-   ],
+   "placeholder": "🛌",
+   "lookalikes": [],
    "sameLesson": [
     "bedtime",
     "pajamas",
@@ -4610,9 +4581,8 @@
    "examples": [
     "The ball rolled behind the sofa."
    ],
-   "placeholder": "🧱🐕",
+   "placeholder": "🧱",
    "lookalikes": [
-    "make",
     "mural",
     "structure"
    ],
@@ -4646,14 +4616,10 @@
    "examples": [
     "The cat sleeps between the two pillows."
    ],
-   "placeholder": "🏠🧍🌳",
+   "placeholder": "🧍",
    "lookalikes": [
-    "house",
-    "neighbor",
-    "animal shelter",
-    "street",
-    "suburb",
-    "shelter"
+    "alone",
+    "still"
    ],
    "sameLesson": [
     "street",
@@ -4715,12 +4681,11 @@
    "examples": [
     "I read a biography of a famous singer."
    ],
-   "placeholder": "📖🧑",
+   "placeholder": "📖",
    "lookalikes": [
+    "tell a story",
     "title",
-    "during",
     "read stories",
-    "summarize",
     "narrative",
     "dictionary"
    ],
@@ -4756,7 +4721,7 @@
    "examples": [
     "Leo put bananas and milk in the blender."
    ],
-   "placeholder": "🥤🌀",
+   "placeholder": "🥤",
    "lookalikes": [],
    "sameLesson": [
     "switch off",
@@ -4824,11 +4789,12 @@
    ],
    "placeholder": "💨",
    "lookalikes": [
+    "chase",
     "air",
     "windy",
     "gas",
     "breathe",
-    "hair dryer"
+    "sprint"
    ],
    "sameLesson": [
     "storm",
@@ -4860,7 +4826,7 @@
    "examples": [
     "The booming drum made everyone jump."
    ],
-   "placeholder": "🔊💥",
+   "placeholder": "🔊",
    "lookalikes": [
     "noise",
     "thunder"
@@ -4896,16 +4862,10 @@
     "Both my sister and I like flying our kites.",
     "Both my hands are cold today."
    ],
-   "placeholder": "👧➕👦",
+   "placeholder": "👫",
    "lookalikes": [
-    "sister",
-    "similarity",
-    "each other",
-    "on (your) own",
-    "agree",
-    "disagree",
-    "follow",
-    "in common"
+    "classmate",
+    "friend"
    ],
    "sameLesson": [
     "similarity",
@@ -4949,7 +4909,6 @@
    "lookalikes": [
     "glue",
     "shampoo",
-    "plastic",
     "bottle cap"
    ],
    "sameLesson": [
@@ -4995,12 +4954,11 @@
    "examples": [
     "I found a red bottle cap on the beach."
    ],
-   "placeholder": "🧴🔴",
+   "placeholder": "🧴",
    "lookalikes": [
     "bottle",
     "glue",
-    "shampoo",
-    "plastic"
+    "shampoo"
    ],
    "sameLesson": [
     "hummingbird",
@@ -5034,10 +4992,10 @@
    "examples": [
     "A bird sat on a high branch."
    ],
-   "placeholder": "🌳🌿",
+   "placeholder": "🌳",
    "lookalikes": [
-    "tree",
-    "responsible"
+    "get down",
+    "tree"
    ],
    "sameLesson": [
     "storm",
@@ -5111,14 +5069,8 @@
    "examples": [
     "The baby broke out in spots after the medicine."
    ],
-   "placeholder": "🧑➡️🔴🔴",
-   "lookalikes": [
-    "connect",
-    "musician",
-    "take charge",
-    "bring together",
-    "community"
-   ],
+   "placeholder": "🤒",
+   "lookalikes": [],
    "sameLesson": [
     "hives",
     "swell",
@@ -5149,8 +5101,10 @@
    "examples": [
     "Before the high note, Mason took a deep breath."
    ],
-   "placeholder": "🫁💨",
-   "lookalikes": [],
+   "placeholder": "🫁",
+   "lookalikes": [
+    "breathe"
+   ],
    "sameLesson": [
     "instrument",
     "string instrument",
@@ -5182,9 +5136,9 @@
     "Let's go outside to breathe some fresh air.",
     "Please breathe slowly and count to five."
    ],
-   "placeholder": "😮💨",
+   "placeholder": "🫁",
    "lookalikes": [
-    "gasp"
+    "breath"
    ],
    "sameLesson": [
     "tree",
@@ -5224,10 +5178,8 @@
    "examples": [
     "What a lovely breeze! It's cool and fresh."
    ],
-   "placeholder": "🍃💨",
-   "lookalikes": [
-    "change"
-   ],
+   "placeholder": "🍃",
+   "lookalikes": [],
    "sameLesson": [
     "tree",
     "shade",
@@ -5263,10 +5215,8 @@
    "placeholder": "☀️",
    "lookalikes": [
     "shine",
-    "weather",
     "daylight",
-    "solar power",
-    "renewable"
+    "solar power"
    ],
    "sameLesson": [
     "schoolbag",
@@ -5330,14 +5280,8 @@
    "examples": [
     "Sports bring people together!"
    ],
-   "placeholder": "🧑➡️👥⬅️🧑",
-   "lookalikes": [
-    "connect",
-    "musician",
-    "break out in",
-    "take charge",
-    "community"
-   ],
+   "placeholder": "🫂",
+   "lookalikes": [],
    "sameLesson": [
     "hide - hid - hidden",
     "hide-and-seek",
@@ -5369,13 +5313,8 @@
     "The lamp is broken, so we need a new one.",
     "My computer doesn't work. It's broken."
    ],
-   "placeholder": "🧸💔",
-   "lookalikes": [
-    "toy",
-    "toy tiger",
-    "teddy bear",
-    "fit"
-   ],
+   "placeholder": "💔",
+   "lookalikes": [],
    "sameLesson": [
     "switch off",
     "blender",
@@ -5407,9 +5346,7 @@
     "This is my big brother."
    ],
    "placeholder": "👦",
-   "lookalikes": [
-    "in common"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "family",
     "neighbor",
@@ -5450,10 +5387,12 @@
    "examples": [
     "I bumped into my friend in the corridor."
    ],
-   "placeholder": "🚶💥🌳",
+   "placeholder": "💥",
    "lookalikes": [
-    "walk",
-    "cross"
+    "happen",
+    "disruption",
+    "earthquake",
+    "damage"
    ],
    "sameLesson": [
     "path",
@@ -5529,10 +5468,8 @@
    "examples": [
     "My grandfather found a coin buried in his garden."
    ],
-   "placeholder": "🏖️🔽",
-   "lookalikes": [
-    "sandcastle"
-   ],
+   "placeholder": "🏖️",
+   "lookalikes": [],
    "sameLesson": [
     "treasure",
     "dig - dug - dug",
@@ -5567,7 +5504,8 @@
    "lookalikes": [
     "oven",
     "lava",
-    "put out"
+    "burnt",
+    "campfire"
    ],
    "sameLesson": [
     "thunderstorm",
@@ -5599,10 +5537,12 @@
    "examples": [
     "Oh no, my pancake is burnt!"
    ],
-   "placeholder": "🍞⬛",
+   "placeholder": "🔥",
    "lookalikes": [
-    "toaster",
-    "pop out"
+    "oven",
+    "lava",
+    "campfire",
+    "burn"
    ],
    "sameLesson": [
     "invent",
@@ -5718,8 +5658,10 @@
    "examples": [
     "I want to buy a new toy car."
    ],
-   "placeholder": "💵🛒",
-   "lookalikes": [],
+   "placeholder": "🛒",
+   "lookalikes": [
+    "market"
+   ],
    "sameLesson": [
     "stick puppet",
     "music",
@@ -5748,10 +5690,8 @@
    "examples": [
     "Grandma washes her lace curtains by hand."
    ],
-   "placeholder": "🖐️👕",
-   "lookalikes": [
-    "dirty"
-   ],
+   "placeholder": "🖐️",
+   "lookalikes": [],
    "sameLesson": [
     "switch off",
     "blender",
@@ -5782,10 +5722,9 @@
    "examples": [
     "I picked up your bag by mistake. Sorry!"
    ],
-   "placeholder": "🙈❌",
+   "placeholder": "🙈",
    "lookalikes": [
-    "hide - hid - hidden",
-    "hide-and-seek"
+    "hide - hid - hidden"
    ],
    "sameLesson": [
     "trash",
@@ -5817,7 +5756,7 @@
    "examples": [
     "The wooden cabin had two small rooms."
    ],
-   "placeholder": "🛖🌲",
+   "placeholder": "🛖",
    "lookalikes": [],
    "sameLesson": [
     "travel",
@@ -6097,11 +6036,12 @@
    "examples": [
     "We sang songs around the campfire at night."
    ],
-   "placeholder": "🪵🔥",
+   "placeholder": "🔥",
    "lookalikes": [
-    "wood",
-    "material",
-    "hollow"
+    "oven",
+    "lava",
+    "burnt",
+    "burn"
    ],
    "sameLesson": [
     "travel",
@@ -6203,7 +6143,9 @@
     "We lit a candle for a cosy dinner."
    ],
    "placeholder": "🕯️",
-   "lookalikes": [],
+   "lookalikes": [
+    "wax figure"
+   ],
    "sameLesson": [
     "celebration",
     "celebrate",
@@ -6280,10 +6222,11 @@
    "examples": [
     "The caption under this photo says: Lovely beach day."
    ],
-   "placeholder": "🖼️📝",
+   "placeholder": "🖼️",
    "lookalikes": [
     "painting",
     "exhibit",
+    "gallery",
     "portrait"
    ],
    "sameLesson": [
@@ -6350,7 +6293,7 @@
    "examples": [
     "Lions are carnivores. They eat meat."
    ],
-   "placeholder": "🦖🥩",
+   "placeholder": "🦖",
    "lookalikes": [],
    "sameLesson": [
     "neck",
@@ -6381,11 +6324,8 @@
    "examples": [
     "My uncle is a carpenter in our village."
    ],
-   "placeholder": "🧔🪚",
-   "lookalikes": [
-    "giant",
-    "tour guide"
-   ],
+   "placeholder": "🪚",
+   "lookalikes": [],
    "sameLesson": [
     "puppet",
     "wood",
@@ -6491,8 +6431,7 @@
    ],
    "placeholder": "🕳️",
    "lookalikes": [
-    "hole",
-    "waterhole"
+    "hole"
    ],
    "sameLesson": [
     "snow",
@@ -6578,6 +6517,7 @@
    ],
    "placeholder": "🎉",
    "lookalikes": [
+    "event",
     "occasion",
     "celebrate"
    ],
@@ -6615,6 +6555,7 @@
    "placeholder": "🏆",
    "lookalikes": [
     "award",
+    "result",
     "win"
    ],
    "sameLesson": [
@@ -6658,9 +6599,9 @@
    "examples": [
     "Leaves change colour in autumn."
    ],
-   "placeholder": "🍃➡️🍂",
+   "placeholder": "🍂",
    "lookalikes": [
-    "breeze"
+    "season"
    ],
    "sameLesson": [
     "planet",
@@ -6692,7 +6633,6 @@
    ],
    "placeholder": "🔋",
    "lookalikes": [
-    "run out",
     "battery"
    ],
    "sameLesson": [
@@ -6726,7 +6666,9 @@
     "You can now talk about chores, charts and good ideas."
    ],
    "placeholder": "📊",
-   "lookalikes": [],
+   "lookalikes": [
+    "flow chart"
+   ],
    "sameLesson": [
     "discussion",
     "suggest",
@@ -6758,10 +6700,14 @@
    "examples": [
     "Dogs like to chase balls in the park."
    ],
-   "placeholder": "🐕🏃",
+   "placeholder": "💨",
    "lookalikes": [
-    "hound",
-    "harness"
+    "air",
+    "windy",
+    "gas",
+    "breathe",
+    "blow",
+    "sprint"
    ],
    "sameLesson": [
     "hare",
@@ -6829,13 +6775,8 @@
    "examples": [
     "Chew your food slowly. It's healthier."
    ],
-   "placeholder": "🍎🦷",
-   "lookalikes": [
-    "different",
-    "difference",
-    "collect",
-    "food"
-   ],
+   "placeholder": "🦷",
+   "lookalikes": [],
    "sameLesson": [
     "neck",
     "wing",
@@ -6929,13 +6870,9 @@
     "Ian likes classical music. It helps him relax.",
     "Mason's favourite classical music was written by Beethoven."
    ],
-   "placeholder": "🎻🎼",
+   "placeholder": "🎼",
    "lookalikes": [
-    "violin",
-    "double bass",
-    "orchestra",
-    "tune",
-    "string instrument"
+    "sheet music"
    ],
    "sameLesson": [
     "music",
@@ -6975,11 +6912,10 @@
    "examples": [
     "My classmate Nikos likes football."
    ],
-   "placeholder": "👫🏫",
+   "placeholder": "👫",
    "lookalikes": [
-    "friend",
-    "play date",
-    "both"
+    "both",
+    "friend"
    ],
    "sameLesson": [
     "question",
@@ -7012,10 +6948,8 @@
    "examples": [
     "Our classroom has big windows and bright posters."
    ],
-   "placeholder": "🏫🪑",
-   "lookalikes": [
-    "PE"
-   ],
+   "placeholder": "🏫",
+   "lookalikes": [],
    "sameLesson": [
     "question",
     "student",
@@ -7048,8 +6982,9 @@
     "We use clay in art class to create sculptures.",
     "In pottery, we make things out of clay."
    ],
-   "placeholder": "🟤✋",
+   "placeholder": "🟤",
    "lookalikes": [
+    "dirty",
     "mud"
    ],
    "sameLesson": [
@@ -7092,10 +7027,8 @@
    "examples": [
     "My room is clean now."
    ],
-   "placeholder": "🧼🫧",
-   "lookalikes": [
-    "wash away"
-   ],
+   "placeholder": "🧼",
+   "lookalikes": [],
    "sameLesson": [
     "puppet",
     "wood",
@@ -7161,10 +7094,8 @@
    "examples": [
     "My jumper is made of soft cloth."
    ],
-   "placeholder": "🐑➡️👕",
-   "lookalikes": [
-    "prance"
-   ],
+   "placeholder": "🧵",
+   "lookalikes": [],
    "sameLesson": [
     "come from",
     "produce",
@@ -7207,13 +7138,9 @@
    "examples": [
     "I wash my clothes every week."
    ],
-   "placeholder": "👕👖👗",
+   "placeholder": "👚",
    "lookalikes": [
-    "pajamas",
-    "uniform",
-    "costume",
-    "T-shirt",
-    "washing machine"
+    "hang"
    ],
    "sameLesson": [
     "weather",
@@ -7299,7 +7226,6 @@
     "investigate",
     "detail",
     "observation",
-    "discover",
     "identify"
    ],
    "sameLesson": [
@@ -7348,7 +7274,6 @@
    ],
    "placeholder": "🧥",
    "lookalikes": [
-    "hang",
     "jacket"
    ],
    "sameLesson": [
@@ -7393,7 +7318,6 @@
    ],
    "placeholder": "🪙",
    "lookalikes": [
-    "collect",
     "collection"
    ],
    "sameLesson": [
@@ -7472,10 +7396,10 @@
     "Maria collects old dolls.",
     "Let's collect the eggs from the hen house."
    ],
-   "placeholder": "🪙🪙🪙",
+   "placeholder": "🧺",
    "lookalikes": [
-    "coin",
-    "collection"
+    "basket",
+    "washing machine"
    ],
    "sameLesson": [
     "teddy bear",
@@ -7515,9 +7439,8 @@
    "examples": [
     "Maria has a big collection of stickers."
    ],
-   "placeholder": "🪙🪙🪙",
+   "placeholder": "🪙",
    "lookalikes": [
-    "collect",
     "coin"
    ],
    "sameLesson": [
@@ -7580,10 +7503,10 @@
    "examples": [
     "Milk comes from cows, not from shops."
    ],
-   "placeholder": "🐄➡️🥛",
+   "placeholder": "🥛",
    "lookalikes": [
-    "farm",
-    "moo"
+    "full",
+    "knock over"
    ],
    "sameLesson": [
     "produce",
@@ -7613,7 +7536,7 @@
    "examples": [
     "When you cut an onion, the oil comes out."
    ],
-   "placeholder": "🚪➡️",
+   "placeholder": "🚪",
    "lookalikes": [
     "cupboard"
    ],
@@ -7686,8 +7609,8 @@
    ],
    "placeholder": "🏘️",
    "lookalikes": [
+    "neighbor",
     "neighborhood",
-    "flood",
     "village"
    ],
    "sameLesson": [
@@ -7728,12 +7651,11 @@
    "examples": [
     "Let's compare our two drawings."
    ],
-   "placeholder": "🔍🎂🎂",
+   "placeholder": "🔍",
    "lookalikes": [
     "investigate",
     "detail",
     "observation",
-    "discover",
     "clue",
     "identify"
    ],
@@ -7767,18 +7689,11 @@
    "examples": [
     "Tom first competed in a professional match two years ago."
    ],
-   "placeholder": "🏃🏁🏃",
+   "placeholder": "🏁",
    "lookalikes": [
-    "gym",
-    "move",
-    "run away",
+    "end",
     "race",
-    "activity",
-    "join",
-    "escape",
-    "result",
-    "warm-up",
-    "stay in shape"
+    "ready"
    ],
    "sameLesson": [
     "PE",
@@ -7925,14 +7840,8 @@
    "examples": [
     "This bridge connects the two villages."
    ],
-   "placeholder": "🧑🔗🧑",
-   "lookalikes": [
-    "musician",
-    "break out in",
-    "take charge",
-    "bring together",
-    "community"
-   ],
+   "placeholder": "🔗",
+   "lookalikes": [],
    "sameLesson": [
     "move",
     "feelings",
@@ -7995,13 +7904,10 @@
    "examples": [
     "I can't decide what costume to wear at the costume party."
    ],
-   "placeholder": "👕🦸",
+   "placeholder": "🦸",
    "lookalikes": [
-    "pajamas",
-    "uniform",
-    "clothes",
-    "T-shirt",
-    "washing machine"
+    "heroic",
+    "hero"
    ],
    "sameLesson": [
     "full",
@@ -8035,7 +7941,7 @@
    "examples": [
     "My friend is having a costume party."
    ],
-   "placeholder": "🧙🎉",
+   "placeholder": "🧙",
    "lookalikes": [],
    "sameLesson": [
     "imagination",
@@ -8066,10 +7972,9 @@
    "examples": [
     "We've got a small house in the countryside and we love it."
    ],
-   "placeholder": "🌾🌳🐄",
+   "placeholder": "🌾",
    "lookalikes": [
     "wheat",
-    "flour",
     "savanna"
    ],
    "sameLesson": [
@@ -8103,7 +8008,7 @@
     "Dan can create beautiful images.",
     "We can create music with a box and a stick."
    ],
-   "placeholder": "🎨✨",
+   "placeholder": "🎨",
    "lookalikes": [
     "art room",
     "draw pictures",
@@ -8148,10 +8053,9 @@
    "examples": [
     "Look left and right before you cross the road."
    ],
-   "placeholder": "🚶🛣️",
+   "placeholder": "🚶",
    "lookalikes": [
-    "walk",
-    "bump into"
+    "walk"
    ],
    "sameLesson": [
     "caption",
@@ -8183,13 +8087,8 @@
    "examples": [
     "Crumple the paper into a ball, then open it up."
    ],
-   "placeholder": "📄✊",
-   "lookalikes": [
-    "tissue paper",
-    "fact file",
-    "instruction",
-    "sheet music"
-   ],
+   "placeholder": "✊",
+   "lookalikes": [],
    "sameLesson": [
     "astronaut",
     "helmet",
@@ -8220,10 +8119,8 @@
    "examples": [
     "The crust of the Earth is divided into huge plates."
    ],
-   "placeholder": "🌍🟫",
+   "placeholder": "🌍",
    "lookalikes": [
-    "shake",
-    "earthquake",
     "culture"
    ],
    "sameLesson": [
@@ -8258,11 +8155,9 @@
    "examples": [
     "Different cultures have different kinds of music."
    ],
-   "placeholder": "🌍🎶",
+   "placeholder": "🌍",
    "lookalikes": [
-    "crust",
-    "shake",
-    "earthquake"
+    "crust"
    ],
    "sameLesson": [
     "move",
@@ -8294,7 +8189,7 @@
    "examples": [
     "Open the cupboard and get the big plates."
    ],
-   "placeholder": "🚪🥫",
+   "placeholder": "🚪",
    "lookalikes": [
     "come out"
    ],
@@ -8330,8 +8225,10 @@
    "examples": [
     "Please open the curtain so we can see the stage."
    ],
-   "placeholder": "🟥🟥",
-   "lookalikes": [],
+   "placeholder": "🎭",
+   "lookalikes": [
+    "puppet"
+   ],
    "sameLesson": [
     "musician",
     "composer",
@@ -8362,7 +8259,7 @@
    "examples": [
     "Please cut out a circle from the paper."
    ],
-   "placeholder": "✂️⭕",
+   "placeholder": "✂️",
    "lookalikes": [],
    "sameLesson": [
     "astronaut",
@@ -8394,9 +8291,12 @@
    "examples": [
     "Walking on the flowers will damage them."
    ],
-   "placeholder": "💥🐚",
+   "placeholder": "💥",
    "lookalikes": [
-    "happen"
+    "happen",
+    "disruption",
+    "earthquake",
+    "bump into"
    ],
    "sameLesson": [
     "trash",
@@ -8460,7 +8360,8 @@
    ],
    "placeholder": "⚠️",
    "lookalikes": [
-    "Be careful"
+    "Be careful",
+    "warn"
    ],
    "sameLesson": [
     "weak",
@@ -8496,9 +8397,7 @@
    "lookalikes": [
     "bright",
     "shine",
-    "weather",
-    "solar power",
-    "renewable"
+    "solar power"
    ],
    "sameLesson": [
     "path",
@@ -8532,7 +8431,7 @@
    "examples": [
     "My grandma is deaf, so she reads my lips."
    ],
-   "placeholder": "🦻🚫",
+   "placeholder": "🦻",
    "lookalikes": [],
    "sameLesson": [
     "weak",
@@ -8564,7 +8463,7 @@
    "examples": [
     "We decorate the classroom for the school party."
    ],
-   "placeholder": "🎂✨",
+   "placeholder": "🎂",
    "lookalikes": [
     "cake"
    ],
@@ -8598,7 +8497,7 @@
    "examples": [
     "The old drum was decorated with pictures of wild animals."
    ],
-   "placeholder": "🎀⭐",
+   "placeholder": "🎀",
    "lookalikes": [],
    "sameLesson": [
     "create",
@@ -8665,9 +8564,8 @@
     "Can you describe your best friend?",
     "Please describe the view from the top of the hill."
    ],
-   "placeholder": "👀💬",
+   "placeholder": "👀",
    "lookalikes": [
-    "show",
     "see"
    ],
    "sameLesson": [
@@ -8708,13 +8606,8 @@
    "examples": [
     "I put my pencil case on my desk."
    ],
-   "placeholder": "📝🪑",
-   "lookalikes": [
-    "list",
-    "summary",
-    "playlist",
-    "questionnaire"
-   ],
+   "placeholder": "🪑",
+   "lookalikes": [],
    "sameLesson": [
     "question",
     "student",
@@ -8751,7 +8644,6 @@
     "compare",
     "investigate",
     "observation",
-    "discover",
     "clue",
     "identify"
    ],
@@ -8905,10 +8797,9 @@
    ],
    "placeholder": "📖",
    "lookalikes": [
+    "tell a story",
     "title",
-    "during",
     "read stories",
-    "summarize",
     "biography",
     "narrative"
    ],
@@ -8944,13 +8835,8 @@
    "examples": [
     "There are many differences between my brother and me."
    ],
-   "placeholder": "🍎↔️🍌",
-   "lookalikes": [
-    "different",
-    "collect",
-    "food",
-    "chew"
-   ],
+   "placeholder": "🍌",
+   "lookalikes": [],
    "sameLesson": [
     "similarity",
     "both",
@@ -8982,12 +8868,9 @@
     "My house is very different from your house.",
     "My brother and I are very different."
    ],
-   "placeholder": "🍎↔️🍌",
+   "placeholder": "🍎",
    "lookalikes": [
-    "difference",
-    "collect",
-    "food",
-    "chew"
+    "food"
    ],
    "sameLesson": [
     "parent",
@@ -9028,7 +8911,9 @@
     "Children love to dig in the sand at the beach."
    ],
    "placeholder": "⛏️",
-   "lookalikes": [],
+   "lookalikes": [
+    "site"
+   ],
    "sameLesson": [
     "treasure",
     "jewel",
@@ -9059,8 +8944,10 @@
    "examples": [
     "Can you give me directions to the train station, please?"
    ],
-   "placeholder": "🗺️➡️",
-   "lookalikes": [],
+   "placeholder": "🗺️",
+   "lookalikes": [
+    "tour guide"
+   ],
    "sameLesson": [
     "neighborhood",
     "ground rules",
@@ -9091,7 +8978,9 @@
     "Plants grow well in dark, rich dirt."
    ],
    "placeholder": "🟫",
-   "lookalikes": [],
+   "lookalikes": [
+    "ground"
+   ],
    "sameLesson": [
     "treasure",
     "dig - dug - dug",
@@ -9122,9 +9011,10 @@
    "examples": [
     "My shoes are dirty after football."
    ],
-   "placeholder": "🖐️🟤",
+   "placeholder": "🟤",
    "lookalikes": [
-    "by hand"
+    "clay",
+    "mud"
    ],
    "sameLesson": [
     "puppet",
@@ -9157,13 +9047,8 @@
     "I disagree! I think cats are the best pets!",
     "I disagree. I think carrots taste sweet."
    ],
-   "placeholder": "🧠↔️🧠",
-   "lookalikes": [
-    "agree",
-    "memory",
-    "smart",
-    "express"
-   ],
+   "placeholder": "👎",
+   "lookalikes": [],
    "sameLesson": [
     "similarity",
     "difference",
@@ -9202,14 +9087,10 @@
    "examples": [
     "Mia discovered a secret path behind the trees."
    ],
-   "placeholder": "🔍💎",
+   "placeholder": "💎",
    "lookalikes": [
-    "compare",
-    "investigate",
-    "detail",
-    "observation",
-    "clue",
-    "identify"
+    "jewel",
+    "precious"
    ],
    "sameLesson": [
     "hide - hid - hidden",
@@ -9242,11 +9123,9 @@
     "We have a discussion about our school garden.",
     "Let's have a discussion about our neighbourhoods."
    ],
-   "placeholder": "🗣️🗣️",
+   "placeholder": "🗣️",
    "lookalikes": [
-    "tell a story",
     "voice",
-    "warn",
     "persuade"
    ],
    "sameLesson": [
@@ -9287,11 +9166,12 @@
    "examples": [
     "A dog running through the picnic is a disruption!"
    ],
-   "placeholder": "🐶💥🧺",
+   "placeholder": "💥",
    "lookalikes": [
-    "animal",
-    "naughty",
-    "mammal"
+    "happen",
+    "earthquake",
+    "bump into",
+    "damage"
    ],
    "sameLesson": [
     "messy",
@@ -9368,11 +9248,10 @@
    "examples": [
     "Let's donate our old toys to the animal shelter."
    ],
-   "placeholder": "🎁➡️🧒",
+   "placeholder": "🎁",
    "lookalikes": [
     "gift",
-    "generous",
-    "surprise"
+    "generous"
    ],
    "sameLesson": [
     "discussion",
@@ -9403,12 +9282,10 @@
    "examples": [
     "Wendy loves the sound the double bass makes, it is very deep."
    ],
-   "placeholder": "🎻⬇️",
+   "placeholder": "🎻",
    "lookalikes": [
     "violin",
-    "classical music",
     "orchestra",
-    "tune",
     "string instrument"
    ],
    "sameLesson": [
@@ -9441,10 +9318,8 @@
    "examples": [
     "The dough is soft and warm in my hands."
    ],
-   "placeholder": "🥣💧",
-   "lookalikes": [
-    "mix"
-   ],
+   "placeholder": "🥣",
+   "lookalikes": [],
    "sameLesson": [
     "wheat",
     "flour",
@@ -9477,7 +9352,7 @@
    "examples": [
     "Let's go downtown to look at shops and spend some time at the mall."
    ],
-   "placeholder": "🏙🏪",
+   "placeholder": "🏙️",
    "lookalikes": [],
    "sameLesson": [
     "community",
@@ -9509,10 +9384,8 @@
    "examples": [
     "Dragonflies are many different colours."
    ],
-   "placeholder": "🪽🪰",
-   "lookalikes": [
-    "wing"
-   ],
+   "placeholder": "🪰",
+   "lookalikes": [],
    "sameLesson": [
     "pond",
     "frog",
@@ -9680,7 +9553,7 @@
    "examples": [
     "Oops! I dropped my pencil on the floor."
    ],
-   "placeholder": "🥚⬇️",
+   "placeholder": "🥚",
    "lookalikes": [
     "protein"
    ],
@@ -9714,12 +9587,8 @@
    "examples": [
     "My pencils are dull. I can't draw."
    ],
-   "placeholder": "✏️🪨",
-   "lookalikes": [
-    "pencil sharpener",
-    "lend",
-    "sketch"
-   ],
+   "placeholder": "🖍️",
+   "lookalikes": [],
    "sameLesson": [
     "coat",
     "rack",
@@ -9750,10 +9619,8 @@
    "examples": [
     "Please don't dump your trash on the beach."
    ],
-   "placeholder": "🗑️⬇️",
-   "lookalikes": [
-    "trash"
-   ],
+   "placeholder": "🚮",
+   "lookalikes": [],
    "sameLesson": [
     "trash",
     "identify",
@@ -9784,15 +9651,8 @@
    "examples": [
     "My best friend and I share our snacks during recess."
    ],
-   "placeholder": "📖⏳",
-   "lookalikes": [
-    "title",
-    "read stories",
-    "summarize",
-    "biography",
-    "narrative",
-    "dictionary"
-   ],
+   "placeholder": "⏳",
+   "lookalikes": [],
    "sameLesson": [
     "similarity",
     "difference",
@@ -9823,9 +9683,9 @@
    "examples": [
     "The old attic is very dusty."
    ],
-   "placeholder": "🪑🌫️",
+   "placeholder": "🌫️",
    "lookalikes": [
-    "old"
+    "ash"
    ],
    "sameLesson": [
     "drawer",
@@ -9857,16 +9717,11 @@
    "examples": [
     "We help each other with our homework."
    ],
-   "placeholder": "👧🤝👦",
+   "placeholder": "🤝",
    "lookalikes": [
-    "sister",
-    "similarity",
-    "both",
-    "on (your) own",
-    "agree",
-    "disagree",
-    "follow",
-    "in common"
+    "in common",
+    "helpful",
+    "tie"
    ],
    "sameLesson": [
     "similarity",
@@ -9898,11 +9753,12 @@
    "examples": [
     "There was an earthquake, but everyone was safe."
    ],
-   "placeholder": "🌍💥",
+   "placeholder": "💥",
    "lookalikes": [
-    "crust",
-    "shake",
-    "culture"
+    "happen",
+    "disruption",
+    "bump into",
+    "damage"
    ],
    "sameLesson": [
     "snowy",
@@ -9967,7 +9823,7 @@
    "examples": [
     "Put the poster board on the easel."
    ],
-   "placeholder": "🎨🖼️",
+   "placeholder": "🎨",
    "lookalikes": [
     "art room",
     "draw pictures",
@@ -10006,7 +9862,7 @@
    "examples": [
     "Do not stand too close to the edge of the cliff."
    ],
-   "placeholder": "🏔️⬇️",
+   "placeholder": "🏔️",
    "lookalikes": [
     "snowy"
    ],
@@ -10089,7 +9945,7 @@
    "examples": [
     "I went to an electronics store to buy a new tablet."
    ],
-   "placeholder": "🏬📱",
+   "placeholder": "🏬",
    "lookalikes": [],
    "sameLesson": [
     "man-made",
@@ -10154,10 +10010,9 @@
    "examples": [
     "My glass is empty. Can I have some water, please?"
    ],
-   "placeholder": "🥛❌",
+   "placeholder": "🫙",
    "lookalikes": [
-    "full",
-    "knock over"
+    "jar"
    ],
    "sameLesson": [
     "full",
@@ -10191,7 +10046,9 @@
    ],
    "placeholder": "🏁",
    "lookalikes": [
-    "ready"
+    "race",
+    "ready",
+    "compete"
    ],
    "sameLesson": [
     "hare",
@@ -10223,7 +10080,7 @@
    "examples": [
     "Plastic bags can endanger sea animals."
    ],
-   "placeholder": "🐢⚠️",
+   "placeholder": "🐢",
    "lookalikes": [],
    "sameLesson": [
     "trash",
@@ -10255,7 +10112,7 @@
    "examples": [
     "Pandas are endangered animals."
    ],
-   "placeholder": "🐼⏳",
+   "placeholder": "🐼",
    "lookalikes": [],
    "sameLesson": [
     "take care of",
@@ -10357,9 +10214,8 @@
    "examples": [
     "The volcano erupted yesterday."
    ],
-   "placeholder": "🌋💥",
+   "placeholder": "🌋",
    "lookalikes": [
-    "ash",
     "volcano"
    ],
    "sameLesson": [
@@ -10392,18 +10248,13 @@
    "examples": [
     "The rabbit escaped through a hole in the fence."
    ],
-   "placeholder": "🏃💨",
+   "placeholder": "🏃",
    "lookalikes": [
-    "gym",
     "move",
     "run away",
-    "race",
     "activity",
-    "join",
-    "result",
-    "warm-up",
-    "stay in shape",
-    "compete"
+    "athlete",
+    "warm-up"
    ],
    "sameLesson": [
     "trash",
@@ -10435,9 +10286,11 @@
    "examples": [
     "There are some strange events in the story."
    ],
-   "placeholder": "📅🎉",
+   "placeholder": "🎉",
    "lookalikes": [
-    "regularly"
+    "occasion",
+    "celebration",
+    "celebrate"
    ],
    "sameLesson": [
     "messy",
@@ -10507,6 +10360,7 @@
    ],
    "placeholder": "💪",
    "lookalikes": [
+    "stay in shape",
     "powerful"
    ],
    "sameLesson": [
@@ -10551,6 +10405,7 @@
    "lookalikes": [
     "painting",
     "caption",
+    "gallery",
     "portrait"
    ],
    "sameLesson": [
@@ -10625,11 +10480,10 @@
     "suggest",
     "go out",
     "turn on",
-    "turn off",
     "main idea",
     "invention",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -10693,8 +10547,9 @@
     "She likes to express her ideas through drawing.",
     "Monica prefers to express her feelings through music."
    ],
-   "placeholder": "😊💬",
+   "placeholder": "😊",
    "lookalikes": [
+    "feel",
     "happy",
     "feelings"
    ],
@@ -10738,7 +10593,7 @@
     "The dodo bird became extinct long ago.",
     "Dinosaurs are extinct."
    ],
-   "placeholder": "🦤🪦",
+   "placeholder": "🦤",
    "lookalikes": [],
    "sameLesson": [
     "main idea",
@@ -10779,10 +10634,9 @@
     "Scientists are studying the extinction of dinosaurs.",
     "Scientists aren't sure what caused the dinosaurs' extinction."
    ],
-   "placeholder": "🦕❌",
+   "placeholder": "🦕",
    "lookalikes": [
-    "herbivore",
-    "extinct"
+    "herbivore"
    ],
    "sameLesson": [
     "main idea",
@@ -10814,12 +10668,10 @@
    "examples": [
     "Read the text and complete the fact file with facts."
    ],
-   "placeholder": "📄✅",
+   "placeholder": "📄",
    "lookalikes": [
     "tissue paper",
-    "crumple",
-    "instruction",
-    "sheet music"
+    "instruction"
    ],
    "sameLesson": [
     "neck",
@@ -10932,7 +10784,7 @@
    "examples": [
     "Turn on the fan. It's hot in the room."
    ],
-   "placeholder": "🌀💨",
+   "placeholder": "🪭",
    "lookalikes": [],
    "sameLesson": [
     "full",
@@ -10966,7 +10818,7 @@
    "examples": [
     "Our neighbours have a fancy party every New Year."
    ],
-   "placeholder": "🥂🎉",
+   "placeholder": "🥂",
    "lookalikes": [],
    "sameLesson": [
     "detective",
@@ -11000,11 +10852,8 @@
    "examples": [
     "I like living on a farm."
    ],
-   "placeholder": "🐄🚜",
-   "lookalikes": [
-    "moo",
-    "come from"
-   ],
+   "placeholder": "🚜",
+   "lookalikes": [],
    "sameLesson": [
     "parent",
     "grandparent",
@@ -11079,7 +10928,7 @@
    "examples": [
     "What is your father's name?"
    ],
-   "placeholder": "👨👶",
+   "placeholder": "👨",
    "lookalikes": [],
    "sameLesson": [
     "family",
@@ -11157,8 +11006,12 @@
    "examples": [
     "I feel nervous on my first day."
    ],
-   "placeholder": "💗😊",
-   "lookalikes": [],
+   "placeholder": "😊",
+   "lookalikes": [
+    "happy",
+    "feelings",
+    "express"
+   ],
    "sameLesson": [
     "question",
     "student",
@@ -11188,8 +11041,9 @@
    "examples": [
     "Music helps me show my feelings."
    ],
-   "placeholder": "😊😢",
+   "placeholder": "😊",
    "lookalikes": [
+    "feel",
     "happy",
     "express"
    ],
@@ -11257,7 +11111,7 @@
    "examples": [
     "Can you figure out what the story is about?"
    ],
-   "placeholder": "🤔💡",
+   "placeholder": "🤔",
    "lookalikes": [
     "opinion",
     "how"
@@ -11292,7 +11146,7 @@
    "examples": [
     "We visited the fire station to learn about what firefighters do."
    ],
-   "placeholder": "🚒🔥",
+   "placeholder": "🚒",
    "lookalikes": [],
    "sameLesson": [
     "neighborhood",
@@ -11326,10 +11180,8 @@
     "Firefighters rescue people, animals and stop fires!",
     "Lefteris is a firefighter."
    ],
-   "placeholder": "👩‍🚒🚒",
-   "lookalikes": [
-    "rescue"
-   ],
+   "placeholder": "👩‍🚒",
+   "lookalikes": [],
    "sameLesson": [
     "messy",
     "disruption",
@@ -11373,11 +11225,7 @@
     "First, get your scissors and your paper."
    ],
    "placeholder": "1️⃣",
-   "lookalikes": [
-    "sequence",
-    "million",
-    "order"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "astronaut",
     "helmet",
@@ -11409,9 +11257,7 @@
     "Many people keep fish in their ponds."
    ],
    "placeholder": "🐟",
-   "lookalikes": [
-    "fishing net"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "pond",
     "frog",
@@ -11452,10 +11298,8 @@
    "examples": [
     "A fishing net can trap sea turtles."
    ],
-   "placeholder": "🐟🕸️",
-   "lookalikes": [
-    "fish"
-   ],
+   "placeholder": "🎣",
+   "lookalikes": [],
    "sameLesson": [
     "trash",
     "dump",
@@ -11488,13 +11332,8 @@
    "examples": [
     "The doll doesn't fit in the dollhouse."
    ],
-   "placeholder": "🧸📦✅",
-   "lookalikes": [
-    "toy",
-    "toy tiger",
-    "teddy bear",
-    "broken"
-   ],
+   "placeholder": "📦",
+   "lookalikes": [],
    "sameLesson": [
     "teddy bear",
     "alone",
@@ -11625,11 +11464,11 @@
    "examples": [
     "Heavy rain can flood the streets."
    ],
-   "placeholder": "🏘️🌊",
+   "placeholder": "🌊",
    "lookalikes": [
-    "community",
-    "neighborhood",
-    "village"
+    "wash away",
+    "river",
+    "sink - sank - sunk"
    ],
    "sameLesson": [
     "storm",
@@ -11661,12 +11500,8 @@
    "examples": [
     "Grandma puts flour into a big bowl."
    ],
-   "placeholder": "🌾➡️⚪",
-   "lookalikes": [
-    "wheat",
-    "savanna",
-    "countryside"
-   ],
+   "placeholder": "🥖",
+   "lookalikes": [],
    "sameLesson": [
     "wheat",
     "dough",
@@ -11699,9 +11534,9 @@
    "examples": [
     "Our teacher drew a flow chart to show how bread is made."
    ],
-   "placeholder": "⬜➡️⬜➡️⬜",
+   "placeholder": "📊",
    "lookalikes": [
-    "square"
+    "chart"
    ],
    "sameLesson": [
     "step",
@@ -11735,10 +11570,12 @@
    "examples": [
     "The river flows down to the sea."
    ],
-   "placeholder": "💧⬇️",
+   "placeholder": "💧",
    "lookalikes": [
     "pond",
-    "waste"
+    "water",
+    "thirsty",
+    "waterhole"
    ],
    "sameLesson": [
     "snowy",
@@ -11771,7 +11608,9 @@
     "In summer, people in our village play folk music."
    ],
    "placeholder": "🪕",
-   "lookalikes": [],
+   "lookalikes": [
+    "traditional"
+   ],
    "sameLesson": [
     "music",
     "classical music",
@@ -11802,16 +11641,12 @@
    "examples": [
     "Follow me, please, and stay close."
    ],
-   "placeholder": "👧👣",
+   "placeholder": "👣",
    "lookalikes": [
-    "sister",
-    "similarity",
-    "both",
-    "each other",
-    "on (your) own",
-    "agree",
-    "disagree",
-    "in common"
+    "footprint",
+    "step",
+    "trail",
+    "footstep"
    ],
    "sameLesson": [
     "weak",
@@ -11843,12 +11678,9 @@
    "examples": [
     "Healthy food helps our bodies grow strong."
    ],
-   "placeholder": "🍎🥦🍞",
+   "placeholder": "🍎",
    "lookalikes": [
-    "different",
-    "difference",
-    "collect",
-    "chew"
+    "different"
    ],
    "sameLesson": [
     "agree",
@@ -11903,7 +11735,9 @@
    ],
    "placeholder": "👣",
    "lookalikes": [
+    "follow",
     "step",
+    "trail",
     "footstep"
    ],
    "sameLesson": [
@@ -11949,8 +11783,10 @@
    ],
    "placeholder": "👣",
    "lookalikes": [
+    "follow",
     "footprint",
-    "step"
+    "step",
+    "trail"
    ],
    "sameLesson": [
     "dusty",
@@ -11984,7 +11820,7 @@
    "examples": [
     "Put a cold cloth on your forehead when you are hot."
    ],
-   "placeholder": "👤☝️",
+   "placeholder": "👤",
    "lookalikes": [],
    "sameLesson": [
     "street",
@@ -12048,7 +11884,7 @@
    "examples": [
     "Keep the milk in the fridge or it will go bad."
    ],
-   "placeholder": "🧊🚪",
+   "placeholder": "🧊",
    "lookalikes": [
     "melt"
    ],
@@ -12095,7 +11931,6 @@
    "placeholder": "👫",
    "lookalikes": [
     "classmate",
-    "play date",
     "both"
    ],
    "sameLesson": [
@@ -12127,9 +11962,7 @@
     "Frogs can jump very high."
    ],
    "placeholder": "🐸",
-   "lookalikes": [
-    "tadpole"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "pond",
     "tadpole",
@@ -12162,9 +11995,9 @@
    "examples": [
     "The box is full of sand."
    ],
-   "placeholder": "🥛🔝",
+   "placeholder": "🥛",
    "lookalikes": [
-    "empty",
+    "come from",
     "knock over"
    ],
    "sameLesson": [
@@ -12197,7 +12030,7 @@
    "examples": [
     "My cat has soft, white fur."
    ],
-   "placeholder": "🐻🧥",
+   "placeholder": "🐻",
    "lookalikes": [],
    "sameLesson": [
     "snow",
@@ -12266,9 +12099,7 @@
     "My cat is soft and furry."
    ],
    "placeholder": "🐈",
-   "lookalikes": [
-    "save"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "hare",
     "hound",
@@ -12331,10 +12162,12 @@
    "examples": [
     "Our local gallery brings works of art by famous artists once a year."
    ],
-   "placeholder": "🏛️🖼️",
+   "placeholder": "🖼️",
    "lookalikes": [
-    "museum",
-    "ancient"
+    "painting",
+    "exhibit",
+    "caption",
+    "portrait"
    ],
    "sameLesson": [
     "artist",
@@ -12404,11 +12237,12 @@
    ],
    "placeholder": "💨",
    "lookalikes": [
+    "chase",
     "air",
     "windy",
     "breathe",
     "blow",
-    "hair dryer"
+    "sprint"
    ],
    "sameLesson": [
     "onion",
@@ -12443,9 +12277,7 @@
     "I gasped when I saw the huge birthday cake!"
    ],
    "placeholder": "😮",
-   "lookalikes": [
-    "breathe"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "hummingbird",
     "plastic",
@@ -12476,11 +12308,10 @@
    "examples": [
     "My aunt was very generous and kind."
    ],
-   "placeholder": "🎁🤲",
+   "placeholder": "🎁",
    "lookalikes": [
     "gift",
-    "donate",
-    "surprise"
+    "donate"
    ],
    "sameLesson": [
     "brave",
@@ -12544,9 +12375,10 @@
    "examples": [
     "My cat is on the fridge. She can't get down!"
    ],
-   "placeholder": "🐱⬇️🌳",
+   "placeholder": "🌳",
    "lookalikes": [
-    "kitten"
+    "tree",
+    "branch"
    ],
    "sameLesson": [
     "messy",
@@ -12578,7 +12410,7 @@
    "examples": [
     "My shoe got stuck in the mud."
    ],
-   "placeholder": "🪤😣",
+   "placeholder": "🪤",
    "lookalikes": [],
    "sameLesson": [
     "trash",
@@ -12610,11 +12442,8 @@
    "examples": [
     "The giant had big feet and a big smile."
    ],
-   "placeholder": "🧔⬆️🧒",
-   "lookalikes": [
-    "carpenter",
-    "tour guide"
-   ],
+   "placeholder": "🧔",
+   "lookalikes": [],
    "sameLesson": [
     "path",
     "ground",
@@ -12659,8 +12488,7 @@
    "placeholder": "🎁",
    "lookalikes": [
     "donate",
-    "generous",
-    "surprise"
+    "generous"
    ],
    "sameLesson": [
     "teddy bear",
@@ -12750,7 +12578,6 @@
    "lookalikes": [
     "bottle",
     "shampoo",
-    "plastic",
     "bottle cap"
    ],
    "sameLesson": [
@@ -12793,17 +12620,16 @@
    "examples": [
     "The electricity goes out very often in the summer."
    ],
-   "placeholder": "💡➡️🌑",
+   "placeholder": "💡",
    "lookalikes": [
     "suggestion",
     "suggest",
     "turn on",
-    "turn off",
     "main idea",
     "explanation",
     "invention",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -12838,7 +12664,6 @@
    ],
    "placeholder": "🛏️",
    "lookalikes": [
-    "bedroom",
     "make the bed"
    ],
    "sameLesson": [
@@ -12901,7 +12726,7 @@
    "examples": [
     "Our goalkeeper caught the ball with both hands."
    ],
-   "placeholder": "🧤🥅",
+   "placeholder": "🧤",
    "lookalikes": [
     "glove"
    ],
@@ -12933,7 +12758,7 @@
    "examples": [
     "Birds eat grain from the ground."
    ],
-   "placeholder": "🟡🟡🟡",
+   "placeholder": "🌽",
    "lookalikes": [],
    "sameLesson": [
     "wheat",
@@ -12967,10 +12792,9 @@
    "examples": [
     "My grandparents live near the sea."
    ],
-   "placeholder": "👵👴",
+   "placeholder": "👵",
    "lookalikes": [
-    "retirement home",
-    "traditional"
+    "retirement home"
    ],
    "sameLesson": [
     "parent",
@@ -13047,9 +12871,9 @@
    "examples": [
     "The ground is soft after the rain."
    ],
-   "placeholder": "🦶🟫",
+   "placeholder": "🟫",
    "lookalikes": [
-    "rhythm"
+    "dirt"
    ],
    "sameLesson": [
     "path",
@@ -13081,8 +12905,10 @@
    "examples": [
     "Let's agree to the ground rules of the discussion."
    ],
-   "placeholder": "📜✅",
-   "lookalikes": [],
+   "placeholder": "📜",
+   "lookalikes": [
+    "hieroglyphics"
+   ],
    "sameLesson": [
     "neighborhood",
     "discussion",
@@ -13114,7 +12940,7 @@
    ],
    "placeholder": "👥",
    "lookalikes": [
-    "popular",
+    "join",
     "team"
    ],
    "sameLesson": [
@@ -13147,10 +12973,9 @@
    "examples": [
     "Trees grow very tall in the forest."
    ],
-   "placeholder": "🌱➡️🌳",
+   "placeholder": "🌱",
    "lookalikes": [
     "living thing",
-    "water",
     "take care of"
    ],
    "sameLesson": [
@@ -13183,11 +13008,9 @@
    "examples": [
     "Let's play a guessing game. Who wants to start?"
    ],
-   "placeholder": "❓🎲",
+   "placeholder": "🎲",
    "lookalikes": [
-    "question",
-    "why",
-    "mystery"
+    "play games"
    ],
    "sameLesson": [
     "teddy bear",
@@ -13290,19 +13113,8 @@
    "examples": [
     "We run and jump in the gym."
    ],
-   "placeholder": "🏃🏀",
-   "lookalikes": [
-    "move",
-    "run away",
-    "race",
-    "activity",
-    "join",
-    "escape",
-    "result",
-    "warm-up",
-    "stay in shape",
-    "compete"
-   ],
+   "placeholder": "🏀",
+   "lookalikes": [],
    "sameLesson": [
     "coat",
     "rack",
@@ -13336,9 +13148,7 @@
     "The gymnast smiled after her perfect routine on the beam."
    ],
    "placeholder": "🤸‍♀️",
-   "lookalikes": [
-    "gymnastics"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "order",
     "sequence",
@@ -13369,9 +13179,9 @@
    "examples": [
     "In my opinion, gymnastics is a very difficult sport."
    ],
-   "placeholder": "🤸‍♀️🤸‍♂️",
+   "placeholder": "🤸",
    "lookalikes": [
-    "gymnast"
+    "PE"
    ],
    "sameLesson": [
     "order",
@@ -13406,7 +13216,7 @@
     "Bears need a forest habitat to live and sleep.",
     "Many animals' habitats are threatened by human activity and pollution."
    ],
-   "placeholder": "🏞️🐸",
+   "placeholder": "🏞️",
    "lookalikes": [
     "river",
     "landscape",
@@ -13442,13 +13252,9 @@
    "examples": [
     "Grandma used the hair dryer on her wet hair."
    ],
-   "placeholder": "💨💇",
+   "placeholder": "💇",
    "lookalikes": [
-    "air",
-    "windy",
-    "gas",
-    "breathe",
-    "blow"
+    "haircut"
    ],
    "sameLesson": [
     "switch off",
@@ -13480,8 +13286,10 @@
    "examples": [
     "I want a short haircut for the summer."
    ],
-   "placeholder": "💇✂️",
-   "lookalikes": [],
+   "placeholder": "💇",
+   "lookalikes": [
+    "hair dryer"
+   ],
    "sameLesson": [
     "street",
     "barbershop",
@@ -13548,10 +13356,9 @@
    "examples": [
     "Hang your bag on the hook."
    ],
-   "placeholder": "🧥🪝",
+   "placeholder": "👚",
    "lookalikes": [
-    "coat",
-    "jacket"
+    "clothes"
    ],
    "sameLesson": [
     "coat",
@@ -13585,6 +13392,9 @@
    ],
    "placeholder": "💥",
    "lookalikes": [
+    "disruption",
+    "earthquake",
+    "bump into",
     "damage"
    ],
    "sameLesson": [
@@ -13619,6 +13429,7 @@
    ],
    "placeholder": "😊",
    "lookalikes": [
+    "feel",
     "feelings",
     "express"
    ],
@@ -13688,7 +13499,7 @@
    "examples": [
     "The cowboy played a happy tune on his harmonica."
    ],
-   "placeholder": "🎵💨",
+   "placeholder": "🎵",
    "lookalikes": [
     "music room",
     "music"
@@ -13725,11 +13536,8 @@
    "examples": [
     "The dog's harness is bright yellow."
    ],
-   "placeholder": "🐕🪢",
-   "lookalikes": [
-    "hound",
-    "chase"
-   ],
+   "placeholder": "🐕‍🦺",
+   "lookalikes": [],
    "sameLesson": [
     "caption",
     "heroic",
@@ -13762,7 +13570,7 @@
    "examples": [
     "If you visit the museum, you can see the headdresses women wore in old times."
    ],
-   "placeholder": "🪶👑",
+   "placeholder": "🪶",
    "lookalikes": [
     "light",
     "feather"
@@ -13795,7 +13603,9 @@
     "Read the heading and guess what the text is about."
    ],
    "placeholder": "📰",
-   "lookalikes": [],
+   "lookalikes": [
+    "information"
+   ],
    "sameLesson": [
     "section",
     "security guard",
@@ -13860,7 +13670,7 @@
    "examples": [
     "Can you hear a noise?"
    ],
-   "placeholder": "👂🎵",
+   "placeholder": "👂",
    "lookalikes": [],
    "sameLesson": [
     "pond",
@@ -13942,7 +13752,11 @@
     "The people in this shop are very helpful."
    ],
    "placeholder": "🤝",
-   "lookalikes": [],
+   "lookalikes": [
+    "in common",
+    "each other",
+    "tie"
+   ],
    "sameLesson": [
     "brave",
     "caring",
@@ -13973,10 +13787,9 @@
    "examples": [
     "Horses are herbivores."
    ],
-   "placeholder": "🦕🌿",
+   "placeholder": "🦕",
    "lookalikes": [
-    "extinction",
-    "extinct"
+    "extinction"
    ],
    "sameLesson": [
     "neck",
@@ -14007,9 +13820,8 @@
    "examples": [
     "A herd of cows walks slowly across the field."
    ],
-   "placeholder": "🐘🐘🐘",
+   "placeholder": "🐘",
    "lookalikes": [
-    "lead",
     "enormous",
     "huge"
    ],
@@ -14047,6 +13859,7 @@
    ],
    "placeholder": "🦸",
    "lookalikes": [
+    "costume",
     "heroic"
    ],
    "sameLesson": [
@@ -14081,6 +13894,7 @@
    ],
    "placeholder": "🦸",
    "lookalikes": [
+    "costume",
     "hero"
    ],
    "sameLesson": [
@@ -14113,11 +13927,8 @@
    "examples": [
     "Our favourite game in the park is hide-and-seek."
    ],
-   "placeholder": "🙈🔎",
-   "lookalikes": [
-    "hide - hid - hidden",
-    "by mistake"
-   ],
+   "placeholder": "🔎",
+   "lookalikes": [],
    "sameLesson": [
     "hide - hid - hidden",
     "explore",
@@ -14150,9 +13961,8 @@
    "examples": [
     "When my cat is scared, she hides under the bed."
    ],
-   "placeholder": "🙈🌳",
+   "placeholder": "🙈",
    "lookalikes": [
-    "hide-and-seek",
     "by mistake"
    ],
    "sameLesson": [
@@ -14185,8 +13995,10 @@
    "examples": [
     "Hieroglyphics look like birds, eyes and small people."
    ],
-   "placeholder": "🦅👁️",
-   "lookalikes": [],
+   "placeholder": "📜",
+   "lookalikes": [
+    "ground rules"
+   ],
    "sameLesson": [
     "collection",
     "scrapbook",
@@ -14219,7 +14031,7 @@
    "examples": [
     "On Sunday, we went hiking up a big hill."
    ],
-   "placeholder": "🥾⛰️",
+   "placeholder": "🥾",
    "lookalikes": [],
    "sameLesson": [
     "travel",
@@ -14253,10 +14065,9 @@
    "examples": [
     "Bees live all together in a hive."
    ],
-   "placeholder": "🐝🏠",
+   "placeholder": "🐝",
    "lookalikes": [
     "bee",
-    "sting",
     "sting-stung",
     "honeybee"
    ],
@@ -14290,11 +14101,8 @@
    "examples": [
     "I have hives on my arms after the plant."
    ],
-   "placeholder": "🔴🔴🔴",
-   "lookalikes": [
-    "similar",
-    "sequence"
-   ],
+   "placeholder": "🔴",
+   "lookalikes": [],
    "sameLesson": [
     "swell",
     "allergic reaction",
@@ -14329,10 +14137,7 @@
    ],
    "placeholder": "🤲",
    "lookalikes": [
-    "pick up",
-    "keep",
-    "clay",
-    "pottery"
+    "pick up"
    ],
    "sameLesson": [
     "instruction",
@@ -14366,8 +14171,7 @@
    ],
    "placeholder": "🕳️",
    "lookalikes": [
-    "cave",
-    "waterhole"
+    "cave"
    ],
    "sameLesson": [
     "hare",
@@ -14409,11 +14213,10 @@
    "examples": [
     "A hollow tube makes a lovely sound when you blow into it."
    ],
-   "placeholder": "🪵🕳️",
+   "placeholder": "🪵",
    "lookalikes": [
     "wood",
-    "material",
-    "campfire"
+    "material"
    ],
    "sameLesson": [
     "create",
@@ -14490,11 +14293,10 @@
     "Honeybees help flowers grow fruit.",
     "Honeybees are very important for the environment."
    ],
-   "placeholder": "🐝🍯",
+   "placeholder": "🐝",
    "lookalikes": [
     "bee",
     "hive",
-    "sting",
     "sting-stung"
    ],
    "sameLesson": [
@@ -14564,8 +14366,7 @@
    ],
    "placeholder": "🐕",
    "lookalikes": [
-    "chase",
-    "harness"
+    "animal shelter"
    ],
    "sameLesson": [
     "hare",
@@ -14634,7 +14435,7 @@
    "examples": [
     "How do you wash your jeans?"
    ],
-   "placeholder": "🤔❓",
+   "placeholder": "🤔",
    "lookalikes": [
     "figure out",
     "opinion"
@@ -14670,7 +14471,6 @@
    "placeholder": "🐘",
    "lookalikes": [
     "herd",
-    "lead",
     "enormous"
    ],
    "sameLesson": [
@@ -14704,7 +14504,7 @@
     "Hummingbirds are tiny but very colourful!",
     "Hummingbirds are tiny but very colorful!"
    ],
-   "placeholder": "🐦🌸",
+   "placeholder": "🐦",
    "lookalikes": [
     "migrate",
     "mascot"
@@ -14772,13 +14572,12 @@
    "examples": [
     "Can you identify this bird from its song?"
    ],
-   "placeholder": "🔍🪼",
+   "placeholder": "🔍",
    "lookalikes": [
     "compare",
     "investigate",
     "detail",
     "observation",
-    "discover",
     "clue"
    ],
    "sameLesson": [
@@ -14811,7 +14610,7 @@
    "examples": [
     "This flower is imaginary, not real."
    ],
-   "placeholder": "🦄💭",
+   "placeholder": "🦄",
    "lookalikes": [],
    "sameLesson": [
     "imagination",
@@ -14886,9 +14685,11 @@
     "Timmy and Sam have a lot in common.",
     "Maya and Leo have a lot in common. They both love football."
    ],
-   "placeholder": "👦🎵🤝🎵👧",
+   "placeholder": "🤝",
    "lookalikes": [
-    "brother"
+    "each other",
+    "helpful",
+    "tie"
    ],
    "sameLesson": [
     "family",
@@ -14926,8 +14727,10 @@
    "examples": [
     "Tigers are in danger of extinction."
    ],
-   "placeholder": "🐯⚠️",
-   "lookalikes": [],
+   "placeholder": "🐯",
+   "lookalikes": [
+    "toy tiger"
+   ],
    "sameLesson": [
     "take care of",
     "nature",
@@ -14958,13 +14761,8 @@
    "examples": [
     "The bus stops in front of the bakery."
    ],
-   "placeholder": "🧍➡️🪞",
-   "lookalikes": [
-    "alone",
-    "wax figure",
-    "still",
-    "podium"
-   ],
+   "placeholder": "🪞",
+   "lookalikes": [],
    "sameLesson": [
     "street",
     "barbershop",
@@ -14996,8 +14794,10 @@
     "The sunset from the hill was incredible!",
     "The view from the top of the mountain was incredible!"
    ],
-   "placeholder": "😲✨",
-   "lookalikes": [],
+   "placeholder": "😲",
+   "lookalikes": [
+    "surprise"
+   ],
    "sameLesson": [
     "purpose",
     "backpacking",
@@ -15028,10 +14828,9 @@
    "examples": [
     "The library has lots of information about dinosaurs."
    ],
-   "placeholder": "📚📰",
+   "placeholder": "📰",
    "lookalikes": [
-    "library",
-    "shelf"
+    "heading"
    ],
    "sameLesson": [
     "invention",
@@ -15061,7 +14860,7 @@
    "examples": [
     "Check the ingredients before you start cooking."
    ],
-   "placeholder": "🥕🥚🥛",
+   "placeholder": "🥕",
    "lookalikes": [
     "carrot",
     "produce",
@@ -15099,12 +14898,10 @@
    "examples": [
     "Read the instructions before you build your robot."
    ],
-   "placeholder": "📄🔢",
+   "placeholder": "📄",
    "lookalikes": [
     "tissue paper",
-    "crumple",
-    "fact file",
-    "sheet music"
+    "fact file"
    ],
    "sameLesson": [
     "fix",
@@ -15138,7 +14935,7 @@
    "examples": [
     "Irene can play three musical instruments."
    ],
-   "placeholder": "🎸🎻🥁",
+   "placeholder": "🎸",
    "lookalikes": [
     "guitar"
    ],
@@ -15186,7 +14983,7 @@
     "Scientists invent new machines to help people every day.",
     "Leo invented a new game for the park."
    ],
-   "placeholder": "🛠️💡",
+   "placeholder": "🛠️",
    "lookalikes": [
     "useful"
    ],
@@ -15228,17 +15025,16 @@
    "examples": [
     "The telephone was an amazing invention."
    ],
-   "placeholder": "💡🛠️",
+   "placeholder": "💡",
    "lookalikes": [
     "suggestion",
     "suggest",
     "go out",
     "turn on",
-    "turn off",
     "main idea",
     "explanation",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -15270,9 +15066,7 @@
     "Thomas Edison was a famous inventor of the lightbulb."
    ],
    "placeholder": "🧑‍🔬",
-   "lookalikes": [
-    "archeologist"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "invent",
     "toaster",
@@ -15308,7 +15102,6 @@
     "compare",
     "detail",
     "observation",
-    "discover",
     "clue",
     "identify"
    ],
@@ -15380,8 +15173,7 @@
    ],
    "placeholder": "🧥",
    "lookalikes": [
-    "coat",
-    "hang"
+    "coat"
    ],
    "sameLesson": [
     "cold",
@@ -15423,10 +15215,8 @@
    "examples": [
     "I like strawberry jam on my toast."
    ],
-   "placeholder": "🫙🍓",
-   "lookalikes": [
-    "jar"
-   ],
+   "placeholder": "🍓",
+   "lookalikes": [],
    "sameLesson": [
     "come from",
     "produce",
@@ -15457,7 +15247,7 @@
    ],
    "placeholder": "🫙",
    "lookalikes": [
-    "jam"
+    "empty"
    ],
    "sameLesson": [
     "knock over",
@@ -15527,8 +15317,7 @@
    ],
    "placeholder": "👖",
    "lookalikes": [
-    "pants",
-    "pocket"
+    "pants"
    ],
    "sameLesson": [
     "clothes",
@@ -15604,6 +15393,7 @@
    ],
    "placeholder": "💎",
    "lookalikes": [
+    "discover",
     "precious"
    ],
    "sameLesson": [
@@ -15639,18 +15429,10 @@
    "examples": [
     "I want to join the basketball team at my school."
    ],
-   "placeholder": "🏃➡️👥",
+   "placeholder": "👥",
    "lookalikes": [
-    "gym",
-    "move",
-    "run away",
-    "race",
-    "activity",
-    "escape",
-    "result",
-    "warm-up",
-    "stay in shape",
-    "compete"
+    "group",
+    "team"
    ],
    "sameLesson": [
     "hide - hid - hidden",
@@ -15682,7 +15464,7 @@
    "examples": [
     "She likes jumping rope."
    ],
-   "placeholder": "🪢🏃",
+   "placeholder": "🪢",
    "lookalikes": [
     "tie",
     "pull"
@@ -15716,7 +15498,7 @@
     "Monkeys swing from trees in the jungle.",
     "There are many animal and plant species in the jungle."
    ],
-   "placeholder": "🌴🐒",
+   "placeholder": "🌴",
    "lookalikes": [
     "rainforest"
    ],
@@ -15760,12 +15542,10 @@
    "examples": [
     "Grandpa keeps his old stories in a special box."
    ],
-   "placeholder": "🤲🧸",
+   "placeholder": "🧸",
    "lookalikes": [
-    "pick up",
-    "hold",
-    "clay",
-    "pottery"
+    "toy",
+    "teddy bear"
    ],
    "sameLesson": [
     "pants",
@@ -15865,10 +15645,8 @@
    "examples": [
     "Look at that little kitten! It's so cute!"
    ],
-   "placeholder": "🐱🍼",
-   "lookalikes": [
-    "get down"
-   ],
+   "placeholder": "🐱",
+   "lookalikes": [],
    "sameLesson": [
     "messy",
     "disruption",
@@ -15901,10 +15679,10 @@
    "examples": [
     "I knocked over my glass of juice at lunch."
    ],
-   "placeholder": "🥛💥",
+   "placeholder": "🥛",
    "lookalikes": [
-    "full",
-    "empty"
+    "come from",
+    "full"
    ],
    "sameLesson": [
     "jar",
@@ -15970,10 +15748,11 @@
    "examples": [
     "Lava is hot and bright orange when it flows."
    ],
-   "placeholder": "🔥🪨",
+   "placeholder": "🔥",
    "lookalikes": [
     "oven",
-    "put out",
+    "burnt",
+    "campfire",
     "burn"
    ],
    "sameLesson": [
@@ -16016,12 +15795,8 @@
    "examples": [
     "Can you lead us to the park?"
    ],
-   "placeholder": "🐘➡️🐘🐘",
-   "lookalikes": [
-    "herd",
-    "enormous",
-    "huge"
-   ],
+   "placeholder": "🚩",
+   "lookalikes": [],
    "sameLesson": [
     "savanna",
     "herd",
@@ -16052,10 +15827,9 @@
    "examples": [
     "Can you lend me your pencil?"
    ],
-   "placeholder": "✏️➡️👦",
+   "placeholder": "✏️",
    "lookalikes": [
     "pencil sharpener",
-    "dull",
     "sketch"
    ],
    "sameLesson": [
@@ -16133,10 +15907,9 @@
    "examples": [
     "We borrow books from the library on Friday."
    ],
-   "placeholder": "📚🏛️",
+   "placeholder": "📚",
    "lookalikes": [
-    "shelf",
-    "information"
+    "shelf"
    ],
    "sameLesson": [
     "schoolbag",
@@ -16170,7 +15943,6 @@
    ],
    "placeholder": "👅",
    "lookalikes": [
-    "thirsty",
     "taste"
    ],
    "sameLesson": [
@@ -16245,12 +16017,11 @@
     "suggest",
     "go out",
     "turn on",
-    "turn off",
     "main idea",
     "explanation",
     "invention",
     "invent",
-    "switch off"
+    "switch on"
    ],
    "sameLesson": [
     "man-made",
@@ -16333,7 +16104,6 @@
    ],
    "placeholder": "📝",
    "lookalikes": [
-    "desk",
     "summary",
     "playlist",
     "questionnaire"
@@ -16380,8 +16150,10 @@
    "examples": [
     "Where do you live?"
    ],
-   "placeholder": "👨‍👩‍👧🏠",
-   "lookalikes": [],
+   "placeholder": "🏡",
+   "lookalikes": [
+    "town"
+   ],
    "sameLesson": [
     "parent",
     "grandparent",
@@ -16412,9 +16184,8 @@
    "examples": [
     "Plants and animals are living things."
    ],
-   "placeholder": "🌱🐝",
+   "placeholder": "🌱",
    "lookalikes": [
-    "water",
     "grow",
     "take care of"
    ],
@@ -16445,7 +16216,7 @@
    "examples": [
     "Most local people enjoy eating at this restaurant. Let's do the same!"
    ],
-   "placeholder": "📍🏘️",
+   "placeholder": "📍",
    "lookalikes": [],
    "sameLesson": [
     "village",
@@ -16577,7 +16348,7 @@
    "examples": [
     "The cat jumped away. What a lucky escape!"
    ],
-   "placeholder": "🍀🏃",
+   "placeholder": "🍀",
    "lookalikes": [
     "luck"
    ],
@@ -16612,7 +16383,7 @@
     "My mum sings a lullaby every night.",
     "Adrian sang a lullaby to the baby to help it fall asleep."
    ],
-   "placeholder": "🌙🎶",
+   "placeholder": "🌙",
    "lookalikes": [
     "bedtime"
    ],
@@ -16656,8 +16427,11 @@
    "examples": [
     "At lunch break, we eat in the school yard."
    ],
-   "placeholder": "🕛🍽️",
-   "lookalikes": [],
+   "placeholder": "🍽️",
+   "lookalikes": [
+    "set the table",
+    "mealtime"
+   ],
    "sameLesson": [
     "schoolbag",
     "new",
@@ -16690,17 +16464,16 @@
    "examples": [
     "What is the main idea of this text?"
    ],
-   "placeholder": "💡⭐",
+   "placeholder": "💡",
    "lookalikes": [
     "suggestion",
     "suggest",
     "go out",
     "turn on",
-    "turn off",
     "explanation",
     "invention",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -16733,12 +16506,8 @@
    "examples": [
     "Sandra makes stick puppets for her students."
    ],
-   "placeholder": "🧱🔨",
-   "lookalikes": [
-    "behind",
-    "mural",
-    "structure"
-   ],
+   "placeholder": "🔨",
+   "lookalikes": [],
    "sameLesson": [
     "teddy bear",
     "alone",
@@ -16771,8 +16540,7 @@
    ],
    "placeholder": "🛏️",
    "lookalikes": [
-    "go to bed",
-    "bedroom"
+    "go to bed"
    ],
    "sameLesson": [
     "discussion",
@@ -16803,12 +16571,8 @@
    "examples": [
     "Whales are mammals, not fish."
    ],
-   "placeholder": "🐶🐋🦇",
-   "lookalikes": [
-    "animal",
-    "disruption",
-    "naughty"
-   ],
+   "placeholder": "🐋",
+   "lookalikes": [],
    "sameLesson": [
     "snow",
     "reindeer",
@@ -16875,8 +16639,10 @@
     "We buy eggs at the market on Sunday.",
     "Dennis went to the market to buy some fruit and vegetables."
    ],
-   "placeholder": "🏪🥕",
-   "lookalikes": [],
+   "placeholder": "🛒",
+   "lookalikes": [
+    "buy"
+   ],
    "sameLesson": [
     "come from",
     "produce",
@@ -16915,7 +16681,7 @@
    "examples": [
     "Our team mascot is a big pink bird."
    ],
-   "placeholder": "🐦🎉",
+   "placeholder": "🐦",
    "lookalikes": [
     "migrate",
     "hummingbird"
@@ -16950,10 +16716,9 @@
    "examples": [
     "Cardboard is a good material for models."
    ],
-   "placeholder": "🪵🧱",
+   "placeholder": "🪵",
    "lookalikes": [
     "wood",
-    "campfire",
     "hollow"
    ],
    "sameLesson": [
@@ -17000,7 +16765,7 @@
    ],
    "placeholder": "🍽️",
    "lookalikes": [
-    "after",
+    "lunch break",
     "set the table"
    ],
    "sameLesson": [
@@ -17075,7 +16840,8 @@
    ],
    "placeholder": "🥇",
    "lookalikes": [
-    "proud"
+    "proud",
+    "podium"
    ],
    "sameLesson": [
     "order",
@@ -17110,7 +16876,9 @@
     "Take your medicine after breakfast."
    ],
    "placeholder": "💊",
-   "lookalikes": [],
+   "lookalikes": [
+    "vitamin"
+   ],
    "sameLesson": [
     "street",
     "barbershop",
@@ -17145,6 +16913,7 @@
    ],
    "placeholder": "🎶",
    "lookalikes": [
+    "tune",
     "tune"
    ],
    "sameLesson": [
@@ -17179,7 +16948,7 @@
    "examples": [
     "Snow melts when the weather gets warm."
    ],
-   "placeholder": "🧊➡️💧",
+   "placeholder": "🧊",
    "lookalikes": [
     "fridge"
    ],
@@ -17215,10 +16984,7 @@
    ],
    "placeholder": "🧠",
    "lookalikes": [
-    "agree",
-    "disagree",
-    "smart",
-    "express"
+    "smart"
    ],
    "sameLesson": [
     "savanna",
@@ -17250,7 +17016,7 @@
    "examples": [
     "The menu has pizza, soup and ice cream."
    ],
-   "placeholder": "📋🍕",
+   "placeholder": "📋",
    "lookalikes": [
     "survey"
    ],
@@ -17317,7 +17083,7 @@
    "examples": [
     "Oh! Your room is very messy!"
    ],
-   "placeholder": "🧦👕",
+   "placeholder": "🧦",
    "lookalikes": [
     "pair"
    ],
@@ -17422,7 +17188,7 @@
    "examples": [
     "Cynthia warmed her dinner in the micro-wave oven."
    ],
-   "placeholder": "🍲🔥",
+   "placeholder": "🍲",
    "lookalikes": [
     "pot"
    ],
@@ -17455,7 +17221,7 @@
    "examples": [
     "Birds migrate south when winter comes."
    ],
-   "placeholder": "🐦✈️",
+   "placeholder": "🐦",
    "lookalikes": [
     "hummingbird",
     "mascot"
@@ -17490,10 +17256,8 @@
    "examples": [
     "Dinosaurs lived on Earth millions of years ago."
    ],
-   "placeholder": "1️⃣0️⃣0️⃣0️⃣0️⃣0️⃣0️⃣",
+   "placeholder": "🔢",
    "lookalikes": [
-    "sequence",
-    "first",
     "order"
    ],
    "sameLesson": [
@@ -17558,9 +17322,9 @@
    "examples": [
     "Mix the eggs and sugar in a bowl."
    ],
-   "placeholder": "🥣🔄",
+   "placeholder": "🥄",
    "lookalikes": [
-    "dough"
+    "stir"
    ],
    "sameLesson": [
     "wheat",
@@ -17592,11 +17356,8 @@
    "examples": [
     "We live on a farm and we can hear the cows moo all the time."
    ],
-   "placeholder": "🐄🔊",
-   "lookalikes": [
-    "farm",
-    "come from"
-   ],
+   "placeholder": "🐄",
+   "lookalikes": [],
    "sameLesson": [
     "tree",
     "shade",
@@ -17661,7 +17422,7 @@
    "examples": [
     "This is my mother."
    ],
-   "placeholder": "👩👶",
+   "placeholder": "👩",
    "lookalikes": [
     "parent",
     "aunt"
@@ -17698,7 +17459,9 @@
     "Our world is big. It has mountains, rivers, lakes and beaches."
    ],
    "placeholder": "⛰️",
-   "lookalikes": [],
+   "lookalikes": [
+    "slope"
+   ],
    "sameLesson": [
     "planet",
     "change",
@@ -17746,16 +17509,11 @@
    ],
    "placeholder": "🏃",
    "lookalikes": [
-    "gym",
     "run away",
-    "race",
     "activity",
-    "join",
     "escape",
-    "result",
-    "warm-up",
-    "stay in shape",
-    "compete"
+    "athlete",
+    "warm-up"
    ],
    "sameLesson": [
     "puppet",
@@ -17829,8 +17587,9 @@
    "examples": [
     "After the flood, the streets were full of mud."
    ],
-   "placeholder": "🟤💧",
+   "placeholder": "🟤",
    "lookalikes": [
+    "dirty",
     "clay"
    ],
    "sameLesson": [
@@ -17863,9 +17622,8 @@
    "examples": [
     "The old town has a mural of a big blue fish."
    ],
-   "placeholder": "🧱🖼️",
+   "placeholder": "🧱",
    "lookalikes": [
-    "make",
     "behind",
     "structure"
    ],
@@ -17899,8 +17657,7 @@
    ],
    "placeholder": "🏛️",
    "lookalikes": [
-    "ancient",
-    "gallery"
+    "ancient"
    ],
    "sameLesson": [
     "heading",
@@ -18016,14 +17773,8 @@
     "Dominic is a musician. He can play three instruments.",
     "Many musicians from around the world came to our music festival."
    ],
-   "placeholder": "🧑🎹",
-   "lookalikes": [
-    "connect",
-    "break out in",
-    "take charge",
-    "bring together",
-    "community"
-   ],
+   "placeholder": "🧑‍🎤",
+   "lookalikes": [],
    "sameLesson": [
     "move",
     "connect",
@@ -18067,8 +17818,7 @@
    "placeholder": "❓",
    "lookalikes": [
     "question",
-    "why",
-    "guessing game"
+    "why"
    ],
    "sameLesson": [
     "detective",
@@ -18102,10 +17852,9 @@
    ],
    "placeholder": "📖",
    "lookalikes": [
+    "tell a story",
     "title",
-    "during",
     "read stories",
-    "summarize",
     "biography",
     "dictionary"
    ],
@@ -18139,7 +17888,7 @@
    "examples": [
     "We love walking in nature."
    ],
-   "placeholder": "🌿🌍",
+   "placeholder": "🌿",
    "lookalikes": [
     "grass",
     "vine"
@@ -18174,12 +17923,8 @@
    "examples": [
     "Stop, naughty dog! Don't take my sandwich!"
    ],
-   "placeholder": "🐶😜",
-   "lookalikes": [
-    "animal",
-    "disruption",
-    "mammal"
-   ],
+   "placeholder": "😜",
+   "lookalikes": [],
    "sameLesson": [
     "messy",
     "disruption",
@@ -18252,14 +17997,11 @@
    "examples": [
     "My neighbour has a big dog."
    ],
-   "placeholder": "🏠🧑🏠",
+   "placeholder": "🏘️",
    "lookalikes": [
-    "house",
-    "animal shelter",
-    "street",
-    "between",
-    "suburb",
-    "shelter"
+    "community",
+    "neighborhood",
+    "village"
    ],
    "sameLesson": [
     "family",
@@ -18292,8 +18034,8 @@
    ],
    "placeholder": "🏘️",
    "lookalikes": [
+    "neighbor",
     "community",
-    "flood",
     "village"
    ],
    "sameLesson": [
@@ -18428,7 +18170,9 @@
     "Next, glue the paper onto the cardboard box."
    ],
    "placeholder": "➡️",
-   "lookalikes": [],
+   "lookalikes": [
+    "sequence"
+   ],
    "sameLesson": [
     "astronaut",
     "helmet",
@@ -18504,11 +18248,10 @@
     "Coal is a non-renewable fuel.",
     "Non-renewable sources of energy are going to run out sometime in the future."
    ],
-   "placeholder": "🪨🚫♻️",
+   "placeholder": "🪨",
    "lookalikes": [
     "rock",
     "plate",
-    "asteroid",
     "stone"
    ],
    "sameLesson": [
@@ -18540,7 +18283,7 @@
    "examples": [
     "Nutrients are important if you want to stay healthy."
    ],
-   "placeholder": "🥗💪",
+   "placeholder": "🥗",
    "lookalikes": [
     "salad",
     "balanced diet"
@@ -18616,7 +18359,6 @@
     "compare",
     "investigate",
     "detail",
-    "discover",
     "clue",
     "identify"
    ],
@@ -18650,8 +18392,9 @@
    "examples": [
     "For a special occasion, I wear my best dress."
    ],
-   "placeholder": "🎉🎈",
+   "placeholder": "🎉",
    "lookalikes": [
+    "event",
     "celebration",
     "celebrate"
    ],
@@ -18726,10 +18469,8 @@
    "examples": [
     "This old book is very interesting."
    ],
-   "placeholder": "🪑🕸️",
-   "lookalikes": [
-    "dusty"
-   ],
+   "placeholder": "🕸️",
+   "lookalikes": [],
    "sameLesson": [
     "schoolbag",
     "new",
@@ -18760,17 +18501,8 @@
    "examples": [
     "I can do it on my own!"
    ],
-   "placeholder": "👧☝️",
-   "lookalikes": [
-    "sister",
-    "similarity",
-    "both",
-    "each other",
-    "agree",
-    "disagree",
-    "follow",
-    "in common"
-   ],
+   "placeholder": "☝️",
+   "lookalikes": [],
    "sameLesson": [
     "teddy bear",
     "alone",
@@ -18878,12 +18610,10 @@
    "examples": [
     "The school orchestra practises every Tuesday after lunch."
    ],
-   "placeholder": "🎻🎺🥁",
+   "placeholder": "🎻",
    "lookalikes": [
     "violin",
-    "classical music",
     "double bass",
-    "tune",
     "string instrument"
    ],
    "sameLesson": [
@@ -18918,10 +18648,8 @@
    "examples": [
     "Put the pictures in the right order, from first to last."
    ],
-   "placeholder": "1️⃣2️⃣3️⃣",
+   "placeholder": "🔢",
    "lookalikes": [
-    "sequence",
-    "first",
     "million"
    ],
    "sameLesson": [
@@ -18954,10 +18682,11 @@
    "examples": [
     "The cake is ready. Take it out of the oven."
    ],
-   "placeholder": "🔥🍞",
+   "placeholder": "🔥",
    "lookalikes": [
     "lava",
-    "put out",
+    "burnt",
+    "campfire",
     "burn"
    ],
    "sameLesson": [
@@ -19064,6 +18793,7 @@
    "lookalikes": [
     "exhibit",
     "caption",
+    "gallery",
     "portrait"
    ],
    "sameLesson": [
@@ -19107,7 +18837,7 @@
    "examples": [
     "I need a pair of socks for school."
    ],
-   "placeholder": "🧦🧦",
+   "placeholder": "🧦",
    "lookalikes": [
     "messy"
    ],
@@ -19140,13 +18870,10 @@
     "Put on your pajamas and go to bed.",
     "It is bedtime. Timmy wears his pajamas."
    ],
-   "placeholder": "👕👖",
+   "placeholder": "👕",
    "lookalikes": [
     "uniform",
-    "costume",
-    "clothes",
-    "T-shirt",
-    "washing machine"
+    "T-shirt"
    ],
    "sameLesson": [
     "bedtime",
@@ -19216,7 +18943,6 @@
    ],
    "placeholder": "👖",
    "lookalikes": [
-    "pocket",
     "jeans"
    ],
    "sameLesson": [
@@ -19287,7 +19013,7 @@
    "examples": [
     "Timmy's parent works on a farm."
    ],
-   "placeholder": "👩👨",
+   "placeholder": "👩",
    "lookalikes": [
     "aunt",
     "mother"
@@ -19324,11 +19050,11 @@
    "examples": [
     "Pass me the ball, Sam! I'm free!"
    ],
-   "placeholder": "⚽➡️",
+   "placeholder": "⚽",
    "lookalikes": [
+    "after",
     "play soccer",
-    "roll",
-    "tie"
+    "roll"
    ],
    "sameLesson": [
     "whistle",
@@ -19402,7 +19128,7 @@
    "examples": [
     "Wendy drew a pattern and coloured it with watercolours."
    ],
-   "placeholder": "🔷⭐🔷⭐",
+   "placeholder": "🔷",
    "lookalikes": [],
    "sameLesson": [
     "artist",
@@ -19472,9 +19198,9 @@
    "examples": [
     "I love PE because we play games in the sunshine."
    ],
-   "placeholder": "🏫🤸",
+   "placeholder": "🤸",
    "lookalikes": [
-    "classroom"
+    "gymnastics"
    ],
    "sameLesson": [
     "team",
@@ -19504,9 +19230,8 @@
    "examples": [
     "Can I use your pencil sharpener, please?"
    ],
-   "placeholder": "✏️➡️🔺",
+   "placeholder": "✏️",
    "lookalikes": [
-    "dull",
     "lend",
     "sketch"
    ],
@@ -19542,7 +19267,7 @@
    "examples": [
     "The drum is a percussion instrument that makes a big sound."
    ],
-   "placeholder": "🥁🪇",
+   "placeholder": "🥁",
    "lookalikes": [
     "rhythm"
    ],
@@ -19576,10 +19301,8 @@
    "examples": [
     "The performance was great, and the audience clapped at the end."
    ],
-   "placeholder": "🎭👏",
-   "lookalikes": [
-    "puppet"
-   ],
+   "placeholder": "👏",
+   "lookalikes": [],
    "sameLesson": [
     "musician",
     "composer",
@@ -19613,9 +19336,7 @@
     "My personal hero is my grandma."
    ],
    "placeholder": "🙋",
-   "lookalikes": [
-    "suggestion"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "brave",
     "caring",
@@ -19646,12 +19367,10 @@
    "examples": [
     "Leo tried to persuade me to swim, but I said no."
    ],
-   "placeholder": "🗣️➡️🙂",
+   "placeholder": "🗣️",
    "lookalikes": [
-    "tell a story",
     "discussion",
-    "voice",
-    "warn"
+    "voice"
    ],
    "sameLesson": [
     "purpose",
@@ -19782,7 +19501,7 @@
    "examples": [
     "Joanne plays the piccolo in our orchestra."
    ],
-   "placeholder": "🪈⬆️",
+   "placeholder": "🪈",
    "lookalikes": [],
    "sameLesson": [
     "create",
@@ -19816,12 +19535,9 @@
    "examples": [
     "Please pick up your toys before dinner."
    ],
-   "placeholder": "🤲⬆️",
+   "placeholder": "🤲",
    "lookalikes": [
-    "keep",
-    "hold",
-    "clay",
-    "pottery"
+    "hold"
    ],
    "sameLesson": [
     "tie",
@@ -19938,13 +19654,8 @@
    "examples": [
     "This water bottle is made of plastic."
    ],
-   "placeholder": "🧴🛍️",
-   "lookalikes": [
-    "bottle",
-    "glue",
-    "shampoo",
-    "bottle cap"
-   ],
+   "placeholder": "🛍️",
+   "lookalikes": [],
    "sameLesson": [
     "hummingbird",
     "bottle cap",
@@ -19987,10 +19698,9 @@
    "examples": [
     "The plates move slowly under our feet."
    ],
-   "placeholder": "🪨🪨",
+   "placeholder": "🪨",
    "lookalikes": [
     "rock",
-    "asteroid",
     "stone",
     "non-renewable"
    ],
@@ -20026,11 +19736,9 @@
    "examples": [
     "Let's have a play date this Saturday."
    ],
-   "placeholder": "👫📅",
+   "placeholder": "📅",
    "lookalikes": [
-    "classmate",
-    "friend",
-    "both"
+    "regularly"
    ],
    "sameLesson": [
     "friend",
@@ -20061,7 +19769,9 @@
     "We play games at break time."
    ],
    "placeholder": "🎲",
-   "lookalikes": [],
+   "lookalikes": [
+    "guessing game"
+   ],
    "sameLesson": [
     "stick puppet",
     "buy",
@@ -20092,9 +19802,9 @@
    ],
    "placeholder": "⚽",
    "lookalikes": [
+    "after",
     "roll",
-    "pass",
-    "tie"
+    "pass"
    ],
    "sameLesson": [
     "friend",
@@ -20124,9 +19834,8 @@
    "examples": [
     "Tonia has a very nice playlist on her phone."
    ],
-   "placeholder": "📝🎵",
+   "placeholder": "📝",
    "lookalikes": [
-    "desk",
     "list",
     "summary",
     "questionnaire"
@@ -20163,11 +19872,8 @@
    "examples": [
     "Mia keeps a tissue in her coat pocket."
    ],
-   "placeholder": "👖🪙",
-   "lookalikes": [
-    "pants",
-    "jeans"
-   ],
+   "placeholder": "👛",
+   "lookalikes": [],
    "sameLesson": [
     "pants",
     "coat",
@@ -20200,12 +19906,10 @@
    "examples": [
     "The conductor stepped onto the podium and raised her arms."
    ],
-   "placeholder": "🧍⬆️",
+   "placeholder": "🥇",
    "lookalikes": [
-    "alone",
-    "wax figure",
-    "in front of",
-    "still"
+    "proud",
+    "medal"
    ],
    "sameLesson": [
     "musician",
@@ -20239,7 +19943,7 @@
    "examples": [
     "From my point of view, this mural tells a happy story."
    ],
-   "placeholder": "👁️🖼️",
+   "placeholder": "👁️",
    "lookalikes": [
     "water up"
    ],
@@ -20271,7 +19975,7 @@
    "examples": [
     "Pollution makes the air dirty and hard to breathe."
    ],
-   "placeholder": "🏭💨",
+   "placeholder": "🏭",
    "lookalikes": [
     "man-made"
    ],
@@ -20307,10 +20011,12 @@
    "examples": [
     "There is a pond near my house."
    ],
-   "placeholder": "💧🌿",
+   "placeholder": "💧",
    "lookalikes": [
+    "water",
+    "thirsty",
     "flow down",
-    "waste"
+    "waterhole"
    ],
    "sameLesson": [
     "frog",
@@ -20342,7 +20048,7 @@
    "examples": [
     "Irene loves pop music because the songs are catchy and bright."
    ],
-   "placeholder": "🎤🎶",
+   "placeholder": "🎤",
    "lookalikes": [
     "sing songs"
    ],
@@ -20376,11 +20082,8 @@
    "examples": [
     "The toast will pop out when it is ready."
    ],
-   "placeholder": "🍞⬆️",
-   "lookalikes": [
-    "toaster",
-    "burnt"
-   ],
+   "placeholder": "⬆️",
+   "lookalikes": [],
    "sameLesson": [
     "invent",
     "inventor",
@@ -20409,10 +20112,10 @@
    "examples": [
     "Hip hop is a very popular kind of music."
    ],
-   "placeholder": "👥⭐",
+   "placeholder": "⭐",
    "lookalikes": [
-    "group",
-    "team"
+    "special",
+    "sticker"
    ],
    "sameLesson": [
     "neighborhood",
@@ -20444,11 +20147,12 @@
    "examples": [
     "The portrait of my grandmother hangs in our hall."
    ],
-   "placeholder": "🖼️🙂",
+   "placeholder": "🖼️",
    "lookalikes": [
     "painting",
     "exhibit",
-    "caption"
+    "caption",
+    "gallery"
    ],
    "sameLesson": [
     "hummingbird",
@@ -20483,7 +20187,9 @@
     "Lingo gave me a positive comment about my drawing."
    ],
    "placeholder": "👍",
-   "lookalikes": [],
+   "lookalikes": [
+    "agree"
+   ],
    "sameLesson": [
     "celebration",
     "celebrate",
@@ -20548,13 +20254,8 @@
    "examples": [
     "Ian loves doing pottery and creating his own cups."
    ],
-   "placeholder": "🤲🫖",
-   "lookalikes": [
-    "pick up",
-    "keep",
-    "hold",
-    "clay"
-   ],
+   "placeholder": "🫖",
+   "lookalikes": [],
    "sameLesson": [
     "artist",
     "sculpture",
@@ -20589,7 +20290,8 @@
    ],
    "placeholder": "💪",
    "lookalikes": [
-    "exercise"
+    "exercise",
+    "stay in shape"
    ],
    "sameLesson": [
     "thunderstorm",
@@ -20621,10 +20323,8 @@
    "examples": [
     "Baby kids and lambs like prancing in the grass!"
    ],
-   "placeholder": "🐑💃",
-   "lookalikes": [
-    "cloth"
-   ],
+   "placeholder": "🐑",
+   "lookalikes": [],
    "sameLesson": [
     "tree",
     "shade",
@@ -20657,6 +20357,7 @@
    ],
    "placeholder": "💎",
    "lookalikes": [
+    "discover",
     "jewel"
    ],
    "sameLesson": [
@@ -20721,7 +20422,7 @@
    "examples": [
     "Farmers grow fresh produce on their land."
    ],
-   "placeholder": "🥕🥬🍅",
+   "placeholder": "🥕",
    "lookalikes": [
     "carrot",
     "ingredients",
@@ -20837,9 +20538,10 @@
    "examples": [
     "I'm proud of my town!"
    ],
-   "placeholder": "🥇😊",
+   "placeholder": "🥇",
    "lookalikes": [
-    "medal"
+    "medal",
+    "podium"
    ],
    "sameLesson": [
     "neighborhood",
@@ -20906,9 +20608,9 @@
    "examples": [
     "My little sister has a puppet made of cloth."
    ],
-   "placeholder": "🎭🪆",
+   "placeholder": "🎭",
    "lookalikes": [
-    "performance"
+    "curtain"
    ],
    "sameLesson": [
     "wood",
@@ -20982,12 +20684,8 @@
    "examples": [
     "Firefighters put out fires quickly."
    ],
-   "placeholder": "🔥🧯",
-   "lookalikes": [
-    "oven",
-    "lava",
-    "burn"
-   ],
+   "placeholder": "🧯",
+   "lookalikes": [],
    "sameLesson": [
     "brave",
     "caring",
@@ -21018,7 +20716,7 @@
    "examples": [
     "The Great Pyramid is very old and very large."
    ],
-   "placeholder": "🔺🏜️",
+   "placeholder": "🔺",
    "lookalikes": [],
    "sameLesson": [
     "collection",
@@ -21063,7 +20761,6 @@
    "placeholder": "❓",
    "lookalikes": [
     "why",
-    "guessing game",
     "mystery"
    ],
    "sameLesson": [
@@ -21095,9 +20792,8 @@
    "examples": [
     "Please fill in this questionnaire about your holidays."
    ],
-   "placeholder": "📝❓",
+   "placeholder": "📝",
    "lookalikes": [
-    "desk",
     "list",
     "summary",
     "playlist"
@@ -21134,17 +20830,10 @@
    "examples": [
     "We have a running race on Friday."
    ],
-   "placeholder": "🏃🏃",
+   "placeholder": "🏁",
    "lookalikes": [
-    "gym",
-    "move",
-    "run away",
-    "activity",
-    "join",
-    "escape",
-    "result",
-    "warm-up",
-    "stay in shape",
+    "end",
+    "ready",
     "compete"
    ],
    "sameLesson": [
@@ -21177,7 +20866,7 @@
    "examples": [
     "Put your coat on the rack."
    ],
-   "placeholder": "🪝🪝🪝",
+   "placeholder": "🪝",
    "lookalikes": [],
    "sameLesson": [
     "coat",
@@ -21256,7 +20945,7 @@
    "examples": [
     "Rainforests are home to many animals."
    ],
-   "placeholder": "🌴🌧️",
+   "placeholder": "🌴",
    "lookalikes": [
     "jungle"
    ],
@@ -21291,7 +20980,9 @@
     "It is rainy, so take your umbrella."
    ],
    "placeholder": "☔",
-   "lookalikes": [],
+   "lookalikes": [
+    "shelter"
+   ],
    "sameLesson": [
     "cold",
     "windy",
@@ -21324,9 +21015,8 @@
    ],
    "placeholder": "📖",
    "lookalikes": [
+    "tell a story",
     "title",
-    "during",
-    "summarize",
     "biography",
     "narrative",
     "dictionary"
@@ -21361,7 +21051,9 @@
    ],
    "placeholder": "🏁",
    "lookalikes": [
-    "end"
+    "end",
+    "race",
+    "compete"
    ],
    "sameLesson": [
     "astronaut",
@@ -21395,7 +21087,9 @@
    ],
    "placeholder": "♻️",
    "lookalikes": [
-    "recycling"
+    "recycling",
+    "responsible",
+    "renewable"
    ],
    "sameLesson": [
     "discussion",
@@ -21428,7 +21122,9 @@
    ],
    "placeholder": "♻️",
    "lookalikes": [
-    "recycle"
+    "recycle",
+    "responsible",
+    "renewable"
    ],
    "sameLesson": [
     "hummingbird",
@@ -21502,9 +21198,9 @@
    "examples": [
     "You should exercise regularly to keep fit and healthy."
    ],
-   "placeholder": "📅🔁",
+   "placeholder": "📅",
    "lookalikes": [
-    "event"
+    "play date"
    ],
    "sameLesson": [
     "order",
@@ -21537,9 +21233,7 @@
     "Reindeer can run fast in the snow."
    ],
    "placeholder": "🦌",
-   "lookalikes": [
-    "antler"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "snow",
     "antler",
@@ -21644,13 +21338,11 @@
    "examples": [
     "Sun and wind are renewable sources of energy."
    ],
-   "placeholder": "☀️♻️",
+   "placeholder": "♻️",
    "lookalikes": [
-    "bright",
-    "shine",
-    "weather",
-    "daylight",
-    "solar power"
+    "recycle",
+    "recycling",
+    "responsible"
    ],
    "sameLesson": [
     "man-made",
@@ -21715,10 +21407,8 @@
    "examples": [
     "The firefighter rescued the kitten from the tree."
    ],
-   "placeholder": "👩‍🚒🪜🐱",
-   "lookalikes": [
-    "firefighter"
-   ],
+   "placeholder": "🪜",
+   "lookalikes": [],
    "sameLesson": [
     "messy",
     "disruption",
@@ -21749,7 +21439,7 @@
    "examples": [
     "The residents enjoy our visits."
    ],
-   "placeholder": "🧓🏠",
+   "placeholder": "🧓",
    "lookalikes": [],
    "sameLesson": [
     "community",
@@ -21818,10 +21508,11 @@
    "examples": [
     "A responsible traveller takes their rubbish home."
    ],
-   "placeholder": "🌳♻️",
+   "placeholder": "♻️",
    "lookalikes": [
-    "tree",
-    "branch"
+    "recycle",
+    "recycling",
+    "renewable"
    ],
    "sameLesson": [
     "purpose",
@@ -21887,18 +21578,11 @@
    "examples": [
     "The result of the game was a big surprise."
    ],
-   "placeholder": "🏃➡️🏆",
+   "placeholder": "🏆",
    "lookalikes": [
-    "gym",
-    "move",
-    "run away",
-    "race",
-    "activity",
-    "join",
-    "escape",
-    "warm-up",
-    "stay in shape",
-    "compete"
+    "champion",
+    "award",
+    "win"
    ],
    "sameLesson": [
     "travel",
@@ -21930,10 +21614,9 @@
    "examples": [
     "My grandpa lives in a retirement home."
    ],
-   "placeholder": "👵👴🏡",
+   "placeholder": "👵",
    "lookalikes": [
-    "grandparent",
-    "traditional"
+    "grandparent"
    ],
    "sameLesson": [
     "community",
@@ -21968,7 +21651,7 @@
     "Listen to the rhythm and clap along.",
     "The rhythm of this song is fast and happy."
    ],
-   "placeholder": "🥁👏🥁👏",
+   "placeholder": "🥁",
    "lookalikes": [
     "percussion instrument"
    ],
@@ -22094,7 +21777,6 @@
    "placeholder": "🪨",
    "lookalikes": [
     "plate",
-    "asteroid",
     "stone",
     "non-renewable"
    ],
@@ -22142,11 +21824,11 @@
    "examples": [
     "The ball will roll down the hill."
    ],
-   "placeholder": "⚽💨",
+   "placeholder": "⚽",
    "lookalikes": [
+    "after",
     "play soccer",
-    "pass",
-    "tie"
+    "pass"
    ],
    "sameLesson": [
     "tie",
@@ -22254,18 +21936,13 @@
    "examples": [
     "When the bell rings, we run away from the storm."
    ],
-   "placeholder": "🏃💨",
+   "placeholder": "🏃",
    "lookalikes": [
-    "gym",
     "move",
-    "race",
     "activity",
-    "join",
     "escape",
-    "result",
-    "warm-up",
-    "stay in shape",
-    "compete"
+    "athlete",
+    "warm-up"
    ],
    "sameLesson": [
     "hare",
@@ -22297,10 +21974,9 @@
    "examples": [
     "When we run out of fossil fuels, what will we do?"
    ],
-   "placeholder": "🔋🪫",
+   "placeholder": "🪫",
    "lookalikes": [
-    "battery",
-    "charge"
+    "weak"
    ],
    "sameLesson": [
     "thunderstorm",
@@ -22332,7 +22008,7 @@
    "examples": [
     "It's ok now! You're safe! Don't be scared!"
    ],
-   "placeholder": "🛡️😊",
+   "placeholder": "🛡️",
    "lookalikes": [
     "protect"
    ],
@@ -22366,7 +22042,7 @@
    "examples": [
     "Always wear a helmet for your safety when you cycle."
    ],
-   "placeholder": "⛑️🦺",
+   "placeholder": "⛑️",
    "lookalikes": [
     "helmet"
    ],
@@ -22475,7 +22151,7 @@
    "examples": [
     "We put sandbags at the front door."
    ],
-   "placeholder": "👜🏖️",
+   "placeholder": "👜",
    "lookalikes": [],
    "sameLesson": [
     "storm",
@@ -22631,10 +22307,9 @@
    "examples": [
     "The savanna is hot and dry in the summer."
    ],
-   "placeholder": "🌾☀️",
+   "placeholder": "🌾",
    "lookalikes": [
     "wheat",
-    "flour",
     "countryside"
    ],
    "sameLesson": [
@@ -22670,10 +22345,8 @@
     "The firefighter saved the cat from the tree.",
     "We must save water and electricity every day."
    ],
-   "placeholder": "🐈🛟",
-   "lookalikes": [
-    "furry"
-   ],
+   "placeholder": "🛟",
+   "lookalikes": [],
    "sameLesson": [
     "brave",
     "caring",
@@ -22712,10 +22385,8 @@
    "examples": [
     "Monica is saving money to buy a new bike."
    ],
-   "placeholder": "🐷🪙",
-   "lookalikes": [
-    "save"
-   ],
+   "placeholder": "🐷",
+   "lookalikes": [],
    "sameLesson": [
     "instruction",
     "fix",
@@ -22812,7 +22483,7 @@
    "examples": [
     "The flowers have a sweet scent."
    ],
-   "placeholder": "👃💨",
+   "placeholder": "👃",
    "lookalikes": [
     "smelly"
    ],
@@ -22882,7 +22553,7 @@
    "examples": [
     "Maria keeps her photos in a scrapbook."
    ],
-   "placeholder": "📔🖼️",
+   "placeholder": "📔",
    "lookalikes": [
     "diary"
    ],
@@ -22918,7 +22589,7 @@
    "examples": [
     "Please do not scratch the mosquito bite."
    ],
-   "placeholder": "💅🤚",
+   "placeholder": "🤚",
    "lookalikes": [],
    "sameLesson": [
     "hives",
@@ -23028,8 +22699,10 @@
    "examples": [
     "What's your favourite season of the year?"
    ],
-   "placeholder": "🌸☀️🍂❄️",
-   "lookalikes": [],
+   "placeholder": "🍂",
+   "lookalikes": [
+    "change"
+   ],
    "sameLesson": [
     "cold",
     "windy",
@@ -23092,7 +22765,7 @@
    "examples": [
     "My sister works as a security guard in a museum."
    ],
-   "placeholder": "👮🛡️",
+   "placeholder": "👮",
    "lookalikes": [],
    "sameLesson": [
     "heading",
@@ -23136,8 +22809,7 @@
    ],
    "placeholder": "👀",
    "lookalikes": [
-    "describe",
-    "show"
+    "describe"
    ],
    "sameLesson": [
     "snow",
@@ -23170,11 +22842,9 @@
     "We need to understand the sequence of events.",
     "Ella practises a sequence of five moves before every competition."
    ],
-   "placeholder": "1️⃣➡️2️⃣➡️3️⃣",
+   "placeholder": "➡️",
    "lookalikes": [
-    "first",
-    "million",
-    "order"
+    "next"
    ],
    "sameLesson": [
     "messy",
@@ -23216,7 +22886,7 @@
    ],
    "placeholder": "🍽️",
    "lookalikes": [
-    "after",
+    "lunch break",
     "mealtime"
    ],
    "sameLesson": [
@@ -23280,11 +22950,9 @@
    "examples": [
     "The bus shakes on the bumpy road."
    ],
-   "placeholder": "🌍↔️",
+   "placeholder": "📳",
    "lookalikes": [
-    "crust",
-    "earthquake",
-    "culture"
+    "vibration"
    ],
    "sameLesson": [
     "snowy",
@@ -23316,11 +22984,10 @@
    "examples": [
     "She washed her hair with a new shampoo."
    ],
-   "placeholder": "🧴💇",
+   "placeholder": "🧴",
    "lookalikes": [
     "bottle",
     "glue",
-    "plastic",
     "bottle cap"
    ],
    "sameLesson": [
@@ -23351,12 +23018,9 @@
    "examples": [
     "Take out your sheet music, please. We are going to play a song."
    ],
-   "placeholder": "📄🎶",
+   "placeholder": "🎼",
    "lookalikes": [
-    "tissue paper",
-    "crumple",
-    "fact file",
-    "instruction"
+    "classical music"
    ],
    "sameLesson": [
     "musician",
@@ -23392,8 +23056,7 @@
    ],
    "placeholder": "📚",
    "lookalikes": [
-    "library",
-    "information"
+    "library"
    ],
    "sameLesson": [
     "instruction",
@@ -23467,14 +23130,9 @@
    "examples": [
     "We found shelter under a big tree."
    ],
-   "placeholder": "🏠☔",
+   "placeholder": "☔",
    "lookalikes": [
-    "house",
-    "neighbor",
-    "animal shelter",
-    "street",
-    "between",
-    "suburb"
+    "rainy"
    ],
    "sameLesson": [
     "storm",
@@ -23508,13 +23166,11 @@
    "examples": [
     "The sun shines on the beach today."
    ],
-   "placeholder": "☀️✨",
+   "placeholder": "☀️",
    "lookalikes": [
     "bright",
-    "weather",
     "daylight",
-    "solar power",
-    "renewable"
+    "solar power"
    ],
    "sameLesson": [
     "pants",
@@ -23590,7 +23246,7 @@
    "examples": [
     "Divers explored the shipwreck at the bottom of the bay."
    ],
-   "placeholder": "🚢💥",
+   "placeholder": "🚢",
    "lookalikes": [
     "ship"
    ],
@@ -23626,7 +23282,7 @@
    "examples": [
     "My shoelace is untied again!"
    ],
-   "placeholder": "👟🪢",
+   "placeholder": "👟",
    "lookalikes": [
     "tennis shoe"
    ],
@@ -23696,11 +23352,8 @@
    "examples": [
     "Can you show me how to draw a bee?"
    ],
-   "placeholder": "👀👉",
-   "lookalikes": [
-    "describe",
-    "see"
-   ],
+   "placeholder": "👉",
+   "lookalikes": [],
    "sameLesson": [
     "living thing",
     "grass",
@@ -23728,10 +23381,9 @@
    "examples": [
     "Our shoes are similar, but yours are white."
    ],
-   "placeholder": "🔴🟠",
+   "placeholder": "👯",
    "lookalikes": [
-    "hives",
-    "sequence"
+    "similarity"
    ],
    "sameLesson": [
     "compare",
@@ -23763,16 +23415,9 @@
    "examples": [
     "Can you see the similarities between these two pictures?"
    ],
-   "placeholder": "👧🟰👦",
+   "placeholder": "👯",
    "lookalikes": [
-    "sister",
-    "both",
-    "each other",
-    "on (your) own",
-    "agree",
-    "disagree",
-    "follow",
-    "in common"
+    "similar"
    ],
    "sameLesson": [
     "difference",
@@ -23804,9 +23449,11 @@
    "examples": [
     "The stone will sink if you drop it in the pool."
    ],
-   "placeholder": "🌊⬇️",
+   "placeholder": "🌊",
    "lookalikes": [
-    "river"
+    "wash away",
+    "river",
+    "flood"
    ],
    "sameLesson": [
     "treasure",
@@ -23839,16 +23486,7 @@
     "This is my small sister."
    ],
    "placeholder": "👧",
-   "lookalikes": [
-    "similarity",
-    "both",
-    "each other",
-    "on (your) own",
-    "agree",
-    "disagree",
-    "follow",
-    "in common"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "family",
     "neighbor",
@@ -23890,11 +23528,9 @@
    "examples": [
     "They were digging at the archeological site when they found sculptures."
    ],
-   "placeholder": "🏺⛏️",
+   "placeholder": "⛏️",
    "lookalikes": [
-    "vase",
-    "tomb",
-    "artifact"
+    "dig - dug - dug"
    ],
    "sameLesson": [
     "village",
@@ -23929,10 +23565,9 @@
     "Ben sketches very nice drawings.",
     "I will sketch my dog this afternoon."
    ],
-   "placeholder": "✏️🖼️",
+   "placeholder": "✏️",
    "lookalikes": [
     "pencil sharpener",
-    "dull",
     "lend"
    ],
    "sameLesson": [
@@ -24007,8 +23642,10 @@
    "examples": [
     "The hikers went down the slope of the hill quickly."
    ],
-   "placeholder": "↗️⛰️",
-   "lookalikes": [],
+   "placeholder": "⛰️",
+   "lookalikes": [
+    "mountain"
+   ],
    "sameLesson": [
     "village",
     "trail",
@@ -24043,10 +23680,7 @@
    ],
    "placeholder": "🧠",
    "lookalikes": [
-    "agree",
-    "disagree",
-    "memory",
-    "express"
+    "memory"
    ],
    "sameLesson": [
     "caption",
@@ -24078,7 +23712,7 @@
    "examples": [
     "Ugh! This cheese is very smelly!"
    ],
-   "placeholder": "👃💨",
+   "placeholder": "👃",
    "lookalikes": [
     "scent"
    ],
@@ -24196,13 +23830,11 @@
    "examples": [
     "Solar power is a renewable source of energy."
    ],
-   "placeholder": "☀️🔋",
+   "placeholder": "☀️",
    "lookalikes": [
     "bright",
     "shine",
-    "weather",
-    "daylight",
-    "renewable"
+    "daylight"
    ],
    "sameLesson": [
     "thunderstorm",
@@ -24277,7 +23909,9 @@
     "Sometimes I don't want to go our to play."
    ],
    "placeholder": "🌦️",
-   "lookalikes": [],
+   "lookalikes": [
+    "weather"
+   ],
    "sameLesson": [
     "similarity",
     "difference",
@@ -24308,7 +23942,7 @@
    "examples": [
     "I bought a souvenir of a red lighthouse."
    ],
-   "placeholder": "🗼🎁",
+   "placeholder": "🗼",
    "lookalikes": [],
    "sameLesson": [
     "travel",
@@ -24345,7 +23979,8 @@
    ],
    "placeholder": "⭐",
    "lookalikes": [
-    "sticker"
+    "sticker",
+    "popular"
    ],
    "sameLesson": [
     "teddy bear",
@@ -24385,8 +24020,15 @@
    "examples": [
     "After the warm-up, we ran sprints for half an hour."
    ],
-   "placeholder": "🏃‍♂️💨",
-   "lookalikes": [],
+   "placeholder": "💨",
+   "lookalikes": [
+    "chase",
+    "air",
+    "windy",
+    "gas",
+    "breathe",
+    "blow"
+   ],
    "sameLesson": [
     "order",
     "sequence",
@@ -24420,9 +24062,7 @@
     "This box is square."
    ],
    "placeholder": "⬜",
-   "lookalikes": [
-    "flow chart"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "compare",
     "similar",
@@ -24488,18 +24128,10 @@
    "examples": [
     "Jerry goes jogging three times a week to keep in shape."
    ],
-   "placeholder": "🏃💪",
+   "placeholder": "💪",
    "lookalikes": [
-    "gym",
-    "move",
-    "run away",
-    "race",
-    "activity",
-    "join",
-    "escape",
-    "result",
-    "warm-up",
-    "compete"
+    "exercise",
+    "powerful"
    ],
    "sameLesson": [
     "PE",
@@ -24531,7 +24163,9 @@
    ],
    "placeholder": "👣",
    "lookalikes": [
+    "follow",
     "footprint",
+    "trail",
     "footstep"
    ],
    "sameLesson": [
@@ -24564,7 +24198,7 @@
    "examples": [
     "Let's play with our stick puppets."
    ],
-   "placeholder": "🐉🥢",
+   "placeholder": "🐉",
    "lookalikes": [],
    "sameLesson": [
     "buy",
@@ -24596,9 +24230,10 @@
    "examples": [
     "She put a star sticker on her page."
    ],
-   "placeholder": "⭐🏷️",
+   "placeholder": "⭐",
    "lookalikes": [
-    "special"
+    "special",
+    "popular"
    ],
    "sameLesson": [
     "collection",
@@ -24632,12 +24267,10 @@
    "examples": [
     "The lake was still and calm."
    ],
-   "placeholder": "🧍⏸️",
+   "placeholder": "🧍",
    "lookalikes": [
     "alone",
-    "wax figure",
-    "in front of",
-    "podium"
+    "between"
    ],
    "sameLesson": [
     "storm",
@@ -24669,13 +24302,8 @@
    "examples": [
     "Bees can sting you when they feel in danger."
    ],
-   "placeholder": "🐝💢",
-   "lookalikes": [
-    "bee",
-    "hive",
-    "sting-stung",
-    "honeybee"
-   ],
+   "placeholder": "🩹",
+   "lookalikes": [],
    "sameLesson": [
     "tree",
     "shade",
@@ -24706,11 +24334,10 @@
    "examples": [
     "A wasp stung my friend on the leg."
    ],
-   "placeholder": "🐝👆",
+   "placeholder": "🐝",
    "lookalikes": [
     "bee",
     "hive",
-    "sting",
     "honeybee"
    ],
    "sameLesson": [
@@ -24743,8 +24370,10 @@
    "examples": [
     "Stir the milk slowly so it does not burn."
    ],
-   "placeholder": "🥄🥣",
-   "lookalikes": [],
+   "placeholder": "🥄",
+   "lookalikes": [
+    "mix"
+   ],
    "sameLesson": [
     "sausage",
     "ingredients",
@@ -24779,7 +24408,6 @@
    "lookalikes": [
     "rock",
     "plate",
-    "asteroid",
     "non-renewable"
    ],
    "sameLesson": [
@@ -24871,15 +24499,8 @@
    "examples": [
     "Our school is on a quiet street."
    ],
-   "placeholder": "🏠🛣️🏪",
-   "lookalikes": [
-    "house",
-    "neighbor",
-    "animal shelter",
-    "between",
-    "suburb",
-    "shelter"
-   ],
+   "placeholder": "🛣️",
+   "lookalikes": [],
    "sameLesson": [
     "barbershop",
     "haircut",
@@ -24922,13 +24543,11 @@
    "examples": [
     "The harp is a string instrument with many strings."
    ],
-   "placeholder": "🎻🪕",
+   "placeholder": "🎻",
    "lookalikes": [
     "violin",
-    "classical music",
     "double bass",
-    "orchestra",
-    "tune"
+    "orchestra"
    ],
    "sameLesson": [
     "instrument",
@@ -24960,9 +24579,8 @@
    "examples": [
     "Deep in the jungle, there was a structure that looked like a pyramid!"
    ],
-   "placeholder": "🧱🔺",
+   "placeholder": "🧱",
    "lookalikes": [
-    "make",
     "behind",
     "mural"
    ],
@@ -25031,14 +24649,9 @@
    "examples": [
     "Harriet lives in a suburb of the town, quiet and green."
    ],
-   "placeholder": "🏠🌳",
+   "placeholder": "🏠",
    "lookalikes": [
-    "house",
-    "neighbor",
-    "animal shelter",
-    "street",
-    "between",
-    "shelter"
+    "house"
    ],
    "sameLesson": [
     "community",
@@ -25111,12 +24724,11 @@
     "suggestion",
     "go out",
     "turn on",
-    "turn off",
     "main idea",
     "explanation",
     "invention",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -25154,12 +24766,11 @@
     "suggest",
     "go out",
     "turn on",
-    "turn off",
     "main idea",
     "explanation",
     "invention",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -25200,15 +24811,8 @@
    "examples": [
     "Please summarize the story in three sentences."
    ],
-   "placeholder": "📖➡️📝",
-   "lookalikes": [
-    "title",
-    "during",
-    "read stories",
-    "biography",
-    "narrative",
-    "dictionary"
-   ],
+   "placeholder": "✍️",
+   "lookalikes": [],
    "sameLesson": [
     "savanna",
     "herd",
@@ -25241,7 +24845,6 @@
    ],
    "placeholder": "📝",
    "lookalikes": [
-    "desk",
     "list",
     "playlist",
     "questionnaire"
@@ -25276,11 +24879,9 @@
    "examples": [
     "The party was a wonderful surprise for her."
    ],
-   "placeholder": "🎁😲",
+   "placeholder": "😲",
    "lookalikes": [
-    "gift",
-    "donate",
-    "generous"
+    "incredible"
    ],
    "sameLesson": [
     "sausage",
@@ -25380,7 +24981,7 @@
    "examples": [
     "My ankle swelled after I fell off my bike."
    ],
-   "placeholder": "🎈➡️🎈🎈",
+   "placeholder": "🎈",
    "lookalikes": [
     "balloon"
    ],
@@ -25414,18 +25015,9 @@
    "examples": [
     "Maya switched off the TV before dinner."
    ],
-   "placeholder": "💡🚫",
+   "placeholder": "🌑",
    "lookalikes": [
-    "suggestion",
-    "suggest",
-    "go out",
-    "turn on",
-    "turn off",
-    "main idea",
-    "explanation",
-    "invention",
-    "invent",
-    "light bulb"
+    "turn off"
    ],
    "sameLesson": [
     "blender",
@@ -25457,8 +25049,18 @@
    "examples": [
     "He switched on the light and started reading."
    ],
-   "placeholder": "👆💡",
-   "lookalikes": [],
+   "placeholder": "💡",
+   "lookalikes": [
+    "suggestion",
+    "suggest",
+    "go out",
+    "turn on",
+    "main idea",
+    "explanation",
+    "invention",
+    "invent",
+    "light bulb"
+   ],
    "sameLesson": [
     "thunderstorm",
     "thunder",
@@ -25492,10 +25094,7 @@
    "placeholder": "👕",
    "lookalikes": [
     "pajamas",
-    "uniform",
-    "costume",
-    "clothes",
-    "washing machine"
+    "uniform"
    ],
    "sameLesson": [
     "clothes",
@@ -25527,10 +25126,8 @@
    "examples": [
     "Frog babies are called tadpoles."
    ],
-   "placeholder": "🐸👶",
-   "lookalikes": [
-    "frog"
-   ],
+   "placeholder": "🫧",
+   "lookalikes": [],
    "sameLesson": [
     "pond",
     "frog",
@@ -25563,10 +25160,9 @@
    "examples": [
     "My grandma takes care of our garden."
    ],
-   "placeholder": "🌱💧🤲",
+   "placeholder": "🌱",
    "lookalikes": [
     "living thing",
-    "water",
     "grow"
    ],
    "sameLesson": [
@@ -25599,13 +25195,9 @@
    "examples": [
     "The captain took charge when the boat was in trouble."
    ],
-   "placeholder": "🧑📣",
+   "placeholder": "📣",
    "lookalikes": [
-    "connect",
-    "musician",
-    "break out in",
-    "bring together",
-    "community"
+    "chant"
    ],
    "sameLesson": [
     "hives",
@@ -25637,7 +25229,7 @@
    "examples": [
     "Please take off your wet coat, Leo."
    ],
-   "placeholder": "👞⬆️",
+   "placeholder": "👞",
    "lookalikes": [],
    "sameLesson": [
     "pants",
@@ -25671,7 +25263,6 @@
    ],
    "placeholder": "👅",
    "lookalikes": [
-    "thirsty",
     "lick"
    ],
    "sameLesson": [
@@ -25780,10 +25371,10 @@
    "examples": [
     "Our soccer team practises four times a week."
    ],
-   "placeholder": "👥⚽",
+   "placeholder": "👥",
    "lookalikes": [
     "group",
-    "popular"
+    "join"
    ],
    "sameLesson": [
     "PE",
@@ -25816,9 +25407,7 @@
    "placeholder": "🧸",
    "lookalikes": [
     "toy",
-    "toy tiger",
-    "fit",
-    "broken"
+    "keep"
    ],
    "sameLesson": [
     "alone",
@@ -25884,12 +25473,13 @@
    "examples": [
     "My grandfather tells me a story every evening."
    ],
-   "placeholder": "🗣️📖",
+   "placeholder": "📖",
    "lookalikes": [
-    "discussion",
-    "voice",
-    "warn",
-    "persuade"
+    "title",
+    "read stories",
+    "biography",
+    "narrative",
+    "dictionary"
    ],
    "sameLesson": [
     "bedtime",
@@ -25921,7 +25511,7 @@
    "examples": [
     "I run fast in my new tennis shoes."
    ],
-   "placeholder": "👟🏃",
+   "placeholder": "👟",
    "lookalikes": [
     "shoelace"
    ],
@@ -25953,7 +25543,7 @@
    "examples": [
     "Your bag and my bag are the same."
    ],
-   "placeholder": "🎩🟰🎩",
+   "placeholder": "🎩",
    "lookalikes": [],
    "sameLesson": [
     "family",
@@ -25983,7 +25573,7 @@
    "examples": [
     "Cut the paper, then glue it on the helmet."
    ],
-   "placeholder": "🕐➡️🕑",
+   "placeholder": "🕑",
    "lookalikes": [],
    "sameLesson": [
     "astronaut",
@@ -26047,10 +25637,12 @@
    "examples": [
     "It's too hot and I'm very thirsty."
    ],
-   "placeholder": "👅💧",
+   "placeholder": "💧",
    "lookalikes": [
-    "lick",
-    "taste"
+    "pond",
+    "water",
+    "flow down",
+    "waterhole"
    ],
    "sameLesson": [
     "full",
@@ -26165,11 +25757,11 @@
    "examples": [
     "The chess game ended in a tie, so nobody won."
    ],
-   "placeholder": "⚽🟰⚽",
+   "placeholder": "🤝",
    "lookalikes": [
-    "play soccer",
-    "roll",
-    "pass"
+    "in common",
+    "each other",
+    "helpful"
    ],
    "sameLesson": [
     "whistle",
@@ -26234,12 +25826,10 @@
    "examples": [
     "The present is wrapped in pink tissue paper."
    ],
-   "placeholder": "📄✨",
+   "placeholder": "📄",
    "lookalikes": [
-    "crumple",
     "fact file",
-    "instruction",
-    "sheet music"
+    "instruction"
    ],
    "sameLesson": [
     "astronaut",
@@ -26273,11 +25863,10 @@
    "examples": [
     "What is the title of this book?"
    ],
-   "placeholder": "📖🏷️",
+   "placeholder": "📖",
    "lookalikes": [
-    "during",
+    "tell a story",
     "read stories",
-    "summarize",
     "biography",
     "narrative",
     "dictionary"
@@ -26314,11 +25903,8 @@
    "examples": [
     "Put two slices of bread in the toaster, please."
    ],
-   "placeholder": "🍞🔥",
-   "lookalikes": [
-    "pop out",
-    "burnt"
-   ],
+   "placeholder": "🍞",
+   "lookalikes": [],
    "sameLesson": [
     "invent",
     "inventor",
@@ -26349,12 +25935,8 @@
    "examples": [
     "Explorers opened the old tomb very carefully."
    ],
-   "placeholder": "🏺⚰️",
-   "lookalikes": [
-    "vase",
-    "site",
-    "artifact"
-   ],
+   "placeholder": "⚰️",
+   "lookalikes": [],
    "sameLesson": [
     "treasure",
     "dig - dug - dug",
@@ -26417,10 +25999,9 @@
    "examples": [
     "Our tour guide showed us a very old church."
    ],
-   "placeholder": "🧔🗺️",
+   "placeholder": "🗺️",
    "lookalikes": [
-    "carpenter",
-    "giant"
+    "directions"
    ],
    "sameLesson": [
     "purpose",
@@ -26454,7 +26035,7 @@
    "examples": [
     "The tourist took a photo of the old bridge."
    ],
-   "placeholder": "🧳📷",
+   "placeholder": "🧳",
    "lookalikes": [],
    "sameLesson": [
     "travel",
@@ -26496,8 +26077,10 @@
    "examples": [
     "They live in a small town on Lesbos, but they enjoy life there."
    ],
-   "placeholder": "🏡🏪",
-   "lookalikes": [],
+   "placeholder": "🏡",
+   "lookalikes": [
+    "live"
+   ],
    "sameLesson": [
     "community",
     "special",
@@ -26540,10 +26123,8 @@
    ],
    "placeholder": "🧸",
    "lookalikes": [
-    "toy tiger",
     "teddy bear",
-    "fit",
-    "broken"
+    "keep"
    ],
    "sameLesson": [
     "parent",
@@ -26588,12 +26169,9 @@
    "examples": [
     "Tim has a toy tiger and he takes it everywhere."
    ],
-   "placeholder": "🧸🐯",
+   "placeholder": "🐯",
    "lookalikes": [
-    "toy",
-    "teddy bear",
-    "fit",
-    "broken"
+    "in danger or extinction"
    ],
    "sameLesson": [
     "bedtime",
@@ -26665,10 +26243,8 @@
     "Eating soup on Sunday is our family tradition.",
     "Baking a cake for a birthday is a family tradition."
    ],
-   "placeholder": "🔁📅",
-   "lookalikes": [
-    "chant"
-   ],
+   "placeholder": "🎎",
+   "lookalikes": [],
    "sameLesson": [
     "compare",
     "similar",
@@ -26707,10 +26283,9 @@
    "examples": [
     "Do you like traditional music?"
    ],
-   "placeholder": "👵🎶➡️👧",
+   "placeholder": "🪕",
    "lookalikes": [
-    "grandparent",
-    "retirement home"
+    "folk music"
    ],
    "sameLesson": [
     "move",
@@ -26742,8 +26317,13 @@
    "examples": [
     "We followed the trail to the top of the hill."
    ],
-   "placeholder": "🌲👣",
-   "lookalikes": [],
+   "placeholder": "👣",
+   "lookalikes": [
+    "follow",
+    "footprint",
+    "step",
+    "footstep"
+   ],
    "sameLesson": [
     "village",
     "slope",
@@ -26840,7 +26420,9 @@
     "You need a lot more training before you can join big matches."
    ],
    "placeholder": "🏋️",
-   "lookalikes": [],
+   "lookalikes": [
+    "exercise"
+   ],
    "sameLesson": [
     "PE",
     "team",
@@ -26881,8 +26463,10 @@
    "examples": [
     "Is this translation of the article correct?"
    ],
-   "placeholder": "🇬🇷➡️🇬🇧",
-   "lookalikes": [],
+   "placeholder": "🔤",
+   "lookalikes": [
+    "underline"
+   ],
    "sameLesson": [
     "news report",
     "artifact",
@@ -26913,7 +26497,7 @@
    ],
    "placeholder": "🗑️",
    "lookalikes": [
-    "dump"
+    "waste"
    ],
    "sameLesson": [
     "tie",
@@ -27034,8 +26618,8 @@
    ],
    "placeholder": "🌳",
    "lookalikes": [
-    "branch",
-    "responsible"
+    "get down",
+    "branch"
    ],
    "sameLesson": [
     "shade",
@@ -27162,7 +26746,8 @@
    ],
    "placeholder": "🎶",
    "lookalikes": [
-    "melody"
+    "melody",
+    "tune"
    ],
    "sameLesson": [
     "create",
@@ -27194,13 +26779,10 @@
    "examples": [
     "Before the concert, the musicians tuned their instruments."
    ],
-   "placeholder": "🎻🔧",
+   "placeholder": "🎶",
    "lookalikes": [
-    "violin",
-    "classical music",
-    "double bass",
-    "orchestra",
-    "string instrument"
+    "melody",
+    "tune"
    ],
    "sameLesson": [
     "musician",
@@ -27232,18 +26814,9 @@
    "examples": [
     "Turn off the TV before you go to sleep."
    ],
-   "placeholder": "💡🚫",
+   "placeholder": "🌑",
    "lookalikes": [
-    "suggestion",
-    "suggest",
-    "go out",
-    "turn on",
-    "main idea",
-    "explanation",
-    "invention",
-    "invent",
-    "switch off",
-    "light bulb"
+    "switch off"
    ],
    "sameLesson": [
     "detective",
@@ -27280,12 +26853,11 @@
     "suggestion",
     "suggest",
     "go out",
-    "turn off",
     "main idea",
     "explanation",
     "invention",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -27348,8 +26920,10 @@
    "examples": [
     "Please underline the date in your letter."
    ],
-   "placeholder": "🔤➖",
-   "lookalikes": [],
+   "placeholder": "🔤",
+   "lookalikes": [
+    "translation"
+   ],
    "sameLesson": [
     "flow chart",
     "step",
@@ -27382,7 +26956,7 @@
     "Eating too much junk food is unhealthy.",
     "Eating too many sweets is unhealthy."
    ],
-   "placeholder": "🍬🤒",
+   "placeholder": "🍬",
    "lookalikes": [],
    "sameLesson": [
     "energy",
@@ -27414,13 +26988,10 @@
    "examples": [
     "My uniform is navy blue with a white shirt."
    ],
-   "placeholder": "👕👕",
+   "placeholder": "👕",
    "lookalikes": [
     "pajamas",
-    "costume",
-    "clothes",
-    "T-shirt",
-    "washing machine"
+    "T-shirt"
    ],
    "sameLesson": [
     "question",
@@ -27453,7 +27024,7 @@
    "examples": [
     "This map is useful when you visit a new town."
    ],
-   "placeholder": "🛠️👍",
+   "placeholder": "🛠️",
    "lookalikes": [
     "invent"
    ],
@@ -27487,7 +27058,7 @@
    "examples": [
     "Maya used the vacuum cleaner on the carpet."
    ],
-   "placeholder": "🧹⚡",
+   "placeholder": "🧹",
    "lookalikes": [
     "clean up",
     "sweep"
@@ -27526,8 +27097,7 @@
    ],
    "placeholder": "🏺",
    "lookalikes": [
-    "site",
-    "tomb",
+    "archeologist",
     "artifact"
    ],
    "sameLesson": [
@@ -27563,7 +27133,9 @@
     "I felt a vibration when the bus drove past."
    ],
    "placeholder": "📳",
-   "lookalikes": [],
+   "lookalikes": [
+    "shake"
+   ],
    "sameLesson": [
     "weak",
     "advice",
@@ -27628,9 +27200,9 @@
    ],
    "placeholder": "🏘️",
    "lookalikes": [
+    "neighbor",
     "community",
-    "neighborhood",
-    "flood"
+    "neighborhood"
    ],
    "sameLesson": [
     "trail",
@@ -27714,10 +27286,8 @@
    ],
    "placeholder": "🎻",
    "lookalikes": [
-    "classical music",
     "double bass",
     "orchestra",
-    "tune",
     "string instrument"
    ],
    "sameLesson": [
@@ -27760,8 +27330,10 @@
    "examples": [
     "Fruit and vegetables have lots of vitamins."
    ],
-   "placeholder": "🍊💊",
-   "lookalikes": [],
+   "placeholder": "💊",
+   "lookalikes": [
+    "medicine"
+   ],
    "sameLesson": [
     "onion",
     "smelly",
@@ -27798,9 +27370,7 @@
    ],
    "placeholder": "🗣️",
    "lookalikes": [
-    "tell a story",
     "discussion",
-    "warn",
     "persuade"
    ],
    "sameLesson": [
@@ -27844,8 +27414,7 @@
    ],
    "placeholder": "🌋",
    "lookalikes": [
-    "erupt",
-    "ash"
+    "erupt"
    ],
    "sameLesson": [
     "planet",
@@ -27889,7 +27458,6 @@
    ],
    "placeholder": "🚶",
    "lookalikes": [
-    "bump into",
     "cross"
    ],
    "sameLesson": [
@@ -27922,7 +27490,7 @@
    "examples": [
     "Drink some warm milk. It can help you sleep."
    ],
-   "placeholder": "🧣🔥",
+   "placeholder": "🧣",
    "lookalikes": [
     "scarf-scarves"
    ],
@@ -27956,18 +27524,13 @@
    "examples": [
     "We always do a warm-up before we run."
    ],
-   "placeholder": "🏃🔥",
+   "placeholder": "🏃",
    "lookalikes": [
-    "gym",
     "move",
     "run away",
-    "race",
     "activity",
-    "join",
     "escape",
-    "result",
-    "stay in shape",
-    "compete"
+    "athlete"
    ],
    "sameLesson": [
     "whistle",
@@ -27999,12 +27562,10 @@
    "examples": [
     "The sign warns drivers about slippery roads."
    ],
-   "placeholder": "🗣️⚠️",
+   "placeholder": "⚠️",
    "lookalikes": [
-    "tell a story",
-    "discussion",
-    "voice",
-    "persuade"
+    "Be careful",
+    "dangerous"
    ],
    "sameLesson": [
     "storm",
@@ -28036,9 +27597,11 @@
    "examples": [
     "Wash away the smelly onion gas with some water."
    ],
-   "placeholder": "🧼💧",
+   "placeholder": "🌊",
    "lookalikes": [
-    "clean"
+    "river",
+    "flood",
+    "sink - sank - sunk"
    ],
    "sameLesson": [
     "onion",
@@ -28070,13 +27633,10 @@
    "examples": [
     "Our washing machine washes the clothes in one hour."
    ],
-   "placeholder": "👕🌀",
+   "placeholder": "🧺",
    "lookalikes": [
-    "pajamas",
-    "uniform",
-    "costume",
-    "clothes",
-    "T-shirt"
+    "collect",
+    "basket"
    ],
    "sameLesson": [
     "switch off",
@@ -28118,10 +27678,9 @@
    "examples": [
     "Don't waste water when you brush your teeth."
    ],
-   "placeholder": "💧🗑️",
+   "placeholder": "🗑️",
    "lookalikes": [
-    "pond",
-    "flow down"
+    "trash"
    ],
    "sameLesson": [
     "switch off",
@@ -28153,7 +27712,7 @@
    "examples": [
     "His eyes water up every time he cuts an onion."
    ],
-   "placeholder": "👁️💧",
+   "placeholder": "👁️",
    "lookalikes": [
     "point of view"
    ],
@@ -28187,11 +27746,12 @@
    "examples": [
     "Mum waters the plants in the afternoon."
    ],
-   "placeholder": "🌱💧",
+   "placeholder": "💧",
    "lookalikes": [
-    "living thing",
-    "grow",
-    "take care of"
+    "pond",
+    "thirsty",
+    "flow down",
+    "waterhole"
    ],
    "sameLesson": [
     "discussion",
@@ -28222,7 +27782,7 @@
    "examples": [
     "We swam near a huge waterfall in the forest."
    ],
-   "placeholder": "🏞️💦",
+   "placeholder": "🏞️",
    "lookalikes": [
     "river",
     "landscape",
@@ -28260,10 +27820,12 @@
    "examples": [
     "Animals drink water at the waterhole."
    ],
-   "placeholder": "🕳️💧",
+   "placeholder": "💧",
    "lookalikes": [
-    "hole",
-    "cave"
+    "pond",
+    "water",
+    "thirsty",
+    "flow down"
    ],
    "sameLesson": [
     "savanna",
@@ -28297,12 +27859,9 @@
    "examples": [
     "I like most the wax figures of famous movie stars."
    ],
-   "placeholder": "🧍🕯️",
+   "placeholder": "🕯️",
    "lookalikes": [
-    "alone",
-    "in front of",
-    "still",
-    "podium"
+    "candle"
    ],
    "sameLesson": [
     "heading",
@@ -28337,7 +27896,9 @@
     "My dog is very old and weak."
    ],
    "placeholder": "🪫",
-   "lookalikes": [],
+   "lookalikes": [
+    "run out"
+   ],
    "sameLesson": [
     "advice",
     "loud",
@@ -28369,13 +27930,9 @@
     "The weather is cold, so I need a coat.",
     "What is the weather like in Athens today?"
    ],
-   "placeholder": "☀️🌧️",
+   "placeholder": "🌦️",
    "lookalikes": [
-    "bright",
-    "shine",
-    "daylight",
-    "solar power",
-    "renewable"
+    "sometimes"
    ],
    "sameLesson": [
     "clothes",
@@ -28446,7 +28003,6 @@
    ],
    "placeholder": "🌾",
    "lookalikes": [
-    "flour",
     "savanna",
     "countryside"
    ],
@@ -28515,7 +28071,7 @@
    "examples": [
     "The lifeguard blew her whistle when the children swam too far."
    ],
-   "placeholder": "👄💨",
+   "placeholder": "😗",
    "lookalikes": [],
    "sameLesson": [
     "referee",
@@ -28548,7 +28104,6 @@
    "placeholder": "❓",
    "lookalikes": [
     "question",
-    "guessing game",
     "mystery"
    ],
    "sameLesson": [
@@ -28584,7 +28139,8 @@
    "placeholder": "🏆",
    "lookalikes": [
     "champion",
-    "award"
+    "award",
+    "result"
    ],
    "sameLesson": [
     "PE",
@@ -28614,7 +28170,7 @@
    "examples": [
     "The trumpet is a wind instrument that is very loud."
    ],
-   "placeholder": "🎺🪈",
+   "placeholder": "🎺",
    "lookalikes": [
     "trumpet"
    ],
@@ -28648,7 +28204,7 @@
    "examples": [
     "Nowadays, we use wind power to produce electricity."
    ],
-   "placeholder": "🌬️🌀",
+   "placeholder": "🌬️",
    "lookalikes": [],
    "sameLesson": [
     "thunderstorm",
@@ -28684,11 +28240,12 @@
    ],
    "placeholder": "💨",
    "lookalikes": [
+    "chase",
     "air",
     "gas",
     "breathe",
     "blow",
-    "hair dryer"
+    "sprint"
    ],
    "sameLesson": [
     "cold",
@@ -28721,9 +28278,7 @@
     "Birds can fly because they have wings."
    ],
    "placeholder": "🪽",
-   "lookalikes": [
-    "dragonfly"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "neck",
     "herbivore",
@@ -28832,7 +28387,6 @@
    "placeholder": "🪵",
    "lookalikes": [
     "material",
-    "campfire",
     "hollow"
    ],
    "sameLesson": [
@@ -28998,10 +28552,10 @@
    "greek": "κοινό, θεατές",
    "meaning": "",
    "examples": [],
-   "placeholder": "👥👏",
+   "placeholder": "👥",
    "lookalikes": [
     "group",
-    "popular",
+    "join",
     "team"
    ],
    "sameLesson": [
@@ -29035,7 +28589,7 @@
    "greek": "",
    "meaning": "",
    "examples": [],
-   "placeholder": "🎒🎒",
+   "placeholder": "🎒",
    "lookalikes": [
     "schoolbag",
     "backpacking"
@@ -29123,10 +28677,10 @@
    "examples": [],
    "placeholder": "⚽",
    "lookalikes": [
+    "after",
     "play soccer",
     "roll",
-    "pass",
-    "tie"
+    "pass"
    ],
    "sameLesson": [
     "friend",
@@ -29168,7 +28722,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🍌",
-   "lookalikes": [],
+   "lookalikes": [
+    "difference"
+   ],
    "sameLesson": [
     "switch off",
     "blender",
@@ -29201,7 +28757,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🏀",
-   "lookalikes": [],
+   "lookalikes": [
+    "gym"
+   ],
    "sameLesson": [
     "coat",
     "rack",
@@ -29342,7 +28900,6 @@
    "placeholder": "🛏️",
    "lookalikes": [
     "go to bed",
-    "bedroom",
     "make the bed"
    ],
    "sameLesson": [
@@ -29386,7 +28943,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "📦",
-   "lookalikes": [],
+   "lookalikes": [
+    "fit"
+   ],
    "sameLesson": [
     "dusty",
     "drawer",
@@ -29418,7 +28977,7 @@
    "greek": "",
    "meaning": "",
    "examples": [],
-   "placeholder": "🚲🚲",
+   "placeholder": "🚲",
    "lookalikes": [
     "bicycle"
    ],
@@ -29465,7 +29024,7 @@
    "placeholder": "🗑️",
    "lookalikes": [
     "trash",
-    "dump"
+    "waste"
    ],
    "sameLesson": [
     "community",
@@ -29602,7 +29161,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🛌",
-   "lookalikes": [],
+   "lookalikes": [
+    "bedroom"
+   ],
    "sameLesson": [
     "messy",
     "disruption",
@@ -29639,8 +29200,7 @@
    "placeholder": "📚",
    "lookalikes": [
     "library",
-    "shelf",
-    "information"
+    "shelf"
    ],
    "sameLesson": [
     "schoolbag",
@@ -29724,8 +29284,7 @@
    "examples": [],
    "placeholder": "🥣",
    "lookalikes": [
-    "dough",
-    "mix"
+    "dough"
    ],
    "sameLesson": [
     "wheat",
@@ -29759,7 +29318,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "📦",
-   "lookalikes": [],
+   "lookalikes": [
+    "fit"
+   ],
    "sameLesson": [
     "teddy bear",
     "alone",
@@ -29808,9 +29369,7 @@
    "examples": [],
    "placeholder": "🍞",
    "lookalikes": [
-    "toaster",
-    "pop out",
-    "burnt"
+    "toaster"
    ],
    "sameLesson": [
     "wheat",
@@ -29853,8 +29412,7 @@
    "examples": [],
    "placeholder": "🥣",
    "lookalikes": [
-    "dough",
-    "mix"
+    "dough"
    ],
    "sameLesson": [
     "snow",
@@ -30082,7 +29640,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "📦",
-   "lookalikes": [],
+   "lookalikes": [
+    "fit"
+   ],
    "sameLesson": [
     "astronaut",
     "helmet",
@@ -30123,6 +29683,7 @@
    "examples": [],
    "placeholder": "🛒",
    "lookalikes": [
+    "buy",
     "market"
    ],
    "sameLesson": [
@@ -30156,10 +29717,9 @@
    "greek": "",
    "meaning": "",
    "examples": [],
-   "placeholder": "🐈🐈",
+   "placeholder": "🐈",
    "lookalikes": [
-    "furry",
-    "save"
+    "furry"
    ],
    "sameLesson": [
     "community",
@@ -30207,8 +29767,7 @@
    "examples": [],
    "placeholder": "🪑",
    "lookalikes": [
-    "old",
-    "dusty"
+    "desk"
    ],
    "sameLesson": [
     "puppet",
@@ -30365,7 +29924,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🏙️",
-   "lookalikes": [],
+   "lookalikes": [
+    "downtown"
+   ],
    "sameLesson": [
     "parent",
     "grandparent",
@@ -30497,7 +30058,6 @@
    "lookalikes": [
     "rock",
     "plate",
-    "asteroid",
     "stone",
     "non-renewable"
    ],
@@ -30608,7 +30168,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🏀",
-   "lookalikes": [],
+   "lookalikes": [
+    "gym"
+   ],
    "sameLesson": [
     "whistle",
     "referee",
@@ -30640,9 +30202,7 @@
    "examples": [],
    "placeholder": "🐄",
    "lookalikes": [
-    "farm",
-    "moo",
-    "come from"
+    "moo"
    ],
    "sameLesson": [
     "living thing",
@@ -30722,7 +30282,7 @@
    "greek": "πλήθος",
    "meaning": "",
    "examples": [],
-   "placeholder": "🧒🧒🧒",
+   "placeholder": "🧒",
    "lookalikes": [
     "kid"
    ],
@@ -30799,8 +30359,7 @@
    "examples": [],
    "placeholder": "🦌",
    "lookalikes": [
-    "reindeer",
-    "antler"
+    "reindeer"
    ],
    "sameLesson": [
     "snow",
@@ -30835,6 +30394,7 @@
    "examples": [],
    "placeholder": "💎",
    "lookalikes": [
+    "discover",
     "jewel",
     "precious"
    ],
@@ -30871,7 +30431,7 @@
    "examples": [],
    "placeholder": "🍽️",
    "lookalikes": [
-    "after",
+    "lunch break",
     "set the table",
     "mealtime"
    ],
@@ -30941,8 +30501,7 @@
    "placeholder": "🦕",
    "lookalikes": [
     "extinction",
-    "herbivore",
-    "extinct"
+    "herbivore"
    ],
    "sameLesson": [
     "main idea",
@@ -31054,8 +30613,7 @@
    "placeholder": "🐕",
    "lookalikes": [
     "hound",
-    "chase",
-    "harness"
+    "animal shelter"
    ],
    "sameLesson": [
     "community",
@@ -31219,6 +30777,7 @@
     "painting",
     "exhibit",
     "caption",
+    "gallery",
     "portrait"
    ],
    "sameLesson": [
@@ -31308,8 +30867,6 @@
    "placeholder": "🌍",
    "lookalikes": [
     "crust",
-    "shake",
-    "earthquake",
     "culture"
    ],
    "sameLesson": [
@@ -31352,7 +30909,7 @@
    "greek": "αβγό",
    "meaning": "",
    "examples": [],
-   "placeholder": "🥚🥚",
+   "placeholder": "🥚",
    "lookalikes": [
     "drop",
     "protein"
@@ -31391,7 +30948,6 @@
    "placeholder": "🐘",
    "lookalikes": [
     "herd",
-    "lead",
     "enormous",
     "huge"
    ],
@@ -31497,7 +31053,6 @@
    "placeholder": "🌾",
    "lookalikes": [
     "wheat",
-    "flour",
     "savanna",
     "countryside"
    ],
@@ -31580,7 +31135,8 @@
    "lookalikes": [
     "oven",
     "lava",
-    "put out",
+    "burnt",
+    "campfire",
     "burn"
    ],
    "sameLesson": [
@@ -31622,9 +31178,7 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🌸",
-   "lookalikes": [
-    "season"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "schoolbag",
     "new",
@@ -31704,10 +31258,9 @@
    ],
    "placeholder": "📖",
    "lookalikes": [
+    "tell a story",
     "title",
-    "during",
     "read stories",
-    "summarize",
     "biography",
     "narrative",
     "dictionary"
@@ -31743,10 +31296,8 @@
    "greek": "δάσος",
    "meaning": "",
    "examples": [],
-   "placeholder": "🌲🌲",
-   "lookalikes": [
-    "trail"
-   ],
+   "placeholder": "🌲",
+   "lookalikes": [],
    "sameLesson": [
     "hare",
     "hound",
@@ -31822,7 +31373,7 @@
    "greek": "κήπος",
    "meaning": "",
    "examples": [],
-   "placeholder": "🌻🌳",
+   "placeholder": "🌻",
    "lookalikes": [],
    "sameLesson": [
     "jar",
@@ -31908,8 +31459,8 @@
    "examples": [],
    "placeholder": "🥛",
    "lookalikes": [
+    "come from",
     "full",
-    "empty",
     "knock over"
    ],
    "sameLesson": [
@@ -31954,9 +31505,7 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🟡",
-   "lookalikes": [
-    "grain"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "cold",
     "windy",
@@ -32031,8 +31580,7 @@
    "placeholder": "👵",
    "lookalikes": [
     "grandparent",
-    "retirement home",
-    "traditional"
+    "retirement home"
    ],
    "sameLesson": [
     "stick puppet",
@@ -32073,15 +31621,8 @@
    "greek": "φιλοξενούμενος",
    "meaning": "",
    "examples": [],
-   "placeholder": "🧑🧑🧑",
-   "lookalikes": [
-    "connect",
-    "musician",
-    "break out in",
-    "take charge",
-    "bring together",
-    "community"
-   ],
+   "placeholder": "🧑",
+   "lookalikes": [],
    "sameLesson": [
     "sausage",
     "ingredients",
@@ -32159,7 +31700,7 @@
    "greek": "καπέλο",
    "meaning": "",
    "examples": [],
-   "placeholder": "🎩🎩",
+   "placeholder": "🎩",
    "lookalikes": [
     "the same"
    ],
@@ -32194,7 +31735,8 @@
    "examples": [],
    "placeholder": "⛰️",
    "lookalikes": [
-    "mountain"
+    "mountain",
+    "slope"
    ],
    "sameLesson": [
     "snowy",
@@ -32241,12 +31783,7 @@
    "placeholder": "🏠",
    "lookalikes": [
     "house",
-    "neighbor",
-    "animal shelter",
-    "street",
-    "between",
-    "suburb",
-    "shelter"
+    "suburb"
    ],
    "sameLesson": [
     "schoolbag",
@@ -32300,7 +31837,6 @@
    "examples": [],
    "placeholder": "📝",
    "lookalikes": [
-    "desk",
     "list",
     "summary",
     "playlist",
@@ -32370,7 +31906,7 @@
    "greek": "άλογο",
    "meaning": "",
    "examples": [],
-   "placeholder": "🐴🐴",
+   "placeholder": "🐴",
    "lookalikes": [],
    "sameLesson": [
     "parent",
@@ -32413,6 +31949,7 @@
    "placeholder": "🎶",
    "lookalikes": [
     "melody",
+    "tune",
     "tune"
    ],
    "sameLesson": [
@@ -32672,7 +32209,7 @@
    "examples": [],
    "placeholder": "🍽️",
    "lookalikes": [
-    "after",
+    "lunch break",
     "set the table",
     "mealtime"
    ],
@@ -32717,8 +32254,8 @@
    "examples": [],
    "placeholder": "🥛",
    "lookalikes": [
+    "come from",
     "full",
-    "empty",
     "knock over"
    ],
    "sameLesson": [
@@ -32802,8 +32339,7 @@
    "examples": [],
    "placeholder": "🐑",
    "lookalikes": [
-    "prance",
-    "cloth"
+    "prance"
    ],
    "sameLesson": [
     "tree",
@@ -32842,12 +32378,11 @@
     "suggest",
     "go out",
     "turn on",
-    "turn off",
     "main idea",
     "explanation",
     "invention",
     "invent",
-    "switch off",
+    "switch on",
     "light bulb"
    ],
    "sameLesson": [
@@ -32890,8 +32425,7 @@
    "examples": [],
    "placeholder": "🍃",
    "lookalikes": [
-    "breeze",
-    "change"
+    "breeze"
    ],
    "sameLesson": [
     "storm",
@@ -32927,10 +32461,8 @@
    "placeholder": "📄",
    "lookalikes": [
     "tissue paper",
-    "crumple",
     "fact file",
-    "instruction",
-    "sheet music"
+    "instruction"
    ],
    "sameLesson": [
     "heading",
@@ -33115,8 +32647,10 @@
    "placeholder": "💧",
    "lookalikes": [
     "pond",
+    "water",
+    "thirsty",
     "flow down",
-    "waste"
+    "waterhole"
    ],
    "sameLesson": [
     "astronaut",
@@ -33159,12 +32693,7 @@
    "placeholder": "🏠",
    "lookalikes": [
     "house",
-    "neighbor",
-    "animal shelter",
-    "street",
-    "between",
-    "suburb",
-    "shelter"
+    "suburb"
    ],
    "sameLesson": [
     "dusty",
@@ -33309,7 +32838,8 @@
    "examples": [],
    "placeholder": "🗺️",
    "lookalikes": [
-    "directions"
+    "directions",
+    "tour guide"
    ],
    "sameLesson": [
     "neighborhood",
@@ -33418,8 +32948,8 @@
    "examples": [],
    "placeholder": "🥛",
    "lookalikes": [
+    "come from",
     "full",
-    "empty",
     "knock over"
    ],
    "sameLesson": [
@@ -33464,7 +32994,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🪞",
-   "lookalikes": [],
+   "lookalikes": [
+    "in front of"
+   ],
    "sameLesson": [
     "street",
     "barbershop",
@@ -33498,8 +33030,7 @@
    "examples": [],
    "placeholder": "🥣",
    "lookalikes": [
-    "dough",
-    "mix"
+    "dough"
    ],
    "sameLesson": [
     "sausage",
@@ -33575,9 +33106,7 @@
    "meaning": "",
    "examples": [],
    "placeholder": "💵",
-   "lookalikes": [
-    "buy"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "stick puppet",
     "buy",
@@ -33799,7 +33328,8 @@
    "examples": [],
    "placeholder": "📰",
    "lookalikes": [
-    "heading"
+    "heading",
+    "information"
    ],
    "sameLesson": [
     "caption",
@@ -33936,10 +33466,8 @@
    "placeholder": "📄",
    "lookalikes": [
     "tissue paper",
-    "crumple",
     "fact file",
-    "instruction",
-    "sheet music"
+    "instruction"
    ],
    "sameLesson": [
     "collection",
@@ -34099,10 +33627,8 @@
    "placeholder": "📄",
    "lookalikes": [
     "tissue paper",
-    "crumple",
     "fact file",
-    "instruction",
-    "sheet music"
+    "instruction"
    ],
    "sameLesson": [
     "teddy bear",
@@ -34152,9 +33678,9 @@
    ],
    "placeholder": "🌳",
    "lookalikes": [
+    "get down",
     "tree",
-    "branch",
-    "responsible"
+    "branch"
    ],
    "sameLesson": [
     "friend",
@@ -34239,6 +33765,7 @@
    "examples": [],
    "placeholder": "🎉",
    "lookalikes": [
+    "event",
     "occasion",
     "celebration",
     "celebrate"
@@ -34323,7 +33850,6 @@
    "placeholder": "✏️",
    "lookalikes": [
     "pencil sharpener",
-    "dull",
     "lend",
     "sketch"
    ],
@@ -34361,7 +33887,6 @@
    "placeholder": "✏️",
    "lookalikes": [
     "pencil sharpener",
-    "dull",
     "lend",
     "sketch"
    ],
@@ -34408,10 +33933,7 @@
    ],
    "placeholder": "🐶",
    "lookalikes": [
-    "animal",
-    "disruption",
-    "naughty",
-    "mammal"
+    "animal"
    ],
    "sameLesson": [
     "friend",
@@ -34490,6 +34012,7 @@
     "painting",
     "exhibit",
     "caption",
+    "gallery",
     "portrait"
    ],
    "sameLesson": [
@@ -34538,7 +34061,9 @@
    "examples": [],
    "placeholder": "🧺",
    "lookalikes": [
-    "basket"
+    "collect",
+    "basket",
+    "washing machine"
    ],
    "sameLesson": [
     "messy",
@@ -34585,6 +34110,7 @@
     "painting",
     "exhibit",
     "caption",
+    "gallery",
     "portrait"
    ],
    "sameLesson": [
@@ -34677,7 +34203,6 @@
    "placeholder": "🌱",
    "lookalikes": [
     "living thing",
-    "water",
     "grow",
     "take care of"
    ],
@@ -34726,19 +34251,14 @@
    "greek": "παίκτης",
    "meaning": "",
    "examples": [],
-   "placeholder": "🏃🏃",
+   "placeholder": "🏃",
    "lookalikes": [
-    "gym",
     "move",
     "run away",
-    "race",
     "activity",
-    "join",
     "escape",
-    "result",
-    "warm-up",
-    "stay in shape",
-    "compete"
+    "athlete",
+    "warm-up"
    ],
    "sameLesson": [
     "whistle",
@@ -34910,7 +34430,7 @@
    "greek": "πατάτα",
    "meaning": "",
    "examples": [],
-   "placeholder": "🥔🥔",
+   "placeholder": "🥔",
    "lookalikes": [],
    "sameLesson": [
     "come from",
@@ -34977,10 +34497,8 @@
    "placeholder": "📄",
    "lookalikes": [
     "tissue paper",
-    "crumple",
     "fact file",
-    "instruction",
-    "sheet music"
+    "instruction"
    ],
    "sameLesson": [
     "flow chart",
@@ -35021,7 +34539,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🛣️",
-   "lookalikes": [],
+   "lookalikes": [
+    "street"
+   ],
    "sameLesson": [
     "caption",
     "heroic",
@@ -35289,7 +34809,6 @@
    "examples": [],
    "placeholder": "🏖️",
    "lookalikes": [
-    "sandcastle",
     "buried"
    ],
    "sameLesson": [
@@ -35366,7 +34885,7 @@
    "greek": "",
    "meaning": "",
    "examples": [],
-   "placeholder": "🧣🧣",
+   "placeholder": "🧣",
    "lookalikes": [
     "warm",
     "scarf-scarves"
@@ -35411,8 +34930,7 @@
    "examples": [],
    "placeholder": "🏫",
    "lookalikes": [
-    "classroom",
-    "PE"
+    "classroom"
    ],
    "sameLesson": [
     "schoolbag",
@@ -35467,8 +34985,7 @@
    "examples": [],
    "placeholder": "🧑‍🔬",
    "lookalikes": [
-    "inventor",
-    "archeologist"
+    "inventor"
    ],
    "sameLesson": [
     "planet",
@@ -35555,7 +35072,9 @@
    "examples": [],
    "placeholder": "🌊",
    "lookalikes": [
+    "wash away",
     "river",
+    "flood",
     "sink - sank - sunk"
    ],
    "sameLesson": [
@@ -35672,7 +35191,6 @@
    "placeholder": "🌱",
    "lookalikes": [
     "living thing",
-    "water",
     "grow",
     "take care of"
    ],
@@ -35839,9 +35357,7 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🏪",
-   "lookalikes": [
-    "market"
-   ],
+   "lookalikes": [],
    "sameLesson": [
     "stick puppet",
     "buy",
@@ -36067,12 +35583,13 @@
    "examples": [],
    "placeholder": "💨",
    "lookalikes": [
+    "chase",
     "air",
     "windy",
     "gas",
     "breathe",
     "blow",
-    "hair dryer"
+    "sprint"
    ],
    "sameLesson": [
     "caption",
@@ -36224,8 +35741,7 @@
    "examples": [],
    "placeholder": "🧼",
    "lookalikes": [
-    "clean",
-    "wash away"
+    "clean"
    ],
    "sameLesson": [
     "clothes",
@@ -36258,10 +35774,10 @@
    "examples": [],
    "placeholder": "⚽",
    "lookalikes": [
+    "after",
     "play soccer",
     "roll",
-    "pass",
-    "tie"
+    "pass"
    ],
    "sameLesson": [
     "friend",
@@ -36292,7 +35808,7 @@
    "greek": "κάλτσα",
    "meaning": "",
    "examples": [],
-   "placeholder": "🧦🧦",
+   "placeholder": "🧦",
    "lookalikes": [
     "messy",
     "pair"
@@ -36443,6 +35959,7 @@
    "examples": [],
    "placeholder": "🥄",
    "lookalikes": [
+    "mix",
     "stir"
    ],
    "sameLesson": [
@@ -36509,7 +36026,7 @@
    "greek": "σκίουρος",
    "meaning": "",
    "examples": [],
-   "placeholder": "🐿️🐿️",
+   "placeholder": "🐿️",
    "lookalikes": [
     "chipmunk"
    ],
@@ -36545,7 +36062,7 @@
    "placeholder": "🎭",
    "lookalikes": [
     "puppet",
-    "performance"
+    "curtain"
    ],
    "sameLesson": [
     "musician",
@@ -36614,7 +36131,8 @@
    "placeholder": "⭐",
    "lookalikes": [
     "special",
-    "sticker"
+    "sticker",
+    "popular"
    ],
    "sameLesson": [
     "collection",
@@ -36658,7 +36176,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "🍓",
-   "lookalikes": [],
+   "lookalikes": [
+    "jam"
+   ],
    "sameLesson": [
     "food",
     "agree",
@@ -36775,10 +36295,8 @@
    "lookalikes": [
     "bright",
     "shine",
-    "weather",
     "daylight",
-    "solar power",
-    "renewable"
+    "solar power"
    ],
    "sameLesson": [
     "wheat",
@@ -36827,10 +36345,8 @@
    "lookalikes": [
     "bright",
     "shine",
-    "weather",
     "daylight",
-    "solar power",
-    "renewable"
+    "solar power"
    ],
    "sameLesson": [
     "tree",
@@ -36874,6 +36390,7 @@
    "examples": [],
    "placeholder": "🦸",
    "lookalikes": [
+    "costume",
     "heroic",
     "hero"
    ],
@@ -36945,7 +36462,7 @@
    "examples": [],
    "placeholder": "🍽️",
    "lookalikes": [
-    "after",
+    "lunch break",
     "set the table",
     "mealtime"
    ],
@@ -37101,8 +36618,9 @@
    "examples": [
     "Tigers live in Asia."
    ],
-   "placeholder": "🐯🐯",
+   "placeholder": "🐯",
    "lookalikes": [
+    "toy tiger",
     "in danger or extinction"
    ],
    "sameLesson": [
@@ -37173,7 +36691,6 @@
    ],
    "placeholder": "👅",
    "lookalikes": [
-    "thirsty",
     "lick",
     "taste"
    ],
@@ -37250,7 +36767,7 @@
    "greek": "",
    "meaning": "",
    "examples": [],
-   "placeholder": "🗼🗼🗼",
+   "placeholder": "🗼",
    "lookalikes": [
     "souvenir"
    ],
@@ -37362,10 +36879,11 @@
    "greek": "τρόπαιο",
    "meaning": "",
    "examples": [],
-   "placeholder": "🏆🏆",
+   "placeholder": "🏆",
    "lookalikes": [
     "champion",
     "award",
+    "result",
     "win"
    ],
    "sameLesson": [
@@ -37544,7 +37062,7 @@
    "examples": [
     "Vegetables are a healthy food."
    ],
-   "placeholder": "🥦🥕",
+   "placeholder": "🥦",
    "lookalikes": [
     "healthy"
    ],
@@ -37582,9 +37100,8 @@
    "placeholder": "👫",
    "lookalikes": [
     "classmate",
-    "friend",
-    "play date",
-    "both"
+    "both",
+    "friend"
    ],
    "sameLesson": [
     "path",
@@ -37659,7 +37176,6 @@
    "examples": [],
    "placeholder": "🧱",
    "lookalikes": [
-    "make",
     "behind",
     "mural",
     "structure"
@@ -37708,8 +37224,10 @@
    "placeholder": "💧",
    "lookalikes": [
     "pond",
+    "water",
+    "thirsty",
     "flow down",
-    "waste"
+    "waterhole"
    ],
    "sameLesson": [
     "pond",
@@ -37798,12 +37316,13 @@
    "examples": [],
    "placeholder": "💨",
    "lookalikes": [
+    "chase",
     "air",
     "windy",
     "gas",
     "breathe",
     "blow",
-    "hair dryer"
+    "sprint"
    ],
    "sameLesson": [
     "tree",
@@ -37847,7 +37366,7 @@
    "greek": "παράθυρο",
    "meaning": "",
    "examples": [],
-   "placeholder": "🪟🪟",
+   "placeholder": "🪟",
    "lookalikes": [],
    "sameLesson": [
     "street",
@@ -38033,7 +37552,9 @@
    "meaning": "",
    "examples": [],
    "placeholder": "✍️",
-   "lookalikes": [],
+   "lookalikes": [
+    "summarize"
+   ],
    "sameLesson": [
     "collection",
     "scrapbook",
