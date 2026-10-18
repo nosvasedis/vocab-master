@@ -34,7 +34,7 @@ export default {
     function intro() {
       closeGame();
       ctx.mascot.place("left");
-      ctx.mascot.setPose("cheer");
+      ctx.mascot.setPose("encouraging");
       ctx.ui.innerHTML = `
         <div class="pr-card">
           <span class="pr-emoji">${def.emoji}</span>

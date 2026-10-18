@@ -32,7 +32,7 @@ export default {
         }
         if (i === 1) {
           ctx.mascot.place("left");
-          ctx.mascot.setPose("cheer");
+          ctx.mascot.setPose("proud");
           const b = scene.badge || { emoji: "🏅", name: "Word Star" };
           ctx.ui.innerHTML = `
             <div class="rc-badge">

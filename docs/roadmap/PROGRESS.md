@@ -21,6 +21,18 @@
   4. Phase 2c: classroom pilot of Lingo Live phones (see Phase 2b below).
 - **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
 
+## Lingo redesigned: a truly animated owl (2026-10-18, branch feature/lingo-redesign, from the user)
+- **Ask:** the old SVG owl felt plain. A more beautiful, expressive, animated Lingo; voice and speech bubbles unchanged.
+- **Drawing (`lesson/lingo-art.js`):** hand-built SVG in the picture set's soft flat-vector style (indigo outline, gentle gradients): big head with a lilac face disc, amber eyes with two highlights, feather brows, ear tufts, scalloped belly, feathered wings, feet, graduation cap with a swinging tassel. No image files. Ids get a per-drawing suffix, so several Lingos can share a page. `lingoBadge()` is the head alone; it replaces 🦉 in the lesson top bar and the Lessons page kicker.
+- **Rig (`lesson/mascot.js`, same API: `createMascot(host)` → `el`, `setPose`, `level`, `destroy`, plus a `pose` getter):** transform and opacity only, every part its own group with a fixed pivot.
+  - Life: breathing, blinks (sometimes double), glances, small head tilts, tassel sway, wing flutters, tuft twitches. Timers are randomised, so two Lingos never blink together.
+  - Poses (`POSES`, rig values eased in, plus a short loop for some): idle, talk (explaining gestures), wave, cheer (hops with flapping wings), think (wing tap), point, and new happy, surprised, proud, listening (wing to the ear), encouraging. Unknown names fall back to idle.
+  - Voice: `level(v)` opens the beak and mouth with one of five mouth shapes picked per syllable; the head bobs a little with the voice. The beak opens to whichever is wider, the pose's expression or the voice.
+  - Calm motion / reduced motion: no life loops or pose loops; poses jump to their end state; lip-sync still works (set, not tweened).
+- **Scenes:** the speaking timer shows "listening", the badge "proud", the word wall "happy", the game intro "encouraging", time-up "happy". `ctx.say` keeps an expressive pose (cheer, happy, proud, point, encouraging, surprised) while Lingo talks; otherwise he talks and settles back afterwards (a wave calms to happy). A stale line never overrides a newer scene's pose.
+- **Tests:** `tests/mascot.test.mjs` (every `setPose("…")` in the renderer exists; the drawing has every rigged part; ids unique and defined; no external images). 327 tests green, `npm run smoke` passes. Checked in the browser preview: all poses, lip-sync, calm mode, CPP1-U1-A scenes.
+- **Not done:** not merged into `main` (ask first). Not seen on a real weak laptop or a projector. The installer was not rebuilt.
+
 ## Picture set in the app ✅ (2026-10-18, branch feature/picture-set-import)
 - **Pictures:** all 2,828 are drawn (Codex, Gemini and Cursor). Gemini did the visual QA. Originals are in `art-brief/pictures/done/` (gitignored, 1.6 GB).
 - **Delivery (decided with the user):**

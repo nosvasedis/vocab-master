@@ -10,7 +10,8 @@
   background: radial-gradient(circle at 85% 20%, rgba(255, 210, 63, 0.35), transparent 40%), linear-gradient(135deg, #5b3df5 0%, #8b5cf6 55%, #c056f0 100%);
   box-shadow: var(--shadow-brand);
 }
-.lsn-kicker { font: 600 13px var(--font-ui); opacity: 0.85; letter-spacing: 0.02em; }
+.lsn-kicker { font: 600 13px var(--font-ui); opacity: 0.85; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 6px; }
+.lsn-kicker-owl { width: 22px; height: 22px; }
 .lsn-hero h2 { font: 700 30px var(--font-play); margin: 6px 0 8px; }
 .lsn-hero p { max-width: 640px; opacity: 0.92; line-height: 1.55; font-size: 14.5px; }
 .lsn-hero-stats { display: flex; gap: 12px; }
@@ -52,7 +53,9 @@
 .ls-top { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
 .ls-bottom { border-top: 1px solid rgba(255, 255, 255, 0.08); }
 .ls-brand { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 0 1 auto; }
-.ls-logo { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; background: linear-gradient(135deg, #8b6cff, #5b3df5); box-shadow: 0 6px 18px rgba(91, 61, 245, 0.45); flex: none; }
+.ls-logo { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, #ffffff, #e4dbff); box-shadow: 0 6px 18px rgba(91, 61, 245, 0.45); flex: none; overflow: hidden; }
+.ls-logo .lingo-badge { width: 34px; height: 34px; margin-top: 2px; }
+.lingo-badge { display: inline-block; overflow: visible; }
 .ls-brand-text { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
 .ls-brand-text b { font: 700 16px var(--font-play); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 42vw; }
 .ls-brand-text small { font-size: 11.5px; color: #b9b6dc; }

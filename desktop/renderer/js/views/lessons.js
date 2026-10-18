@@ -4,6 +4,7 @@ import { $, esc, icon, toast } from "../ui.js";
 import { state, BOOK_COLORS } from "../state.js";
 import { loadCatalog, loadArt } from "../../lesson/lesson.js";
 import { onePicture } from "../../lesson/wordmatch.js";
+import { lingoBadge } from "../../lesson/lingo-art.js";
 import { downloadAllForOffline, offlineStatus } from "../../arcade/voice.js";
 
 const SECTION_NAMES = { BQ: "Big Question", A: "Part A", B: "Part B" };
@@ -48,7 +49,7 @@ export async function renderLessons() {
   host.innerHTML = `
     <div class="lsn-hero">
       <div class="lsn-hero-text">
-        <span class="lsn-kicker">🦉 Curated lessons</span>
+        <span class="lsn-kicker">${lingoBadge("lingo-badge lsn-kicker-owl")} Curated lessons</span>
         <h2>Teach a unit like a story</h2>
         <p>Animated, voiced lessons for every Primary Path unit: a warm-up, new words, a story, quick checks, a game, speaking and a badge. Click <b>Teach</b>, go full screen and use the arrow keys or a clicker.</p>
       </div>
