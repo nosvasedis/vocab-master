@@ -44,3 +44,17 @@ test("a picture token counts as one picture", () => {
   assert.equal(onePicture("@w-house"), "@w-house");
   assert.equal(onePicture("@w-house 🏠"), "@w-house");
 });
+
+test("story characters get real-world heights that fit the stage", async () => {
+  const { figureOf } = await import("../desktop/renderer/lesson/scenes/story.js");
+  const ids = Object.keys(M.figures || {});
+  assert.ok(ids.length >= 80, "manifest.figures measured");
+  const box = (id) => ({ top: M.figures[id][0], bottom: M.figures[id][1], width: M.figures[id][2] });
+  const h = (id) => figureOf(`@${id}`, box(id)).h;
+  for (const id of ids) {
+    const f = figureOf(`@${id}`, box(id));
+    assert.ok(f.h >= 150 && f.h + f.lift <= 800, `${id}: ${f.h}px`); // stage is 1080 px; caption + name tag need room
+    assert.ok(Math.abs(f.img * (box(id).bottom - box(id).top) - f.h) < 2, `${id}: picture sized to the figure`);
+  }
+  assert.ok(h("c-timmy-child") < h("c-mum-adult") && h("c-zip-squirrel") < h("c-timmy-child") && h("c-gus-giant") > h("c-mum-adult"));
+});

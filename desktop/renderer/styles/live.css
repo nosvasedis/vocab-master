@@ -256,3 +256,4 @@ button.lv-mode.on { color: #2a1474; border-color: #fff; }
 .lv-lobby.compact .lv-logo h1 { font-size: 64px; margin-top: 6px; }
 .lv-lobby.compact .lv-logo p { display: none; }
 .lv-lobby.compact .lv-wall { max-height: 230px; }
+.lv-learn-pic img.vpic { width: 1.5em; height: 1.5em; } /* illustrated word picture */

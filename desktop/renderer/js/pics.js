@@ -61,6 +61,11 @@ export function picForNoun(label) {
   return tok(M.nouns[stem(l)] || M.words[`${l}|noun`]);
 }
 export const picForCharacter = (lessonId, castKey) => tok(M.characters[`${lessonId}|${castKey}`]);
+/** Where a character's figure sits in its picture: { top, bottom, width } as fractions, or null. */
+export function figureBox(id) {
+  const b = M.figures?.[String(id || "").replace(/^@/, "")];
+  return b ? { top: b[0], bottom: b[1], width: b[2] } : null;
+}
 export const picForAvatar = (emoji) => (UI_BY_EMOJI[String(emoji || "").trim()] && M.ui[UI_BY_EMOJI[String(emoji).trim()]] ? `@${UI_BY_EMOJI[String(emoji).trim()]}` : "");
 export const picForTeam = (emoji) => (TEAM_BY_EMOJI[String(emoji || "").trim()] && M.ui[TEAM_BY_EMOJI[String(emoji).trim()]] ? `@${TEAM_BY_EMOJI[String(emoji).trim()]}` : "");
 

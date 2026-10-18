@@ -75,6 +75,18 @@ for (const job of jobs) {
   if (!DRY && fs.existsSync(from) && !fs.existsSync(to)) fs.renameSync(from, to);
   if (remote) manifest.remote.push(f);
 }
+// Story characters: where the drawn figure sits in its picture ([top, bottom, width] as fractions), so the
+// lesson can size every character to a real-world height and stand its feet exactly on the ground.
+manifest.figures = {};
+for (const f of fs.readdirSync(OUT).filter((x) => x.startsWith("c-") && x.endsWith(".webp"))) {
+  const S = 128;
+  const raw = execFileSync(ffmpegPath, ["-v", "error", "-i", path.join(OUT, f), "-vf", `scale=${S}:${S}`, "-f", "rawvideo", "-pix_fmt", "rgba", "-"]);
+  let x0 = S, y0 = S, x1 = -1, y1 = -1;
+  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+    if (raw[(y * S + x) * 4 + 3] > 60) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+  }
+  if (x1 >= 0) manifest.figures[f.replace(/\.webp$/, "")] = [+(y0 / S).toFixed(3), +((y1 + 1) / S).toFixed(3), +((x1 + 1 - x0) / S).toFixed(3)];
+}
 if (!DRY) fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 1) + "\n");
 const kbIn = (d) => (fs.existsSync(d) ? Math.round(fs.readdirSync(d).filter((f) => f.endsWith(".webp")).reduce((s, f) => s + fs.statSync(path.join(d, f)).size, 0) / 1024) : 0);
 console.log(`${DRY ? "Would import" : "Imported"} ${imported} picture(s) → desktop/renderer/assets/pics (${kbIn(OUT)} KB bundled · ${kbIn(BANK)} KB in bank/ for R2, ${manifest.remote.length} files)`);

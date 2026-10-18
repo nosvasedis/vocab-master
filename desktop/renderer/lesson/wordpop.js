@@ -51,7 +51,7 @@ export function createPopper({ stageEl, picFit }) {
     const cx = r.x + r.w / 2;
     const cy = r.y + r.h / 2;
     // Zoom up next to the word, choosing the spot that hides the least: never quiz answers, faces or Lingo.
-    const avoid = [...stageEl.querySelectorAll(".ck-opt, .st-emoji, .ls-lingo, .rv-pic")].map((e) => toStage(e.getBoundingClientRect()));
+    const avoid = [...stageEl.querySelectorAll(".ck-opt, .st-hit, .st-bubble:not([hidden]), .ls-lingo, .rv-pic")].map((e) => toStage(e.getBoundingClientRect()));
     const { x: tx, y: ty } = pickSpot({ cx, cy, avoid, W, H });
     const big = document.createElement("div");
     big.className = "wp-big";
