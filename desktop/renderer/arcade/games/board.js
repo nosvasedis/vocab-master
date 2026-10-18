@@ -11,7 +11,7 @@ const TIME = 20;
 export default {
   id: "board",
   title: "Word Board",
-  emoji: "🎯",
+  emoji: "💯",
   description: "Pick a category and the points you dare — pictures, gaps, spelling and listening. Find the hidden double!",
   tags: ["Teams", "Players", "Strategy"],
   minWords: 6,

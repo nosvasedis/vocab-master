@@ -143,7 +143,7 @@
 .arc-empty { display: grid; place-items: center; font-size: 18px; color: var(--ink-2); padding: 60px; }
 
 /* ── Hub ─────────────────────────────────────────────────────────── */
-.arc-hub { max-width: 1240px; margin: 0 auto; padding: 34px 28px 50px; display: flex; flex-direction: column; gap: 26px; }
+.arc-hub { max-width: min(1760px, 100%); margin: 0 auto; padding: 34px clamp(20px, 3vw, 56px) 50px; display: flex; flex-direction: column; gap: 26px; }
 .hub-hero h1 { font: 700 46px/1.05 var(--font-play); letter-spacing: 0; background: linear-gradient(120deg, #fff 20%, #ffd23f 50%, #ff8a4c 80%); -webkit-background-clip: text; background-clip: text; color: transparent; animation: rise-in 500ms var(--ease-out) both; }
 .hub-hero p { margin-top: 8px; color: var(--ink-2); font-size: 16px; }
 .hub-hero p b { color: var(--ink); }
@@ -162,7 +162,10 @@
 .ht-name input { width: 130px; height: 32px; border: 0; outline: none; background: transparent; color: var(--ink); font: 600 15px var(--font-ui); }
 .ht-solo { color: var(--ink-2); font-size: 14px; }
 
-.hub-games { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+/* Six game cards in even rows across the whole screen: 3 × 2 (2 × 3 on smaller screens, 1 column on phones). */
+.hub-games { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 1100px) { .hub-games { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .hub-games { grid-template-columns: 1fr; } }
 .game-card {
   --g1: #7b6bff; --g2: #c056f0;
   position: relative; overflow: hidden;
@@ -176,11 +179,14 @@
   animation: rise-in 500ms var(--ease-out) both;
 }
 .game-card:hover:not(:disabled) { transform: translateY(-6px) rotate(-0.4deg); border-color: rgba(255, 255, 255, 0.25); box-shadow: 0 24px 60px color-mix(in srgb, var(--g1) 40%, transparent); }
-.game-card.g-flashcards { --g1: #6366f1; --g2: #a855f7; }
-.game-card.g-memory { --g1: #06b6d4; --g2: #3b82f6; }
-.game-card.g-spelling { --g1: #f59e0b; --g2: #f97316; }
+/* Every game has its own colour. */
+.game-card.g-board { --g1: #10b981; --g2: #0ea5a4; }      /* emerald */
+.game-card.g-feud { --g1: #ec4899; --g2: #d946ef; }       /* pink */
+.game-card.g-flashcards { --g1: #6366f1; --g2: #8b5cf6; } /* indigo */
+.game-card.g-memory { --g1: #06b6d4; --g2: #3b82f6; }     /* cyan → blue */
+.game-card.g-spelling { --g1: #f5b301; --g2: #f59e0b; }   /* amber */
 .game-card.g-quiz { --g1: #ec4899; --g2: #f43f5e; }
-.game-card.g-taboo { --g1: #ef4444; --g2: #f97316; }
+.game-card.g-taboo { --g1: #ef4444; --g2: #e11d48; }      /* red */
 .gc-art { position: relative; height: 140px; display: grid; place-items: center; background: linear-gradient(135deg, var(--g1), var(--g2)); overflow: hidden; }
 .gc-art::before { content: ""; position: absolute; width: 180px; height: 180px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); right: -50px; top: -70px; }
 .gc-art::after { content: ""; position: absolute; width: 120px; height: 120px; border-radius: 50%; background: rgba(0, 0, 0, 0.1); left: -30px; bottom: -60px; }
@@ -701,3 +707,4 @@ button.fd-slot .fd-n { width: clamp(46px, 6vh, 62px); height: clamp(46px, 6vh, 6
 @keyframes fd-x { 0% { transform: scale(0.4); opacity: 0; } 15% { transform: scale(1.1); opacity: 1; } 70% { opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .fd-slot.on, .fd-x, .wb-double span, .wb-letters i.on { animation: none; } }
 .arcade .qz-clue.big img.vpic { width: 1.6em; height: 1.6em; } /* picture questions: the illustration is the question */
+@media (min-width: 1500px) { .gc-art { height: 170px; } .gc-art .gc-emoji { font-size: 76px; } .gc-title { font-size: 26px; } .gc-desc { font-size: 15px; } .gc-play { height: 48px; font-size: 16px; } } /* big screens: larger cards */
