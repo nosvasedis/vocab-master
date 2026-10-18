@@ -1,0 +1,4342 @@
+{
+ "v": 1,
+ "boards": {
+  "CPP1-U1": [
+   {
+    "id": "CPP1-U1-1",
+    "prompt": "Name a person in your family…",
+    "answers": [
+     {
+      "text": "mother",
+      "points": 28,
+      "alts": [
+       "mom",
+       "mummy",
+       "mum"
+      ],
+      "wordId": "CPP1-U1-SB-10"
+     },
+     {
+      "text": "father",
+      "points": 22,
+      "alts": [
+       "dad",
+       "daddy"
+      ],
+      "wordId": "CPP1-U1-SB-8"
+     },
+     {
+      "text": "sister",
+      "points": 14,
+      "alts": [
+       "sisters"
+      ],
+      "wordId": "CPP1-U1-SB-11"
+     },
+     {
+      "text": "brother",
+      "points": 12,
+      "alts": [
+       "brothers"
+      ],
+      "wordId": "CPP1-U1-SB-9"
+     },
+     {
+      "text": "grandmother",
+      "points": 8,
+      "alts": [
+       "grandma",
+       "granny"
+      ],
+      "wordId": "CPP1-U1-SB-13"
+     },
+     {
+      "text": "grandfather",
+      "points": 6,
+      "alts": [
+       "grandpa",
+       "grandad"
+      ],
+      "wordId": "CPP1-U1-SB-12"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U1-2",
+    "prompt": "Name a room in a house…",
+    "answers": [
+     {
+      "text": "kitchen",
+      "points": 30,
+      "alts": [
+       "kitchens"
+      ],
+      "wordId": "CPP1-U1-SB-117"
+     },
+     {
+      "text": "bedroom",
+      "points": 24,
+      "alts": [
+       "bedrooms"
+      ],
+      "wordId": "CPP1-U1-SB-115"
+     },
+     {
+      "text": "living room",
+      "points": 16,
+      "alts": [
+       "living rooms"
+      ],
+      "wordId": "CPP1-U1-SB-119"
+     },
+     {
+      "text": "bathroom",
+      "points": 10,
+      "alts": [
+       "bathrooms"
+      ],
+      "wordId": "CPP1-U2-SB-256"
+     },
+     {
+      "text": "dining room",
+      "points": 6,
+      "alts": [
+       "dining rooms"
+      ],
+      "wordId": "CPP1-U1-SB-118"
+     },
+     {
+      "text": "tv room",
+      "points": 4,
+      "alts": [
+       "television room"
+      ],
+      "wordId": "CPP1-U1-SB-116"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U1-3",
+    "prompt": "Name an animal on a farm…",
+    "answers": [
+     {
+      "text": "cow",
+      "points": 30,
+      "alts": [
+       "cows"
+      ],
+      "wordId": "CPP1-U1-SB-78"
+     },
+     {
+      "text": "sheep",
+      "points": 22,
+      "alts": [],
+      "wordId": "CPP1-U1-SB-77"
+     },
+     {
+      "text": "duck",
+      "points": 14,
+      "alts": [
+       "ducks"
+      ],
+      "wordId": "CPP1-U1-WB-132"
+     },
+     {
+      "text": "pig",
+      "points": 10,
+      "alts": [
+       "pigs"
+      ]
+     },
+     {
+      "text": "rooster",
+      "points": 8,
+      "alts": [
+       "roosters",
+       "chicken"
+      ],
+      "wordId": "CPP1-U1-SB-79"
+     },
+     {
+      "text": "horse",
+      "points": 6,
+      "alts": [
+       "horses"
+      ],
+      "wordId": "CPP1-U4-SB-480"
+     }
+    ]
+   }
+  ],
+  "CPP1-U2": [
+   {
+    "id": "CPP1-U2-1",
+    "prompt": "Name something you find in a classroom…",
+    "answers": [
+     {
+      "text": "desk",
+      "points": 25,
+      "alts": [
+       "desks"
+      ],
+      "wordId": "CPP1-U2-SB-151"
+     },
+     {
+      "text": "chair",
+      "points": 20,
+      "alts": [
+       "chairs"
+      ],
+      "wordId": "CPP1-U2-WB-272"
+     },
+     {
+      "text": "teacher",
+      "points": 15,
+      "alts": [
+       "teachers"
+      ],
+      "wordId": "CPP1-U2-SB-152"
+     },
+     {
+      "text": "student",
+      "points": 12,
+      "alts": [
+       "students",
+       "pupil",
+       "pupils"
+      ],
+      "wordId": "CPP1-U2-SB-146"
+     },
+     {
+      "text": "schoolbag",
+      "points": 8,
+      "alts": [
+       "backpack",
+       "schoolbags"
+      ],
+      "wordId": "CPP1-U2-SB-217"
+     },
+     {
+      "text": "pencil sharpener",
+      "points": 5,
+      "alts": [
+       "sharpener",
+       "pencil sharpeners"
+      ],
+      "wordId": "CPP1-U2-SB-158"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U2-2",
+    "prompt": "Name something you do at school…",
+    "answers": [
+     {
+      "text": "reading",
+      "points": 25,
+      "alts": [
+       "read"
+      ],
+      "wordId": "CPP1-U2-SB-212"
+     },
+     {
+      "text": "writing",
+      "points": 20,
+      "alts": [
+       "write"
+      ],
+      "wordId": "CPP1-U2-SB-213"
+     },
+     {
+      "text": "play",
+      "points": 15,
+      "alts": [
+       "playing"
+      ],
+      "wordId": "CPP1-U2-SB-203"
+     },
+     {
+      "text": "have fun",
+      "points": 12,
+      "alts": [
+       "having fun",
+       "fun"
+      ],
+      "wordId": "CPP1-U2-SB-183"
+     },
+     {
+      "text": "drawing",
+      "points": 8,
+      "alts": [
+       "draw"
+      ],
+      "wordId": "CPP1-U2-SB-177"
+     },
+     {
+      "text": "lunch",
+      "points": 5,
+      "alts": [
+       "eat lunch",
+       "have lunch"
+      ],
+      "wordId": "CPP1-U2-SB-237"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U2-3",
+    "prompt": "Name a place in a school…",
+    "answers": [
+     {
+      "text": "classroom",
+      "points": 25,
+      "alts": [
+       "classrooms"
+      ],
+      "wordId": "CPP1-U2-SB-150"
+     },
+     {
+      "text": "gym",
+      "points": 20,
+      "alts": [
+       "gymnasium"
+      ],
+      "wordId": "CPP1-U2-SB-166"
+     },
+     {
+      "text": "library",
+      "points": 15,
+      "alts": [
+       "libraries"
+      ],
+      "wordId": "CPP1-U2-SB-214"
+     },
+     {
+      "text": "playground",
+      "points": 12,
+      "alts": [
+       "playgrounds"
+      ],
+      "wordId": "CPP1-U2-SB-241"
+     },
+     {
+      "text": "cafeteria",
+      "points": 8,
+      "alts": [
+       "canteen",
+       "lunchroom"
+      ],
+      "wordId": "CPP1-U2-SB-171"
+     },
+     {
+      "text": "art room",
+      "points": 5,
+      "alts": [
+       "art rooms"
+      ],
+      "wordId": "CPP1-U2-SB-167"
+     }
+    ]
+   }
+  ],
+  "CPP1-U3": [
+   {
+    "id": "CPP1-U3-1",
+    "prompt": "Name something you find in a pond…",
+    "answers": [
+     {
+      "text": "fish",
+      "points": 40,
+      "alts": [
+       "fishes"
+      ],
+      "wordId": "CPP1-U3-SB-309"
+     },
+     {
+      "text": "frog",
+      "points": 25,
+      "alts": [
+       "frogs"
+      ],
+      "wordId": "CPP1-U3-SB-310"
+     },
+     {
+      "text": "tadpole",
+      "points": 15,
+      "alts": [
+       "tadpoles"
+      ],
+      "wordId": "CPP1-U3-SB-311"
+     },
+     {
+      "text": "dragonfly",
+      "points": 10,
+      "alts": [
+       "dragonflies"
+      ],
+      "wordId": "CPP1-U3-SB-308"
+     },
+     {
+      "text": "water lily",
+      "points": 5,
+      "alts": [
+       "water lilies"
+      ],
+      "wordId": "CPP1-U3-SB-306"
+     },
+     {
+      "text": "mosquito",
+      "points": 3,
+      "alts": [
+       "mosquitoes"
+      ],
+      "wordId": "CPP1-U3-SB-307"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U3-2",
+    "prompt": "Name an insect…",
+    "answers": [
+     {
+      "text": "ant",
+      "points": 40,
+      "alts": [
+       "ants"
+      ],
+      "wordId": "CPP1-U3-SB-290"
+     },
+     {
+      "text": "bee",
+      "points": 25,
+      "alts": [
+       "bees"
+      ],
+      "wordId": "CPP1-U3-SB-292"
+     },
+     {
+      "text": "butterfly",
+      "points": 15,
+      "alts": [
+       "butterflies"
+      ],
+      "wordId": "CPP1-U3-SB-293"
+     },
+     {
+      "text": "ladybug",
+      "points": 10,
+      "alts": [
+       "ladybugs",
+       "ladybird",
+       "ladybirds"
+      ],
+      "wordId": "CPP1-U3-SB-334"
+     },
+     {
+      "text": "wasp",
+      "points": 5,
+      "alts": [
+       "wasps"
+      ],
+      "wordId": "CPP1-U3-WB-426"
+     },
+     {
+      "text": "bug",
+      "points": 3,
+      "alts": [
+       "bugs"
+      ],
+      "wordId": "CPP1-U3-WB-419"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U3-3",
+    "prompt": "Name an animal that lives in a forest…",
+    "answers": [
+     {
+      "text": "bear",
+      "points": 40,
+      "alts": [
+       "bears"
+      ],
+      "wordId": "CPP1-U3-SB-298"
+     },
+     {
+      "text": "deer",
+      "points": 25,
+      "alts": [
+       "deers"
+      ],
+      "wordId": "CPP1-U3-SB-299"
+     },
+     {
+      "text": "rabbit",
+      "points": 15,
+      "alts": [
+       "rabbits"
+      ],
+      "wordId": "CPP1-U3-SB-300"
+     },
+     {
+      "text": "squirrel",
+      "points": 10,
+      "alts": [
+       "squirrels"
+      ],
+      "wordId": "CPP1-U3-SB-301"
+     },
+     {
+      "text": "eagle",
+      "points": 5,
+      "alts": [
+       "eagles"
+      ],
+      "wordId": "CPP1-U3-SB-302"
+     },
+     {
+      "text": "blue jay",
+      "points": 3,
+      "alts": [
+       "blue jays"
+      ],
+      "wordId": "CPP1-U3-SB-303"
+     }
+    ]
+   }
+  ],
+  "CPP1-U5": [
+   {
+    "id": "CPP1-U5-1",
+    "prompt": "Name a game you can play…",
+    "answers": [
+     {
+      "text": "board game",
+      "points": 28,
+      "alts": [
+       "board games"
+      ],
+      "wordId": "CPP1-U5-SB-615"
+     },
+     {
+      "text": "video game",
+      "points": 22,
+      "alts": [
+       "video games"
+      ],
+      "wordId": "CPP1-U5-SB-576"
+     },
+     {
+      "text": "guessing game",
+      "points": 15,
+      "alts": [
+       "guessing games"
+      ],
+      "wordId": "CPP1-U5-SB-550"
+     },
+     {
+      "text": "jigsaw puzzle",
+      "points": 11,
+      "alts": [
+       "puzzle",
+       "jigsaw",
+       "jigsaw puzzles"
+      ],
+      "wordId": "CPP1-U5-SB-628"
+     },
+     {
+      "text": "mini-golf",
+      "points": 8,
+      "alts": [
+       "minigolf",
+       "mini golf"
+      ],
+      "wordId": "CPP1-U5-SB-622"
+     },
+     {
+      "text": "race",
+      "points": 5,
+      "alts": [
+       "races"
+      ],
+      "wordId": "CPP1-U5-SB-584"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U5-2",
+    "prompt": "Name something you do to have fun…",
+    "answers": [
+     {
+      "text": "play games",
+      "points": 30,
+      "alts": [
+       "play a game",
+       "playing games"
+      ],
+      "wordId": "CPP1-U5-KW-3"
+     },
+     {
+      "text": "dance",
+      "points": 15,
+      "alts": [
+       "dancing"
+      ],
+      "wordId": "CPP1-U5-SB-539"
+     },
+     {
+      "text": "bake cookies",
+      "points": 11,
+      "alts": [
+       "make cookies",
+       "baking cookies"
+      ],
+      "wordId": "CPP1-U5-KW-4"
+     },
+     {
+      "text": "jump rope",
+      "points": 8,
+      "alts": [
+       "jumping rope",
+       "skip rope"
+      ],
+      "wordId": "CPP1-U5-SB-537"
+     },
+     {
+      "text": "paint",
+      "points": 5,
+      "alts": [
+       "painting",
+       "draw"
+      ],
+      "wordId": "CPP1-U5-SB-541"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U5-3",
+    "prompt": "Name a toy you can find in a toy store…",
+    "answers": [
+     {
+      "text": "teddy bear",
+      "points": 26,
+      "alts": [
+       "teddy bears",
+       "teddy"
+      ],
+      "wordId": "CPP1-U5-SB-544"
+     },
+     {
+      "text": "dollhouse",
+      "points": 20,
+      "alts": [
+       "doll house",
+       "dollhouses"
+      ],
+      "wordId": "CPP1-U5-SB-630"
+     },
+     {
+      "text": "action figure",
+      "points": 15,
+      "alts": [
+       "action figures"
+      ],
+      "wordId": "CPP1-U5-SB-632"
+     },
+     {
+      "text": "building blocks",
+      "points": 11,
+      "alts": [
+       "blocks",
+       "building block"
+      ],
+      "wordId": "CPP1-U5-SB-631"
+     },
+     {
+      "text": "yo-yo",
+      "points": 8,
+      "alts": [
+       "yoyo",
+       "yo-yos"
+      ],
+      "wordId": "CPP1-U5-SB-601"
+     },
+     {
+      "text": "stuffed animal",
+      "points": 5,
+      "alts": [
+       "stuffed animals",
+       "plush toy"
+      ],
+      "wordId": "CPP1-U5-SB-629"
+     }
+    ]
+   }
+  ],
+  "CPP1-U8": [
+   {
+    "id": "CPP1-U8-1",
+    "prompt": "Name something you use to make a craft…",
+    "answers": [
+     {
+      "text": "glue",
+      "points": 25,
+      "alts": [
+       "glue stick"
+      ],
+      "wordId": "CPP1-U1-SB-112"
+     },
+     {
+      "text": "paper",
+      "points": 20,
+      "alts": [
+       "paper sheet"
+      ]
+     },
+     {
+      "text": "scissors",
+      "points": 15,
+      "alts": [],
+      "wordId": "CPP1-U8-WB-983"
+     },
+     {
+      "text": "paint",
+      "points": 12,
+      "alts": [
+       "paints"
+      ],
+      "wordId": "CPP1-U5-SB-541"
+     },
+     {
+      "text": "tape",
+      "points": 10,
+      "alts": [
+       "sticky tape"
+      ],
+      "wordId": "CPP1-U8-SB-908"
+     },
+     {
+      "text": "clay",
+      "points": 8,
+      "alts": [],
+      "wordId": "CPP1-U8-SB-886"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U8-2",
+    "prompt": "Name something you can wear to a costume party…",
+    "answers": [
+     {
+      "text": "costume",
+      "points": 28,
+      "alts": [
+       "costumes"
+      ],
+      "wordId": "CPP1-U8-SB-977"
+     },
+     {
+      "text": "mask",
+      "points": 20,
+      "alts": [
+       "masks"
+      ],
+      "wordId": "CPP1-U2-SB-250"
+     },
+     {
+      "text": "hat",
+      "points": 14,
+      "alts": [
+       "hats"
+      ],
+      "wordId": "CPP1-U3-WB-429"
+     },
+     {
+      "text": "cape",
+      "points": 10,
+      "alts": [
+       "capes"
+      ]
+     },
+     {
+      "text": "helmet",
+      "points": 6,
+      "alts": [
+       "helmets"
+      ],
+      "wordId": "CPP1-U8-SB-890"
+     },
+     {
+      "text": "sunglasses",
+      "points": 5,
+      "alts": [
+       "sun glasses"
+      ],
+      "wordId": "CPP1-U8-WB-984"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U8-3",
+    "prompt": "Name something you can see at a circus…",
+    "answers": [
+     {
+      "text": "clown",
+      "points": 30,
+      "alts": [
+       "clowns"
+      ],
+      "wordId": "CPP1-U8-SB-974"
+     },
+     {
+      "text": "tiger",
+      "points": 20,
+      "alts": [
+       "tigers"
+      ],
+      "wordId": "CPP1-U8-SB-911"
+     },
+     {
+      "text": "balloon",
+      "points": 12,
+      "alts": [
+       "balloons"
+      ],
+      "wordId": "CPP1-U8-WB-1002"
+     },
+     {
+      "text": "tent",
+      "points": 8,
+      "alts": [
+       "tents"
+      ],
+      "wordId": "CPP1-U1-SB-40"
+     },
+     {
+      "text": "ticket",
+      "points": 6,
+      "alts": [
+       "tickets"
+      ],
+      "wordId": "CPP1-U8-SB-932"
+     },
+     {
+      "text": "donkey",
+      "points": 4,
+      "alts": [
+       "donkeys"
+      ],
+      "wordId": "CPP1-U8-SB-913"
+     }
+    ]
+   }
+  ],
+  "CPP1-U4": [
+   {
+    "id": "CPP1-U4-1",
+    "prompt": "Name something you do with a friend…",
+    "answers": [
+     {
+      "text": "play soccer",
+      "points": 30,
+      "alts": [
+       "play football"
+      ],
+      "wordId": "CPP1-U4-SB-441"
+     },
+     {
+      "text": "ride bikes",
+      "points": 22,
+      "alts": [
+       "ride a bike",
+       "cycle"
+      ],
+      "wordId": "CPP1-U4-SB-442"
+     },
+     {
+      "text": "draw pictures",
+      "points": 16,
+      "alts": [
+       "draw",
+       "paint pictures"
+      ],
+      "wordId": "CPP1-U4-SB-440"
+     },
+     {
+      "text": "sing songs",
+      "points": 12,
+      "alts": [
+       "sing a song",
+       "sing"
+      ],
+      "wordId": "CPP1-U4-SB-443"
+     },
+     {
+      "text": "read stories",
+      "points": 8,
+      "alts": [
+       "read a story",
+       "read books"
+      ],
+      "wordId": "CPP1-U4-SB-444"
+     },
+     {
+      "text": "fly kites",
+      "points": 6,
+      "alts": [
+       "fly a kite"
+      ],
+      "wordId": "CPP1-U4-SB-445"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U4-3",
+    "prompt": "Name something you can do at the playground…",
+    "answers": [
+     {
+      "text": "slide",
+      "points": 28,
+      "alts": [
+       "go down the slide",
+       "play on the slide"
+      ],
+      "wordId": "CPP1-U4-SB-452"
+     },
+     {
+      "text": "swing",
+      "points": 22,
+      "alts": [
+       "swing on the swing",
+       "go on the swing"
+      ],
+      "wordId": "CPP1-U4-SB-453"
+     },
+     {
+      "text": "jungle gym",
+      "points": 16,
+      "alts": [
+       "climb",
+       "climbing frame"
+      ],
+      "wordId": "CPP1-U4-SB-511"
+     },
+     {
+      "text": "run",
+      "points": 12,
+      "alts": [
+       "running",
+       "race"
+      ],
+      "wordId": "CPP1-U4-SB-498"
+     },
+     {
+      "text": "chase",
+      "points": 8,
+      "alts": [
+       "play chase",
+       "tag"
+      ],
+      "wordId": "CPP1-U4-SB-497"
+     },
+     {
+      "text": "roller-skate",
+      "points": 6,
+      "alts": [
+       "roller skate",
+       "skate"
+      ],
+      "wordId": "CPP1-U4-SB-512"
+     }
+    ]
+   }
+  ],
+  "CPP1-U6": [
+   {
+    "id": "CPP1-U6-2",
+    "prompt": "Name something you find in a kitchen…",
+    "answers": [
+     {
+      "text": "fridge",
+      "points": 32,
+      "alts": [
+       "refrigerator"
+      ],
+      "wordId": "CPP1-U6-WB-742"
+     },
+     {
+      "text": "fork",
+      "points": 20,
+      "alts": [
+       "forks"
+      ],
+      "wordId": "CPP1-U6-WB-750"
+     },
+     {
+      "text": "knife",
+      "points": 14,
+      "alts": [
+       "knives"
+      ],
+      "wordId": "CPP2-U6-SB-823"
+     },
+     {
+      "text": "dish",
+      "points": 10,
+      "alts": [
+       "dishes",
+       "plate"
+      ],
+      "wordId": "CPP1-U6-SB-726"
+     },
+     {
+      "text": "bottle",
+      "points": 7,
+      "alts": [
+       "bottles"
+      ],
+      "wordId": "CPP1-U6-SB-671"
+     },
+     {
+      "text": "egg",
+      "points": 4,
+      "alts": [
+       "eggs"
+      ],
+      "wordId": "CPP1-U6-WB-745"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U6-3",
+    "prompt": "Name something you can do to help your community…",
+    "answers": [
+     {
+      "text": "recycle",
+      "points": 30,
+      "alts": [
+       "recycling"
+      ],
+      "wordId": "CPP1-U6-SB-659"
+     },
+     {
+      "text": "donate",
+      "points": 22,
+      "alts": [
+       "give"
+      ],
+      "wordId": "CPP1-U6-SB-658"
+     },
+     {
+      "text": "sweep",
+      "points": 15,
+      "alts": [
+       "sweep the floor"
+      ],
+      "wordId": "CPP1-U6-SB-654"
+     },
+     {
+      "text": "chat",
+      "points": 11,
+      "alts": [
+       "talk",
+       "chat with people"
+      ],
+      "wordId": "CPP1-U6-SB-669"
+     },
+     {
+      "text": "adopt",
+      "points": 8,
+      "alts": [
+       "adopt a pet"
+      ],
+      "wordId": "CPP1-U6-SB-664"
+     },
+     {
+      "text": "walk",
+      "points": 5,
+      "alts": [
+       "walk dogs",
+       "walk the dogs"
+      ],
+      "wordId": "CPP1-U3-WB-433"
+     }
+    ]
+   }
+  ],
+  "CPP1-U7": [
+   {
+    "id": "CPP1-U7-1",
+    "prompt": "Name something you can eat that comes from a plant…",
+    "answers": [
+     {
+      "text": "apple",
+      "points": 35,
+      "alts": [
+       "apples"
+      ]
+     },
+     {
+      "text": "tomato",
+      "points": 20,
+      "alts": [
+       "tomatoes"
+      ],
+      "wordId": "CPP1-U7-SB-790"
+     },
+     {
+      "text": "grape",
+      "points": 12,
+      "alts": [
+       "grapes"
+      ],
+      "wordId": "CPP1-U7-SB-789"
+     },
+     {
+      "text": "pear",
+      "points": 8,
+      "alts": [
+       "pears"
+      ],
+      "wordId": "CPP1-U7-SB-802"
+     },
+     {
+      "text": "cucumber",
+      "points": 5,
+      "alts": [
+       "cucumbers"
+      ],
+      "wordId": "CPP1-U3-SB-405"
+     },
+     {
+      "text": "broccoli",
+      "points": 3,
+      "alts": [],
+      "wordId": "CPP1-U7-SB-843"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U7-2",
+    "prompt": "Name something we get from animals…",
+    "answers": [
+     {
+      "text": "meat",
+      "points": 35,
+      "alts": [],
+      "wordId": "CPP1-U7-SB-760"
+     },
+     {
+      "text": "milk",
+      "points": 20,
+      "alts": [],
+      "wordId": "CPP1-U1-SB-90"
+     },
+     {
+      "text": "eggs",
+      "points": 15,
+      "alts": [
+       "egg"
+      ],
+      "wordId": "CPP1-U6-WB-745"
+     },
+     {
+      "text": "honey",
+      "points": 10,
+      "alts": [],
+      "wordId": "CPP1-U7-SB-816"
+     },
+     {
+      "text": "wool",
+      "points": 5,
+      "alts": []
+     },
+     {
+      "text": "fur",
+      "points": 3,
+      "alts": [
+       "furs"
+      ],
+      "wordId": "CPP1-U7-SB-771"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U7-3",
+    "prompt": "Name an animal that can fly…",
+    "answers": [
+     {
+      "text": "bird",
+      "points": 35,
+      "alts": [
+       "birds"
+      ]
+     },
+     {
+      "text": "butterfly",
+      "points": 20,
+      "alts": [
+       "butterflies"
+      ],
+      "wordId": "CPP1-U3-SB-293"
+     },
+     {
+      "text": "bee",
+      "points": 15,
+      "alts": [
+       "bees"
+      ],
+      "wordId": "CPP1-U3-SB-292"
+     },
+     {
+      "text": "bat",
+      "points": 10,
+      "alts": [
+       "bats"
+      ],
+      "wordId": "CPP1-U1-SB-53"
+     },
+     {
+      "text": "fly",
+      "points": 5,
+      "alts": [
+       "flies"
+      ],
+      "wordId": "CPP1-U1-WB-130"
+     },
+     {
+      "text": "eagle",
+      "points": 3,
+      "alts": [
+       "eagles"
+      ],
+      "wordId": "CPP1-U3-SB-302"
+     }
+    ]
+   }
+  ],
+  "CPP1-U9": [
+   {
+    "id": "CPP1-U9-1",
+    "prompt": "Name something you wear when it is cold…",
+    "answers": [
+     {
+      "text": "coat",
+      "points": 30,
+      "alts": [
+       "coats"
+      ],
+      "wordId": "CPP1-U2-SB-163"
+     },
+     {
+      "text": "jacket",
+      "points": 22,
+      "alts": [
+       "jackets"
+      ],
+      "wordId": "CPP1-U9-SB-1037"
+     },
+     {
+      "text": "scarf",
+      "points": 15,
+      "alts": [
+       "scarves"
+      ]
+     },
+     {
+      "text": "gloves",
+      "points": 10,
+      "alts": [
+       "glove"
+      ],
+      "wordId": "CPP1-U9-SB-1026"
+     },
+     {
+      "text": "hat",
+      "points": 5,
+      "alts": [
+       "cap"
+      ],
+      "wordId": "CPP1-U3-WB-429"
+     },
+     {
+      "text": "socks",
+      "points": 3,
+      "alts": [
+       "sock"
+      ],
+      "wordId": "CPP1-U3-SB-327"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U9-2",
+    "prompt": "Name something you wear in summer…",
+    "answers": [
+     {
+      "text": "t-shirt",
+      "points": 28,
+      "alts": [
+       "tshirt",
+       "tee shirt"
+      ],
+      "wordId": "CPP1-U9-SB-1017"
+     },
+     {
+      "text": "shorts",
+      "points": 22,
+      "alts": [
+       "short pants"
+      ],
+      "wordId": "CPP1-U9-SB-1030"
+     },
+     {
+      "text": "dress",
+      "points": 15,
+      "alts": [
+       "dresses"
+      ],
+      "wordId": "CPP1-U9-SB-1015"
+     },
+     {
+      "text": "swimsuit",
+      "points": 10,
+      "alts": [
+       "swimming suit",
+       "bathing suit"
+      ],
+      "wordId": "CPP1-U9-WB-1083"
+     },
+     {
+      "text": "sandals",
+      "points": 6,
+      "alts": [
+       "sandal"
+      ]
+     },
+     {
+      "text": "hat",
+      "points": 4,
+      "alts": [
+       "cap"
+      ],
+      "wordId": "CPP1-U3-WB-429"
+     }
+    ]
+   },
+   {
+    "id": "CPP1-U9-3",
+    "prompt": "Name something you see on a snowy day…",
+    "answers": [
+     {
+      "text": "snowman",
+      "points": 30,
+      "alts": [
+       "snow man"
+      ],
+      "wordId": "CPP1-U9-SB-1036"
+     },
+     {
+      "text": "snow",
+      "points": 22,
+      "alts": [
+       "snowy"
+      ],
+      "wordId": "CPP1-U7-SB-779"
+     },
+     {
+      "text": "snowflake",
+      "points": 14,
+      "alts": [
+       "snow flake"
+      ]
+     },
+     {
+      "text": "ice",
+      "points": 10,
+      "alts": [
+       "icy"
+      ],
+      "wordId": "CPP3-U3-SB-381"
+     },
+     {
+      "text": "coat",
+      "points": 6,
+      "alts": [
+       "coats"
+      ],
+      "wordId": "CPP1-U2-SB-163"
+     },
+     {
+      "text": "scarf",
+      "points": 4,
+      "alts": [
+       "scarves"
+      ]
+     }
+    ]
+   }
+  ],
+  "CPP2-U1": [
+   {
+    "id": "CPP2-U1-1",
+    "prompt": "Name something you find in a neighborhood…",
+    "answers": [
+     {
+      "text": "supermarket",
+      "points": 45,
+      "alts": [
+       "grocery store",
+       "market"
+      ],
+      "wordId": "CPP2-U1-SB-75"
+     },
+     {
+      "text": "hospital",
+      "points": 20,
+      "alts": [
+       "clinic"
+      ],
+      "wordId": "CPP2-U1-SB-10"
+     },
+     {
+      "text": "bank",
+      "points": 15,
+      "alts": [],
+      "wordId": "CPP2-U1-SB-112"
+     },
+     {
+      "text": "bakery",
+      "points": 10,
+      "alts": [
+       "bake shop"
+      ],
+      "wordId": "CPP2-U1-SB-21"
+     },
+     {
+      "text": "fire station",
+      "points": 5,
+      "alts": [
+       "firehouse"
+      ],
+      "wordId": "CPP2-U1-SB-9"
+     },
+     {
+      "text": "park",
+      "points": 3,
+      "alts": [
+       "playground"
+      ],
+      "wordId": "CPP1-U1-SB-35"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U1-2",
+    "prompt": "Name a job in your neighborhood…",
+    "answers": [
+     {
+      "text": "doctor",
+      "points": 45,
+      "alts": [
+       "physician"
+      ],
+      "wordId": "CPP2-U1-SB-11"
+     },
+     {
+      "text": "firefighter",
+      "points": 20,
+      "alts": [
+       "fireman"
+      ],
+      "wordId": "CPP1-U6-SB-699"
+     },
+     {
+      "text": "nurse",
+      "points": 15,
+      "alts": [],
+      "wordId": "CPP1-U2-SB-170"
+     },
+     {
+      "text": "baker",
+      "points": 10,
+      "alts": [],
+      "wordId": "CPP2-U1-SB-20"
+     },
+     {
+      "text": "vet",
+      "points": 5,
+      "alts": [
+       "veterinarian"
+      ],
+      "wordId": "CPP1-U6-WB-751"
+     },
+     {
+      "text": "security guard",
+      "points": 3,
+      "alts": [
+       "guard"
+      ],
+      "wordId": "CPP2-U1-SB-32"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U1-3",
+    "prompt": "Name something you find in a park…",
+    "answers": [
+     {
+      "text": "monkey bars",
+      "points": 45,
+      "alts": [
+       "monkey bar"
+      ],
+      "wordId": "CPP2-U1-SB-68"
+     },
+     {
+      "text": "bench",
+      "points": 20,
+      "alts": [
+       "benches"
+      ],
+      "wordId": "CPP2-U1-WB-129"
+     },
+     {
+      "text": "pond",
+      "points": 15,
+      "alts": [
+       "ponds"
+      ],
+      "wordId": "CPP1-U3-SB-304"
+     },
+     {
+      "text": "playing field",
+      "points": 10,
+      "alts": [
+       "field",
+       "playground"
+      ],
+      "wordId": "CPP2-U1-WB-135"
+     },
+     {
+      "text": "court",
+      "points": 5,
+      "alts": [
+       "basketball court",
+       "tennis court"
+      ],
+      "wordId": "CPP2-U1-WB-134"
+     },
+     {
+      "text": "sailboat",
+      "points": 3,
+      "alts": [
+       "boat"
+      ],
+      "wordId": "CPP2-U1-SB-70"
+     }
+    ]
+   }
+  ],
+  "CPP2-U2": [
+   {
+    "id": "CPP2-U2-1",
+    "prompt": "Name something you see at a birthday party…",
+    "answers": [
+     {
+      "text": "cake",
+      "points": 40,
+      "alts": [
+       "birthday cake"
+      ],
+      "wordId": "CPP1-U2-SB-244"
+     },
+     {
+      "text": "balloon",
+      "points": 25,
+      "alts": [
+       "balloons"
+      ],
+      "wordId": "CPP1-U8-WB-1002"
+     },
+     {
+      "text": "present",
+      "points": 15,
+      "alts": [
+       "gift",
+       "presents"
+      ],
+      "wordId": "CPP1-U1-SB-60"
+     },
+     {
+      "text": "candle",
+      "points": 10,
+      "alts": [
+       "candles"
+      ],
+      "wordId": "CPP2-U2-SB-152"
+     },
+     {
+      "text": "candy",
+      "points": 5,
+      "alts": [
+       "sweets",
+       "candies"
+      ],
+      "wordId": "CPP1-U8-WB-985"
+     },
+     {
+      "text": "piata",
+      "points": 3,
+      "alts": [
+       "pinata"
+      ],
+      "wordId": "CPP1-U8-WB-1005"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U2-2",
+    "prompt": "Name something you do at a New Year's party…",
+    "answers": [
+     {
+      "text": "celebrate",
+      "points": 40,
+      "alts": [
+       "celebration"
+      ],
+      "wordId": "CPP2-U2-SB-151"
+     },
+     {
+      "text": "fireworks",
+      "points": 25,
+      "alts": [
+       "firework"
+      ],
+      "wordId": "CPP2-U2-WB-272"
+     },
+     {
+      "text": "wish",
+      "points": 15,
+      "alts": [
+       "make a wish"
+      ],
+      "wordId": "CPP2-U2-SB-169"
+     },
+     {
+      "text": "noodles",
+      "points": 10,
+      "alts": [
+       "noodle"
+      ],
+      "wordId": "CPP2-U2-SB-170"
+     },
+     {
+      "text": "coins",
+      "points": 5,
+      "alts": [
+       "coin"
+      ],
+      "wordId": "CPP1-U6-WB-739"
+     },
+     {
+      "text": "hug",
+      "points": 3,
+      "alts": [
+       "hugs"
+      ],
+      "wordId": "CPP1-U5-SB-565"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U2-3",
+    "prompt": "Name something you can give someone for a celebration…",
+    "answers": [
+     {
+      "text": "present",
+      "points": 40,
+      "alts": [
+       "gift",
+       "presents"
+      ],
+      "wordId": "CPP1-U1-SB-60"
+     },
+     {
+      "text": "gift",
+      "points": 25,
+      "alts": [
+       "gifts"
+      ],
+      "wordId": "CPP1-U5-SB-553"
+     },
+     {
+      "text": "card",
+      "points": 15,
+      "alts": [
+       "cards"
+      ]
+     },
+     {
+      "text": "candy",
+      "points": 10,
+      "alts": [
+       "sweets",
+       "candies"
+      ],
+      "wordId": "CPP1-U8-WB-985"
+     },
+     {
+      "text": "balloon",
+      "points": 5,
+      "alts": [
+       "balloons"
+      ],
+      "wordId": "CPP1-U8-WB-1002"
+     },
+     {
+      "text": "invitation",
+      "points": 3,
+      "alts": [
+       "invitations",
+       "invite"
+      ],
+      "wordId": "CPP1-U9-SB-1065"
+     }
+    ]
+   }
+  ],
+  "CPP2-U3": [
+   {
+    "id": "CPP2-U3-1",
+    "prompt": "Name a fruit…",
+    "answers": [
+     {
+      "text": "apple",
+      "points": 21,
+      "alts": [
+       "apples"
+      ]
+     },
+     {
+      "text": "banana",
+      "points": 18,
+      "alts": [
+       "bananas"
+      ],
+      "wordId": "CPP2-U3-KW-12"
+     },
+     {
+      "text": "watermelon",
+      "points": 13,
+      "alts": [
+       "watermelons"
+      ],
+      "wordId": "CPP1-U7-WB-865"
+     },
+     {
+      "text": "strawberry",
+      "points": 10,
+      "alts": [
+       "strawberries"
+      ],
+      "wordId": "CPP2-U3-WB-431"
+     },
+     {
+      "text": "grapes",
+      "points": 5,
+      "alts": [
+       "grape"
+      ],
+      "wordId": "CPP2-U3-SB-351"
+     },
+     {
+      "text": "cherry",
+      "points": 3,
+      "alts": [
+       "cherries"
+      ],
+      "wordId": "CPP1-U8-WB-1000"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U3-2",
+    "prompt": "Name a vegetable…",
+    "answers": [
+     {
+      "text": "carrot",
+      "points": 26,
+      "alts": [
+       "carrots"
+      ],
+      "wordId": "CPP1-U1-SB-17"
+     },
+     {
+      "text": "tomato",
+      "points": 19,
+      "alts": [
+       "tomatoes"
+      ],
+      "wordId": "CPP1-U7-SB-790"
+     },
+     {
+      "text": "broccoli",
+      "points": 13,
+      "alts": [
+       "broccolis"
+      ],
+      "wordId": "CPP1-U7-SB-843"
+     },
+     {
+      "text": "onion",
+      "points": 8,
+      "alts": [
+       "onions"
+      ],
+      "wordId": "CPP1-U7-SB-844"
+     },
+     {
+      "text": "corn",
+      "points": 5,
+      "alts": [
+       "sweetcorn"
+      ],
+      "wordId": "CPP1-U3-SB-404"
+     },
+     {
+      "text": "peas",
+      "points": 3,
+      "alts": [
+       "pea"
+      ],
+      "wordId": "CPP2-U3-SB-403"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U3-3",
+    "prompt": "Name something you eat for breakfast…",
+    "answers": [
+     {
+      "text": "cereal",
+      "points": 24,
+      "alts": [
+       "cereals"
+      ],
+      "wordId": "CPP2-U3-SB-362"
+     },
+     {
+      "text": "milk",
+      "points": 17,
+      "alts": [
+       "milks"
+      ],
+      "wordId": "CPP1-U1-SB-90"
+     },
+     {
+      "text": "bread",
+      "points": 13,
+      "alts": [
+       "breads"
+      ],
+      "wordId": "CPP1-U6-WB-741"
+     },
+     {
+      "text": "egg",
+      "points": 9,
+      "alts": [
+       "eggs"
+      ],
+      "wordId": "CPP1-U6-WB-745"
+     },
+     {
+      "text": "pancake",
+      "points": 5,
+      "alts": [
+       "pancakes"
+      ],
+      "wordId": "CPP2-U3-WB-414"
+     },
+     {
+      "text": "yogurt",
+      "points": 4,
+      "alts": [
+       "yoghurt",
+       "yogurts"
+      ],
+      "wordId": "CPP2-U3-SB-322"
+     }
+    ]
+   }
+  ],
+  "CPP2-U4": [
+   {
+    "id": "CPP2-U4-1",
+    "prompt": "Name something you find in a landscape…",
+    "answers": [
+     {
+      "text": "mountain",
+      "points": 30,
+      "alts": [
+       "mountains"
+      ],
+      "wordId": "CPP1-U9-WB-1097"
+     },
+     {
+      "text": "beach",
+      "points": 22,
+      "alts": [
+       "beaches"
+      ],
+      "wordId": "CPP1-U1-WB-124"
+     },
+     {
+      "text": "river",
+      "points": 16,
+      "alts": [
+       "rivers"
+      ],
+      "wordId": "CPP1-U8-SB-954"
+     },
+     {
+      "text": "lake",
+      "points": 12,
+      "alts": [
+       "lakes"
+      ],
+      "wordId": "CPP1-U3-WB-410"
+     },
+     {
+      "text": "volcano",
+      "points": 8,
+      "alts": [
+       "volcanoes"
+      ],
+      "wordId": "CPP2-U4-SB-460"
+     },
+     {
+      "text": "hill",
+      "points": 5,
+      "alts": [
+       "hills"
+      ],
+      "wordId": "CPP1-U1-WB-133"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U4-2",
+    "prompt": "Name something that can change the Earth…",
+    "answers": [
+     {
+      "text": "volcano",
+      "points": 35,
+      "alts": [
+       "volcanoes",
+       "volcanic eruption"
+      ],
+      "wordId": "CPP2-U4-SB-460"
+     },
+     {
+      "text": "earthquake",
+      "points": 25,
+      "alts": [
+       "earthquakes"
+      ],
+      "wordId": "CPP2-U4-SB-484"
+     },
+     {
+      "text": "hurricane",
+      "points": 15,
+      "alts": [
+       "hurricanes"
+      ],
+      "wordId": "CPP2-U4-SB-543"
+     },
+     {
+      "text": "landslide",
+      "points": 10,
+      "alts": [
+       "landslides"
+      ],
+      "wordId": "CPP2-U4-SB-544"
+     },
+     {
+      "text": "storm",
+      "points": 8,
+      "alts": [
+       "storms"
+      ],
+      "wordId": "CPP1-U9-SB-1057"
+     },
+     {
+      "text": "fire",
+      "points": 5,
+      "alts": [
+       "fires"
+      ],
+      "wordId": "CPP2-U4-SB-481"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U4-3",
+    "prompt": "Name something you find on a beach…",
+    "answers": [
+     {
+      "text": "sand",
+      "points": 30,
+      "alts": [
+       "sands"
+      ],
+      "wordId": "CPP1-U5-SB-589"
+     },
+     {
+      "text": "sea",
+      "points": 22,
+      "alts": [
+       "ocean"
+      ]
+     },
+     {
+      "text": "shell",
+      "points": 16,
+      "alts": [
+       "shells"
+      ],
+      "wordId": "CPP1-U5-SB-588"
+     },
+     {
+      "text": "crab",
+      "points": 12,
+      "alts": [
+       "crabs"
+      ],
+      "wordId": "CPP1-U7-WB-868"
+     },
+     {
+      "text": "palm tree",
+      "points": 8,
+      "alts": [
+       "palm trees"
+      ],
+      "wordId": "CPP2-U4-SB-510"
+     },
+     {
+      "text": "sunglasses",
+      "points": 5,
+      "alts": [],
+      "wordId": "CPP1-U8-WB-984"
+     }
+    ]
+   }
+  ],
+  "CPP2-U5": [
+   {
+    "id": "CPP2-U5-1",
+    "prompt": "Name a musical instrument…",
+    "answers": [
+     {
+      "text": "piano",
+      "points": 30,
+      "alts": [
+       "pianos"
+      ],
+      "wordId": "CPP2-U5-SB-605"
+     },
+     {
+      "text": "guitar",
+      "points": 20,
+      "alts": [
+       "guitars"
+      ],
+      "wordId": "CPP2-U5-SB-607"
+     },
+     {
+      "text": "violin",
+      "points": 12,
+      "alts": [
+       "violins"
+      ],
+      "wordId": "CPP2-U5-SB-621"
+     },
+     {
+      "text": "drum",
+      "points": 8,
+      "alts": [
+       "drums"
+      ],
+      "wordId": "CPP2-U5-SB-649"
+     },
+     {
+      "text": "flute",
+      "points": 5,
+      "alts": [
+       "flutes"
+      ],
+      "wordId": "CPP2-U5-SB-609"
+     },
+     {
+      "text": "trumpet",
+      "points": 3,
+      "alts": [
+       "trumpets"
+      ],
+      "wordId": "CPP2-U5-SB-608"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U5-2",
+    "prompt": "Name a type of music…",
+    "answers": [
+     {
+      "text": "pop music",
+      "points": 30,
+      "alts": [
+       "pop"
+      ],
+      "wordId": "CPP2-U5-SB-701"
+     },
+     {
+      "text": "classical music",
+      "points": 20,
+      "alts": [
+       "classical"
+      ],
+      "wordId": "CPP2-U5-SB-603"
+     },
+     {
+      "text": "folk music",
+      "points": 12,
+      "alts": [
+       "folk"
+      ],
+      "wordId": "CPP2-U5-SB-604"
+     },
+     {
+      "text": "jazz",
+      "points": 8,
+      "alts": [
+       "jazz music"
+      ],
+      "wordId": "CPP2-U5-SB-702"
+     },
+     {
+      "text": "country music",
+      "points": 5,
+      "alts": [
+       "country"
+      ],
+      "wordId": "CPP2-U5-SB-703"
+     },
+     {
+      "text": "rock",
+      "points": 3,
+      "alts": [
+       "rock music"
+      ],
+      "wordId": "CPP1-U3-SB-321"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U5-3",
+    "prompt": "Name a person who makes music…",
+    "answers": [
+     {
+      "text": "singer",
+      "points": 30,
+      "alts": [
+       "singers"
+      ],
+      "wordId": "CPP2-U5-WB-718"
+     },
+     {
+      "text": "musician",
+      "points": 20,
+      "alts": [
+       "musicians"
+      ],
+      "wordId": "CPP2-U5-SB-629"
+     },
+     {
+      "text": "guitarist",
+      "points": 12,
+      "alts": [
+       "guitarists"
+      ],
+      "wordId": "CPP2-U5-WB-717"
+     },
+     {
+      "text": "drummer",
+      "points": 8,
+      "alts": [
+       "drummers"
+      ],
+      "wordId": "CPP2-U5-WB-715"
+     },
+     {
+      "text": "pianist",
+      "points": 5,
+      "alts": [
+       "pianists"
+      ],
+      "wordId": "CPP2-U5-SB-651"
+     },
+     {
+      "text": "composer",
+      "points": 3,
+      "alts": [
+       "composers"
+      ],
+      "wordId": "CPP2-U5-SB-635"
+     }
+    ]
+   }
+  ],
+  "CPP2-U6": [
+   {
+    "id": "CPP2-U6-1",
+    "prompt": "Name something a dinosaur has on its body…",
+    "answers": [
+     {
+      "text": "teeth",
+      "points": 35,
+      "alts": [
+       "tooth",
+       "sharp teeth"
+      ]
+     },
+     {
+      "text": "tail",
+      "points": 22,
+      "alts": [
+       "tails"
+      ],
+      "wordId": "CPP1-U3-SB-316"
+     },
+     {
+      "text": "horn",
+      "points": 14,
+      "alts": [
+       "horns"
+      ],
+      "wordId": "CPP1-U4-SB-478"
+     },
+     {
+      "text": "neck",
+      "points": 9,
+      "alts": [
+       "necks",
+       "long neck"
+      ],
+      "wordId": "CPP2-U6-SB-742"
+     },
+     {
+      "text": "wing",
+      "points": 6,
+      "alts": [
+       "wings"
+      ],
+      "wordId": "CPP1-U7-SB-796"
+     },
+     {
+      "text": "spike",
+      "points": 4,
+      "alts": [
+       "spikes"
+      ],
+      "wordId": "CPP2-U6-WB-844"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U6-2",
+    "prompt": "Name something you put in your bag for a field trip…",
+    "answers": [
+     {
+      "text": "water",
+      "points": 32,
+      "alts": [
+       "water bottle",
+       "bottle of water"
+      ],
+      "wordId": "CPP1-U6-SB-656"
+     },
+     {
+      "text": "sunscreen",
+      "points": 18,
+      "alts": [
+       "sun cream",
+       "suncream"
+      ],
+      "wordId": "CPP2-U6-SB-818"
+     },
+     {
+      "text": "first-aid kit",
+      "points": 12,
+      "alts": [
+       "first aid kit",
+       "first-aid box"
+      ],
+      "wordId": "CPP2-U6-SB-819"
+     },
+     {
+      "text": "blanket",
+      "points": 9,
+      "alts": [
+       "blankets"
+      ],
+      "wordId": "CPP1-U6-SB-677"
+     },
+     {
+      "text": "whistle",
+      "points": 6,
+      "alts": [
+       "whistles"
+      ],
+      "wordId": "CPP2-U6-SB-824"
+     },
+     {
+      "text": "headphones",
+      "points": 4,
+      "alts": [
+       "earphones",
+       "headphone"
+      ],
+      "wordId": "CPP2-U6-WB-834"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U6-3",
+    "prompt": "Name something you can find in the ground…",
+    "answers": [
+     {
+      "text": "dirt",
+      "points": 30,
+      "alts": [
+       "soil"
+      ],
+      "wordId": "CPP2-U6-SB-794"
+     },
+     {
+      "text": "rocks",
+      "points": 20,
+      "alts": [
+       "rock",
+       "stones"
+      ],
+      "wordId": "CPP1-U3-SB-321"
+     },
+     {
+      "text": "bones",
+      "points": 13,
+      "alts": [
+       "bone"
+      ],
+      "wordId": "CPP2-U3-SB-340"
+     },
+     {
+      "text": "fossils",
+      "points": 9,
+      "alts": [
+       "fossil"
+      ],
+      "wordId": "CPP2-U4-WB-566"
+     },
+     {
+      "text": "minerals",
+      "points": 5,
+      "alts": [
+       "mineral"
+      ],
+      "wordId": "CPP3-U2-SB-216"
+     },
+     {
+      "text": "footprints",
+      "points": 3,
+      "alts": [
+       "footprint"
+      ],
+      "wordId": "CPP2-U6-SB-756"
+     }
+    ]
+   }
+  ],
+  "CPP2-U7": [
+   {
+    "id": "CPP2-U7-1",
+    "prompt": "Name a free time activity…",
+    "answers": [
+     {
+      "text": "video game",
+      "points": 40,
+      "alts": [
+       "video games"
+      ],
+      "wordId": "CPP1-U5-SB-576"
+     },
+     {
+      "text": "movie",
+      "points": 25,
+      "alts": [
+       "movies",
+       "watch movies"
+      ],
+      "wordId": "CPP1-U1-SB-103"
+     },
+     {
+      "text": "baseball",
+      "points": 15,
+      "alts": [
+       "play baseball"
+      ],
+      "wordId": "CPP1-U4-SB-450"
+     },
+     {
+      "text": "exercise",
+      "points": 10,
+      "alts": [
+       "exercising"
+      ],
+      "wordId": "CPP2-U1-SB-119"
+     },
+     {
+      "text": "board game",
+      "points": 5,
+      "alts": [
+       "board games"
+      ],
+      "wordId": "CPP1-U5-SB-615"
+     },
+     {
+      "text": "scrapbook",
+      "points": 3,
+      "alts": [
+       "scrapbooking"
+      ],
+      "wordId": "CPP2-U7-SB-862"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U7-2",
+    "prompt": "Name something you find in Ancient Egypt…",
+    "answers": [
+     {
+      "text": "pyramid",
+      "points": 40,
+      "alts": [
+       "pyramids"
+      ],
+      "wordId": "CPP2-U7-SB-868"
+     },
+     {
+      "text": "desert",
+      "points": 25,
+      "alts": [
+       "deserts"
+      ],
+      "wordId": "CPP1-U7-SB-769"
+     },
+     {
+      "text": "hieroglyphics",
+      "points": 15,
+      "alts": [
+       "hieroglyph"
+      ],
+      "wordId": "CPP2-U7-SB-878"
+     },
+     {
+      "text": "melon",
+      "points": 8,
+      "alts": [
+       "melons"
+      ],
+      "wordId": "CPP2-U3-SB-402"
+     },
+     {
+      "text": "onion",
+      "points": 5,
+      "alts": [
+       "onions"
+      ],
+      "wordId": "CPP1-U7-SB-844"
+     },
+     {
+      "text": "garlic",
+      "points": 3,
+      "alts": [],
+      "wordId": "CPP2-U7-SB-880"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U7-3",
+    "prompt": "Name something you can fix…",
+    "answers": [
+     {
+      "text": "clock",
+      "points": 40,
+      "alts": [
+       "clocks"
+      ],
+      "wordId": "CPP1-U3-SB-328"
+     },
+     {
+      "text": "robot",
+      "points": 25,
+      "alts": [
+       "robots"
+      ],
+      "wordId": "CPP2-U7-KW-19"
+     },
+     {
+      "text": "scooter",
+      "points": 15,
+      "alts": [
+       "scooters"
+      ],
+      "wordId": "CPP2-U7-WB-946"
+     },
+     {
+      "text": "cable",
+      "points": 10,
+      "alts": [
+       "cables"
+      ],
+      "wordId": "CPP2-U7-SB-916"
+     },
+     {
+      "text": "cell phone",
+      "points": 5,
+      "alts": [
+       "cell phones"
+      ],
+      "wordId": "CPP2-U7-SB-902"
+     },
+     {
+      "text": "board game",
+      "points": 3,
+      "alts": [
+       "board games"
+      ],
+      "wordId": "CPP1-U5-SB-615"
+     }
+    ]
+   }
+  ],
+  "CPP2-U8": [
+   {
+    "id": "CPP2-U8-1",
+    "prompt": "Name a word that describes a hero…",
+    "answers": [
+     {
+      "text": "brave",
+      "points": 40,
+      "alts": [
+       "courageous",
+       "bold"
+      ],
+      "wordId": "CPP2-U8-SB-967"
+     },
+     {
+      "text": "helpful",
+      "points": 25,
+      "alts": [
+       "helping"
+      ],
+      "wordId": "CPP2-U8-SB-969"
+     },
+     {
+      "text": "kind",
+      "points": 15,
+      "alts": [
+       "nice",
+       "friendly"
+      ],
+      "wordId": "CPP1-U4-SB-479"
+     },
+     {
+      "text": "caring",
+      "points": 10,
+      "alts": [
+       "loving",
+       "thoughtful"
+      ],
+      "wordId": "CPP2-U8-SB-970"
+     },
+     {
+      "text": "generous",
+      "points": 6,
+      "alts": [
+       "giving",
+       "unselfish"
+      ],
+      "wordId": "CPP2-U8-SB-968"
+     },
+     {
+      "text": "smart",
+      "points": 4,
+      "alts": [
+       "clever",
+       "bright"
+      ],
+      "wordId": "CPP1-U7-WB-870"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U8-2",
+    "prompt": "Name an animal that can be a hero…",
+    "answers": [
+     {
+      "text": "dog",
+      "points": 40,
+      "alts": [
+       "puppy",
+       "dogs"
+      ]
+     },
+     {
+      "text": "guide dog",
+      "points": 25,
+      "alts": [
+       "guide dogs",
+       "seeing eye dog"
+      ],
+      "wordId": "CPP2-U8-SB-985"
+     },
+     {
+      "text": "seal",
+      "points": 15,
+      "alts": [
+       "seals"
+      ],
+      "wordId": "CPP2-U8-SB-1008"
+     },
+     {
+      "text": "ox",
+      "points": 10,
+      "alts": [
+       "oxen"
+      ]
+     },
+     {
+      "text": "hare",
+      "points": 6,
+      "alts": [
+       "hares",
+       "rabbit"
+      ],
+      "wordId": "CPP1-U4-SB-472"
+     },
+     {
+      "text": "turkey",
+      "points": 4,
+      "alts": [
+       "turkeys"
+      ],
+      "wordId": "CPP2-U8-SB-1038"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U8-3",
+    "prompt": "Name something you do in an emergency…",
+    "answers": [
+     {
+      "text": "call",
+      "points": 35,
+      "alts": [
+       "phone",
+       "ring"
+      ],
+      "wordId": "CPP1-U6-SB-693"
+     },
+     {
+      "text": "dial",
+      "points": 25,
+      "alts": [
+       "dialing",
+       "press"
+      ],
+      "wordId": "CPP2-U8-SB-975"
+     },
+     {
+      "text": "hurry",
+      "points": 15,
+      "alts": [
+       "rush",
+       "run"
+      ],
+      "wordId": "CPP1-U3-SB-366"
+     },
+     {
+      "text": "breathe",
+      "points": 10,
+      "alts": [
+       "breathing"
+      ],
+      "wordId": "CPP1-U7-SB-813"
+     },
+     {
+      "text": "calm",
+      "points": 8,
+      "alts": [
+       "relax",
+       "stay calm"
+      ],
+      "wordId": "CPP2-U8-SB-1062"
+     },
+     {
+      "text": "save",
+      "points": 7,
+      "alts": [
+       "rescue",
+       "help"
+      ],
+      "wordId": "CPP1-U5-SB-597"
+     }
+    ]
+   }
+  ],
+  "CPP2-U9": [
+   {
+    "id": "CPP2-U9-1",
+    "prompt": "Name something you find in a kitchen…",
+    "answers": [
+     {
+      "text": "fork",
+      "points": 30,
+      "alts": [
+       "forks"
+      ],
+      "wordId": "CPP1-U6-WB-750"
+     },
+     {
+      "text": "spoon",
+      "points": 25,
+      "alts": [
+       "spoons"
+      ],
+      "wordId": "CPP2-U9-SB-1149"
+     },
+     {
+      "text": "toaster",
+      "points": 15,
+      "alts": [
+       "toasters"
+      ],
+      "wordId": "CPP2-U9-SB-1096"
+     },
+     {
+      "text": "microwave",
+      "points": 10,
+      "alts": [
+       "microwaves"
+      ],
+      "wordId": "CPP2-U9-WB-1179"
+     },
+     {
+      "text": "stove",
+      "points": 8,
+      "alts": [
+       "cooker"
+      ],
+      "wordId": "CPP2-U9-WB-1178"
+     },
+     {
+      "text": "fridge",
+      "points": 7,
+      "alts": [
+       "refrigerator"
+      ],
+      "wordId": "CPP1-U6-WB-742"
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U9-2",
+    "prompt": "Name something you find in a bathroom…",
+    "answers": [
+     {
+      "text": "toothbrush",
+      "points": 35,
+      "alts": [
+       "toothbrushes"
+      ],
+      "wordId": "CPP2-U9-SB-1082"
+     },
+     {
+      "text": "shampoo",
+      "points": 25,
+      "alts": [
+       "shampoos"
+      ],
+      "wordId": "CPP2-U9-SB-1081"
+     },
+     {
+      "text": "brush",
+      "points": 15,
+      "alts": [
+       "hairbrush"
+      ],
+      "wordId": "CPP1-U6-SB-678"
+     },
+     {
+      "text": "soap",
+      "points": 10,
+      "alts": [
+       "soaps"
+      ]
+     },
+     {
+      "text": "towel",
+      "points": 8,
+      "alts": [
+       "towels"
+      ]
+     },
+     {
+      "text": "mirror",
+      "points": 7,
+      "alts": [
+       "mirrors"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "CPP2-U9-3",
+    "prompt": "Name something you can ride…",
+    "answers": [
+     {
+      "text": "bicycle",
+      "points": 30,
+      "alts": [
+       "bike",
+       "cycle"
+      ],
+      "wordId": "CPP2-U9-KW-20"
+     },
+     {
+      "text": "car",
+      "points": 25,
+      "alts": [
+       "cars"
+      ]
+     },
+     {
+      "text": "bus",
+      "points": 20,
+      "alts": [
+       "buses"
+      ]
+     },
+     {
+      "text": "train",
+      "points": 10,
+      "alts": [
+       "trains"
+      ],
+      "wordId": "CPP1-U5-SB-621"
+     },
+     {
+      "text": "ship",
+      "points": 8,
+      "alts": [
+       "boat"
+      ],
+      "wordId": "CPP2-U9-SB-1084"
+     },
+     {
+      "text": "spaceship",
+      "points": 7,
+      "alts": [
+       "rocket"
+      ],
+      "wordId": "CPP2-U9-SB-1119"
+     }
+    ]
+   }
+  ],
+  "CPP3-U1": [
+   {
+    "id": "CPP3-U1-1",
+    "prompt": "Name a place in your neighborhood…",
+    "answers": [
+     {
+      "text": "school",
+      "points": 30,
+      "alts": [
+       "schools"
+      ],
+      "wordId": "CPP1-U1-SB-27"
+     },
+     {
+      "text": "park",
+      "points": 25,
+      "alts": [
+       "parks"
+      ],
+      "wordId": "CPP1-U1-SB-35"
+     },
+     {
+      "text": "market",
+      "points": 15,
+      "alts": [
+       "markets"
+      ],
+      "wordId": "CPP1-U7-SB-757"
+     },
+     {
+      "text": "bank",
+      "points": 10,
+      "alts": [
+       "banks"
+      ],
+      "wordId": "CPP2-U1-SB-112"
+     },
+     {
+      "text": "post office",
+      "points": 5,
+      "alts": [
+       "post offices"
+      ],
+      "wordId": "CPP3-U1-SB-120"
+     },
+     {
+      "text": "bookstore",
+      "points": 3,
+      "alts": [
+       "bookshop"
+      ],
+      "wordId": "CPP3-U1-SB-135"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U1-2",
+    "prompt": "Name something you do at recess…",
+    "answers": [
+     {
+      "text": "play",
+      "points": 30,
+      "alts": [
+       "playing"
+      ],
+      "wordId": "CPP1-U2-SB-203"
+     },
+     {
+      "text": "soccer",
+      "points": 20,
+      "alts": [],
+      "wordId": "CPP2-U1-WB-139"
+     },
+     {
+      "text": "talk",
+      "points": 15,
+      "alts": [
+       "talking"
+      ],
+      "wordId": "CPP1-U3-SB-365"
+     },
+     {
+      "text": "laugh",
+      "points": 10,
+      "alts": [
+       "laughing"
+      ],
+      "wordId": "CPP3-U1-SB-92"
+     },
+     {
+      "text": "eat",
+      "points": 5,
+      "alts": [
+       "eating"
+      ],
+      "wordId": "CPP1-U1-SB-101"
+     },
+     {
+      "text": "hide-and-seek",
+      "points": 3,
+      "alts": [
+       "hide and seek"
+      ],
+      "wordId": "CPP1-U2-SB-242"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U1-3",
+    "prompt": "Name something you can buy at a market…",
+    "answers": [
+     {
+      "text": "fruit",
+      "points": 30,
+      "alts": [
+       "fruits"
+      ]
+     },
+     {
+      "text": "vegetables",
+      "points": 20,
+      "alts": [
+       "veggies"
+      ],
+      "wordId": "CPP1-U3-SB-402"
+     },
+     {
+      "text": "donut",
+      "points": 15,
+      "alts": [
+       "doughnut"
+      ],
+      "wordId": "CPP3-U1-SB-28"
+     },
+     {
+      "text": "french fries",
+      "points": 10,
+      "alts": [
+       "fries",
+       "chips"
+      ],
+      "wordId": "CPP3-U1-SB-27"
+     },
+     {
+      "text": "apple pie",
+      "points": 5,
+      "alts": [
+       "apple pies"
+      ],
+      "wordId": "CPP1-U7-SB-836"
+     },
+     {
+      "text": "flowers",
+      "points": 3,
+      "alts": [
+       "flower"
+      ],
+      "wordId": "CPP1-U2-SB-222"
+     }
+    ]
+   }
+  ],
+  "CPP3-U2": [
+   {
+    "id": "CPP3-U2-1",
+    "prompt": "Name something you eat for breakfast…",
+    "answers": [
+     {
+      "text": "cereal",
+      "points": 40,
+      "alts": [
+       "corn flakes",
+       "flakes"
+      ],
+      "wordId": "CPP2-U3-SB-362"
+     },
+     {
+      "text": "milk",
+      "points": 25,
+      "alts": [],
+      "wordId": "CPP1-U1-SB-90"
+     },
+     {
+      "text": "bread",
+      "points": 15,
+      "alts": [
+       "toast",
+       "loaf"
+      ],
+      "wordId": "CPP1-U6-WB-741"
+     },
+     {
+      "text": "egg",
+      "points": 10,
+      "alts": [
+       "eggs"
+      ],
+      "wordId": "CPP1-U6-WB-745"
+     },
+     {
+      "text": "pancake",
+      "points": 6,
+      "alts": [
+       "pancakes"
+      ],
+      "wordId": "CPP2-U3-WB-414"
+     },
+     {
+      "text": "yogurt",
+      "points": 4,
+      "alts": [
+       "yoghurt"
+      ],
+      "wordId": "CPP2-U3-SB-322"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U2-2",
+    "prompt": "Name something you find in a kitchen…",
+    "answers": [
+     {
+      "text": "fridge",
+      "points": 40,
+      "alts": [
+       "refrigerator"
+      ],
+      "wordId": "CPP1-U6-WB-742"
+     },
+     {
+      "text": "table",
+      "points": 25,
+      "alts": [
+       "dining table"
+      ]
+     },
+     {
+      "text": "cupboard",
+      "points": 15,
+      "alts": [
+       "cabinet",
+       "kitchen cupboard"
+      ],
+      "wordId": "CPP3-U2-SB-249"
+     },
+     {
+      "text": "knife",
+      "points": 10,
+      "alts": [
+       "knives"
+      ],
+      "wordId": "CPP2-U6-SB-823"
+     },
+     {
+      "text": "fork",
+      "points": 6,
+      "alts": [
+       "forks"
+      ],
+      "wordId": "CPP1-U6-WB-750"
+     },
+     {
+      "text": "cup",
+      "points": 4,
+      "alts": [
+       "mug"
+      ],
+      "wordId": "CPP2-U3-SB-361"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U2-3",
+    "prompt": "Name something you eat at a birthday party…",
+    "answers": [
+     {
+      "text": "cake",
+      "points": 40,
+      "alts": [
+       "birthday cake"
+      ],
+      "wordId": "CPP1-U2-SB-244"
+     },
+     {
+      "text": "ice cream",
+      "points": 25,
+      "alts": [
+       "ice-cream",
+       "gelato"
+      ],
+      "wordId": "CPP2-U3-SB-299"
+     },
+     {
+      "text": "pizza",
+      "points": 15,
+      "alts": [
+       "pizza slice"
+      ],
+      "wordId": "CPP1-U1-SB-102"
+     },
+     {
+      "text": "popcorn",
+      "points": 10,
+      "alts": [
+       "pop corn"
+      ],
+      "wordId": "CPP3-U2-SB-197"
+     },
+     {
+      "text": "cupcake",
+      "points": 6,
+      "alts": [
+       "cup cake"
+      ],
+      "wordId": "CPP2-U2-SB-266"
+     },
+     {
+      "text": "soda",
+      "points": 4,
+      "alts": [
+       "soft drink",
+       "fizzy drink",
+       "pop"
+      ],
+      "wordId": "CPP3-U2-SB-221"
+     }
+    ]
+   }
+  ],
+  "CPP3-U3": [
+   {
+    "id": "CPP3-U3-1",
+    "prompt": "Name an animal that lives in the rainforest…",
+    "answers": [
+     {
+      "text": "orangutan",
+      "points": 30,
+      "alts": [
+       "orangutans"
+      ],
+      "wordId": "CPP3-U3-SB-354"
+     },
+     {
+      "text": "monkey",
+      "points": 22,
+      "alts": [
+       "monkeys"
+      ],
+      "wordId": "CPP3-U5-SB-752"
+     },
+     {
+      "text": "jaguar",
+      "points": 14,
+      "alts": [
+       "jaguars"
+      ],
+      "wordId": "CPP3-U3-SB-473"
+     },
+     {
+      "text": "butterfly",
+      "points": 9,
+      "alts": [
+       "butterflies"
+      ],
+      "wordId": "CPP1-U3-SB-293"
+     },
+     {
+      "text": "honeybee",
+      "points": 5,
+      "alts": [
+       "honeybees",
+       "bee",
+       "bees"
+      ],
+      "wordId": "CPP3-U3-SB-357"
+     },
+     {
+      "text": "caterpillar",
+      "points": 3,
+      "alts": [
+       "caterpillars"
+      ],
+      "wordId": "CPP3-U3-SB-432"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U3-2",
+    "prompt": "Name something you find in a very cold place…",
+    "answers": [
+     {
+      "text": "ice",
+      "points": 32,
+      "alts": [
+       "icicles",
+       "iceberg"
+      ],
+      "wordId": "CPP3-U3-SB-381"
+     },
+     {
+      "text": "snow",
+      "points": 24,
+      "alts": [
+       "snowflakes"
+      ],
+      "wordId": "CPP1-U7-SB-779"
+     },
+     {
+      "text": "seal",
+      "points": 14,
+      "alts": [
+       "seals"
+      ],
+      "wordId": "CPP2-U8-SB-1008"
+     },
+     {
+      "text": "fur",
+      "points": 9,
+      "alts": [
+       "furs"
+      ],
+      "wordId": "CPP1-U7-SB-771"
+     },
+     {
+      "text": "penguin",
+      "points": 5,
+      "alts": [
+       "penguins"
+      ],
+      "wordId": "CPP1-U5-SB-561"
+     },
+     {
+      "text": "snowmobile",
+      "points": 3,
+      "alts": [
+       "snowmobiles",
+       "snow mobile"
+      ],
+      "wordId": "CPP3-U3-SB-476"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U3-3",
+    "prompt": "Name something that is bad for nature…",
+    "answers": [
+     {
+      "text": "pollution",
+      "points": 30,
+      "alts": [
+       "polluted water"
+      ],
+      "wordId": "CPP3-U3-SB-359"
+     },
+     {
+      "text": "trash",
+      "points": 22,
+      "alts": [
+       "garbage",
+       "rubbish",
+       "litter"
+      ],
+      "wordId": "CPP1-U5-SB-586"
+     },
+     {
+      "text": "plastic",
+      "points": 14,
+      "alts": [
+       "plastics",
+       "plastic bags"
+      ],
+      "wordId": "CPP1-U5-SB-563"
+     },
+     {
+      "text": "smoke",
+      "points": 9,
+      "alts": [
+       "smog"
+      ],
+      "wordId": "CPP3-U2-SB-267"
+     },
+     {
+      "text": "chemicals",
+      "points": 5,
+      "alts": [
+       "chemical"
+      ],
+      "wordId": "CPP3-U3-SB-413"
+     },
+     {
+      "text": "cars",
+      "points": 3,
+      "alts": [
+       "car",
+       "traffic"
+      ]
+     }
+    ]
+   }
+  ],
+  "CPP3-U4": [
+   {
+    "id": "CPP3-U4-1",
+    "prompt": "Name something you can use to make art…",
+    "answers": [
+     {
+      "text": "paint",
+      "points": 30,
+      "alts": [
+       "watercolor paint",
+       "paints"
+      ],
+      "wordId": "CPP1-U5-SB-541"
+     },
+     {
+      "text": "paintbrush",
+      "points": 20,
+      "alts": [
+       "brush",
+       "brushes"
+      ],
+      "wordId": "CPP1-U2-SB-254"
+     },
+     {
+      "text": "clay",
+      "points": 12,
+      "alts": [
+       "modeling clay"
+      ],
+      "wordId": "CPP1-U8-SB-886"
+     },
+     {
+      "text": "chalk",
+      "points": 8,
+      "alts": [],
+      "wordId": "CPP1-U8-WB-992"
+     },
+     {
+      "text": "paper",
+      "points": 5,
+      "alts": [
+       "papers"
+      ]
+     },
+     {
+      "text": "crayon",
+      "points": 3,
+      "alts": [
+       "crayons"
+      ],
+      "wordId": "CPP1-U2-SB-175"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U4-2",
+    "prompt": "Name something you can see in an art gallery…",
+    "answers": [
+     {
+      "text": "painting",
+      "points": 30,
+      "alts": [
+       "paintings",
+       "picture"
+      ],
+      "wordId": "CPP1-U8-SB-884"
+     },
+     {
+      "text": "sculpture",
+      "points": 20,
+      "alts": [
+       "sculptures"
+      ],
+      "wordId": "CPP1-U8-SB-885"
+     },
+     {
+      "text": "portrait",
+      "points": 12,
+      "alts": [
+       "portraits"
+      ],
+      "wordId": "CPP2-U1-SB-28"
+     },
+     {
+      "text": "drawing",
+      "points": 8,
+      "alts": [
+       "drawings",
+       "sketch"
+      ],
+      "wordId": "CPP1-U2-SB-177"
+     },
+     {
+      "text": "mural",
+      "points": 5,
+      "alts": [
+       "murals"
+      ],
+      "wordId": "CPP3-U4-SB-512"
+     },
+     {
+      "text": "statue",
+      "points": 3,
+      "alts": [
+       "statues"
+      ],
+      "wordId": "CPP3-U7-SB-940"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U4-3",
+    "prompt": "Name something you can make with clay…",
+    "answers": [
+     {
+      "text": "vase",
+      "points": 30,
+      "alts": [
+       "vases"
+      ],
+      "wordId": "CPP3-U4-SB-523"
+     },
+     {
+      "text": "pot",
+      "points": 20,
+      "alts": [
+       "pots"
+      ],
+      "wordId": "CPP1-U3-SB-325"
+     },
+     {
+      "text": "cup",
+      "points": 15,
+      "alts": [
+       "cups"
+      ],
+      "wordId": "CPP2-U3-SB-361"
+     },
+     {
+      "text": "bowl",
+      "points": 10,
+      "alts": [
+       "bowls"
+      ],
+      "wordId": "CPP1-U8-WB-1001"
+     },
+     {
+      "text": "model",
+      "points": 5,
+      "alts": [
+       "models"
+      ],
+      "wordId": "CPP2-U6-WB-835"
+     },
+     {
+      "text": "pyramid",
+      "points": 3,
+      "alts": [
+       "pyramids"
+      ],
+      "wordId": "CPP2-U7-SB-868"
+     }
+    ]
+   }
+  ],
+  "CPP3-U5": [
+   {
+    "id": "CPP3-U5-1",
+    "prompt": "Name something you can do on vacation…",
+    "answers": [
+     {
+      "text": "swimming",
+      "points": 22,
+      "alts": [
+       "swim",
+       "go swimming"
+      ]
+     },
+     {
+      "text": "sightseeing",
+      "points": 18,
+      "alts": [
+       "go sightseeing",
+       "see the sights"
+      ],
+      "wordId": "CPP3-U5-SB-654"
+     },
+     {
+      "text": "hiking",
+      "points": 14,
+      "alts": [
+       "hike",
+       "go hiking"
+      ],
+      "wordId": "CPP3-U5-SB-637"
+     },
+     {
+      "text": "camping",
+      "points": 10,
+      "alts": [
+       "camp",
+       "go camping"
+      ],
+      "wordId": "CPP3-U5-SB-634"
+     },
+     {
+      "text": "shopping",
+      "points": 8,
+      "alts": [
+       "shop",
+       "go shopping"
+      ]
+     },
+     {
+      "text": "kayaking",
+      "points": 6,
+      "alts": [
+       "kayak",
+       "go kayaking"
+      ],
+      "wordId": "CPP3-U5-SB-743"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U5-2",
+    "prompt": "Name an animal you can see in the wild…",
+    "answers": [
+     {
+      "text": "monkey",
+      "points": 26,
+      "alts": [
+       "monkeys"
+      ],
+      "wordId": "CPP3-U5-SB-752"
+     },
+     {
+      "text": "parrot",
+      "points": 20,
+      "alts": [
+       "parrots"
+      ],
+      "wordId": "CPP3-U5-SB-749"
+     },
+     {
+      "text": "gorilla",
+      "points": 16,
+      "alts": [
+       "gorillas"
+      ],
+      "wordId": "CPP3-U5-SB-648"
+     },
+     {
+      "text": "lizard",
+      "points": 12,
+      "alts": [
+       "lizards"
+      ],
+      "wordId": "CPP2-U4-WB-574"
+     },
+     {
+      "text": "sloth",
+      "points": 9,
+      "alts": [
+       "sloths"
+      ],
+      "wordId": "CPP3-U5-SB-663"
+     },
+     {
+      "text": "leopard",
+      "points": 5,
+      "alts": [
+       "leopards"
+      ],
+      "wordId": "CPP3-U5-SB-751"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U5-3",
+    "prompt": "Name a place tourists like to take photos of…",
+    "answers": [
+     {
+      "text": "castle",
+      "points": 24,
+      "alts": [
+       "castles",
+       "old castle"
+      ],
+      "wordId": "CPP1-U3-SB-353"
+     },
+     {
+      "text": "waterfall",
+      "points": 20,
+      "alts": [
+       "waterfalls"
+      ],
+      "wordId": "CPP2-U7-WB-956"
+     },
+     {
+      "text": "beach",
+      "points": 15,
+      "alts": [
+       "beaches",
+       "the coast"
+      ],
+      "wordId": "CPP1-U1-WB-124"
+     },
+     {
+      "text": "market stall",
+      "points": 11,
+      "alts": [
+       "market",
+       "market stalls"
+      ],
+      "wordId": "CPP3-U5-WB-777"
+     },
+     {
+      "text": "clock tower",
+      "points": 7,
+      "alts": [
+       "clock towers",
+       "tower"
+      ],
+      "wordId": "CPP3-U5-WB-776"
+     },
+     {
+      "text": "mountain",
+      "points": 5,
+      "alts": [
+       "mountains",
+       "hill"
+      ],
+      "wordId": "CPP1-U9-WB-1097"
+     }
+    ]
+   }
+  ],
+  "CPP3-U6": [
+   {
+    "id": "CPP3-U6-1",
+    "prompt": "Name a sport that is in the Olympics…",
+    "answers": [
+     {
+      "text": "basketball",
+      "points": 30,
+      "alts": [],
+      "wordId": "CPP1-U2-SB-173"
+     },
+     {
+      "text": "volleyball",
+      "points": 25,
+      "alts": [],
+      "wordId": "CPP3-U6-SB-811"
+     },
+     {
+      "text": "swimming",
+      "points": 15,
+      "alts": []
+     },
+     {
+      "text": "gymnastics",
+      "points": 10,
+      "alts": [],
+      "wordId": "CPP2-U9-WB-1199"
+     },
+     {
+      "text": "diving",
+      "points": 5,
+      "alts": [],
+      "wordId": "CPP3-U6-SB-820"
+     },
+     {
+      "text": "judo",
+      "points": 3,
+      "alts": [],
+      "wordId": "CPP3-U6-SB-828"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U6-2",
+    "prompt": "Name a person who helps in a sport…",
+    "answers": [
+     {
+      "text": "player",
+      "points": 30,
+      "alts": [
+       "players"
+      ],
+      "wordId": "CPP3-U6-SB-853"
+     },
+     {
+      "text": "coach",
+      "points": 25,
+      "alts": [
+       "coaches"
+      ],
+      "wordId": "CPP2-U8-WB-1074"
+     },
+     {
+      "text": "referee",
+      "points": 15,
+      "alts": [
+       "referees",
+       "ref"
+      ],
+      "wordId": "CPP3-U6-SB-875"
+     },
+     {
+      "text": "captain",
+      "points": 10,
+      "alts": [
+       "captains"
+      ],
+      "wordId": "CPP3-U6-SB-852"
+     },
+     {
+      "text": "goalkeeper",
+      "points": 5,
+      "alts": [
+       "goalie",
+       "goalkeepers"
+      ],
+      "wordId": "CPP3-U6-SB-858"
+     },
+     {
+      "text": "teammate",
+      "points": 3,
+      "alts": [
+       "team mate",
+       "teammates"
+      ],
+      "wordId": "CPP3-U6-SB-891"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U6-3",
+    "prompt": "Name a healthy snack…",
+    "answers": [
+     {
+      "text": "fruit",
+      "points": 30,
+      "alts": [
+       "fruits"
+      ]
+     },
+     {
+      "text": "yogurt",
+      "points": 25,
+      "alts": [
+       "yoghurt"
+      ],
+      "wordId": "CPP2-U3-SB-322"
+     },
+     {
+      "text": "carrot",
+      "points": 15,
+      "alts": [
+       "carrots"
+      ],
+      "wordId": "CPP1-U1-SB-17"
+     },
+     {
+      "text": "celery stick",
+      "points": 10,
+      "alts": [
+       "celery sticks",
+       "celery"
+      ],
+      "wordId": "CPP3-U6-SB-845"
+     },
+     {
+      "text": "peanut butter",
+      "points": 5,
+      "alts": [],
+      "wordId": "CPP1-U5-WB-646"
+     },
+     {
+      "text": "raisins",
+      "points": 3,
+      "alts": [
+       "raisin"
+      ],
+      "wordId": "CPP2-U3-SB-363"
+     }
+    ]
+   }
+  ],
+  "CPP3-U7": [
+   {
+    "id": "CPP3-U7-1",
+    "prompt": "Name something you might find in a pirate's treasure chest…",
+    "answers": [
+     {
+      "text": "treasure",
+      "points": 40,
+      "alts": [
+       "treasures"
+      ],
+      "wordId": "CPP2-U0-WB-1206"
+     },
+     {
+      "text": "jewel",
+      "points": 20,
+      "alts": [
+       "jewels"
+      ],
+      "wordId": "CPP3-U7-SB-947"
+     },
+     {
+      "text": "gold",
+      "points": 15,
+      "alts": [],
+      "wordId": "CPP1-U8-SB-956"
+     },
+     {
+      "text": "coin",
+      "points": 10,
+      "alts": [
+       "coins"
+      ],
+      "wordId": "CPP1-U6-WB-739"
+     },
+     {
+      "text": "pearl",
+      "points": 5,
+      "alts": [
+       "pearls"
+      ],
+      "wordId": "CPP3-U7-WB-1011"
+     },
+     {
+      "text": "map",
+      "points": 3,
+      "alts": [
+       "maps"
+      ],
+      "wordId": "CPP1-U3-SB-401"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U7-2",
+    "prompt": "Name something you might see in a museum about the past…",
+    "answers": [
+     {
+      "text": "artifact",
+      "points": 35,
+      "alts": [
+       "artifacts"
+      ],
+      "wordId": "CPP3-U7-SB-937"
+     },
+     {
+      "text": "statue",
+      "points": 25,
+      "alts": [
+       "statues"
+      ],
+      "wordId": "CPP3-U7-SB-940"
+     },
+     {
+      "text": "jewel",
+      "points": 15,
+      "alts": [
+       "jewels"
+      ],
+      "wordId": "CPP3-U7-SB-947"
+     },
+     {
+      "text": "helmet",
+      "points": 10,
+      "alts": [
+       "helmets"
+      ],
+      "wordId": "CPP1-U8-SB-890"
+     },
+     {
+      "text": "mask",
+      "points": 8,
+      "alts": [
+       "masks"
+      ],
+      "wordId": "CPP1-U2-SB-250"
+     },
+     {
+      "text": "mummy",
+      "points": 5,
+      "alts": [
+       "mummies"
+      ]
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U7-3",
+    "prompt": "Name something you might find in a tomb…",
+    "answers": [
+     {
+      "text": "mummy",
+      "points": 30,
+      "alts": [
+       "mummies"
+      ]
+     },
+     {
+      "text": "treasure",
+      "points": 25,
+      "alts": [
+       "treasures"
+      ],
+      "wordId": "CPP2-U0-WB-1206"
+     },
+     {
+      "text": "jewel",
+      "points": 15,
+      "alts": [
+       "jewels"
+      ],
+      "wordId": "CPP3-U7-SB-947"
+     },
+     {
+      "text": "gold",
+      "points": 10,
+      "alts": [],
+      "wordId": "CPP1-U8-SB-956"
+     },
+     {
+      "text": "statue",
+      "points": 8,
+      "alts": [
+       "statues"
+      ],
+      "wordId": "CPP3-U7-SB-940"
+     },
+     {
+      "text": "pharaoh",
+      "points": 5,
+      "alts": [
+       "pharaohs"
+      ],
+      "wordId": "CPP3-U7-SB-967"
+     }
+    ]
+   }
+  ],
+  "CPP3-U8": [
+   {
+    "id": "CPP3-U8-1",
+    "prompt": "Name something that uses electricity…",
+    "answers": [
+     {
+      "text": "fridge",
+      "points": 30,
+      "alts": [
+       "refrigerator"
+      ],
+      "wordId": "CPP1-U6-WB-742"
+     },
+     {
+      "text": "washing machine",
+      "points": 20,
+      "alts": [
+       "washer"
+      ],
+      "wordId": "CPP3-U8-SB-1085"
+     },
+     {
+      "text": "microwave oven",
+      "points": 15,
+      "alts": [
+       "microwave"
+      ]
+     },
+     {
+      "text": "hair dryer",
+      "points": 10,
+      "alts": [
+       "hairdryer"
+      ],
+      "wordId": "CPP3-U8-SB-1083"
+     },
+     {
+      "text": "vacuum cleaner",
+      "points": 8,
+      "alts": [
+       "vacuum"
+      ],
+      "wordId": "CPP3-U8-SB-1084"
+     },
+     {
+      "text": "video game",
+      "points": 5,
+      "alts": [
+       "video games"
+      ],
+      "wordId": "CPP1-U5-SB-576"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U8-2",
+    "prompt": "Name something that gives us light…",
+    "answers": [
+     {
+      "text": "sun",
+      "points": 30,
+      "alts": [
+       "the sun"
+      ]
+     },
+     {
+      "text": "light bulb",
+      "points": 25,
+      "alts": [
+       "lightbulb",
+       "bulb"
+      ],
+      "wordId": "CPP3-U8-SB-1037"
+     },
+     {
+      "text": "candle",
+      "points": 15,
+      "alts": [
+       "candles"
+      ],
+      "wordId": "CPP2-U2-SB-152"
+     },
+     {
+      "text": "flashlight",
+      "points": 10,
+      "alts": [
+       "torch"
+      ],
+      "wordId": "CPP2-U1-SB-37"
+     },
+     {
+      "text": "lamp",
+      "points": 8,
+      "alts": [
+       "lamps"
+      ],
+      "wordId": "CPP1-U6-SB-709"
+     },
+     {
+      "text": "lightning",
+      "points": 7,
+      "alts": [
+       "lightning bolt"
+      ],
+      "wordId": "CPP1-U9-SB-1060"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U8-3",
+    "prompt": "Name a way to make electricity…",
+    "answers": [
+     {
+      "text": "solar power",
+      "points": 30,
+      "alts": [
+       "solar panels",
+       "the sun"
+      ],
+      "wordId": "CPP3-U8-SB-1047"
+     },
+     {
+      "text": "wind power",
+      "points": 25,
+      "alts": [
+       "wind",
+       "wind turbine"
+      ],
+      "wordId": "CPP3-U8-SB-1046"
+     },
+     {
+      "text": "water",
+      "points": 15,
+      "alts": [
+       "hydroelectric power",
+       "hydro power"
+      ],
+      "wordId": "CPP1-U6-SB-656"
+     },
+     {
+      "text": "coal",
+      "points": 10,
+      "alts": [
+       "coal power"
+      ],
+      "wordId": "CPP3-U8-SB-1044"
+     },
+     {
+      "text": "gas",
+      "points": 8,
+      "alts": [
+       "natural gas"
+      ],
+      "wordId": "CPP2-U3-SB-315"
+     },
+     {
+      "text": "power plant",
+      "points": 5,
+      "alts": [
+       "power station"
+      ],
+      "wordId": "CPP3-U8-SB-1052"
+     }
+    ]
+   }
+  ],
+  "CPP3-U9": [
+   {
+    "id": "CPP3-U9-1",
+    "prompt": "Name a musical instrument…",
+    "answers": [
+     {
+      "text": "drum",
+      "points": 40,
+      "alts": [
+       "drums"
+      ],
+      "wordId": "CPP2-U5-SB-649"
+     },
+     {
+      "text": "piano",
+      "points": 25,
+      "alts": [
+       "pianos"
+      ],
+      "wordId": "CPP2-U5-SB-605"
+     },
+     {
+      "text": "guitar",
+      "points": 15,
+      "alts": [
+       "guitars"
+      ],
+      "wordId": "CPP2-U5-SB-607"
+     },
+     {
+      "text": "flute",
+      "points": 10,
+      "alts": [
+       "flutes"
+      ],
+      "wordId": "CPP2-U5-SB-609"
+     },
+     {
+      "text": "violin",
+      "points": 5,
+      "alts": [
+       "violins"
+      ],
+      "wordId": "CPP2-U5-SB-621"
+     },
+     {
+      "text": "horn",
+      "points": 3,
+      "alts": [
+       "horns"
+      ],
+      "wordId": "CPP1-U4-SB-478"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U9-2",
+    "prompt": "Name a type of music…",
+    "answers": [
+     {
+      "text": "pop music",
+      "points": 40,
+      "alts": [
+       "pop"
+      ],
+      "wordId": "CPP2-U5-SB-701"
+     },
+     {
+      "text": "classical music",
+      "points": 25,
+      "alts": [
+       "classical"
+      ],
+      "wordId": "CPP2-U5-SB-603"
+     },
+     {
+      "text": "jazz",
+      "points": 15,
+      "alts": [],
+      "wordId": "CPP2-U5-SB-702"
+     },
+     {
+      "text": "rock music",
+      "points": 10,
+      "alts": [
+       "rock"
+      ]
+     },
+     {
+      "text": "rap",
+      "points": 5,
+      "alts": [],
+      "wordId": "CPP3-U9-WB-1224"
+     },
+     {
+      "text": "electronic music",
+      "points": 3,
+      "alts": [
+       "electronic",
+       "edm"
+      ],
+      "wordId": "CPP3-U9-SB-1181"
+     }
+    ]
+   },
+   {
+    "id": "CPP3-U9-3",
+    "prompt": "Name something you see in an orchestra…",
+    "answers": [
+     {
+      "text": "conductor",
+      "points": 40,
+      "alts": [
+       "conductors"
+      ],
+      "wordId": "CPP2-U1-SB-13"
+     },
+     {
+      "text": "tuba",
+      "points": 25,
+      "alts": [
+       "tubas"
+      ],
+      "wordId": "CPP3-U9-SB-1192"
+     },
+     {
+      "text": "cymbals",
+      "points": 15,
+      "alts": [
+       "cymbal"
+      ],
+      "wordId": "CPP3-U9-WB-1221"
+     },
+     {
+      "text": "double bass",
+      "points": 10,
+      "alts": [
+       "double basses"
+      ],
+      "wordId": "CPP3-U9-SB-1151"
+     },
+     {
+      "text": "piccolo",
+      "points": 5,
+      "alts": [
+       "piccolos"
+      ],
+      "wordId": "CPP3-U9-SB-1152"
+     },
+     {
+      "text": "music stand",
+      "points": 3,
+      "alts": [
+       "music stands"
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "builtAt": "2026-10-18"
+}

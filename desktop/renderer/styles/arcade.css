@@ -643,3 +643,61 @@
 @keyframes arc-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .sp-name, .sp-name.picked { transition: none; animation: none; } }
 @media (max-width: 1150px) { .arc-spin span, .arc-board-btn span, .arc-game-name, .arc-brand-text small { display: none; } .arc-spin, .arc-board-btn { padding: 0 11px; } } /* narrow screens: icons only */
+
+/* ── Word Board (Jeopardy-style) ─────────────────────────────────── */
+.wb { display: flex; flex-direction: column; gap: 14px; height: 100%; max-width: 1280px; margin: 0 auto; width: 100%; }
+.wb-top { display: flex; justify-content: center; min-height: 48px; align-items: center; }
+.wb-grid { flex: 1; display: grid; grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); grid-auto-rows: minmax(64px, 1fr); gap: 12px; }
+.wb-cat { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 8px; border-radius: 16px; background: linear-gradient(160deg, #3a2f8a, #241c5c); border: 1px solid var(--line); text-align: center; min-height: 72px; }
+.wb-cat span { font-size: 26px; line-height: 1; }
+.wb-cat b { font: 700 clamp(14px, 1.4vw, 19px) var(--font-play); }
+.wb-tile { position: relative; border-radius: 16px; display: grid; place-items: center; font: 700 clamp(28px, 3.6vw, 52px)/1 var(--font-play); color: #ffd23f; text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25); background: linear-gradient(160deg, #5b3df5, #3a23b8); border: 2px solid rgba(255, 255, 255, 0.14); box-shadow: 0 8px 22px rgba(30, 10, 120, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18); animation: pop-in 420ms var(--spring) both; transition: transform 140ms, box-shadow 140ms, filter 140ms; }
+.wb-tile:hover:not(.done), .wb-tile.sel { transform: translateY(-3px) scale(1.03); filter: brightness(1.12); box-shadow: 0 0 0 4px rgba(255, 210, 63, 0.55), 0 14px 30px rgba(30, 10, 120, 0.55); }
+.wb-tile.done { --team: #4b4870; color: var(--ink-3); font-size: clamp(24px, 3vw, 40px); background: rgba(255, 255, 255, 0.04); border-style: dashed; box-shadow: none; animation: none; }
+.wb-tile.done.won { color: #fff; background: color-mix(in srgb, var(--team) 32%, rgba(0, 0, 0, 0.2)); border: 2px solid color-mix(in srgb, var(--team) 60%, transparent); }
+.wb-who img.vpic, .wb-who .vpic-emoji { width: 1.2em; height: 1.2em; vertical-align: 0; }
+.wb-hint { text-align: center; color: var(--ink-3); font-size: 13px; margin: 0; }
+.wb-pts { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 11px; background: rgba(255, 210, 63, 0.14); border: 1px solid rgba(255, 210, 63, 0.4); font-weight: 650; font-size: 14px; }
+.wb-pts b { color: #ffd23f; font: 700 18px var(--font-play); }
+.wb-double { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; animation: pop-in 500ms var(--spring) both; }
+.wb-double span { font-size: 140px; filter: drop-shadow(0 14px 40px rgba(255, 210, 63, 0.6)); animation: bump 900ms var(--spring) infinite alternate; }
+.wb-double b { font: 700 64px var(--font-play); color: #ffd23f; }
+.wb-double em { font-style: normal; font-size: 22px; color: var(--ink-2); }
+.wb-letters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 18px; }
+.wb-letters i { width: 58px; height: 70px; border-radius: 12px; display: grid; place-items: center; font: 700 44px var(--font-play); font-style: normal; text-transform: lowercase; color: #1b1640; background: #fff; border-bottom: 5px solid #c9c2f5; }
+.wb-letters i.on { animation: flip-in 420ms var(--spring) both; background: #fff7d6; border-bottom-color: #ffd23f; }
+.wb-letters i.gap { background: transparent; border: 0; width: 22px; }
+.wb-say { color: var(--ink-2); font-size: 15px; margin-right: auto; }
+@keyframes flip-in { from { transform: rotateX(90deg); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ── Top Answers (Family-Feud-style) ─────────────────────────────── */
+.fd { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; height: 100%; max-width: 1200px; margin: 0 auto; width: 100%; }
+.fd-top { width: 100%; display: flex; justify-content: center; align-items: center; gap: 16px; min-height: 48px; }
+.fd-bank { display: flex; flex-direction: column; align-items: center; padding: 4px 18px; border-radius: 14px; background: rgba(255, 210, 63, 0.14); border: 1px solid rgba(255, 210, 63, 0.45); }
+.fd-bank span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-2); }
+.fd-bank b { font: 700 28px/1 var(--font-play); color: #ffd23f; }
+.fd-prompt { font: 700 clamp(28px, 3.4vw, 46px)/1.15 var(--font-play); text-align: center; margin: 0; text-wrap: balance; }
+.fd-board { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 18px; border-radius: 26px; background: linear-gradient(160deg, #1e3a8a, #172554); border: 3px solid #fbbf24; box-shadow: 0 0 0 6px rgba(251, 191, 36, 0.18), 0 24px 60px rgba(0, 0, 0, 0.45); }
+.fd-col { display: flex; flex-direction: column; gap: 12px; }
+.fd-slot { height: clamp(58px, 9vh, 86px); display: flex; align-items: center; gap: 14px; padding: 0 18px 0 8px; border-radius: 14px; background: linear-gradient(180deg, #2563eb, #1d4ed8); border: 2px solid rgba(255, 255, 255, 0.25); color: #fff; font: 700 clamp(22px, 2.4vw, 32px) var(--font-play); text-align: left; transition: filter 140ms; }
+button.fd-slot { justify-content: center; padding: 0; }
+button.fd-slot:hover { filter: brightness(1.15); }
+.fd-n { width: clamp(40px, 5vh, 54px); height: clamp(40px, 5vh, 54px); display: grid; place-items: center; border-radius: 50%; background: #0b1f5c; color: #fbbf24; font-size: 0.85em; flex: none; }
+button.fd-slot .fd-n { width: clamp(46px, 6vh, 62px); height: clamp(46px, 6vh, 62px); }
+.fd-slot.on { background: linear-gradient(180deg, #fde68a, #fbbf24); color: #1e1b4b; border-color: #fff; animation: fd-flip 520ms var(--spring) both; }
+.fd-slot.on b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fd-pic { width: 1.5em; height: 1.5em; display: grid; place-items: center; flex: none; }
+.fd-pic img.vpic { width: 100%; height: 100%; vertical-align: 0; }
+.fd-pts { padding: 2px 12px; border-radius: 10px; background: #1e3a8a; color: #fbbf24; font-size: 0.9em; }
+.fd-strikes { display: flex; gap: 14px; min-height: 52px; }
+.fd-strikes span { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 12px; font: 700 34px var(--font-play); color: rgba(255, 255, 255, 0.12); border: 2px solid rgba(255, 255, 255, 0.12); }
+.fd-strikes span.on { color: #fff; background: #ef4444; border-color: #fecaca; box-shadow: 0 0 24px rgba(239, 68, 68, 0.6); }
+.fd-controls { display: flex; gap: 10px; align-items: center; width: 100%; max-width: 900px; justify-content: center; flex-wrap: wrap; }
+.fd-controls input { flex: 1; min-width: 220px; height: 52px; border-radius: 14px; border: 2px solid var(--line); background: rgba(0, 0, 0, 0.3); color: var(--ink); font: 650 20px var(--font-ui); padding: 0 16px; outline: none; }
+.fd-controls input:focus { border-color: #fbbf24; box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2); }
+.fd-note { font: 700 22px var(--font-play); color: #ffd23f; }
+.fd-x { position: absolute; inset: 0; display: grid; place-items: center; font: 700 clamp(160px, 22vw, 300px)/1 var(--font-play); color: #ef4444; letter-spacing: 0.1em; text-shadow: 0 0 60px rgba(239, 68, 68, 0.7), 0 10px 0 #7f1d1d; pointer-events: none; animation: fd-x 1100ms ease-out both; z-index: 5; }
+@keyframes fd-flip { from { transform: rotateX(90deg); } to { transform: none; } }
+@keyframes fd-x { 0% { transform: scale(0.4); opacity: 0; } 15% { transform: scale(1.1); opacity: 1; } 70% { opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .fd-slot.on, .fd-x, .wb-double span, .wb-letters i.on { animation: none; } }
+.arcade .qz-clue.big img.vpic { width: 1.6em; height: 1.6em; } /* picture questions: the illustration is the question */

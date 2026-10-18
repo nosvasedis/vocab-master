@@ -479,7 +479,8 @@ async function runSmokeTest() {
         await play("flashcards"); dbg.fc = !!document.querySelector(".fc-card");
         await play("memory"); dbg.mem = document.querySelectorAll(".mm-tile").length;
         await play("spelling"); dbg.spell = document.querySelectorAll(".sp-tile").length;
-        await play("quiz"); dbg.quiz = document.querySelectorAll(".qz-opt").length;
+        await play("board"); dbg.quiz = document.querySelectorAll(".wb-tile").length;
+        await play("feud"); await new Promise((r) => setTimeout(r, 600)); dbg.feud = document.querySelectorAll(".fd-slot").length;
         await play("taboo"); document.querySelector("[data-start]")?.click(); await wait(150); dbg.taboo = document.querySelectorAll(".ts-no").length;
         // Lingo Live: lobby, then 3-2-1 and the first question with its answer tiles.
         await play("live"); dbg.liveLobby = !!document.querySelector(".lv-lobby");
@@ -493,7 +494,7 @@ async function runSmokeTest() {
         const ok = dbg.view === "preview" && dbg.saved && dbg.dialogsAfter === 0 && dbg.vocabEditor
           && dbg.projector && dbg.projectorClosed && dbg.bulk === 2 && dbg.docxOk && cbOk
           && dbg.inferredUnit === 4 && dbg.autoWords >= 10 && dbg.poolChips >= 10
-          && dbg.gameCards === 6 && dbg.liveLobby && dbg.liveOpts >= 2 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz === 4 && dbg.taboo >= 1 && dbg.arcadeClosed;
+          && dbg.gameCards === 7 && dbg.liveLobby && dbg.liveOpts >= 2 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz >= 9 && dbg.feud >= 5 && dbg.taboo >= 1 && dbg.arcadeClosed;
         return JSON.stringify({ ...dbg, cbOk, fail: ok ? "" : "ui-flow" });
       })()
     `);

@@ -31,6 +31,7 @@ export default {
       },
       awardTo(_i, points, o) { this.award(points, o); },
       nextTurn() {},
+      nextMember() {},
     };
 
     function closeGame() { game?.destroy?.(); game = null; ctx.setKeyCapture(null); }

@@ -165,6 +165,15 @@ export function nextTurn(play) {
   return current(play);
 }
 
+/** The same team answers again, with its next member (Top Answers: team members take turns guessing). */
+export function nextMember(play) {
+  if (play.mode !== "teams") return nextTurn(play);
+  const p = play.players.find((x) => x.id === play.player);
+  if (p) { p.turns += 1; play.had.add(p.id); play.lastOf[play.team] = p.id; }
+  startTurn(play);
+  return current(play);
+}
+
 /** Make a given player (or team, by index) the one who's up — the teacher taps a name or a team. */
 export function choose(play, { player = null, team = null } = {}) {
   if (team != null && play.mode === "teams" && play.teams[team]) { play.team = team; startTurn(play); }

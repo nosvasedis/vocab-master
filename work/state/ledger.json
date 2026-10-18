@@ -9999,6 +9999,446 @@
       "outTok": 0,
       "usd": 0.504,
       "job": "batch batches/95wbwq3sv5vfrzcpk217htx5wm2zt1kmy64m (20 sheets, estimate)"
+    },
+    {
+      "t": "2026-10-18T22:00:29.218Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 703,
+      "outTok": 1293,
+      "usd": 0.001762,
+      "job": "feud CPP1-U1"
+    },
+    {
+      "t": "2026-10-18T22:00:56.399Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 688,
+      "outTok": 2500,
+      "usd": 0.001694,
+      "job": "feud CPP1-U2"
+    },
+    {
+      "t": "2026-10-18T22:01:14.383Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 688,
+      "outTok": 2500,
+      "usd": 0.001694,
+      "job": "feud CPP1-U2"
+    },
+    {
+      "t": "2026-10-18T22:01:32.032Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 688,
+      "outTok": 1869,
+      "usd": 0.001236,
+      "job": "feud CPP1-U2"
+    },
+    {
+      "t": "2026-10-18T22:01:50.158Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 699,
+      "outTok": 2119,
+      "usd": 0.000988,
+      "job": "feud CPP1-U3"
+    },
+    {
+      "t": "2026-10-18T22:01:59.687Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 592,
+      "outTok": 2500,
+      "usd": 0.002065,
+      "job": "feud CPP1-U4"
+    },
+    {
+      "t": "2026-10-18T22:02:11.031Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 592,
+      "outTok": 2500,
+      "usd": 0.001969,
+      "job": "feud CPP1-U4"
+    },
+    {
+      "t": "2026-10-18T22:02:26.212Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 592,
+      "outTok": 2500,
+      "usd": 0.001969,
+      "job": "feud CPP1-U4"
+    },
+    {
+      "t": "2026-10-18T22:02:50.755Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 592,
+      "outTok": 2500,
+      "usd": 0.001969,
+      "job": "feud CPP1-U4"
+    },
+    {
+      "t": "2026-10-18T22:03:25.510Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 695,
+      "outTok": 1791,
+      "usd": 0.000385,
+      "job": "feud CPP1-U5"
+    },
+    {
+      "t": "2026-10-18T22:03:36.057Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 611,
+      "outTok": 2500,
+      "usd": 0.003108,
+      "job": "feud CPP1-U6"
+    },
+    {
+      "t": "2026-10-18T22:03:50.349Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 611,
+      "outTok": 2500,
+      "usd": 0.003033,
+      "job": "feud CPP1-U6"
+    },
+    {
+      "t": "2026-10-18T22:04:12.728Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 611,
+      "outTok": 2500,
+      "usd": 0.003033,
+      "job": "feud CPP1-U6"
+    },
+    {
+      "t": "2026-10-18T22:04:37.713Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 611,
+      "outTok": 2500,
+      "usd": 0.003033,
+      "job": "feud CPP1-U6"
+    },
+    {
+      "t": "2026-10-18T22:05:19.031Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 669,
+      "outTok": 2500,
+      "usd": 0.001856,
+      "job": "feud CPP1-U7"
+    },
+    {
+      "t": "2026-10-18T22:05:39.352Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 669,
+      "outTok": 2500,
+      "usd": 0.001796,
+      "job": "feud CPP1-U7"
+    },
+    {
+      "t": "2026-10-18T22:06:03.217Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 669,
+      "outTok": 2500,
+      "usd": 0.001796,
+      "job": "feud CPP1-U7"
+    },
+    {
+      "t": "2026-10-18T22:06:35.436Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 669,
+      "outTok": 2500,
+      "usd": 0.001796,
+      "job": "feud CPP1-U7"
+    },
+    {
+      "t": "2026-10-18T22:07:20.147Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 660,
+      "outTok": 1953,
+      "usd": 0.000913,
+      "job": "feud CPP1-U8"
+    },
+    {
+      "t": "2026-10-18T22:07:44.880Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 83,
+      "outTok": 1011,
+      "usd": 0.000731,
+      "job": "feud diagnostic (manual test call)"
+    },
+    {
+      "t": "2026-10-18T22:08:09.066Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 592,
+      "outTok": 4001,
+      "usd": 0.003236,
+      "job": "feud CPP1-U4"
+    },
+    {
+      "t": "2026-10-18T22:08:19.210Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 611,
+      "outTok": 1546,
+      "usd": 0.002038,
+      "job": "feud CPP1-U6"
+    },
+    {
+      "t": "2026-10-18T22:08:51.957Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 669,
+      "outTok": 4699,
+      "usd": 0.003429,
+      "job": "feud CPP1-U7"
+    },
+    {
+      "t": "2026-10-18T22:09:00.564Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 600,
+      "outTok": 1213,
+      "usd": 0.000712,
+      "job": "feud CPP1-U9"
+    },
+    {
+      "t": "2026-10-18T22:09:09.343Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 716,
+      "outTok": 2975,
+      "usd": 0.002412,
+      "job": "feud CPP2-U1"
+    },
+    {
+      "t": "2026-10-18T22:09:23.022Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 716,
+      "outTok": 1929,
+      "usd": 0.00164,
+      "job": "feud CPP2-U2"
+    },
+    {
+      "t": "2026-10-18T22:09:28.929Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 709,
+      "outTok": 1969,
+      "usd": 0.001626,
+      "job": "feud CPP2-U3"
+    },
+    {
+      "t": "2026-10-18T22:09:45.468Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 695,
+      "outTok": 3422,
+      "usd": 0.004123,
+      "job": "feud CPP2-U4"
+    },
+    {
+      "t": "2026-10-18T22:09:55.095Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 719,
+      "outTok": 1765,
+      "usd": 0.001518,
+      "job": "feud CPP2-U5"
+    },
+    {
+      "t": "2026-10-18T22:10:07.864Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 640,
+      "outTok": 1592,
+      "usd": 0.001367,
+      "job": "feud CPP2-U6"
+    },
+    {
+      "t": "2026-10-18T22:10:24.862Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 680,
+      "outTok": 4164,
+      "usd": 0.0026,
+      "job": "feud CPP2-U7"
+    },
+    {
+      "t": "2026-10-18T22:10:35.466Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 619,
+      "outTok": 2808,
+      "usd": 0.002263,
+      "job": "feud CPP2-U8"
+    },
+    {
+      "t": "2026-10-18T22:11:14.696Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 675,
+      "outTok": 4050,
+      "usd": 0.000676,
+      "job": "feud CPP2-U9"
+    },
+    {
+      "t": "2026-10-18T22:11:34.761Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 716,
+      "outTok": 3600,
+      "usd": 0.002267,
+      "job": "feud CPP3-U1"
+    },
+    {
+      "t": "2026-10-18T22:11:52.257Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 789,
+      "outTok": 4584,
+      "usd": 0.003681,
+      "job": "feud CPP3-U2"
+    },
+    {
+      "t": "2026-10-18T22:12:05.132Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 749,
+      "outTok": 3809,
+      "usd": 0.003069,
+      "job": "feud CPP3-U3"
+    },
+    {
+      "t": "2026-10-18T22:12:42.115Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 621,
+      "outTok": 6445,
+      "usd": 0.004648,
+      "job": "feud CPP3-U4"
+    },
+    {
+      "t": "2026-10-18T22:12:51.270Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 730,
+      "outTok": 1579,
+      "usd": 0.001057,
+      "job": "feud CPP3-U5"
+    },
+    {
+      "t": "2026-10-18T22:13:17.563Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 744,
+      "outTok": 4764,
+      "usd": 0.000924,
+      "job": "feud CPP3-U6"
+    },
+    {
+      "t": "2026-10-18T22:13:39.387Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 575,
+      "outTok": 7000,
+      "usd": 0.005524,
+      "job": "feud CPP3-U7"
+    },
+    {
+      "t": "2026-10-18T22:14:03.864Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 575,
+      "outTok": 7000,
+      "usd": 0.005475,
+      "job": "feud CPP3-U7"
+    },
+    {
+      "t": "2026-10-18T22:14:23.666Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 575,
+      "outTok": 4342,
+      "usd": 0.003402,
+      "job": "feud CPP3-U7"
+    },
+    {
+      "t": "2026-10-18T22:14:33.409Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 634,
+      "outTok": 2550,
+      "usd": 0.001591,
+      "job": "feud CPP3-U8"
+    },
+    {
+      "t": "2026-10-18T22:14:56.280Z",
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-v4.1-flash",
+      "mode": "standard",
+      "inTok": 610,
+      "outTok": 5397,
+      "usd": 0.006659,
+      "job": "feud CPP3-U9"
     }
   ]
 }

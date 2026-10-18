@@ -1,7 +1,7 @@
 /* Lingo Arcade players & turns: modes, fair rotation, teams with members, spinner, scores. */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseNames, newClass, addPlayers, balanceTeams, createPlay, current, nextTurn, award, sides, spin, choose, rankPlayers } from "../desktop/renderer/arcade/players.js";
+import { parseNames, newClass, addPlayers, balanceTeams, createPlay, current, nextTurn, nextMember, award, sides, spin, choose, rankPlayers } from "../desktop/renderer/arcade/players.js";
 
 const seq = (...xs) => { let i = 0; return () => xs[i++ % xs.length]; };
 const names = (play, n) => Array.from({ length: n }, () => { const c = current(play).player?.name; nextTurn(play); return c; });
@@ -86,6 +86,17 @@ test("choose: the teacher can hand the turn to a player or a team", () => {
   const play = createPlay({ mode: "teams", cls });
   assert.equal(choose(play, { team: 1 }).side.name, "Tigers");
   assert.equal(choose(play, { player: cls.players[2].id }).player.name, "Cleo");
+});
+
+test("nextMember: the same team answers again with its next member", () => {
+  const cls = newClass("A", ["Ana", "Ben", "Cleo", "Dan"]);
+  const [a, b, c, d] = cls.players.map((p) => p.id);
+  cls.assign = { [a]: 0, [b]: 1, [c]: 0, [d]: 1 };
+  const play = createPlay({ mode: "teams", cls });
+  assert.equal(current(play).player.name, "Ana");
+  assert.equal(nextMember(play).player.name, "Cleo");
+  assert.equal(current(play).side.name, "Rockets");
+  assert.equal(nextMember(play).player.name, "Ana");
 });
 
 test("too few players falls back to the whole class", () => {

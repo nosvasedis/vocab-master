@@ -13,10 +13,14 @@ import spelling from "./games/spelling.js";
 import quiz from "./games/quiz.js";
 import taboo from "./games/taboo.js";
 import live from "./games/live.js";
+import board from "./games/board.js";
+import feud from "./games/feud.js";
 import { teamPic, avatarPic } from "../js/pics.js";
 import * as P from "./players.js";
 
-export const GAMES = [live, flashcards, memory, spelling, quiz, taboo];
+// Quiz Show stays for lessons' practice steps (hub: false); in the arcade, Word Board and Top Answers replace it.
+export const GAMES = [live, board, feud, flashcards, memory, spelling, taboo, quiz];
+const HUB_GAMES = () => GAMES.filter((g) => g.hub !== false);
 export const TEAM_PRESETS = P.TEAM_PRESETS;
 
 const MODES = [
@@ -327,6 +331,11 @@ function teamApi() {
       P.nextTurn(play);
       renderTeams();
     },
+    /** Teams: the next member of the same team answers (players: the next player). */
+    nextMember() {
+      P.nextMember(play);
+      renderTeams();
+    },
   };
 }
 
@@ -414,7 +423,7 @@ function showHub() {
       <section class="hub-teams" id="hubWho">${whoHtml()}</section>
 
       <section class="hub-games">
-        ${GAMES.map((g, i) => {
+        ${HUB_GAMES().map((g, i) => {
           if (g.featured) {
             const locked = deck.length < g.minWords;
             return `<button type="button" class="game-card featured g-${g.id}${locked ? " locked" : ""}" data-game="${g.id}" ${locked ? "disabled" : ""}>

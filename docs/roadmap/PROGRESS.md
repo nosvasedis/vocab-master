@@ -2,6 +2,24 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
+## Word Board + Top Answers replace Quiz Show in the arcade (2026-10-19, branch feature/word-board-top-answers, from the user)
+- **Why:** Quiz Show was nearly the same game as Lingo Live (four answers, pick one). The arcade now has two new kinds of game. Quiz Show stays only for the 9 lessons whose Practice step uses it (`hub: false`).
+- **Word Board (`games/board.js` + pure `board-questions.js`):**
+  - A Jeopardy-style grid of question kinds × points: Pictures, Fill the gap, Spell it (teacher-judged, letters flip in), Listen, and Greek → English when Greek is shown.
+  - Rows are worth 100–500. High rows are harder: wrong answers share the part of speech and first letter, and gaps have no picture clue.
+  - One hidden ⭐ double. Whoever is up (class, player, or team member) picks a tile; arrow keys and Enter work too.
+- **Top Answers (`games/feud.js`):**
+  - Family-Feud-style: "Name an animal on a farm…" with six ranked answers and survey points, each with its picture and recorded word.
+  - The teacher types what the class says (or taps a tile they heard). Matching accepts alternatives (mum → mother), plurals and other forms.
+  - **Teams:** members take turns guessing (`teams.nextMember()`). The team builds a round bank; three strikes let the next team steal with one guess.
+  - **Players:** each answer scores for the child who said it, and turns go round. **Whole class:** answers go straight to the class score.
+- **Boards:** `desktop/renderer/lessons/feud.json`, 3 boards per unit for all 27 units, built by `node scripts/lessons/build-feud.mjs`.
+  - DeepSeek Flash through the ledger, about $0.002 per unit; the whole set cost $0.10 including retries. It is resumable (`--force` rebuilds a unit).
+  - Answers are linked to word-bank ids, so pictures and voice match.
+  - The game picks the unit whose words the deck uses most.
+  - Note: the model reasons before answering, so the script uses `reasoning.effort: low` and a 7,000-token limit (2,500 cut replies off).
+- **Tests:** `tests/boardgames.test.mjs` covers board shape, gap forms, answer matching and the boards file. The smoke test plays both games and expects 7 arcade cards.
+
 ## Arcade: players, teams of members, saved classes; Lingo Live fixes (2026-10-19, branches fix/live-pictures-voice + feature/arcade-players, from the user)
 - **Bugs fixed:**
   - Lingo Live used the browser voice when the voice toggle was off. Forced lines (Listen questions, Listen again) now always use the recording (`voice.js` speak delegate).

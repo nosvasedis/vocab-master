@@ -12,6 +12,7 @@ export default {
   description: "Game-show questions on meaning, gaps and word families — beat the clock, build a streak.",
   tags: ["Teams", "Meaning", "Fast"],
   minWords: 4,
+  hub: false, // lessons only: the arcade has Word Board and Top Answers instead
   create(ctx) {
     const { stage, esc, svg, sfx, speak, teams, picText } = ctx;
     let questions = buildDetectiveQuestions(ctx.deck, Math.min(10, ctx.deck.length), { greek: ctx.greek() });
