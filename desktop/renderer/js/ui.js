@@ -1,4 +1,5 @@
 /* Vocab Master — UI primitives: DOM helpers, icons, toasts, dialogs, segmented controls. */
+import { play, claimed } from "../arcade/audio.js";
 
 export const $ = (id) => document.getElementById(id);
 export const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -54,6 +55,7 @@ export function timeAgo(dateish) {
 
 /* ── Toasts ───────────────────────────────────────────────────────── */
 const TOAST_ICON = { ok: "check", error: "x", warn: "alert", info: "info" };
+const TOAST_SOUND = { ok: "success", error: "error", warn: "warn", info: "notify" };
 
 export function toast(message, type = "info", { ms = 4200, actions = [] } = {}) {
   const region = $("toastRegion");
@@ -76,6 +78,8 @@ export function toast(message, type = "info", { ms = 4200, actions = [] } = {}) 
     node.querySelector(".toast-body").appendChild(row);
   }
   region.appendChild(node);
+  // The moment that caused the toast (AI done, a delete…) may already have its own sound.
+  if (!claimed(350)) play(TOAST_SOUND[type] || "notify");
   while (region.children.length > 4) region.firstElementChild.remove();
   let timer;
   let gone = false;
@@ -122,6 +126,7 @@ export function openDialog({ title = "", subtitle = "", iconName = "", tone = ""
     const i = openDialogs.indexOf(entry);
     if (i >= 0) openDialogs.splice(i, 1);
     backdrop.classList.add("closing");
+    if (!claimed(40)) play("close");
     setTimeout(() => backdrop.remove(), 200);
     try { prevFocus?.focus?.({ preventScroll: true }); } catch { /* ignore */ }
     onClose?.(result);
@@ -133,6 +138,7 @@ export function openDialog({ title = "", subtitle = "", iconName = "", tone = ""
   });
   backdrop.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => close()));
   document.body.appendChild(backdrop);
+  play("open");
   onMount?.(backdrop, close);
   requestAnimationFrame(() => {
     const auto = backdrop.querySelector("[autofocus]") || backdrop.querySelector("input, textarea, select, .dialog-foot .btn-primary");
@@ -164,7 +170,7 @@ export function confirmDialog({ title = "Are you sure?", body = "", okLabel = "D
         <button type="button" class="btn btn-secondary" data-close>${esc(cancelLabel)}</button>
         <button type="button" class="btn ${tone === "danger" ? "btn-danger" : "btn-primary"}" data-ok>${esc(okLabel)}</button>`,
       onMount(root, close) {
-        root.querySelector("[data-ok]").addEventListener("click", () => { result = true; close(); });
+        root.querySelector("[data-ok]").addEventListener("click", () => { result = true; play(tone === "danger" ? "remove" : "press"); close(); });
         root.querySelector("[data-ok]").focus();
       },
       onClose: () => resolve(result),

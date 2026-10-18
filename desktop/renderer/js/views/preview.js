@@ -12,6 +12,7 @@ import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictur
 import { savePrefs } from "../state.js";
 import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
+import { play } from "../../arcade/audio.js";
 
 let sheetSeg;
 let densitySeg;
@@ -557,6 +558,7 @@ async function exportPdf(sheet, btn) {
 export async function printSheet(sheet = state.preview.sheet) {
   if (!state.data) { toast("Generate or open a unit first.", "warn"); return; }
   try {
+    play("print");
     openWorksheetPrint(state.data, sheet, { density: state.preview.density, layout: layoutPayload(), fontCss: await worksheetFontCss() });
   } catch (e) {
     toast(e.message || String(e), "error");

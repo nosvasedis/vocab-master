@@ -196,7 +196,7 @@ export function openPlayer(o) {
       s.querySelector("b").textContent = String(P.stars);
       s.classList.remove("bump"); void s.offsetWidth; s.classList.add("bump");
       floatText(fromEl || s, "+1 ⭐", { color: "#ffd23f" });
-      sfx.points();
+      sfx.star();
     },
     stars: () => P.stars,
     /** Call at the start of a step: returns live() which turns false once the teacher moves on. */
@@ -215,28 +215,31 @@ export function openPlayer(o) {
     if (t === "next") next();
     if (t === "prev") prev();
     if (t === "close") closePlayer();
-    if (t === "full") toggleFull();
-    if (t === "greek") toggleGreek();
-    if (t === "auto") toggleAuto();
+    if (t === "full") { sfx.tap(); toggleFull(); }
+    if (t === "greek") { sfx.tap(); toggleGreek(); }
+    if (t === "auto") { sfx.tap(); toggleAuto(); }
     if (t === "tts") {
       P.voice = !P.voice;
       audioSettings.tts = P.voice;
       setNarration(P.voice);
+      sfx.tap();
       syncTools();
     }
     if (t === "sfx") {
       audioSettings.sfx = !audioSettings.sfx;
+      sfx.tap();
       o.onPrefs?.({ sfx: audioSettings.sfx, tts: P.savedTts });
       syncTools();
     }
   });
   root.querySelector("#lsMap").addEventListener("click", (e) => {
     const b = e.target.closest("[data-scene]");
-    if (b) goTo(Number(b.dataset.scene), 0);
+    if (b) { sfx.whoosh(); goTo(Number(b.dataset.scene), 0); }
   });
   window.addEventListener("keydown", onKey, true);
   syncTools();
   renderMap();
+  sfx.enter();
   goTo(0, 0);
 }
 
@@ -308,8 +311,9 @@ function next() {
 function prev() {
   if (!P) return;
   if (P.finished) { const last = P.scenes.length - 1; mountScene(last); return goTo(last, P.current.steps - 1, -1); }
-  if (P.step > 0) return goTo(P.sceneIdx, P.step - 1, -1);
+  if (P.step > 0) { sfx.tap(); return goTo(P.sceneIdx, P.step - 1, -1); }
   if (P.sceneIdx > 0) {
+    sfx.back();
     mountScene(P.sceneIdx - 1);
     return goTo(P.sceneIdx, P.current.steps - 1, -1);
   }
@@ -390,6 +394,7 @@ export function closePlayer() {
   P.current?.destroy?.();
   stopAll();
   P.popper?.destroy();
+  sfx.exit();
   audioSettings.tts = P.savedTts;
   setNarration(true);
   window.removeEventListener("keydown", onKey, true);

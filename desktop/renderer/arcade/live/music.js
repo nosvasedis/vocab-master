@@ -1,6 +1,6 @@
 /* Lingo Live — tiny synthesized soundtrack (Web Audio, no files): lobby groove, question pulse,
    gong, drumroll and fanfare. Silent whenever sound effects are switched off. */
-import { audioOut } from "../audio.js";
+import { audioOut, setMusicActive } from "../audio.js";
 
 let bus = null;        // { ctx, gain }
 let timer = null;      // scheduler interval
@@ -15,6 +15,8 @@ function getBus() {
     gain.connect(a.out);
     bus = { ctx: a.ctx, gain };
   }
+  bus.noise = a.noise;
+  bus.light = a.quality === "light";
   return bus;
 }
 
@@ -34,21 +36,20 @@ function note(b, freq, t, { dur = 0.12, type = "triangle", gain = 0.12, slide = 
 }
 
 function hat(b, t, gain = 0.05, dur = 0.04) {
-  const len = Math.max(1, Math.floor(b.ctx.sampleRate * dur));
-  const buf = b.ctx.createBuffer(1, len, b.ctx.sampleRate);
-  const d = buf.getChannelData(0);
-  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+  // One shared noise buffer (audio.js), a random slice per hit; light quality keeps only the strong hats.
+  if (!b.noise || (b.light && gain < 0.04)) return;
   const src = b.ctx.createBufferSource();
-  src.buffer = buf;
+  src.buffer = b.noise;
   const f = b.ctx.createBiquadFilter();
   f.type = "highpass";
   f.frequency.value = 6000;
   const g = b.ctx.createGain();
-  g.gain.value = gain;
+  g.gain.setValueAtTime(gain, t);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
   src.connect(f);
   f.connect(g);
   g.connect(b.gain);
-  src.start(t);
+  src.start(t, Math.random() * (b.noise.duration - dur - 0.05), dur + 0.02);
 }
 
 const hz = (midi) => 440 * 2 ** ((midi - 69) / 12);
@@ -64,7 +65,7 @@ const SONGS = {
       if (s % 4 === 0) note(b, hz(chord[0] - 12), t, { dur: 0.22, type: "sine", gain: 0.2 });
       if (s % 4 === 2) note(b, hz(chord[0]), t, { dur: 0.1, type: "triangle", gain: 0.07 });
       if (s === 4 || s === 12) chord.forEach((m) => note(b, hz(m + 12), t, { dur: 0.16, type: "triangle", gain: 0.045 }));
-      if ([0, 3, 6, 10, 13].includes(s)) note(b, hz(chord[(s >> 1) % 3] + 24), t, { dur: 0.09, type: "square", gain: 0.018 });
+      if (!b.light && [0, 3, 6, 10, 13].includes(s)) note(b, hz(chord[(s >> 1) % 3] + 24), t, { dur: 0.09, type: "square", gain: 0.018 });
       if (s % 2 === 0) hat(b, t, s % 4 === 2 ? 0.05 : 0.025);
     },
   },
@@ -78,7 +79,7 @@ const SONGS = {
       if (s % 4 === 0) note(b, hz(root + 12), t, { dur: 0.06, type: "square", gain: 0.03 });
       if (s % 8 === 4) note(b, hz(root + 19), t, { dur: 0.08, type: "triangle", gain: 0.05 });
       hat(b, t, s % 2 ? 0.02 : 0.04, 0.03);
-      if (tension && s % 4 === 2) note(b, hz(root + 24), t, { dur: 0.05, type: "square", gain: 0.03 });
+      if (tension && !b.light && s % 4 === 2) note(b, hz(root + 24), t, { dur: 0.05, type: "square", gain: 0.03 });
     },
   },
 };
@@ -90,6 +91,7 @@ export function playMusic(name) {
   const song = SONGS[name];
   if (!b || !song) return;
   tension = 0;
+  setMusicActive(true);
   const now = b.ctx.currentTime;
   b.gain.gain.cancelScheduledValues(now);
   b.gain.gain.setValueAtTime(0.0001, now);
@@ -112,6 +114,7 @@ export function setTension(on) { tension = on ? 1 : 0; }
 export function stopMusic(fade = 0.35) {
   clearInterval(timer);
   timer = null;
+  setMusicActive(false);
   if (!bus) return;
   try {
     const now = bus.ctx.currentTime;
@@ -128,7 +131,8 @@ function oneShot(fn) {
   const g = a.ctx.createGain();
   g.gain.value = 0.7;
   g.connect(a.out);
-  try { fn({ ctx: a.ctx, gain: g }, a.ctx.currentTime + 0.02); } catch { /* ignore */ }
+  setTimeout(() => { try { g.disconnect(); } catch { /* gone */ } }, 4000);
+  try { fn({ ctx: a.ctx, gain: g, noise: a.noise, light: a.quality === "light" }, a.ctx.currentTime + 0.02); } catch { /* ignore */ }
 }
 
 export const stings = {
@@ -139,7 +143,7 @@ export const stings = {
       for (let k = 0; k < sec * 22; k++) {
         const at = t + k / 22;
         note(b, 110 + Math.random() * 15, at, { dur: 0.05, type: "triangle", gain: 0.05 + 0.08 * (k / (sec * 22)) });
-        hat(b, at, 0.03 + 0.04 * (k / (sec * 22)), 0.03);
+        if (!b.light || k % 2 === 0) hat(b, at, 0.04 + 0.04 * (k / (sec * 22)), 0.03);
       }
     });
   },

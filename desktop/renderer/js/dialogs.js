@@ -2,7 +2,8 @@
 import { $, esc, icon, openDialog, toast } from "./ui.js";
 import { desktop, getApiKey, setApiKey, checkApiKey, getProvider, setProvider, getChatGPT, PROVIDERS } from "./bridge.js";
 import { chatgptSettingsHtml, mountChatGPTSettings } from "./chatgpt-settings.js";
-import { prefs, savePrefs } from "./state.js";
+import { prefs, savePrefs, soundPrefs } from "./state.js";
+import { configureAudio, play } from "../arcade/audio.js";
 import { PICTURE_STYLES } from "./pictures.js";
 import { actions } from "./actions.js";
 
@@ -72,9 +73,25 @@ export function openSettings({ focusKey = true } = {}) {
         </div>
       </section>
       <section class="settings-section">
-        <h4>Classroom games</h4>
-        <label class="switch"><input type="checkbox" id="setSfx" ${prefs.sfx ? "checked" : ""} /><span class="track"></span><span class="sw-text">Sound effects<small>Chimes for right and wrong answers</small></span></label>
-        <label class="switch"><input type="checkbox" id="setTts" ${prefs.tts ? "checked" : ""} /><span class="track"></span><span class="sw-text">Read words aloud<small>Uses the computer's English voice</small></span></label>
+        <h4>Sound</h4>
+        <div class="field">
+          <label class="label" for="setVolume">Volume <span class="opt" id="setVolumeVal">${prefs.volume ?? 80}%</span></label>
+          <div class="volume-row">
+            ${icon("volume-off", "i-sm")}
+            <input type="range" class="range" id="setVolume" min="0" max="100" step="5" value="${prefs.volume ?? 80}" aria-label="Volume" />
+            ${icon("volume", "i-sm")}
+            <button type="button" class="btn btn-secondary btn-sm" id="setSoundTest" data-sound="none">${icon("play", "i-sm")}Test</button>
+          </div>
+        </div>
+        <label class="switch"><input type="checkbox" id="setUiSounds" ${prefs.uiSounds !== false ? "checked" : ""} /><span class="track"></span><span class="sw-text">Interface sounds<small>Soft clicks, page turns and chimes while you build worksheets</small></span></label>
+        <label class="switch"><input type="checkbox" id="setSfx" ${prefs.sfx ? "checked" : ""} /><span class="track"></span><span class="sw-text">Game and lesson sounds<small>Chimes for right and wrong answers, timers, fanfares and Lingo Live music</small></span></label>
+        <label class="switch"><input type="checkbox" id="setTts" ${prefs.tts ? "checked" : ""} /><span class="track"></span><span class="sw-text">Read words aloud<small>The recorded voice, or the computer's English voice</small></span></label>
+        <div class="field">
+          <label class="label" for="setSoundQuality">Sound quality <span class="opt">for older or slower computers</span></label>
+          <select class="select" id="setSoundQuality">
+            ${[["auto", "Automatic — lighter sound on slower computers"], ["high", "Rich — warm echo and fuller music"], ["light", "Light — lowest CPU use, best for old PCs"]].map(([v, l]) => `<option value="${v}" ${(prefs.soundQuality || "auto") === v ? "selected" : ""}>${l}</option>`).join("")}
+          </select>
+        </div>
       </section>
       <section class="settings-section">
         <h4>Your data</h4>
@@ -155,8 +172,23 @@ export function openSettings({ focusKey = true } = {}) {
         applyTheme();
         root.querySelectorAll("[data-theme-opt]").forEach((x) => x.classList.toggle("active", x === b));
       }));
-      q("#setSfx").addEventListener("change", (e) => { prefs.sfx = e.target.checked; savePrefs(); });
-      q("#setTts").addEventListener("change", (e) => { prefs.tts = e.target.checked; savePrefs(); });
+      // Sound settings apply at once, so the teacher hears the change.
+      const applySound = () => { savePrefs(); configureAudio(soundPrefs()); };
+      q("#setSfx").addEventListener("change", (e) => { prefs.sfx = e.target.checked; applySound(); if (prefs.sfx) play("correct"); });
+      q("#setTts").addEventListener("change", (e) => { prefs.tts = e.target.checked; applySound(); });
+      q("#setUiSounds").addEventListener("change", (e) => { prefs.uiSounds = e.target.checked; applySound(); });
+      q("#setSoundQuality").addEventListener("change", (e) => { prefs.soundQuality = e.target.value; applySound(); });
+      const volume = q("#setVolume");
+      volume.addEventListener("input", () => {
+        prefs.volume = Number(volume.value);
+        q("#setVolumeVal").textContent = `${prefs.volume}%`;
+        applySound();
+      });
+      volume.addEventListener("change", () => play("select"));
+      q("#setSoundTest").addEventListener("click", () => {
+        if (!prefs.volume) { toast("The volume is at 0%. Slide it up to hear sounds.", "info"); return; }
+        play(prefs.sfx ? "correct" : "success") || play("success") || toast("Sounds are switched off. Turn on interface or game sounds.", "info");
+      });
       q("#setDataFolder")?.addEventListener("click", () => desktop()?.openDataFolder());
       if (desktop()) {
         desktop().info().then((info) => {

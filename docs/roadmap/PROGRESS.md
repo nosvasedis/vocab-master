@@ -21,6 +21,22 @@
   4. Phase 2c: classroom pilot of Lingo Live phones (see Phase 2b below).
 - **Known:** the local router (fritz.box) may cache a negative DNS answer for the r2.dev host; bundled clips still play.
 
+## Audio language for the whole app (2026-10-18, branch feature/audio-language, from the user)
+- **Ask:** sounds everywhere they help (not the lesson recorder), beautiful, and working on strong and weak machines alike.
+- **Palette (`arcade/sounds.js`):** 42 synth recipes, no audio files: soft mallets and FM glass bells in C major, airy noise for motion, warm knocks instead of harsh buzzes. Interface sounds are under 150 ms and quiet; game sounds are louder for projector speakers.
+- **Engine (`arcade/audio.js`, same exports as before plus `play`, `claimed`, `sharedContext`, `setVoiceActive`, `setMusicActive`, `soundStats`):**
+  - One AudioContext for effects, Lingo Live music and the recorded voice (voice.js used to open its own).
+  - After the first click every recipe is pre-rendered (OfflineAudioContext, in idle time, 4 at a time, ~2 s) into a buffer; a sound is then one buffer source. Until then it plays live.
+  - Quality: "auto" (default) goes light on ≤2 cores / ≤2 GB or when an offline render is slow; "light" = 22 kHz, no reverb, no compressor, 4 voices max, thinner Live music. Settings → Sound quality overrides it.
+  - Per-sound rate limits, a voice cap (oldest stops first), effects dip to 50% while any voice talks, the context sleeps after 30 s of silence or when hidden and wakes on the next sound.
+- **Where sounds play:**
+  - Studio (`js/sound-ui.js`, one delegated listener): every button/tab/switch/select/drag; `data-sound="name|none"` overrides. Specific moments win over the generic click via `claimed()`: page navigation (forward/back), dialog open/close, toasts by type, confirm-delete, AI start/done/error, theme light/dark, print, projector (open, reveal pop, reveal all).
+  - Arcade: enter/exit, hub hover, back to hub, team switch, +/− points; existing game sounds use the new palette. Live music shares the noise buffer (it used to allocate one per hi-hat).
+  - Lessons: enter/exit, back, scene map, toolbar toggles, a faint bubble per word pop, a sparkle per star.
+- **Settings → Sound:** volume slider with Test, Interface sounds, Game and lesson sounds, Read words aloud, Sound quality. New prefs: `uiSounds`, `volume` (0–100), `soundQuality`.
+- **Tests:** `tests/sound.test.mjs` (every recipe on a mock context: valid automation, inside its declared length, node budget; every `play("…")`/`sfx.…()`/`data-sound` name in the renderer exists). Verified in the browser (warm-up, settings, quiz, Live music flag, lesson ducking, sleep/wake) and `npm run smoke`.
+- **Not done:** not merged into `main` (ask first). Not heard on a real weak PC or classroom speakers; levels were balanced by measured peak/RMS.
+
 ## One picture per word; pops keep up with fast speech (2026-10-18, from the user)
 - **Bug:** 392 focus words had rebus pictures (community 🧑🧑🏘, instrument 🎸🎻🥁). They wrapped and overflowed in the word pops, the reveal circle and the Lessons unit cards (a duplicate icon spilled under the hero). 🏘 without U+FE0F also drew as a black glyph.
 - **Fix:** `onePicture()` (`lesson/wordmatch.js`) keeps the first emoji and adds U+FE0F to text-style emoji. It's used for lesson words, props and unit heroes. The data was rewritten by `scripts/lessons/one-picture.mjs` with hand-chosen pictures from `scripts/lessons/word-pictures.mjs`; pictures stay distinct within each lesson. A test fails on any multi-emoji picture.

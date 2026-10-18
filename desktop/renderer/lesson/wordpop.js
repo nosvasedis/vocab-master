@@ -6,6 +6,7 @@
 import { gsap } from "../vendor/gsap/index.js";
 import { isCalm } from "./motion.js";
 import { pickSpot } from "./wordmatch.js";
+import { sfx } from "../arcade/audio.js";
 export { matchProps, splitToken } from "./wordmatch.js";
 
 const W = 1920;
@@ -37,6 +38,7 @@ export function createPopper({ stageEl, picFit }) {
     const span = queue.shift();
     const pic = span.querySelector(".pw-pic");
     if (!pic || !pic.isConnected) { run(); return; }
+    sfx.wordPop(); // a faint bubble under the voice (effects dip while it talks)
     if (isCalm()) {
       pic.classList.remove("pulse");
       void pic.offsetWidth;
