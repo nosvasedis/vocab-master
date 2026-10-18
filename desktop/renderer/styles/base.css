@@ -405,6 +405,20 @@ kbd {
 .switch .sw-text { display: flex; flex-direction: column; line-height: 1.3; }
 .switch .sw-text small { font-size: 12px; color: var(--text-3); font-weight: 400; }
 
+/* Range slider */
+.range { -webkit-appearance: none; appearance: none; flex: 1; min-width: 0; height: 21px; background: transparent; cursor: pointer; accent-color: var(--brand); }
+.range::-webkit-slider-runnable-track { height: 5px; border-radius: 99px; background: var(--border-strong); }
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 17px; height: 17px; margin-top: -6px; border-radius: 50%;
+  background: #fff; border: 2px solid var(--brand); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform var(--dur) var(--spring);
+}
+.range:active::-webkit-slider-thumb { transform: scale(1.15); }
+.range:focus-visible { outline: none; }
+.range:focus-visible::-webkit-slider-thumb { box-shadow: var(--ring); }
+.volume-row { display: flex; align-items: center; gap: 10px; color: var(--text-3); }
+.volume-row .btn { flex: none; }
+
 /* Checkbox */
 .check { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; font-size: 13.5px; user-select: none; }
 .check input { position: absolute; opacity: 0; pointer-events: none; }

@@ -2,6 +2,7 @@
 import { WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey } from "../../app.js";
 import { $, esc, icon, el, segmented, toast } from "../ui.js";
 import { state, bookTitle, unitNumber, pageRange } from "../state.js";
+import { play } from "../../arcade/audio.js";
 
 const PJ_CSS = WORKSHEET_PRINT_CSS.replace(/@page[^}]*}/, "").replace(/html,\s*body\s*{[^}]*}/, "") + `
 :host { all: initial; display: block; }
@@ -69,12 +70,13 @@ export function openProjector() {
   segmented(root.querySelector("[data-segmented]"), { value: sheet, onChange: (v) => { sheet = v; render(); } });
   shadow.addEventListener("click", (e) => {
     const item = e.composedPath().find((n) => n.classList?.contains("pj"));
-    if (item) { item.classList.toggle("revealed"); markNext(); }
+    if (item) { play(item.classList.toggle("revealed") ? "pop" : "tap"); markNext(); }
   });
   root.querySelector("[data-reveal]").addEventListener("click", () => {
     const list = items();
     const all = list.every((n) => n.classList.contains("revealed"));
     list.forEach((n) => n.classList.toggle("revealed", !all));
+    play(all ? "back" : "whoosh");
     markNext();
   });
   root.querySelectorAll("[data-zoom]").forEach((b) => b.addEventListener("click", () => {
@@ -91,6 +93,7 @@ export function openProjector() {
     window.removeEventListener("keydown", onKey, true);
     if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
     root.classList.add("closing");
+    play("close");
     setTimeout(() => root.remove(), 200);
   };
   const onKey = (e) => {
@@ -98,11 +101,12 @@ export function openProjector() {
     if ((e.key === " " || e.key === "ArrowRight") && sheet !== "answer") {
       e.preventDefault();
       const next = items().find((n) => !n.classList.contains("revealed"));
-      if (next) { next.classList.add("revealed"); next.scrollIntoView({ block: "center", behavior: "smooth" }); markNext(); }
+      if (next) { play("pop"); next.classList.add("revealed"); next.scrollIntoView({ block: "center", behavior: "smooth" }); markNext(); }
     }
     if (e.key === "ArrowLeft" && sheet !== "answer") {
       e.preventDefault();
       const revealed = items().filter((n) => n.classList.contains("revealed"));
+      if (revealed.length) play("tap");
       revealed[revealed.length - 1]?.classList.remove("revealed");
       markNext();
     }
@@ -111,6 +115,7 @@ export function openProjector() {
   root.querySelector("[data-exit]").addEventListener("click", close);
   open = { close };
   render();
+  play("launch");
 }
 
 export function isProjectorOpen() { return !!open; }

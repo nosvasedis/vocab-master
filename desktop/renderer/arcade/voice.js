@@ -2,7 +2,7 @@
    Plugs into the lesson narrator (setClipPlayer) and the arcade's speak() (setSpeakDelegate),
    so every game and lesson uses the recorded voice when a clip exists and the system voice otherwise. */
 import { createVoiceIndex } from "./voice-index.js";
-import { setSpeakDelegate, audioSettings } from "./audio.js";
+import { setSpeakDelegate, audioSettings, sharedContext, setVoiceActive } from "./audio.js";
 import { setClipPlayer } from "../lesson/narrator.js";
 
 const BASE = "./assets/audio/";
@@ -15,10 +15,11 @@ const cache = new Map(); // key → AudioBuffer (small LRU)
 const MAX_CACHE = 160;
 
 function audioCtx() {
-  if (!ctx) {
-    const C = window.AudioContext || window.webkitAudioContext;
-    if (!C) return null;
-    ctx = new C();
+  // The app's one AudioContext (audio.js); effects dip while the voice talks.
+  const c = sharedContext();
+  if (!c) return null;
+  if (ctx !== c) {
+    ctx = c;
     gain = ctx.createGain();
     gain.gain.value = 1;
     analyser = ctx.createAnalyser();
@@ -26,7 +27,6 @@ function audioCtx() {
     gain.connect(analyser);
     analyser.connect(ctx.destination);
   }
-  if (ctx.state === "suspended") ctx.resume();
   return ctx;
 }
 
@@ -89,6 +89,7 @@ export function stopVoice() {
     try { current.src.stop(); } catch { /* already stopped */ }
     current.resolve({ played: false });
     current = null;
+    setVoiceActive(false);
   }
 }
 
@@ -118,9 +119,10 @@ export async function playClip(key, { onLevel, onStart } = {}) {
     src.onended = () => {
       cancelAnimationFrame(raf);
       onLevel?.(0);
-      if (current === me) { current = null; resolve({ played: true, duration: buf.duration }); }
+      if (current === me) { current = null; setVoiceActive(false); resolve({ played: true, duration: buf.duration }); }
     };
     src.start();
+    setVoiceActive(true);
     onStart?.(buf.duration);
     if (onLevel) tick();
   });

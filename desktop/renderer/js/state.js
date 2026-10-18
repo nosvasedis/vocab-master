@@ -37,10 +37,12 @@ export const state = {
 };
 
 export const prefs = Object.assign(
-  { theme: "system", welcomeDismissed: false, sfx: true, tts: true, schoolName: "", pictureStyle: "emoji" },
+  { theme: "system", welcomeDismissed: false, sfx: true, tts: true, uiSounds: true, volume: 80, soundQuality: "auto", schoolName: "", pictureStyle: "emoji" },
   readJSON(PREFS_KEY, {}),
 );
 export function savePrefs() { writeJSON(PREFS_KEY, prefs); }
+/** Every sound setting, for configureAudio (games and lessons pass only sfx/tts). */
+export const soundPrefs = () => ({ sfx: prefs.sfx, tts: prefs.tts, ui: prefs.uiSounds !== false, volume: (prefs.volume ?? 80) / 100, quality: prefs.soundQuality || "auto" });
 
 /* ── Tiny event bus ──────────────────────────────────────────────── */
 const listeners = new Map();

@@ -79,6 +79,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
   root.querySelector("[data-greek-toggle]").addEventListener("click", toggleGreek);
   root.querySelector("[data-close]").addEventListener("click", closeArcade);
   root.querySelector("[data-full]").addEventListener("click", () => {
+    sfx.tap();
     if (document.fullscreenElement) document.exitFullscreen?.();
     else root.requestFullscreen?.().catch(() => {});
   });
@@ -86,6 +87,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
     const k = b.dataset.toggle;
     audioSettings[k] = !audioSettings[k];
     if (k === "tts" && !audioSettings.tts) stopSpeaking();
+    sfx.tap(); // silent when effects were just switched off; a confirming tap when switched on
     syncToggles();
     session.onPrefs?.({ sfx: audioSettings.sfx, tts: audioSettings.tts });
   }));
@@ -96,20 +98,28 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
     const t = session.teams[Number(pill.dataset.team)];
     if (adj) {
       t.score = Math.max(0, t.score + Number(adj.dataset.adj));
-      sfx.tap();
+      Number(adj.dataset.adj) > 0 ? sfx.points() : sfx.pointsDown();
       renderTeams();
       return;
     }
-    if (session.teams.length > 1) { session.active = Number(pill.dataset.team); renderTeams(); }
+    if (session.teams.length > 1) { session.active = Number(pill.dataset.team); sfx.tap(); renderTeams(); }
+  });
+  // A faint glass tick when the mouse moves onto a game card (not on touch boards).
+  root.addEventListener("pointerover", (e) => {
+    if (e.pointerType !== "mouse") return;
+    const card = e.target.closest(".game-card:not([disabled])");
+    if (card && !card.contains(e.relatedTarget)) sfx.hover();
   });
   window.addEventListener("keydown", onKey, true);
   showHub();
+  sfx.enter();
 }
 
 export function closeArcade() {
   if (!session) return;
   session.game?.destroy?.();
   stopSpeaking();
+  sfx.exit();
   window.removeEventListener("keydown", onKey, true);
   if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
   const root = session.root;
@@ -216,6 +226,7 @@ function clearFx() {
 
 function showHub() {
   clearFx();
+  if (session.gameDef) sfx.back();
   session.game?.destroy?.();
   session.game = null;
   session.gameDef = null;

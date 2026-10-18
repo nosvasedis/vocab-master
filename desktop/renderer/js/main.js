@@ -9,7 +9,7 @@ import {
 } from "../app.js";
 import { $, $$, esc, icon, plural, toast, confirmDialog, closeTopDialog, hasOpenDialog } from "./ui.js";
 import {
-  state, prefs, savePrefs, emit, on, loadDraft, flushDraft, resetState, applyForm, filledWords,
+  state, prefs, savePrefs, soundPrefs, emit, on, loadDraft, flushDraft, resetState, applyForm, filledWords,
   bookTitle, unitNumber, pageRange, isCpp, LEVEL_COLORS, BOOK_COLORS, coursebookQuery, pickFromQuery,
 } from "./state.js";
 import { actions } from "./actions.js";
@@ -22,7 +22,8 @@ import { openProjector, isProjectorOpen } from "./views/projector.js";
 import { openSettings, openHelp, applyTheme } from "./dialogs.js";
 import { openArcade, isArcadeOpen } from "../arcade/arcade.js";
 import { buildArcadeDeck } from "../arcade/deck.js";
-import { configureAudio } from "../arcade/audio.js";
+import { configureAudio, play } from "../arcade/audio.js";
+import { initInterfaceSounds } from "./sound-ui.js";
 import { initVoice } from "../arcade/voice.js";
 import { ensurePictureStyle, pictureSvg } from "./pictures.js";
 import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
@@ -52,6 +53,11 @@ function go(view, { force = false, silent = false } = {}) {
   if (!force && view === "preview" && !state.data) {
     if (!silent) toast("Generate the worksheets first — or open a unit from Saved units.", "info");
     view = "exercises";
+  }
+  const from = state.view;
+  if (!silent && from !== view) {
+    const order = [...FLOW, "lessons", "library"];
+    play(order.indexOf(view) < order.indexOf(from) ? "navBack" : "nav");
   }
   state.view = view;
   $$(".view").forEach((v) => v.classList.toggle("active", v.dataset.view === view));
@@ -138,6 +144,9 @@ function flowBack() {
 /* ── AI status ───────────────────────────────────────────────────── */
 let aiState = "auto";
 function setAiState(next = "auto", message = "") {
+  if (next === "busy" && aiState !== "busy") play("aiStart");
+  else if (aiState === "busy" && next === "error") play("error");
+  else if (aiState === "busy" && next !== "busy") play("aiDone");
   aiState = next;
   const dot = $("aiDot");
   const hasKey = isAiReady();
@@ -223,7 +232,6 @@ function picture(text, keepText = false) {
 }
 
 const savePlayPrefs = ({ sfx, tts }) => { prefs.sfx = sfx; prefs.tts = tts; savePrefs(); };
-
 function openGames() {
   const ctx = deckContext();
   if (!ctx) {
@@ -272,6 +280,7 @@ function wire() {
   $("btnHelp").addEventListener("click", openHelp);
   $("btnTheme").addEventListener("click", () => {
     prefs.theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    play(prefs.theme === "dark" ? "themeDark" : "themeLight");
     savePrefs();
     applyTheme();
   });
@@ -311,7 +320,7 @@ async function boot() {
   try {
     await hydrateStorage();
     applyTheme();
-    configureAudio({ sfx: prefs.sfx, tts: prefs.tts });
+    configureAudio(soundPrefs());
     await ensurePictureStyle(prefs.pictureStyle);
     initVoice();
 
@@ -330,6 +339,7 @@ async function boot() {
     initPreview();
     initLibrary();
     initLessons({ teach: teachLesson, games: lessonGames });
+    initInterfaceSounds();
     wire();
 
     const d = desktop();
