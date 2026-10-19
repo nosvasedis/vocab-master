@@ -1,0 +1,5 @@
+{
+  "_note": "Throwaway accounts for the local Firebase Auth emulator only (127.0.0.1:9099). They don't exist on the real project.",
+  "teacher": { "email": "teacher.one@example.test", "password": "emulator-only-pass-1" },
+  "second": { "email": "teacher.two@example.test", "password": "emulator-only-pass-2" }
+}

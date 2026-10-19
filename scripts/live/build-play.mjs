@@ -14,5 +14,5 @@ for (const m of ["app", "auth", "database"]) copy(`desktop/renderer/vendor/fireb
 copy("desktop/renderer/arcade/live/net-config.js");
 console.log(`✓ phone page vendor files → ${path.relative(ROOT, out)}`);
 if (process.argv.includes("--deploy")) {
-  execSync("npx -y firebase-tools@latest deploy --only hosting,database --project vocab-master-live --non-interactive", { cwd: path.join(ROOT, "firebase"), stdio: "inherit" });
+  execSync("npx -y firebase-tools@latest deploy --only hosting,database,auth --project vocab-master-live --non-interactive", { cwd: path.join(ROOT, "firebase"), stdio: "inherit" });
 }

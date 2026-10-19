@@ -12,7 +12,15 @@
   },
   "auth": {
     "providers": {
-      "anonymous": true
+      "anonymous": true,
+      "emailPassword": true
     }
+  },
+  "emulators": {
+    "auth": { "host": "127.0.0.1", "port": 9099 },
+    "database": { "host": "127.0.0.1", "port": 9000 },
+    "hosting": { "host": "127.0.0.1", "port": 5000 },
+    "ui": { "enabled": false },
+    "singleProjectMode": true
   }
 }

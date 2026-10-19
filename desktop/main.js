@@ -14,6 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createChatGPT, CHATGPT_USAGE_URL, chatgptError } from "./chatgpt.js";
+import { createGoogleLoopback } from "./google-signin.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RENDERER_DIR = path.join(__dirname, "renderer");
@@ -128,7 +129,9 @@ const STORE = {
 
 // One encrypted file per AI provider (DeepSeek keeps the original file name).
 const KEYCHAIN_FILES = { deepseek: "keychain.bin", gemini: "keychain-gemini.bin" };
-const KEYCHAIN_FILE = (name = "deepseek") => dataFile(KEYCHAIN_FILES[name] || KEYCHAIN_FILES.deepseek);
+// Per-profile slots ("p-<uid>-deepseek") hold another teacher's keys while they're switched out (js/sync/profiles.js).
+const PROFILE_KEYCHAIN = /^p-[A-Za-z0-9]{1,128}-(deepseek|gemini)$/;
+const KEYCHAIN_FILE = (name = "deepseek") => dataFile(PROFILE_KEYCHAIN.test(String(name)) ? `keychain-${name}.bin` : KEYCHAIN_FILES[name] || KEYCHAIN_FILES.deepseek);
 
 function keychainGet(name) {
   try {
@@ -360,7 +363,7 @@ function registerDownloadHandler() {
     const { canceled, filePath } = await dialog.showSaveDialog(win, {
       title: "Save worksheet",
       defaultPath: path.join(app.getPath("downloads"), suggested),
-      filters: [{ name: "Documents", extensions: ["docx", "pdf", "txt"] }],
+      filters: suggested.endsWith(".json") ? [{ name: "Vocab Master backup", extensions: ["json"] }] : [{ name: "Documents", extensions: ["docx", "pdf", "txt"] }],
     });
     if (canceled || !filePath) return;
     item.setSavePath(filePath);
@@ -507,6 +510,11 @@ async function runSmokeTest() {
         key("Escape"); await wait(100); key("Escape"); await wait(400);
         dbg.arcadeClosed = !document.querySelector(".arcade");
 
+        // Settings → Account & sync renders on app:// (signed out, sign-in and backup buttons present).
+        document.getElementById("btnSettings")?.click(); await wait(500);
+        dbg.account = !!document.querySelector('#syncSection [data-ac="google"]') && !!document.querySelector('#syncSection [data-ac="export"]');
+        key("Escape"); await wait(300);
+
         // Leave no trace in History.
         (E.getAllSavedSessions() || []).forEach((s) => E.deleteSavedSession(s.id));
 
@@ -514,7 +522,7 @@ async function runSmokeTest() {
           && dbg.projector && dbg.projectorClosed && dbg.bulk === 2 && dbg.docxOk && cbOk
           && dbg.inferredUnit === 4 && dbg.autoWords >= 10 && dbg.poolChips >= 10
           && dbg.gameCards === 7 && dbg.picker && dbg.pages && dbg.titles === 6 && dbg.pickedDeck && dbg.liveLobby && dbg.liveOpts >= 2 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz >= 9 && dbg.feud >= 5 && dbg.taboo >= 1 && dbg.arcadeClosed;
-        return JSON.stringify({ ...dbg, cbOk, fail: ok ? "" : "ui-flow" });
+        return JSON.stringify({ ...dbg, cbOk, fail: !ok ? "ui-flow" : !dbg.account ? "account" : "" });
       })()
     `);
     results.editorFlow = JSON.parse(editorFlow || "{}");
@@ -813,6 +821,13 @@ function registerIpc() {
   }));
 
   ipcMain.handle("shell:openDataFolder", () => shell.openPath(app.getPath("userData")));
+  // Google sign-in for account sync: system browser → one-time 127.0.0.1 callback (google-signin.js).
+  const google = createGoogleLoopback({
+    openExternal: (url) => shell.openExternal(url),
+    onDone: () => { if (mainWindow && !mainWindow.isDestroyed()) { if (mainWindow.isMinimized()) mainWindow.restore(); mainWindow.focus(); } },
+  });
+  ipcMain.handle("google:signin", () => google.start());
+  ipcMain.handle("google:cancel", () => { google.cancel(); return true; });
 }
 
 /* ── App lifecycle ────────────────────────────────────────────────────────── */

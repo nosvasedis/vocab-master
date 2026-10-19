@@ -32,6 +32,7 @@
     "files": [
       "main.js",
       "chatgpt.js",
+      "google-signin.js",
       "preload.cjs",
       "smoke-fixture.json",
       "renderer/**/*",

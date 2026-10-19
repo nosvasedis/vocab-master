@@ -34,6 +34,24 @@
 - **Checks:** `npm test` 367 pass (1 skipped, as before); smoke passes and now also checks the six title screens and the page picker (run with the main checkout's Electron: `desktop/node_modules/electron/dist/electron.exe desktop --smoke`, since worktrees have no node_modules). Played every game in Whole class, Players and Teams in the web app (1366×768).
 - **Left / ideas:** Lingo Live keeps its own lobby and podium (only its team mascots changed). Avatars on the phones' page are still the 16 animals. A teacher review of the `wordLevel` levels on real classes.
 
+## Accounts & sync (2026-10-19, branch claude/profiles-sync-01bd26, from the user; not merged)
+- **What:** sign in with Google or email + password (web and desktop). Classes, worksheets, worksheet history, settings and game settings sync between computers, offline-first. AI keys sync only if turned on, end-to-end encrypted with a passphrase. Several teachers per computer (switch in Settings). A backup file export/import works without an account. Design: `docs/sync/PROPOSAL.md`; how it works and setup: `docs/sync/README.md`.
+- **Code:**
+  - New: `desktop/renderer/js/sync/` (registry, merge, engine, crypto, backend-firebase, profiles, google, account-ui, index), `styles/sync.css`, `desktop/google-signin.js` (desktop Google loopback), `firebase/public/signin.html` + `signin.js` (hosted Google hand-off page), rules for `users/{uid}` in `firebase/database.rules.json`.
+  - Small hooks: `js/main.js` (`startSync`), `js/dialogs.js` (Account section), `index.html` (CSS, emulator hosts in the CSP), `desktop/main.js` (per-profile key-chain slots, `google:signin` IPC, `.json` saves, smoke step), `preload.cjs`.
+- **Sync rules:**
+  - Last write wins per record (lists) or per field (objects), with dated tombstones.
+  - localStorage stays the source of truth; sync watches its writes, so the rest of the app is untouched.
+  - New `vm_*`/`lingo_*` keys must be classified in `registry.js` (a test enforces it).
+- **Found and fixed while checking:** the Firebase SDK's long-polling fallback is blocked by the CSP. After one failed WebSocket, sync stayed "Offline" for good. The fix, `forceWebSockets()`, is SDK-wide and also helps Lingo Live.
+- **Checks:**
+  - `npm test`: 369 pass (adds `tests/sync.test.mjs`, 18 tests).
+  - `npm run smoke` passes (now opens Settings → Account).
+  - `node scripts/sync/rules-check.mjs`: 16/16 on the emulator.
+  - In the browser preview on the Auth + Database emulators: first sign-in Merge prompt, merge of two laptops, live add and delete, vault (wrong passphrase refused, right one brings the key; only ciphertext in the DB), Google token sign-in (emulator token) with profile switch and restore, sign-out with removal, signed-out state, backup round trip.
+- **Waiting on the user:** enable Email/Password and Google in the Firebase console, then `node scripts/live/build-play.mjs --deploy` (rules + sign-in page). See `docs/sync/README.md`.
+- **Not verified:** the real Google popup (the preview pane opens popups in the same tab; emulator tokens were used instead), the desktop browser→loopback round trip against the real hosted page (covered by a unit test of the loopback), and sign-in on the real project (no real accounts created).
+
 ## Slimmer exes (2026-10-19, from the user): 193 MB → 177 MB
 - `npm run dist` now builds through `desktop/electron-builder.config.cjs` (package.json "build" + two extras): Chromium UI languages limited to en-US, en-GB and el (−10 MB), and voice clips the manifest no longer points to are left out (933 superseded takes, −8 MB; they stay on disk for the audio job's state).
 - `voice.js`: the bundled manifest now wins over the R2 one, so an older remote manifest can't point a line at a superseded take; R2 only adds lines the build doesn't ship.

@@ -1,7 +1,9 @@
 /* ══════════════════════════════════════════════════════════════════
    Vocab Master — app shell: boot, navigation, top bar, sidebar, shortcuts.
    ══════════════════════════════════════════════════════════════════ */
-import { desktop, hydrateStorage, isAiReady, getChatGPT, getProvider, PROVIDERS } from "./bridge.js";
+import { desktop, hydrateStorage, isAiReady, getChatGPT, getProvider, PROVIDERS, readJSON } from "./bridge.js";
+import { initSync } from "./sync/index.js";
+import { askMerge } from "./sync/account-ui.js";
 import * as engine from "../app.js";
 import {
   CLASS_PROFILES, CPP_BOOKS, getSavedSession, normalizeWorksheetExercises,
@@ -326,10 +328,28 @@ function wire() {
   on("*", () => renderChrome());
 }
 
+/* ── Account sync (js/sync/) ─────────────────────────────────────── */
+async function startSync() {
+  try {
+    await initSync({ askMerge });
+  } catch (err) {
+    console.error("sync start failed", err?.message || err); // the app works without it
+  }
+  // Settings are read once at start; take the synced copy, and keep it fresh when another computer changes it.
+  Object.assign(prefs, readJSON("vm_prefs_v2", {}));
+  window.addEventListener("vm-sync-changed", (e) => {
+    const keys = e.detail?.keys || [];
+    if (keys.includes("vm_prefs_v2")) { Object.assign(prefs, readJSON("vm_prefs_v2", {})); applyTheme(); configureAudio(soundPrefs()); }
+    if (keys.includes("lingo_maker_saves")) { updateLibraryCount(); if (state.view === "library") renderLibrary(); }
+    if (keys.some((k) => k === "lingo_maker_api_key" || k === "vm_gemini_api_key" || k === "vm_ai_provider")) setAiState();
+  });
+}
+
 /* ── Boot ────────────────────────────────────────────────────────── */
 async function boot() {
   try {
     await hydrateStorage();
+    await startSync();
     applyTheme();
     configureAudio(soundPrefs());
     await Promise.all([ensurePictureStyle(prefs.pictureStyle), initPics()]);

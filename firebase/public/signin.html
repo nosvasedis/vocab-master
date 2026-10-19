@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="theme-color" content="#2a1474" />
+  <title>Sign in · Vocab Master</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" />
+  <link rel="stylesheet" href="./play.css" />
+  <style>
+    .card p { margin: 0; font-size: 18px; line-height: 1.4; color: #4a3f73; }
+    .card h1 { margin: 0; font-size: 28px; }
+    .google { display: flex; align-items: center; justify-content: center; gap: 12px; }
+    .google svg { width: 28px; height: 28px; background: #fff; border-radius: 50%; padding: 3px; }
+    .ok { margin: 0; padding: 10px 12px; border-radius: 12px; background: #dcfce7; color: #166534; font-weight: 600; }
+    .small { font-size: 15px !important; color: #6b6290 !important; }
+  </style>
+</head>
+<body>
+  <main id="app" class="center" aria-live="polite">
+    <div class="brand"><span class="mark">🦉</span></div>
+    <div class="card" id="card">
+      <h1>Vocab Master</h1>
+      <p id="lead">Sign in with Google to keep your classes and worksheets on every computer.</p>
+      <button type="button" class="go google" id="go" disabled>
+        <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.8 6C12.4 13.7 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.2.8-4.7l-7.8-6C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.2-13.5-10l-7.8 6C6.6 42.6 14.6 48 24 48z"/></svg>
+        Continue with Google
+      </button>
+      <p class="err" id="err" hidden></p>
+      <p class="small">Vocab Master receives your name and email only. You can close this window to cancel.</p>
+    </div>
+  </main>
+  <script type="module" src="./signin.js"></script>
+</body>
+</html>

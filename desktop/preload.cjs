@@ -45,6 +45,10 @@ contextBridge.exposeInMainWorld("desktop", {
   /** Google Gemini API (v1beta generateContent / model list). Returns { status, body }. */
   gemini: (payload) => ipcRenderer.invoke("gemini:request", payload),
 
+  /** Google sign-in for account sync (system browser + loopback). Returns { ok, idToken } | { ok:false, code, error }. */
+  googleSignIn: () => ipcRenderer.invoke("google:signin"),
+  googleCancel: () => ipcRenderer.invoke("google:cancel"),
+
   /** App metadata + folder helpers. */
   info: () => ipcRenderer.invoke("app:info"),
   openDataFolder: () => ipcRenderer.invoke("shell:openDataFolder"),

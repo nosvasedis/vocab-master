@@ -4,14 +4,28 @@
     {
       "name": "vocab-master-web",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["proxy.js"],
+      "runtimeArgs": [
+        "proxy.js"
+      ],
       "port": 8787
     },
     {
       "name": "lingo-live-phone",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["scripts/live/serve-play.mjs"],
+      "runtimeArgs": [
+        "scripts/live/serve-play.mjs"
+      ],
       "port": 5055
+    },
+    {
+      "name": "vocab-master-sync-check",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--input-type=module",
+        "-e",
+        "process.env.PORT=\"8791\"; await import(\"./proxy.js\")"
+      ],
+      "port": 8791
     }
   ]
 }
