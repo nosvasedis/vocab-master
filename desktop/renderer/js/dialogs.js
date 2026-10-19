@@ -6,6 +6,7 @@ import { prefs, savePrefs, soundPrefs } from "./state.js";
 import { configureAudio, play } from "../arcade/audio.js";
 import { PICTURE_STYLES } from "./pictures.js";
 import { actions } from "./actions.js";
+import { accountSectionHtml, mountAccount } from "./sync/account-ui.js";
 
 export function applyTheme() {
   const dark = prefs.theme === "dark" || (prefs.theme === "system" && window.matchMedia?.("(prefers-color-scheme: dark)").matches);
@@ -53,6 +54,7 @@ export function openSettings({ focusKey = true } = {}) {
         </div>
         ${chatgptSettingsHtml()}
       </section>
+      ${accountSectionHtml()}
       <section class="settings-section">
         <h4>Worksheets</h4>
         <div class="field">
@@ -221,6 +223,7 @@ export function openSettings({ focusKey = true } = {}) {
       renderProvider();
       chatgptPanel = mountChatGPTSettings(root, () => { renderProvider(); actions.setAiState(); });
       if (provider === "chatgpt") chatgptPanel.load();
+      mountAccount(root);
     },
     onClose() { chatgptPanel?.close(); },
   });

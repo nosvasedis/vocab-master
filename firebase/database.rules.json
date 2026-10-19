@@ -25,6 +25,47 @@
           }
         }
       }
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid && auth.token.firebase.sign_in_provider !== 'anonymous'",
+        ".write": "auth != null && auth.uid === $uid && auth.token.firebase.sign_in_provider !== 'anonymous'",
+        "meta": {
+          ".validate": "newData.hasChildren(['schema', 'updatedAt']) && newData.child('schema').isNumber() && newData.child('updatedAt').isNumber()"
+        },
+        "index": {
+          "$key": {
+            ".validate": "$key.length <= 64",
+            "$id": { ".validate": "$id.length <= 400 && newData.isNumber()" }
+          }
+        },
+        "items": {
+          "$key": {
+            ".validate": "$key.length <= 64",
+            "$id": {
+              ".validate": "$id.length <= 400 && newData.hasChildren(['t', 'by']) && (newData.hasChild('v') || newData.child('del').val() === true)",
+              "t": { ".validate": "newData.isNumber()" },
+              "by": { ".validate": "newData.isString() && newData.val().length <= 40" },
+              "v": { ".validate": "newData.isString() && newData.val().length <= 4000000" },
+              "del": { ".validate": "newData.val() === true" },
+              "$other": { ".validate": false }
+            }
+          }
+        },
+        "vault": {
+          ".validate": "newData.hasChildren(['v', 'kdf', 'iter', 'salt', 'iv', 'ct', 't', 'by'])",
+          "v": { ".validate": "newData.isNumber()" },
+          "kdf": { ".validate": "newData.val() === 'PBKDF2-SHA256'" },
+          "iter": { ".validate": "newData.isNumber() && newData.val() >= 100000" },
+          "salt": { ".validate": "newData.isString() && newData.val().length <= 64" },
+          "iv": { ".validate": "newData.isString() && newData.val().length <= 64" },
+          "ct": { ".validate": "newData.isString() && newData.val().length <= 20000" },
+          "t": { ".validate": "newData.isNumber()" },
+          "by": { ".validate": "newData.isString() && newData.val().length <= 40" },
+          "$other": { ".validate": false }
+        },
+        "$other": { ".validate": false }
+      }
     }
   }
 }
