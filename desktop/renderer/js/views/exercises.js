@@ -5,7 +5,7 @@ import {
   regenerateLingoPracticeOnly, normalizeWorksheetExercises, validateWorksheet, saveWorksheetSession, findVocabGaps,
 } from "../../app.js";
 import { $, $$, esc, icon, plural, toast, segmented, confirmDialog } from "../ui.js";
-import { state, emit, on, buildForm, filledWords, bookTitle, unitNumber, pageRange } from "../state.js";
+import { state, emit, on, buildForm, filledWords, bookTitle, unitNumber, pageRange, worksheetFreshness, detachWorksheet } from "../state.js";
 import { getApiKey, isAiReady, getProvider, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 
@@ -70,6 +70,20 @@ export function initExercises() {
 
   on("level", () => { state.plan = null; });
   on("data", renderGenerateCard);
+  on("setup", detachIfUnitChanged);
+}
+
+/** A different book or unit was chosen: the open worksheets belong to the old unit. Put them away
+ *  (they are safe in Saved units) so nothing of the old word list reaches the new generation. */
+function detachIfUnitChanged() {
+  const fr = worksheetFreshness();
+  if (!fr?.unitChanged || state.busy) return;
+  detachWorksheet();
+  emit("data");
+  toast(`${fr.label || "The previous unit"}: worksheets are saved in your library. The new unit starts fresh.`, "info", {
+    ms: 4200,
+    actions: [{ label: "Saved units", run: () => actions.go("library") }],
+  });
 }
 
 /** Called when the Exercises view is shown. */
@@ -234,13 +248,17 @@ function renderGenerateCard() {
     state.inputMode === "structured" ? `<span class="badge">${plural(n, "word")}</span>` : `<span class="badge">Freeform brief</span>`,
     state.plan ? `<span class="badge">${state.plan.dictationExerciseCount} Dictation · ${state.plan.lingoPracticeCount} Lingo</span>` : "",
   ].join("");
+  const fr = worksheetFreshness();
+  const staleNote = fr?.wordsChanged
+    ? `<div class="callout info">${icon("info")}<span>Your word list changed since these worksheets were written. <strong>Generate again</strong> writes everything with the new words — rewriting only one sheet would mix old and new words, so that option is off until then.</span></div>`
+    : "";
   $("genSummary").innerHTML = `
-    <h3>${state.data ? "Worksheets ready — want a fresh version?" : "Ready to write your worksheets"}</h3>
+    <h3>${state.data ? (fr?.wordsChanged ? "New word list — time for fresh worksheets" : "Worksheets ready — want a fresh version?") : "Ready to write your worksheets"}</h3>
     <div class="gs-facts">${facts}</div>
-    ${err ? `<div class="callout warning">${icon("alert")}<span>${esc(err)}</span></div>` : `<p class="hint">Lingo Launcher study sheet, Dictation test and a full teacher answer key — usually 30–90 seconds.</p>`}`;
+    ${err ? `<div class="callout warning">${icon("alert")}<span>${esc(err)}</span></div>` : staleNote || `<p class="hint">Lingo Launcher study sheet, Dictation test and a full teacher answer key — usually 30–90 seconds.</p>`}`;
   $("btnGenerate").disabled = !!err;
   $("btnGenerate").innerHTML = `${icon("sparkles")}${state.data ? "Generate again" : "Generate worksheets"}`;
-  $("genRegen").classList.toggle("hidden", !state.data);
+  $("genRegen").classList.toggle("hidden", !state.data || !!fr?.wordsChanged);
   $("btnRegenDict").disabled = $("btnRegenLingo").disabled = !!err;
 }
 
@@ -313,6 +331,11 @@ export async function runGenerate(mode = "full") {
     if (!ok) { actions.go("words"); return; }
   }
   const customPlan = state.ex.mode === "custom" ? state.plan : null;
+  // The current selection is the only source of words: a stale worksheet is rewritten in full, and a
+  // worksheet for another unit becomes a new library entry instead of overwriting the old unit's.
+  const fr = worksheetFreshness();
+  if (fr?.wordsChanged) mode = "full";
+  const updateId = fr?.unitChanged ? null : state.sessionId;
   const title = mode === "dictation" ? "Rewriting the Dictation…" : mode === "lingo" ? "Rewriting the Lingo practice…" : "Writing your worksheets…";
   setBusy(true, title);
   actions.setAiState("busy");
@@ -325,7 +348,7 @@ export async function runGenerate(mode = "full") {
     state.plan = result.plan || state.plan;
     const val = validateWorksheet(state.data);
     try {
-      state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId: state.sessionId, validation: val });
+      state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId, validation: val });
     } catch (saveErr) {
       toast(`Generated, but saving to the library failed: ${saveErr.message}`, "error");
     }

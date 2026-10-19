@@ -11,6 +11,8 @@ import {
   lookupCoursebookWord,
 } from "./coursebook-data.js";
 import { sanitizeVocabField, rejectionNote } from "./vocab-quality.js";
+import { IRREGULAR_FORMS, wordFormPattern, findOutsideAnswers, worksheetMatchesForm, wordsKey, unitIdentity, allowedTerms } from "./studio/word-scope.js";
+import { BINARY_TYPES, binaryBalance, balancedPattern, repairABItems, choicesPredictable, rebalanceChoiceItems } from "./studio/answer-balance.js";
 import {
   buildArcadeDeck,
   buildDetectiveQuestions,
@@ -1048,8 +1050,6 @@ function validateExtraTypes(data, issues) {
         if (!/^(yes|no)$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be Yes or No");
         if (!/\?\s*$/.test(String(item.prompt || "").trim())) issues.push(label + " item " + item.number + ": prompt must be a question");
       });
-      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toLowerCase());
-      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": all answers are \"" + answers[0] + "\" — mix Yes and No");
     }
     if (t === "L13") {
       ex.items?.forEach((item) => {
@@ -1057,12 +1057,41 @@ function validateExtraTypes(data, issues) {
         if (!/A\.\s*\S/.test(p) || !/B\.\s*\S/.test(p)) issues.push(label + " item " + item.number + ": prompt needs \"A. … B. …\" sentences");
         if (!/^[AB]$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be A or B");
       });
-      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toUpperCase());
-      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": every answer is \"" + answers[0] + "\" — mix A and B");
     }
   };
   data?.dictation?.exercises?.forEach((ex) => check(ex, "Dictation"));
   data?.lingoLauncher?.practice?.forEach((ex) => check(ex, "Lingo"));
+}
+
+/**
+ * Answer-key checks shared by generation and the quality panel, as item-level issues the AI item fixer
+ * can repair line by line: two-answer keys need a real mix (never all True), and answers must be this
+ * unit's words (never one left over from an earlier list).
+ */
+function validateAnswerKeys(data) {
+  const issues = [];
+  const check = (sheet, ex) => {
+    if (!BINARY_TYPES[ex?.typeId] || ex.typeId === "L13") return; // L13 is mixed locally by swapping A and B
+    const report = binaryBalance(ex.typeId, ex.items || []);
+    if (report.ok) return;
+    const [a, b] = BINARY_TYPES[ex.typeId];
+    const what = ex.typeId === "L11" ? "question" : "statement";
+    report.flip.forEach((i) => {
+      const item = ex.items[i];
+      issues.push(`${sheet} ex ${ex.number} (${ex.typeId}) item ${item.number}: rewrite this ${what} so the answer is "${report.flipTo}" — the key needs a mix of ${a} and ${b}`);
+    });
+  };
+  data?.dictation?.exercises?.forEach((ex) => check("Dictation", ex));
+  data?.lingoLauncher?.practice?.forEach((ex) => check("Lingo", ex));
+  findOutsideAnswers(data).forEach((o) => {
+    issues.push(`${o.sheet} ex ${o.exercise} (${o.typeId}) item ${o.item}: answer "${o.answer}" is not a word from this unit's list — use one of the unit words`);
+  });
+  return issues;
+}
+
+/** Issues the cheap line-by-line fixer handles better than a whole new generation. */
+function isAnswerKeyIssue(issue) {
+  return /the key needs a mix of|is not a word from this unit's list/.test(issue);
 }
 
 function normalizeWorksheetPrompts(data) {
@@ -1098,19 +1127,16 @@ function normalizeDictationWordBanks(data) {
   return data;
 }
 
+/** Spread the right option's place across each exercise's bracket choices, and mix A/B keys (no AI). */
 function normalizeBracketChoices(data) {
   if (!data) return data;
-  const shuffleExercise = (ex) => {
+  const balance = (ex) => {
+    if (ex.typeId === "L13") repairABItems(ex.items || []);
     if (!BRACKET_CHOICE_TYPES.has(ex.typeId) && !itemsHaveSlashChoices(ex)) return;
-    if (!bracketChoicesAlwaysFirst(ex.items)) return;
-    ex.items?.forEach((item) => {
-      if (item.prompt) {
-        item.prompt = shuffleBracketChoicesInPrompt(item.prompt, item.answer);
-      }
-    });
+    rebalanceChoiceItems(ex.items || []);
   };
-  data.dictation?.exercises?.forEach(shuffleExercise);
-  data.lingoLauncher?.practice?.forEach(shuffleExercise);
+  data.dictation?.exercises?.forEach(balance);
+  data.lingoLauncher?.practice?.forEach(balance);
   return data;
 }
 
@@ -1692,6 +1718,37 @@ WORKSHEET UNIQUENESS — mandatory:
 - If L02 uses "The museum has an ancient (X / Y)", dictation must NOT reuse that sentence — write a new context`;
 }
 
+/** Which words may be answers, and in which form (the teacher's current list is the only source). */
+function buildWordScopeBlock(form) {
+  if (form?.inputMode !== "structured" || !form.vocabRows?.length) return "";
+  const terms = allowedTerms(form.vocabRows);
+  return `
+WORD SCOPE — mandatory:
+- The ONLY words that may be answers (gaps, correct choices, spelling, puzzles, matching) are these unit words and the family / synonyms / opposites listed for them: ${JSON.stringify(terms)}
+- This list replaces any earlier list: never use words from other units, other worksheets or examples in these instructions as answers
+- Wrong options in brackets may be other simple words the class knows, but every correct answer comes from the list above
+- INFLECTION: an answer may be inflected to fit its sentence (plural, -s, -ed, -ing, comparative: "two ________" → "uncles"). The "answer" field holds EXACTLY the form that fits the gap, and word banks / word lists show the forms students must write`;
+}
+
+/**
+ * Pre-chosen, balanced answer orders for two-answer exercises (T/F, Yes/No, A/B), so a key is never
+ * "all True". The validator still checks the mix and the item fixer repairs a key that drifts.
+ */
+function buildAnswerBalanceBlock(plan, form) {
+  const per = CLASS_PROFILES[resolveProfileId(form?.classProfile)]?.itemsPerExercise || 5;
+  const lines = [];
+  (plan?.dictationTypes || []).forEach((t, i) => {
+    if (BINARY_TYPES[t]) lines.push(`- Dictation exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], per).join(", ")}`);
+  });
+  (plan?.lingoTypes || []).forEach((t, i) => {
+    if (BINARY_TYPES[t]) lines.push(`- Lingo exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], per).join(", ")}`);
+  });
+  return `
+ANSWER KEY BALANCE — mandatory:
+${lines.length ? `${lines.join("\n")}\n` : ""}- Two-answer exercises are NEVER all one answer (never all True, all Yes or all A)
+- In bracket choices "(a / b / c)" put the correct option in a different place on different lines (first, middle, last)`;
+}
+
 function countDictationPromptWords(prompt, typeId) {
   if (SLASH_CHOICE_TYPES.has(typeId) || typeId === "D12") {
     return countWords(splitPromptBodyAndChoices(prompt).body);
@@ -2174,8 +2231,8 @@ function validateWorksheet(data) {
         }
       });
     }
-    if (itemsHaveSlashChoices(ex) && bracketChoicesAlwaysFirst(ex.items)) {
-      issues.push(`Lingo exercise ${ex.number}: bracket choices always put the correct answer first — shuffle options`);
+    if (itemsHaveSlashChoices(ex) && choicesPredictable(ex.items)) {
+      issues.push(`Lingo exercise ${ex.number}: bracket choices put the correct answer in the same place every time — shuffle options`);
     }
     ex.items?.forEach((item) => {
       const p = (item.prompt || "").trim();
@@ -2238,8 +2295,8 @@ function validateWorksheet(data) {
         issues.push(`Dictation exercise ${ex.number} (D16): each category line needs ________ gaps for words`);
       }
     }
-    if (itemsHaveSlashChoices(ex) && bracketChoicesAlwaysFirst(ex.items)) {
-      issues.push(`Dictation exercise ${ex.number}: bracket choices always put the correct answer first — shuffle options`);
+    if (itemsHaveSlashChoices(ex) && choicesPredictable(ex.items)) {
+      issues.push(`Dictation exercise ${ex.number}: bracket choices put the correct answer in the same place every time — shuffle options`);
     }
     if (ex.typeId === "D01" && !itemsHaveSlashChoices(ex) && ex.items?.some((i) => !/_+/.test(i.prompt || ""))) {
       issues.push(`Dictation exercise ${ex.number} (D01): each definition needs a ________ gap and a word bank at the top`);
@@ -2330,6 +2387,7 @@ function validateWorksheet(data) {
   });
 
   validateExtraTypes(data, issues);
+  validateAnswerKeys(data).forEach((i) => issues.push(i));
 
   findCrossWorksheetDuplicatePrompts(data).forEach((dup) => {
     issues.push(`Duplicate sentence across worksheets: ${dup.message}`);
@@ -2614,36 +2672,7 @@ function exerciseHeadHtml(ex, layout) {
 }
 
 /* ── Target word inside its phrase (bolded on worksheets) ────────────────── */
-const IRREGULAR_FORMS = {
-  be: ["am", "is", "are", "was", "were", "been", "being"], have: ["has", "had", "having"], do: ["does", "did", "done", "doing"],
-  go: ["goes", "went", "gone"], get: ["got", "gotten"], give: ["gave", "given"], take: ["took", "taken"], make: ["made"],
-  come: ["came"], see: ["saw", "seen"], eat: ["ate", "eaten"], run: ["ran"], swim: ["swam", "swum"], fly: ["flew", "flown", "flies"],
-  write: ["wrote", "written"], ride: ["rode", "ridden"], drive: ["drove", "driven"], break: ["broke", "broken"], speak: ["spoke", "spoken"],
-  choose: ["chose", "chosen"], wake: ["woke", "woken"], wear: ["wore", "worn"], tear: ["tore", "torn"], throw: ["threw", "thrown"],
-  grow: ["grew", "grown"], know: ["knew", "known"], draw: ["drew", "drawn"], blow: ["blew", "blown"], fall: ["fell", "fallen"],
-  forget: ["forgot", "forgotten"], hide: ["hid", "hidden"], bite: ["bit", "bitten"], begin: ["began", "begun"], sing: ["sang", "sung"],
-  drink: ["drank", "drunk"], ring: ["rang", "rung"], sink: ["sank", "sunk"], buy: ["bought"], bring: ["brought"], think: ["thought"],
-  catch: ["caught"], teach: ["taught"], fight: ["fought"], find: ["found"], feel: ["felt"], keep: ["kept"], sleep: ["slept"],
-  leave: ["left"], meet: ["met"], sell: ["sold"], tell: ["told"], hold: ["held"], stand: ["stood"], understand: ["understood"],
-  build: ["built"], send: ["sent"], spend: ["spent"], lose: ["lost"], win: ["won"], sit: ["sat"], hear: ["heard"], say: ["said"],
-  pay: ["paid"], lay: ["laid"], lie: ["lay", "lain", "lying"], die: ["dying"], tie: ["tying"], light: ["lit"], shine: ["shone"],
-  feed: ["fed"], lead: ["led"], dig: ["dug"], hang: ["hung"], stick: ["stuck"], strike: ["struck"], shake: ["shook", "shaken"],
-  steal: ["stole", "stolen"], freeze: ["froze", "frozen"], mean: ["meant"], dream: ["dreamt"], learn: ["learnt"], burn: ["burnt"],
-  good: ["better", "best"], bad: ["worse", "worst"], far: ["further", "farther", "furthest"], child: ["children"], person: ["people"],
-  man: ["men"], woman: ["women"], mouse: ["mice"], foot: ["feet"], tooth: ["teeth"], goose: ["geese"], leaf: ["leaves"], knife: ["knives"],
-  wolf: ["wolves"], life: ["lives"], shelf: ["shelves"], half: ["halves"],
-};
-
-/** Regex source matching one target word in any common form (helps, helped, happier, made, …). */
-function wordFormPattern(word) {
-  const w = word.toLowerCase();
-  const forms = [escapeRegex(w), `${escapeRegex(w)}(?:s|es|ed|ing|er|est|ly|ness)`];
-  if (w.length > 3 && /e$/.test(w)) forms.push(`${escapeRegex(w.slice(0, -1))}(?:ing|ed|er|est|ion|ation)`);
-  if (w.length > 3 && /y$/.test(w)) forms.push(`${escapeRegex(w.slice(0, -1))}(?:ies|ied|ier|iest|ily|iness)`);
-  if (/[aeiou][bcdfghjklmnpqrstvz]$/.test(w)) forms.push(`${escapeRegex(w + w.at(-1))}(?:ed|ing|er|est)`);
-  (IRREGULAR_FORMS[w] || []).forEach((f) => forms.push(escapeRegex(f)));
-  return `(?:${forms.join("|")})`;
-}
+// IRREGULAR_FORMS and wordFormPattern live in studio/word-scope.js (shared with the answer-scope check).
 
 /**
  * Split a phrase into [{ text, bold }] so the vocabulary word stands out:
@@ -3064,25 +3093,30 @@ const TEACHER_VOCAB_FIELDS = ["type", "greek", "emojis", "collocation", "derivat
  */
 function enforceTeacherVocabulary(data, form) {
   const rows = form?.inputMode === "structured" ? form.vocabRows : null;
-  if (!rows?.length || !data?.lingoLauncher) return data;
+  if (!data?.lingoLauncher) return data;
+  if (!rows?.length) {
+    // Freeform: remember the brief, so a later regenerate can tell whether it still belongs to it.
+    if (form?.inputMode === "freeform") data.meta = { ...(data.meta || {}), freeformKey: normEnglish(form.freeform) };
+    return data;
+  }
+  // The table is rebuilt from the teacher's rows, in the teacher's order: a word the AI added (or kept
+  // from an earlier list) never reaches the sheet, and a word it dropped comes back.
   const vocab = data.lingoLauncher.vocabulary || [];
   const used = new Set();
-  const rowFor = (v, i) => {
-    const key = normEnglish(v?.english);
-    let j = rows.findIndex((r, idx) => !used.has(idx) && normEnglish(r.english) === key);
-    if (j < 0 && rows[i] && !used.has(i) && !vocab.some((o) => normEnglish(o?.english) === normEnglish(rows[i].english))) j = i;
-    if (j < 0) return null;
+  const aiEntryFor = (row) => {
+    const j = vocab.findIndex((v, idx) => !used.has(idx) && normEnglish(v?.english) === normEnglish(row.english));
+    if (j < 0) return {};
     used.add(j);
-    return rows[j];
+    return vocab[j];
   };
-  data.lingoLauncher.vocabulary = vocab.map((v, i) => {
-    const row = rowFor(v, i);
-    if (!row) return v;
+  data.lingoLauncher.vocabulary = rows.map((row, i) => {
+    const v = aiEntryFor(row);
     const on = (k) => row.fieldToggles?.[k] !== false;
     const text = (k) => (on(k) ? String(row[k] ?? "").trim() : "");
     return {
       ...v,
-      english: row.english || v.english,
+      number: i + 1,
+      english: row.english,
       type: text("type"),
       greek: text("greek"),
       emojis: text("emojis"),
@@ -3092,7 +3126,7 @@ function enforceTeacherVocabulary(data, form) {
       antonyms: normalizeAntonymList(text("antonyms")),
     };
   });
-  data.meta = { ...(data.meta || {}), vocabFromTeacher: true };
+  data.meta = { ...(data.meta || {}), vocabFromTeacher: true, wordsKey: wordsKey(rows) };
   return data;
 }
 
@@ -3125,7 +3159,7 @@ If a row already has type and/or greek filled in, treat that as the locked word 
   const lingoRelated = buildLingoRelatedExerciseBlock(form, plan);
   const dictationRelated = buildDictationRelatedExerciseBlock(form, plan);
   const distributionBlock = buildDictationDistributionBlock(form, plan, form.vocabRows);
-  const uniquenessBlock = buildWorksheetUniquenessBlock();
+  const uniquenessBlock = buildWorksheetUniquenessBlock() + buildWordScopeBlock(form) + buildAnswerBalanceBlock(plan, form);
   return `Create worksheets for:
 Book: ${form.bookTitle}
 Unit: ${form.unit}
@@ -3369,6 +3403,17 @@ async function callDeepSeekWithValidation({ apiKey, systemPrompt, userPrompt, pr
     lastValidation = validateWorksheet(data);
     data.coverageReport = lastValidation.coverage;
     if (lastValidation.valid) break;
+    // A lopsided key or a stray answer is a few lines to rewrite, not a reason to write everything again.
+    if (lastValidation.issues.every(isAnswerKeyIssue)) break;
+  }
+  const keyIssues = (lastValidation?.issues || []).filter(isAnswerKeyIssue);
+  if (keyIssues.length && data?.meta?.classProfile) {
+    try {
+      const fixed = await fixWorksheetValidationIssues({}, apiKey, data, { ...lastValidation, issues: keyIssues }, { maxAttempts: 2 });
+      data = fixed.data;
+      lastValidation = validateWorksheet(data);
+      data.coverageReport = lastValidation.coverage;
+    } catch { /* keep the worksheet; the quality panel offers the same fix */ }
   }
   return { data, validation: lastValidation };
 }
@@ -3392,17 +3437,8 @@ async function generateWorksheets(form, apiKey, options = {}) {
       if (data.lingoLauncher?.vocabulary) {
         data.lingoLauncher.vocabulary = normalizeVocabulary(data.lingoLauncher.vocabulary);
       }
-      if (form.inputMode === "structured" && form.vocabRows?.length) {
-        const expected = form.vocabRows.length;
-        const actual = data.lingoLauncher?.vocabulary?.length || 0;
-        if (actual !== expected) {
-          return {
-            valid: false,
-            issues: [`Lingo vocabulary has ${actual} items; teacher provided ${expected}`],
-            coverage: computeDictationCoverage(data.lingoLauncher?.vocabulary || [], data.dictation || { exercises: [] }),
-          };
-        }
-      }
+      // The table is rebuilt from the teacher's rows (exact words, exact order), so a wrong-sized
+      // table from the AI no longer needs a whole second generation.
       enforceTeacherVocabulary(data, form);
       return null;
     },
@@ -3410,8 +3446,22 @@ async function generateWorksheets(form, apiKey, options = {}) {
   return { data, validation: lastValidation, plan };
 }
 
+/**
+ * Partial rewrites keep half of the old worksheet, so they are only safe while it was made from the
+ * same words. When the teacher has changed the list (or the unit), write everything fresh instead —
+ * the old words must never be sent back to the AI next to the new ones.
+ */
+async function freshIfWordsChanged(form, apiKey, existingData, options) {
+  if (worksheetMatchesForm(existingData, form)) return null;
+  const plan = options.plan?.dictationTypes?.length && options.plan?.lingoTypes?.length ? options.plan : undefined;
+  const result = await generateWorksheets(form, apiKey, { plan });
+  return { ...result, fullRegenerate: true };
+}
+
 /** options.plan: a plan whose dictation types to use (e.g. the teacher's custom selection). */
 async function regenerateDictationOnly(form, apiKey, existingData, options = {}) {
+  const fresh = await freshIfWordsChanged(form, apiKey, existingData, options);
+  if (fresh) return fresh;
   const profileId = form.classProfile || existingData.meta?.classProfile;
   const vocab = existingData.lingoLauncher.vocabulary;
   const features = analyzeVocabFeaturesFromData(vocab);
@@ -3449,6 +3499,8 @@ async function regenerateDictationOnly(form, apiKey, existingData, options = {})
 
 /** options.plan: a plan whose Lingo types to use (e.g. the teacher's custom selection). */
 async function regenerateLingoPracticeOnly(form, apiKey, existingData, options = {}) {
+  const fresh = await freshIfWordsChanged(form, apiKey, existingData, options);
+  if (fresh) return fresh;
   const profileId = form.classProfile || existingData.meta?.classProfile;
   const keptExercises = existingData.dictation?.exercises || [];
   const dictTypes = keptExercises.map((ex) => ex.typeId);
@@ -3552,7 +3604,7 @@ function countFixableValidationIssues(issues, data) {
 
 function isQuickFixIssue(issue) {
   return /word (bank|list) is in (answer|category\/gap) order/i.test(issue)
-    || /bracket choices always put the correct answer first/i.test(issue)
+    || /bracket choices (always put the correct answer first|put the correct answer in the same place)/i.test(issue)
     || /remove word bank — bracket choices/i.test(issue)
     || /remove wordList/i.test(issue)
     || /word list is in answer order/i.test(issue);
@@ -3575,9 +3627,9 @@ function humanizeValidationIssue(issue) {
     const m = issue.match(/exercise (\d+)/i);
     return `Dictation exercise ${m?.[1] || "?"} — category sort words match the gap order (we can shuffle the bank).`;
   }
-  if (/bracket choices always put the correct answer first/i.test(issue)) {
+  if (/bracket choices (always put the correct answer first|put the correct answer in the same place)/i.test(issue)) {
     const m = issue.match(/exercise (\d+)/i);
-    return `Exercise ${m?.[1] || "?"} — multiple-choice options always show the answer first (we can shuffle them).`;
+    return `Exercise ${m?.[1] || "?"} — the right option is always in the same place (we can mix them).`;
   }
   if (/word list is in answer order/i.test(issue)) {
     const m = issue.match(/exercise (\d+)/i);
@@ -3650,16 +3702,11 @@ function buildValidationReport(validation, data) {
   };
 }
 
+/** Old shuffles moved the answer out of first place every time (so it was never first): spread it evenly instead. */
 function forceShuffleBracketChoices(data) {
-  const reshuffle = (ex) => {
-    ex.items?.forEach((item) => {
-      if (item.prompt && /\([^)]*\/[^)]*\)/.test(item.prompt)) {
-        item.prompt = shuffleBracketChoicesInPrompt(item.prompt, item.answer);
-      }
-    });
-  };
-  data.dictation?.exercises?.forEach(reshuffle);
-  data.lingoLauncher?.practice?.forEach(reshuffle);
+  const spread = (ex) => { if (itemsHaveSlashChoices(ex)) rebalanceChoiceItems(ex.items || []); };
+  data.dictation?.exercises?.forEach(spread);
+  data.lingoLauncher?.practice?.forEach(spread);
 }
 
 /** Instant layout fixes — shuffles, word-bank order, bracket order (no API). */
@@ -3729,6 +3776,8 @@ Rules:
 - Fix ONLY the items listed in the user message — same exercise and item numbers
 - Do not change vocabulary, other exercises, or other items
 - Return one fix object per listed item
+- Every answer is a word from the vocabulary table (or its listed family / synonyms / opposites), inflected to fit the sentence when needed
+- When the problem asks for a different answer (e.g. "so the answer is F"), write a NEW statement or question whose correct answer is that one
 ${extra}`;
 }
 
@@ -5099,6 +5148,21 @@ export {
   isJunkBankEmoji,
   emojiHead,
   enforceTeacherVocabulary,
+  validateAnswerKeys,
+  isAnswerKeyIssue,
+  buildUserPrompt,
+  buildSystemPrompt,
+  worksheetMatchesForm,
+  unitIdentity,
+  wordsKey,
+  callDeepSeek as callAi,
+  resolveProfileId,
+  normalizeVocabulary,
+  textWithPictures,
+  worksheetHeaderHtml,
+  worksheetSectionHtml,
+  escapeHtml,
+  getProfilePromptBlock,
   findVocabGaps,
   sanitizeVocabField,
   splitTargetInPhrase,

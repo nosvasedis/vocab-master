@@ -3,10 +3,10 @@ import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
   renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
   saveWorksheetSession, applyQuickWorksheetFixes, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
-  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName,
+  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName, getSavedSession,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
-import { state, emit, on, buildForm, makeWord, prefs } from "../state.js";
+import { state, emit, on, buildForm, makeWord, prefs, worksheetFreshness } from "../state.js";
 import { worksheetFontCss } from "../fonts.js";
 import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictures.js";
 import { savePrefs } from "../state.js";
@@ -220,8 +220,11 @@ export function persistSession() {
   if (!state.data) return null;
   ensurePlan();
   const val = validateWorksheet(state.data);
+  // Edits to worksheets made from an earlier word list keep that list in the library entry:
+  // saving them under the current Step 2 words would pair old sheets with new words.
+  const form = worksheetFreshness()?.stale ? (getSavedSession(state.sessionId)?.form || buildForm()) : buildForm();
   try {
-    state.sessionId = saveWorksheetSession(buildForm(), state.data, state.plan, { updateId: state.sessionId, validation: val });
+    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId: state.sessionId, validation: val });
   } catch (err) {
     toast(`Couldn't save to the library: ${err.message}`, "error");
   }
@@ -233,8 +236,11 @@ export function persistSession() {
 function renderQuality() {
   const val = validateWorksheet(state.data);
   const report = buildValidationReport(val, state.data);
+  const stale = worksheetFreshness()?.wordsChanged
+    ? `<div class="callout info stale-note">${icon("info")}<span>These sheets were written for an earlier word list. <a data-goto="exercises">Generate again</a> to use your current words.</span></div>`
+    : "";
   if (report.valid) {
-    $("qualityPanel").innerHTML = `<div class="quality-ok">${icon("check-circle")}<span>All checks passed — ready to print.</span></div>`;
+    $("qualityPanel").innerHTML = stale + `<div class="quality-ok">${icon("check-circle")}<span>All checks passed — ready to print.</span></div>`;
   } else {
     const group = (title, items, iconName) => items.length
       ? `<div class="q-group warn"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5><ul>${items.slice(0, 6).map((i) => `<li>${esc(i.friendly)}</li>`).join("")}${items.length > 6 ? `<li>…and ${items.length - 6} more</li>` : ""}</ul></div>`
@@ -245,7 +251,7 @@ function renderQuality() {
     if (report.coverageCount) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="coverage">${icon("target", "i-sm")}Add missing words with AI</button>`);
     const total = report.quickCount + report.itemCount + report.coverageCount;
     if (total > 1 && btns.length > 1) btns.unshift(`<button type="button" class="btn btn-primary btn-sm btn-block" data-fix="all">${icon("wand", "i-sm")}Fix everything (${total})</button>`);
-    $("qualityPanel").innerHTML = `
+    $("qualityPanel").innerHTML = `${stale}
       <p class="q-summary">${esc(report.intro)}</p>
       <div class="quality-list">
         ${group("Quick fixes", report.categories.quick, "zap")}
