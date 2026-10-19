@@ -5,7 +5,7 @@
 import { TASKS, SKILLS, defaultTask, tfLabels } from "./tasks.js";
 import { TEST_DEFAULTS, DIFFICULTY } from "./levels.js";
 import { balancedPattern } from "./answer-balance.js";
-import { normalizeSection, docPoints, newDocId } from "./doc-model.js";
+import { normalizeSection, docPoints, newDocId, tfValue } from "./doc-model.js";
 import { allowedTerms, answerInScope } from "./word-scope.js";
 import { unitContextPrompt } from "./unit-context.js";
 
@@ -96,7 +96,13 @@ function partBrief(p, i, spec, pictureWords) {
   const lines = [`PART ${i + 1} — id "${p.id}" — ${SKILLS[p.skill].label}: ${t.label} [${p.task}]`, `  What to write: ${t.ai}`];
   if (t.answer !== "open") lines.push(`  Items: exactly ${p.items}, plus ONE extra "example" item (shown solved as item 0, not counted).`);
   if (t.answer === "choice") lines.push(`  Each item: "options" (${t.options || 3}) and "answer" = the exact text of the right option.`);
-  if (t.answer === "tf") lines.push(`  Answer each with "${tfLabels(spec.levelId).join('" or "')}" in THIS order: ${balancedPattern(tfLabels(spec.levelId), p.items).join(", ")}.`);
+  if (t.answer === "tf") {
+    const [yes, no] = tfLabels(spec.levelId);
+    lines.push(`  Answer each with "${yes}" or "${no}" in THIS order: ${balancedPattern(tfLabels(spec.levelId), p.items).join(", ")}.`);
+    const src = p.skill === "listening" ? "script" : "text";
+    lines.push(`  Write the ${src} first, then one statement per item. A "${yes}" statement says what the ${src} says; a "${no}" statement changes one detail (who, what, where or when) so the ${src} clearly says otherwise. Every statement is about something the ${src} says. Never key "${no}" for something that is said.`);
+    lines.push(`  Each item (and the example) also has "evidence": the exact words of the ${src} that decide its answer.`);
+  }
   if (p.skill === "writing" && p.words) lines.push(`  Students write ${p.words[0]}–${p.words[1]} words.`);
   if (t.needs?.includes("pictures") && pictureWords.length) lines.push(`  Picture words (ONLY these can be pictures): ${pictureWords.join(", ")}`);
   if (p.note) lines.push(`  Teacher's note for this part: ${p.note}`);
@@ -129,10 +135,53 @@ Only include the fields a part needs. One object per part, same ids, same order.
     "Every non-writing, non-speaking part MUST include its \"example\" item.",
     "Reading texts: 80–180 words depending on the level, a clear title, about the unit topic.",
     "Every correct answer must be clearly right and every wrong option clearly wrong. No trick questions. No Greek anywhere.",
+    "Every part has its own sentences: never reuse a sentence or item from another part, even with a different task.",
+    "Facts in texts and scripts must be true (lava is hot, ash is grey); only the \"no\" statements may be wrong.",
     "Spread the right option across a, b and c.",
   ].filter(Boolean);
   const user = `${topicMode ? "" : `UNIT CONTEXT\n${unitContextPrompt(ctx.unitContext)}\n\n`}RULES\n${rules.map((r) => `- ${r}`).join("\n")}\n\nLOCKED TEST PLAN (${parts.length} part${parts.length === 1 ? "" : "s"})\n${parts.map((p) => partBrief(p, spec.parts.indexOf(p), spec, ctx.pictureWords || [])).join("\n")}`;
   return { system, user };
+}
+
+/**
+ * A second, small AI call that answers each yes/no (true/false) statement from the text alone.
+ * The writer is told the answer order before it writes, and a real run still keyed "no" for something the
+ * script said, so the key is checked by a reader who only sees the text. Returns null when there's nothing to check.
+ */
+export function keyCheckPrompt(doc, onlyParts = null) {
+  const parts = (doc?.sections || []).filter((s) => s.answerType === "tf" && s.items.length && (!onlyParts || onlyParts.includes(s.id)));
+  if (!parts.length) return null;
+  const system = `You check answer keys for an English test. Read each text and decide, for every statement, whether the text says it (yes) or clearly says otherwise (no). Judge only by the text.
+Return ONLY valid JSON: { "sections": [ { "id": "<part id>", "answers": ["yes" or "no", …] } ] } — one answer per statement, in order.`;
+  const user = parts.map((s) => {
+    const text = s.script.length ? s.script.map((l) => `${l.speaker}: ${l.text}`).join("\n") : s.passage;
+    return `PART id "${s.id}"\nTEXT:\n${text}\nSTATEMENTS:\n${s.items.map((it) => `${it.n}. ${it.prompt}`).join("\n")}`;
+  }).join("\n\n");
+  return { system, user };
+}
+
+/** Takes the checker's answers: a key it disagrees with is corrected and flagged for the teacher. Returns the items changed. */
+export function applyKeyCheck(doc, reply) {
+  let changed = 0;
+  const byId = new Map((Array.isArray(reply?.sections) ? reply.sections : []).map((s) => [String(s?.id || ""), s]));
+  for (const s of doc?.sections || []) {
+    const answers = byId.get(s.id)?.answers;
+    if (s.answerType !== "tf" || !Array.isArray(answers) || answers.length !== s.items.length) continue;
+    const labels = tfLabels(doc.meta?.classProfile);
+    const fixed = [];
+    s.items.forEach((it, i) => {
+      const v = tfValue(answers[i]);
+      if (v < 0 || v === it.tf) return;
+      it.tf = v;
+      it.answer = labels[v];
+      fixed.push(it.n);
+    });
+    if (fixed.length) {
+      s.problems = [...(s.problems || []), `the answer key was corrected for item${fixed.length > 1 ? "s" : ""} ${fixed.join(", ")} — please check against the ${s.script.length ? "script" : "text"}`];
+      changed += fixed.length;
+    }
+  }
+  return changed;
 }
 
 /** Answers outside the tested words, per part (vocabulary, reading gaps and listening gaps). */

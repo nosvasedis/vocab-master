@@ -82,8 +82,8 @@ async function send(text) {
   $("asText").value = "";
   as.messages.push({ role: "teacher", text });
   const partial = parseRequest(text, context());
-  // A new kind of thing starts a new plan; anything else refines the current one.
-  const base = partial.kind || !as.plan ? {} : as.plan;
+  // A new kind of thing (or a dictation of either kind) starts a new plan; anything else refines the current one.
+  const base = partial.kind || partial.dictationChoice || !as.plan ? {} : as.plan;
   let plan = { ...base, ...partial, ...(partial.grammar && base.grammar ? { grammar: [...new Set([...base.grammar, ...partial.grammar])] } : {}) };
   if (needsAi(text, partial) && isAiReady()) {
     as.thinking = true;

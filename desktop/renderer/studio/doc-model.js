@@ -10,6 +10,7 @@ export const LETTERS = "abcdefgh";
 
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
 const lc = (s) => clean(s).toLowerCase().replace(/[.!?]+$/, "");
+const squash = (s) => String(s ?? "").toLowerCase().replace(/[’']/g, "'").replace(/[^a-z0-9']+/g, " ").trim();
 
 function shuffled(arr, rand = Math.random) {
   const a = [...arr];
@@ -53,6 +54,7 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     if (v < 0) problems.push("answer must be yes/no or true/false");
     item.answer = tfLabels(levelId)[Math.max(0, v)];
     item.tf = v;
+    if (raw?.evidence) item.evidence = clean(raw.evidence);
   } else {
     item.answer = clean(raw?.answer ?? raw?.sample ?? "");
     if (!item.answer && t.answer !== "open") problems.push("missing answer");
@@ -63,6 +65,20 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     else problems.push("no picture for this word");
   }
   return { item, problems };
+}
+
+const orderWords = (s) => clean(s).replace(/[.!?]+$/, "").split(/\s*\/\s*|\s+/).filter(Boolean);
+const wordBag = (words) => words.map((w) => w.toLowerCase()).sort().join(" ");
+
+/** "Put the words in order": the jumble must hold exactly the answer's words (the AI once gave "a" for "an").
+ *  A jumble that doesn't is rebuilt from the answer, never left in answer order. Returns true when it was rebuilt. */
+export function repairOrderItem(item, rand = Math.random) {
+  const answer = orderWords(item.answer);
+  if (answer.length < 2 || wordBag(orderWords(item.prompt)) === wordBag(answer)) return false;
+  let jumble = shuffled(answer, rand);
+  for (let t = 0; t < 8 && jumble.join(" ") === answer.join(" "); t++) jumble = shuffled(answer, rand);
+  item.prompt = jumble.join(" / ");
+  return true;
 }
 
 /** Option order that spreads the right answer evenly over a, b, c… across a section (other options keep their order). */
@@ -134,9 +150,10 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
 
   // Word banks: shuffled, never in answer order. Matching: lettered definitions.
   if (task.answer === "match") {
-    const defs = shuffled(items.map((it) => it.answer));
+    // The example's meaning is in the list too, so item 0 shows its letter (Cambridge style).
+    const defs = shuffled([...new Set([...(example?.answer ? [example.answer] : []), ...items.map((it) => it.answer)])]);
     section.bank = defs.map((text, i) => ({ letter: LETTERS[i], text }));
-    items.forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)]; it.prompt ||= ""; });
+    [example, ...items].filter(Boolean).forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)] || ""; it.prompt ||= ""; });
   } else if (task.bank) {
     const words = [...new Set([...(raw.bank || []), ...items.map((it) => it.answer)].map(clean).filter(Boolean))];
     let bank = shuffled(words);
@@ -144,6 +161,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     section.bank = bank;
   }
   if (task.answer === "choice") balanceChoices(items);
+  if (plan.task === "G-ORDER") [example, ...items].filter(Boolean).forEach((it) => repairOrderItem(it));
 
   // Points: one per item; open tasks carry their own total.
   section.pointsEach = task.answer === "open" ? 0 : plan.pointsEach || 1;
@@ -154,6 +172,10 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (task.answer === "tf") {
     const report = binaryBalance("TF", items.map((it) => ({ answer: it.tf === 0 ? "T" : it.tf === 1 ? "F" : "" })));
     if (!report.ok) problems.push(`the answers need a mix of ${tfLabels(ctx.levelId).join(" and ")} (items ${report.flip.map((i) => i + 1).join(", ")} should be "${tfLabels(ctx.levelId)[report.flipTo === "T" ? 0 : 1]}")`);
+    // The AI quotes the words that decide each answer; a quote that isn't in the text means the key needs a look.
+    const source = squash(`${section.passage} ${section.script.map((l) => l.text).join(" ")}`);
+    const unsure = items.filter((it) => it.evidence && !source.includes(squash(it.evidence))).map((it) => it.n);
+    if (source && unsure.length) problems.push(`check the answer${unsure.length > 1 ? "s" : ""} to item${unsure.length > 1 ? "s" : ""} ${unsure.join(", ")} against the ${section.script.length ? "script" : "text"}`);
   }
   section.problems = problems;
   return section;
@@ -200,7 +222,7 @@ export function makeVersionB(doc, rand = Math.random) {
     if (s.answerType === "match") {
       const defs = shuffled(s.bank.map((x) => x.text), rand);
       s.bank = defs.map((text, i) => ({ letter: LETTERS[i], text }));
-      s.items.forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)]; });
+      [s.example, ...s.items].filter(Boolean).forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)] || ""; });
     } else if (s.bank?.length) s.bank = shuffled(s.bank, rand);
   }
   return b;

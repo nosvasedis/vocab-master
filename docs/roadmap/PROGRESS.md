@@ -2,7 +2,23 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-**Next:** real-AI-key checks of 3.2.0. The full brief is in `work/tmp/NEXT-AI-KEY-CHECKS.md` (gitignored, on the teacher's computer).
+**Next:** ask the user before merging `check/ai-key-3.2.0` into `main` and rebuilding the exes (`npm run dist`, then `desktop/release/win-unpacked/Vocab Master.exe --smoke`).
+
+## 3.2.0 checked with a real DeepSeek key (2026-10-20, branch check/ai-key-3.2.0, from the user)
+- **Checked in the web app** (the teacher pasted the key in Settings) and with `try-studio.mjs --provider deepseek`. Spend about $0.04 (balance $2.49 → $2.45); the script calls are in the ledger (new `deepseek` provider, $0.10 cap, prices in `content/pricing.json`).
+- **Worksheet, CPP2 Unit 4, B Senior:** default run correct (3 × 5 items, all 15 words, bracket answers mixed). Fine-tune 7 items / longer / a bit harder / +2: 7 items each, longer sentences, 3 options instead of 2, no warnings. "Rewrite Dictation only" with "a bit easier" really was easier. Unit 5: put-away toast, fresh generation, no Unit 4 word anywhere. Word-bank pictures: all 15 real pictures load.
+- **Unit test, CPP2 Unit 4, all 4 skills, A + B:** generates, both listening tracks play (one computer voice per speaker), key and marking scheme correct, 31 real pictures in each version, Word (student + teacher) and the PDF print document build.
+- **Read-aloud dictation:** AI, gapped, 8 sentences, Past Simple (typed as own grammar): short B Senior sentences, gaps right, the player reads slowly, twice, with punctuation (on by default for B).
+- **Assistant:** E-class Present Simple vs Present Continuous test (local, then made); "a dictation for unit 4" asks "Which dictation do you mean?" and both answers work; "κάνε μου ένα τεστ για την ενότητα 3" → test plan locally; "something fun for my D class tomorrow" → one small AI call.
+- **Fixed (each with a regression test):**
+  - Unit tests: Yes/No (true/false) keys contradicted the script ("no" for things Anna said). The prompt now says how a "no" statement is written, asks for an `evidence` quote per statement (a quote not in the text is flagged), and a second small call (`keyCheckPrompt` / `applyKeyCheck`, ≈ $0.0002) re-answers every statement from the text alone; a disagreement corrects the key and asks the teacher to look. It caught one in the app run.
+  - Unit tests: "Put the words in order" jumbles that don't hold the answer's words ("a" for "an") are rebuilt from the answer (`repairOrderItem`).
+  - Unit tests: a matching part's example had no meaning in the list or letter, and **Word export crashed** (HTTP 500). The example's meaning is now lettered with the others (also in version B).
+  - Unit tests: prompt rules "never reuse a sentence from another part" (an E-class test repeated four sentences) and "facts must be true".
+  - Worksheets: Fine-tune "+2 extra words" gave 17 words for 7 gaps (D01 lets the AI list every unit word). `fitTunedWordBank`: the exercise's answers plus exactly N extras (D01, L01, L05), and the prompt says so.
+  - Assistant: a bare "a dictation for unit 4" went to the AI, which guessed read-aloud; now it always asks. In an ongoing chat it also starts a new plan instead of refining a test plan.
+- **AI slips seen, not fixable by rules:** in the easier rewrite one definition fitted "savanna" but was keyed "climate"; "a hot ___ in Africa" fits two words. The quality check can't see meaning; teachers should glance at the key.
+- **Checks:** `npm test` 436 pass; `npm run smoke` passes. The exes were not rebuilt.
 
 ## 3.2.0 — one Dictation sheet, a read-aloud dictation, worksheet fine-tuning (2026-10-19, from the user)
 - **Two dictations, now told apart.** The worksheet's **Dictation sheet** (vocabulary exercises D01–D28 that come with the Lingo Launcher) keeps its name. The studio tool from the worksheets branch is now **Read-aloud dictation** (sidebar, view title, saved-doc titles, assistant). Step 3 links to it, and its subtitle points back to the Dictation sheet.

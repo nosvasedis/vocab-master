@@ -220,6 +220,8 @@ export function mergeAiPlan(plan, ai = {}) {
 /** Does the local reading need the AI? (No kind, or a long request the rules only partly understood.) */
 export function needsAi(text, partial) {
   const words = norm(text).split(" ").length;
+  // A bare "dictation" is settled by asking "Which dictation do you mean?", not by the AI guessing.
+  if (partial.dictationChoice && !partial.kind) return words > 14;
   if (!partial.kind && words > 3) return true;
   const understood = ["kind", "levelId", "source", "grammar", "skills", "length", "style", "count", "versions", "difficulty"].filter((k) => partial[k] !== undefined).length;
   return words > 14 && understood < 3;

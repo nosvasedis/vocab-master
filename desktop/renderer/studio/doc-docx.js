@@ -95,7 +95,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
           else runs.push(run(`${ex && k === it.answerIndex ? "(" : ""}${LETTERS[k]}${ex && k === it.answerIndex ? ")" : ")"} `, { bold: true }), run(`${o}      `));
         });
       } else if (s.answerType === "tf") runs.push(run(gapText(it.prompt)), run(`      ${ex ? it.answer : "______"}`, { bold: true }));
-      else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? it.letter.toUpperCase() : "_____"}`));
+      else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? (it.letter || "").toUpperCase() : "_____"}`));
       else runs.push(run(gapText(it.prompt)), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
       children.push(item(ex ? "0" : it.n, runs));
     });

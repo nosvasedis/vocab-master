@@ -10899,6 +10899,116 @@
       "outTok": 2831,
       "usd": 0.001383,
       "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T20:58:58.802Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2520,
+      "outTok": 2923,
+      "usd": 0.004264,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T20:59:00.352Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 551,
+      "outTok": 239,
+      "usd": 0.000452,
+      "job": "studio-try: dictation"
+    },
+    {
+      "t": "2026-10-19T20:59:01.580Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 457,
+      "outTok": 123,
+      "usd": 0.000285,
+      "job": "studio-try: assistant"
+    },
+    {
+      "t": "2026-10-19T21:00:21.726Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2640,
+      "outTok": 2790,
+      "usd": 0.00414,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T21:00:46.971Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2693,
+      "outTok": 2995,
+      "usd": 0.004402,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T21:01:29.784Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2731,
+      "outTok": 2827,
+      "usd": 0.004212,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T21:01:39.191Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2731,
+      "outTok": 2694,
+      "usd": 0.004052,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T21:02:45.992Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2731,
+      "outTok": 2788,
+      "usd": 0.004165,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T21:02:46.853Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 431,
+      "outTok": 48,
+      "usd": 0.000187,
+      "job": "studio-try: key check"
+    },
+    {
+      "t": "2026-10-19T21:02:57.289Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2741,
+      "outTok": 2828,
+      "usd": 0.004216,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T21:02:58.391Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 446,
+      "outTok": 50,
+      "usd": 0.000194,
+      "job": "studio-try: key check"
     }
   ]
 }

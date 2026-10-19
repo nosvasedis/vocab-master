@@ -434,7 +434,7 @@ function buildTuneBlock(profileId, tune) {
   if (t.items) lines.push(`- Items per exercise: exactly ~${t.items} (the teacher chose this; it replaces the class default)`);
   if (t.length !== "class") lines.push(`- Sentences ${t.length === "shorter" ? "SHORTER" : "LONGER"} than usual: max ~${p.maxSentenceWords} words each`);
   if (TUNE_LEVELS[t.level]) lines.push(`- Difficulty: ${TUNE_LEVELS[t.level]}`);
-  if (t.extras) lines.push(`- Word banks (D01, L01, L05): add ${t.extras} extra word${t.extras > 1 ? "s" : ""} that are NOT answers (simple words the class knows, ideally the same part of speech), shuffled in`);
+  if (t.extras) lines.push(`- Word banks (D01, L01, L05): add ${t.extras} extra word${t.extras > 1 ? "s" : ""} that are NOT answers (simple words the class knows, ideally the same part of speech), shuffled in. The bank is ONLY that exercise's answers plus these ${t.extras} — not every unit word`);
   return `
 TEACHER FINE-TUNING — mandatory (overrides the class profile where they differ):
 ${lines.join("\n")}`;
@@ -1229,14 +1229,38 @@ function normalizeWorksheetPrompts(data) {
 
 function normalizeDictationWordBanks(data) {
   if (!data) return data;
+  const extras = normalizeTune(data.generationPlan?.tune).extras;
   data.dictation?.exercises?.forEach((ex) => {
     if (itemsHaveSlashChoices(ex)) {
       ex.wordBank = [];
     } else if (!DICTATION_WORD_BANK_TYPES.has(ex.typeId)) {
       ex.wordBank = [];
+    } else if (ex.typeId === "D01" && extras) {
+      ex.wordBank = fitTunedWordBank(ex.wordBank, ex.items, extras);
     }
   });
+  if (extras) {
+    data.lingoLauncher?.practice?.forEach((ex) => {
+      if (LINGO_WORDLIST_TYPES.has(ex.typeId) && ex.wordList?.length) ex.wordList = fitTunedWordBank(ex.wordList, ex.items, extras);
+    });
+  }
   return data;
+}
+
+/**
+ * Fine-tune "+N extra words": the bank is this exercise's answers plus exactly N words that aren't answers.
+ * The D01 prompt lets the AI print every unit word in the bank, which with +2 gave 17 words for 7 gaps.
+ */
+export function fitTunedWordBank(bank, items, extras) {
+  const answers = dedupeWords((items || []).flatMap(flattenItemAnswers));
+  if (!answers.length) return bank || [];
+  const list = dedupeWords(bank || []);
+  const isAnswer = (w) => answers.some((a) => answerMatches(w, a));
+  const kept = list.filter(isAnswer);
+  answers.forEach((a) => { if (!kept.some((w) => answerMatches(w, a))) kept.push(a); });
+  // The AI adds its extra words after the unit words, so the last non-answers are the ones to keep.
+  const others = list.filter((w) => !isAnswer(w));
+  return shuffleListAwayFromAnswers([...kept, ...others.slice(-extras)], items);
 }
 
 /** Spread the right option's place across each exercise's bracket choices, and mix A/B keys (no AI). */
