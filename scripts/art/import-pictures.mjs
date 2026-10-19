@@ -25,7 +25,13 @@ const OUT = path.join(ROOT, "desktop", "renderer", "assets", "pics");
 const MANIFEST = path.join(OUT, "manifest.json");
 const SIZE = 512;
 const { jobs } = JSON.parse(fs.readFileSync(path.join(DIR, "jobs.json"), "utf8"));
-const byFile = new Map(jobs.map((j) => [j.file, j]));
+// Top Answers has its own stable IDs and answer list; make those generated pictures
+// import through the same path even though they are not part of the coursebook jobs.
+const topAnswersFile = path.join(DIR, "top-answers-needed.json");
+const topAnswers = fs.existsSync(topAnswersFile) ? JSON.parse(fs.readFileSync(topAnswersFile, "utf8")) : [];
+const topAnswerJobs = topAnswers.map((a) => ({ id: a.id, file: `${a.id}.png`, phase: 3, kind: "word", word: a.text, type: "noun", frame: "object", props: [] }));
+const allJobs = [...jobs, ...topAnswerJobs];
+const byFile = new Map(allJobs.map((j) => [j.file, j]));
 const manifest = fs.existsSync(MANIFEST) ? JSON.parse(fs.readFileSync(MANIFEST, "utf8")) : { v: 1 };
 for (const k of ["words", "nouns", "characters", "ui"]) manifest[k] ||= {};
 
@@ -68,7 +74,7 @@ for (const f of files) {
 const BANK = path.join(OUT, "bank");
 manifest.remote = [];
 if (!DRY) fs.mkdirSync(BANK, { recursive: true });
-for (const job of jobs) {
+for (const job of allJobs) {
   const f = `${job.id}.webp`;
   const remote = job.phase >= 4;
   const [from, to] = remote ? [path.join(OUT, f), path.join(BANK, f)] : [path.join(BANK, f), path.join(OUT, f)];
