@@ -57,7 +57,7 @@ function build() {
       </div>
       <div id="dcProblems"></div>
       <div class="paper-stage" id="dcStage"><div class="paper hidden" id="dcPaper"></div>
-        <div class="studio-empty" id="dcEmpty"><div class="empty-owl">${owl()}</div><h3>Your dictation will appear here</h3><p>Choose the words and a style on the left, then press <b>Make my dictation</b>. You get a sheet for the children and a copy for you — and the app can read it aloud.</p><ol class="empty-steps"><li>Pick the words</li><li>Choose a style</li><li>Make it ✨</li></ol></div>
+        <div class="studio-empty" id="dcEmpty"><div class="empty-owl">${owl()}</div><h3>Your read-aloud dictation will appear here</h3><p>Choose the words and a style on the left, then press <b>Make my dictation</b>. You get a sheet for the children and a copy for you — and the app can read it aloud.</p><ol class="empty-steps"><li>Pick the words</li><li>Choose a style</li><li>Make it ✨</li></ol></div>
       </div>
     </div>
   </div>`;
@@ -180,7 +180,7 @@ function renderOptions() {
 function renderRecent() {
   const list = recentDocs("dictation").slice(0, 8);
   $("dcRecent").innerHTML = list.length
-    ? list.map((d) => `<div class="recent-row" data-doc="${esc(d.id)}"><button type="button" class="recent-open"><b>${esc(DICTATION_STYLES[d.sections?.[0]?.style]?.label || "Dictation")}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")} · ${esc(levelLabel(d.meta?.classProfile))}</span></button><button type="button" class="icon-btn sm danger" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`).join("")
+    ? list.map((d) => `<div class="recent-row" data-doc="${esc(d.id)}"><button type="button" class="recent-open"><b>${esc(DICTATION_STYLES[d.sections?.[0]?.style]?.label || "Read-aloud dictation")}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")} · ${esc(levelLabel(d.meta?.classProfile))}</span></button><button type="button" class="icon-btn sm danger" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`).join("")
     : `<p class="st-hint">Your dictations are kept here, so you can print them again any time.</p>`;
 }
 
@@ -236,7 +236,7 @@ function sheetHtml() {
   if (dc.sheet === "strips") return renderRunningStrips(dc.doc) || renderStudentPaper(dc.doc, layout);
   return renderStudentPaper(dc.doc, layout);
 }
-const sheetTitle = () => `${dc.doc?.meta?.title || "Dictation"}${dc.sheet === "teacher" ? " · Teacher" : dc.sheet === "strips" ? " · Wall strips" : ""}`;
+const sheetTitle = () => `${dc.doc?.meta?.title || "Read-aloud dictation"}${dc.sheet === "teacher" ? " · Teacher" : dc.sheet === "strips" ? " · Wall strips" : ""}`;
 const fileBase = () => `${sheetTitle()}, ${dc.doc?.meta?.label || ""}`;
 
 function renderPaper() {

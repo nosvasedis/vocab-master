@@ -6,6 +6,9 @@ import {
 import { readJSON, writeJSON } from "./bridge.js";
 import { uid, debounce } from "./ui.js";
 
+/** Step 3 fine-tuning on the class defaults (app.js normalizeTune / tunedProfile read it). */
+const TUNE_START = { items: 0, length: "class", level: "class", extras: 0 };
+
 export const FIELD_KEYS = ["type", "greek", "emojis", "collocation", "derivatives", "synonyms", "antonyms"];
 export const FIELD_LABELS = {
   type: "Part of speech", greek: "Greek", emojis: "Emojis", collocation: "Collocation",
@@ -28,7 +31,7 @@ export const state = {
   words: [],
   fields: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: false, antonyms: false },
   freeform: "",
-  ex: { mode: "random", dictCount: 0, lingoCount: 0, family: "all", picked: { dictation: [], lingo: [] } },
+  ex: { mode: "random", dictCount: 0, lingoCount: 0, family: "all", picked: { dictation: [], lingo: [] }, tune: { ...TUNE_START } },
   plan: null,
   data: null,
   sessionId: null,
@@ -175,6 +178,7 @@ export function applyForm(form = {}, plan = null) {
   }
   if (plan) {
     state.plan = plan;
+    state.ex.tune = { ...TUNE_START, ...(plan.tune || {}) };
     state.ex.mode = plan.exerciseMode === "custom" ? "custom" : "random";
     if (state.ex.mode === "custom") {
       state.ex.picked = { dictation: [...(plan.dictationTypes || [])], lingo: [...(plan.lingoTypes || [])] };
@@ -237,7 +241,7 @@ export function loadDraft() {
   Object.assign(state.custom, d.custom || {});
   Object.assign(state.fields, d.fields || {});
   Object.assign(state.preview, d.preview || {});
-  if (d.ex) state.ex = { ...state.ex, ...d.ex, picked: { dictation: [], lingo: [], ...(d.ex.picked || {}) } };
+  if (d.ex) state.ex = { ...state.ex, ...d.ex, picked: { dictation: [], lingo: [], ...(d.ex.picked || {}) }, tune: { ...TUNE_START, ...(d.ex.tune || {}) } };
   state.words = Array.isArray(d.words) ? d.words.map((w) => ({ ...makeWord(w), id: w.id || uid("w") })) : [];
   return true;
 }

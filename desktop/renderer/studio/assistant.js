@@ -10,8 +10,8 @@ import { SKILLS, DICTATION_STYLES } from "./tasks.js";
 export const KINDS = {
   test: { label: "Unit test", icon: "🧾" },
   quiz: { label: "Quick quiz", icon: "⚡" },
-  dictation: { label: "Dictation", icon: "📝" },
-  worksheet: { label: "Worksheets", icon: "📄" },
+  dictation: { label: "Read-aloud dictation", icon: "🗣️" },
+  worksheet: { label: "Worksheets (Lingo Launcher + Dictation)", icon: "📄" },
 };
 
 const ALL_GRAMMAR = LEVEL_IDS.flatMap((id) => GRAMMAR_MENU[id].map((g) => ({ g, id })));
@@ -58,10 +58,20 @@ export function findBookUnits(text) {
   return { bookId, units: units.filter((u) => u >= 1 && u <= 9) };
 }
 
+/* Two things are called "dictation" here: the worksheet's Dictation sheet (a vocabulary exercise set that comes
+   with the Lingo Launcher) and the read-aloud dictation (the teacher reads, the class writes). */
+const READ_ALOUD = /read[- ]?aloud|read (?:it )?(?:out|to them)|dictogloss|(?:running|gapped|picture|classic) dictation|υπαγόρευ/;
+const SHEET_WORDS = /worksheet|φύλλο εργασίας|practice sheet|exercises|ασκήσεις|lingo launcher|dictation sheet|vocabulary dictation|word dictation/;
+
 function findKind(t) {
-  if (/dictation|υπαγόρευ|ορθογραφ|dictogloss|running dictation/.test(t)) return "dictation";
+  if (READ_ALOUD.test(t)) return "dictation";
+  if (SHEET_WORDS.test(t)) return "worksheet";
+  if (/dictation|ορθογραφ/.test(t)) {
+    // Sentences or a grammar focus only make sense for a read-aloud dictation; otherwise ask which one.
+    if (/\d{1,2}\s*(?:sentences|προτάσεις)|grammar|tense|past|present|future/.test(t)) return "dictation";
+    return "";
+  }
   if (/\bquiz\b|quick test|short test|μικρό τεστ/.test(t)) return "quiz";
-  if (/worksheet|φύλλο εργασίας|practice sheet|exercises|ασκήσεις|lingo launcher/.test(t)) return "worksheet";
   if (/\btest\b|exam|τεστ|διαγώνισμα|assessment|revision test|check/.test(t)) return "test";
   return "";
 }
@@ -75,6 +85,7 @@ export function parseRequest(text, context = {}) {
   const plan = {};
   const kind = findKind(t);
   if (kind) plan.kind = kind;
+  else if (/dictation|ορθογραφ/.test(t)) plan.dictationChoice = true;
   const level = parseLevel(text);
   if (level) plan.levelId = level;
   const { bookId, units } = findBookUnits(text);
@@ -101,8 +112,8 @@ export function parseRequest(text, context = {}) {
   if (/no greek|without greek|english only/.test(t)) plan.greek = false;
   const n = t.match(/\b(\d{1,2})\s*(sentences|items|questions|προτάσεις|ερωτήσεις)\b/);
   if (n) plan.count = Number(n[1]);
-  const style = Object.keys(DICTATION_STYLES).find((s) => t.includes(s) || (s === "classic" && /normal dictation/.test(t)));
-  if (style) { plan.style = style; plan.kind ||= "dictation"; }
+  const style = /dictation|dictogloss/.test(t) && Object.keys(DICTATION_STYLES).find((s) => t.includes(s) || (s === "classic" && /normal dictation/.test(t)));
+  if (style) { plan.style = style; plan.kind = "dictation"; delete plan.dictationChoice; }
   return plan;
 }
 
@@ -128,7 +139,12 @@ export function completePlan(partial = {}, context = {}) {
 /** At most two questions for what the plan still lacks, each with tap-to-answer chips. */
 export function clarifyingQuestions(plan, context = {}) {
   const qs = [];
-  if (!plan.kind) qs.push({ id: "kind", text: "What would you like me to make?", options: Object.entries(KINDS).map(([k, v]) => ({ label: `${v.icon} ${v.label}`, value: k })) });
+  if (!plan.kind && plan.dictationChoice) {
+    qs.push({ id: "kind", text: "Which dictation do you mean?", options: [
+      { label: "📄 The Dictation sheet (vocabulary exercises, with the Lingo Launcher)", value: "worksheet" },
+      { label: "🗣️ A read-aloud dictation (I read, they write)", value: "dictation" },
+    ] });
+  } else if (!plan.kind) qs.push({ id: "kind", text: "What would you like me to make?", options: Object.entries(KINDS).map(([k, v]) => ({ label: `${v.icon} ${v.label}`, value: k })) });
   const src = plan.source;
   if (!src || (src.kind === "unit" && (!src.bookId || !src.units?.length))) {
     const opts = [];
@@ -172,6 +188,7 @@ export function planSummary(plan) {
 /** Small AI prompt that reads a fuzzy request into the same plan shape (used only when local parsing isn't enough). */
 export function assistantPrompt(text, context = {}, plan = {}) {
   const system = `You help a Greek teacher of English (φροντιστήριο, classes A–E Senior, ages 8–14) plan a test, quiz, dictation or worksheet.
+"worksheet" = the app's vocabulary sheets: a Lingo Launcher study sheet plus a Dictation sheet of vocabulary exercises (when the teacher says "dictation sheet" or means testing the unit's words, it is "worksheet"). "dictation" = a read-aloud dictation: the teacher reads sentences and the class writes them down.
 Read the teacher's request (English or Greek) and return ONLY JSON:
 { "kind": "test|quiz|dictation|worksheet", "levelId": "A_SENIOR|B_SENIOR|C_SENIOR|D_SENIOR|E_SENIOR|", "source": { "kind": "unit|topic", "bookId": "CPP1|CPP2|CPP3|", "units": [n], "topic": "" }, "skills": ["listening|reading|vocabulary|grammar|writing|speaking"], "grammar": ["..."], "length": "quiz|standard|full|", "difficulty": "easier|level|harder", "versions": 1, "style": "classic|gapped|running|dictogloss|picture|", "count": 0, "note": "anything else the teacher asked for, short", "reply": "one friendly sentence to the teacher (in the teacher's language)" }
 Books: CPP1 = Cambridge Primary Path 1 (A Senior), CPP2 = Primary Path 2 (B Senior), CPP3 = Primary Path 3 (C Senior). Leave a field empty when the teacher didn't say it.`;

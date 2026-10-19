@@ -357,8 +357,8 @@ const CLASS_PROFILES = {
   },
 };
 
-function getProfilePromptBlock(profileId) {
-  const p = CLASS_PROFILES[profileId];
+function getProfilePromptBlock(profileId, tune) {
+  const p = tunedProfile(profileId, tune);
   if (!p) return "";
   return `CLASS PROFILE: ${p.label} (${p.greekGrades})
 CEFR: ${p.cefr} | Age: ${p.ageRange}
@@ -377,6 +377,67 @@ function resolveProfileId(profileIdOrLabel) {
     (p) => p.label === profileIdOrLabel || p.id === profileIdOrLabel
   );
   return match?.id || "";
+}
+
+/* ── Fine-tuning (Step 3) ─────────────────────────────────────────────────────
+   The teacher can nudge one worksheet away from the class defaults. It travels on the plan
+   (plan.tune → data.generationPlan.tune), so prompts, checks and fixes all read the same values. */
+const TUNE_DEFAULT = Object.freeze({ items: 0, length: "class", level: "class", extras: 0 });
+const TUNE_LENGTHS = { shorter: -2, class: 0, longer: 3 };
+const TUNE_LEVELS = {
+  easier: "SLIGHTLY EASIER than usual for this class: very familiar everyday contexts, high-frequency words around the target, strong context clues, wrong options clearly different in meaning, more recognising than producing",
+  class: "",
+  harder: "SLIGHTLY HARDER than usual for this class (still fair for the age): fewer obvious clues, wrong options close in meaning or form (same part of speech), a few items where students must write the word themselves, one or two richer but class-level structures",
+};
+
+function normalizeTune(tune) {
+  const t = { ...TUNE_DEFAULT, ...(tune || {}) };
+  const items = Number(t.items);
+  return {
+    items: Number.isFinite(items) && items >= 3 && items <= 10 ? Math.round(items) : 0,
+    length: TUNE_LENGTHS[t.length] !== undefined ? t.length : "class",
+    level: TUNE_LEVELS[t.level] !== undefined ? t.level : "class",
+    extras: Number(t.extras) > 0 ? Math.min(4, Math.round(Number(t.extras))) : 0,
+  };
+}
+const isDefaultTune = (tune) => {
+  const t = normalizeTune(tune);
+  return !t.items && t.length === "class" && t.level === "class" && !t.extras;
+};
+
+/** The tune a rewrite should use: the one the teacher has now (options.tune), else the worksheet's own. */
+function planTune(options, fallback) {
+  const t = options?.tune !== undefined ? options.tune : fallback;
+  return isDefaultTune(t) ? undefined : normalizeTune(t);
+}
+
+/** The class profile with the teacher's fine-tuning applied (items, sentence length, word-bank size). */
+function tunedProfile(profileId, tune) {
+  const p = CLASS_PROFILES[resolveProfileId(profileId)];
+  if (!p) return p;
+  const t = normalizeTune(tune);
+  return {
+    ...p,
+    itemsPerExercise: t.items || p.itemsPerExercise,
+    maxSentenceWords: Math.max(5, p.maxSentenceWords + TUNE_LENGTHS[t.length]),
+    wordBankSize: p.wordBankSize + t.extras,
+    tune: t,
+  };
+}
+
+/** Prompt lines for a fine-tuned worksheet ("" when everything is on the class defaults). */
+function buildTuneBlock(profileId, tune) {
+  if (isDefaultTune(tune)) return "";
+  const t = normalizeTune(tune);
+  const p = tunedProfile(profileId, t);
+  const lines = [];
+  if (t.items) lines.push(`- Items per exercise: exactly ~${t.items} (the teacher chose this; it replaces the class default)`);
+  if (t.length !== "class") lines.push(`- Sentences ${t.length === "shorter" ? "SHORTER" : "LONGER"} than usual: max ~${p.maxSentenceWords} words each`);
+  if (TUNE_LEVELS[t.level]) lines.push(`- Difficulty: ${TUNE_LEVELS[t.level]}`);
+  if (t.extras) lines.push(`- Word banks (D01, L01, L05): add ${t.extras} extra word${t.extras > 1 ? "s" : ""} that are NOT answers (simple words the class knows, ideally the same part of speech), shuffled in`);
+  return `
+TEACHER FINE-TUNING — mandatory (overrides the class profile where they differ):
+${lines.join("\n")}`;
 }
 
 function buildWorksheetMeta(form, profileId, aiMeta = {}) {
@@ -550,6 +611,11 @@ function pickDistinctTypes(pool, count, cognitiveMix) {
 }
 
 function pickGenerationPlan(profileId, options = {}) {
+  const plan = pickGenerationPlanTypes(profileId, options);
+  return isDefaultTune(options.tune) ? plan : { ...plan, tune: normalizeTune(options.tune) };
+}
+
+function pickGenerationPlanTypes(profileId, options = {}) {
   const profile = CLASS_PROFILES[profileId];
   if (!profile) throw new Error("Invalid class profile");
 
@@ -1767,7 +1833,7 @@ function findLingoCollocationDuplicates(data) {
 
 function buildDictationDistributionBlock(form, plan, vocabulary) {
   const profileId = resolveProfileId(form.classProfile);
-  const profile = CLASS_PROFILES[profileId];
+  const profile = tunedProfile(profileId, plan?.tune);
   if (!profile) return "";
   const vocab = vocabulary || [];
   const targets = collectTestTargets(vocab);
@@ -1811,7 +1877,7 @@ WORD SCOPE — mandatory:
  * "all True". The validator still checks the mix and the item fixer repairs a key that drifts.
  */
 function buildAnswerBalanceBlock(plan, form) {
-  const per = CLASS_PROFILES[resolveProfileId(form?.classProfile)]?.itemsPerExercise || 5;
+  const per = tunedProfile(form?.classProfile, plan?.tune)?.itemsPerExercise || 5;
   const lines = [];
   (plan?.dictationTypes || []).forEach((t, i) => {
     if (BINARY_TYPES[t]) lines.push(`- Dictation exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], per).join(", ")}`);
@@ -2181,7 +2247,7 @@ function hasGreek(text) {
 
 function validateWorksheet(data) {
   const issues = [];
-  const profile = CLASS_PROFILES[data.meta?.classProfile];
+  const profile = tunedProfile(data.meta?.classProfile, data.generationPlan?.tune);
   const vocab = data.lingoLauncher?.vocabulary || [];
   if (!profile) issues.push("Invalid class profile");
 
@@ -3015,7 +3081,7 @@ function buildSystemPrompt(profileId, plan) {
 
 Return ONLY valid json matching the schema below. No markdown fences.
 
-${getProfilePromptBlock(profileId)}
+${getProfilePromptBlock(profileId, plan.tune)}${buildTuneBlock(profileId, plan.tune)}
 
 LOCKED GENERATION PLAN (do NOT change types or counts):
 - Dictation exercises: exactly ${plan.dictationExerciseCount} — types: ${typeDesc}
@@ -3024,8 +3090,8 @@ LOCKED GENERATION PLAN (do NOT change types or counts):
 RULES:
 - Greek translation on EVERY Lingo Launcher vocab item; NEVER Greek in dictation prompts
 - Collocation phrases, not dictionary sentences
-- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise: ~${CLASS_PROFILES[profileId]?.itemsPerExercise || 5} items only
-- LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${CLASS_PROFILES[profileId]?.itemsPerExercise || 5} items maximum — NEVER one exercise with every vocabulary word
+- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items only
+- LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items maximum — NEVER one exercise with every vocabulary word
 - NEVER reuse the same sentence in Lingo practice and Dictation — write different contexts for each worksheet
 - Item "number" is a plain counter (1, 2, 3…) — NEVER type "(1)", "1)" or "1." at the start of any item "prompt"; the app prints the numbered circle itself
 - Dictation titles: "Exercise N" only — no parenthetical subtitles
@@ -3096,7 +3162,7 @@ ${JSON.stringify(families, null, 2)}`;
   if (plan.dictationTypes?.includes("D12")) {
     block += `
 D12 MYSTERY RIDDLE — mandatory:
-- Riddle body: short clues about use/context — max ~${CLASS_PROFILES[form.classProfile || plan.classProfile]?.maxSentenceWords || 11} words in body (not counting bracket choices)
+- Riddle body: short clues about use/context — max ~${tunedProfile(form.classProfile || plan.classProfile, plan.tune)?.maxSentenceWords || 11} words in body (not counting bracket choices)
 - FORBIDDEN in riddle body: the answer word, synonyms, or defining phrases that name the answer
 - End each item with shuffled (distractor / distractor / correct) — 3 bracketed options
 - BAD: "I am a valuable thing like gold. Pirates look for me." for answer treasure
@@ -3105,7 +3171,7 @@ D12 MYSTERY RIDDLE — mandatory:
   if (plan.dictationTypes?.includes("D03") || plan.dictationTypes?.includes("D05") || plan.dictationTypes?.includes("D06")) {
     block += `
 BRACKET-CHOICE DICTATION (D03/D05/D06 etc.) — mandatory:
-- ~${CLASS_PROFILES[form.classProfile]?.itemsPerExercise || 5} items per exercise — do NOT list every vocabulary word in one exercise
+- ~${tunedProfile(form.classProfile, plan.tune)?.itemsPerExercise || 5} items per exercise — do NOT list every vocabulary word in one exercise
 - Each sentence must be UNIQUE — never copy sentences from Lingo Launcher practice`;
   }
   if (plan.dictationTypes?.includes("D25")) {
@@ -3156,7 +3222,7 @@ L04 OPPOSITE PAIRS — mandatory:
 Words with antonyms: ${JSON.stringify(words)}`;
   }
   if (plan.lingoTypes?.includes("L01")) {
-    const perEx = CLASS_PROFILES[form.classProfile || plan.classProfile]?.itemsPerExercise || 5;
+    const perEx = tunedProfile(form.classProfile || plan.classProfile, plan.tune)?.itemsPerExercise || 5;
     block += `
 L01 GAP FILL — mandatory:
 - ~${perEx} items; wordList = only those answer words, shuffled
@@ -3167,7 +3233,7 @@ L01 GAP FILL — mandatory:
 - GOOD: "The team felt very ________________ after the win" answer proud`;
   }
   if (plan.lingoTypes?.includes("L05")) {
-    const perEx = CLASS_PROFILES[form.classProfile || plan.classProfile]?.itemsPerExercise || 5;
+    const perEx = tunedProfile(form.classProfile || plan.classProfile, plan.tune)?.itemsPerExercise || 5;
     block += `
 L05 COLLOCATION MATCH — mandatory:
 - ~${perEx} items ONLY; wordList = only headwords used as answers (shuffled) — NOT the whole unit
@@ -3592,6 +3658,7 @@ async function regenerateDictationOnly(form, apiKey, existingData, options = {})
     lingoTypes,
     lingoPracticeCount: keptPractice.length,
     signature: buildSignature(picked.dictationTypes, lingoTypes),
+    tune: planTune(options, picked.tune),
   };
   const systemPrompt = buildSystemPrompt(profileId, plan);
   const userPrompt = buildUserPrompt(form, plan, form.teacherHints) +
@@ -3631,6 +3698,7 @@ async function regenerateLingoPracticeOnly(form, apiKey, existingData, options =
     lingoTypes: lingoPlan.lingoTypes,
     lingoPracticeCount: lingoPlan.lingoTypes.length,
     signature: buildSignature(dictTypes, lingoPlan.lingoTypes),
+    tune: planTune(options, existingData.generationPlan?.tune),
   };
   const systemPrompt = buildSystemPrompt(profileId, plan);
   const userPrompt = buildUserPrompt(form, plan, form.teacherHints) +
@@ -4048,7 +4116,7 @@ async function fixDictationCoverageGaps(form, apiKey, existingData, validation, 
   }
 
   const profileId = form.classProfile || existingData.meta?.classProfile;
-  const profile = CLASS_PROFILES[profileId];
+  const profile = tunedProfile(profileId, existingData.generationPlan?.tune);
   const labels = missing.map((m) => (m.kind === "headword" ? m.label : `${m.label} (${m.kind})`));
   const vocab = existingData.lingoLauncher?.vocabulary || [];
   const maxAttempts = options.maxAttempts ?? 3;
@@ -5292,6 +5360,11 @@ function parseBulkVocabularyText(rawText) {
 }
 
 export {
+  TUNE_DEFAULT,
+  normalizeTune,
+  isDefaultTune,
+  tunedProfile,
+  buildTuneBlock,
   trustedBankEmoji,
   isJunkBankEmoji,
   emojiHead,

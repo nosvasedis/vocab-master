@@ -183,7 +183,7 @@ export function buildDictationDoc(spec, raw, words, ctx = {}, rand = Math.random
     spec: { ...spec },
     words: words.map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "", example: w.example || "" })),
     meta: {
-      title: clean(raw?.title) ? `Dictation · ${clean(raw.title)}` : "Dictation",
+      title: clean(raw?.title) ? `Dictation · ${clean(raw.title)}` : "Read-aloud dictation",
       subtitle: DICTATION_STYLES[style].label,
       bookTitle: meta.bookTitle || "",
       unit: meta.unit || "",

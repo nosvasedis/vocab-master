@@ -3,6 +3,7 @@ import {
   CLASS_PROFILES, EXERCISE_LABELS, EXERCISE_DESCRIPTIONS, EXERCISE_EXAMPLES, EXERCISE_FAMILIES,
   pickGenerationPlan, analyzeVocabFeatures, generateWorksheets, regenerateDictationOnly,
   regenerateLingoPracticeOnly, normalizeWorksheetExercises, validateWorksheet, saveWorksheetSession, findVocabGaps,
+  normalizeTune, isDefaultTune, tunedProfile,
 } from "../../app.js";
 import { $, $$, esc, icon, plural, toast, segmented, confirmDialog } from "../ui.js";
 import { state, emit, on, buildForm, filledWords, bookTitle, unitNumber, pageRange, worksheetFreshness, detachWorksheet } from "../state.js";
@@ -11,6 +12,8 @@ import { actions } from "../actions.js";
 
 let modeSeg;
 let familySeg;
+let lengthSeg;
+let levelSeg;
 let genTimer = null;
 
 const FAMILY_LABEL = { recognition: "Recognition", productive: "Productive", analysis: "Analysis" };
@@ -39,8 +42,17 @@ export function initExercises() {
     value: state.ex.family,
     onChange: (v) => { state.ex.family = v; renderPickers(); },
   });
+  lengthSeg = segmented($("tuneLength"), { value: state.ex.tune?.length || "class", onChange: (v) => setTune({ length: v }) });
+  levelSeg = segmented($("tuneLevel"), { value: state.ex.tune?.level || "class", onChange: (v) => setTune({ level: v }) });
+  $("tuneItems").addEventListener("change", (e) => setTune({ items: Number(e.target.value) }));
+  $("tuneExtras").addEventListener("change", (e) => setTune({ extras: Number(e.target.value) }));
+  $("btnTuneReset").addEventListener("click", () => setTune(null));
   $("dictCount").addEventListener("change", (e) => { state.ex.dictCount = Number(e.target.value); refreshPlan(true); });
   $("lingoCount").addEventListener("change", (e) => { state.ex.lingoCount = Number(e.target.value); refreshPlan(true); });
+  $("customPaneEx").closest("section").addEventListener("click", (e) => {
+    const go = e.target.closest(".ex-crosslink")?.dataset.go;
+    if (go) actions.go(go);
+  });
   $("btnShuffle").addEventListener("click", () => {
     refreshPlan(true);
     $$("#planPreview .plan-item").forEach((p, i) => { p.style.animationDelay = `${i * 40}ms`; });
@@ -104,14 +116,46 @@ export function enterExercises() {
   renderExercises();
 }
 
+/* ── Fine-tuning: it rides on the plan, so changing it never reshuffles the exercise mix ── */
+function setTune(patch) {
+  state.ex.tune = patch ? normalizeTune({ ...state.ex.tune, ...patch }) : normalizeTune(null);
+  if (state.plan) {
+    const { tune: _old, ...rest } = state.plan;
+    state.plan = isDefaultTune(state.ex.tune) ? rest : { ...rest, tune: { ...state.ex.tune } };
+  }
+  emit("plan");
+  renderExercises();
+}
+
+function renderTune() {
+  const t = normalizeTune(state.ex.tune);
+  const base = tunedProfile(state.profileId, null);
+  $("tunePanel").classList.toggle("hidden", !base);
+  if (!base) return;
+  const p = tunedProfile(state.profileId, t);
+  const sel = $("tuneItems");
+  sel.innerHTML = [`<option value="0">For the class (${base.itemsPerExercise})</option>`,
+    ...[3, 4, 5, 6, 7, 8].filter((n) => n !== base.itemsPerExercise).map((n) => `<option value="${n}">${n} items</option>`)].join("");
+  sel.value = String(t.items && t.items !== base.itemsPerExercise ? t.items : 0);
+  $("tuneExtras").value = String(t.extras);
+  lengthSeg?.set(t.length);
+  levelSeg?.set(t.level);
+  const level = { easier: "a bit easier", class: "", harder: "a bit harder" }[t.level];
+  $("tuneHint").textContent = `${p.itemsPerExercise} items per exercise · sentences up to ${p.maxSentenceWords} words${level ? ` · ${level}` : ""}${t.extras ? ` · +${t.extras} in word banks` : ""}`;
+  $("btnTuneReset").classList.toggle("hidden", isDefaultTune(t));
+  $("tunePanel").classList.toggle("tuned", !isDefaultTune(t));
+}
+
 function planOptions(forceRandom) {
   const vocabFeatures = analyzeVocabFeatures(buildForm());
+  const tune = state.ex.tune;
   if (!forceRandom && state.ex.mode === "custom") {
-    return { exerciseMode: "custom", customDictationTypes: [...state.ex.picked.dictation], customLingoTypes: [...state.ex.picked.lingo], vocabFeatures };
+    return { exerciseMode: "custom", customDictationTypes: [...state.ex.picked.dictation], customLingoTypes: [...state.ex.picked.lingo], vocabFeatures, tune };
   }
   return {
     exerciseMode: "random",
     vocabFeatures,
+    tune,
     ...(state.ex.dictCount > 0 ? { dictationCount: state.ex.dictCount } : {}),
     ...(state.ex.lingoCount > 0 ? { lingoCount: state.ex.lingoCount } : {}),
   };
@@ -183,6 +227,7 @@ export function renderExercises() {
   $("dictCount").value = String(state.ex.dictCount || 0);
   $("lingoCount").value = String(state.ex.lingoCount || 0);
   if (custom) renderPickers();
+  renderTune();
   renderPlan();
   renderGenerateCard();
 }
@@ -342,8 +387,8 @@ export async function runGenerate(mode = "full") {
   actions.setAiState("busy");
   try {
     let result;
-    if (mode === "dictation" && state.data) result = await regenerateDictationOnly(form, apiKey, state.data, { plan: customPlan });
-    else if (mode === "lingo" && state.data) result = await regenerateLingoPracticeOnly(form, apiKey, state.data, { plan: customPlan });
+    if (mode === "dictation" && state.data) result = await regenerateDictationOnly(form, apiKey, state.data, { plan: customPlan, tune: state.ex.tune });
+    else if (mode === "lingo" && state.data) result = await regenerateLingoPracticeOnly(form, apiKey, state.data, { plan: customPlan, tune: state.ex.tune });
     else result = await generateWorksheets(form, apiKey, { plan: state.plan });
     state.data = normalizeWorksheetExercises(result.data);
     state.plan = result.plan || state.plan;

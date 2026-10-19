@@ -10,7 +10,7 @@ export const SKILLS = {
   grammar: { label: "Grammar", icon: "🧩", el: "Γραμματική" },
   writing: { label: "Writing", icon: "✍️", el: "Παραγωγή γραπτού λόγου" },
   speaking: { label: "Speaking", icon: "🗣️", el: "Προφορικός λόγος" },
-  dictation: { label: "Dictation", icon: "📝", el: "Υπαγόρευση" },
+  dictation: { label: "Read-aloud dictation", icon: "🗣️", el: "Υπαγόρευση" },
 };
 
 /**

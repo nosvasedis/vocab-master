@@ -142,7 +142,7 @@
         </button>
         <button type="button" class="sb-item" data-nav="dictation">
           <span class="sb-ico dictation"><svg class="i"><use href="#i-mic"/></svg></span>
-          <span class="sb-item-text"><span>Dictation</span><small>5 styles · read aloud</small></span>
+          <span class="sb-item-text"><span>Read-aloud dictation</span><small>You read · they write</small></span>
         </button>
 
         <div class="sb-label">Classroom</div>
@@ -398,7 +398,7 @@
               <div class="card-head">
                 <div>
                   <h2 class="card-title"><svg class="i"><use href="#i-layers"/></svg>Exercise plan</h2>
-                  <p class="card-sub">Every unit word is guaranteed to appear in the Dictation.</p>
+                  <p class="card-sub">Every unit word is guaranteed to appear in the Dictation sheet. Want one you read aloud? <button type="button" class="ex-crosslink" data-go="dictation" title="A dictation you read aloud and the class writes down">Read-aloud dictation →</button></p>
                 </div>
                 <div class="segmented lg" id="exModeSeg" data-segmented>
                   <span class="seg-thumb"></span>
@@ -454,6 +454,48 @@
                 <div class="ex-grid" id="dictGrid"></div>
                 <div class="ex-section-title"><span>🚀</span>Lingo Launcher <small>practice</small><span class="ex-picked" id="pickedLingo"></span></div>
                 <div class="ex-grid" id="lingoGrid"></div>
+              </div>
+
+              <div class="tune-panel hidden" id="tunePanel">
+                <div class="tune-head">
+                  <span class="tune-title"><svg class="i i-sm"><use href="#i-sliders"/></svg>Fine-tune</span>
+                  <small class="tune-hint" id="tuneHint"></small>
+                  <span class="spacer"></span>
+                  <button type="button" class="btn btn-ghost btn-sm hidden" id="btnTuneReset">Back to class defaults</button>
+                </div>
+                <div class="tune-grid">
+                  <div class="tune-field">
+                    <span class="label">Items in each exercise</span>
+                    <select class="select sm" id="tuneItems"></select>
+                  </div>
+                  <div class="tune-field">
+                    <span class="label">Sentence length</span>
+                    <div class="segmented sm" id="tuneLength" data-segmented>
+                      <span class="seg-thumb"></span>
+                      <button type="button" data-value="shorter">Shorter</button>
+                      <button type="button" data-value="class">For the class</button>
+                      <button type="button" data-value="longer">Longer</button>
+                    </div>
+                  </div>
+                  <div class="tune-field">
+                    <span class="label">Difficulty</span>
+                    <div class="segmented sm" id="tuneLevel" data-segmented>
+                      <span class="seg-thumb"></span>
+                      <button type="button" data-value="easier">A bit easier</button>
+                      <button type="button" data-value="class">Just right</button>
+                      <button type="button" data-value="harder">A bit harder</button>
+                    </div>
+                  </div>
+                  <div class="tune-field">
+                    <span class="label">Extra words in word banks</span>
+                    <select class="select sm" id="tuneExtras">
+                      <option value="0">None (one per gap)</option>
+                      <option value="1">+1 extra word</option>
+                      <option value="2">+2 extra words</option>
+                      <option value="3">+3 extra words</option>
+                    </select>
+                  </div>
+                </div>
               </div>
 
               <div class="plan" id="planPreview"></div>

@@ -35,7 +35,7 @@ function suggestions() {
   const book = c.bookId ? `Primary Path ${c.bookId.slice(-1)} ` : "";
   return [
     `A test for ${book}${unit}`,
-    `A dictation for ${unit}, 8 sentences`,
+    `A read-aloud dictation for ${unit}, 8 sentences`,
     "A Present Simple vs Present Continuous test for E class",
     `A quick vocabulary quiz on ${unit}`,
     "Worksheets on There is / there are for A class",
@@ -123,7 +123,7 @@ function bubble(m) {
 
 function renderMessages() {
   const intro = !as.messages.length
-    ? `<div class="as-hero"><div class="as-hero-owl">${owl()}</div><h2>Hi! I’m Lingo. What shall we make today?</h2><p>Ask me for a <b>unit test</b>, a <b>dictation</b>, a <b>quick quiz</b> or <b>worksheets</b> — for any Primary Path unit or any grammar point. If something is missing I’ll ask, then I’ll show you a plan you can change before anything is written.</p><p class="as-hero-el" lang="el">Γράψτε μου στα αγγλικά ή στα ελληνικά — ή πατήστε μία από τις προτάσεις παρακάτω.</p></div>`
+    ? `<div class="as-hero"><div class="as-hero-owl">${owl()}</div><h2>Hi! I’m Lingo. What shall we make today?</h2><p>Ask me for a <b>unit test</b>, a <b>read-aloud dictation</b>, a <b>quick quiz</b> or <b>worksheets</b> — for any Primary Path unit or any grammar point. If something is missing I’ll ask, then I’ll show you a plan you can change before anything is written.</p><p class="as-hero-el" lang="el">Γράψτε μου στα αγγλικά ή στα ελληνικά — ή πατήστε μία από τις προτάσεις παρακάτω.</p></div>`
     : "";
   $("asMessages").innerHTML = intro + as.messages.map(bubble).join("") + (as.thinking ? `<div class="as-msg assistant"><span class="as-avatar">${owlHead()}</span><div class="as-bubble as-typing"><i></i><i></i><i></i></div></div>` : "");
   $("asMessages").scrollTop = $("asMessages").scrollHeight;
@@ -234,7 +234,7 @@ export function planToTestSpec(p) {
 
 async function make(generate) {
   const p = as.plan;
-  if (!p?.kind) { toast("Tell me what to make first — a test, a quiz, a dictation or worksheets.", "warn"); return; }
+  if (!p?.kind) { toast("Tell me what to make first — a test, a quiz, a read-aloud dictation or worksheets (Lingo Launcher + Dictation).", "warn"); return; }
   if (!p.levelId) { toast("Which class is it for? Choose it in the plan.", "warn"); return; }
   if (p.source?.kind === "unit" && (!p.source.bookId || !p.source.units?.length)) { toast("Choose the book and the unit in the plan.", "warn"); return; }
   if (p.source?.kind === "topic" && !String(p.source.topic || "").trim()) { toast("Type the topic or grammar point.", "warn"); return; }
