@@ -4,7 +4,7 @@ import {
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, confirmDialog, segmented, el } from "../ui.js";
 import {
-  state, emit, on, FIELD_KEYS, FIELD_LABELS, WORD_TARGETS, BOOK_COLORS,
+  state, emit, on, FIELD_KEYS, FIELD_LABELS, WORD_TARGETS, BOOK_COLORS, targetText, isOpenTarget,
   makeWord, filledWords, duplicateKeys, isCpp, unitStructure, bookTitle, unitNumber,
 } from "../state.js";
 import { getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
@@ -157,9 +157,9 @@ function renderStats() {
   let meter = "";
   if (target && state.inputMode === "structured") {
     const pct = Math.min(100, Math.round((n / target[1]) * 100));
-    const cls = n > target[1] ? "over" : n >= target[0] ? "ok" : "";
-    meter = `<span class="target-meter ${cls}" data-tip="${esc(`Recommended for ${CLASS_PROFILES[state.profileId].label}: ${target[0]}–${target[1]} words`)}">
-      <span class="tm-bar"><i style="width:${pct}%"></i></span><span>${target[0]}–${target[1]}</span></span>`;
+    const cls = n > target[1] && !isOpenTarget(state.profileId) ? "over" : n >= target[0] ? "ok" : "";
+    meter = `<span class="target-meter ${cls}" data-tip="${esc(`Recommended for ${CLASS_PROFILES[state.profileId].label}: ${targetText(state.profileId)} words`)}">
+      <span class="tm-bar"><i style="width:${pct}%"></i></span><span>${targetText(state.profileId)}</span></span>`;
   }
   $("wordsStats").innerHTML = state.inputMode === "structured"
     ? `${dups ? `<span class="badge warning">${icon("alert", "i-xs")}${plural(dups, "duplicate")}</span>` : ""}

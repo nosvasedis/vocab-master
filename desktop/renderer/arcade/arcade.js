@@ -3,7 +3,7 @@
    Shell: hub (who's playing, games, deck), scoreboard, turns, spinner, end screens.
    Who plays — whole class, individual players, or teams of named members — lives in arcade/players.js.
    ══════════════════════════════════════════════════════════════════ */
-import { sfx, speak, stopSpeaking, configureAudio, audioSettings } from "./audio.js";
+import { sfx, stopSpeaking, configureAudio, audioSettings } from "./audio.js";
 import { confetti, floatText } from "./fx.js";
 import { mountGame, esc, svg } from "./host.js";
 import { firstEmoji, buildArcadeDeck } from "./deck.js";
@@ -38,6 +38,7 @@ const MODES = [
 let session = null;
 
 /* ── Saved classes (this computer only; first names) ─────────────────── */
+const PICK_KEY = "vm_arcade_pick";
 function store(key, value) { try { localStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value)); } catch { /* storage unavailable */ } }
 function loadClasses() {
   const list = safeJSON(localStorage.getItem("vm_classes"), []);
@@ -63,8 +64,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDec
     baseTitle: title,
     buildDeck,             // coursebook rows → a game deck (trusted pictures)
     source: "start",
-    pickIds: null,         // coursebook word ids picked in "Choose your words"
-    removed: [],           // words left out of today's deck (Undo puts them back)
+    pickIds: null,         // coursebook word ids picked in "Choose your words" (remembered, see restorePick)
     plan: null,            // the ready-made lesson: { ids, i }
     picker: null,
     onPrefs,
@@ -83,6 +83,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDec
     intro: null,             // a game's title screen while it is showing
   };
   if (!currentClass()) session.classId = classes[0]?.id || null;
+  restorePick();
   buildPlay();
 
   const root = document.createElement("div");
@@ -549,12 +550,6 @@ function showHub() {
         </section>` : "";
       }).join("")}
 
-      <section class="hub-deck">
-        <div class="hd-head"><span class="hd-label">Words in your deck · tap to hear · ✕ to leave one out</span>
-          ${session.removed.length ? `<button type="button" class="arc-btn ghost sm" data-undo>↩ Put back “${esc(session.removed[session.removed.length - 1].english)}”</button>` : ""}
-          <button type="button" class="arc-btn ghost sm" data-pick-words>${svg("book-open", "i-sm")}Choose words</button></div>
-        <div class="hd-words">${deck.map((w) => `<span class="hd-word"><button type="button" class="hd-say" data-say="${esc(w.english)}">${firstPicture(w.emojis) ? `<span class="hd-pic">${firstPicture(w.emojis)}</span>` : ""}${esc(w.english)}</button><button type="button" class="hd-x" data-leave="${esc(w.english)}" aria-label="Leave ${esc(w.english)} out" title="Leave out">×</button></span>`).join("")}</div>
-      </section>
     </div>`;
   const who = main.querySelector("#hubWho");
   who.addEventListener("click", onWhoClick); // once per hub: the panel re-renders inside it
@@ -562,9 +557,6 @@ function showHub() {
   main.querySelectorAll("[data-game]").forEach((b) => b.addEventListener("click", () => startGame(b.dataset.game)));
   main.querySelectorAll("[data-pick-words]").forEach((b) => b.addEventListener("click", openPicker));
   main.querySelector("[data-plan]")?.addEventListener("click", () => { session.plan = { ids: planIds, i: 0 }; startGame(planIds[0]); });
-  main.querySelector("[data-undo]")?.addEventListener("click", () => { const w = session.removed.pop(); if (w) { session.deck = [...session.deck, w]; sfx.pop(); showHub(); } });
-  main.querySelectorAll("[data-leave]").forEach((b) => b.addEventListener("click", () => leaveOut(b.dataset.leave)));
-  main.querySelectorAll("[data-say]").forEach((b) => b.addEventListener("click", () => speak(b.dataset.say, { force: true })));
   main.querySelectorAll(".game-card:not(.featured):not(:disabled)").forEach(tilt);
   countUp(main.querySelector("[data-countup]"));
 }
@@ -593,15 +585,14 @@ function countUp(el) {
   requestAnimationFrame(step);
 }
 
-/** Take one word out of today's deck (✕ in the list) — Undo puts it back. */
-function leaveOut(english) {
-  if (session.deck.length <= 3) { sfx.buzzer(); return; }
-  const w = session.deck.find((x) => x.english === english);
-  if (!w) return;
-  session.deck = session.deck.filter((x) => x !== w);
-  session.removed.push(w);
-  sfx.pointsDown();
-  showHub();
+/** "Choose your words" is remembered on this computer: the arcade opens with the same words until the teacher picks again. */
+function restorePick() {
+  const ids = (safeJSON(localStorage.getItem(PICK_KEY), null) || []).filter((id) => rowById.has(id));
+  if (ids.length < 3) return;
+  session.deck = session.buildDeck ? session.buildDeck(ids.map((id) => rowById.get(id))) : buildArcadeDeck(ids.map((id) => rowById.get(id)));
+  session.title = describePick(ids);
+  session.pickIds = ids;
+  session.source = "book";
 }
 
 /** Open "Choose your words": book → unit → lesson → word, with the deck growing alongside. */
@@ -646,7 +637,7 @@ function applyPick(ids) {
     session.pickIds = ids;
     session.source = "book";
   }
-  session.removed = [];
+  if (ids) store(PICK_KEY, ids); else { try { localStorage.removeItem(PICK_KEY); } catch { /* storage unavailable */ } }
   sfx.win();
   showHub();
   confetti(session.root, { count: 90, originY: 0.2 });

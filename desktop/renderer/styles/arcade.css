@@ -201,11 +201,6 @@
 .game-card.locked { opacity: 0.5; cursor: not-allowed; }
 .game-card.locked .gc-play { background: var(--panel-2); box-shadow: none; font-weight: 600; font-size: 13px; }
 
-.hub-deck { display: flex; flex-direction: column; gap: 10px; }
-.hd-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
-.hd-words { display: flex; flex-wrap: wrap; gap: 6px; }
-.hd-word { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 99px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); background: var(--panel); border: 1px solid var(--line); transition: all 150ms; }
-.hd-word:hover { color: var(--ink); background: var(--panel-2); transform: translateY(-1px); }
 
 /* ── Game frame ──────────────────────────────────────────────────── */
 .arc-game { display: flex; }
@@ -512,7 +507,6 @@
 .arcade .pic { display: inline-block; width: 1em; height: 1em; vertical-align: -0.12em; }
 .arcade .fc-emoji .pic, .arcade .sp-emoji .pic, .arcade .mm-mean.big .pic { width: 1.05em; height: 1.05em; }
 .arcade .fc-emoji, .arcade .sp-emoji { display: flex; gap: 0.15em; justify-content: center; }
-.arcade .hd-pic { display: inline-flex; gap: 2px; font-size: 18px; }
 .arcade .ts-pic { display: inline-flex; gap: 4px; font-size: 30px; color: #1b1640; }
 .arcade .qz-clue .pic { width: 1.3em; height: 1.3em; vertical-align: -0.3em; }
 .arcade .mm-sub .pic { width: 1.2em; height: 1.2em; }
@@ -789,15 +783,6 @@ button.fd-slot:has(.fd-hint) { gap: 18px; }
 .gc-best { font-size: 12.5px; font-weight: 650; color: #ffd23f; }
 .game-card.featured .gc-skills span { background: rgba(255, 255, 255, 0.14); border-color: rgba(255, 255, 255, 0.25); }
 
-.hd-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.hd-head .hd-label { margin-right: auto; }
-.hd-word { display: inline-flex; align-items: center; gap: 0; padding: 0; height: 34px; border-radius: 99px; background: var(--panel); border: 1px solid var(--line); overflow: hidden; }
-.hd-word:hover { background: var(--panel-2); transform: none; }
-.hd-say { display: inline-flex; align-items: center; gap: 6px; height: 100%; padding: 0 6px 0 12px; font: 600 13.5px var(--font-ui); color: var(--ink-2); }
-.hd-word:hover .hd-say { color: var(--ink); }
-.hd-x { width: 26px; height: 100%; font-size: 17px; color: var(--ink-3); opacity: 0; transition: opacity 120ms; }
-.hd-word:hover .hd-x, .hd-x:focus-visible { opacity: 1; }
-.hd-x:hover { color: var(--bad); }
 
 /* ── Choose your words ───────────────────────────────────────────── */
 .dp { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; background: radial-gradient(120% 90% at 20% 0%, #231a66, #0c0a24 70%); animation: dp-in 340ms var(--spring) both; }

@@ -19,6 +19,7 @@ export const SYNCED = {
   vm_arcade_mode: { kind: "value", label: "Game settings" },
   vm_arcade_class: { kind: "value", label: "Game settings" },
   vm_arcade_greek: { kind: "value", label: "Game settings" },
+  vm_arcade_pick: { kind: "value", label: "Game settings" },
   vm_live_prefs: { kind: "value", label: "Game settings" },
   vm_board_timer: { kind: "value", label: "Game settings" },
   vm_quiz_timer: { kind: "value", label: "Game settings" },

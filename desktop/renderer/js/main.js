@@ -32,9 +32,11 @@ import { initPics, picImg } from "./pics.js";
 import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
 import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, bookLabel } from "../lesson/lesson.js";
 import { STUDIO_VIEWS, initStudio } from "./views/studio-views.js";
+import { initHome, renderHome } from "./views/home.js";
 
 const FLOW = ["setup", "words", "exercises", "preview"];
 const VIEW_META = {
+  home: { title: "Home", sub: "Your teaching studio: make something, pick up where you left off, or take it to class." },
   setup: { title: "Unit setup", sub: "Choose the class level and the coursebook unit." },
   words: { title: "Vocabulary", sub: "Review the words — AI adds phrases, emojis and word families." },
   exercises: { title: "Exercises", sub: "Plan the exercise mix and let AI write the worksheets." },
@@ -45,8 +47,12 @@ const VIEW_META = {
 };
 
 /* ── Navigation ──────────────────────────────────────────────────── */
+let lastFlow = "setup";
+
 function go(view, { force = false, silent = false } = {}) {
-  if (!VIEW_META[view]) view = "setup";
+  // "Worksheets" in the sidebar opens the step the teacher was last on.
+  if (view === "worksheets") view = lastFlow;
+  if (!VIEW_META[view]) view = "home";
   const idx = FLOW.indexOf(view);
   if (!force && idx >= 1) {
     const err = validateSetup();
@@ -61,10 +67,11 @@ function go(view, { force = false, silent = false } = {}) {
   }
   const from = state.view;
   if (!silent && from !== view) {
-    const order = [...FLOW, ...Object.keys(STUDIO_VIEWS), "lessons", "library"];
+    const order = ["home", ...FLOW, ...Object.keys(STUDIO_VIEWS), "lessons", "library"];
     play(order.indexOf(view) < order.indexOf(from) ? "navBack" : "nav");
   }
   state.view = view;
+  if (FLOW.includes(view)) lastFlow = view;
   $$(".view").forEach((v) => v.classList.toggle("active", v.dataset.view === view));
   $("scroller").scrollTo({ top: 0, behavior: "instant" });
   if (view === "setup") renderSetup();
@@ -73,6 +80,7 @@ function go(view, { force = false, silent = false } = {}) {
   if (view === "preview") renderPreview();
   if (view === "library") renderLibrary();
   if (view === "lessons") renderLessons();
+  if (view === "home") renderHome();
   STUDIO_VIEWS[view]?.render();
   renderChrome();
   emit("view");
@@ -93,6 +101,10 @@ function renderChrome() {
   $("pageSub").textContent = meta.sub;
 
   $$(".sb-item[data-nav]").forEach((b) => b.classList.toggle("active", b.dataset.nav === view));
+  const inFlow = FLOW.includes(view);
+  $("sbWorksheets").classList.toggle("open", inFlow);
+  document.querySelector(".sb-group-head").setAttribute("aria-expanded", String(inFlow));
+  $("navSub-worksheets").textContent = state.data ? `${bookTitle() || "Your unit"}${unitNumber() ? ` · Unit ${unitNumber()}` : ""} · ready` : filledWords().length ? `${plural(filledWords().length, "word")} · in progress` : "Lingo Launcher + Dictation";
   FLOW.forEach((step, i) => {
     const dot = document.querySelector(`[data-step-dot="${i + 1}"]`);
     if (dot) dot.classList.toggle("done", step !== view && stepDone(step));
@@ -371,6 +383,7 @@ async function boot() {
     initLibrary();
     initLessons({ teach: teachLesson, games: lessonGames });
     initStudio();
+    initHome({ newUnit, openGames });
     initInterfaceSounds();
     wire();
 
@@ -384,7 +397,8 @@ async function boot() {
     }
     setAiState();
     updateLibraryCount();
-    go(state.view || "setup", { silent: true });
+    if (FLOW.includes(state.view)) lastFlow = state.view;
+    go("home", { silent: true });
   } catch (err) {
     console.error(err);
     const banner = document.createElement("div");

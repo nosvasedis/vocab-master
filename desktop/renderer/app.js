@@ -292,7 +292,7 @@ function getStudentExerciseInstruction(ex) {
 const CLASS_PROFILES = {
   A_SENIOR: {
     id: "A_SENIOR", label: "A Senior", greekGrades: "3η / 4η / 5η Δημοτικού",
-    cefr: "Early A1", ageRange: "9–10", defaultVocab: 6, maxSentenceWords: 7,
+    cefr: "Early A1", ageRange: "9–10", defaultVocab: 10, maxSentenceWords: 7,
     minEmojis: 2, maxDerivatives: 1, allowDefinitionsInDictation: false,
     allowDictation: ["D01", "D03", "D04", "D06", "D13", "D15", "D17", "D25", "D26", "D27"],
     allowLingo: ["L01", "L02", "L04", "L05", "L09", "L11"],
@@ -305,7 +305,7 @@ const CLASS_PROFILES = {
   },
   B_SENIOR: {
     id: "B_SENIOR", label: "B Senior", greekGrades: "4η / 5η / 6η Δημοτικού",
-    cefr: "A1", ageRange: "10–11", defaultVocab: 8, maxSentenceWords: 9,
+    cefr: "A1", ageRange: "10–11", defaultVocab: 12, maxSentenceWords: 9,
     minEmojis: 2, maxDerivatives: 2, allowDefinitionsInDictation: false,
     allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25", "D26", "D27", "D28"],
     allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11"],
@@ -318,7 +318,7 @@ const CLASS_PROFILES = {
   },
   C_SENIOR: {
     id: "C_SENIOR", label: "C Senior", greekGrades: "5η / 6η Δημοτικού · ίσως 1η Γυμνασίου",
-    cefr: "A1–A2", ageRange: "11–12", defaultVocab: 8, maxSentenceWords: 11,
+    cefr: "A1–A2", ageRange: "11–12", defaultVocab: 16, maxSentenceWords: 11,
     minEmojis: 1, maxDerivatives: 3, allowDefinitionsInDictation: "simple",
     allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25", "D26", "D27", "D28"],
     allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11", "L12"],
@@ -331,7 +331,7 @@ const CLASS_PROFILES = {
   },
   D_SENIOR: {
     id: "D_SENIOR", label: "D Senior", greekGrades: "6η Δημοτικού · 1η / 2α Γυμνασίου",
-    cefr: "A2", ageRange: "12–13", defaultVocab: 8, maxSentenceWords: 13,
+    cefr: "A2", ageRange: "12–13", defaultVocab: 18, maxSentenceWords: 13,
     minEmojis: 0, maxDerivatives: 4, allowDefinitionsInDictation: "short",
     allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25","D26","D27","D28"],
     allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L11","L12","L13"],
@@ -344,7 +344,7 @@ const CLASS_PROFILES = {
   },
   E_SENIOR: {
     id: "E_SENIOR", label: "E Senior", greekGrades: "1η / 2α / 3η Γυμνασίου",
-    cefr: "B1", ageRange: "13–14", defaultVocab: 8, maxSentenceWords: 16,
+    cefr: "B1", ageRange: "13–14", defaultVocab: 20, maxSentenceWords: 16,
     minEmojis: 0, maxDerivatives: 99, allowDefinitionsInDictation: true,
     allowDictation: Array.from({ length: 28 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
     allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L10","L11","L12","L13"],

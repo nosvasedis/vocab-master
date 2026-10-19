@@ -4,7 +4,7 @@ import {
 } from "../../app.js";
 import { $, $$, esc, icon, plural, debounce, toast } from "../ui.js";
 import {
-  state, emit, on, prefs, savePrefs, LEVEL_COLORS, BOOK_COLORS, WORD_TARGETS,
+  state, emit, on, prefs, savePrefs, LEVEL_COLORS, BOOK_COLORS, WORD_TARGETS, targetText,
   unitStructure, coursebookQuery, pickFromQuery, coursebookEntryToWord, isCpp,
 } from "../state.js";
 import { segmented } from "../ui.js";
@@ -29,7 +29,9 @@ export function initSetup() {
   $("levelGrid").addEventListener("click", (e) => {
     const card = e.target.closest("[data-level]");
     if (!card) return;
+    if (state.profileId === card.dataset.level) return;
     state.profileId = card.dataset.level;
+    resizeSmartPick();
     emit("setup", "level");
   });
   $("levelGrid").addEventListener("keydown", (e) => {
@@ -38,6 +40,7 @@ export function initSetup() {
     const i = Math.max(0, ids.indexOf(state.profileId));
     const next = ids[(i + (e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : ids.length - 1)) % ids.length];
     state.profileId = next;
+    resizeSmartPick();
     emit("setup", "level");
     $("levelGrid").querySelector(`[data-level="${next}"]`)?.focus();
     e.preventDefault();
@@ -168,6 +171,11 @@ export function initSetup() {
 }
 
 /* ── Word pool assignment ────────────────────────────────────────── */
+/** "Smart pick" follows the class: a new class reloads the unit's words at its size (Undo in the toast). */
+function resizeSmartPick() {
+  if (isCpp() && state.cpp.limit === "smart") loadPoolWords({ reason: `${CLASS_PROFILES[state.profileId].label} aims for ${targetText(state.profileId)} words` });
+}
+
 export function loadPoolWords({ reason = "", force = false, silent = false } = {}) {
   if (!isCpp()) return;
   const q = coursebookQuery();
@@ -234,8 +242,8 @@ function renderBooks() {
 
 function renderSetup() {
   // Welcome
-  const hasHistory = (getAllSavedSessions() || []).length > 0;
-  $("welcomeCard").classList.toggle("hidden", prefs.welcomeDismissed || hasHistory);
+  // The Home screen welcomes the teacher now; the old Step 1 card stays hidden.
+  $("welcomeCard").classList.add("hidden");
 
   // Level cards
   $$(".level-card").forEach((c) => {
@@ -250,7 +258,7 @@ function renderSetup() {
     ? `<span class="ld-item">${icon("graduation")}<span><strong>${esc(p.label)}</strong> · ${esc(p.greekGrades)} · ages ${esc(p.ageRange)}</span></span>
        <span class="ld-item">${icon("file")}<span>Sentences up to <strong>${p.maxSentenceWords} words</strong></span></span>
        <span class="ld-item">${icon("layers")}<span><strong>${p.allowDictation.length}</strong> dictation + <strong>${p.allowLingo.length}</strong> practice formats</span></span>
-       ${target ? `<span class="ld-item">${icon("target")}<span>Aim for <strong>${target[0]}–${target[1]} words</strong></span></span>` : ""}`
+       ${target ? `<span class="ld-item">${icon("target")}<span>Aim for <strong>${targetText(state.profileId)} words</strong></span></span>` : ""}`
     : `<span class="ld-item">${icon("info")}<span>Choose the class level first — it shapes every sentence the AI writes.</span></span>`;
 
   // Source switch

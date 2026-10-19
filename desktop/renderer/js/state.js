@@ -16,7 +16,17 @@ export const FIELD_LABELS = {
 };
 export const LEVEL_COLORS = { A_SENIOR: "var(--lvl-a)", B_SENIOR: "var(--lvl-b)", C_SENIOR: "var(--lvl-c)", D_SENIOR: "var(--lvl-d)", E_SENIOR: "var(--lvl-e)" };
 export const BOOK_COLORS = { CPP1: "#0fb5a6", CPP2: "#22a75e", CPP3: "#f2780c" };
-export const WORD_TARGETS = { A_SENIOR: [6, 10], B_SENIOR: [8, 12], C_SENIOR: [10, 15], D_SENIOR: [12, 18], E_SENIOR: [14, 20] };
+/** Words a unit aims for, per class. E Senior is open-ended ("20+"); its second number only sizes the meter. */
+export const WORD_TARGETS = { A_SENIOR: [10, 12], B_SENIOR: [12, 15], C_SENIOR: [16, 18], D_SENIOR: [18, 20], E_SENIOR: [20, 24] };
+const OPEN_TARGET = new Set(["E_SENIOR"]);
+export const isOpenTarget = (profileId) => OPEN_TARGET.has(profileId);
+/** "10–12", or "20+" for an open-ended class. */
+export function targetText(profileId) {
+  const t = WORD_TARGETS[profileId];
+  return !t ? "" : isOpenTarget(profileId) ? `${t[0]}+` : `${t[0]}–${t[1]}`;
+}
+/** How many words "Smart pick" loads for a class: the top of its range (22 for the open-ended E Senior). */
+export const SMART_PICK = { A_SENIOR: 12, B_SENIOR: 15, C_SENIOR: 18, D_SENIOR: 20, E_SENIOR: 22 };
 
 const DRAFT_KEY = "vm_draft_v2";
 const PREFS_KEY = "vm_prefs_v2";
@@ -111,8 +121,9 @@ export function pickFromQuery(query, limit = state.cpp.limit) {
   if (!query?.words?.length) return [];
   if (limit === "0") return [...query.words];
   if (limit === "smart") {
-    if (query.hasPageFilter && query.words.length <= 24) return [...query.words];
-    return selectSmartCoursebookWords(query.words, 15);
+    const n = SMART_PICK[state.profileId] || 15;
+    if (query.hasPageFilter && query.words.length <= Math.max(24, n)) return [...query.words];
+    return selectSmartCoursebookWords(query.words, n);
   }
   return selectSmartCoursebookWords(query.words, Number(limit) || 15);
 }
