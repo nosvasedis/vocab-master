@@ -7,6 +7,58 @@ import { configureAudio, play } from "../arcade/audio.js";
 import { PICTURE_STYLES } from "./pictures.js";
 import { actions } from "./actions.js";
 import { accountSectionHtml, mountAccount } from "./sync/account-ui.js";
+import { ENGINES } from "../studio/voice-cast.js";
+import { chosenEngine, setEngine, activeEngine, studioAvailable, naturalSupported, naturalDownloaded, prepareNatural, playSample, NATURAL_DOWNLOAD_MB } from "./voices/listening.js";
+
+/** Settings → Sound → Listening voices: choose, download the natural voices, hear a sample. */
+function mountVoiceSettings(q) {
+  const select = q("#setVoices");
+  const hint = q("#setVoicesHint");
+  const download = q("#setVoicesDownload");
+  const sample = q("#setVoicesSample");
+  let player = null;
+  let downloading = false;
+  const render = async () => {
+    const choice = chosenEngine();
+    const have = await naturalDownloaded();
+    const uses = activeEngine();
+    let text = "";
+    if (choice === "studio" && !studioAvailable()) text = "Add a Gemini key above (and Save) to use the studio voices. Until then the natural voices read.";
+    else if (choice === "studio") text = "Lifelike voices from Google Gemini, paid by your Gemini key: about 1 cent per minute of listening. Each listening is made once and kept on this computer.";
+    else if (choice === "natural" && !naturalSupported()) text = "This computer can't run the natural voices; the computer voices read instead.";
+    else if (choice === "natural") text = have ? "Natural voices are on this computer: free, and they work offline." : `Free voices made on this computer. They download once (about ${NATURAL_DOWNLOAD_MB} MB) the first time you play a listening — or now.`;
+    else text = "The voices built into the computer. Always there, but robotic.";
+    if (!downloading) hint.textContent = text;
+    download.classList.toggle("hidden", !(uses === "natural" || choice === "studio") || have || !naturalSupported());
+    sample.disabled = downloading;
+  };
+  select.addEventListener("change", () => { setEngine(select.value); player?.stop(); render(); });
+  download.addEventListener("click", async () => {
+    downloading = true;
+    download.disabled = true;
+    try {
+      await prepareNatural((p) => { hint.textContent = `Downloading the natural voices… ${Math.round(p * 100)}%`; });
+      toast("The natural voices are ready on this computer.", "ok");
+    } catch (e) { toast(e.message, "error"); }
+    downloading = false;
+    download.disabled = false;
+    render();
+  });
+  sample.addEventListener("click", () => {
+    if (player) { player.stop(); player = null; return; }
+    sample.innerHTML = `${icon("pause", "i-sm")}Stop`;
+    player = playSample({
+      onStatus: (st) => {
+        if (st.phase === "download") hint.textContent = `Downloading the natural voices… ${Math.round((st.progress || 0) * 100)}%`;
+        else if (st.phase === "prepare") hint.textContent = "Making the sample…";
+        else if (st.phase === "fallback") toast(st.message, "warn");
+        else render();
+      },
+      onEnd: () => { player = null; sample.innerHTML = `${icon("play", "i-sm")}Hear a sample`; render(); },
+    });
+  });
+  render();
+}
 
 export function applyTheme() {
   const dark = prefs.theme === "dark" || (prefs.theme === "system" && window.matchMedia?.("(prefers-color-scheme: dark)").matches);
@@ -93,6 +145,15 @@ export function openSettings({ focusKey = true } = {}) {
           <select class="select" id="setSoundQuality">
             ${[["auto", "Automatic — lighter sound on slower computers"], ["high", "Rich — warm echo and fuller music"], ["light", "Light — lowest CPU use, best for old PCs"]].map(([v, l]) => `<option value="${v}" ${(prefs.soundQuality || "auto") === v ? "selected" : ""}>${l}</option>`).join("")}
           </select>
+        </div>
+        <div class="field">
+          <label class="label" for="setVoices">Listening voices <span class="opt">unit tests and read-aloud dictations</span></label>
+          <select class="select" id="setVoices">${Object.entries(ENGINES).map(([id, e]) => `<option value="${id}" ${chosenEngine() === id ? "selected" : ""}>${esc(e.label)} — ${esc(e.note)}</option>`).join("")}</select>
+          <p class="hint" id="setVoicesHint"></p>
+          <div class="voices-actions">
+            <button type="button" class="btn btn-secondary btn-sm" id="setVoicesSample" data-sound="none">${icon("play", "i-sm")}Hear a sample</button>
+            <button type="button" class="btn btn-secondary btn-sm hidden" id="setVoicesDownload">${icon("download", "i-sm")}Download the natural voices now</button>
+          </div>
         </div>
       </section>
       <section class="settings-section">
@@ -191,6 +252,7 @@ export function openSettings({ focusKey = true } = {}) {
         if (!prefs.volume) { toast("The volume is at 0%. Slide it up to hear sounds.", "info"); return; }
         play(prefs.sfx ? "correct" : "success") || play("success") || toast("Sounds are switched off. Turn on interface or game sounds.", "info");
       });
+      mountVoiceSettings(q);
       q("#setDataFolder")?.addEventListener("click", () => desktop()?.openDataFolder());
       if (desktop()) {
         desktop().info().then((info) => {

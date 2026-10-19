@@ -185,9 +185,9 @@ function deepSeekRequest(method, apiPath, authHeader, body, timeoutMs) {
   return apiRequest(DEEPSEEK_HOST, method, apiPath, authHeader ? { Authorization: authHeader } : {}, body, timeoutMs);
 }
 
-/** Google Gemini — only the generativelanguage v1beta API is reachable through this bridge. */
+/** Google Gemini — only the model list, generateContent and interactions (studio voices) are reachable through this bridge. */
 function geminiRequest(method, apiPath, apiKey, body) {
-  if (!/^\/v1beta\/models(\/[\w.-]+:generateContent)?$/.test(apiPath)) {
+  if (!/^\/v1beta\/(models(\/[\w.-]+:generateContent)?|interactions)$/.test(apiPath)) {
     return Promise.resolve({ status: 400, body: JSON.stringify({ error: { message: "Unsupported Gemini path" } }) });
   }
   return apiRequest(GEMINI_HOST, method, apiPath, { "x-goog-api-key": String(apiKey || "").trim() }, body, MAX_REQUEST_MS);
@@ -244,6 +244,7 @@ const MIME = {
   ".opus": "audio/ogg",
   ".mp3": "audio/mpeg",
   ".wav": "audio/wav",
+  ".wasm": "application/wasm",
   ".zip": "application/zip",
   ".ico": "image/x-icon",
   ".woff": "font/woff",
@@ -270,7 +271,13 @@ function registerAppProtocol() {
       const data = await fs.promises.readFile(filePath);
       const ext = path.extname(filePath).toLowerCase();
       return new Response(data, {
-        headers: { "content-type": MIME[ext] || "application/octet-stream" },
+        headers: {
+          "content-type": MIME[ext] || "application/octet-stream",
+          // Cross-origin isolation lets the natural-voice engine (Kokoro, WebAssembly) use several threads.
+          // "credentialless" still loads pictures and clips from R2 (without cookies); the app opens no popups.
+          "cross-origin-opener-policy": "same-origin",
+          "cross-origin-embedder-policy": "credentialless",
+        },
       });
     } catch {
       return new Response("Not found", { status: 404 });
@@ -527,8 +534,47 @@ async function runSmokeTest() {
     `);
     results.editorFlow = JSON.parse(editorFlow || "{}");
     results.editorOk = results.editorFlow?.fail === "";
+    // Natural voices: the page is cross-origin isolated (threads), the voice worker starts and the WebAssembly
+    // engine compiles under the CSP. No model download here: the smoke test must work offline.
+    results.voices = JSON.parse(await mainWindow.webContents.executeJavaScript(`
+      (async () => {
+        const out = { isolated: self.crossOriginIsolated === true, wasm: false, worker: false };
+        try { await WebAssembly.compileStreaming(fetch("vendor/kokoro/ort-wasm-simd-threaded.jsep.wasm")); out.wasm = true; } catch (e) { out.wasmError = String(e.message || e); }
+        try {
+          out.worker = await new Promise((resolve) => {
+            const w = new Worker("js/voices/kokoro-worker.js", { type: "module" });
+            const t = setTimeout(() => { w.terminate(); resolve(true); }, 2500); // loaded with no error
+            w.onerror = (e) => { clearTimeout(t); out.workerError = String(e.message || "worker error"); resolve(false); };
+          });
+        } catch (e) { out.workerError = String(e.message || e); }
+        return JSON.stringify(out);
+      })()
+    `));
+    results.voicesOk = results.voices.isolated && results.voices.wasm && results.voices.worker;
+    // Opt-in (`--smoke --voices`, needs the internet once): download the natural voices and speak one sentence.
+    if (process.argv.includes("--voices")) {
+      results.voicesFull = JSON.parse(await mainWindow.webContents.executeJavaScript(`
+        (async () => {
+          const t0 = performance.now();
+          const w = new Worker("js/voices/kokoro-worker.js", { type: "module" });
+          const out = await new Promise((resolve) => {
+            const r = { threads: 0 };
+            w.onmessage = ({ data }) => {
+              if (data.type === "ready") { r.threads = data.threads; r.loadMs = Math.round(performance.now() - t0); w.postMessage({ type: "speak", id: 1, text: "Hi, Tom! Did you see the volcano film in class today?", voice: "af_heart", speed: 0.9 }); r.t1 = performance.now(); }
+              if (data.type === "audio") { r.seconds = +(data.samples.length / data.rate).toFixed(2); r.speakMs = Math.round(performance.now() - r.t1); delete r.t1; resolve(r); }
+              if (data.type === "error") resolve({ ...r, error: data.message });
+            };
+            w.postMessage({ type: "load" });
+            setTimeout(() => resolve({ ...r, error: "timeout" }), 240000);
+          });
+          w.terminate();
+          return JSON.stringify(out);
+        })()
+      `));
+      results.voicesOk = results.voicesOk && !results.voicesFull.error && results.voicesFull.seconds > 1;
+    }
     console.log("SMOKE_RESULTS " + JSON.stringify(results));
-    app.exit(results.protocolOk && results.engineOk && results.editorOk ? 0 : 1);
+    app.exit(results.protocolOk && results.engineOk && results.editorOk && results.voicesOk ? 0 : 1);
   } catch (err) {
     console.error("SMOKE_ERROR", err);
     app.exit(1);
