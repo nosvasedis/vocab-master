@@ -103,10 +103,12 @@ export default {
         const pts = 10 + (timerOn ? Math.ceil(left / 4) : 0) + (streak >= 3 ? 5 : 0);
         sfx.correct();
         teams.award(pts, { from: stage.querySelector(".qz-opt.right") });
+        ctx.fx.sparks(stage.querySelector(".qz-opt.right"), { count: 18 });
         if (streak >= 3) ctx.confetti({ count: 90, originY: 0.55 });
       } else {
         streak = 0;
         choice == null ? sfx.buzzer() : sfx.wrong();
+        ctx.fx.shake(stage.querySelector(".qz-opt.wrong") || stage.querySelector(".qz-card"));
       }
       speak(item.say || item.answer); // the dictionary word has a recording; "uncles" may not
       foot.innerHTML = `

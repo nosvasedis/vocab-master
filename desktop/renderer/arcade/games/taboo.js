@@ -1,6 +1,5 @@
 /* Hot Seat — one student faces away; the team describes words without the forbidden ones. Timed rounds. */
 import { buildTabooCard, shuffle, typeName } from "../deck.js";
-import { teamPic, avatarPic } from "../../js/pics.js";
 
 export default {
   id: "taboo",
@@ -10,7 +9,7 @@ export default {
   tags: ["Teams", "Speaking", "Timed"],
   minWords: 3,
   create(ctx) {
-    const { stage, esc, svg, sfx, teams, pic } = ctx;
+    const { stage, esc, svg, sfx, teams, pic, fx } = ctx;
     let seconds = Number(localStorage.getItem("vm_taboo_secs") || 60);
     let queue = shuffle(ctx.deck);
     let card = null;
@@ -35,7 +34,7 @@ export default {
       stage.innerHTML = `
         <div class="ts-lobby">
           <div class="ts-seat" style="--team:${team.color}">
-            <span class="ts-emoji">${teams.solo ? "🪑" : teams.player() ? avatarPic(teams.player().emoji) : teamPic(team.emoji)}</span>
+            <span class="ts-emoji">${teams.solo ? "🪑" : teams.player() ? teams.badge(teams.player(), { cls: "xl" }) : teams.badge(team, { cls: "xl" })}</span>
             <h2>${teams.solo ? "Who's in the hot seat?" : teams.player() ? `${teams.turnHtml()}<span class="ts-up">you're in the hot seat!</span>` : `${esc(team.name)}, you're up!`}</h2>
             <p>${teams.player() ? `${esc(teams.player().name)} sits with their back to the board. ${teams.mode === "teams" ? "Their team" : "Everyone else"} describes each word — in English, without the forbidden words.` : "One student sits with their back to the board. Everyone else describes each word — in English, without the forbidden words."}</p>
           </div>
@@ -45,6 +44,17 @@ export default {
           </div>
           <button type="button" class="arc-btn primary xl" data-start>${svg("play", "i-sm")}Start the clock <kbd>Space</kbd></button>
         </div>`;
+    }
+
+    let starting = false;
+    /** 3 · 2 · 1 · Go!, then the clock starts. */
+    async function countIn() {
+      if (starting) return;
+      starting = true;
+      stage.querySelector(".ts-lobby")?.classList.add("leaving");
+      await fx.countdown({ go: "Describe!" });
+      starting = false;
+      if (stage.isConnected) startRound();
     }
 
     function startRound() {
@@ -114,6 +124,7 @@ export default {
         round.got.push(card.english);
         teams.award(1, { from: el });
         sfx.correct();
+        fx.sparks(el, { count: 20, color: "#34d399" });
       } else {
         round.skipped.push(card.english);
         sfx.pop();
@@ -131,6 +142,8 @@ export default {
     function endRound() {
       clearInterval(tick);
       sfx.buzzer();
+      const got = round.got.length;
+      fx.announce({ kicker: teams.solo ? "The class got" : `${teams.active().name} got`, title: "Time's up!", sub: `<span><b>${got}</b> ${got === 1 ? "word" : "words"}</span>`, icon: `<span class="sx-ann-emoji">⏰</span>`, color: "#ff5e7a", ms: 1500 });
       const team = teams.active();
       roundNo++;
       const last = roundNo >= totalRounds();
@@ -169,7 +182,7 @@ export default {
         stage.querySelectorAll("[data-secs]").forEach((b) => b.classList.toggle("on", b === s));
         sfx.tap();
       }
-      if (e.target.closest("[data-start]")) startRound();
+      if (e.target.closest("[data-start]")) countIn();
       if (e.target.closest("[data-got]")) nextCard("got");
       if (e.target.closest("[data-skip]")) nextCard("skip");
       if (e.target.closest("[data-pause]")) togglePause();
@@ -187,7 +200,7 @@ export default {
           else if (e.key === " ") { e.preventDefault(); togglePause(); }
         } else if (e.key === " " || e.key === "Enter") {
           e.preventDefault();
-          if (stage.querySelector("[data-start]")) startRound();
+          if (stage.querySelector("[data-start]")) countIn();
           else if (stage.querySelector("[data-continue]")) cont();
         }
       },

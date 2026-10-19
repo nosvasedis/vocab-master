@@ -286,6 +286,53 @@ export const SOUNDS = {
     k.noise({ dur: 0.3, gain: 0.04, f: 400, sweep: 3500, attack: 0.1 });
     arp(k, [N.G4, N.C5, N.E5, N.G5], { at: 0.12, step: 0.06, dur: 0.4, gain: 0.07, bell: false });
   } },
+  /* ── Showtime (arcade/showtime.js): title screens, round cards, countdowns, end screens ── */
+  intro: { bus: "sfx", dur: 1.8, wet: 0.35, gap: 600, play(k) {
+    k.noise({ dur: 0.55, gain: 0.07, f: 300, sweep: 5000, q: 0.7, attack: 0.4 });
+    k.thump({ f: 120, to: 45, at: 0.5, dur: 0.4, gain: 0.22 });
+    [[N.C5, 0.5], [N.G5, 0.62], [N.C6, 0.74], [N.E6, 0.86]].forEach(([m, at]) => k.mallet({ f: hz(m), at, dur: 0.3, gain: 0.1 }));
+    [N.C4, N.G4, N.E5, N.C6].forEach((m) => k.tone({ f: hz(m), at: 0.98, dur: 0.7, type: "triangle", gain: 0.045, lp: 2600, attack: 0.02 }));
+    [N.G6, N.C7, N.E7].forEach((m, i) => k.bell({ f: hz(m), at: 1.0 + i * 0.07, dur: 0.6, gain: 0.04 }));
+  } },
+  swoosh: { bus: "sfx", dur: 0.6, wet: 0.25, gap: 200, play(k) {
+    k.noise({ dur: 0.5, gain: 0.12, f: 350, sweep: 4200, q: 0.9, attack: 0.18 });
+    k.thump({ f: 95, to: 50, at: 0.3, dur: 0.22, gain: 0.12 });
+    k.bell({ f: hz(N.G6), at: 0.32, dur: 0.25, gain: 0.03 });
+  } },
+  count: { bus: "sfx", dur: 0.3, wet: 0.15, gap: 200, play(k) {
+    k.tone({ f: hz(N.A5), dur: 0.2, type: "triangle", gain: 0.12 });
+    k.thump({ f: 140, to: 60, dur: 0.14, gain: 0.1 });
+  } },
+  go: { bus: "sfx", dur: 0.7, wet: 0.3, gap: 300, play(k) {
+    k.tone({ f: hz(N.A6), dur: 0.5, type: "triangle", gain: 0.11, hold: 0.15 });
+    k.tone({ f: hz(N.E6), dur: 0.5, type: "sine", gain: 0.08, hold: 0.15 });
+    k.noise({ dur: 0.35, gain: 0.05, f: 900, sweep: 6000, attack: 0.02 });
+    k.thump({ f: 160, to: 50, dur: 0.22, gain: 0.16 });
+  } },
+  turn: { bus: "sfx", dur: 0.5, wet: 0.3, gap: 250, play(k) {
+    k.bell({ f: hz(N.E6), dur: 0.3, gain: 0.06, index: 1 });
+    k.bell({ f: hz(N.A6), at: 0.09, dur: 0.4, gain: 0.06, index: 1 });
+  } },
+  drumroll: { bus: "sfx", dur: 1.9, wet: 0.2, gap: 900, play(k) {
+    for (let i = 0; i < 26; i++) k.noise({ at: i * 0.055, dur: 0.05, gain: 0.03 + i * 0.002, f: 1400, q: 1.1 });
+    k.thump({ f: 110, to: 45, at: 1.45, dur: 0.35, gain: 0.22 });
+    k.noise({ at: 1.45, dur: 0.4, gain: 0.07, type: "highpass", f: 5000, attack: 0.005 });
+  } },
+  fanfare: { bus: "sfx", dur: 2, wet: 0.35, gap: 900, play(k) {
+    const seq = [[N.G4, 0, 0.14], [N.C5, 0.15, 0.14], [N.E5, 0.3, 0.14], [N.G5, 0.45, 0.38], [N.E5, 0.86, 0.14], [N.G5, 1.0, 0.85]];
+    seq.forEach(([m, at, d]) => { k.tone({ f: hz(m), at, dur: d, type: "sawtooth", gain: 0.035, lp: 2400, attack: 0.012 }); k.tone({ f: hz(m + 12), at, dur: d, type: "square", gain: 0.012, lp: 3000, attack: 0.012 }); });
+    [N.C4, N.G4, N.E5].forEach((m) => k.tone({ f: hz(m), at: 1.0, dur: 0.9, type: "triangle", gain: 0.05, lp: 2000, attack: 0.03 }));
+    [N.C7, N.E7, N.G7].forEach((m, i) => k.bell({ f: hz(m), at: 1.05 + i * 0.07, dur: 0.7, gain: 0.035 }));
+    k.thump({ f: 130, to: 50, at: 1.0, dur: 0.3, gain: 0.16 });
+  } },
+  reveal: { bus: "sfx", dur: 0.6, wet: 0.3, gap: 150, play(k) {
+    k.noise({ dur: 0.25, gain: 0.05, f: 600, sweep: 3500, attack: 0.05 });
+    k.mallet({ f: hz(N.G5), at: 0.18, dur: 0.35, gain: 0.11 });
+    k.bell({ f: hz(N.D7), at: 0.2, dur: 0.35, gain: 0.03 });
+  } },
+  sparkle: { bus: "sfx", dur: 0.6, wet: 0.35, gap: 120, vary: 50, play(k) {
+    [N.E7, N.G7, N.B7, N.E8].forEach((m, i) => k.bell({ f: hz(m), at: i * 0.045, dur: 0.3, gain: 0.025, index: 0.8 }));
+  } },
   exit: { bus: "sfx", dur: 0.5, wet: 0.2, gap: 300, play(k) {
     k.noise({ dur: 0.25, gain: 0.035, f: 3000, sweep: 400, attack: 0.04 });
     arp(k, [N.G5, N.E5, N.C5], { step: 0.06, dur: 0.25, gain: 0.05, bell: false });

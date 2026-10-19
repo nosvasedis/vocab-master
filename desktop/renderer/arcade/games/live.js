@@ -9,7 +9,11 @@ import { pointsFor, rankTeams, scorePhoneRound, assignTeams } from "../live/scor
 import qrcode from "../../vendor/qrcode/qrcode.js";
 import { playMusic, stopMusic, setTension, setBuildup, stings } from "../live/music.js";
 import { hasVoiceFor } from "../voice.js";
-import { teamPic, avatarPic } from "../../js/pics.js";
+import { avatarPic } from "../../js/pics.js";
+import { facePic } from "../avatars.js";
+
+// A team's mascot: one of the four team pictures, or any avatar the class chose for its crest.
+const teamPic = (emoji) => facePic(emoji, { team: true });
 
 const W = 1600;
 const H = 900;

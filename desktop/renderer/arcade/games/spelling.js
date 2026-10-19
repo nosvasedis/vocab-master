@@ -12,7 +12,7 @@ export default {
   tags: ["Teams", "Spelling", "Listening"],
   minWords: 1,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak, teams, pic } = ctx;
+    const { stage, esc, svg, sfx, speak, teams, pic, fx } = ctx;
     const rounds = ctx.deck.slice(0, Math.min(10, ctx.deck.length));
     let r = 0;
     let slots = [];
@@ -59,11 +59,11 @@ export default {
       stage.innerHTML = `
         <div class="spell">
           ${teams.solo ? "" : `<div class="turn-banner" style="--team:${teams.active().color}">${teams.turnHtml()}<span>spell it!</span></div>`}
-          <div class="sp-clue">
+          <div class="sp-clue" style="--n:${r}">
             ${clueHtml(w)}
           </div>
-          <div class="sp-slots" id="spSlots">${slotHtml()}</div>
-          <div class="sp-tiles" id="spTiles">${tileHtml()}</div>
+          <div class="sp-slots deal" id="spSlots">${slotHtml()}</div>
+          <div class="sp-tiles deal" id="spTiles">${tileHtml()}</div>
           <div class="sp-actions">
             <button type="button" class="arc-btn ghost" data-act="hint">${svg("bulb", "i-sm")}Hint</button>
             <button type="button" class="arc-btn ghost" data-act="clear">${svg("eraser", "i-sm")}Clear</button>
@@ -81,11 +81,14 @@ export default {
         cur.push([s, k]);
       });
       words.push(cur);
-      return words.map((group) => `<span class="sp-wordgroup">${group.map(([s, k]) => `<span class="sp-slot${s.fixed ? " fixed" : ""}${s.value ? " filled" : ""}${s.hinted ? " hinted" : ""}" data-slot="${k}">${esc(s.value)}</span>`).join("")}</span>`).join("");
+      return words.map((group) => `<span class="sp-wordgroup">${group.map(([s, k]) => `<span class="sp-slot${s.fixed ? " fixed" : ""}${s.value ? " filled" : ""}${s.hinted ? " hinted" : ""}" data-slot="${k}" style="--i:${k}">${esc(s.value)}</span>`).join("")}</span>`).join("");
     };
-    const tileHtml = () => tiles.map((t) => `<button type="button" class="sp-tile${t.used ? " used" : ""}" data-tile="${t.id}" ${t.used ? "disabled" : ""}>${esc(t.ch)}</button>`).join("");
+    const tileHtml = () => tiles.map((t, k) => `<button type="button" class="sp-tile${t.used ? " used" : ""}" data-tile="${t.id}" style="--i:${k}" ${t.used ? "disabled" : ""}>${esc(t.ch)}</button>`).join("");
 
     function refresh() {
+      // Only a new word deals its letters in; later redraws must not replay the deal.
+      stage.querySelector("#spSlots").classList.remove("deal");
+      stage.querySelector("#spTiles").classList.remove("deal");
       stage.querySelector("#spSlots").innerHTML = slotHtml();
       stage.querySelector("#spTiles").innerHTML = tileHtml();
     }
@@ -101,6 +104,7 @@ export default {
       tile.used = true;
       sfx.tap();
       refresh();
+      stage.querySelector(`[data-slot="${k}"]`)?.classList.add("new");
       if (nextEmpty() < 0) check();
     }
 
@@ -185,6 +189,7 @@ export default {
         const pts = Math.max(2, 10 - hints * 3 - misses * 2);
         teams.award(pts, { from: slotsEl });
         ctx.confetti({ count: 70, originY: 0.45 });
+        fx.sparks(slotsEl, { count: 28, spread: 1.6, color: "#34d399" });
         speak(w.english);
         later(next, 1700);
       } else {

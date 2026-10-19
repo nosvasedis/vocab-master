@@ -3,7 +3,6 @@
    rows are worth more, and one hidden tile is a ⭐ double. Spelling tiles are judged by the teacher. */
 import { buildBoard, CATEGORIES } from "../board-questions.js";
 import { typeName } from "../deck.js";
-import { teamPic, avatarPic } from "../../js/pics.js";
 
 const LETTERS = ["A", "B", "C", "D"];
 const TIME = 20;
@@ -16,7 +15,7 @@ export default {
   tags: ["Teams", "Players", "Strategy"],
   minWords: 6,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak, teams, picText } = ctx;
+    const { stage, esc, svg, sfx, speak, teams, picText, fx } = ctx;
     const board = buildBoard(ctx.deck, { greek: ctx.greek() });
     const taken = board.rows.map(() => board.cats.map(() => null)); // { won, side } per tile
     let sel = { r: 0, c: 0 };
@@ -29,13 +28,14 @@ export default {
     const timers = [];
     const later = (fn, ms) => timers.push(setTimeout(fn, ms));
     const total = board.rows.length * board.cats.length;
-    const sideIcon = (s) => (teams.mode === "players" ? avatarPic(s.emoji) : teamPic(s.emoji));
+    const sideIcon = (s) => teams.badge(s, { cls: "md" });
     const pointsOf = (r, c) => board.rows[r] * (board.double.r === r && board.double.c === c ? 2 : 1);
 
     function progress() {
       ctx.setProgress(`<b>${asked}</b> / ${total} tiles · ${right} right`);
     }
 
+    let last = null; // the tile just played (it flips to its result on the board)
     function showBoard() {
       clearInterval(tick);
       open = null;
@@ -47,8 +47,8 @@ export default {
             ${board.cats.map((k) => `<div class="wb-cat"><span>${CATEGORIES[k].icon}</span><b>${esc(CATEGORIES[k].label)}</b></div>`).join("")}
             ${board.rows.map((pts, r) => board.cats.map((_, c) => {
               const t = taken[r][c];
-              if (t) return `<div class="wb-tile done${t.won ? " won" : ""}" style="${t.side ? `--team:${t.side.color}` : ""}">${t.won ? (t.side && !teams.solo ? `<span class="wb-who">${sideIcon(t.side)}</span>` : "✓") : "✗"}</div>`;
-              return `<button type="button" class="wb-tile${sel.r === r && sel.c === c ? " sel" : ""}" data-r="${r}" data-c="${c}" style="animation-delay:${(r * board.cats.length + c) * 30}ms" aria-label="${esc(CATEGORIES[board.cats[c]].label)} for ${pts}">${pts}</button>`;
+              if (t) return `<div class="wb-tile done${t.won ? " won" : ""}${last && last.r === r && last.c === c ? " just" : ""}" style="${t.side ? `--team:${t.side.color}` : ""}">${t.won ? (t.side && !teams.solo ? `<span class="wb-who">${sideIcon(t.side)}</span>` : "✓") : "✗"}</div>`;
+              return `<button type="button" class="wb-tile${sel.r === r && sel.c === c ? " sel" : ""}${last ? " still" : ""}" data-r="${r}" data-c="${c}" style="animation-delay:${(r * board.cats.length + c) * 30}ms" aria-label="${esc(CATEGORIES[board.cats[c]].label)} for ${pts}">${pts}</button>`;
             }).join("")).join("")}
           </div>
           <p class="wb-hint">Click a tile — or use the arrow keys and Enter</p>
@@ -62,12 +62,24 @@ export default {
       open = { r, c, q, answered: false, revealed: false };
       sel = { r, c };
       sfx.flip();
+      const from = stage.querySelector(`[data-r="${r}"][data-c="${c}"]`)?.getBoundingClientRect();
       if (dbl) {
-        stage.innerHTML = `<div class="wb-double"><span>⭐</span><b>Double points!</b><em>${pointsOf(r, c)} points</em></div>`;
         sfx.star();
         ctx.confetti({ count: 80, originY: 0.4 });
-        later(() => showQuestion(), 1500);
-      } else showQuestion();
+        fx.announce({ kicker: "You found it!", title: "Double points!", sub: `<span>${pointsOf(r, c)} points for this one</span>`, icon: `<span class="sx-ann-emoji">⭐</span>`, color: "#f59e0b", big: true, ms: 1700 }).then(() => { if (open) { showQuestion(); zoomFrom(from); } });
+      } else { showQuestion(); zoomFrom(from); }
+    }
+
+    /** The question grows out of the tile that was picked. */
+    function zoomFrom(rect) {
+      const q = stage.querySelector(".qz");
+      if (!rect || !q?.animate || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const to = q.getBoundingClientRect();
+      const sx = rect.width / to.width;
+      const sy = rect.height / to.height;
+      const dx = rect.left + rect.width / 2 - (to.left + to.width / 2);
+      const dy = rect.top + rect.height / 2 - (to.top + to.height / 2);
+      q.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`, opacity: 0.4, borderRadius: "16px" }, { transform: "none", opacity: 1 }], { duration: 460, easing: "cubic-bezier(0.16, 1, 0.3, 1)" });
     }
 
     function showQuestion() {
@@ -160,19 +172,23 @@ export default {
       if (ok) {
         right++;
         sfx.correct();
+        fx.sparks(stage.querySelector(".qz-opt.right, .wb-letters"), { count: pts >= 300 ? 30 : 18, color: side.color });
         teams.award(pts, { from: stage.querySelector(".qz-opt.right, .wb-letters") });
         if (pts >= 400) ctx.confetti({ count: 90, originY: 0.55 });
-      } else k == null && !q.judged ? sfx.buzzer() : sfx.wrong();
-      taken[r][c] = { won: ok, side: { color: side.color, emoji: side.emoji, name: side.name } };
+      } else {
+        k == null && !q.judged ? sfx.buzzer() : sfx.wrong();
+        fx.shake(stage.querySelector(".qz-opt.wrong") || stage.querySelector(".qz-card"));
+      }
+      taken[r][c] = { won: ok, side: { color: side.color, emoji: side.emoji, name: side.name, shape: side.shape } };
       if (!q.judged) speak(q.say);
       const w = q.word;
-      const last = asked >= total;
+      const final = asked >= total;
       stage.querySelector("#qzFoot").innerHTML = `
         <div class="qz-explain ${ok ? "ok" : "no"}">
           <span class="qz-verdict">${ok ? `+${pts}!` : k == null && !q.judged ? "Time's up!" : "Not quite!"}</span>
           <span><b>${esc(q.answerText || w.english)}</b>${w.type ? ` <i>${esc(typeName(w.type))}</i>` : ""}${w.greek ? `<span class="gk" lang="el"> — ${esc(w.greek)}</span>` : ""}</span>
         </div>
-        <button type="button" class="arc-btn primary" data-next>${last ? "See the winners" : "Back to the board"}${svg("arrow-right", "i-sm")}<kbd>Enter</kbd></button>`;
+        <button type="button" class="arc-btn primary" data-next>${final ? "See the winners" : "Back to the board"}${svg("arrow-right", "i-sm")}<kbd>Enter</kbd></button>`;
       document.activeElement?.blur?.();
       progress();
     }
@@ -187,6 +203,7 @@ export default {
       // Move the keyboard selection to the next free tile.
       const free = [];
       board.rows.forEach((_, r) => board.cats.forEach((__, c) => { if (!taken[r][c]) free.push({ r, c }); }));
+      last = { r: open.r, c: open.c };
       sel = free.find((t) => t.r === sel.r) || free[0] || sel;
       sfx.whoosh();
       showBoard();

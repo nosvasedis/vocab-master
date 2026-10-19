@@ -480,17 +480,27 @@ async function runSmokeTest() {
         dbg.picker = !!document.querySelector(".dp");
         document.querySelector('.dp [data-book="CPP3"]').click(); await wait(150);
         document.querySelector('.dp [data-unit="2"]').click(); await wait(400);
+        // By page: pp. 34–41 of Book 3 finds words across the unit's sections.
+        const typePages = (v) => { const i = document.getElementById("dpPages"); i.value = v; i.dispatchEvent(new Event("input", { bubbles: true })); };
+        typePages("34-41"); await wait(150);
+        dbg.pages = /[0-9]+ words/.test(document.querySelector(".dp [data-pages-add]").textContent);
+        typePages(""); await wait(100);
         document.querySelector(".dp [data-unit-all]").click(); await wait(150);
         const pickedN = Number(document.getElementById("dpCount").textContent);
         document.querySelector(".dp [data-apply]").click(); await wait(500);
         dbg.pickedDeck = pickedN > 50 && Math.abs(Number(document.querySelector(".hhd-count b").dataset.countup) - pickedN) <= 3 && /Primary Path 3 · Unit 2/.test(document.querySelector(".hhd-info b").textContent);
-        const play = async (id) => { document.querySelector('[data-hub]').click(); await wait(120); document.querySelector('[data-game="' + id + '"]').click(); await wait(250); };
+        // Every game but Lingo Live opens on its title screen; Start mounts the game.
+        dbg.titles = 0;
+        const play = async (id) => {
+          document.querySelector('[data-hub]').click(); await wait(120); document.querySelector('[data-game="' + id + '"]').click(); await wait(250);
+          if (id !== "live") { dbg.titles += document.querySelector(".sx-title") ? 1 : 0; document.querySelector("[data-st-go]")?.click(); await wait(550); }
+        };
         await play("flashcards"); dbg.fc = !!document.querySelector(".fc-card");
         await play("memory"); dbg.mem = document.querySelectorAll(".mm-tile").length;
         await play("spelling"); dbg.spell = document.querySelectorAll(".sp-tile").length;
         await play("board"); dbg.quiz = document.querySelectorAll(".wb-tile").length;
-        await play("feud"); await new Promise((r) => setTimeout(r, 600)); dbg.feud = document.querySelectorAll(".fd-slot").length;
-        await play("taboo"); document.querySelector("[data-start]")?.click(); await wait(150); dbg.taboo = document.querySelectorAll(".ts-no").length;
+        await play("feud"); await wait(2400); dbg.feud = document.querySelectorAll(".fd-slot").length; // after the "Round 1" card
+        await play("taboo"); document.querySelector("[data-start]")?.click(); await wait(3300); dbg.taboo = document.querySelectorAll(".ts-no").length; // after 3 · 2 · 1
         // Lingo Live: lobby, then 3-2-1 and the first question with its answer tiles.
         await play("live"); dbg.liveLobby = !!document.querySelector(".lv-lobby");
         document.querySelector("[data-start]")?.click(); await wait(5400); dbg.liveOpts = document.querySelectorAll(".lv-opt").length;
@@ -503,7 +513,7 @@ async function runSmokeTest() {
         const ok = dbg.view === "preview" && dbg.saved && dbg.dialogsAfter === 0 && dbg.vocabEditor
           && dbg.projector && dbg.projectorClosed && dbg.bulk === 2 && dbg.docxOk && cbOk
           && dbg.inferredUnit === 4 && dbg.autoWords >= 10 && dbg.poolChips >= 10
-          && dbg.gameCards === 7 && dbg.picker && dbg.pickedDeck && dbg.liveLobby && dbg.liveOpts >= 2 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz >= 9 && dbg.feud >= 5 && dbg.taboo >= 1 && dbg.arcadeClosed;
+          && dbg.gameCards === 7 && dbg.picker && dbg.pages && dbg.titles === 6 && dbg.pickedDeck && dbg.liveLobby && dbg.liveOpts >= 2 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz >= 9 && dbg.feud >= 5 && dbg.taboo >= 1 && dbg.arcadeClosed;
         return JSON.stringify({ ...dbg, cbOk, fail: ok ? "" : "ui-flow" });
       })()
     `);

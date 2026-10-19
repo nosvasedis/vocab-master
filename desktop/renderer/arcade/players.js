@@ -5,7 +5,10 @@
      • teams    — 2–4 teams of named members; teams take turns, and inside a team the members take turns answering
                   (team score + each member's own points)
    Turns are fair: everyone present answers once before anyone answers again; absent children are skipped.
-   The spinner picks at random among those who haven't had a turn yet. */
+   The spinner picks at random among those who haven't had a turn yet.
+   Each game starts with the next team (and the next child) after the last game's, so the same team never always
+   goes first. Avatars and team crests come from arcade/avatars.js (saved with the class when a teacher picks them). */
+import { playerLook, teamCrest, DEFAULT_AVATARS, COLORS } from "./avatars.js";
 
 export const TEAM_PRESETS = [
   { name: "Rockets", emoji: "🚀", color: "#7b6bff" },
@@ -13,9 +16,9 @@ export const TEAM_PRESETS = [
   { name: "Dolphins", emoji: "🐬", color: "#22c3ee" },
   { name: "Dragons", emoji: "🐉", color: "#34d399" },
 ];
-// Player avatars: the same animals as the Lingo Live phones (drawn as pictures by js/pics.js avatarPic).
-export const PLAYER_AVATARS = ["🦊", "🐼", "🐯", "🦁", "🐸", "🐵", "🐨", "🐰", "🐻", "🐧", "🦄", "🐙", "🐢", "🦉", "🐝", "🐬"];
-export const PLAYER_COLORS = ["#ff8a4c", "#7b6bff", "#22c3ee", "#34d399", "#f2a900", "#ff5e7a", "#a855f7", "#14b8a6", "#ef4444", "#3b82f6", "#84cc16", "#ec4899"];
+// Default player avatars (the Lingo Live animals) and colours, by place in the class list; see avatars.js.
+export const PLAYER_AVATARS = DEFAULT_AVATARS;
+export const PLAYER_COLORS = COLORS;
 const CLASS_SIDE = { name: "Class", emoji: "⭐", color: "#ffd23f" };
 
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -33,7 +36,8 @@ export function parseNames(text) {
   return out;
 }
 
-/** A new saved class: { id, name, players: [{ id, name }], teamCount, assign: { playerId: teamIndex }, teamNames: [] }. */
+/** A new saved class: { id, name, players: [{ id, name, avatar?, color? }], teamCount, assign: { playerId: teamIndex },
+ *  teamNames: [], teamCrests?: [{ emoji, color, shape }] }. avatar/color/teamCrests are optional (added with the avatars, 2026-10). */
 export function newClass(name = "My class", names = []) {
   return { id: uid(), name: String(name).trim().slice(0, 30) || "My class", players: names.map((n) => ({ id: uid(), name: n })), teamCount: 2, assign: {}, teamNames: [] };
 }
@@ -78,21 +82,23 @@ export function fillTeams(cls, ids, n) {
 
 /**
  * Start a game's line-up.
- * @param {{ mode: "class"|"players"|"teams", cls?: object, absent?: Set<string>, teamCount?: number, teamNames?: string[] }} cfg
+ * @param {{ mode: "class"|"players"|"teams", cls?: object, absent?: Set<string>, teamCount?: number, teamNames?: string[],
+ *   startTeam?: number, after?: string|null }} cfg  startTeam: the team that goes first (wraps round); after: start
+ *   with the child after this one (players mode: whoever was up when the last game ended).
  */
-export function createPlay({ mode = "class", cls = null, absent = new Set(), teamCount = 2, teamNames = [] } = {}) {
+export function createPlay({ mode = "class", cls = null, absent = new Set(), teamCount = 2, teamNames = [], startTeam = 0, after = null } = {}) {
   const roster = (cls?.players || []).filter((p) => !absent.has(p.id));
   const usePlayers = mode !== "class" && roster.length >= (mode === "teams" ? 2 : 1);
   const m = usePlayers ? mode : "class";
   const n = Math.max(2, Math.min(4, teamCount));
   const players = usePlayers
     // A child keeps the same animal and colour whoever is away (their place in the class list).
-    ? roster.map((p) => { const i = cls.players.indexOf(p); return { id: p.id, name: p.name, emoji: PLAYER_AVATARS[i % PLAYER_AVATARS.length], color: PLAYER_COLORS[i % PLAYER_COLORS.length], score: 0, turns: 0, right: 0, team: null }; })
+    ? roster.map((p) => ({ id: p.id, name: p.name, ...playerLook(cls, p), score: 0, turns: 0, right: 0, team: null }))
     : [];
   let teams = [];
   if (m === "teams") {
     fillTeams(cls, players.map((p) => p.id), n);
-    teams = TEAM_PRESETS.slice(0, n).map((t, i) => ({ ...t, name: teamNames[i] || t.name, score: 0 }));
+    teams = TEAM_PRESETS.slice(0, n).map((t, i) => ({ ...t, ...teamCrest(cls, i), name: teamNames[i] || t.name, score: 0 }));
     for (const p of players) p.team = cls.assign[p.id];
     // A team nobody is in can't take turns: drop it (and renumber).
     const used = teams.map((_, i) => players.some((p) => p.team === i));
@@ -101,6 +107,9 @@ export function createPlay({ mode = "class", cls = null, absent = new Set(), tea
     for (const p of players) p.team = map.get(p.team);
   }
   const play = { mode: m, players, teams, classSide: { ...CLASS_SIDE, score: 0 }, team: 0, player: null, had: new Set(), lastOf: {} };
+  if (m === "teams") play.team = ((Math.trunc(startTeam) % teams.length) + teams.length) % teams.length;
+  // Players: carry on from whoever was up last game (startTurn picks the one after them).
+  if (m === "players" && players.some((p) => p.id === after)) play.player = after;
   if (m !== "class") startTurn(play);
   return play;
 }
@@ -201,4 +210,30 @@ export function rankPlayers(play) {
   let rank = 0;
   let prev = null;
   return list.map((p, i) => { if (!prev || p.score !== prev.score) rank = i + 1; prev = p; return { ...p, rank }; });
+}
+
+/**
+ * The turn API games use (ctx.teams), without any drawing: the arcade wraps it to redraw the scoreboard and float
+ * points; tests drive games' rules with it directly.
+ */
+export function turnApi(play) {
+  return {
+    /** Whole-class mode (no turns). */
+    get solo() { return play.mode === "class"; },
+    get mode() { return play.mode; },
+    /** Scoring sides: [class], the players, or the teams. */
+    get teams() { return sides(play); },
+    /** Lingo Live with answer cards: teams answer together; individual players answer as one class. */
+    get groups() { return play.mode === "teams" ? play.teams : [play.classSide]; },
+    active: () => activeSide(play),
+    /** The index of the team that is up (teams mode; 0 otherwise). */
+    activeIndex: () => (play.mode === "teams" ? play.team : 0),
+    player: () => current(play).player,
+    award: (points) => award(play, points),
+    awardTo(index, points) { const g = this.groups[index]; if (g) g.score += points; return g || null; },
+    nextTurn: () => nextTurn(play),
+    nextMember: () => nextMember(play),
+    /** Teams: hand the turn to team `index` (its next fair member). Players/class: nothing changes. */
+    passTo: (index) => (play.mode === "teams" ? choose(play, { team: index }) : current(play)),
+  };
 }

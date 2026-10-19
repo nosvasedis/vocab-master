@@ -77,7 +77,7 @@ export default {
           </div>
           <div class="mm-grid" style="--cols:${cols}">
             ${tiles.map((t, idx) => `
-              <button type="button" class="mm-tile ${t.kind}" data-idx="${idx}" style="animation-delay:${idx * 25}ms" aria-label="Tile ${t.n}">
+              <button type="button" class="mm-tile ${t.kind}" data-idx="${idx}" style="--i:${idx};--dx:${(idx % cols) - (cols - 1) / 2};--dy:${Math.floor(idx / cols) - (Math.ceil(tiles.length / cols) - 1) / 2}" aria-label="Tile ${t.n}">
                 <span class="mm-inner">
                   <span class="mm-back"><b>${t.n}</b></span>
                   <span class="mm-front">${tileFace(t)}</span>
@@ -119,6 +119,7 @@ export default {
             n.style.setProperty("--team", teams.active().color);
           });
           sfx.match();
+          open.forEach((k) => ctx.fx.sparks(stage.querySelector(`[data-idx="${k}"]`), { count: 16, color: teams.active().color }));
           teams.award(10, { from: el });
           found++;
           open = [];

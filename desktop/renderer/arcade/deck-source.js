@@ -56,9 +56,105 @@ export function unitInfo(bookId, unit) {
   return { bookId, unit, title: info.title || `Unit ${unit}`, reading: [info.nonfiction, info.fiction].filter(Boolean), count: all.length };
 }
 
-/** Keep the words that pass the teacher's filters (word groups; only words that have a picture). */
-export function filterWords(rows, { groups = null, pictureOnly = false } = {}, hasPicture = () => true) {
-  return rows.filter((w) => (!groups?.size || groups.has(typeGroup(w.type))) && (!pictureOnly || hasPicture(w)));
+/** How hard a word is to read, say and spell: 1 easy · 2 medium · 3 tricky (syllables, length, phrases, later books). */
+export function wordLevel(w) {
+  const e = String(w?.english || "").toLowerCase().trim();
+  const words = e.split(/\s+/).filter(Boolean);
+  const letters = e.replace(/[^a-z]/g, "").length;
+  // Vowel groups ≈ syllables; a final silent "e" doesn't count.
+  const syll = words.reduce((n, x) => n + Math.max(1, (x.replace(/e$/, "").match(/[aeiouy]+/g) || []).length), 0);
+  const score = syll + (letters >= 7 ? 0.5 : 0) + (letters >= 9 ? 1 : 0) + (words.length > 1 ? 0.5 : 0) + (w?.bookId === "CPP3" ? 0.5 : 0);
+  return score <= 2 ? 1 : score <= 3.5 ? 2 : 3;
+}
+export const LEVELS = [{ id: 1, label: "Easy" }, { id: 2, label: "Medium" }, { id: 3, label: "Tricky" }];
+
+/** Word length bands (letters, spaces left out): short ≤ 5 · medium 6–8 · long 9+. */
+export function lengthBand(w) {
+  const n = String(w?.english || "").replace(/[^a-z]/gi, "").length;
+  return n <= 5 ? "short" : n <= 8 ? "medium" : "long";
+}
+export const LENGTHS = [{ id: "short", label: "Short (≤5)" }, { id: "medium", label: "Medium (6–8)" }, { id: "long", label: "Long (9+)" }];
+const isPhrase = (w) => /\s/.test(String(w?.english || "").trim()) || String(w?.type || "").trim() === "phr.";
+
+/**
+ * Keep the words that pass the teacher's filters.
+ * @param {object[]} rows
+ * @param {{ groups?: Set<string>, pictureOnly?: boolean, voiceOnly?: boolean, phrases?: "any"|"none"|"only",
+ *   levels?: Set<number>, lengths?: Set<string>, exclude?: Set<string> }} f  exclude: lower-case English words to leave out
+ *   (words played recently)
+ */
+export function filterWords(rows, f = {}, hasPicture = () => true, hasVoice = () => true) {
+  const { groups = null, pictureOnly = false, voiceOnly = false, phrases = "any", levels = null, lengths = null, exclude = null } = f;
+  return rows.filter((w) => (!groups?.size || groups.has(typeGroup(w.type)))
+    && (!pictureOnly || hasPicture(w))
+    && (!voiceOnly || hasVoice(w))
+    && (phrases === "any" || (phrases === "none" ? !isPhrase(w) : isPhrase(w)))
+    && (!levels?.size || levels.has(wordLevel(w)))
+    && (!lengths?.size || lengths.has(lengthBand(w)))
+    && (!exclude?.size || !exclude.has(String(w.english).toLowerCase())));
+}
+
+/* ── By page ─────────────────────────────────────────────────────── */
+/** "34-41", "pp. 34–41, 50", "p 12" → [[34, 41], [50, 50]] (empty when there are no page numbers). */
+export function parsePages(text) {
+  const out = [];
+  for (const part of String(text || "").replace(/[–—−~]/g, "-").split(/[,;&]+/)) {
+    const m = part.match(/(\d+)\s*(?:-|to)\s*(\d+)/i);
+    if (m) { const a = Number(m[1]); const b = Number(m[2]); out.push([Math.min(a, b), Math.max(a, b)]); continue; }
+    const n = part.match(/\d+/);
+    if (n) out.push([Number(n[0]), Number(n[0])]);
+  }
+  return out.filter(([a, b]) => a > 0 && b - a <= 300);
+}
+
+/** The words printed on some pages of a book — Student's Book pages, Workbook pages, or both — across units and sections. */
+export function wordsOnPages(bookId, text, { sb = true, wb = false } = {}) {
+  const spans = parsePages(text);
+  if (!spans.length) return [];
+  const on = (p) => p != null && spans.some(([a, b]) => p >= a && p <= b);
+  return CPP_WORDBANK.filter((w) => w.bookId === bookId && w.type !== "title"
+    && ((sb && w.source !== "wb" && on(w.sbPage ?? w.page)) || (wb && w.source === "wb" && on(w.wbPage ?? w.page))));
+}
+
+/** Where some words sit in the book: "Units 2–3 · pp. 34–41". */
+export function pagesSummary(rows) {
+  if (!rows.length) return "";
+  const units = [...new Set(rows.map((r) => r.unit))].sort((a, b) => a - b);
+  const pages = rows.map((r) => r.page).filter((p) => p != null);
+  const u = units.length === 1 ? `Unit ${units[0]}` : `Units ${units[0]}–${units[units.length - 1]}`;
+  return pages.length ? `${u} · pp. ${Math.min(...pages)}–${Math.max(...pages)}` : u;
+}
+
+/* ── Words played recently (vm_arcade_played: { english: last played, ms }) ── */
+const DAY = 24 * 3600 * 1000;
+/** Remember the words of a game that has just started; keeps the newest `cap` words. */
+export function logPlayed(log, words, now = Date.now(), cap = 1500) {
+  const next = { ...(log && typeof log === "object" ? log : {}) };
+  for (const w of words) { const k = String(w?.english ?? w).toLowerCase().trim(); if (k) next[k] = now; }
+  const keys = Object.keys(next);
+  if (keys.length > cap) keys.sort((a, b) => next[a] - next[b]).slice(0, keys.length - cap).forEach((k) => delete next[k]);
+  return next;
+}
+/** Words played in the last `days` days (lower-case English). */
+export function recentWords(log, { days = 7, now = Date.now() } = {}) {
+  return new Set(Object.entries(log || {}).filter(([, t]) => now - t < days * DAY).map(([k]) => k));
+}
+
+/* ── Saved decks (vm_arcade_decks: [{ id, name, ids, at }]) ─────────── */
+export function saveDeck(list, name, ids, now = Date.now()) {
+  const clean = String(name || "").replace(/\s+/g, " ").trim().slice(0, 40) || describePick(ids);
+  const rest = (Array.isArray(list) ? list : []).filter((d) => d.name.toLowerCase() !== clean.toLowerCase());
+  return [{ id: `d${now.toString(36)}`, name: clean, ids: [...ids], at: now }, ...rest].slice(0, 30);
+}
+export const deleteDeck = (list, id) => (Array.isArray(list) ? list : []).filter((d) => d.id !== id);
+
+/* ── Quick picks ─────────────────────────────────────────────────── */
+/** A review deck: `n` words at random from units 1…unit of a book (the current unit counts double). */
+export function reviewPick(bookId, unit, n = 12, rnd = Math.random) {
+  const sofar = CPP_WORDBANK.filter((w) => w.bookId === bookId && w.unit >= 1 && w.unit <= unit && w.type !== "title");
+  const weighted = [...sofar, ...sofar.filter((w) => w.unit === unit)];
+  const seen = new Set();
+  return randomPick(weighted, weighted.length, rnd).filter((w) => !seen.has(w.id) && seen.add(w.id)).slice(0, n);
 }
 
 /** Short readable name for a pick: "Primary Path 1 · Unit 3 (A, B)" or "Primary Path 1 · Units 1, 2 and 3". */
