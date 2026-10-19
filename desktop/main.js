@@ -664,6 +664,7 @@ function registerIpc() {
       if (type === "lingo") blob = await engine.buildLingoDocx(data);
       else if (type === "dictation") blob = await engine.buildDictationDocx(data);
       else if (type === "answer") blob = await engine.buildAnswerKeyDocx(data);
+      else if (type === "studio") blob = await engine.buildStudioDocx(data);
       else throw new Error("Invalid export type");
       const buf = Buffer.from(await blob.arrayBuffer());
       return { ok: true, base64: buf.toString("base64") };
@@ -676,7 +677,7 @@ function registerIpc() {
   ipcMain.handle("docx:save", async (_event, { type, data, filename }) => {
     try {
       const engine = await loadEngine();
-      const build = { lingo: engine.buildLingoDocx, dictation: engine.buildDictationDocx, answer: engine.buildAnswerKeyDocx }[type];
+      const build = { lingo: engine.buildLingoDocx, dictation: engine.buildDictationDocx, answer: engine.buildAnswerKeyDocx, studio: engine.buildStudioDocx }[type];
       if (!build) throw new Error("Invalid export type");
       const buf = Buffer.from(await (await build(data)).arrayBuffer());
       const filePath = await askSavePath(filename || "worksheet.docx", "Save Word document", { name: "Word document", extensions: ["docx"] });

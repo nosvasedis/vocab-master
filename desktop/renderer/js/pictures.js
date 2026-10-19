@@ -6,6 +6,7 @@ import { configurePictures, pictureKey } from "../app.js";
 
 export const PICTURE_STYLES = {
   emoji: { label: "Colour emoji", hint: "Today’s colourful emojis" },
+  pictures: { label: "Word-bank pictures", hint: "The app’s own illustrations in the word table (emoji where a word has none)" },
   openmoji: { label: "Outline drawings", hint: "OpenMoji · light lines, least ink" },
   fluent: { label: "Bold outline", hint: "Fluent · strong black shapes" },
   lucide: { label: "Line icons", hint: "Lucide · app-style icons (others drawn as outlines)" },

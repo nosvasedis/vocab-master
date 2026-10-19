@@ -3,16 +3,17 @@ import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
   renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
   saveWorksheetSession, applyQuickWorksheetFixes, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
-  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName,
+  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName, getSavedSession,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
-import { state, emit, on, buildForm, makeWord, prefs } from "../state.js";
+import { state, emit, on, buildForm, makeWord, prefs, worksheetFreshness } from "../state.js";
 import { worksheetFontCss } from "../fonts.js";
 import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictures.js";
 import { savePrefs } from "../state.js";
 import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 import { play } from "../../arcade/audio.js";
+import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
 
 let sheetSeg;
 let densitySeg;
@@ -109,7 +110,10 @@ export function renderPreview() {
 
 /* ── Layout options ──────────────────────────────────────────────── */
 function sheetLayout(sheet) {
-  return { ...WORKSHEET_LAYOUT_DEFAULTS[sheet], ...(state.preview.layout?.[sheet] || {}) };
+  const layout = { ...WORKSHEET_LAYOUT_DEFAULTS[sheet], ...(state.preview.layout?.[sheet] || {}) };
+  // Greek help lines default to on for A–C Senior (younger classes), off for D–E.
+  if (typeof layout.greekHelp !== "boolean") layout.greekHelp = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(state.data?.meta?.classProfile || state.profileId);
+  return layout;
 }
 
 /** Everything the worksheet renderers and Word builders need (saved in data.meta.layout). */
@@ -117,7 +121,7 @@ function layoutPayload() {
   return { lingo: sheetLayout("lingo"), dictation: sheetLayout("dictation"), answer: sheetLayout("answer"), schoolName: prefs.schoolName || "", pictureStyle: prefs.pictureStyle || "emoji" };
 }
 
-const LAYOUT_ROWS = { lingo: ["studentHeader", "scoreBoxes", "footer"], dictation: ["studentHeader", "scoreBoxes", "reuseNote", "footer"], answer: ["footer"] };
+const LAYOUT_ROWS = { lingo: ["studentHeader", "scoreBoxes", "greekHelp", "footer"], dictation: ["studentHeader", "scoreBoxes", "greekHelp", "reuseNote", "footer"], answer: ["footer"] };
 
 function renderLayoutControls() {
   const sheet = state.preview.sheet;
@@ -220,8 +224,11 @@ export function persistSession() {
   if (!state.data) return null;
   ensurePlan();
   const val = validateWorksheet(state.data);
+  // Edits to worksheets made from an earlier word list keep that list in the library entry:
+  // saving them under the current Step 2 words would pair old sheets with new words.
+  const form = worksheetFreshness()?.stale ? (getSavedSession(state.sessionId)?.form || buildForm()) : buildForm();
   try {
-    state.sessionId = saveWorksheetSession(buildForm(), state.data, state.plan, { updateId: state.sessionId, validation: val });
+    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId: state.sessionId, validation: val });
   } catch (err) {
     toast(`Couldn't save to the library: ${err.message}`, "error");
   }
@@ -233,8 +240,11 @@ export function persistSession() {
 function renderQuality() {
   const val = validateWorksheet(state.data);
   const report = buildValidationReport(val, state.data);
+  const stale = worksheetFreshness()?.wordsChanged
+    ? `<div class="callout info stale-note">${icon("info")}<span>These sheets were written for an earlier word list. <a data-goto="exercises">Generate again</a> to use your current words.</span></div>`
+    : "";
   if (report.valid) {
-    $("qualityPanel").innerHTML = `<div class="quality-ok">${icon("check-circle")}<span>All checks passed — ready to print.</span></div>`;
+    $("qualityPanel").innerHTML = stale + `<div class="quality-ok">${icon("check-circle")}<span>All checks passed — ready to print.</span></div>`;
   } else {
     const group = (title, items, iconName) => items.length
       ? `<div class="q-group warn"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5><ul>${items.slice(0, 6).map((i) => `<li>${esc(i.friendly)}</li>`).join("")}${items.length > 6 ? `<li>…and ${items.length - 6} more</li>` : ""}</ul></div>`
@@ -245,7 +255,7 @@ function renderQuality() {
     if (report.coverageCount) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="coverage">${icon("target", "i-sm")}Add missing words with AI</button>`);
     const total = report.quickCount + report.itemCount + report.coverageCount;
     if (total > 1 && btns.length > 1) btns.unshift(`<button type="button" class="btn btn-primary btn-sm btn-block" data-fix="all">${icon("wand", "i-sm")}Fix everything (${total})</button>`);
-    $("qualityPanel").innerHTML = `
+    $("qualityPanel").innerHTML = `${stale}
       <p class="q-summary">${esc(report.intro)}</p>
       <div class="quality-list">
         ${group("Quick fixes", report.categories.quick, "zap")}
@@ -496,7 +506,7 @@ async function pdfHtml(sheet) {
   const opts = { showAnswers: false, density: state.preview.density, layout: layoutPayload() };
   const body = sheet === "lingo" ? renderLingoLauncher(state.data, opts)
     : sheet === "dictation" ? renderDictation(state.data, opts) : renderAnswerKey(state.data, opts);
-  return buildWorksheetPrintDocument(body, SHEET_NAME[sheet], await worksheetFontCss());
+  return inlinePictures(buildWorksheetPrintDocument(body, SHEET_NAME[sheet], await worksheetFontCss()));
 }
 
 /** Footer text for PDF pages (page numbers are added by the PDF renderer), or "" when switched off. */
@@ -509,14 +519,16 @@ function pdfFooter(sheet) {
 /** The worksheet plus PNG copies of its pictures, for Word files (never saved into the library). */
 async function wordData() {
   const style = prefs.pictureStyle || "emoji";
-  if (style === "emoji" || style === "none") return state.data;
   const d = state.data;
+  // Word-bank illustrations (picture exercise, "Word-bank pictures" table) travel as PNG copies.
+  const picPng = style === "none" ? {} : await picPngMap(d);
+  if (style === "emoji" || style === "none" || style === "pictures") return { ...d, meta: { ...d.meta, picPng } };
   const texts = [
     ...(d.lingoLauncher?.vocabulary || []).map((v) => v.emojis),
     ...[...(d.lingoLauncher?.practice || []), ...(d.dictation?.exercises || [])].flatMap((ex) => (ex.items || []).map((it) => it.prompt)),
   ];
   const emojis = texts.flatMap((t) => splitEmojiText(t || "").filter((p) => p.emoji).map((p) => p.text));
-  return { ...d, meta: { ...d.meta, pictures: await rasterisePictures(emojis, style) } };
+  return { ...d, meta: { ...d.meta, picPng, pictures: await rasterisePictures(emojis, style) } };
 }
 
 async function exportWord(sheet, btn) {

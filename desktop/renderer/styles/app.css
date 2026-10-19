@@ -306,7 +306,8 @@
 .source-toggle:has(input:checked) .st-dot { background: var(--src); }
 .source-toggle:has(input:checked) b { color: #fff; background: var(--src); }
 .source-toggle:has(input:focus-visible) { box-shadow: var(--ring); }
-.source-toggle.wb { --src: var(--src-wb); }
+/* The arcade's Word Board uses a global .wb class (a full-width column); keep the Workbook pill a pill. */
+.source-toggle.wb { --src: var(--src-wb); display: inline-flex; flex-direction: row; gap: 8px; height: 32px; width: auto; max-width: none; margin: 0; }
 .pool-search { margin-left: auto; width: 220px; }
 .pool-search .input { padding-left: 34px; border-radius: 99px; }
 .pool-search > .i { left: 12px; }

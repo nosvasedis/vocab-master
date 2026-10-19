@@ -29,6 +29,7 @@ import { ensurePictureStyle, pictureSvg } from "./pictures.js";
 import { initPics, picImg } from "./pics.js";
 import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
 import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, bookLabel } from "../lesson/lesson.js";
+import { STUDIO_VIEWS, initStudio } from "./views/studio-views.js";
 
 const FLOW = ["setup", "words", "exercises", "preview"];
 const VIEW_META = {
@@ -38,6 +39,7 @@ const VIEW_META = {
   preview: { title: "Preview & export", sub: "Click any line to edit. Export, print or take it to class." },
   library: { title: "Saved units", sub: "Everything you've made — open, edit, duplicate or back up." },
   lessons: { title: "Lessons", sub: "Curated, animated and voiced lessons for every unit. Teach them on the projector." },
+  ...Object.fromEntries(Object.entries(STUDIO_VIEWS).map(([k, v]) => [k, { title: v.title, sub: v.sub }])),
 };
 
 /* ── Navigation ──────────────────────────────────────────────────── */
@@ -57,7 +59,7 @@ function go(view, { force = false, silent = false } = {}) {
   }
   const from = state.view;
   if (!silent && from !== view) {
-    const order = [...FLOW, "lessons", "library"];
+    const order = [...FLOW, ...Object.keys(STUDIO_VIEWS), "lessons", "library"];
     play(order.indexOf(view) < order.indexOf(from) ? "navBack" : "nav");
   }
   state.view = view;
@@ -69,6 +71,7 @@ function go(view, { force = false, silent = false } = {}) {
   if (view === "preview") renderPreview();
   if (view === "library") renderLibrary();
   if (view === "lessons") renderLessons();
+  STUDIO_VIEWS[view]?.render();
   renderChrome();
   emit("view");
 }
@@ -232,7 +235,7 @@ function picture(text, keepText = false) {
   return splitEmojiText(str).map((p) => {
     if (!p.emoji) return keepText ? esc(p.text) : "";
     if (style === "none") return "";
-    if (style === "emoji") return esc(p.text);
+    if (style === "emoji" || style === "pictures") return esc(p.text);
     return pictureSvg(p.text, style) || "";
   }).join("").trim();
 }
@@ -347,6 +350,7 @@ async function boot() {
     initPreview();
     initLibrary();
     initLessons({ teach: teachLesson, games: lessonGames });
+    initStudio();
     initInterfaceSounds();
     wire();
 

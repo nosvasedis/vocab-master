@@ -11,12 +11,15 @@ import {
   lookupCoursebookWord,
 } from "./coursebook-data.js";
 import { sanitizeVocabField, rejectionNote } from "./vocab-quality.js";
+import { IRREGULAR_FORMS, wordFormPattern, findOutsideAnswers, worksheetMatchesForm, wordsKey, unitIdentity, allowedTerms } from "./studio/word-scope.js";
+import { BINARY_TYPES, binaryBalance, balancedPattern, repairABItems, choicesPredictable, rebalanceChoiceItems } from "./studio/answer-balance.js";
 import {
   buildArcadeDeck,
   buildDetectiveQuestions,
   buildTabooCard,
   maskWordInText,
 } from "./arcade/deck.js";
+import { picForWord, picUrl } from "./js/pics.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -99,7 +102,7 @@ const EXERCISE_DESCRIPTIONS = {
   D22: "Crossword-style clues for vocabulary words.",
   D23: "Complete the analogy (word is to word as…).",
   D24: "Choose between similar-sounding or easily confused words.",
-  D25: "Picture or emoji cue — optional paraphrase hint in brackets, never the answer word.",
+  D25: "Look at the word-bank picture and write the word — Cambridge “look and write”. Uses the app's real illustrations.",
   D26: "Unscramble the jumbled letters to make the unit word — a short clue in brackets helps.",
   D27: "Fill in the missing letters of the unit word (t _ a _ k) — a short clue helps.",
   D28: "One word in [brackets] is misspelt — students write it correctly.",
@@ -143,7 +146,7 @@ const EXERCISE_EXAMPLES = {
   D22: 'Across: 5 letters — A course where athletes run races: ________ → track',
   D23: 'Arm is to limb as stadium path is to ________. → track',
   D24: 'Her story was a great (inspiration / respiration) to us. → inspiration',
-  D25: '🏃‍♀️🏟️ (oval path for runners) ________ → track',
+  D25: '[picture of a running track] (an oval path for runners) ________ → track',
   D26: 'ckrat (a path for running races) → track',
   D27: 't _ a _ k (a path for running races) → track',
   D28: 'The runners ran around the [trak]. → track',
@@ -206,7 +209,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D12: "Read the riddle and choose the correct answer from the brackets.",
   D13: "Match each word to the correct letter from the definition list.",
   D14: "Fill in all the gaps in the paragraph with words from the unit.",
-  D15: "Write T (true) or F (false) for each statement.",
+  D15: "Read the sentences. Write T (true) or F (false).",
   D16: "Sort the words from the word bank into the correct categories.",
   D17: "Complete each collocation with the missing word.",
   D18: "Choose the more formal or appropriate option in brackets.",
@@ -216,7 +219,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D22: "Solve the crossword-style clues.",
   D23: "Complete each analogy.",
   D24: "Choose the correct word from the similar options in brackets.",
-  D25: "Look at the picture cue and write the correct word.",
+  D25: "Look at the pictures. Write the words.",
   D26: "Unscramble the letters to make a word from the unit. The clue in brackets will help you.",
   D27: "Write the missing letters to complete each word. The clue in brackets will help you.",
   D28: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
@@ -233,6 +236,51 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   L11: "Read each question and write Yes or No.",
   L12: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
   L13: "Only one sentence is correct. Write A or B.",
+};
+
+/** The same task lines in Greek — an optional help line for younger classes (layout "Greek help"). */
+const EXERCISE_STUDENT_INSTRUCTIONS_EL = {
+  D01: "Διάβασε κάθε ορισμό και γράψε τη σωστή λέξη από το κουτί.",
+  D02: "Συμπλήρωσε το κενό με μια άλλη μορφή της λέξης με τα έντονα γράμματα.",
+  D03: "Διάλεξε τη σωστή λέξη μέσα στην παρένθεση.",
+  D04: "Γράψε τη λέξη που λείπει.",
+  D05: "Διάλεξε το σωστό αντίθετο μέσα στην παρένθεση.",
+  D06: "Διάλεξε τη λέξη με την ίδια σημασία (συνώνυμο).",
+  D07: "Ένωσε τα κομμάτια και φτιάξε τη σωστή λέξη.",
+  D08: "Η λέξη στις αγκύλες [ ] είναι λάθος. Γράψε τη σωστή λέξη της ενότητας.",
+  D09: "Βρες και διόρθωσε το γραμματικό λάθος.",
+  D10: "Φτιάξε καινούργια λέξη με την κατάληξη ή το πρόθεμα που σου δίνεται.",
+  D11: "Κύκλωσε τη λέξη που δεν ταιριάζει με τις άλλες.",
+  D12: "Διάβασε το αίνιγμα και διάλεξε τη σωστή απάντηση.",
+  D13: "Αντιστοίχισε κάθε λέξη με το σωστό γράμμα του ορισμού.",
+  D14: "Συμπλήρωσε τα κενά του κειμένου με λέξεις της ενότητας.",
+  D15: "Γράψε T (σωστό) ή F (λάθος).",
+  D16: "Βάλε τις λέξεις από το κουτί στη σωστή κατηγορία.",
+  D17: "Συμπλήρωσε τη φράση με τη λέξη που λείπει.",
+  D18: "Διάλεξε την πιο κατάλληλη επιλογή.",
+  D19: "Γράψε τη λέξη που ταιριάζει σε κάθε ορισμό.",
+  D20: "Κάθε πρόταση έχει ένα λάθος. Γράψε τη σωστή πρόταση.",
+  D21: "Βάλε τις προτάσεις στη σωστή σειρά.",
+  D22: "Λύσε τις ερωτήσεις του σταυρόλεξου.",
+  D23: "Συμπλήρωσε την αναλογία.",
+  D24: "Διάλεξε τη σωστή λέξη ανάμεσα σε λέξεις που μοιάζουν.",
+  D25: "Κοίτα τις εικόνες και γράψε τις λέξεις.",
+  D26: "Βάλε τα γράμματα στη σωστή σειρά και γράψε τη λέξη.",
+  D27: "Συμπλήρωσε τα γράμματα που λείπουν.",
+  D28: "Η λέξη στις αγκύλες [ ] είναι ανορθόγραφη. Γράψε τη σωστά.",
+  L01: "Συμπλήρωσε τα κενά με λέξεις από τη λίστα.",
+  L02: "Κύκλωσε τη σωστή λέξη.",
+  L03: "Διάλεξε το συνώνυμο.",
+  L04: "Διάλεξε το αντίθετο.",
+  L05: "Συμπλήρωσε κάθε φράση με τη σωστή λέξη από τη λίστα.",
+  L06: "Γράψε τι μέρος του λόγου είναι κάθε λέξη (ουσιαστικό, ρήμα κ.λπ.).",
+  L07: "Γράψε τη σωστή μορφή της λέξης.",
+  L08: "Βάλε τις λέξεις στη σωστή σειρά για να φτιάξεις πρόταση.",
+  L09: "Κύκλωσε τη λέξη που δεν ταιριάζει.",
+  L10: "Απάντησε στις ερωτήσεις με λέξεις της ενότητας.",
+  L11: "Διάβασε την ερώτηση και γράψε Yes ή No.",
+  L12: "Η λέξη στις αγκύλες [ ] είναι ανορθόγραφη. Γράψε τη σωστά.",
+  L13: "Μόνο μία πρόταση είναι σωστή. Γράψε A ή B.",
 };
 
 function getStudentExerciseInstruction(ex) {
@@ -1048,8 +1096,6 @@ function validateExtraTypes(data, issues) {
         if (!/^(yes|no)$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be Yes or No");
         if (!/\?\s*$/.test(String(item.prompt || "").trim())) issues.push(label + " item " + item.number + ": prompt must be a question");
       });
-      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toLowerCase());
-      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": all answers are \"" + answers[0] + "\" — mix Yes and No");
     }
     if (t === "L13") {
       ex.items?.forEach((item) => {
@@ -1057,12 +1103,41 @@ function validateExtraTypes(data, issues) {
         if (!/A\.\s*\S/.test(p) || !/B\.\s*\S/.test(p)) issues.push(label + " item " + item.number + ": prompt needs \"A. … B. …\" sentences");
         if (!/^[AB]$/i.test(String(item.answer || "").trim())) issues.push(label + " item " + item.number + ": answer must be A or B");
       });
-      const answers = (ex.items || []).map((i) => String(i.answer || "").trim().toUpperCase());
-      if (answers.length >= 3 && new Set(answers).size === 1) issues.push(label + ": every answer is \"" + answers[0] + "\" — mix A and B");
     }
   };
   data?.dictation?.exercises?.forEach((ex) => check(ex, "Dictation"));
   data?.lingoLauncher?.practice?.forEach((ex) => check(ex, "Lingo"));
+}
+
+/**
+ * Answer-key checks shared by generation and the quality panel, as item-level issues the AI item fixer
+ * can repair line by line: two-answer keys need a real mix (never all True), and answers must be this
+ * unit's words (never one left over from an earlier list).
+ */
+function validateAnswerKeys(data) {
+  const issues = [];
+  const check = (sheet, ex) => {
+    if (!BINARY_TYPES[ex?.typeId] || ex.typeId === "L13") return; // L13 is mixed locally by swapping A and B
+    const report = binaryBalance(ex.typeId, ex.items || []);
+    if (report.ok) return;
+    const [a, b] = BINARY_TYPES[ex.typeId];
+    const what = ex.typeId === "L11" ? "question" : "statement";
+    report.flip.forEach((i) => {
+      const item = ex.items[i];
+      issues.push(`${sheet} ex ${ex.number} (${ex.typeId}) item ${item.number}: rewrite this ${what} so the answer is "${report.flipTo}" — the key needs a mix of ${a} and ${b}`);
+    });
+  };
+  data?.dictation?.exercises?.forEach((ex) => check("Dictation", ex));
+  data?.lingoLauncher?.practice?.forEach((ex) => check("Lingo", ex));
+  findOutsideAnswers(data).forEach((o) => {
+    issues.push(`${o.sheet} ex ${o.exercise} (${o.typeId}) item ${o.item}: answer "${o.answer}" is not a word from this unit's list — use one of the unit words`);
+  });
+  return issues;
+}
+
+/** Issues the cheap line-by-line fixer handles better than a whole new generation. */
+function isAnswerKeyIssue(issue) {
+  return /the key needs a mix of|is not a word from this unit's list/.test(issue);
 }
 
 function normalizeWorksheetPrompts(data) {
@@ -1098,19 +1173,37 @@ function normalizeDictationWordBanks(data) {
   return data;
 }
 
+/** Spread the right option's place across each exercise's bracket choices, and mix A/B keys (no AI). */
 function normalizeBracketChoices(data) {
   if (!data) return data;
-  const shuffleExercise = (ex) => {
+  const balance = (ex) => {
+    if (ex.typeId === "L13") repairABItems(ex.items || []);
     if (!BRACKET_CHOICE_TYPES.has(ex.typeId) && !itemsHaveSlashChoices(ex)) return;
-    if (!bracketChoicesAlwaysFirst(ex.items)) return;
-    ex.items?.forEach((item) => {
-      if (item.prompt) {
-        item.prompt = shuffleBracketChoicesInPrompt(item.prompt, item.answer);
-      }
-    });
+    rebalanceChoiceItems(ex.items || []);
   };
-  data.dictation?.exercises?.forEach(shuffleExercise);
-  data.lingoLauncher?.practice?.forEach(shuffleExercise);
+  data.dictation?.exercises?.forEach(balance);
+  data.lingoLauncher?.practice?.forEach(balance);
+  return data;
+}
+
+/**
+ * Word-bank illustrations for the vocabulary table ("Word-bank pictures" style) and the picture
+ * exercise (D25), via the same trusted lookup the arcade uses. Only fills gaps, so a saved worksheet
+ * keeps its pictures (and works where the manifest isn't loaded, e.g. Word files built in Node).
+ */
+function attachWorksheetPictures(data) {
+  const vocab = data?.lingoLauncher?.vocabulary || [];
+  vocab.forEach((v) => { if (!v.pic) { const t = picForWord(v.english, v.type); if (t) v.pic = t; } });
+  data?.dictation?.exercises?.forEach((ex) => {
+    if (ex.typeId !== "D25") return;
+    ex.items?.forEach((item) => {
+      if (item.pic) return;
+      const answer = String(item.answer || "").trim();
+      const entry = vocab.find((v) => normalizeWord(v.english) === normalizeWord(answer));
+      const t = picForWord(entry?.english || answer, entry?.type);
+      if (t) item.pic = t;
+    });
+  });
   return data;
 }
 
@@ -1118,6 +1211,7 @@ function normalizeWorksheetExercises(data) {
   if (data?.lingoLauncher?.vocabulary) {
     data.lingoLauncher.vocabulary = normalizeVocabulary(data.lingoLauncher.vocabulary);
   }
+  attachWorksheetPictures(data);
   normalizeDictationWordBanks(data);
   normalizeLetterPuzzles(data);
   normalizeD13Exercises(data);
@@ -1262,7 +1356,13 @@ function analyzeVocabFeatures(form) {
     if (r.antonyms?.trim() && t.antonyms !== false) hasAntonyms = true;
     if (r.derivatives?.trim() && t.derivatives !== false) hasDerivatives = true;
   });
-  return { hasSynonyms, hasAntonyms, hasDerivatives };
+  const pictureWords = wordsWithPictures(rows);
+  return { hasSynonyms, hasAntonyms, hasDerivatives, pictureWords, hasPictures: pictureWords.length >= 3 };
+}
+
+/** Words of a list that have a word-bank illustration (the picture exercise D25 needs 3 or more). */
+function wordsWithPictures(rows = []) {
+  return rows.filter((r) => String(r?.english || "").trim() && picForWord(r.english, r.type)).map((r) => r.english.trim());
 }
 
 function analyzeVocabFeaturesFromData(vocabulary) {
@@ -1274,7 +1374,8 @@ function analyzeVocabFeaturesFromData(vocabulary) {
     if (antonymTexts(v.antonyms).length) hasAntonyms = true;
     if (normalizeDerivativesList(v.derivatives).length) hasDerivatives = true;
   });
-  return { hasSynonyms, hasAntonyms, hasDerivatives };
+  const pictureWords = wordsWithPictures(vocabulary);
+  return { hasSynonyms, hasAntonyms, hasDerivatives, pictureWords, hasPictures: pictureWords.length >= 3 };
 }
 
 const RELATED_EXERCISE_MAP = {
@@ -1298,6 +1399,7 @@ function filterDictTypesByFeatures(types, features = {}) {
   return types.filter((id) => {
     if (id === "D06" && !features.hasSynonyms) return false;
     if (id === "D05" && !features.hasAntonyms) return false;
+    if (id === "D25" && Array.isArray(features.pictureWords) && features.pictureWords.length < 3) return false;
     return true;
   });
 }
@@ -1690,6 +1792,37 @@ WORKSHEET UNIQUENESS — mandatory:
 - L01/L05: NEVER paste the vocabulary table collocation as the prompt — write a NEW sentence or phrase at class level (same word, different context)
 - Put the gap WHERE the answer word belongs (middle of sentence if needed) — NOT always at the end
 - If L02 uses "The museum has an ancient (X / Y)", dictation must NOT reuse that sentence — write a new context`;
+}
+
+/** Which words may be answers, and in which form (the teacher's current list is the only source). */
+function buildWordScopeBlock(form) {
+  if (form?.inputMode !== "structured" || !form.vocabRows?.length) return "";
+  const terms = allowedTerms(form.vocabRows);
+  return `
+WORD SCOPE — mandatory:
+- The ONLY words that may be answers (gaps, correct choices, spelling, puzzles, matching) are these unit words and the family / synonyms / opposites listed for them: ${JSON.stringify(terms)}
+- This list replaces any earlier list: never use words from other units, other worksheets or examples in these instructions as answers
+- Wrong options in brackets may be other simple words the class knows, but every correct answer comes from the list above
+- INFLECTION: an answer may be inflected to fit its sentence (plural, -s, -ed, -ing, comparative: "two ________" → "uncles"). The "answer" field holds EXACTLY the form that fits the gap, and word banks / word lists show the forms students must write`;
+}
+
+/**
+ * Pre-chosen, balanced answer orders for two-answer exercises (T/F, Yes/No, A/B), so a key is never
+ * "all True". The validator still checks the mix and the item fixer repairs a key that drifts.
+ */
+function buildAnswerBalanceBlock(plan, form) {
+  const per = CLASS_PROFILES[resolveProfileId(form?.classProfile)]?.itemsPerExercise || 5;
+  const lines = [];
+  (plan?.dictationTypes || []).forEach((t, i) => {
+    if (BINARY_TYPES[t]) lines.push(`- Dictation exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], per).join(", ")}`);
+  });
+  (plan?.lingoTypes || []).forEach((t, i) => {
+    if (BINARY_TYPES[t]) lines.push(`- Lingo exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], per).join(", ")}`);
+  });
+  return `
+ANSWER KEY BALANCE — mandatory:
+${lines.length ? `${lines.join("\n")}\n` : ""}- Two-answer exercises are NEVER all one answer (never all True, all Yes or all A)
+- In bracket choices "(a / b / c)" put the correct option in a different place on different lines (first, middle, last)`;
 }
 
 function countDictationPromptWords(prompt, typeId) {
@@ -2174,8 +2307,8 @@ function validateWorksheet(data) {
         }
       });
     }
-    if (itemsHaveSlashChoices(ex) && bracketChoicesAlwaysFirst(ex.items)) {
-      issues.push(`Lingo exercise ${ex.number}: bracket choices always put the correct answer first — shuffle options`);
+    if (itemsHaveSlashChoices(ex) && choicesPredictable(ex.items)) {
+      issues.push(`Lingo exercise ${ex.number}: bracket choices put the correct answer in the same place every time — shuffle options`);
     }
     ex.items?.forEach((item) => {
       const p = (item.prompt || "").trim();
@@ -2238,8 +2371,8 @@ function validateWorksheet(data) {
         issues.push(`Dictation exercise ${ex.number} (D16): each category line needs ________ gaps for words`);
       }
     }
-    if (itemsHaveSlashChoices(ex) && bracketChoicesAlwaysFirst(ex.items)) {
-      issues.push(`Dictation exercise ${ex.number}: bracket choices always put the correct answer first — shuffle options`);
+    if (itemsHaveSlashChoices(ex) && choicesPredictable(ex.items)) {
+      issues.push(`Dictation exercise ${ex.number}: bracket choices put the correct answer in the same place every time — shuffle options`);
     }
     if (ex.typeId === "D01" && !itemsHaveSlashChoices(ex) && ex.items?.some((i) => !/_+/.test(i.prompt || ""))) {
       issues.push(`Dictation exercise ${ex.number} (D01): each definition needs a ________ gap and a word bank at the top`);
@@ -2330,6 +2463,7 @@ function validateWorksheet(data) {
   });
 
   validateExtraTypes(data, issues);
+  validateAnswerKeys(data).forEach((i) => issues.push(i));
 
   findCrossWorksheetDuplicatePrompts(data).forEach((dup) => {
     issues.push(`Duplicate sentence across worksheets: ${dup.message}`);
@@ -2518,12 +2652,12 @@ function pictureKey(emoji) {
 /** HTML for a run of text: emojis drawn in `style` (or kept / removed), everything else escaped. */
 /** Same as textWithPictures, for HTML that is already escaped (emoji never occur inside tags). */
 function picturesInHtml(html, style = "emoji") {
-  if (style === "emoji" || !style) return html;
+  if (style === "emoji" || style === "pictures" || !style) return html;
   return splitEmojiText(html).map((p) => (!p.emoji ? p.text : style === "none" ? "" : pictureSource?.svg(p.text, style) || "")).join("");
 }
 
 function textWithPictures(text, style = "emoji") {
-  if (style === "emoji" || !style) return escapeHtml(text);
+  if (style === "emoji" || style === "pictures" || !style) return escapeHtml(text);
   return splitEmojiText(text).map((p) => {
     if (!p.emoji) return escapeHtml(p.text);
     if (style === "none") return "";
@@ -2548,6 +2682,8 @@ function resolveWorksheetLayout(sheet, meta = {}, options = {}) {
   if (typeof options.studentHeader === "boolean" && !options.layout) layout.studentHeader = options.studentHeader;
   layout.schoolName = String(options.layout?.schoolName ?? saved.schoolName ?? "").trim();
   layout.pictureStyle = options.layout?.pictureStyle ?? saved.pictureStyle ?? "emoji";
+  // Greek help under each task line: on by default for the younger classes (A–C Senior).
+  if (typeof layout.greekHelp !== "boolean") layout.greekHelp = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(meta.classProfile);
   return layout;
 }
 
@@ -2608,42 +2744,14 @@ function exerciseHeadHtml(ex, layout) {
     <span class="ex-num">Exercise ${escapeHtml(ex.number)}</span>
     <div class="ex-title">
       ${instr ? `<h3 class="ex-heading ex-instruction ws-heading">${escapeHtml(instr)}</h3>` : ""}
+      ${layout.greekHelp && !String(ex.instruction || "").trim() && EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId] ? `<p class="ex-help-el" lang="el">${escapeHtml(EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId])}</p>` : ""}
     </div>
     ${layout.scoreBoxes && n ? `<span class="ex-score"><i></i>/ ${n}</span>` : ""}
   </div>`;
 }
 
 /* ── Target word inside its phrase (bolded on worksheets) ────────────────── */
-const IRREGULAR_FORMS = {
-  be: ["am", "is", "are", "was", "were", "been", "being"], have: ["has", "had", "having"], do: ["does", "did", "done", "doing"],
-  go: ["goes", "went", "gone"], get: ["got", "gotten"], give: ["gave", "given"], take: ["took", "taken"], make: ["made"],
-  come: ["came"], see: ["saw", "seen"], eat: ["ate", "eaten"], run: ["ran"], swim: ["swam", "swum"], fly: ["flew", "flown", "flies"],
-  write: ["wrote", "written"], ride: ["rode", "ridden"], drive: ["drove", "driven"], break: ["broke", "broken"], speak: ["spoke", "spoken"],
-  choose: ["chose", "chosen"], wake: ["woke", "woken"], wear: ["wore", "worn"], tear: ["tore", "torn"], throw: ["threw", "thrown"],
-  grow: ["grew", "grown"], know: ["knew", "known"], draw: ["drew", "drawn"], blow: ["blew", "blown"], fall: ["fell", "fallen"],
-  forget: ["forgot", "forgotten"], hide: ["hid", "hidden"], bite: ["bit", "bitten"], begin: ["began", "begun"], sing: ["sang", "sung"],
-  drink: ["drank", "drunk"], ring: ["rang", "rung"], sink: ["sank", "sunk"], buy: ["bought"], bring: ["brought"], think: ["thought"],
-  catch: ["caught"], teach: ["taught"], fight: ["fought"], find: ["found"], feel: ["felt"], keep: ["kept"], sleep: ["slept"],
-  leave: ["left"], meet: ["met"], sell: ["sold"], tell: ["told"], hold: ["held"], stand: ["stood"], understand: ["understood"],
-  build: ["built"], send: ["sent"], spend: ["spent"], lose: ["lost"], win: ["won"], sit: ["sat"], hear: ["heard"], say: ["said"],
-  pay: ["paid"], lay: ["laid"], lie: ["lay", "lain", "lying"], die: ["dying"], tie: ["tying"], light: ["lit"], shine: ["shone"],
-  feed: ["fed"], lead: ["led"], dig: ["dug"], hang: ["hung"], stick: ["stuck"], strike: ["struck"], shake: ["shook", "shaken"],
-  steal: ["stole", "stolen"], freeze: ["froze", "frozen"], mean: ["meant"], dream: ["dreamt"], learn: ["learnt"], burn: ["burnt"],
-  good: ["better", "best"], bad: ["worse", "worst"], far: ["further", "farther", "furthest"], child: ["children"], person: ["people"],
-  man: ["men"], woman: ["women"], mouse: ["mice"], foot: ["feet"], tooth: ["teeth"], goose: ["geese"], leaf: ["leaves"], knife: ["knives"],
-  wolf: ["wolves"], life: ["lives"], shelf: ["shelves"], half: ["halves"],
-};
-
-/** Regex source matching one target word in any common form (helps, helped, happier, made, …). */
-function wordFormPattern(word) {
-  const w = word.toLowerCase();
-  const forms = [escapeRegex(w), `${escapeRegex(w)}(?:s|es|ed|ing|er|est|ly|ness)`];
-  if (w.length > 3 && /e$/.test(w)) forms.push(`${escapeRegex(w.slice(0, -1))}(?:ing|ed|er|est|ion|ation)`);
-  if (w.length > 3 && /y$/.test(w)) forms.push(`${escapeRegex(w.slice(0, -1))}(?:ies|ied|ier|iest|ily|iness)`);
-  if (/[aeiou][bcdfghjklmnpqrstvz]$/.test(w)) forms.push(`${escapeRegex(w + w.at(-1))}(?:ed|ing|er|est)`);
-  (IRREGULAR_FORMS[w] || []).forEach((f) => forms.push(escapeRegex(f)));
-  return `(?:${forms.join("|")})`;
-}
+// IRREGULAR_FORMS and wordFormPattern live in studio/word-scope.js (shared with the answer-scope check).
 
 /**
  * Split a phrase into [{ text, bold }] so the vocabulary word stands out:
@@ -2708,7 +2816,8 @@ function formatVocabCell(v, pictureStyle = "emoji") {
   if (v.type?.trim()) html += `<span class="v-pos">${escapeHtml(v.type.trim())}</span>`;
   // Greek sits on the same line: "be born phr. = γεννιέμαι" (saves a line per word).
   if (v.greek?.trim()) html += `<span class="v-tr"><span class="v-eq">=</span> <span class="v-greek">${escapeHtml(v.greek.trim())}</span></span>`;
-  const pics = v.emojis ? textWithPictures(v.emojis, pictureStyle).trim() : "";
+  // "Word-bank pictures": the app's illustration of the word (its emoji where a word has none).
+  const pics = pictureStyle === "pictures" && v.pic ? worksheetPicHtml(v.pic, "v-pic") : v.emojis ? textWithPictures(v.emojis, pictureStyle).trim() : "";
   if (pics) html += `<span class="v-emoji">${pics}</span>`;
   html += `</div>`;
   if (v.collocation) html += `<div class="vocab-coll v-coll">${phraseWithTargetHtml(v.collocation, v.english)}</div>`;
@@ -2724,6 +2833,28 @@ function formatVocabCell(v, pictureStyle = "emoji") {
   if (ant.length) rel.push(`<span class="vocab-related"><b>≠</b>${escapeHtml(ant.map(formatAntonymLine).join(", "))}</span>`);
   if (rel.length) html += `<div class="v-rel">${rel.join("")}</div>`;
   return html;
+}
+
+/** <img> for a picture-set token ("@w-volcano") on a worksheet; "" for anything else. */
+function worksheetPicHtml(token, cls = "ws-pic") {
+  const id = String(token || "").trim().replace(/^@/, "");
+  if (!/^(?:w|c|ui)-[a-z0-9][a-z0-9-]*$/.test(id)) return "";
+  return `<img class="${cls}" src="${escapeHtml(picUrl(id))}" data-pic="${escapeHtml(id)}" alt="" draggable="false">`;
+}
+
+/** Clue text of a picture item: the prompt without emoji, gaps or the answer line. */
+function pictureClue(prompt) {
+  return String(prompt || "").replace(/\p{Extended_Pictographic}|️|‍/gu, "").replace(/_{2,}/g, "").replace(/\s{2,}/g, " ").trim();
+}
+
+/** Cambridge-style "look and write": a grid of picture cards, each with its writing line. */
+function renderPictureCards(ex, options) {
+  return `<div class="pic-grid">${(ex.items || []).map((item) => {
+    const hint = pictureClue(item.prompt);
+    const pic = worksheetPicHtml(item.pic);
+    const ans = options.showAnswers && item.answer ? `<span class="teacher-ans-pill">✓ ${escapeHtml(item.answer)}</span>` : "";
+    return `<div class="ex-item pic-card" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span>${pic ? `<div class="pic-frame">${pic}</div>` : ""}${hint ? `<div class="pic-clue">${escapeHtml(hint)}</div>` : ""}<div class="pic-line">${ans}</div></div>`;
+  }).join("")}</div>`;
 }
 
 function answerPill(item, showAnswers) {
@@ -2789,6 +2920,10 @@ function renderDictation(data, options = {}) {
       body += ex.typeId === "D13" ? renderMatchDefinitionsList(ex.wordBank) : renderWordBankTable(ex.wordBank);
     }
     if (ex.stemHeader) body += `<p class="stem-header">${escapeHtml(ex.stemHeader)}</p>`;
+    if (ex.typeId === "D25" && ex.items.some((it) => it.pic)) {
+      body += `${renderPictureCards(ex, options)}</section>`;
+      return;
+    }
     ex.items.forEach((item) => {
       body += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${picturesInHtml(formatDictationItemHtml(item, ex.typeId), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
     });
@@ -2855,7 +2990,7 @@ DICTATION FORMATS (never give away answers to students):
 - D15 True / false: each item starts with "( )" for students to write T or F; statement uses unit vocabulary in context; answer = "T" or "F" only
 - D20 Error correction: like D08 — each sentence has a deliberate vocabulary mistake; answer = corrected sentence; prompt must NOT already be correct
 - D11 Odd one out: each item = exactly 4 comma-separated words on one line (e.g. "run, jump, swim, apple") — NOT full sentences
-- D25 Picture / emoji cue: each item is mainly emoji(s); add (short paraphrase) ONLY if the emoji is ambiguous — NEVER use the answer word or a close form (FORBIDDEN: "➡️ (arrow pointing farther)" for answer farther/further); paraphrase instead: "➡️ (more distance this way)"
+- D25 Picture cue (Cambridge "look and write"): the app prints the word-bank PICTURE of each answer, so use NO emojis. prompt = a short clue in brackets that tells similar pictures apart, e.g. "(an oval path for runners)" — NEVER the answer word or a close form; answer = the unit word. Use only words from the "words with pictures" list when one is given
 - D26 Jumbled letters: prompt = "scrambledLetters (short clue)" e.g. "ckrat (a path for running races)"; the scramble MUST be the answer's letters in a different order (single word, lower case); the clue must NOT contain the answer or a close form; answer = the unit word
 - D27 Missing letters: prompt = "t _ a _ k (short clue)" — the answer's letters with 2–3 letters replaced by "_" separated by spaces (never the first letter); clue must NOT contain the answer; answer = the full unit word (single word)
 - D28 Spelling check: sentence with ONE misspelt unit word in [square brackets] (a realistic learner error, e.g. [competion]); answer = the correctly spelt word; the bracketed word must NOT be a real English word
@@ -2973,6 +3108,14 @@ BRACKET-CHOICE DICTATION (D03/D05/D06 etc.) — mandatory:
 - ~${CLASS_PROFILES[form.classProfile]?.itemsPerExercise || 5} items per exercise — do NOT list every vocabulary word in one exercise
 - Each sentence must be UNIQUE — never copy sentences from Lingo Launcher practice`;
   }
+  if (plan.dictationTypes?.includes("D25")) {
+    const words = wordsWithPictures(form.vocabRows || []);
+    block += `
+D25 PICTURE CUE — mandatory:
+- The app prints the word-bank picture of each answer; write NO emojis
+- prompt = a short clue in brackets that tells the picture apart from similar ones; answer = the word${words.length ? `
+- Words with pictures (use ONLY these as D25 answers): ${JSON.stringify(words)}` : ""}`;
+  }
   if (plan.dictationTypes?.includes("D13")) {
     block += `
 D13 MATCHING COLUMNS — mandatory:
@@ -3064,25 +3207,30 @@ const TEACHER_VOCAB_FIELDS = ["type", "greek", "emojis", "collocation", "derivat
  */
 function enforceTeacherVocabulary(data, form) {
   const rows = form?.inputMode === "structured" ? form.vocabRows : null;
-  if (!rows?.length || !data?.lingoLauncher) return data;
+  if (!data?.lingoLauncher) return data;
+  if (!rows?.length) {
+    // Freeform: remember the brief, so a later regenerate can tell whether it still belongs to it.
+    if (form?.inputMode === "freeform") data.meta = { ...(data.meta || {}), freeformKey: normEnglish(form.freeform) };
+    return data;
+  }
+  // The table is rebuilt from the teacher's rows, in the teacher's order: a word the AI added (or kept
+  // from an earlier list) never reaches the sheet, and a word it dropped comes back.
   const vocab = data.lingoLauncher.vocabulary || [];
   const used = new Set();
-  const rowFor = (v, i) => {
-    const key = normEnglish(v?.english);
-    let j = rows.findIndex((r, idx) => !used.has(idx) && normEnglish(r.english) === key);
-    if (j < 0 && rows[i] && !used.has(i) && !vocab.some((o) => normEnglish(o?.english) === normEnglish(rows[i].english))) j = i;
-    if (j < 0) return null;
+  const aiEntryFor = (row) => {
+    const j = vocab.findIndex((v, idx) => !used.has(idx) && normEnglish(v?.english) === normEnglish(row.english));
+    if (j < 0) return {};
     used.add(j);
-    return rows[j];
+    return vocab[j];
   };
-  data.lingoLauncher.vocabulary = vocab.map((v, i) => {
-    const row = rowFor(v, i);
-    if (!row) return v;
+  data.lingoLauncher.vocabulary = rows.map((row, i) => {
+    const v = aiEntryFor(row);
     const on = (k) => row.fieldToggles?.[k] !== false;
     const text = (k) => (on(k) ? String(row[k] ?? "").trim() : "");
     return {
       ...v,
-      english: row.english || v.english,
+      number: i + 1,
+      english: row.english,
       type: text("type"),
       greek: text("greek"),
       emojis: text("emojis"),
@@ -3092,7 +3240,7 @@ function enforceTeacherVocabulary(data, form) {
       antonyms: normalizeAntonymList(text("antonyms")),
     };
   });
-  data.meta = { ...(data.meta || {}), vocabFromTeacher: true };
+  data.meta = { ...(data.meta || {}), vocabFromTeacher: true, wordsKey: wordsKey(rows) };
   return data;
 }
 
@@ -3125,7 +3273,7 @@ If a row already has type and/or greek filled in, treat that as the locked word 
   const lingoRelated = buildLingoRelatedExerciseBlock(form, plan);
   const dictationRelated = buildDictationRelatedExerciseBlock(form, plan);
   const distributionBlock = buildDictationDistributionBlock(form, plan, form.vocabRows);
-  const uniquenessBlock = buildWorksheetUniquenessBlock();
+  const uniquenessBlock = buildWorksheetUniquenessBlock() + buildWordScopeBlock(form) + buildAnswerBalanceBlock(plan, form);
   return `Create worksheets for:
 Book: ${form.bookTitle}
 Unit: ${form.unit}
@@ -3261,7 +3409,8 @@ async function callDeepSeek(apiKey, systemPrompt, userPrompt, retryHint) {
     return chatgptRequest({ systemPrompt, userPrompt, retryHint: retryHint || "" });
   }
   if (activeProvider === "gemini") return callGemini(apiKey, systemPrompt, userPrompt, retryHint);
-  const url = "http://localhost:8787/chat/completions";
+  // Same origin: the web server may run on another port (and the desktop app routes it over IPC).
+  const url = "/chat/completions";
   const messages = [
     { role: "system", content: systemPrompt },
     { role: "user", content: userPrompt + (retryHint ? "\n\nFIX:\n" + retryHint : "") },
@@ -3369,6 +3518,17 @@ async function callDeepSeekWithValidation({ apiKey, systemPrompt, userPrompt, pr
     lastValidation = validateWorksheet(data);
     data.coverageReport = lastValidation.coverage;
     if (lastValidation.valid) break;
+    // A lopsided key or a stray answer is a few lines to rewrite, not a reason to write everything again.
+    if (lastValidation.issues.every(isAnswerKeyIssue)) break;
+  }
+  const keyIssues = (lastValidation?.issues || []).filter(isAnswerKeyIssue);
+  if (keyIssues.length && data?.meta?.classProfile) {
+    try {
+      const fixed = await fixWorksheetValidationIssues({}, apiKey, data, { ...lastValidation, issues: keyIssues }, { maxAttempts: 2 });
+      data = fixed.data;
+      lastValidation = validateWorksheet(data);
+      data.coverageReport = lastValidation.coverage;
+    } catch { /* keep the worksheet; the quality panel offers the same fix */ }
   }
   return { data, validation: lastValidation };
 }
@@ -3392,17 +3552,8 @@ async function generateWorksheets(form, apiKey, options = {}) {
       if (data.lingoLauncher?.vocabulary) {
         data.lingoLauncher.vocabulary = normalizeVocabulary(data.lingoLauncher.vocabulary);
       }
-      if (form.inputMode === "structured" && form.vocabRows?.length) {
-        const expected = form.vocabRows.length;
-        const actual = data.lingoLauncher?.vocabulary?.length || 0;
-        if (actual !== expected) {
-          return {
-            valid: false,
-            issues: [`Lingo vocabulary has ${actual} items; teacher provided ${expected}`],
-            coverage: computeDictationCoverage(data.lingoLauncher?.vocabulary || [], data.dictation || { exercises: [] }),
-          };
-        }
-      }
+      // The table is rebuilt from the teacher's rows (exact words, exact order), so a wrong-sized
+      // table from the AI no longer needs a whole second generation.
       enforceTeacherVocabulary(data, form);
       return null;
     },
@@ -3410,8 +3561,22 @@ async function generateWorksheets(form, apiKey, options = {}) {
   return { data, validation: lastValidation, plan };
 }
 
+/**
+ * Partial rewrites keep half of the old worksheet, so they are only safe while it was made from the
+ * same words. When the teacher has changed the list (or the unit), write everything fresh instead —
+ * the old words must never be sent back to the AI next to the new ones.
+ */
+async function freshIfWordsChanged(form, apiKey, existingData, options) {
+  if (worksheetMatchesForm(existingData, form)) return null;
+  const plan = options.plan?.dictationTypes?.length && options.plan?.lingoTypes?.length ? options.plan : undefined;
+  const result = await generateWorksheets(form, apiKey, { plan });
+  return { ...result, fullRegenerate: true };
+}
+
 /** options.plan: a plan whose dictation types to use (e.g. the teacher's custom selection). */
 async function regenerateDictationOnly(form, apiKey, existingData, options = {}) {
+  const fresh = await freshIfWordsChanged(form, apiKey, existingData, options);
+  if (fresh) return fresh;
   const profileId = form.classProfile || existingData.meta?.classProfile;
   const vocab = existingData.lingoLauncher.vocabulary;
   const features = analyzeVocabFeaturesFromData(vocab);
@@ -3449,6 +3614,8 @@ async function regenerateDictationOnly(form, apiKey, existingData, options = {})
 
 /** options.plan: a plan whose Lingo types to use (e.g. the teacher's custom selection). */
 async function regenerateLingoPracticeOnly(form, apiKey, existingData, options = {}) {
+  const fresh = await freshIfWordsChanged(form, apiKey, existingData, options);
+  if (fresh) return fresh;
   const profileId = form.classProfile || existingData.meta?.classProfile;
   const keptExercises = existingData.dictation?.exercises || [];
   const dictTypes = keptExercises.map((ex) => ex.typeId);
@@ -3552,7 +3719,7 @@ function countFixableValidationIssues(issues, data) {
 
 function isQuickFixIssue(issue) {
   return /word (bank|list) is in (answer|category\/gap) order/i.test(issue)
-    || /bracket choices always put the correct answer first/i.test(issue)
+    || /bracket choices (always put the correct answer first|put the correct answer in the same place)/i.test(issue)
     || /remove word bank — bracket choices/i.test(issue)
     || /remove wordList/i.test(issue)
     || /word list is in answer order/i.test(issue);
@@ -3575,9 +3742,9 @@ function humanizeValidationIssue(issue) {
     const m = issue.match(/exercise (\d+)/i);
     return `Dictation exercise ${m?.[1] || "?"} — category sort words match the gap order (we can shuffle the bank).`;
   }
-  if (/bracket choices always put the correct answer first/i.test(issue)) {
+  if (/bracket choices (always put the correct answer first|put the correct answer in the same place)/i.test(issue)) {
     const m = issue.match(/exercise (\d+)/i);
-    return `Exercise ${m?.[1] || "?"} — multiple-choice options always show the answer first (we can shuffle them).`;
+    return `Exercise ${m?.[1] || "?"} — the right option is always in the same place (we can mix them).`;
   }
   if (/word list is in answer order/i.test(issue)) {
     const m = issue.match(/exercise (\d+)/i);
@@ -3650,16 +3817,11 @@ function buildValidationReport(validation, data) {
   };
 }
 
+/** Old shuffles moved the answer out of first place every time (so it was never first): spread it evenly instead. */
 function forceShuffleBracketChoices(data) {
-  const reshuffle = (ex) => {
-    ex.items?.forEach((item) => {
-      if (item.prompt && /\([^)]*\/[^)]*\)/.test(item.prompt)) {
-        item.prompt = shuffleBracketChoicesInPrompt(item.prompt, item.answer);
-      }
-    });
-  };
-  data.dictation?.exercises?.forEach(reshuffle);
-  data.lingoLauncher?.practice?.forEach(reshuffle);
+  const spread = (ex) => { if (itemsHaveSlashChoices(ex)) rebalanceChoiceItems(ex.items || []); };
+  data.dictation?.exercises?.forEach(spread);
+  data.lingoLauncher?.practice?.forEach(spread);
 }
 
 /** Instant layout fixes — shuffles, word-bank order, bracket order (no API). */
@@ -3729,6 +3891,8 @@ Rules:
 - Fix ONLY the items listed in the user message — same exercise and item numbers
 - Do not change vocabulary, other exercises, or other items
 - Return one fix object per listed item
+- Every answer is a word from the vocabulary table (or its listed family / synonyms / opposites), inflected to fit the sentence when needed
+- When the problem asks for a different answer (e.g. "so the answer is F"), write a NEW statement or question whose correct answer is that one
 ${extra}`;
 }
 
@@ -4112,6 +4276,21 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .key-block .item-num { width: 4.6mm; height: 4.6mm; margin-top: 0.4mm; font-size: 7pt; }
 .ans-tests-tag { color: var(--ink-3); font-size: 8.4pt; margin-left: 1.6mm; }
 
+/* Greek help line and word-bank pictures */
+.ex-help-el { margin: 0.4mm 0 0; font-size: 8.8pt; line-height: 1.3; font-style: italic; color: var(--ink-3); }
+.v-pic { width: 9mm; height: 9mm; object-fit: contain; }
+.pic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 0 0 2mm 9.8mm; }
+.ex-item.pic-card { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.2mm; margin: 0; padding: 2.4mm 2.4mm 3mm; border: 0.8pt solid var(--ink); border-radius: 2.6mm; break-inside: avoid; }
+.pic-card .item-num { position: absolute; top: 1.6mm; left: 1.6mm; margin: 0; }
+.pic-frame { width: 100%; height: 28mm; display: flex; align-items: center; justify-content: center; }
+.ws-pic { max-width: 100%; max-height: 28mm; object-fit: contain; }
+.pic-clue { font-size: 8.8pt; line-height: 1.25; color: var(--ink-2); text-align: center; }
+.pic-line { width: 88%; height: 6mm; border-bottom: 0.8pt solid var(--ink); display: flex; align-items: flex-end; justify-content: center; }
+.worksheet.density-compact .pic-frame { height: 22mm; }
+.worksheet.density-compact .ws-pic { max-height: 22mm; }
+.worksheet.density-comfortable .pic-frame { height: 34mm; }
+.worksheet.density-comfortable .ws-pic { max-height: 34mm; }
+
 /* Density */
 .worksheet.density-compact { font-size: 10pt; }
 .worksheet.density-compact .ex-item { font-size: 10pt; line-height: 1.45; margin-bottom: 0.6mm; }
@@ -4221,9 +4400,15 @@ async function docxKit(meta, sheet) {
   // Text with its emojis drawn in the chosen picture style (PNG copies prepared by the app in meta.pictures).
   const pics = meta.pictures || {};
   const toBytes = (b64) => (typeof Buffer !== "undefined" ? Buffer.from(b64, "base64") : Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
+  // Word-bank illustrations as PNG (WebP can't go into Word), prepared by the app in meta.picPng.
+  const picPng = meta.picPng || {};
+  const picRun = (token, size) => {
+    const b64 = picPng[String(token || "").replace(/^@/, "")];
+    return b64 ? new d.ImageRun({ data: toBytes(b64), transformation: { width: size, height: size } }) : null;
+  };
   const textRuns = (text, o = {}) => {
     const style = layout.pictureStyle || "emoji";
-    if (style === "emoji") return [run(text, o)];
+    if (style === "emoji" || style === "pictures") return [run(text, o)];
     const out = [];
     let buf = "";
     for (const p of splitEmojiText(text)) {
@@ -4305,12 +4490,13 @@ async function docxKit(meta, sheet) {
     // "Exercise N" in an outlined box, then its instruction as the heading.
     const head = [badge(`${label} ${ex.number}`, 19), ...(instr ? [new d.TextRun({ text: "\t" }), run(instr, { display: true, bold: true, size: 22 })] : [])];
     if (layout.scoreBoxes && n) head.push(new d.TextRun({ text: "\t" }), run(`____ / ${n}`, { display: true, bold: true, size: 18 }));
+    const greek = layout.greekHelp && !String(ex.instruction || "").trim() ? EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId] : "";
     return [para(head, {
       keepNext: true,
-      spacing: { before: 3 * MM, after: 1.6 * MM },
+      spacing: { before: 3 * MM, after: greek ? 0 : 1.6 * MM },
       indent: { left: 27 * MM, hanging: 27 * MM },
       tabStops: [{ type: d.TabStopType.LEFT, position: 27 * MM }, { type: d.TabStopType.RIGHT, position: 180 * MM }],
-    })];
+    }), ...(greek ? [para([run(greek, { italics: true, size: 17, color: GREY })], { keepNext: true, indent: { left: 27 * MM }, spacing: { after: 1.6 * MM } })] : [])];
   }
 
   const chipsBox = (words) => new d.Table({
@@ -4356,7 +4542,7 @@ async function docxKit(meta, sheet) {
     });
   }
 
-  return { d, run, textRuns, badge, para, header, section, exerciseHead, chipsBox, item, document, line, none, INK, GREY, RULE, TINT, layout };
+  return { d, run, textRuns, picRun, badge, para, header, section, exerciseHead, chipsBox, item, document, line, none, INK, GREY, RULE, TINT, layout };
 }
 
 async function buildLingoDocx(data) {
@@ -4372,7 +4558,9 @@ async function buildLingoDocx(data) {
       const top = [badge(v.number, 16), run(`  ${v.english}`, { display: true, bold: true, size: 23 })];
       if (v.type?.trim()) top.push(run(`  ${v.type.trim()}`, { italics: true, size: 17, color: k.GREY }));
       if (v.greek?.trim()) top.push(run("  =  ", { bold: true, size: 19, color: k.GREY }), run(v.greek.trim(), { bold: true, size: 20 }));
-      if (v.emojis) top.push(run("  "), ...textRuns(v.emojis, { size: 19, pic: 22 }));
+      const vpic = k.layout.pictureStyle === "pictures" && v.pic ? k.picRun(v.pic, 30) : null;
+      if (vpic) top.push(run("  "), vpic);
+      else if (v.emojis) top.push(run("  "), ...textRuns(v.emojis, { size: 19, pic: 22 }));
       lines.push(para(top));
       const sub = (runs) => para(runs, { indent: { left: 6 * MM } });
       if (v.collocation) {
@@ -4436,6 +4624,9 @@ async function buildDictationDocx(data) {
       let runs;
       if (ex.typeId === "D02" && it.stem) {
         runs = [run(`${stripLeadingItemNumber(it.prompt)}  `), run(String(it.stem).toUpperCase(), { display: true, bold: true })];
+      } else if (ex.typeId === "D25" && it.pic && k.picRun(it.pic, 80)) {
+        const clue = pictureClue(it.prompt);
+        runs = [k.picRun(it.pic, 80), run(`   ${clue ? `${clue}  ` : ""}`, { size: 19, color: "444444" }), run("______________________")];
       } else if ((ex.typeId === "D08" || ex.typeId === "D28") && /\[[^\]]+\]/.test(it.prompt || "")) {
         runs = stripLeadingItemNumber(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
       } else {
@@ -4464,6 +4655,12 @@ async function buildAnswerKeyDocx(data) {
   if ((data.dictation?.exercises || []).length) children.push(k.section("Dictation"));
   (data.dictation?.exercises || []).forEach((ex) => block(ex, "Dictation"));
   return d.Packer.toBlob(k.document(children));
+}
+
+/** Word file of a unit test or dictation ({ doc, which: "student" | "teacher" }), built where the docx library lives. */
+async function buildStudioDocx(data) {
+  const m = await import("./studio/doc-docx.js");
+  return m.buildStudioDocx(data, await loadDocxLibs());
 }
 
 function downloadBlob(blob, filename) {
@@ -5099,6 +5296,23 @@ export {
   isJunkBankEmoji,
   emojiHead,
   enforceTeacherVocabulary,
+  buildStudioDocx,
+  loadDocxLibs,
+  validateAnswerKeys,
+  isAnswerKeyIssue,
+  buildUserPrompt,
+  buildSystemPrompt,
+  worksheetMatchesForm,
+  unitIdentity,
+  wordsKey,
+  callDeepSeek as callAi,
+  resolveProfileId,
+  normalizeVocabulary,
+  textWithPictures,
+  worksheetHeaderHtml,
+  worksheetSectionHtml,
+  escapeHtml,
+  getProfilePromptBlock,
   findVocabGaps,
   sanitizeVocabField,
   splitTargetInPhrase,

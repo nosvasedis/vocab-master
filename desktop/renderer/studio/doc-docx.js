@@ -1,0 +1,108 @@
+/* Vocab Master — Word (.docx) files for unit tests and dictations (student paper or teacher's pack).
+ * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
+ * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
+import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
+import { LETTERS, answerKeyRows, docPoints } from "./doc-model.js";
+
+const MM = 56.7;
+const FONT = "Segoe UI";
+const DISPLAY = "Segoe UI Black";
+
+export async function buildStudioDocx({ doc, which = "student" }, d) {
+  const meta = doc.meta || {};
+  const pics = meta.picPng || {};
+  const greek = !!meta.greek;
+  const showPics = meta.pictures !== false;
+  const toBytes = (b64) => (typeof Buffer !== "undefined" ? Buffer.from(b64, "base64") : Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
+  const run = (text, o = {}) => new d.TextRun({ text: String(text ?? ""), font: o.display ? DISPLAY : FONT, size: o.size || 22, bold: o.bold, italics: o.italics, color: o.color });
+  const para = (children, o = {}) => new d.Paragraph({ children, ...o });
+  const pic = (token, size) => {
+    const b64 = showPics && pics[String(token || "").replace(/^@/, "")];
+    return b64 ? new d.ImageRun({ data: toBytes(b64), transformation: { width: size, height: size } }) : null;
+  };
+  const gapText = (s) => String(s || "").replace(/_{3,}/g, "____________");
+  const lines = (n) => Array.from({ length: n }, () => para([run("_".repeat(78), { color: "8A8A8A", size: 20 })], { spacing: { before: 2 * MM } }));
+  const box = (children) => new d.Table({
+    width: { size: 100, type: d.WidthType.PERCENTAGE },
+    rows: [new d.TableRow({ children: [new d.TableCell({ margins: { top: 2 * MM, bottom: 2 * MM, left: 3 * MM, right: 3 * MM }, children })] })],
+  });
+  const item = (n, runs) => para([run(`${n}.`, { display: true, bold: true, size: 20 }), new d.TextRun({ text: "\t" }), ...runs], {
+    tabStops: [{ type: d.TabStopType.LEFT, position: 8 * MM }], indent: { left: 8 * MM, hanging: 8 * MM }, spacing: { after: 1.6 * MM, line: 340 }, keepLines: true,
+  });
+
+  const children = [];
+  const teacher = which === "teacher";
+  children.push(para([run(teacher ? `${meta.title || "Test"} · Teacher’s pack` : meta.title || "Test", { display: true, bold: true, size: 40 })]));
+  const sub = [meta.bookTitle, meta.unit ? `Unit ${meta.unit}` : "", meta.classLabel, meta.version ? `Version ${meta.version}` : "", meta.minutes ? `${meta.minutes} min` : "", !teacher ? `${docPoints(doc)} points` : ""].filter(Boolean).join(" · ");
+  children.push(para([run(sub, { size: 18, color: "555555" })], { spacing: { after: 2 * MM } }));
+  if (!teacher && meta.layout?.studentHeader !== false) {
+    children.push(para([run("Name ", { bold: true, size: 17 }), run("______________________________   ", { color: "8A8A8A" }), run("Class ", { bold: true, size: 17 }), run("________   ", { color: "8A8A8A" }), run("Date ", { bold: true, size: 17 }), run("________   ", { color: "8A8A8A" }), run("Score ", { bold: true, size: 17 }), run(`_____ / ${docPoints(doc)}`, { color: "8A8A8A" })], { spacing: { after: 3 * MM } }));
+  }
+
+  (doc.sections || []).forEach((s, i) => {
+    const head = [run(` Part ${i + 1} `, { display: true, bold: true, size: 20 }), run(`  ${SKILLS[s.skill]?.label || ""}`, { bold: true, size: 16, color: "777777" })];
+    if (s.points && !teacher) head.push(run(`     ____ / ${s.points}`, { bold: true, size: 18 }));
+    children.push(para(head, { spacing: { before: 4 * MM, after: 0.6 * MM }, keepNext: true, border: { top: { style: d.BorderStyle.SINGLE, size: 6, color: "111111", space: 4 } } }));
+    if (teacher) {
+      children.push(para([run(TASKS[s.task]?.label || DICTATION_STYLES[s.style]?.label || "", { italics: true, size: 18, color: "555555" })], { keepNext: true }));
+      if (s.skill === "dictation") {
+        if (s.text) children.push(box([para([run(s.text, { size: 21 })])]));
+        (s.style === "dictogloss" || s.style === "running" ? [] : s.sentences).forEach((x) => children.push(item(x.n, [run(x.text), ...(s.style === "gapped" ? [run(`   (${x.answers.join(", ")})`, { color: "777777", size: 18 })] : []), ...(x.letter ? [run(`   picture ${x.letter.toUpperCase()}`, { color: "777777", size: 18 })] : [])])));
+        return;
+      }
+      if (s.script?.length) children.push(box(s.script.map((l) => para([run(`${l.speaker}: `, { bold: true, size: 20 }), run(l.text, { size: 20 })]))));
+      if (s.answerType === "open") {
+        s.prompts.forEach((p, k) => children.push(item(k + 1, [run(p)])));
+        if (s.sample) children.push(para([run("Model: ", { bold: true, size: 19 }), run(s.sample, { italics: true, size: 19 })]));
+        children.push(para([run(`Marking: ${s.points} points — ${s.skill === "speaking" ? "interaction, vocabulary, pronunciation & fluency" : "task, vocabulary, language"}.`, { size: 18, color: "555555" })]));
+      } else answerKeyRows(s).forEach((r) => children.push(item(r.n, [run(r.text, { bold: true })])));
+      return;
+    }
+    children.push(para([run(s.rubric || "", { display: true, bold: true, size: 22 })], { keepNext: true }));
+    if (greek && s.rubricEl) children.push(para([run(s.rubricEl, { italics: true, size: 18, color: "666666" })], { keepNext: true }));
+    if (s.skill === "listening") children.push(para([run(`Listen to track ${i + 1}. You will hear it ${s.plays === 1 ? "once" : "twice"}.`, { size: 18, color: "555555" })]));
+    if (s.skill === "dictation") {
+      if (s.style === "gapped") s.sentences.forEach((x) => children.push(item(x.n, [run(gapText(x.gapped))])));
+      else if (s.style === "picture") s.pictures.forEach((p) => { const img = pic(p.pic, 70); children.push(item(p.letter.toUpperCase(), [...(img ? [img] : []), run("   No. ____   ______________________")])); });
+      else if (s.style === "dictogloss") { if (s.keyWords?.length) children.push(box([para([run(s.keyWords.join("   •   "), { bold: true })])])); children.push(para([run("My notes", { bold: true, size: 18 })]), ...lines(4), para([run("Our text", { bold: true, size: 18 })]), ...lines(Math.max(6, Math.ceil((s.textWords || 60) / 9)))); }
+      else children.push(...lines(s.style === "running" ? Math.max(6, Math.ceil((s.textWords || 60) / 8)) : s.sentences.length));
+      return;
+    }
+    if (s.passage && (s.skill !== "writing" || s.task === "W-MESSAGE")) children.push(box([...(s.passageTitle ? [para([run(s.passageTitle, { bold: true })])] : []), ...s.passage.split(/\n+/).map((p) => para([run(gapText(p), { size: 21 })], { spacing: { after: 1 * MM } }))]));
+    if (s.bank?.length) {
+      if (s.answerType === "match") s.bank.forEach((b) => children.push(para([run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text, { size: 20 })], { indent: { left: 8 * MM } })));
+      else children.push(box([para([run(s.bank.join("     •     "), { bold: true })])]));
+    }
+    if (s.answerType === "open") {
+      if (s.task_prompt) children.push(para([run(s.task_prompt, { bold: true }), ...(s.words ? [run(`  (${s.words[0]}–${s.words[1]} words)`, { size: 18, color: "666666" })] : [])]));
+      const storyPics = s.pictures.map((p) => pic(p.pic, 90)).filter(Boolean);
+      if (storyPics.length) children.push(para(storyPics.flatMap((p, k) => [p, run(`  ${k + 1}     `)])));
+      if (s.skill === "speaking") { children.push(para([run("Your teacher will talk with you.", { italics: true })])); return; }
+      s.frame.forEach((f) => children.push(para([run(`• ${f}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
+      children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
+      return;
+    }
+    const all = [...(s.example ? [{ ...s.example, n: 0 }] : []), ...s.items];
+    all.forEach((it) => {
+      const ex = it.n === 0;
+      const runs = [];
+      if (s.task === "V-PIC") { const img = pic(it.pic, 80); if (img) runs.push(img); runs.push(run(`   ${it.prompt ? `${it.prompt}  ` : ""}`, { size: 19, color: "555555" }), run(ex ? it.answer : "______________________", { italics: ex })); }
+      else if (s.answerType === "choice") {
+        if (it.prompt) runs.push(run(gapText(it.prompt)), new d.TextRun({ break: 1 }));
+        const optPics = it.optionPics?.map((p) => pic(p, 60));
+        it.options.forEach((o, k) => {
+          if (optPics?.[k]) runs.push(optPics[k], run(`  ${LETTERS[k].toUpperCase()} ${ex && k === it.answerIndex ? "✓" : "☐"}      `, { bold: true }));
+          else runs.push(run(`${ex && k === it.answerIndex ? "(" : ""}${LETTERS[k]}${ex && k === it.answerIndex ? ")" : ")"} `, { bold: true }), run(`${o}      `));
+        });
+      } else if (s.answerType === "tf") runs.push(run(gapText(it.prompt)), run(`      ${ex ? it.answer : "______"}`, { bold: true }));
+      else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? it.letter.toUpperCase() : "_____"}`));
+      else runs.push(run(gapText(it.prompt)), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
+      children.push(item(ex ? "0" : it.n, runs));
+    });
+  });
+
+  return d.Packer.toBlob(new d.Document({
+    styles: { default: { document: { run: { font: FONT, size: 22 } } } },
+    sections: [{ properties: { page: { margin: { top: 13 * MM, bottom: 15 * MM, left: 14 * MM, right: 14 * MM } } }, children }],
+  }));
+}

@@ -1,7 +1,7 @@
 /* Vocab Master — application state, derived values and draft persistence. */
 import {
   CLASS_PROFILES, CPP_BOOKS, resolveCoursebookId, getCppUnitStructure,
-  queryCoursebookWords, selectSmartCoursebookWords, trustedBankEmoji,
+  queryCoursebookWords, selectSmartCoursebookWords, trustedBankEmoji, worksheetMatchesForm, unitIdentity,
 } from "../app.js";
 import { readJSON, writeJSON } from "./bridge.js";
 import { uid, debounce } from "./ui.js";
@@ -180,6 +180,28 @@ export function applyForm(form = {}, plan = null) {
       state.ex.picked = { dictation: [...(plan.dictationTypes || [])], lingo: [...(plan.lingoTypes || [])] };
     }
   }
+}
+
+/* ── The open worksheet vs the current selection ─────────────────── */
+/** How the open worksheets relate to what is selected now (null when none are open).
+ *  The current selection is the single source of truth: stale worksheets are never extended or re-saved under it. */
+export function worksheetFreshness() {
+  if (!state.data) return null;
+  const form = buildForm();
+  const meta = state.data.meta || {};
+  const unitChanged = isCpp() || resolveCoursebookId(meta.bookTitle || "")
+    ? unitIdentity(meta) !== unitIdentity(form)
+    : String(meta.unit ?? "") !== String(form.unit ?? "");
+  const wordsChanged = !worksheetMatchesForm(state.data, form);
+  return { unitChanged, wordsChanged, stale: unitChanged || wordsChanged, label: [meta.bookTitle, meta.unit ? `Unit ${meta.unit}` : ""].filter(Boolean).join(" · ") };
+}
+
+/** Put away the open worksheets (they stay in Saved units) so nothing of the old unit reaches the new one. */
+export function detachWorksheet() {
+  if (!state.data) return false;
+  state.data = null;
+  state.sessionId = null;
+  return true;
 }
 
 /* ── Draft persistence (survives restarts) ───────────────────────── */
