@@ -271,8 +271,8 @@
 .tb .st-switches .switch + .switch { border-top: 1px solid var(--divider); }
 .tb .st-switches .switch:hover { background: var(--surface-2); }
 .tb .st-switches .sw-text { flex: 1; }
-#tsOptions { display: flex; flex-direction: column; gap: 12px; }
-#tsOptions > .st-row { justify-content: space-between; }
+#tsOptions, #dcOptions { display: flex; flex-direction: column; gap: 12px; }
+#tsOptions > .st-row:not(.col), #dcOptions > .st-row:not(.col) { justify-content: space-between; }
 
 /* Sticky footer */
 .tb-foot {
@@ -296,7 +296,7 @@
   background: color-mix(in srgb, var(--bg) 82%, transparent) !important; backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--divider);
 }
-#testsView:not(.has-doc) .tb-toolbar .switch, #testsView:not(.has-doc) .tb-exports { opacity: 0.45; pointer-events: none; }
+.studio-view:not(.has-doc) .tb-toolbar .switch, .studio-view:not(.has-doc) .tb-toolbar #dcRead, .studio-view:not(.has-doc) .tb-exports { opacity: 0.45; pointer-events: none; }
 .tb-exports { gap: 0 !important; padding: 3px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-xs); }
 .tb-exports .btn { border-color: transparent; background: transparent; box-shadow: none; }
 .tb-exports .btn:hover:not(:disabled) { background: var(--surface-3); }
@@ -340,6 +340,46 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .tb-level, .tb .len-card, .add-tile, .tb-recent-card { transition: none; }
+}
+
+/* ══ Read-aloud dictation (same builder as the Unit test) ═══════════ */
+.dc .tb-head-ico { background: linear-gradient(135deg, #10b981, #0ea5e9); box-shadow: 0 6px 16px rgba(16, 185, 129, 0.32); }
+.dc .tb-step-head h3 + p b { color: var(--text-2); }
+.dc .style-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.dc .style-card { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); grid-template-rows: auto auto; gap: 1px 10px; align-items: center; padding: 11px 12px; border-radius: 14px; transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast), box-shadow var(--dur-fast), background var(--dur-fast); }
+.dc .style-card:hover { transform: translateY(-2px); }
+.dc .style-card .sc-ico { grid-row: 1 / 3; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 11px; font-size: 18px; background: var(--surface-3); transition: background var(--dur-fast); }
+.dc .style-card b { align-self: end; }
+.dc .style-card small { align-self: start; }
+.dc .style-card.active { background: color-mix(in srgb, var(--brand-soft) 70%, var(--surface)); }
+.dc .style-card.active .sc-ico { background: var(--surface); box-shadow: var(--shadow-xs); }
+.dc .style-card.active::after { content: ""; position: absolute; top: 9px; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft-2); }
+.dc .style-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+#dcShape { display: flex; flex-direction: column; gap: 12px; }
+.dc-fields { display: flex; flex-direction: column; gap: 10px; padding: 12px 13px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface-2); }
+.dc-fields .st-lbl { min-width: 0; }
+.dc-fields .st-lbl small { display: block; margin-top: 1px; font-size: 11px; }
+.dc-ctl { display: inline-flex; align-items: center; gap: 6px; }
+.dc-srcs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.dc-src { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 11px 12px; border: 1.5px solid var(--border); border-radius: 14px; background: var(--surface); text-align: left; cursor: pointer; transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast), box-shadow var(--dur-fast); }
+.dc-src:hover { transform: translateY(-2px); border-color: var(--border-strong); }
+.dc-src b { font: 750 13px/1.2 var(--font-display); color: var(--text); }
+.dc-src small { font-size: 11.5px; line-height: 1.35; color: var(--text-3); }
+.dc-src-ico { display: grid; place-items: center; width: 26px; height: 26px; margin-bottom: 3px; border-radius: 8px; color: var(--text-2); background: var(--surface-3); }
+.dc-src.active { border-color: var(--brand); background: var(--brand-soft); box-shadow: var(--ring); }
+.dc-src.active .dc-src-ico { color: #fff; background: var(--brand); }
+.dc .tb-empty-hero { background: radial-gradient(120% 140% at 0% 0%, var(--success-soft) 0%, transparent 55%), radial-gradient(120% 140% at 100% 100%, var(--info-soft) 0%, transparent 60%), var(--surface); }
+.dc .tb-kicker { color: var(--success-ink); background: var(--success-soft); }
+.dc .tb-features span { color: var(--success-ink); background: var(--success-soft); }
+.dc-voice-bar { margin: 0; }
+.dc-actions { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; }
+.dc .tb-foot-row { gap: 10px; }
+.dc .tb-foot-row .btn { min-width: 0; padding-inline: 14px; }
+.dc .tb-meter { gap: 3px; }
+.dc .tb-meter b { font-size: 15.5px; }
+.dc .tb-meter i { margin: 0 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .dc .style-card, .dc-src { transition: none; }
 }
 
 /* ══ Teacher assistant (2026-10 redesign) ═══════════════════════════

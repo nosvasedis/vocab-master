@@ -14,6 +14,10 @@
 - **Checks:** `npm test` 446 pass; `npm run smoke` passes. Tried in the web app (light and dark): Home, the Worksheets group, Unit test (empty, saved test open), assistant (intro → plan), Step 1 targets (A 12, C 18, E 22, B 15 words), arcade pick kept after Exit and reopen.
 - **Not done:** the Dictation screen still has the old layout (same shared `.st-card` styles); exes not rebuilt.
 
+## Read-aloud dictation redesign (2026-10-20, branch feature/dictation-redesign off feature/studio-redesign, not merged)
+- The dictation screen now uses the Unit test builder design (`.tb`): sticky header with a summary, numbered step rail, class colour tiles, two-column style cards, source cards, switch list, sticky footer with the size and `#dcGenerate`, glass toolbar, hero + recent-dictations gallery (replaces the left recent list). All element ids and behaviours kept; new `#dcNew`.
+- Checked in the web app (light, 1440 px; free coursebook dictation made). Not checked: dark mode, `npm test`, `npm run smoke` (stopped early, usage).
+
 ## 3.3.0 — natural and studio listening voices (2026-10-20, branch feature/natural-listening-voices, from the user)
 - **Why:** test listenings and read-aloud dictations used the computer's speechSynthesis voices, which sound robotic.
 - **Three engines** (`studio/voice-cast.js` `ENGINES`; the teacher picks one in Settings → Sound → Listening voices, or on the listening bar / reading-voice bar; saved as `prefs.listeningVoices`, default `natural`):
