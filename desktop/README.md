@@ -6,11 +6,11 @@ Native Windows desktop application for **Vocab Master (Teacher Studio 3.0)** bui
 
 Running `npm run dist` inside `desktop/` produces two ready-to-share Windows executables:
 
-1. **`Vocab-Master-Setup-3.0.0.exe`** — Full Windows NSIS Installer:
+1. **`Vocab-Master-Setup-3.1.0.exe`** — Full Windows NSIS Installer:
    - Lets the user choose the installation directory
    - Creates Desktop and Start Menu shortcuts
    - Registers a standard Windows Uninstaller in *Apps & Features*
-2. **`Vocab-Master-Portable-3.0.0.exe`** — Standalone Portable Executable:
+2. **`Vocab-Master-Portable-3.1.0.exe`** — Standalone Portable Executable:
    - Runs directly without installation (ideal for USB sticks or restricted school PCs)
 
 ## Architecture
