@@ -17,12 +17,13 @@ export default {
     let answered = {};
     let alive = true;
 
-    const optionHtml = (it, o, k) => {
+    const optionHtml = (it, o, k, revealed) => {
       const isWord = ["pickPicture", "listen"].includes(it.kind);
       const w = isWord ? ctx.words.get(o) || ctx.wordById(o) : null;
       const label = isWord ? (w ? w.english : o) : o;
       const pic = isWord && w ? ctx.picFit(w.emoji || w.emojis || "", 110) : "";
-      const hideLabel = it.kind === "listen";
+      // The picture is the answer: its word must not be written under it (listen: never; pickPicture: only after the reveal).
+      const hideLabel = it.kind === "listen" || (it.kind === "pickPicture" && !revealed);
       return `<button type="button" class="ck-opt c${k}" data-k="${k}">
         <span class="ck-shape">${SHAPES[k]}</span>
         ${pic ? `<span class="ck-pic">${pic}</span>` : ""}
@@ -64,7 +65,7 @@ export default {
             ${revealed ? "" : `<div class="ck-ring"><svg viewBox="0 0 120 120"><circle class="ck-ring-bg" cx="60" cy="60" r="54"/><circle class="ck-ring-fg" cx="60" cy="60" r="54" stroke-dasharray="${2 * Math.PI * 54}"/></svg><span class="ck-ring-num"></span></div>`}
           </div>
           <div class="ck-prompt">${it.kind === "listen" ? `<button type="button" class="ck-listen">🔊 <span>Listen!</span></button>` : `<p>${ctx.karaoke(it.prompt.text, { gaps: true, props: it.props || [] })}</p>`}</div>
-          <div class="ck-opts n${it.options.length}">${it.options.map((o, k) => optionHtml(it, o, k)).join("")}</div>
+          <div class="ck-opts n${it.options.length}">${it.options.map((o, k) => optionHtml(it, o, k, revealed)).join("")}</div>
           <div class="ck-explain" hidden>${it.explain ? ctx.karaoke(it.explain.text, { props: it.props || [], focusPics: true }) : ""}</div>
         </div>`;
       const opts = [...ctx.ui.querySelectorAll(".ck-opt")];
