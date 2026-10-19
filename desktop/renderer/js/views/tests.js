@@ -12,7 +12,7 @@ import {
 } from "./studio-common.js";
 import { TASKS, SKILLS, tasksFor, defaultTask } from "../../studio/tasks.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, estimateMinutes, specPoints, partPoints, planProblems, LENGTHS } from "../../studio/test-builder.js";
+import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, LENGTHS } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints, normalizeItem, balanceChoices, LETTERS } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext } from "../../studio/unit-context.js";
@@ -291,6 +291,7 @@ async function generate(btn) {
       const meta = { ...sel.meta, label: sel.label, classLabel: levelLabel(spec.levelId) };
       ts.ctx = { ...ctx, meta };
       ts.doc = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta });
+      await checkKeys(ts.doc);
       ts.doc.versionB = spec.versions > 1 ? makeVersionB(ts.doc) : null;
       ts.stale.clear();
       ts.sheet = "A";
@@ -300,6 +301,13 @@ async function generate(btn) {
       toast(probs.length ? `Your test is ready — ${plural(probs.length, "small thing")} to look at.` : `Your test is ready: ${plural(ts.doc.sections.length, "part")}, ${docPoints(ts.doc)} points.`, probs.length ? "warn" : "ok");
     } catch (e) { aiErrorToast(e); } finally { stopBusy(); }
   });
+}
+
+/** Yes/no keys are re-answered from the text alone by a second small call; a failed check leaves the test as it is. */
+async function checkKeys(doc, parts = null) {
+  const p = keyCheckPrompt(doc, parts);
+  if (!p) return 0;
+  try { return applyKeyCheck(doc, await askAi(p.system, p.user)); } catch { return 0; }
 }
 
 async function rewritePart(partId, btn) {
@@ -312,6 +320,7 @@ async function rewritePart(partId, btn) {
       const reply = await askAi(system, user);
       const meta = ts.ctx?.meta || { ...sel.meta, label: sel.label, classLabel: levelLabel(spec.levelId) };
       ts.doc = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
+      await checkKeys(ts.doc, [partId]);
       ts.stale.delete(partId);
       refreshDoc();
       renderParts();

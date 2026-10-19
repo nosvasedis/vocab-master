@@ -54,6 +54,13 @@ export function geminiCost(model, { inTok = 0, outTok = 0, mode = "standard" } =
   return (inTok * rate.in + outTok * rate.out) / 1e6;
 }
 
+/** USD cost of a direct DeepSeek text call from token counts. */
+export function deepseekCost(model, { inTok = 0, outTok = 0 } = {}) {
+  const rate = PRICING.deepseek?.[model]?.standard;
+  if (!rate) throw new Error(`No pricing for ${model} in content/pricing.json`);
+  return (inTok * rate.in + outTok * rate.out) / 1e6;
+}
+
 /** Estimated USD for `seconds` of Gemini TTS audio plus `inTok` input tokens. */
 export function estimateGeminiTts(model, seconds, { inTok = 0, mode = "batch" } = {}) {
   return geminiCost(model, { inTok, outTok: seconds * PRICING.audioTokensPerSecond, mode });

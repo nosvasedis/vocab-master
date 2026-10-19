@@ -6,8 +6,8 @@ import { buildStudioDocx } from "../desktop/renderer/app.js";
 import { sentenceRange, parseLevel, DICTATION_DEFAULTS, LEVEL_IDS, GRAMMAR_MENU } from "../desktop/renderer/studio/levels.js";
 import { unitWords, sectionCounts, buildUnitContext, unitContextPrompt, storyLines } from "../desktop/renderer/studio/unit-context.js";
 import { dictationDefaults, maskTargets, bookSentences, buildDictationDoc, dictationPrompt, splitStrips, checkSentences, readAloudLines } from "../desktop/renderer/studio/dictation.js";
-import { testDefaults, presetParts, testPrompt, buildTestDoc, estimateMinutes, specPoints, planProblems } from "../desktop/renderer/studio/test-builder.js";
-import { makeVersionB, docPoints, answerKeyRows, normalizeItem, tfValue } from "../desktop/renderer/studio/doc-model.js";
+import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, planProblems } from "../desktop/renderer/studio/test-builder.js";
+import { makeVersionB, docPoints, answerKeyRows, normalizeItem, tfValue, normalizeSection, repairOrderItem } from "../desktop/renderer/studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../desktop/renderer/studio/doc-render.js";
 import { parseRequest, completePlan, clarifyingQuestions, answerQuestion, mergeAiPlan, needsAi, planSummary } from "../desktop/renderer/studio/assistant.js";
 import { TASKS, rubricFor, tfLabels } from "../desktop/renderer/studio/tasks.js";
@@ -150,6 +150,11 @@ test("the test prompt locks the plan: part ids, item counts, balanced T/F orders
   assert.match(system, /Cambridge Young Learners/);
   const one = testPrompt(spec, { unitContext: ctx, focusWords: unit4 }, [spec.parts[2].id]);
   assert.match(one.user, /LOCKED TEST PLAN \(1 part\)/);
+  // Real DeepSeek run (2026-10-19) keyed "no" for things the script said: each statement must fit its answer.
+  assert.match(user, /a "no" statement changes one detail[^\n]*script clearly says otherwise/);
+  // A real E-class grammar test (2026-10-19) repeated four Part 1 sentences in Part 3.
+  assert.match(user, /never reuse a sentence or item from another part/);
+  assert.match(user, /a "no" statement changes one detail[^\n]*text clearly says otherwise/);
 });
 
 test("the test doc: balanced choices, mixed T/F check, word scope, matching letters, points", () => {
@@ -284,4 +289,67 @@ test("grammar names are written the ELT way: Present Simple, Second Conditional"
     assert.equal(g[0], g[0].toUpperCase(), g);
     assert.ok(!/\b(present|past|future) (simple|continuous|perfect)\b/.test(g), `tense names are capitalised: ${g}`);
   }
+});
+
+test("put-in-order jumbles always hold exactly the answer's words", () => {
+  // A real DeepSeek reply jumbled "a / earthquake / There / was" for "There was an earthquake."
+  const bad = { prompt: "a / earthquake / There / was", answer: "There was an earthquake." };
+  assert.equal(repairOrderItem(bad), true);
+  assert.deepEqual(bad.prompt.split(" / ").sort(), ["There", "an", "earthquake", "was"].sort());
+  assert.notEqual(bad.prompt, "There / was / an / earthquake");
+  const good = { prompt: "lava / hot / The / is", answer: "The lava is hot." };
+  assert.equal(repairOrderItem(good), false);
+  assert.equal(good.prompt, "lava / hot / The / is");
+  const s = normalizeSection({ id: "g", task: "G-ORDER", items: 1 }, { items: [{ ...bad, prompt: "a / earthquake / There / was" }], example: { prompt: "is / It / big", answer: "It is big." } });
+  assert.ok(s.items[0].prompt.split(" / ").includes("an"));
+  assert.equal(s.example.prompt, "is / It / big");
+});
+
+test("true/false items carry the AI's evidence; a quote not in the text is flagged", () => {
+  const raw = {
+    script: [{ speaker: "Anna", text: "The elephants migrate to find water." }, { speaker: "Leo", text: "The old female elephant leads the herd." }],
+    items: [
+      { prompt: "The elephants migrate to find water.", answer: "no", evidence: "The elephants migrate to find water" },
+      { prompt: "A young elephant leads the herd.", answer: "no", evidence: "the old female elephant leads the herd" },
+      { prompt: "They swim to the sea.", answer: "yes", evidence: "they swim to the sea" },
+    ],
+  };
+  const s = normalizeSection({ id: "l", task: "L-YN", items: 3 }, raw, { levelId: "B_SENIOR" });
+  assert.equal(s.items[0].evidence, "The elephants migrate to find water");
+  assert.ok(s.problems.some((p) => /check the answer to item 3 against the script/.test(p)), s.problems.join("; "));
+  const spec = { ...testDefaults("B_SENIOR", "full"), source: { kind: "topic" }, topic: "animals" };
+  assert.match(testPrompt(spec, {}).user, /"evidence": the exact words of the script/);
+});
+
+test("yes/no keys are re-answered from the text: disagreements are corrected and flagged", () => {
+  const spec = { ...testDefaults("B_SENIOR", "full"), source: { kind: "unit" } };
+  const doc = buildTestDoc(spec, fakeReply(spec), { levelId: "B_SENIOR", meta: {} });
+  const tf = doc.sections.filter((s) => s.answerType === "tf");
+  assert.ok(tf.length);
+  const { system, user } = keyCheckPrompt(doc);
+  assert.match(system, /Judge only by the text/);
+  for (const s of tf) assert.ok(user.includes(`PART id "${s.id}"`) && user.includes(`1. ${s.items[0].prompt}`));
+  assert.equal(keyCheckPrompt(doc, ["nope"]), null);
+  const first = tf[0];
+  const answers = first.items.map((it) => (it.tf === 0 ? "yes" : "no"));
+  answers[1] = first.items[1].tf === 0 ? "no" : "yes";
+  assert.equal(applyKeyCheck(doc, { sections: [{ id: first.id, answers }] }), 1);
+  assert.equal(first.items[1].answer, answers[1]);
+  assert.ok(first.problems.some((p) => /corrected for item 2/.test(p)));
+  // A reply of the wrong length changes nothing.
+  assert.equal(applyKeyCheck(doc, { sections: [{ id: first.id, answers: ["no"] }] }), 0);
+});
+
+test("matching: the example's meaning is in the lettered list, so its letter shows and Word builds", async () => {
+  // Real run (2026-10-19): the example had no letter, the paper showed "0 planet" with no answer and Word export crashed.
+  const spec = { ...testDefaults("B_SENIOR"), source: { kind: "unit" }, parts: [makePart("vocabulary", "V-MATCH", "B_SENIOR")] };
+  const reply = { sections: [{ id: spec.parts[0].id, example: { prompt: "planet", answer: "a big round thing in space" }, items: ["volcano", "earthquake", "migrate", "savanna", "worried"].map((w, i) => ({ prompt: w, answer: `meaning ${i}` })) }] };
+  const doc = buildTestDoc(spec, reply, { levelId: "B_SENIOR", meta: { unit: 4 } });
+  const s = doc.sections[0];
+  assert.equal(s.bank.length, 6);
+  assert.equal(s.bank.find((b) => b.letter === s.example.letter)?.text, "a big round thing in space");
+  for (const it of s.items) assert.equal(s.bank.find((b) => b.letter === it.letter)?.text, it.answer);
+  const b = makeVersionB(doc, Math.random);
+  assert.equal(b.sections[0].bank.find((x) => x.letter === b.sections[0].example.letter)?.text, "a big round thing in space");
+  for (const which of ["student", "teacher"]) assert.ok((await buildStudioDocx({ doc, which })).size > 1000);
 });

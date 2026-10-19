@@ -4,9 +4,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   configureAi, generateWorksheets, regenerateDictationOnly, pickGenerationPlan, validateWorksheet,
-  normalizeTune, isDefaultTune, tunedProfile, buildTuneBlock, CLASS_PROFILES,
+  normalizeTune, isDefaultTune, tunedProfile, buildTuneBlock, CLASS_PROFILES, fitTunedWordBank,
 } from "../desktop/renderer/app.js";
-import { parseRequest, completePlan, clarifyingQuestions, answerQuestion } from "../desktop/renderer/studio/assistant.js";
+import { parseRequest, completePlan, clarifyingQuestions, answerQuestion, needsAi } from "../desktop/renderer/studio/assistant.js";
 
 test("normalizeTune keeps sane values and drops nonsense", () => {
   assert.deepEqual(normalizeTune(null), { items: 0, length: "class", level: "class", extras: 0 });
@@ -98,5 +98,22 @@ test("the assistant tells the two dictations apart, and asks when it can't", () 
   assert.match(q[0].text, /Which dictation/);
   assert.deepEqual(q[0].options.map((o) => o.value), ["worksheet", "dictation"]);
   assert.equal(answerQuestion(bare, "kind", "worksheet").kind, "worksheet");
+  // With a real key the app sent this to the AI, which guessed read-aloud instead of asking (2026-10-19).
+  assert.equal(needsAi("a dictation for unit 4", parseRequest("a dictation for unit 4", ctx)), false);
+  assert.equal(needsAi("something fun for my D class tomorrow", parseRequest("something fun for my D class tomorrow", ctx)), true);
   assert.equal(parseRequest("worksheets with pictures for A class", ctx).kind, "worksheet");
+});
+
+test("+N extra words: the bank is the exercise's answers plus exactly N non-answers", () => {
+  // Real DeepSeek run (2026-10-19, CPP2 Unit 4, +2): the bank listed all 15 unit words plus 2 extras for 7 gaps.
+  const unit = ["planet", "change", "clarification", "sequence", "order", "event", "migrate", "waterhole", "savanna", "south", "volcanic eruption", "explosion", "climate", "plant", "nectar"];
+  const items = ["planet", "waterhole", "savanna", "climate", "explosion", "nectar", "plant"].map((answer, i) => ({ number: i + 1, prompt: `clue ${i}: ________`, answer }));
+  const bank = fitTunedWordBank([...unit, "school", "family"], items, 2);
+  assert.equal(bank.length, 9);
+  for (const it of items) assert.ok(bank.includes(it.answer), it.answer);
+  assert.deepEqual(bank.filter((w) => !items.some((it) => it.answer === w)).sort(), ["family", "school"]);
+  assert.notDeepEqual(bank.slice(0, 7), items.map((it) => it.answer), "not in answer order");
+  // A missing answer is added back.
+  assert.ok(fitTunedWordBank(["planet", "school"], items, 1).includes("nectar"));
+  assert.equal(buildTuneBlock("B_SENIOR", { extras: 2 }).includes("ONLY that exercise's answers plus these 2"), true);
 });

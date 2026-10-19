@@ -29,8 +29,18 @@
       }
     }
   },
+  "deepseek": {
+    "_note": "Direct DeepSeek API (the teacher's key), cache-miss input. Rounded up on purpose; the account balance is the real check.",
+    "deepseek-chat": {
+      "standard": {
+        "in": 0.3,
+        "out": 1.2
+      }
+    }
+  },
   "caps": {
     "gemini": 3.6,
-    "openrouter": 3
+    "openrouter": 3,
+    "deepseek": 0.1
   }
 }
