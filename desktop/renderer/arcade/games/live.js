@@ -7,7 +7,7 @@
 import { buildLiveQuestions, SHAPES } from "../live/questions.js";
 import { pointsFor, rankTeams, scorePhoneRound, assignTeams } from "../live/scoring.js";
 import qrcode from "../../vendor/qrcode/qrcode.js";
-import { playMusic, stopMusic, setTension, stings } from "../live/music.js";
+import { playMusic, stopMusic, setTension, setBuildup, stings } from "../live/music.js";
 import { hasVoiceFor } from "../voice.js";
 import { teamPic, avatarPic } from "../../js/pics.js";
 
@@ -285,14 +285,15 @@ export default {
           const n = Object.keys(v).filter((u) => players[u]).length;
           const el = screen.querySelector("#lvAnswered b");
           if (el && el.textContent !== String(n)) { el.textContent = n; el.parentElement.classList.remove("bump"); void el.offsetWidth; el.parentElement.classList.add("bump"); stings.lock(); }
-          if (n >= pids().length && n > 0) later(reveal, 600);
+          if (n >= pids().length && n > 0) { stings.allIn(); later(reveal, 600); }
         });
       }
-      playMusic("question");
+      playMusic("question", { variant: qi }); // each question its own key and groove
       updateClock();
       tick = setInterval(() => {
         left--;
         updateClock();
+        setBuildup(1 - left / prefs.time); // the music builds as the clock runs down
         if (left <= 5 && left > 0) { setTension(true); sfx.tick(); }
         if (left <= 0) { clearInterval(tick); stings.gong(); reveal(); }
       }, 1000);
