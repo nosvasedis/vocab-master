@@ -1,7 +1,7 @@
 /* Dictation maker — five dictation styles with granular controls, level-based defaults, free book sentences or
  * AI-written ones, a read-aloud player, and print / PDF / Word for the student sheet and the teacher copy. */
 import { CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";
-import { state, prefs } from "../state.js";
+import { state, prefs, LEVEL_COLORS } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
@@ -35,31 +35,65 @@ export function initDictation() {
 
 function build() {
   const host = $("dictationView");
+  // data-n, not data-step: the stepper buttons below use data-step.
+  const step = (n, title, sub, body) => `<section class="tb-step" data-n="${n}">
+      <header class="tb-step-head"><span class="tb-num">${n}</span><div><h3>${title}</h3><p>${sub}</p></div></header>
+      ${body}
+    </section>`;
   host.innerHTML = `
-  <div class="studio-layout">
-    <div class="studio-settings">
-      <section class="st-card"><h3><span class="num">1</span>Which words?</h3><div id="dcSource"></div></section>
-      <section class="st-card"><h3><span class="num">2</span>How will you dictate?</h3><p class="st-hint">Not sure? <b>Classic</b> suits younger classes; <b>Gapped</b> or <b>Dictogloss</b> suit older ones.</p><div class="style-grid" id="dcStyles"></div></section>
-      <section class="st-card"><h3><span class="num">3</span>Your class &amp; the sentences</h3><div id="dcShape"></div></section>
-      <section class="st-card"><h3><span class="num">4</span>Final touches</h3><div id="dcOptions"></div></section>
-      <button type="button" class="btn btn-magic btn-lg btn-block" id="dcGenerate">${icon("sparkles")}Make my dictation</button>
-      <section class="st-card"><h3>${icon("clock", "i-sm")}Recent dictations</h3><div id="dcRecent" class="recent-list"></div></section>
+  <div class="studio-layout tb dc">
+    <div class="studio-settings tb-builder">
+      <div class="tb-head">
+        <span class="tb-head-ico">${icon("mic")}</span>
+        <div class="tb-head-text"><b>Read-aloud dictation</b><span id="dcSummary"></span></div>
+      </div>
+      <div class="tb-steps">
+        ${step(1, "Which words?", "The unit words your sentences are built around.", `<div id="dcSource"></div>`)}
+        ${step(2, "How will you dictate?", "Not sure? <b>Classic</b> suits younger classes; <b>Gapped</b> or <b>Dictogloss</b> suit older ones.", `<div class="style-grid" id="dcStyles"></div>`)}
+        ${step(3, "Your class &amp; the sentences", "Sets the length and the language of every sentence.", `<div id="dcShape"></div>`)}
+        ${step(4, "Final touches", "Who writes the sentences, how they are read, and the paper.", `<div id="dcOptions"></div>`)}
+      </div>
+      <div class="tb-foot">
+        <div id="dcPlanNote"></div>
+        <div class="tb-foot-row">
+          <div class="tb-meter" id="dcMeter"></div>
+          <button type="button" class="btn btn-magic btn-lg" id="dcGenerate">${icon("sparkles")}Make my dictation</button>
+        </div>
+      </div>
     </div>
-    <div class="studio-paper">
-      <div class="paper-toolbar">
-        ${segHtml("dcSheet", [["student", "Student sheet"], ["teacher", "Teacher copy"], ["strips", "Wall strips"]], dc.sheet)}
-        <span class="spacer"></span>
-        <button type="button" class="btn btn-accent btn-sm" id="dcRead" disabled data-tip="Each sentence is read, then read again slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
-        <span class="export-pills">
-          <button type="button" class="btn btn-secondary btn-sm" id="dcPrint" disabled>${icon("printer", "i-sm")}Print</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="dcPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="dcWord" disabled>${icon("word", "i-sm")}Word</button>
+    <div class="studio-paper tb-paper">
+      <div class="paper-toolbar tb-toolbar">
+        <div id="dcSheetSeg">${segHtml("dcSheet", [["student", "Student sheet"], ["teacher", "Teacher copy"], ["strips", "Wall strips"]], dc.sheet)}</div>
+        <button type="button" class="btn btn-ghost btn-sm hidden" id="dcNew" data-tip="Back to your dictations (this one is saved)">${icon("plus", "i-sm")}New dictation</button>
+        <span class="dc-actions">
+          <button type="button" class="btn btn-accent btn-sm" id="dcRead" disabled data-tip="Each sentence is read, then read again slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
+          <span class="export-pills tb-exports">
+            <button type="button" class="btn btn-secondary btn-sm" id="dcPrint" disabled>${icon("printer", "i-sm")}Print</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="dcPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="dcWord" disabled>${icon("word", "i-sm")}Word</button>
+          </span>
         </span>
       </div>
       <div id="dcVoices"></div>
       <div id="dcProblems"></div>
-      <div class="paper-stage" id="dcStage"><div class="paper hidden" id="dcPaper"></div>
-        <div class="studio-empty" id="dcEmpty"><div class="empty-owl">${owl()}</div><h3>Your read-aloud dictation will appear here</h3><p>Choose the words and a style on the left, then press <b>Make my dictation</b>. You get a sheet for the children and a copy for you — and the app can read it aloud.</p><ol class="empty-steps"><li>Pick the words</li><li>Choose a style</li><li>Make it ✨</li></ol></div>
+      <div class="paper-stage tb-stage" id="dcStage"><div class="paper hidden" id="dcPaper"></div>
+        <div class="studio-empty tb-empty" id="dcEmpty">
+          <div class="tb-empty-hero">
+            <div class="empty-owl">${owl()}</div>
+            <div>
+              <span class="tb-kicker">${icon("mic", "i-xs")}Read-aloud dictation</span>
+              <h3>Sentences your class can write, read aloud for you</h3>
+              <p>Choose the words, a style and your class, then press <b>Make my dictation</b>. You get a sheet for the children and a copy for you, and the app reads every sentence aloud with time to write.</p>
+            </div>
+          </div>
+          <div class="tb-features">
+            <div><span>${icon("layers")}</span><b>5 styles</b><small>Classic, gapped, running, dictogloss, picture</small></div>
+            <div><span>${icon("volume")}</span><b>Read aloud</b><small>Natural voices, slower the second time</small></div>
+            <div><span>${icon("key")}</span><b>Teacher copy</b><small>Every sentence, ready to read or check</small></div>
+            <div><span>${icon("book-open")}</span><b>Free from the book</b><small>Or fresh AI sentences for your grammar</small></div>
+          </div>
+          <div class="tb-recent"><h4>${icon("clock", "i-sm")}Your recent dictations</h4><div id="dcRecent" class="tb-recent-grid"></div></div>
+        </div>
       </div>
     </div>
   </div>`;
@@ -90,6 +124,8 @@ function build() {
     }
     const lvl = t.closest("[data-level]");
     if (lvl) { setLevel(lvl.dataset.level); return; }
+    const src = t.closest("[data-source]");
+    if (src) { dc.spec.source = src.dataset.source; savePrefs(); renderOptions(); return; }
     const g = t.closest("[data-grammar]");
     if (g) {
       const v = g.dataset.grammar;
@@ -103,12 +139,14 @@ function build() {
     if (e.target.id === "dcTopic") { dc.spec.topic = e.target.value; savePrefs(); }
     if (e.target.id === "dcGrammarOwn") { dc.spec.grammarOwn = e.target.value; savePrefs(); }
   });
+  $("dcShape").addEventListener("toggle", (e) => { if (e.target.matches?.(".tb-more")) dc.moreOpen = e.target.open; }, true);
   $("dcOptions").addEventListener("click", onControls);
   $("dcOptions").addEventListener("change", (e) => {
     const k = e.target.dataset.opt;
     if (k) { dc.spec[k] = e.target.checked; savePrefs(); if (dc.doc) { dc.doc.meta.greek = !!dc.spec.greek; dc.doc.meta.pictures = !!dc.spec.pictures; renderPaper(); } }
   });
   $("dcGenerate").addEventListener("click", (e) => generate(e.currentTarget));
+  $("dcNew").addEventListener("click", () => { if (dc.player) toggleRead(); dc.doc = null; renderAll(); });
   $("dcVoices").addEventListener("click", (e) => { if (pickVoice(e)) { if (dc.player) toggleRead(); renderVoices(); } });
   $("dcRead").addEventListener("click", toggleRead);
   $("dcPrint").addEventListener("click", () => printHtml(sheetHtml(), sheetTitle()));
@@ -133,31 +171,37 @@ function setLevel(levelId) {
 }
 
 function renderStyles() {
-  $("dcStyles").innerHTML = Object.entries(DICTATION_STYLES).map(([id, s]) => `<button type="button" class="style-card${dc.spec.style === id ? " active" : ""}" data-style="${id}"><span class="sc-ico">${STYLE_ICON[id]}</span><b>${esc(s.label)}</b><small>${esc(s.hint)}</small></button>`).join("");
+  $("dcStyles").innerHTML = Object.entries(DICTATION_STYLES).map(([id, s]) => `<button type="button" class="style-card${dc.spec.style === id ? " active" : ""}" data-style="${id}" aria-pressed="${dc.spec.style === id}"><span class="sc-ico">${STYLE_ICON[id]}</span><b>${esc(s.label)}</b><small>${esc(s.hint)}</small></button>`).join("");
 }
 
 function renderShape() {
   const s = dc.spec;
   const lvl = s.levelId;
+  const p = CLASS_PROFILES[lvl];
   const [min, max] = sentenceRange(lvl, s.length, s.difficulty);
   const connected = s.style === "dictogloss" || s.style === "running";
-  const sel = picker?.value();
-  const words = sel?.focus || [];
   const grammar = GRAMMAR_MENU[lvl] || [];
+  const extras = s.grammar.length + (s.grammarOwn?.trim() ? 1 : 0) + (s.topic?.trim() ? 1 : 0);
   $("dcShape").innerHTML = `
-    <div class="st-row"><span class="st-lbl">Class</span><div class="lvl-chips">${LEVEL_IDS.map((id) => `<button type="button" class="chip${id === lvl ? " active" : ""}" data-level="${id}">${esc(CLASS_PROFILES[id].label)}</button>`).join("")}</div></div>
-    <p class="st-hint">${esc(CLASS_PROFILES[lvl].greekGrades)} · ages ${esc(CLASS_PROFILES[lvl].ageRange)} · CEFR ${esc(CLASS_PROFILES[lvl].cefr)} — defaults are set for this class.</p>
-    ${connected
-    ? `<div class="st-row"><span class="st-lbl">Length of the text</span>${stepperHtml("textWords", s.textWords, 20, 160)}<small class="st-note">words, about</small></div>`
-    : `<div class="st-row"><span class="st-lbl">How many sentences</span>${stepperHtml("count", s.count, 3, 15)}</div>`}
-    <div class="st-row"><span class="st-lbl">Sentence length</span>${segHtml("length", [["short", "Short"], ["level", "For the class"], ["long", "Long"]], s.length)}<small class="st-note">${min}–${max} words each</small></div>
-    ${s.style === "picture" ? "" : `<div class="st-row"><span class="st-lbl">Unit words in each sentence</span>${segHtml("targets", [[1, "1"], [2, "2"], [3, "3"]], s.targets)}</div>`}
-    ${s.style === "gapped" ? `<div class="st-row"><span class="st-lbl">Gaps in each sentence</span>${segHtml("gapsPerSentence", [[1, "1"], [2, "2"], [3, "3"]], s.gapsPerSentence)}</div>` : ""}
-    <div class="st-row"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
-    <div class="st-row col"><span class="st-lbl">Grammar to practise <small>(optional)</small></span><div class="gram-chips">${grammar.map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div>
-      <input class="input sm" id="dcGrammarOwn" placeholder="…or type your own, e.g. There is / there are" value="${esc(s.grammarOwn || "")}" /></div>
-    <div class="st-row col"><span class="st-lbl">A theme for the sentences <small>(optional)</small></span><input class="input sm" id="dcTopic" placeholder="e.g. a trip to the mountains, a birthday party" value="${esc(s.topic || "")}" /></div>
-    ${words.length < 3 ? `<div class="callout warning">${icon("alert")}<span>Choose at least 3 words in step 1.</span></div>` : ""}`;
+    <div class="tb-levels" role="radiogroup" aria-label="Class">${LEVEL_IDS.map((id) => `<button type="button" role="radio" aria-checked="${id === lvl}" class="tb-level${id === lvl ? " active" : ""}" data-level="${id}" style="--lvl:${LEVEL_COLORS[id]}"><span class="tb-level-l">${esc(CLASS_PROFILES[id].label[0])}</span><small>${esc(CLASS_PROFILES[id].cefr)}</small></button>`).join("")}</div>
+    <p class="tb-level-note"><b>${esc(p.label)}</b> · ${esc(p.greekGrades)} · ages ${esc(p.ageRange)} · defaults set for this class</p>
+    <div class="dc-fields">
+      ${connected
+    ? `<div class="tb-field"><span class="st-lbl">Length of the text</span><span class="dc-ctl">${stepperHtml("textWords", s.textWords, 20, 160)}<small class="st-note">words, about</small></span></div>`
+    : `<div class="tb-field"><span class="st-lbl">How many sentences</span>${stepperHtml("count", s.count, 3, 15)}</div>`}
+      <div class="tb-field"><span class="st-lbl">Sentence length <small>${min}–${max} words each</small></span>${segHtml("length", [["short", "Short"], ["level", "For the class"], ["long", "Long"]], s.length)}</div>
+      ${s.style === "picture" ? "" : `<div class="tb-field"><span class="st-lbl">Unit words in each sentence</span>${segHtml("targets", [[1, "1"], [2, "2"], [3, "3"]], s.targets)}</div>`}
+      ${s.style === "gapped" ? `<div class="tb-field"><span class="st-lbl">Gaps in each sentence</span>${segHtml("gapsPerSentence", [[1, "1"], [2, "2"], [3, "3"]], s.gapsPerSentence)}</div>` : ""}
+      <div class="tb-field"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
+    </div>
+    <details class="tb-more"${dc.moreOpen ? " open" : ""}>
+      <summary>${icon("sliders", "i-sm")}<span>Grammar &amp; a theme</span>${extras ? `<span class="tb-badge">${extras}</span>` : `<small>optional</small>`}${icon("chevron-down", "i-sm tb-more-chev")}</summary>
+      <div class="tb-more-body">
+        <div class="st-row col"><span class="st-lbl">Grammar to practise</span><div class="gram-chips">${grammar.map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div>
+          <input class="input sm" id="dcGrammarOwn" placeholder="…or type your own, e.g. There is / there are" value="${esc(s.grammarOwn || "")}" /></div>
+        <div class="st-row col"><span class="st-lbl">A theme for the sentences</span><input class="input sm" id="dcTopic" placeholder="e.g. a trip to the mountains, a birthday party" value="${esc(s.topic || "")}" /></div>
+      </div>
+    </details>`;
   $("dcShape").querySelectorAll("[data-segmented]").forEach((root) => {
     segmented(root, { value: String(s[root.dataset.seg]), onChange: (v) => { s[root.dataset.seg] = /^\d+$/.test(v) ? Number(v) : v; savePrefs(); renderShape(); } });
   });
@@ -166,10 +210,12 @@ function renderShape() {
 
 function renderOptions() {
   const s = dc.spec;
+  const src = (id, ico, title, note) => `<button type="button" class="dc-src${s.source === id ? " active" : ""}" data-source="${id}" aria-pressed="${s.source === id}"><span class="dc-src-ico">${icon(ico, "i-sm")}</span><b>${title}</b><small>${note}</small></button>`;
   $("dcOptions").innerHTML = `
-    <div class="st-row"><span class="st-lbl">Who writes the sentences?</span>${segHtml("source", [["ai", `${icon("sparkles", "i-xs")}The AI, for my class`], ["book", `${icon("book", "i-xs")}The coursebook (free)`]], s.source)}</div>
-    <p class="st-hint">${s.source === "book" ? "Uses the coursebook’s own example sentence for each word — instant, free and works offline. (The grammar and theme above are not used.)" : "Fresh sentences that follow your grammar, theme and length — ready in a few seconds."}</p>
-    <div class="st-row"><span class="st-lbl">Read each sentence</span>${segHtml("repeats", [[1, "once"], [2, "twice"], [3, "3 times"]], s.repeats)}</div>
+    <div class="st-row col"><span class="st-lbl">Who writes the sentences?</span>
+      <div class="dc-srcs">${src("ai", "sparkles", "The AI, for my class", "Follows your grammar, theme and length · a few seconds")}${src("book", "book", "The coursebook", "Its own example sentences · free, instant, offline")}</div>
+      ${s.source === "book" ? `<p class="st-hint">The grammar and theme in step 3 are not used.</p>` : ""}</div>
+    <div class="tb-field"><span class="st-lbl">Read each sentence</span>${segHtml("repeats", [[1, "once"], [2, "twice"], [3, "3 times"]], s.repeats)}</div>
     <div class="st-switches">
       ${switchHtml("punctuationAloud", "Say the punctuation", "“comma”, “full stop” — great for younger classes", s.punctuationAloud)}
       ${switchHtml("greek", "Instructions also in Greek", "A small Greek line under the English one", s.greek)}
@@ -178,12 +224,35 @@ function renderOptions() {
   $("dcOptions").querySelectorAll("[data-segmented]").forEach((root) => {
     segmented(root, { value: String(s[root.dataset.seg]), onChange: (v) => { s[root.dataset.seg] = /^\d+$/.test(v) ? Number(v) : v; savePrefs(); renderOptions(); } });
   });
+  renderFoot();
+}
+
+/** The sticky header line and footer: what the dictation is about and how big it is. */
+function renderFoot() {
+  if (!picker) return;
+  const s = dc.spec;
+  const sel = picker.value();
+  const words = sel?.focus || [];
+  const [min, max] = sentenceRange(s.levelId, s.length, s.difficulty);
+  const connected = s.style === "dictogloss" || s.style === "running";
+  $("dcSummary").textContent = `${sel?.label || "Choose the words"} · ${levelLabel(s.levelId)} · ${DICTATION_STYLES[s.style]?.label || ""}`;
+  const reads = { 1: "once", 2: "twice", 3: "3×" }[s.repeats] || `${s.repeats}×`;
+  $("dcMeter").innerHTML = `${connected ? `<b>≈${s.textWords}</b><span>words</span>` : `<b>${s.count}</b><span>${s.count === 1 ? "sentence" : "sentences"}</span>`}<i></i><b>${min}–${max}</b><span>each</span><i></i><b>${reads}</b><span>read</span>`;
+  $("dcPlanNote").innerHTML = words.length < 3 ? `<div class="callout warning">${icon("alert")}<span>Choose at least 3 words in step 1.</span></div>` : "";
 }
 
 function renderRecent() {
-  const list = recentDocs("dictation").slice(0, 8);
+  const list = recentDocs("dictation").slice(0, 6);
+  const when = (iso) => { const d = iso ? new Date(iso) : null; return d && !Number.isNaN(d.getTime()) ? d.toLocaleDateString(undefined, { day: "numeric", month: "short" }) : ""; };
   $("dcRecent").innerHTML = list.length
-    ? list.map((d) => `<div class="recent-row" data-doc="${esc(d.id)}"><button type="button" class="recent-open"><b>${esc(DICTATION_STYLES[d.sections?.[0]?.style]?.label || "Read-aloud dictation")}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")} · ${esc(levelLabel(d.meta?.classProfile))}</span></button><button type="button" class="icon-btn sm danger" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`).join("")
+    ? list.map((d) => {
+      const sec = d.sections?.[0] || {};
+      const style = DICTATION_STYLES[sec.style];
+      return `<div class="tb-recent-card" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
+        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${STYLE_ICON[sec.style] || ""} ${esc(style?.label || "Read-aloud dictation")}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")}</span>
+          <span class="trc-meta">${plural(sec.sentences?.length || 0, "sentence")}${when(d.savedAt) ? ` · ${esc(when(d.savedAt))}` : ""}</span></button>
+        <button type="button" class="icon-btn sm danger trc-del" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`;
+    }).join("")
     : `<p class="st-hint">Your dictations are kept here, so you can print them again any time.</p>`;
 }
 
@@ -246,6 +315,9 @@ function renderPaper() {
   const has = !!dc.doc;
   $("dcPaper").classList.toggle("hidden", !has);
   $("dcEmpty").classList.toggle("hidden", has);
+  $("dcNew").classList.toggle("hidden", !has);
+  $("dcSheetSeg").classList.toggle("hidden", !has);
+  $("dictationView").classList.toggle("has-doc", has);
   ["dcRead", "dcPrint", "dcPdf", "dcWord"].forEach((id) => { $(id).disabled = !has; });
   renderVoices();
   const stripsBtn = document.querySelector('[data-seg="dcSheet"] [data-value="strips"]');
