@@ -14,6 +14,34 @@ import { STUDIO_PRINT_CSS, studioPrintDocument } from "../../studio/doc-render.j
 import { inlinePictures, picPngMap } from "../../studio/pic-assets.js";
 import { BOOK_LEVEL } from "../../studio/levels.js";
 import { readJSON, writeJSON } from "../bridge.js";
+import { lingoSVG, lingoBadge } from "../../lesson/lingo-art.js";
+
+/* ── Lingo the owl (the app's mascot) and the friendly "working on it" overlay ── */
+export const owl = (cls = "") => lingoSVG({ className: `studio-owl ${cls}` });
+export const owlHead = (cls = "") => lingoBadge(`lingo-badge studio-owl-head ${cls}`);
+
+/**
+ * Cover the paper with Lingo and a few reassuring steps while the AI writes. Returns stop().
+ * steps: [[seconds, "text"], …]
+ */
+export function busyOverlay(stage, { title, steps = [], note = "" }) {
+  stage.querySelector(".studio-busy")?.remove();
+  const box = document.createElement("div");
+  box.className = "studio-busy";
+  box.innerHTML = `<div class="sb-card">${owl("sb-owl")}<h3>${esc(title)}</h3><p class="sb-step"></p><div class="sb-bar"><i></i></div><small>${esc(note)}</small></div>`;
+  stage.appendChild(box);
+  const started = Date.now();
+  const tick = () => {
+    const s = (Date.now() - started) / 1000;
+    const step = [...steps].reverse().find(([t]) => s >= t)?.[1] || "";
+    const p = box.querySelector(".sb-step");
+    if (p.textContent !== step) p.textContent = step;
+    box.querySelector(".sb-bar i").style.width = `${Math.round(95 * (1 - Math.exp(-s / 25)))}%`;
+  };
+  tick();
+  const timer = setInterval(tick, 500);
+  return () => { clearInterval(timer); box.classList.add("out"); setTimeout(() => box.remove(), 250); };
+}
 
 /* ── Pictures and lessons ─────────────────────────────────────────── */
 /** Word-bank picture token for a word ("@w-volcano"), using the type from the chosen words when known. */
@@ -179,7 +207,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, onCh
     if (st.kind === "topic") return { kind: "topic", words: [], focus: [], topic: st.topic, label: st.topic || "A topic", meta: {}, level: state.profileId };
     return {
       kind: "unit", bookId: st.bookId, units: [...st.units], sections: [...st.sections], words: all(), focus: f,
-      label: `${book.title.replace("Cambridge ", "")} · ${st.units.length === 1 ? `Unit ${st.units[0]}` : `Units ${st.units.join(", ")}`}`,
+      label: `Primary Path ${st.bookId.slice(-1)} · ${st.units.length === 1 ? `Unit ${st.units[0]}` : `Units ${st.units.join(", ")}`}`,
       meta: { bookTitle: book.title, unit: st.units.length === 1 ? st.units[0] : st.units.join(", ") },
       level: BOOK_LEVEL[st.bookId],
     };
@@ -191,23 +219,23 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, onCh
     const words = st.kind === "unit" ? all() : [];
     const f = focus();
     const keyCount = words.filter((w) => st.keyWords.includes(w.english.toLowerCase())).length;
-    const modes = [["current", `${icon("list", "i-xs")}My word list`], ["unit", `${icon("book", "i-xs")}Coursebook`], ...(allowTopic ? [["topic", `${icon("bulb", "i-xs")}Any topic`]] : [])];
+    const modes = [["current", `${icon("list", "i-xs")}My word list (Step 2)`], ["unit", `${icon("book", "i-xs")}A coursebook unit`], ...(allowTopic ? [["topic", `${icon("bulb", "i-xs")}A grammar point or topic`]] : [])];
     host.innerHTML = `
       <div class="sp-modes">${modes.map(([k, l]) => `<button type="button" class="chip${st.kind === k ? " active" : ""}" data-sp-kind="${k}" ${k === "current" && filledWords().length < 3 ? "disabled title=\"Add 3+ words in Step 2 first\"" : ""}>${l}</button>`).join("")}</div>
-      ${st.kind === "current" ? `<p class="sp-summary">${icon("check-circle", "i-xs")}<b>${plural(f.length, "word")}</b> from Vocabulary (Step 2)${bookTitle() ? ` · ${esc(bookTitle())}${unitNumber() ? ` Unit ${esc(unitNumber())}` : ""}` : ""}: <span class="sp-words">${esc(f.slice(0, 14).map((w) => w.english).join(", "))}${f.length > 14 ? "…" : ""}</span></p>` : ""}
+      ${st.kind === "current" ? `<p class="sp-summary">${icon("check-circle", "i-xs")}Using <b>${plural(f.length, "word")}</b> from your Vocabulary list${bookTitle() ? ` · ${esc(bookTitle())}${unitNumber() ? ` Unit ${esc(unitNumber())}` : ""}` : ""}: <span class="sp-words">${esc(f.slice(0, 14).map((w) => w.english).join(", "))}${f.length > 14 ? "…" : ""}</span></p>` : ""}
       ${st.kind === "topic" ? `<input class="input" data-sp-topic placeholder="e.g. Present Simple vs Present Continuous, daily routines" value="${esc(st.topic)}" />` : ""}
       ${st.kind === "unit" ? `
         <div class="sp-row"><span class="sp-lbl">Book</span>${BOOK_IDS.map((id) => `<button type="button" class="chip${id === st.bookId ? " active" : ""}" data-sp-book="${id}">Primary Path ${id.slice(-1)}</button>`).join("")}</div>
         <div class="sp-row"><span class="sp-lbl">Unit${multiUnit ? "s" : ""}</span>${multiUnit ? `<small class="sp-hint">tap to add or remove</small>` : ""}${Array.from({ length: 9 }, (_, i) => i + 1).map((u) => `<button type="button" class="chip sp-unit${st.units.includes(u) ? " active" : ""}" data-sp-unit="${u}" title="${esc(book.units[u]?.title || "")}">${u}</button>`).join("")}</div>
         <p class="sp-title">${st.units.map((u) => `<b>Unit ${u}</b> ${esc(book.units[u]?.title || "")}`).join(" · ")}</p>
-        <div class="sp-row"><span class="sp-lbl">Parts</span>${["BQ", "A", "B", "WB"].map((s) => `<button type="button" class="chip${st.sections.includes(s) ? " active" : ""}" data-sp-sec="${s}">${SECTION_LABEL[s]}${counts ? ` <small>${counts[s]}</small>` : ""}</button>`).join("")}</div>
-        <div class="sp-row"><span class="sp-lbl">Test</span>
-          <button type="button" class="chip${st.focusMode === "key" ? " active" : ""}" data-sp-focus="key">★ Key words${keyCount ? ` <small>${keyCount}</small>` : ""}</button>
+        <div class="sp-row"><span class="sp-lbl">Parts</span><small class="sp-hint">which parts of the unit</small>${["BQ", "A", "B", "WB"].map((s) => `<button type="button" class="chip${st.sections.includes(s) ? " active" : ""}" data-sp-sec="${s}">${SECTION_LABEL[s]}${counts ? ` <small>${counts[s]}</small>` : ""}</button>`).join("")}</div>
+        <div class="sp-row"><span class="sp-lbl">Words</span>
+          <button type="button" class="chip${st.focusMode === "key" ? " active" : ""}" data-sp-focus="key">★ Lesson key words${keyCount ? ` <small>${keyCount}</small>` : ""}</button>
           <button type="button" class="chip${st.focusMode === "all" ? " active" : ""}" data-sp-focus="all">All <small>${words.length}</small></button>
-          <button type="button" class="chip${st.focusMode === "pick" ? " active" : ""}" data-sp-focus="pick">Pick words…</button>
+          <button type="button" class="chip${st.focusMode === "pick" ? " active" : ""}" data-sp-focus="pick">Let me choose…</button>
         </div>
         ${st.focusMode === "pick" ? `<div class="sp-pick">${words.map((w) => `<button type="button" class="word-chip${st.picked.has(w.english.toLowerCase()) ? " on" : ""}" data-sp-word="${esc(w.english.toLowerCase())}"><span>${esc(w.english)}</span></button>`).join("")}</div>` : ""}
-        <p class="sp-summary">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> to test: <span class="sp-words">${esc(f.slice(0, 16).map((w) => w.english).join(", "))}${f.length > 16 ? "…" : ""}</span></p>` : ""}`;
+        <p class="sp-summary">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> chosen: <span class="sp-words">${esc(f.slice(0, 16).map((w) => w.english).join(", "))}${f.length > 16 ? "…" : ""}</span></p>` : ""}`;
   }
   const changed = () => { render(); onChange?.(value()); };
   function mount(el) {

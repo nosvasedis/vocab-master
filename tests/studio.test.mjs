@@ -95,11 +95,11 @@ test("every dictation style builds a printable doc with a teacher copy", () => {
 });
 
 test("dictation prompt carries the controls, and bad sentences are reported", () => {
-  const spec = { ...dictationDefaults("D_SENIOR"), count: 7, grammar: ["past simple"], topic: "a school trip" };
+  const spec = { ...dictationDefaults("D_SENIOR"), count: 7, grammar: ["Past Simple"], topic: "a school trip" };
   const { system, user } = dictationPrompt(spec, unit4.slice(0, 6));
   assert.match(user, /exactly 7 sentences/);
   assert.match(user, new RegExp(`each ${sentenceRange("D_SENIOR").join("–")} words`));
-  assert.match(user, /past simple/);
+  assert.match(user, /Past Simple/);
   assert.match(user, /a school trip/);
   assert.match(system, /JSON/);
   const probs = checkSentences(spec, [{ text: "Η χιονισμένη μέρα.", targets: [] }], unit4);
@@ -139,12 +139,12 @@ test("length presets and level defaults give sensible parts, points and minutes"
 });
 
 test("the test prompt locks the plan: part ids, item counts, balanced T/F orders, picture words", async () => {
-  const spec = { ...testDefaults("B_SENIOR", "full"), source: { kind: "unit", bookId: "CPP2", units: [4] }, grammar: ["present simple"] };
+  const spec = { ...testDefaults("B_SENIOR", "full"), source: { kind: "unit", bookId: "CPP2", units: [4] }, grammar: ["Present Simple"] };
   const ctx = await buildUnitContext({ bookId: "CPP2", units: [4] }, { loadLesson });
   const { system, user } = testPrompt(spec, { unitContext: ctx, focusWords: unit4.slice(0, 12), pictureWords: ["volcano", "lava", "river"] });
   for (const p of spec.parts) assert.ok(user.includes(`id "${p.id}"`));
   assert.match(user, /TEST THESE WORDS/);
-  assert.match(user, /Grammar focus[^\n]*present simple/);
+  assert.match(user, /Grammar focus[^\n]*Present Simple/);
   assert.match(user, /Answer each with "yes" or "no" in THIS order: (yes|no)(, (yes|no))+/);
   assert.match(user, /Picture words \(ONLY these can be pictures\): volcano, lava, river/);
   assert.match(system, /Cambridge Young Learners/);
@@ -237,17 +237,17 @@ test("the assistant understands clear requests without AI", () => {
   assert.deepEqual([a.kind, a.source.bookId, a.source.units, a.levelId], ["test", "CPP2", [4], "B_SENIOR"]);
   const b = completePlan(parseRequest("A test on Present Simple vs Present Continuous for E class", ctx), ctx);
   assert.deepEqual([b.kind, b.levelId, b.source.kind], ["test", "E_SENIOR", "topic"]);
-  assert.deepEqual(b.grammar, ["present simple vs present continuous"]);
+  assert.deepEqual(b.grammar, ["Present Simple vs Present Continuous"]);
   assert.ok(b.skills.filter((s) => s === "grammar").length === 2);
   const c = parseRequest("PP3 units 2-3 listening and reading test, two versions", ctx);
   assert.deepEqual([c.source.bookId, c.source.units, c.skills, c.versions], ["CPP3", [2, 3], ["listening", "reading"], 2]);
   const d = parseRequest("Dictation for this unit, 8 sentences, past simple", ctx);
-  assert.deepEqual([d.kind, d.count, d.grammar], ["dictation", 8, ["past simple"]]);
+  assert.deepEqual([d.kind, d.count, d.grammar], ["dictation", 8, ["Past Simple"]]);
   assert.deepEqual(parseRequest("τεστ για την ενότητα 5", ctx).source.units, [5]);
   assert.equal(parseRequest("running dictation for B senior", ctx).style, "running");
   assert.equal(needsAi("test for Unit 4", parseRequest("test for Unit 4", ctx)), false);
   assert.equal(needsAi("I want something nice for my D class tomorrow", parseRequest("I want something nice for my D class tomorrow", ctx)), true);
-  assert.match(planSummary(a), /Unit test for B Senior on Primary Paths 2, Unit 4/);
+  assert.match(planSummary(a), /Unit test for B Senior on Primary Path 2, Unit 4/);
 });
 
 test("the assistant asks at most two questions, answered by chips", () => {
@@ -272,4 +272,16 @@ test("AI plan readings are validated before use", () => {
   assert.deepEqual(p.skills, ["listening"]);
   assert.equal(p.versions, 2);
   assert.equal(p.count, 15);
+});
+
+test("grammar names are written the ELT way: Present Simple, Second Conditional", async () => {
+  const { grammarLabel } = await import("../desktop/renderer/studio/levels.js");
+  assert.equal(grammarLabel("present simple vs present continuous"), "Present Simple vs Present Continuous");
+  assert.equal(grammarLabel("past simple versus past continuous"), "Past Simple vs Past Continuous");
+  assert.equal(grammarLabel("second conditional"), "Second Conditional");
+  assert.equal(grammarLabel("there is / there are"), "There is / there are");
+  for (const id of LEVEL_IDS) for (const g of GRAMMAR_MENU[id]) {
+    assert.equal(g[0], g[0].toUpperCase(), g);
+    assert.ok(!/\b(present|past|future) (simple|continuous|perfect)\b/.test(g), `tense names are capitalised: ${g}`);
+  }
 });

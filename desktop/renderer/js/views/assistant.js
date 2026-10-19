@@ -5,7 +5,7 @@ import { state, emit, isCpp } from "../state.js";
 import { isAiReady } from "../bridge.js";
 import { actions } from "../actions.js";
 import { segmented } from "../ui.js";
-import { $, esc, icon, toast, askAi, aiErrorToast, segHtml, switchHtml, stepperHtml } from "./studio-common.js";
+import { $, esc, icon, toast, askAi, aiErrorToast, segHtml, switchHtml, stepperHtml, owl, owlHead } from "./studio-common.js";
 import {
   KINDS, parseRequest, completePlan, clarifyingQuestions, answerQuestion, planSummary, assistantPrompt, mergeAiPlan, needsAi,
 } from "../../studio/assistant.js";
@@ -34,11 +34,11 @@ function suggestions() {
   const unit = c.bookId ? `Unit ${c.unit}` : "Unit 4";
   const book = c.bookId ? `Primary Path ${c.bookId.slice(-1)} ` : "";
   return [
-    `A unit test for ${book}${unit}`,
-    `Dictation for ${unit}, 8 sentences`,
-    "Present Simple vs Present Continuous test for E class",
-    `Quick vocabulary quiz on ${unit}`,
-    "Worksheet on there is / there are for A class",
+    `A test for ${book}${unit}`,
+    `A dictation for ${unit}, 8 sentences`,
+    "A Present Simple vs Present Continuous test for E class",
+    `A quick vocabulary quiz on ${unit}`,
+    "Worksheets on There is / there are for A class",
     `Listening and reading test, ${book}Units 3–4, two versions`,
   ];
 }
@@ -50,7 +50,7 @@ function build() {
       <div class="as-messages" id="asMessages"></div>
       <div class="as-suggest" id="asSuggest"></div>
       <form class="as-input" id="asForm">
-        <textarea class="textarea" id="asText" rows="2" placeholder="e.g. “A test for Unit 4 with listening and writing, a bit easier” — English or Ελληνικά"></textarea>
+        <textarea class="textarea" id="asText" rows="2" placeholder="Tell me what you need… e.g. “a test for Unit 4 with listening, a bit easier” (English or Ελληνικά)"></textarea>
         <button type="submit" class="btn btn-primary" id="asSend">${icon("arrow-right")}<span>Send</span></button>
       </form>
     </div>
@@ -107,7 +107,7 @@ function respond() {
   if (as.questions.length) {
     as.messages.push({ role: "assistant", text: `${lead}${as.plan.kind ? `Here’s what I have so far: ${planSummary(as.plan)}` : "Happy to help!"}`, question: as.questions[0] });
   } else {
-    as.messages.push({ role: "assistant", text: `${lead}Here’s my plan: ${planSummary(as.plan)} You can change anything on the right, then press <b>Make it</b>.`, html: true });
+    as.messages.push({ role: "assistant", text: `${lead}${esc(`Here’s my plan: ${planSummary(as.plan)}`)} Change anything you like on the right, then press <b>Create it now</b>.`, html: true });
   }
   renderMessages();
   renderPlan();
@@ -118,14 +118,14 @@ function bubble(m) {
   const q = m.question && m === as.messages.findLast((x) => x.question) && as.questions[0]?.id === m.question.id
     ? `<div class="as-q"><b>${esc(m.question.text)}</b><div class="as-q-chips">${m.question.options.map((o, i) => `<button type="button" class="chip" data-q="${m.question.id}" data-answer="${i}">${esc(o.label)}</button>`).join("")}</div></div>`
     : m.question ? `<div class="as-q done"><b>${esc(m.question.text)}</b></div>` : "";
-  return `<div class="as-msg ${m.role}">${m.role === "assistant" ? `<span class="as-avatar">${icon("wand", "i-sm")}</span>` : ""}<div class="as-bubble">${body}${q}</div></div>`;
+  return `<div class="as-msg ${m.role}">${m.role === "assistant" ? `<span class="as-avatar">${owlHead()}</span>` : ""}<div class="as-bubble">${body}${q}</div></div>`;
 }
 
 function renderMessages() {
   const intro = !as.messages.length
-    ? `<div class="as-hero"><span class="as-hero-ico">${icon("wand")}</span><h2>What shall we make today?</h2><p>Ask for a <b>unit test</b>, a <b>dictation</b>, a <b>quick quiz</b> or <b>worksheets</b> — for a Primary Path unit or any grammar point. I’ll ask if something is missing, show you a plan you can change, and then build it.</p></div>`
+    ? `<div class="as-hero"><div class="as-hero-owl">${owl()}</div><h2>Hi! I’m Lingo. What shall we make today?</h2><p>Ask me for a <b>unit test</b>, a <b>dictation</b>, a <b>quick quiz</b> or <b>worksheets</b> — for any Primary Path unit or any grammar point. If something is missing I’ll ask, then I’ll show you a plan you can change before anything is written.</p><p class="as-hero-el" lang="el">Γράψτε μου στα αγγλικά ή στα ελληνικά — ή πατήστε μία από τις προτάσεις παρακάτω.</p></div>`
     : "";
-  $("asMessages").innerHTML = intro + as.messages.map(bubble).join("") + (as.thinking ? `<div class="as-msg assistant"><span class="as-avatar">${icon("wand", "i-sm")}</span><div class="as-bubble as-typing"><i></i><i></i><i></i></div></div>` : "");
+  $("asMessages").innerHTML = intro + as.messages.map(bubble).join("") + (as.thinking ? `<div class="as-msg assistant"><span class="as-avatar">${owlHead()}</span><div class="as-bubble as-typing"><i></i><i></i><i></i></div></div>` : "");
   $("asMessages").scrollTop = $("asMessages").scrollHeight;
   $("asSuggest").innerHTML = (as.messages.length ? suggestions().slice(0, 3) : suggestions()).map((s) => `<button type="button" class="chip" data-suggest="${esc(s)}">${icon("sparkles", "i-xs")}${esc(s)}</button>`).join("");
 }
@@ -134,7 +134,7 @@ function renderMessages() {
 function renderPlan() {
   const p = as.plan;
   if (!p) {
-    $("asPlan").innerHTML = `<div class="as-plan-empty">${icon("clipboard")}<h3>The plan appears here</h3><p>Every part of it can be changed before anything is written.</p></div>`;
+    $("asPlan").innerHTML = `<div class="as-plan-empty">${icon("clipboard")}<h3>Your plan will appear here</h3><p>Tell me what you need on the left. You can change every detail before anything is written.</p></div>`;
     return;
   }
   const src = p.source || {};
@@ -143,31 +143,31 @@ function renderPlan() {
   const grammar = GRAMMAR_MENU[p.levelId] || [];
   const extraGrammar = (p.grammar || []).filter((g) => !grammar.includes(g));
   $("asPlan").innerHTML = `
-    <h3 class="as-plan-title">${icon("clipboard", "i-sm")}Plan <span class="badge brand">${esc(KINDS[p.kind]?.label || "")}</span></h3>
-    <div class="st-row col"><span class="st-lbl">Make</span><div class="kind-chips">${Object.entries(KINDS).map(([k, v]) => `<button type="button" class="chip${p.kind === k ? " active" : ""}" data-kind="${k}">${v.icon} ${esc(v.label)}</button>`).join("")}</div></div>
-    <div class="st-row col"><span class="st-lbl">Class</span><div class="lvl-chips">${LEVEL_IDS.map((id) => `<button type="button" class="chip${p.levelId === id ? " active" : ""}" data-level="${id}">${esc(CLASS_PROFILES[id].label)}</button>`).join("")}</div></div>
-    <div class="st-row col"><span class="st-lbl">From</span>
+    <h3 class="as-plan-title">${icon("clipboard", "i-sm")}Your plan <span class="badge brand">${esc(KINDS[p.kind]?.label || "")}</span></h3>
+    <div class="st-row col"><span class="st-lbl">What shall I make?</span><div class="kind-chips">${Object.entries(KINDS).map(([k, v]) => `<button type="button" class="chip${p.kind === k ? " active" : ""}" data-kind="${k}">${v.icon} ${esc(v.label)}</button>`).join("")}</div></div>
+    <div class="st-row col"><span class="st-lbl">For which class?</span><div class="lvl-chips">${LEVEL_IDS.map((id) => `<button type="button" class="chip${p.levelId === id ? " active" : ""}" data-level="${id}">${esc(CLASS_PROFILES[id].label)}</button>`).join("")}</div></div>
+    <div class="st-row col"><span class="st-lbl">Based on</span>
       <div class="kind-chips">
-        <button type="button" class="chip${src.kind === "unit" ? " active" : ""}" data-src="unit">${icon("book", "i-xs")}Coursebook</button>
-        ${p.kind !== "dictation" ? `<button type="button" class="chip${src.kind === "topic" ? " active" : ""}" data-src="topic">${icon("bulb", "i-xs")}Topic / grammar</button>` : ""}
-        <button type="button" class="chip${src.kind === "current" ? " active" : ""}" data-src="current">${icon("list", "i-xs")}My word list</button>
+        <button type="button" class="chip${src.kind === "unit" ? " active" : ""}" data-src="unit">${icon("book", "i-xs")}A coursebook unit</button>
+        ${p.kind !== "dictation" ? `<button type="button" class="chip${src.kind === "topic" ? " active" : ""}" data-src="topic">${icon("bulb", "i-xs")}A grammar point or topic</button>` : ""}
+        <button type="button" class="chip${src.kind === "current" ? " active" : ""}" data-src="current">${icon("list", "i-xs")}My word list (Step 2)</button>
       </div>
-      ${src.kind === "unit" ? `<div class="kind-chips">${Object.keys(CPP_BOOKS).map((b) => `<button type="button" class="chip${src.bookId === b ? " active" : ""}" data-book="${b}">PP${b.slice(-1)}</button>`).join("")}</div>
+      ${src.kind === "unit" ? `<div class="kind-chips">${Object.keys(CPP_BOOKS).map((b) => `<button type="button" class="chip${src.bookId === b ? " active" : ""}" data-book="${b}">Primary Path ${b.slice(-1)}</button>`).join("")}</div>
         <div class="kind-chips units">${Array.from({ length: 9 }, (_, i) => i + 1).map((u) => `<button type="button" class="chip${src.units?.includes(u) ? " active" : ""}" data-unit="${u}" title="${esc(CPP_BOOKS[src.bookId]?.units?.[u]?.title || "")}">${u}</button>`).join("")}</div>
         ${multi ? `<small class="st-hint">Tap more units to test several together.</small>` : ""}` : ""}
       ${src.kind === "topic" ? `<input class="input sm" data-topic placeholder="e.g. Present Simple vs Present Continuous" value="${esc(src.topic || "")}" />` : ""}
     </div>
-    ${isTest ? `<div class="st-row col"><span class="st-lbl">Skills</span><div class="kind-chips">${Object.entries(SKILLS).filter(([k]) => k !== "dictation").map(([k, v]) => `<button type="button" class="chip${(p.skills || defaultSkills(p)).includes(k) ? " active" : ""}" data-skill="${k}">${v.icon} ${esc(v.label)}</button>`).join("")}</div></div>` : ""}
-    ${p.kind === "dictation" ? `<div class="st-row col"><span class="st-lbl">Style</span><div class="kind-chips">${Object.entries(DICTATION_STYLES).map(([k, v]) => `<button type="button" class="chip${(p.style || "classic") === k ? " active" : ""}" data-style="${k}">${esc(v.label)}</button>`).join("")}</div></div>
-      <div class="st-row"><span class="st-lbl">Sentences</span>${stepperHtml("count", p.count || dictationDefaults(p.levelId || "B_SENIOR").count, 3, 15)}</div>` : ""}
-    <div class="st-row col"><span class="st-lbl">Grammar</span><div class="gram-chips">${[...extraGrammar, ...grammar].map((g) => `<button type="button" class="chip${p.grammar?.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div></div>
+    ${isTest ? `<div class="st-row col"><span class="st-lbl">Which skills?</span><div class="kind-chips">${Object.entries(SKILLS).filter(([k]) => k !== "dictation").map(([k, v]) => `<button type="button" class="chip${(p.skills || defaultSkills(p)).includes(k) ? " active" : ""}" data-skill="${k}">${v.icon} ${esc(v.label)}</button>`).join("")}</div></div>` : ""}
+    ${p.kind === "dictation" ? `<div class="st-row col"><span class="st-lbl">Dictation style</span><div class="kind-chips">${Object.entries(DICTATION_STYLES).map(([k, v]) => `<button type="button" class="chip${(p.style || "classic") === k ? " active" : ""}" data-style="${k}">${esc(v.label)}</button>`).join("")}</div></div>
+      <div class="st-row"><span class="st-lbl">How many sentences</span>${stepperHtml("count", p.count || dictationDefaults(p.levelId || "B_SENIOR").count, 3, 15)}</div>` : ""}
+    <div class="st-row col"><span class="st-lbl">Grammar <small>(optional)</small></span><div class="gram-chips">${[...extraGrammar, ...grammar].map((g) => `<button type="button" class="chip${p.grammar?.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div></div>
     <div class="st-row"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), p.difficulty || "level")}</div>
-    ${isTest ? `<div class="st-row"><span class="st-lbl">Versions</span>${segHtml("versions", [[1, "One"], [2, "A + B"]], p.versions || 1)}</div>` : ""}
-    <div class="st-switches">${switchHtml("greek", "Greek instructions", "", p.greek !== false)}</div>
+    ${isTest ? `<div class="st-row"><span class="st-lbl">Versions</span>${segHtml("versions", [[1, "One version"], [2, "A + B"]], p.versions || 1)}</div>` : ""}
+    <div class="st-switches">${switchHtml("greek", "Instructions also in Greek", "", p.greek !== false)}</div>
     ${p.note ? `<p class="st-hint">${icon("info", "i-xs")} ${esc(p.note)}</p>` : ""}
     <div class="as-plan-actions">
-      <button type="button" class="btn btn-magic btn-lg btn-block" data-make>${icon("sparkles")}Make it</button>
-      <button type="button" class="btn btn-ghost btn-sm btn-block" data-open>${icon("sliders", "i-sm")}Open in the full editor instead</button>
+      <button type="button" class="btn btn-magic btn-lg btn-block" data-make>${icon("sparkles")}Create it now</button>
+      <button type="button" class="btn btn-ghost btn-sm btn-block" data-open>${icon("sliders", "i-sm")}Let me fine-tune it first</button>
     </div>`;
   $("asPlan").querySelectorAll("[data-segmented]").forEach((root) => segmented(root, { value: String(p[root.dataset.seg] ?? (root.dataset.seg === "versions" ? 1 : "level")), onChange: (v) => { p[root.dataset.seg] = /^\d+$/.test(v) ? Number(v) : v; } }));
 }
@@ -234,9 +234,9 @@ export function planToTestSpec(p) {
 
 async function make(generate) {
   const p = as.plan;
-  if (!p?.kind) { toast("Tell me what to make first.", "warn"); return; }
-  if (!p.levelId) { toast("Choose the class first.", "warn"); return; }
-  if (p.source?.kind === "unit" && (!p.source.bookId || !p.source.units?.length)) { toast("Choose the book and unit.", "warn"); return; }
+  if (!p?.kind) { toast("Tell me what to make first — a test, a quiz, a dictation or worksheets.", "warn"); return; }
+  if (!p.levelId) { toast("Which class is it for? Choose it in the plan.", "warn"); return; }
+  if (p.source?.kind === "unit" && (!p.source.bookId || !p.source.units?.length)) { toast("Choose the book and the unit in the plan.", "warn"); return; }
   if (p.source?.kind === "topic" && !String(p.source.topic || "").trim()) { toast("Type the topic or grammar point.", "warn"); return; }
   try {
     if (p.kind === "test" || p.kind === "quiz") {
@@ -267,7 +267,7 @@ async function makeWorksheets(p, generate) {
     loadPoolWords({ silent: true, force: true });
     emit("setup", "words", "level");
     actions.go("words");
-    toast("The unit’s words are loaded. Check them, then go on to Exercises to generate.", "info", { ms: 5000 });
+    toast("The unit’s words are ready. Have a quick look, then press Continue to choose the exercises.", "info", { ms: 5000 });
     return;
   }
   if (p.source?.kind === "topic") {

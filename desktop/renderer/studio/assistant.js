@@ -4,7 +4,7 @@
  * questions. Clear requests are understood locally (free, instant); fuzzy ones go to a small AI call
  * that returns the same plan shape. The plan is handed to the Unit test, Dictation or worksheet makers. */
 import { CPP_BOOKS } from "../coursebook-data.js";
-import { parseLevel, GRAMMAR_MENU, LEVEL_IDS, BOOK_LEVEL } from "./levels.js";
+import { parseLevel, GRAMMAR_MENU, LEVEL_IDS, BOOK_LEVEL, grammarLabel } from "./levels.js";
 import { SKILLS, DICTATION_STYLES } from "./tasks.js";
 
 export const KINDS = {
@@ -36,7 +36,7 @@ export function findGrammar(text) {
     const pair = `${left} vs ${vs[2].trim()}`;
     if (!kept.some((g) => norm(g) === norm(pair))) kept.push(pair);
   }
-  return [...new Set(kept)];
+  return [...new Set(kept.map(grammarLabel))];
 }
 
 /** Book and units named in a request: "PP2 unit 4", "Primary Path 3 units 2-3", "ενότητα 5", "book 1". */
@@ -87,7 +87,7 @@ export function parseRequest(text, context = {}) {
     plan.source = { kind: "unit", bookId: context.bookId, units: [context.unit] };
   } else if (grammar.length || /\babout\b|\bon\b|topic|θέμα/.test(t)) {
     const topic = text.replace(/\b(make|create|write|give me|i need|please|a|an|the|test|quiz|worksheet|dictation|for|class|senior|level|[a-e] class)\b/gi, " ").replace(/\s+/g, " ").trim();
-    if (grammar.length || topic.split(" ").length >= 2) plan.source = { kind: "topic", topic: grammar.length ? grammar.join(", ") : topic };
+    if (grammar.length || topic.split(" ").length >= 2) plan.source = { kind: "topic", topic: grammar.length ? grammar.join(", ") : topic[0].toUpperCase() + topic.slice(1) };
   }
   const skills = Object.keys(SKILLS).filter((s) => s !== "dictation" && new RegExp(`\\b${s}\\b`).test(t));
   if (/four skills|4 skills|all skills|όλες τις δεξιότητες/.test(t)) plan.length = "full";
@@ -132,7 +132,7 @@ export function clarifyingQuestions(plan, context = {}) {
   const src = plan.source;
   if (!src || (src.kind === "unit" && (!src.bookId || !src.units?.length))) {
     const opts = [];
-    if (context.bookId && context.unit) opts.push({ label: `📘 ${CPP_BOOKS[context.bookId]?.title.replace("Cambridge ", "")} · Unit ${context.unit}`, value: { kind: "unit", bookId: context.bookId, units: [context.unit] } });
+    if (context.bookId && context.unit) opts.push({ label: `📘 The unit I’m working on (Primary Path ${context.bookId.slice(-1)}, Unit ${context.unit})`, value: { kind: "unit", bookId: context.bookId, units: [context.unit] } });
     if (src?.kind === "unit" && src.bookId && !src.units?.length) for (let u = 1; u <= 9; u++) opts.push({ label: `Unit ${u}`, value: { kind: "unit", bookId: src.bookId, units: [u] } });
     else Object.keys(CPP_BOOKS).forEach((b) => opts.push({ label: `📗 Primary Path ${b.slice(-1)}…`, value: { kind: "unit", bookId: b, units: [] } }));
     if (plan.kind !== "dictation") opts.push({ label: "💡 A grammar point or topic", value: { kind: "topic", topic: "" } });
@@ -147,7 +147,7 @@ export function clarifyingQuestions(plan, context = {}) {
 export function answerQuestion(plan, id, value) {
   const p = { ...plan };
   if (id === "source") p.source = typeof value === "object" ? { ...value } : value;
-  else if (id === "topic") { p.source = { kind: "topic", topic: value }; p.grammar = [...new Set([...(p.grammar || []), value])]; }
+  else if (id === "topic") { const g = grammarLabel(value); p.source = { kind: "topic", topic: g }; p.grammar = [...new Set([...(p.grammar || []), g])]; }
   else p[id] = value;
   return p;
 }
@@ -157,7 +157,7 @@ export function planSummary(plan) {
   const kind = plan.kind === "test" && plan.source?.kind === "topic" ? "Test" : KINDS[plan.kind]?.label || "Something";
   const who = plan.levelId ? `${plan.levelId[0]} Senior` : "your class";
   const src = plan.source?.kind === "unit" && plan.source.bookId
-    ? `${CPP_BOOKS[plan.source.bookId]?.title.replace("Cambridge ", "")}${plan.source.units?.length ? `, ${plan.source.units.length > 1 ? "Units" : "Unit"} ${plan.source.units.join(" & ")}` : ""}`
+    ? `Primary Path ${plan.source.bookId.slice(-1)}${plan.source.units?.length ? `, ${plan.source.units.length > 1 ? "Units" : "Unit"} ${plan.source.units.join(" & ")}` : ""}`
     : plan.source?.kind === "topic" ? `“${plan.source.topic || "a topic"}”` : plan.source?.kind === "current" ? "your current word list" : "";
   const bits = [];
   const skillList = (skills) => [...new Set(skills)].map((s) => { const n = skills.filter((x) => x === s).length; return `${n > 1 ? `${n}× ` : ""}${SKILLS[s].label.toLowerCase()}`; }).join(", ");
@@ -187,10 +187,10 @@ export function mergeAiPlan(plan, ai = {}) {
   if (KINDS[ai.kind]) p.kind = ai.kind;
   if (LEVEL_IDS.includes(ai.levelId)) p.levelId = ai.levelId;
   if (ai.source?.kind === "unit" && CPP_BOOKS[ai.source.bookId]) p.source = { kind: "unit", bookId: ai.source.bookId, units: (ai.source.units || []).map(Number).filter((u) => u >= 1 && u <= 9) };
-  else if (ai.source?.kind === "topic" && ai.source.topic) p.source = { kind: "topic", topic: String(ai.source.topic) };
+  else if (ai.source?.kind === "topic" && ai.source.topic) p.source = { kind: "topic", topic: grammarLabel(ai.source.topic) };
   const skills = (ai.skills || []).filter((s) => SKILLS[s] && s !== "dictation");
   if (skills.length) p.skills = skills;
-  if (Array.isArray(ai.grammar) && ai.grammar.length) p.grammar = ai.grammar.map(String).slice(0, 4);
+  if (Array.isArray(ai.grammar) && ai.grammar.length) p.grammar = [...new Set(ai.grammar.map(grammarLabel).filter(Boolean))].slice(0, 4);
   if (["quiz", "standard", "full"].includes(ai.length)) p.length = ai.length;
   if (["easier", "level", "harder"].includes(ai.difficulty)) p.difficulty = ai.difficulty;
   if (Number(ai.versions) === 2) p.versions = 2;

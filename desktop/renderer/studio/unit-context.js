@@ -95,7 +95,7 @@ export async function buildUnitContext({ bookId, units = [], sections = SECTIONS
     level: BOOK_LEVEL[bookId] || "",
     units: outUnits,
     words,
-    label: `${book.title.replace("Cambridge ", "")} · ${list.length === 1 ? `Unit ${list[0]}` : `Units ${list.join(", ")}`}`,
+    label: `Primary Path ${bookId.slice(-1)} · ${list.length === 1 ? `Unit ${list[0]}` : `Units ${list.join(", ")}`}`,
   };
 }
 

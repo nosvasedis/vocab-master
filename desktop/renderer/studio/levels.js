@@ -4,6 +4,7 @@
  * φροντιστήριο syllabus for that level. */
 
 export const LEVEL_IDS = ["A_SENIOR", "B_SENIOR", "C_SENIOR", "D_SENIOR", "E_SENIOR"];
+const LEVEL_IDS_LIST = LEVEL_IDS;
 
 /** Dictation defaults per level. len = words per sentence [min, max] at "normal" difficulty. */
 export const DICTATION_DEFAULTS = {
@@ -34,12 +35,33 @@ export function sentenceRange(levelId, length = "level", difficulty = "level") {
 
 /** Grammar the class can be tested on (chips in the dictation maker, test builder and assistant). */
 export const GRAMMAR_MENU = {
-  A_SENIOR: ["be (am / is / are)", "have got", "can / can't", "there is / there are", "this / that / these / those", "plurals", "present simple (I / you / we / they)", "prepositions of place", "imperatives", "possessive adjectives"],
-  B_SENIOR: ["present simple", "present continuous", "present simple vs present continuous", "can / can't (ability)", "some / any", "countable / uncountable", "was / were", "adverbs of frequency", "possessive 's", "object pronouns"],
-  C_SENIOR: ["past simple (regular)", "past simple (irregular)", "past continuous", "comparatives", "superlatives", "going to", "will (predictions)", "must / mustn't", "much / many / a lot of", "adverbs of manner"],
-  D_SENIOR: ["present perfect", "present perfect vs past simple", "past simple vs past continuous", "future forms", "should / shouldn't", "have to / don't have to", "relative pronouns (who / which / where)", "zero and first conditional", "too / enough", "question tags"],
-  E_SENIOR: ["present perfect continuous", "past perfect", "second conditional", "passive voice (present / past)", "reported speech (statements)", "used to", "gerunds and infinitives", "modals of deduction", "relative clauses", "time clauses"],
+  A_SENIOR: ["Verb to be (am / is / are)", "Have got", "Can / can't", "There is / there are", "This / that / these / those", "Plurals", "Present Simple (I / you / we / they)", "Prepositions of place", "Imperatives", "Possessive adjectives"],
+  B_SENIOR: ["Present Simple", "Present Continuous", "Present Simple vs Present Continuous", "Can / can't (ability)", "Some / any", "Countable and uncountable nouns", "Was / were", "Adverbs of frequency", "Possessive 's", "Object pronouns"],
+  C_SENIOR: ["Past Simple (regular verbs)", "Past Simple (irregular verbs)", "Past Continuous", "Comparatives", "Superlatives", "Going to", "Will (predictions)", "Must / mustn't", "Much / many / a lot of", "Adverbs of manner"],
+  D_SENIOR: ["Present Perfect", "Present Perfect vs Past Simple", "Past Simple vs Past Continuous", "Future forms", "Should / shouldn't", "Have to / don't have to", "Relative pronouns (who / which / where)", "Zero and First Conditional", "Too / enough", "Question tags"],
+  E_SENIOR: ["Present Perfect Continuous", "Past Perfect", "Second Conditional", "Passive voice (present / past)", "Reported speech (statements)", "Used to", "Gerunds and infinitives", "Modals of deduction", "Relative clauses", "Time clauses"],
 };
+
+const plainKey = (g) => String(g || "").toLowerCase().replace(/\s*\([^)]*\)/g, "").replace(/\s+/g, " ").trim();
+const TENSE_WORD = /\b(present|past|future|simple|continuous|progressive|perfect)\b/gi;
+const CONDITIONAL = /\b(zero|first|second|third|mixed)(\s+(?:and\s+(?:zero|first|second|third)\s+)?conditionals?)\b/gi;
+
+/**
+ * A grammar point written the way ELT books write it: tense names capitalised ("Present Simple vs Present
+ * Continuous", "Second Conditional"), everything else in sentence case. Menu items keep their exact label.
+ */
+export function grammarLabel(raw) {
+  const text = String(raw || "").replace(/\s+/g, " ").trim();
+  if (!text) return "";
+  const key = plainKey(text);
+  const all = LEVEL_IDS_LIST.flatMap((id) => GRAMMAR_MENU[id]);
+  const exact = all.find((g) => g.toLowerCase() === text.toLowerCase()) || all.find((g) => plainKey(g) === key && !/\(/.test(text) && all.filter((x) => plainKey(x) === key).length === 1);
+  if (exact) return exact;
+  let out = text.replace(TENSE_WORD, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
+    .replace(CONDITIONAL, (m) => m.replace(/\b(zero|first|second|third|mixed|conditionals?)\b/gi, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase()))
+    .replace(/\b(vs\.?|versus)(?=\s)/gi, "vs");
+  return out[0].toUpperCase() + out.slice(1);
+}
 
 /** All grammar topics up to and including a level (a class may revise earlier grammar). */
 export function grammarUpTo(levelId) {

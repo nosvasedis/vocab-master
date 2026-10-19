@@ -160,3 +160,42 @@
   .studio-settings { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--border); }
   .as-plan { position: static; max-height: none; }
 }
+
+/* ── Friendly touches: Lingo, progress overlay, empty states, labelled exports ── */
+.studio-owl { display: block; width: 100%; height: 100%; overflow: visible; }
+.empty-owl { width: 120px; height: 140px; margin: 0 auto 8px; animation: owl-bob 3.2s ease-in-out infinite; }
+@keyframes owl-bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-6px) rotate(1deg); } }
+.empty-steps { display: flex; justify-content: center; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; counter-reset: es; flex-wrap: wrap; }
+.empty-steps li { counter-increment: es; display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px 6px 6px; border-radius: 99px; background: var(--surface); border: 1px solid var(--border); font-size: 12.5px; font-weight: 650; color: var(--text-2); }
+.empty-steps li::before { content: counter(es); display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--brand-soft); color: var(--brand-ink); font: 800 11.5px/1 var(--font-display); }
+
+.studio-paper .paper-stage { position: relative; min-height: 420px; }
+.studio-busy { position: absolute; inset: 0; z-index: 5; display: flex; justify-content: center; align-items: flex-start; padding-top: 70px; background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(3px); animation: sb-in 220ms var(--ease-out) both; }
+.studio-busy.out { animation: sb-out 220ms ease both; }
+@keyframes sb-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sb-out { to { opacity: 0; } }
+.sb-card { width: min(420px, 90%); text-align: center; padding: 22px 26px 20px; border-radius: 22px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-lg); }
+.sb-card .sb-owl { width: 96px; height: 112px; margin: -6px auto 6px; animation: owl-think 1.6s ease-in-out infinite; }
+@keyframes owl-think { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg) translateY(-3px); } }
+.sb-card h3 { margin: 0 0 4px; font: 800 17px/1.3 var(--font-display); color: var(--text); }
+.sb-step { min-height: 20px; margin: 0 0 12px; font-size: 13.5px; color: var(--text-2); animation: sb-in 300ms ease both; }
+.sb-bar { height: 8px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.sb-bar i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--brand-grad); transition: width 500ms var(--ease); }
+.sb-card small { display: block; margin-top: 10px; font-size: 12px; color: var(--text-3); }
+
+.export-pills { display: inline-flex; gap: 6px; }
+.studio-paper .paper-toolbar { gap: 8px; }
+
+.as-avatar { padding: 2px; background: var(--brand-soft); border: 1px solid var(--brand-soft-2); }
+.as-avatar .studio-owl-head { width: 100%; height: 100%; }
+.as-hero-owl { width: 110px; height: 128px; margin: 0 auto; animation: owl-bob 3.2s ease-in-out infinite; }
+.as-hero-el { margin-top: 8px !important; font-size: 13px !important; color: var(--text-3); font-style: italic; }
+.st-card > .st-hint { margin-top: -4px; }
+.part-row .select { font-weight: 600; }
+.as-suggest .chip, .as-q-chips .chip { white-space: normal; height: auto; min-height: 30px; padding-top: 5px; padding-bottom: 5px; text-align: left; line-height: 1.3; max-width: 100%; }
+@media (max-width: 900px) {
+  .as-chat { min-height: 0; }
+  .as-messages { max-height: none; min-height: 320px; }
+  .as-hero { margin-top: 8px; }
+  .as-hero-owl { width: 84px; height: 98px; }
+}
