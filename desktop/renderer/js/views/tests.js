@@ -261,7 +261,8 @@ function onPartsClick(e) {
   if (!row) return;
   const i = s.parts.findIndex((p) => p.id === row.dataset.part);
   const p = s.parts[i];
-  const step = e.target.closest("[data-step]");
+  // Only a stepper's own ±buttons: the step section around the parts also carries data-step.
+  const step = e.target.closest("[data-stepper] [data-step]");
   if (step) {
     const [k] = step.closest("[data-stepper]").dataset.stepper.split(":");
     const d = Number(step.dataset.step);

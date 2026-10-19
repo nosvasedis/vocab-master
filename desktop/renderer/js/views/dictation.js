@@ -113,7 +113,7 @@ function build() {
   });
   const onControls = (e) => {
     const t = e.target;
-    const step = t.closest("[data-step]");
+    const step = t.closest("[data-stepper] [data-step]");
     if (step) {
       const box = step.closest("[data-stepper]");
       const k = box.dataset.stepper;
