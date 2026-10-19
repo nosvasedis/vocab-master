@@ -2,7 +2,7 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-**Next:** ask the user before merging `check/ai-key-3.2.0` into `main` and rebuilding the exes (`npm run dist`, then `desktop/release/win-unpacked/Vocab Master.exe --smoke`).
+**Next:** nothing queued. `check/ai-key-3.2.0` is merged into `main` (2026-10-20); the 3.2.0 installer and portable exe are rebuilt (`desktop/release/`, package verified, packaged-app smoke passes).
 
 ## 3.2.0 checked with a real DeepSeek key (2026-10-20, branch check/ai-key-3.2.0, from the user)
 - **Checked in the web app** (the teacher pasted the key in Settings) and with `try-studio.mjs --provider deepseek`. Spend about $0.04 (balance $2.49 → $2.45); the script calls are in the ledger (new `deepseek` provider, $0.10 cap, prices in `content/pricing.json`).
