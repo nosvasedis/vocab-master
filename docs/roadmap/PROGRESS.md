@@ -2,6 +2,8 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
+**Next:** real-AI-key checks of 3.2.0. The full brief is in `work/tmp/NEXT-AI-KEY-CHECKS.md` (gitignored, on the teacher's computer).
+
 ## 3.2.0 — one Dictation sheet, a read-aloud dictation, worksheet fine-tuning (2026-10-19, from the user)
 - **Two dictations, now told apart.** The worksheet's **Dictation sheet** (vocabulary exercises D01–D28 that come with the Lingo Launcher) keeps its name. The studio tool from the worksheets branch is now **Read-aloud dictation** (sidebar, view title, saved-doc titles, assistant). Step 3 links to it, and its subtitle points back to the Dictation sheet.
 - **Assistant:** `studio/assistant.js` `findKind` reads "read aloud / dictogloss / running dictation…" as read-aloud and "dictation sheet / vocabulary dictation / worksheet / Lingo Launcher" as worksheets. A bare "dictation" with sentences or a grammar focus means read-aloud; otherwise it asks "Which dictation do you mean?" with both as chips. A dictation style word no longer turns "worksheets with pictures" into a picture dictation. The AI fallback prompt explains the difference.
