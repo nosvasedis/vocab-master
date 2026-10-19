@@ -3,7 +3,7 @@
  * lesson stories); any part can be rewritten alone. Version B, a teacher's pack, listening read by the app's
  * voices, click-to-edit items, and print / PDF / Word. */
 import { CLASS_PROFILES, downloadBlob } from "../../app.js";
-import { state, prefs, isCpp } from "../state.js";
+import { state, prefs, isCpp, LEVEL_COLORS } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy, openDialog } from "../ui.js";
 import {
@@ -36,23 +36,38 @@ export function initTests() {
 
 function build() {
   const host = $("testsView");
+  const step = (n, title, sub, body, extra = "") => `<section class="tb-step" data-step="${n}">
+      <header class="tb-step-head"><span class="tb-num">${n}</span><div><h3>${title}${extra}</h3><p>${sub}</p></div></header>
+      ${body}
+    </section>`;
   host.innerHTML = `
-  <div class="studio-layout">
-    <div class="studio-settings">
-      <section class="st-card"><h3><span class="num">1</span>Which unit?</h3><div id="tsSource"></div></section>
-      <section class="st-card"><h3><span class="num">2</span>Your class &amp; how long</h3><div id="tsShape"></div></section>
-      <section class="st-card"><h3><span class="num">3</span>The parts of your test <span class="st-sum" id="tsSum"></span></h3><p class="st-hint">Each part is one exercise. Change its type, the number of questions or the points — or add another part at the bottom.</p><div id="tsParts"></div></section>
-      <section class="st-card"><h3><span class="num">4</span>Final touches</h3><div id="tsOptions"></div></section>
-      <div id="tsPlanNote"></div>
-      <button type="button" class="btn btn-magic btn-lg btn-block" id="tsGenerate">${icon("sparkles")}Write my test</button>
-      <section class="st-card"><h3>${icon("clock", "i-sm")}Recent tests</h3><div id="tsRecent" class="recent-list"></div></section>
+  <div class="studio-layout tb">
+    <div class="studio-settings tb-builder">
+      <div class="tb-head">
+        <span class="tb-head-ico">${icon("clipboard")}</span>
+        <div class="tb-head-text"><b>Test builder</b><span id="tsSummary"></span></div>
+      </div>
+      <div class="tb-steps">
+        ${step(1, "Which unit?", "The words, stories and Big Question your test is built from.", `<div id="tsSource"></div>`)}
+        ${step(2, "Your class &amp; how long", "Sets the level of the language and the size of the test.", `<div id="tsShape"></div>`)}
+        ${step(3, "The parts", "Each part is one exercise: change its type, its questions or its points.", `<div id="tsParts"></div>`, `<span class="st-sum" id="tsSum"></span>`)}
+        ${step(4, "Final touches", "Versions, Greek help and what goes on the paper.", `<div id="tsOptions"></div>`)}
+      </div>
+      <div class="tb-foot">
+        <div id="tsPlanNote"></div>
+        <div class="tb-foot-row">
+          <div class="tb-meter" id="tsMeter"></div>
+          <button type="button" class="btn btn-magic btn-lg" id="tsGenerate">${icon("sparkles")}Write my test</button>
+        </div>
+      </div>
     </div>
-    <div class="studio-paper">
-      <div class="paper-toolbar">
+    <div class="studio-paper tb-paper">
+      <div class="paper-toolbar tb-toolbar">
         <div id="tsSheetSeg"></div>
+        <button type="button" class="btn btn-ghost btn-sm hidden" id="tsNew" data-tip="Back to your tests (this one is saved)">${icon("plus", "i-sm")}New test</button>
         <span class="spacer"></span>
         <label class="switch sm"><input type="checkbox" id="tsAnswers" /><span class="track"></span><span class="sw-text">Show answers</span></label>
-        <span class="export-pills">
+        <span class="export-pills tb-exports">
           <button type="button" class="btn btn-secondary btn-sm" id="tsPrint" disabled>${icon("printer", "i-sm")}Print</button>
           <button type="button" class="btn btn-secondary btn-sm" id="tsPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
           <button type="button" class="btn btn-secondary btn-sm" id="tsWord" disabled>${icon("word", "i-sm")}Word</button>
@@ -61,8 +76,24 @@ function build() {
       <div id="tsListen"></div>
       <div id="tsProblems"></div>
       <p class="edit-hint hidden" id="tsEditHint">${icon("pencil", "i-sm")}Tip: click any question on the paper to change it.</p>
-      <div class="paper-stage" id="tsStage"><div class="paper hidden" id="tsPaper"></div>
-        <div class="studio-empty" id="tsEmpty"><div class="empty-owl">${owl()}</div><h3>Your test will appear here</h3><p>Choose the unit and your class on the left, check the parts, then press <b>Write my test</b>. You get the children’s paper (and a version B if you like) plus a teacher’s pack with the answers, the listening scripts and a marking guide.</p><ol class="empty-steps"><li>Pick the unit</li><li>Check the parts</li><li>Write it ✨</li></ol></div>
+      <div class="paper-stage tb-stage" id="tsStage"><div class="paper hidden" id="tsPaper"></div>
+        <div class="studio-empty tb-empty" id="tsEmpty">
+          <div class="tb-empty-hero">
+            <div class="empty-owl">${owl()}</div>
+            <div>
+              <span class="tb-kicker">${icon("sparkles", "i-xs")}Unit test</span>
+              <h3>A complete test in under a minute</h3>
+              <p>Choose the unit and your class, check the parts, then press <b>Write my test</b>. You get the children’s paper (and a version B if you like) plus a teacher’s pack with the answers, the listening scripts and a marking guide.</p>
+            </div>
+          </div>
+          <div class="tb-features">
+            <div><span>${icon("layers")}</span><b>4 skills</b><small>Listening, reading, vocabulary, grammar, writing</small></div>
+            <div><span>${icon("copy")}</span><b>Version A + B</b><small>Same test, shuffled — no copying</small></div>
+            <div><span>${icon("volume")}</span><b>Listening voices</b><small>Played by natural voices, saved as audio</small></div>
+            <div><span>${icon("key")}</span><b>Teacher’s pack</b><small>Answers, scripts and a marking guide</small></div>
+          </div>
+          <div class="tb-recent"><h4>${icon("clock", "i-sm")}Your recent tests</h4><div id="tsRecent" class="tb-recent-grid"></div></div>
+        </div>
       </div>
     </div>
   </div>`;
@@ -125,6 +156,8 @@ function build() {
     }
     if (k === "pictures") renderPlanNote();
   });
+  $("tsShape").addEventListener("toggle", (e) => { if (e.target.matches?.(".tb-more")) ts.moreOpen = e.target.open; }, true);
+  $("tsNew").addEventListener("click", () => { stopPlayer(); ts.doc = null; ts.ctx = null; ts.stale.clear(); renderAll(); });
   $("tsGenerate").addEventListener("click", (e) => generate(e.currentTarget));
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
@@ -159,15 +192,23 @@ function setLevel(levelId, { quiet = false } = {}) {
 
 function renderShape() {
   const s = ts.spec;
+  const p = CLASS_PROFILES[s.levelId];
+  const extras = s.grammar.length + (s.grammarOwn?.trim() ? 1 : 0) + (s.topic?.trim() ? 1 : 0) + (s.title?.trim() ? 1 : 0);
+  const lenIcon = { quiz: "zap", standard: "clipboard", full: "layers" };
   $("tsShape").innerHTML = `
-    <div class="st-row"><span class="st-lbl">Class</span><div class="lvl-chips">${LEVEL_IDS.map((id) => `<button type="button" class="chip${id === s.levelId ? " active" : ""}" data-level="${id}">${esc(CLASS_PROFILES[id].label)}</button>`).join("")}</div></div>
-    <p class="st-hint">${esc(CLASS_PROFILES[s.levelId].greekGrades)} · ages ${esc(CLASS_PROFILES[s.levelId].ageRange)} · CEFR ${esc(CLASS_PROFILES[s.levelId].cefr)}</p>
-    <div class="st-row"><span class="st-lbl">How long?</span><div class="len-cards">${Object.entries(LENGTHS).map(([k, l]) => `<button type="button" class="len-card${s.length === k ? " active" : ""}" data-length="${k}"><b>${esc(l.label)}</b><small>≈ ${l.minutes} min · ${l.skills.length} parts</small></button>`).join("")}</div></div>
-    <div class="st-row"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
-    <div class="st-row col"><span class="st-lbl">Grammar to test</span><div class="gram-chips">${(GRAMMAR_MENU[s.levelId] || []).map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div>
-      <input class="input sm" id="tsGrammarOwn" placeholder="…or type one" value="${esc(s.grammarOwn || "")}" /></div>
-    <div class="st-row col"><span class="st-lbl">A theme for the texts <small>(optional)</small></span><input class="input sm" id="tsTopic" placeholder="e.g. a school trip to a volcano museum" value="${esc(s.topic || "")}" /></div>
-    <div class="st-row col"><span class="st-lbl">Title <small>(optional)</small></span><input class="input sm" id="tsTitle" placeholder="Unit 4 Test" value="${esc(s.title || "")}" /></div>`;
+    <div class="tb-levels" role="radiogroup" aria-label="Class">${LEVEL_IDS.map((id) => `<button type="button" role="radio" aria-checked="${id === s.levelId}" class="tb-level${id === s.levelId ? " active" : ""}" data-level="${id}" style="--lvl:${LEVEL_COLORS[id]}"><span class="tb-level-l">${esc(CLASS_PROFILES[id].label[0])}</span><small>${esc(CLASS_PROFILES[id].cefr)}</small></button>`).join("")}</div>
+    <p class="tb-level-note"><b>${esc(p.label)}</b> · ${esc(p.greekGrades)} · ages ${esc(p.ageRange)}</p>
+    <div class="len-cards">${Object.entries(LENGTHS).map(([k, l]) => `<button type="button" class="len-card${s.length === k ? " active" : ""}" data-length="${k}"><span class="len-ico">${icon(lenIcon[k] || "clipboard", "i-sm")}</span><b>${esc(l.label)}</b><small>≈ ${l.minutes} min · ${l.skills.length} parts</small></button>`).join("")}</div>
+    <div class="tb-field"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
+    <details class="tb-more"${ts.moreOpen ? " open" : ""}>
+      <summary>${icon("sliders", "i-sm")}<span>Grammar, a theme &amp; the title</span>${extras ? `<span class="tb-badge">${extras}</span>` : `<small>optional</small>`}${icon("chevron-down", "i-sm tb-more-chev")}</summary>
+      <div class="tb-more-body">
+        <div class="st-row col"><span class="st-lbl">Grammar to test</span><div class="gram-chips">${(GRAMMAR_MENU[s.levelId] || []).map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div>
+          <input class="input sm" id="tsGrammarOwn" placeholder="…or type one" value="${esc(s.grammarOwn || "")}" /></div>
+        <div class="st-row col"><span class="st-lbl">A theme for the texts</span><input class="input sm" id="tsTopic" placeholder="e.g. a school trip to a volcano museum" value="${esc(s.topic || "")}" /></div>
+        <div class="st-row col"><span class="st-lbl">Title</span><input class="input sm" id="tsTitle" placeholder="Unit 4 Test" value="${esc(s.title || "")}" /></div>
+      </div>
+    </details>`;
   $("tsShape").querySelectorAll("[data-segmented]").forEach((root) => segmented(root, { value: s[root.dataset.seg], onChange: (v) => { s[root.dataset.seg] = v; savePrefs(); } }));
 }
 
@@ -180,25 +221,33 @@ function renderParts() {
     const t = TASKS[p.task];
     const open = t.answer === "open";
     const stale = ts.stale.has(p.id);
-    return `<div class="part-row${stale ? " stale" : ""}" data-part="${p.id}">
-      <span class="part-n">${i + 1}</span>
-      <span class="part-skill" title="${esc(SKILLS[p.skill].label)}">${SKILLS[p.skill].icon}<b>${esc(SKILLS[p.skill].label)}</b></span>
-      <select class="select sm" data-part-task="${p.id}" aria-label="Task">${tasksFor(p.skill).map((x) => `<option value="${x.id}" ${x.id === p.task ? "selected" : ""}>${esc(x.label)}</option>`).join("")}</select>
-      ${open ? `<span class="part-ctl"><small>points</small>${stepperHtml(`pts:${p.id}`, p.points || 10, 4, 30)}</span>` : `<span class="part-ctl"><small>questions</small>${stepperHtml(`items:${p.id}`, p.items, 3, 12)}</span>`}
-      <span class="part-pts">${partPoints(p)} points</span>
-      <span class="part-acts">
-        <button type="button" class="icon-btn sm" data-move="-1" aria-label="Move up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
-        <button type="button" class="icon-btn sm" data-move="1" aria-label="Move down" ${i === s.parts.length - 1 ? "disabled" : ""}>${icon("chevron-down", "i-sm")}</button>
-        <button type="button" class="icon-btn sm danger" data-remove aria-label="Remove part">${icon("x", "i-sm")}</button>
-      </span>
-      ${p.skill === "writing" && p.words ? `<span class="part-extra">${stepperHtml(`words:${p.id}`, p.words[1], 15, 150)}<small>words at most</small></span>` : ""}
+    return `<div class="part-card${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">
+      <div class="pc-top">
+        <span class="pc-ico" aria-hidden="true">${SKILLS[p.skill].icon}</span>
+        <div class="pc-title">
+          <small>Part ${i + 1} · ${esc(SKILLS[p.skill].label)}${stale ? ` · <em>changed</em>` : ""}</small>
+          <select class="select sm" data-part-task="${p.id}" aria-label="Task for part ${i + 1}">${tasksFor(p.skill).map((x) => `<option value="${x.id}" ${x.id === p.task ? "selected" : ""}>${esc(x.label)}</option>`).join("")}</select>
+        </div>
+        <span class="part-acts">
+          <button type="button" class="icon-btn sm" data-move="-1" aria-label="Move up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
+          <button type="button" class="icon-btn sm" data-move="1" aria-label="Move down" ${i === s.parts.length - 1 ? "disabled" : ""}>${icon("chevron-down", "i-sm")}</button>
+          <button type="button" class="icon-btn sm danger" data-remove aria-label="Remove part">${icon("trash", "i-sm")}</button>
+        </span>
+      </div>
+      <div class="pc-ctl">
+        ${open ? `<span class="part-ctl">${stepperHtml(`pts:${p.id}`, p.points || 10, 4, 30)}<small>points</small></span>` : `<span class="part-ctl">${stepperHtml(`items:${p.id}`, p.items, 3, 12)}<small>questions</small></span>`}
+        ${p.skill === "writing" && p.words ? `<span class="part-ctl">${stepperHtml(`words:${p.id}`, p.words[1], 15, 150)}<small>words max</small></span>` : ""}
+        <span class="pc-pts">${partPoints(p)}<small>pts</small></span>
+      </div>
       <input class="input sm part-note" data-part-note="${p.id}" placeholder="Any wish for this part? (optional) e.g. “about a school trip”" value="${esc(p.note || "")}" />
-      ${ts.doc ? `<button type="button" class="btn btn-ghost btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${stale ? "Write this part" : "Write it again"}</button>` : ""}
+      ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${stale ? "Write this part" : "Write it again"}</button>` : ""}
     </div>`;
   }).join("");
-  $("tsParts").innerHTML = `${rows || `<p class="st-hint">No parts yet — add one below.</p>`}
-    <div class="add-parts"><span>Add a part:</span>${Object.entries(SKILLS).filter(([k]) => k !== "dictation").map(([k, v]) => `<button type="button" class="chip" data-add="${k}">${v.icon} ${esc(v.label)}</button>`).join("")}</div>`;
-  $("tsSum").textContent = `${plural(s.parts.length, "part")} · ${specPoints(s)} points · ≈ ${estimateMinutes(s)} min`;
+  $("tsParts").innerHTML = `<div class="part-list">${rows || `<p class="st-hint">No parts yet — add one below.</p>`}</div>
+    <div class="add-parts"><span>Add a part</span><div class="add-grid">${Object.entries(SKILLS).filter(([k]) => k !== "dictation").map(([k, v]) => `<button type="button" class="add-tile" data-add="${k}" data-skill="${k}"><span>${v.icon}</span>${esc(v.label)}${icon("plus", "i-xs")}</button>`).join("")}</div></div>`;
+  const sum = `${plural(s.parts.length, "part")} · ${specPoints(s)} points · ≈ ${estimateMinutes(s)} min`;
+  $("tsSum").textContent = sum;
+  $("tsMeter").innerHTML = `<b>${specPoints(s)}</b><span>points</span><i></i><b>${s.parts.length}</b><span>${s.parts.length === 1 ? "part" : "parts"}</span><i></i><b>≈${estimateMinutes(s)}</b><span>min</span>`;
   renderPlanNote();
 }
 
@@ -284,6 +333,7 @@ function renderPlanNote() {
   const spec = { ...ts.spec, source: { kind: sel.kind } };
   const probs = planProblems(spec, { pictureWords, focusWords: sel.focus });
   if (sel.kind === "topic" && !sel.topic.trim()) probs.push("Type the topic or grammar point to test.");
+  $("tsSummary").textContent = `${sel.kind === "topic" ? sel.topic.trim() || "A topic" : sel.label} · ${levelLabel(ts.spec.levelId)}`;
   $("tsPlanNote").innerHTML = probs.length ? `<div class="callout warning">${icon("alert")}<span>${esc(probs.join(" "))}</span></div>` : "";
   $("tsGenerate").disabled = !!probs.length;
 }
@@ -374,6 +424,9 @@ function renderPaper() {
   $("tsPaper").classList.toggle("hidden", !has);
   $("tsEmpty").classList.toggle("hidden", has);
   $("tsEditHint").classList.toggle("hidden", !has || ts.sheet === "teacher");
+  $("tsNew").classList.toggle("hidden", !has);
+  $("tsSheetSeg").classList.toggle("hidden", !has);
+  $("testsView").classList.toggle("has-doc", has);
   ["tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
   if (!has) { paper.clear(); $("tsProblems").innerHTML = ""; $("tsListen").innerHTML = ""; return; }
   paper.render(sheetHtml());
@@ -508,10 +561,14 @@ function openItemEditor(section, item) {
 }
 
 function renderRecent() {
-  const list = recentDocs("test").slice(0, 8);
+  const list = recentDocs("test").slice(0, 6);
+  const when = (iso) => { const d = iso ? new Date(iso) : null; return d && !Number.isNaN(d) ? d.toLocaleDateString(undefined, { day: "numeric", month: "short" }) : ""; };
   $("tsRecent").innerHTML = list.length
-    ? list.map((d) => `<div class="recent-row" data-doc="${esc(d.id)}"><button type="button" class="recent-open"><b>${esc(d.meta?.title || "Test")}</b><span>${esc(d.meta?.subtitle || "")} · ${esc(levelLabel(d.meta?.classProfile))} · ${esc(d.meta?.points || "")} pts</span></button><button type="button" class="icon-btn sm danger" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`).join("")
-    : `<p class="st-hint">Your tests are kept here, so you can print them again any time.</p>`;
+    ? list.map((d) => `<div class="tb-recent-card" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
+        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${esc(d.meta?.title || "Test")}</b><span>${esc(d.meta?.subtitle || "")}</span>
+          <span class="trc-meta">${plural(d.sections?.length || 0, "part")} · ${esc(d.meta?.points || "")} pts${when(d.savedAt) ? ` · ${esc(when(d.savedAt))}` : ""}</span></button>
+        <button type="button" class="icon-btn sm danger trc-del" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`).join("")
+    : `<p class="st-hint">Your tests are kept here, so you can open and print them again any time.</p>`;
 }
 
 function renderAll() {
@@ -541,3 +598,12 @@ export function applyTestPreset({ spec = {}, picker: pk = null } = {}) {
   renderAll();
 }
 export function generateTestNow() { return generate($("tsGenerate")); }
+
+/** Open a saved test (from the Home screen). */
+export function openSavedTest(id) {
+  if (!built) build();
+  const d = recentDocs("test").find((x) => x.id === id);
+  if (!d) return false;
+  ts.doc = d; ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)) }; ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;
+  return true;
+}

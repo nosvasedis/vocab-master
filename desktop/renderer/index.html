@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="./styles/live.css" />
   <link rel="stylesheet" href="./styles/lesson.css" />
   <link rel="stylesheet" href="./styles/studio.css" />
+  <link rel="stylesheet" href="./styles/home.css" />
   <link rel="stylesheet" href="./styles/sync.css" />
 </head>
 <body>
@@ -108,12 +109,27 @@
         </div>
       </div>
 
-      <button type="button" class="btn btn-primary btn-block sb-new" id="btnNew" data-tip="Start a fresh unit (Ctrl+N)" data-tip-pos="bottom">
-        <svg class="i i-sm"><use href="#i-plus"/></svg><span>New unit</span>
-      </button>
-
       <nav class="sb-nav" aria-label="Main">
-        <div class="sb-label">Create</div>
+        <button type="button" class="sb-item sb-home" data-nav="home">
+          <span class="sb-ico home"><svg class="i"><use href="#i-home"/></svg></span>
+          <span class="sb-item-text"><span>Home</span><small>Start here</small></span>
+        </button>
+
+        <div class="sb-label">Make</div>
+        <button type="button" class="sb-item" data-nav="assistant">
+          <span class="sb-ico assistant"><svg class="i"><use href="#i-wand"/></svg></span>
+          <span class="sb-item-text"><span>Teacher assistant</span><small>Ask for any test or sheet</small></span>
+        </button>
+        <div class="sb-group" id="sbWorksheets">
+        <button type="button" class="sb-item sb-group-head" data-nav="worksheets" aria-expanded="false" aria-controls="sbWorksheetSteps">
+          <span class="sb-ico worksheets"><svg class="i"><use href="#i-file"/></svg></span>
+          <span class="sb-item-text"><span>Worksheets</span><small id="navSub-worksheets">Lingo Launcher + Dictation</small></span>
+          <svg class="i i-sm sb-chev"><use href="#i-chevron-down"/></svg>
+        </button>
+        <div class="sb-sub" id="sbWorksheetSteps">
+        <button type="button" class="sb-subnew" id="btnNew" data-tip="Start a fresh unit (Ctrl+N)">
+          <svg class="i i-xs"><use href="#i-plus"/></svg><span>New unit</span>
+        </button>
         <button type="button" class="sb-item" data-nav="setup">
           <span class="sb-step" data-step-dot="1">1</span>
           <span class="sb-item-text"><span>Unit setup</span><small id="navSub-setup">Level &amp; coursebook</small></span>
@@ -130,12 +146,8 @@
           <span class="sb-step" data-step-dot="4">4</span>
           <span class="sb-item-text"><span>Preview &amp; export</span><small id="navSub-preview">Not generated yet</small></span>
         </button>
-
-        <div class="sb-label">Make</div>
-        <button type="button" class="sb-item" data-nav="assistant">
-          <span class="sb-ico assistant"><svg class="i"><use href="#i-wand"/></svg></span>
-          <span class="sb-item-text"><span>Teacher assistant</span><small>Ask for any test or sheet</small></span>
-        </button>
+        </div>
+        </div>
         <button type="button" class="sb-item" data-nav="tests">
           <span class="sb-ico tests"><svg class="i"><use href="#i-clipboard"/></svg></span>
           <span class="sb-item-text"><span>Unit test</span><small>4 skills · answer key</small></span>
@@ -297,12 +309,13 @@
                   <label class="field-inline">
                     <span class="label">Load</span>
                     <select class="select sm" id="poolLimit">
-                      <option value="smart">Smart pick</option>
-                      <option value="8">Top 8</option>
+                      <option value="smart">Smart pick (fits the class)</option>
                       <option value="10">Top 10</option>
                       <option value="12">Top 12</option>
                       <option value="15">Top 15</option>
+                      <option value="18">Top 18</option>
                       <option value="20">Top 20</option>
+                      <option value="24">Top 24</option>
                       <option value="0">All words</option>
                     </select>
                   </label>
@@ -605,6 +618,11 @@
               </div>
             </aside>
           </div>
+        </section>
+
+        <!-- ══ Home ══ -->
+        <section class="view view-wide" data-view="home">
+          <div class="hm-page" id="homeView"></div>
         </section>
 
         <!-- ══ Make: assistant, unit test, dictation ══ -->
