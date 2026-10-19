@@ -2,9 +2,9 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-**Next:** publish the account database rules (`cd firebase && npx -y firebase-tools@latest deploy --only database --project vocab-master-live`) — without them every account upload is refused ("Permission denied"). Then merge `fix/sync-uploads`.
+**Next:** nothing queued. The account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes.
 
-## Sync fixes: stuck uploads, "Permission denied", the AI-keys switch (2026-10-20, branch fix/sync-uploads, from the user)
+## Sync fixes: stuck uploads, "Permission denied", the AI-keys switch (2026-10-20, branch fix/sync-uploads, merged; from the user)
 - **Seen:** a new account stuck at "19 changes waiting to upload" with "Permission denied", and turning on "Sync my AI keys" broke the Settings window's layout.
 - **Cause of the refusal:** the live database still runs the Lingo-Live-only rules. `users/{uid}` (firebase/database.rules.json) was never deployed (the "waiting on the user" step below). With the committed rules on the emulator, the same flow syncs (3 classes + the key vault).
 - **Uploads (`engine.js`):** a refused write is retried record by record, so one bad record (over the 4 MB / id limits, or breaking a rule) no longer holds every other change back; refused records stay on the computer, are named in the status ("1 item couldn't upload (Saved worksheets)…"), and are retried when they change or on "Sync now". A refused read (`watch` errors were swallowed) now shows as a sync problem instead of a silent hang. Errors are in plain words (`friendlySyncError`).
