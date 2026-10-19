@@ -6,7 +6,9 @@
 import { sfx, speak, stopSpeaking, configureAudio, audioSettings } from "./audio.js";
 import { confetti, floatText } from "./fx.js";
 import { mountGame, esc, svg } from "./host.js";
-import { firstEmoji } from "./deck.js";
+import { firstEmoji, buildArcadeDeck } from "./deck.js";
+import { openDeckPicker } from "./deck-picker.js";
+import { rowById, describePick } from "./deck-source.js";
 import flashcards from "./games/flashcards.js";
 import memory from "./games/memory.js";
 import spelling from "./games/spelling.js";
@@ -15,7 +17,7 @@ import taboo from "./games/taboo.js";
 import live from "./games/live.js";
 import board from "./games/board.js";
 import feud from "./games/feud.js";
-import { teamPic, avatarPic } from "../js/pics.js";
+import { teamPic, avatarPic, picForWord } from "../js/pics.js";
 import * as P from "./players.js";
 
 // Quiz Show stays for lessons' practice steps (hub: false); in the arcade, Word Board and Top Answers replace it.
@@ -44,7 +46,7 @@ const currentClass = () => session.classes.find((c) => c.id === session.classId)
  * Open the arcade.
  * @param {{ deck: object[], title: string, prefs: {sfx:boolean, tts:boolean}, onPrefs?: Function }} opts
  */
-export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
+export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDeck } = {}) {
   if (session) return;
   configureAudio(prefs);
   const classes = loadClasses();
@@ -53,6 +55,14 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
   session = {
     deck,
     title,
+    baseDeck: deck,        // the words the arcade was opened with (worksheet or lesson)
+    baseTitle: title,
+    buildDeck,             // coursebook rows → a game deck (trusted pictures)
+    source: "start",
+    pickIds: null,         // coursebook word ids picked in "Choose your words"
+    removed: [],           // words left out of today's deck (Undo puts them back)
+    plan: null,            // the ready-made lesson: { ids, i }
+    picker: null,
     onPrefs,
     classes,
     classId: localStorage.getItem("vm_arcade_class") || classes[0]?.id || null,
@@ -125,6 +135,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture } = {}) {
 export function closeArcade() {
   if (!session) return;
   session.game?.destroy?.();
+  session.picker?.destroy();
   stopSpeaking();
   sfx.exit();
   window.removeEventListener("keydown", onKey, true);
@@ -401,65 +412,213 @@ function whoHtml() {
     <p class="ht-tip">${tip}</p>`;
 }
 
+/** What each game trains and when to use it — shown on the cards so a teacher can choose with a purpose. */
+const GAME_META = {
+  flashcards: { skills: ["Meaning", "Pronunciation"], best: "Introducing or recapping words", how: "See it, hear it, say it, then sort what the class knows." },
+  memory: { skills: ["Meaning", "Memory"], best: "A calm warm-up", how: "Match each word with its picture or Greek meaning." },
+  spelling: { skills: ["Spelling", "Listening"], best: "Spelling practice", how: "Hear the word, then build it letter by letter." },
+  board: { skills: ["Meaning", "Spelling", "Listening"], best: "Mixed revision", how: "Pictures, gaps, spelling and listening — harder rows are worth more." },
+  feud: { skills: ["Speaking", "Topics"], best: "Using words in topics", how: "Name things that fit a topic — the class's top answers win." },
+  taboo: { skills: ["Speaking", "Describing"], best: "Fluency and explaining", how: "Describe a word without saying it (or its forbidden words)." },
+  live: { skills: ["Meaning", "Reading", "Listening"], best: "A full-class quiz", how: "Everyone answers on a phone or tablet; the board shows the results." },
+};
+const HUB_GROUPS = [
+  { id: "meet", title: "Meet the words", sub: "See them, hear them, remember them", ids: ["flashcards", "memory"] },
+  { id: "practise", title: "Practise", sub: "Spell, choose, collect points", ids: ["spelling", "board"] },
+  { id: "speak", title: "Speak & show off", sub: "Use the words out loud", ids: ["feud", "taboo"] },
+];
+/** A ready-made lesson: each game picks up where the last one ended. */
+const CLASS_PLAN = ["flashcards", "memory", "spelling", "board", "feud"];
+
+const deckStats = (deck) => {
+  const count = (re) => deck.filter((w) => re.test(w.type || "")).length;
+  const bits = [[count(/^n\./), "nouns"], [count(/^v\.|^phr\. v/), "verbs"], [count(/^adj\.|^adv\./), "describing words"], [count(/^phr\.$/), "phrases"]].filter(([n]) => n);
+  const pics = deck.filter((w) => firstPicture(w.emojis)).length;
+  return `${bits.map(([n, l]) => `${n} ${l}`).join(" · ")}${pics ? ` · ${pics} with pictures` : ""}`;
+};
+
+function gameCard(g, deck, i) {
+  const locked = deck.length < g.minWords;
+  const meta = GAME_META[g.id] || { skills: g.tags, best: "", how: g.description };
+  if (g.featured) {
+    return `<button type="button" class="game-card featured g-${g.id}${locked ? " locked" : ""}" data-game="${g.id}" ${locked ? "disabled" : ""}>
+      <span class="gc-art"><span class="gc-shapes" aria-hidden="true"><i class="s-tri"></i><i class="s-dia"></i><i class="s-cir"></i><i class="s-sq"></i></span><span class="gc-emoji">${g.emoji}</span></span>
+      <span class="gc-body">
+        <span class="gc-badge">Live show · whole class</span>
+        <span class="gc-title">${esc(g.title)}</span>
+        <span class="gc-desc">${esc(g.description)}</span>
+        <span class="gc-skills">${meta.skills.map((s) => `<span>${esc(s)}</span>`).join("")}</span>
+      </span>
+      <span class="gc-play">${locked ? `Needs ${g.minWords}+ words` : `${svg("play", "i-sm")}Start the show`}</span>
+    </button>`;
+  }
+  return `<button type="button" class="game-card g-${g.id}${locked ? " locked" : ""}" data-game="${g.id}" style="animation-delay:${i * 80}ms" ${locked ? "disabled" : ""}>
+    <span class="gc-art"><span class="gc-emoji">${g.emoji}</span></span>
+    <span class="gc-body">
+      <span class="gc-title">${esc(g.title)}</span>
+      <span class="gc-desc">${esc(meta.how)}</span>
+      <span class="gc-skills">${meta.skills.map((s) => `<span>${esc(s)}</span>`).join("")}</span>
+      ${meta.best ? `<span class="gc-best">★ ${esc(meta.best)}</span>` : ""}
+    </span>
+    <span class="gc-play">${locked ? `Needs ${g.minWords}+ words` : `${svg("play", "i-sm")}Play`}</span>
+  </button>`;
+}
+
 function showHub() {
   clearFx();
   if (session.gameDef) sfx.back();
   session.game?.destroy?.();
   session.game = null;
   session.gameDef = null;
+  session.plan = null;
   stopSpeaking();
   buildPlay();
   const main = session.root.querySelector("#arcMain");
   session.root.querySelector("#arcCrumb").innerHTML = "";
+  session.root.querySelector(".arc-brand-text small").textContent = session.title;
   renderTeams();
   const deck = session.deck;
+  const byId = new Map(GAMES.map((g) => [g.id, g]));
+  const live = byId.get("live");
+  const planIds = CLASS_PLAN.filter((id) => byId.get(id) && deck.length >= byId.get(id).minWords);
+  const ribbon = deck.map((w) => firstPicture(w.emojis)).filter(Boolean);
+  const track = ribbon.length >= 4 ? ribbon.concat(ribbon).map((p) => `<span>${p}</span>`).join("") : "";
   main.innerHTML = `
     <div class="arc-hub">
       <section class="hub-hero">
-        <h1>Let's play!</h1>
-        <p><b>${deck.length}</b> words ready · ${esc(session.title)}</p>
+        <div class="hh-copy">
+          <h1>Let's play!</h1>
+          <p>Choose the words, then choose a game — every game uses exactly your words.</p>
+        </div>
+        <div class="hh-deck">
+          <div class="hhd-main">
+            <div class="hhd-count"><b data-countup="${deck.length}">${deck.length}</b><span>words</span></div>
+            <div class="hhd-info"><b>${esc(session.title)}</b><small>${esc(deckStats(deck))}</small></div>
+            <button type="button" class="arc-btn primary hhd-pick" data-pick-words>${svg("book-open", "i-sm")}Choose words</button>
+          </div>
+          ${track ? `<div class="hhd-ribbon" aria-hidden="true"><div class="hhd-track">${track}</div></div>` : ""}
+        </div>
       </section>
 
       <section class="hub-teams" id="hubWho">${whoHtml()}</section>
 
+      ${planIds.length >= 3 ? `<section class="hub-plan">
+        <div class="hp-copy"><b>Ready-made lesson</b><span>${planIds.length} games, one after another — each picks up where the last ended.</span></div>
+        <ol class="hp-steps">${planIds.map((id, i) => `<li><span class="hp-n">${i + 1}</span>${byId.get(id).emoji} ${esc(byId.get(id).title)}</li>`).join("")}</ol>
+        <button type="button" class="arc-btn primary" data-plan>${svg("play", "i-sm")}Start the lesson</button>
+      </section>` : ""}
+
       <section class="hub-games">
-        ${HUB_GAMES().map((g, i) => {
-          if (g.featured) {
-            const locked = deck.length < g.minWords;
-            return `<button type="button" class="game-card featured g-${g.id}${locked ? " locked" : ""}" data-game="${g.id}" ${locked ? "disabled" : ""}>
-              <span class="gc-art"><span class="gc-shapes" aria-hidden="true"><i class="s-tri"></i><i class="s-dia"></i><i class="s-cir"></i><i class="s-sq"></i></span><span class="gc-emoji">${g.emoji}</span></span>
-              <span class="gc-body">
-                <span class="gc-badge">NEW · Live show</span>
-                <span class="gc-title">${esc(g.title)}</span>
-                <span class="gc-desc">${esc(g.description)}</span>
-                <span class="gc-tags">${g.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</span>
-              </span>
-              <span class="gc-play">${locked ? `Needs ${g.minWords}+ words` : `${svg("play", "i-sm")}Start the show`}</span>
-            </button>`;
-          }
-          const locked = deck.length < g.minWords;
-          return `<button type="button" class="game-card g-${g.id}${locked ? " locked" : ""}" data-game="${g.id}" style="animation-delay:${i * 70}ms" ${locked ? "disabled" : ""}>
-            <span class="gc-art"><span class="gc-emoji">${g.emoji}</span></span>
-            <span class="gc-body">
-              <span class="gc-title">${esc(g.title)}</span>
-              <span class="gc-desc">${esc(g.description)}</span>
-              <span class="gc-tags">${g.tags.map((t) => `<span>${esc(t)}</span>`).join("")}</span>
-            </span>
-            <span class="gc-play">${locked ? `Needs ${g.minWords}+ words` : `${svg("play", "i-sm")}Play`}</span>
-          </button>`;
-        }).join("")}
+        ${live && live.hub !== false ? gameCard(live, deck, 0) : ""}
       </section>
+      ${HUB_GROUPS.map((grp) => {
+        const games = grp.ids.map((id) => byId.get(id)).filter((g) => g && g.hub !== false);
+        return games.length ? `<section class="hub-group g-${grp.id}">
+          <header><h2>${esc(grp.title)}</h2><span>${esc(grp.sub)}</span></header>
+          <div class="hub-games two">${games.map((g, i) => gameCard(g, deck, i + 1)).join("")}</div>
+        </section>` : "";
+      }).join("")}
 
       <section class="hub-deck">
-        <span class="hd-label">In this deck</span>
-        <div class="hd-words">${deck.map((w) => `<button type="button" class="hd-word" data-say="${esc(w.english)}">${firstPicture(w.emojis) ? `<span class="hd-pic">${firstPicture(w.emojis)}</span>` : ""}${esc(w.english)}</button>`).join("")}</div>
+        <div class="hd-head"><span class="hd-label">Words in your deck · tap to hear · ✕ to leave one out</span>
+          ${session.removed.length ? `<button type="button" class="arc-btn ghost sm" data-undo>↩ Put back “${esc(session.removed[session.removed.length - 1].english)}”</button>` : ""}
+          <button type="button" class="arc-btn ghost sm" data-pick-words>${svg("book-open", "i-sm")}Choose words</button></div>
+        <div class="hd-words">${deck.map((w) => `<span class="hd-word"><button type="button" class="hd-say" data-say="${esc(w.english)}">${firstPicture(w.emojis) ? `<span class="hd-pic">${firstPicture(w.emojis)}</span>` : ""}${esc(w.english)}</button><button type="button" class="hd-x" data-leave="${esc(w.english)}" aria-label="Leave ${esc(w.english)} out" title="Leave out">×</button></span>`).join("")}</div>
       </section>
     </div>`;
   const who = main.querySelector("#hubWho");
   who.addEventListener("click", onWhoClick); // once per hub: the panel re-renders inside it
   wireWho(who);
   main.querySelectorAll("[data-game]").forEach((b) => b.addEventListener("click", () => startGame(b.dataset.game)));
+  main.querySelectorAll("[data-pick-words]").forEach((b) => b.addEventListener("click", openPicker));
+  main.querySelector("[data-plan]")?.addEventListener("click", () => { session.plan = { ids: planIds, i: 0 }; startGame(planIds[0]); });
+  main.querySelector("[data-undo]")?.addEventListener("click", () => { const w = session.removed.pop(); if (w) { session.deck = [...session.deck, w]; sfx.pop(); showHub(); } });
+  main.querySelectorAll("[data-leave]").forEach((b) => b.addEventListener("click", () => leaveOut(b.dataset.leave)));
   main.querySelectorAll("[data-say]").forEach((b) => b.addEventListener("click", () => speak(b.dataset.say, { force: true })));
+  main.querySelectorAll(".game-card:not(.featured):not(:disabled)").forEach(tilt);
+  countUp(main.querySelector("[data-countup]"));
+}
+
+/** Cards lean towards the pointer a little (smartboards and touch just skip it). */
+function tilt(card) {
+  card.addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--rx", `${(((e.clientY - r.top) / r.height) - 0.5) * -7}deg`);
+    card.style.setProperty("--ry", `${(((e.clientX - r.left) / r.width) - 0.5) * 9}deg`);
+  });
+  card.addEventListener("pointerleave", () => { card.style.removeProperty("--rx"); card.style.removeProperty("--ry"); });
+}
+
+function countUp(el) {
+  if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const to = Number(el.dataset.countup) || 0;
+  const t0 = performance.now();
+  const step = (t) => {
+    if (!el.isConnected) return;
+    const p = Math.min(1, (t - t0) / 700);
+    el.textContent = String(Math.round(to * (1 - Math.pow(1 - p, 3))));
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/** Take one word out of today's deck (✕ in the list) — Undo puts it back. */
+function leaveOut(english) {
+  if (session.deck.length <= 3) { sfx.buzzer(); return; }
+  const w = session.deck.find((x) => x.english === english);
+  if (!w) return;
+  session.deck = session.deck.filter((x) => x !== w);
+  session.removed.push(w);
+  sfx.pointsDown();
+  showHub();
+}
+
+/** Open "Choose your words": book → unit → lesson → word, with the deck growing alongside. */
+function openPicker() {
+  if (session.picker) return;
+  sfx.whoosh();
+  const minWords = HUB_GAMES().map((g) => ({ title: g.title, min: g.minWords }));
+  session.picker = openDeckPicker({
+    root: session.root,
+    esc,
+    svg,
+    sfx,
+    pic: rowPicture,
+    picked: session.pickIds || [],
+    minWords,
+    hasWorksheet: !!session.baseDeck.length && session.source !== "start",
+    onClose: closePicker,
+    onApply: applyPick,
+  });
+}
+function closePicker() { session.picker?.destroy(); session.picker = null; }
+
+/** A coursebook word's picture (the illustrated picture when it has one), drawn in the chosen style. */
+function rowPicture(row) {
+  const token = picForWord(row.english, row.type);
+  return token ? session.picture(token) : "";
+}
+
+/** ids = the picked coursebook words; null = go back to the words the arcade was opened with. */
+function applyPick(ids) {
+  closePicker();
+  if (!ids) {
+    session.deck = session.baseDeck;
+    session.title = session.baseTitle;
+    session.pickIds = null;
+    session.source = "start";
+  } else {
+    const rows = ids.map((id) => rowById.get(id)).filter(Boolean);
+    session.deck = session.buildDeck ? session.buildDeck(rows) : buildArcadeDeck(rows);
+    session.title = describePick(ids);
+    session.pickIds = ids;
+    session.source = "book";
+  }
+  session.removed = [];
+  sfx.win();
+  showHub();
+  confetti(session.root, { count: 90, originY: 0.2 });
 }
 
 /** Re-render only the "Who's playing?" panel (keeps the page scroll and focus calm). */
@@ -599,6 +758,8 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
   const winner = ranked[0];
   const heading = solo ? title : tie ? "It's a tie!" : play.mode === "players" ? `${winner.name} wins!` : `${winner.name} win!`;
   const podium = ranked.slice(0, play.mode === "players" ? 3 : 4);
+  const nextId = session.plan?.ids[session.plan.i + 1];
+  const nextDef = nextId ? GAMES.find((g) => g.id === nextId) : null;
   const stars = play.mode === "teams" ? P.rankPlayers(play).filter((p) => p.score > 0).slice(0, 3) : [];
   const rest = play.mode === "players" ? ranked.slice(3) : [];
   sfx.win();
@@ -618,7 +779,8 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
       <div class="fin-actions">
         ${extraAction ? `<button type="button" class="arc-btn ghost" data-extra>${esc(extraAction.label)}</button>` : ""}
         <button type="button" class="arc-btn ghost" data-hub2>${svg("grid", "i-sm")}All games</button>
-        <button type="button" class="arc-btn primary" data-again>${svg("rotate", "i-sm")}Play again</button>
+        <button type="button" class="arc-btn ${nextDef ? "ghost" : "primary"}" data-again>${svg("rotate", "i-sm")}Play again</button>
+        ${nextDef ? `<button type="button" class="arc-btn primary xl" data-next-plan>Next: ${nextDef.emoji} ${esc(nextDef.title)}${svg("arrow-right", "i-sm")}</button>` : session.plan ? `<span class="fin-plan-done">🎓 Lesson complete!</span>` : ""}
       </div>
     </div>`;
   confetti(session.root, { count: 220, originY: 0.25 });
@@ -626,6 +788,7 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
   setTimeout(() => session && confetti(session.root, { count: 120, originX: 0.8, originY: 0.5 }), 750);
   main.querySelector("[data-again]").addEventListener("click", () => startGame(def.id));
   main.querySelector("[data-hub2]").addEventListener("click", () => showHub());
+  main.querySelector("[data-next-plan]")?.addEventListener("click", () => { session.plan.i++; startGame(nextId); });
   main.querySelector("[data-extra]")?.addEventListener("click", () => extraAction.run());
 }
 
@@ -635,13 +798,14 @@ function onKey(e) {
   if (e.key === "Escape") {
     e.preventDefault();
     e.stopPropagation();
+    if (session.picker) { closePicker(); return; }
     const overlay = session.root.querySelector(".arc-spinner, .arc-board");
     if (overlay) { overlay.remove(); return; }
     if (session.gameDef) showHub();
     else closeArcade();
     return;
   }
-  if (typing) return;
+  if (typing || session.picker) return;
   if (session.root.querySelector(".arc-spinner, .arc-board")) { e.preventDefault(); e.stopPropagation(); return; } // keys wait while a pick or the scores are open
   if ((e.key === "g" || e.key === "G") && !session.game?.capturesLetters) { e.preventDefault(); toggleGreek(); return; }
   if (session.game?.onKey) {

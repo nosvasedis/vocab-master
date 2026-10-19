@@ -475,6 +475,15 @@ async function runSmokeTest() {
         VM.openGames();
         await wait(250);
         dbg.gameCards = document.querySelectorAll(".game-card").length;
+        // "Choose your words": book → unit → whole unit → play with exactly those words.
+        document.querySelector(".hhd-pick").click(); await wait(400);
+        dbg.picker = !!document.querySelector(".dp");
+        document.querySelector('.dp [data-book="CPP3"]').click(); await wait(150);
+        document.querySelector('.dp [data-unit="2"]').click(); await wait(400);
+        document.querySelector(".dp [data-unit-all]").click(); await wait(150);
+        const pickedN = Number(document.getElementById("dpCount").textContent);
+        document.querySelector(".dp [data-apply]").click(); await wait(500);
+        dbg.pickedDeck = pickedN > 50 && Math.abs(Number(document.querySelector(".hhd-count b").dataset.countup) - pickedN) <= 3 && /Primary Path 3 · Unit 2/.test(document.querySelector(".hhd-info b").textContent);
         const play = async (id) => { document.querySelector('[data-hub]').click(); await wait(120); document.querySelector('[data-game="' + id + '"]').click(); await wait(250); };
         await play("flashcards"); dbg.fc = !!document.querySelector(".fc-card");
         await play("memory"); dbg.mem = document.querySelectorAll(".mm-tile").length;
@@ -494,7 +503,7 @@ async function runSmokeTest() {
         const ok = dbg.view === "preview" && dbg.saved && dbg.dialogsAfter === 0 && dbg.vocabEditor
           && dbg.projector && dbg.projectorClosed && dbg.bulk === 2 && dbg.docxOk && cbOk
           && dbg.inferredUnit === 4 && dbg.autoWords >= 10 && dbg.poolChips >= 10
-          && dbg.gameCards === 7 && dbg.liveLobby && dbg.liveOpts >= 2 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz >= 9 && dbg.feud >= 5 && dbg.taboo >= 1 && dbg.arcadeClosed;
+          && dbg.gameCards === 7 && dbg.picker && dbg.pickedDeck && dbg.liveLobby && dbg.liveOpts >= 2 && dbg.fc && dbg.mem >= 12 && dbg.spell >= 2 && dbg.quiz >= 9 && dbg.feud >= 5 && dbg.taboo >= 1 && dbg.arcadeClosed;
         return JSON.stringify({ ...dbg, cbOk, fail: ok ? "" : "ui-flow" });
       })()
     `);

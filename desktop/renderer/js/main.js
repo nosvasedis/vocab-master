@@ -248,7 +248,9 @@ function openGames() {
 }
 
 function openDeck(deck, title) {
-  openArcade({ deck, title, prefs: { sfx: prefs.sfx, tts: prefs.tts }, picture, onPrefs: savePlayPrefs });
+  // "Choose your words" in the arcade picks coursebook rows; they get the same trusted pictures as a worksheet's words.
+  const buildDeck = (rows) => buildArcadeDeck(rows.map((row) => ({ ...row, emojis: engine.trustedBankEmoji(row) })));
+  openArcade({ deck, title, prefs: { sfx: prefs.sfx, tts: prefs.tts }, picture, onPrefs: savePlayPrefs, buildDeck });
 }
 
 /** Teach a curated lesson in the full-screen player. */
