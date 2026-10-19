@@ -11,7 +11,7 @@
     "start": "electron .",
     "smoke": "electron . --smoke",
     "icon": "node scripts/make-icon.js",
-    "dist": "electron-builder --win nsis portable",
+    "dist": "electron-builder --win nsis portable --config electron-builder.config.cjs",
     "dist:setup": "electron-builder --win nsis",
     "dist:portable": "electron-builder --win portable",
     "dist:dir": "electron-builder --win dir"

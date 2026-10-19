@@ -149,7 +149,9 @@ export async function initVoice() {
       const res = await fetch(`${remoteBase}manifest.json`, { cache: "no-cache" });
       if (res.ok) {
         const m = await res.json();
-        manifest = { ...manifest, entries: { ...manifest.entries, ...m.entries }, text: { ...manifest.text, ...m.text } };
+        // Bundled entries win: an older remote manifest must never point a line at a superseded take.
+        // R2 only adds lines this build doesn't ship.
+        manifest = { ...manifest, entries: { ...m.entries, ...manifest.entries }, text: { ...m.text, ...manifest.text } };
       }
     }
   } catch { /* offline: bundled/cached clips still play */ }

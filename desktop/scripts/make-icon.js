@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.join(__dirname, "..", "build");
-const SOURCE = path.join(__dirname, "..", "renderer", "assets", "vocab-master-mark.png");
+const SOURCE = path.join(__dirname, "..", "build", "vocab-master-mark-source.png"); // full-size original (the app ships a 256 px copy)
 fs.mkdirSync(OUT, { recursive: true });
 
 function paeth(a, b, c) {

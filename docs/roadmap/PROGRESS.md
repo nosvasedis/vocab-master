@@ -2,6 +2,12 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
+## Slimmer exes (2026-10-19, from the user): 193 MB → 177 MB
+- `npm run dist` now builds through `desktop/electron-builder.config.cjs` (package.json "build" + two extras): Chromium UI languages limited to en-US, en-GB and el (−10 MB), and voice clips the manifest no longer points to are left out (933 superseded takes, −8 MB; they stay on disk for the audio job's state).
+- `voice.js`: the bundled manifest now wins over the R2 one, so an older remote manifest can't point a line at a superseded take; R2 only adds lines the build doesn't ship.
+- Logo `assets/vocab-master-mark.png` is a 256 px copy (730 KB → 48 KB); the full-size original is `desktop/build/vocab-master-mark-source.png` (used by `make-icon.js`).
+- Already efficient, left as is: pictures (lossy WebP 512 px, ~17 KB each), voice (Opus mono ~20 kbps). Checked: all 7,557 used clips are packed; packaged-app smoke passes.
+
 ## 3.1.0 — arcade "Choose your words", revamped hub, Lingo Live music (2026-10-19, branch feature/arcade-deck-revamp, from the user)
 - **Choose your words** (`arcade/deck-picker.js` + pure `arcade/deck-source.js`, `tests/deckpicker.test.mjs`): a full-screen picker inside the arcade. Book (1–3) → Unit (title, word count) → the unit's printed sections (Big Question, Lesson A, Lesson B, Workbook, Extras, with page ranges). Each section: "★ key words" (the ten words its animated lesson teaches, read from the lesson files), "All N", or single words. Filters (nouns, verbs, describing words, phrases, only with a picture), word search across all books, "Keep 12 at random", "My worksheet words". Picks can span units and books; a live panel shows the count, a plain-English name ("Primary Path 1 · Unit 3 (A, B)"), a removable breakdown, and which games each size unlocks. Main hands the arcade `buildDeck` so picked words get the same trusted pictures as worksheet words.
 - **Hub:** deck card (animated count, word mix, scrolling picture ribbon, Choose words), "Ready-made lesson" (Flashcards → Memory → Spell Bee → Word Board → Top Answers; the finish screen offers "Next: …"), games grouped as Meet the words / Practise / Speak & show off, each card showing the skills it trains and what it's best for, gentle tilt and bobbing art. The word list lets a teacher leave one word out (✕, with Undo).
