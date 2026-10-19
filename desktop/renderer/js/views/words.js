@@ -73,7 +73,7 @@ export function initWords() {
   $("freeform").addEventListener("input", (e) => { state.freeform = e.target.value; emit("wordsMeta"); });
   $("linkedBanner").addEventListener("click", (e) => {
     if (e.target.closest("[data-action=change-unit]")) actions.go("setup");
-    if (e.target.closest("[data-action=reload-unit]")) { loadPoolWords({ reason: "Unit words restored", force: true }); emit("words", "setup"); }
+    if (e.target.closest("[data-action=reload-unit]")) { loadPoolWords({ reason: "Unit words loaded", force: true }); emit("words", "setup"); }
   });
 
   wireList();
@@ -108,7 +108,7 @@ function renderBanner() {
       <strong>${esc(CPP_BOOKS[id].title)} · Unit ${us.unit}: ${esc(us.unitTitle)}</strong>
       <span>${state.cpp.pages ? `Pages ${esc(state.cpp.pages)}` : `Full unit · p. ${us.sbStart}–${us.sbEnd}`} · official words with their Greek meanings — AI adds phrases &amp; word families.</span>
     </div>
-    <button type="button" class="btn btn-ghost btn-sm" data-action="reload-unit">${icon("refresh", "i-sm")}Reset to unit words</button>
+    <button type="button" class="btn btn-ghost btn-sm" data-action="reload-unit">${icon("refresh", "i-sm")}${filledWords().length ? "Reset to unit words" : "Load unit words"}</button>
     <button type="button" class="btn btn-secondary btn-sm" data-action="change-unit">${icon("book-open", "i-sm")}Change unit</button>`;
 }
 

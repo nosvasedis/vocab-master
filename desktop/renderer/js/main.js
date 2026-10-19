@@ -213,8 +213,8 @@ async function newUnit() {
     });
     if (!ok) return;
   }
+  // A new unit starts with no words: they load only when the teacher picks them (Step 1 or "Load unit words").
   resetState();
-  if (isCpp()) loadPoolWords({ silent: true });
   emit("setup", "words", "data", "level");
   go("setup", { force: true });
   toast("Fresh unit started — everything you generated is in your library.", "info", { ms: 3000 });
@@ -367,13 +367,12 @@ async function boot() {
     await Promise.all([ensurePictureStyle(prefs.pictureStyle), initPics()]);
     initVoice();
 
-    const hadDraft = loadDraft();
+    loadDraft();
     if (state.sessionId) {
       const s = getSavedSession(state.sessionId);
       if (s) state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(s.data)));
       else state.sessionId = null;
     }
-    if (!hadDraft && isCpp()) loadPoolWords({ silent: true });
 
     Object.assign(actions, { go, openSettings, openArcade: openGames, openProjector, setAiState, settingsSaved: async () => { await ensurePictureStyle(prefs.pictureStyle); if (state.view === "preview") renderPreview(); } });
     initSetup();

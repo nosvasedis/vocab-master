@@ -171,9 +171,9 @@ export function initSetup() {
 }
 
 /* ── Word pool assignment ────────────────────────────────────────── */
-/** "Smart pick" follows the class: a new class reloads the unit's words at its size (Undo in the toast). */
+/** "Smart pick" follows the class: a new class reloads the unit's words at its size (Undo in the toast). An empty list stays empty. */
 function resizeSmartPick() {
-  if (isCpp() && state.cpp.limit === "smart") loadPoolWords({ reason: `${CLASS_PROFILES[state.profileId].label} aims for ${targetText(state.profileId)} words` });
+  if (isCpp() && state.cpp.limit === "smart" && state.words.some((w) => w.english.trim())) loadPoolWords({ reason: `${CLASS_PROFILES[state.profileId].label} aims for ${targetText(state.profileId)} words` });
 }
 
 export function loadPoolWords({ reason = "", force = false, silent = false } = {}) {
