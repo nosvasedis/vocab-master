@@ -2,6 +2,13 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
+## Top Answers: 322 boards, rounds, a lit-up look (2026-10-19, branch feature/top-answers-variety, from the user)
+- **Boards:** every unit now has 10–13 boards (was 3), 322 in all, in many styles — "Name…", "What do you…?", "Where do you…?", "Name something that is red/big/noisy…" — written for the book's level. Each board has a topic emoji; each answer an emoji icon. Built with `node scripts/lessons/build-feud.mjs --target 12 --count 9` (resumable; `--count N` adds N more per unit). Cost $0.12; OpenRouter now has about $0.04 left under its cap.
+- **A game = 6 rounds:** from the deck's unit(s) first, then other units of the same book. No repeated prompt, no two in a row on one topic. Round 5 is double points, round 6 triple (`roundMultiplier`); the board glows blue/pink and scores show the multiplied value.
+- **New in play:** 💡 Hint (first letter and length of the top answer left), round dots, "100 children surveyed" marquee with a topic medallion, glossy tiles, answers revealed at the end look dimmer than ones the class said.
+- **Missing art:** a tile shows the word's picture, else its emoji icon. `node scripts/lessons/list-feud-pictures.mjs` writes `art-brief/pictures/top-answers-needed.md/.json` — 116 answers still need a picture (ids `w-<slug>`, ready for the generator).
+- **Checks:** `npm test` 347 pass; smoke passes (Top Answers shows 6 tiles). Not merged — awaiting the user's OK.
+
 ## Word Board + Top Answers replace Quiz Show in the arcade (2026-10-19, branch feature/word-board-top-answers, from the user)
 - **Why:** Quiz Show was nearly the same game as Lingo Live (four answers, pick one). The arcade now has two new kinds of game. Quiz Show stays only for the 9 lessons whose Practice step uses it (`hub: false`).
 - **Word Board (`games/board.js` + pure `board-questions.js`):**

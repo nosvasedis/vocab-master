@@ -52,11 +52,28 @@ test("Top Answers: the boards file is well-formed and picks the deck's unit", as
   const all = Object.values(data.boards).flat();
   assert.ok(all.length >= 3);
   for (const b of all) {
-    assert.match(b.prompt, /^Name\b.*…$/);
+    assert.match(b.prompt, /^(Name|What|Which|Where|Who|How)\b.*[…?]$/, b.id);
+    if (b.topic) assert.match(b.topic, /\p{Extended_Pictographic}/u, b.id);
+    for (const a of b.answers) if (a.icon) assert.match(a.icon, /\p{Extended_Pictographic}/u, b.id);
     assert.ok(b.answers.length >= 5 && b.answers.length <= 6, b.id);
     for (let i = 1; i < b.answers.length; i++) assert.ok(b.answers[i].points < b.answers[i - 1].points, `${b.id} points descend`);
     assert.equal(new Set(b.answers.map((a) => a.text)).size, b.answers.length, `${b.id} unique answers`);
   }
   const { boardsForDeck } = await import("../desktop/renderer/arcade/games/feud.js");
   assert.equal(boardsForDeck(deck, data)[0].id.startsWith("CPP1-U1"), true);
+});
+
+test("Top Answers: every unit has plenty of boards in several styles, and a game is six varied rounds", async () => {
+  const data = JSON.parse(fs.readFileSync("desktop/renderer/lessons/feud.json", "utf8"));
+  const { boardsForDeck, pickRounds, roundMultiplier } = await import("../desktop/renderer/arcade/games/feud.js");
+  for (const [unit, list] of Object.entries(data.boards)) {
+    assert.ok(list.length >= 10, unit + " has " + list.length + " boards");
+    assert.equal(new Set(list.map((b) => b.prompt)).size, list.length, unit + " prompts are unique");
+    assert.ok(list.some((b) => !/^Name/.test(b.prompt)), unit + " has a non-Name style");
+  }
+  const rounds = pickRounds(boardsForDeck(deck, data));
+  assert.equal(rounds.length, 6);
+  assert.equal(new Set(rounds.map((b) => b.id)).size, 6);
+  assert.deepEqual([0, 1, 2, 3, 4, 5].map((i) => roundMultiplier(i, 6)), [1, 1, 1, 1, 2, 3]);
+  assert.deepEqual([0, 1].map((i) => roundMultiplier(i, 2)), [1, 2]);
 });
