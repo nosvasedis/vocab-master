@@ -2,6 +2,12 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
+## Merged into main: worksheets studio, arcade showtime, accounts & sync (2026-10-19, from the user)
+- The three parallel branches below (`claude/worksheets-tests-assistant-f232e3`, `claude/arcade-visual-revamp-b8b7d5`, `claude/profiles-sync-01bd26`) are merged into `main`. Conflicts were only additive (PROGRESS.md, the stylesheet links in `index.html`, the smoke condition in `desktop/main.js`).
+- The six storage keys the other branches added are now classified in `js/sync/registry.js` (the sync test enforces it). Synced: `vm_studio_docs_v1` (tests and dictations, list), `vm_arcade_decks` (saved decks, list), `vm_arcade_played` (object), `vm_dictation_prefs_v1`, `vm_tests_prefs_v1`, `vm_dp_filters` (values).
+- **Checks:** `npm test` 424 pass; `npm run smoke` passes (picker, pages, six title screens, account).
+- **Still waiting on the user:** enable Email/Password and Google sign-in in the Firebase console, then `node scripts/live/build-play.mjs --deploy` (see `docs/sync/README.md`). Not yet tried with a real AI key inside the new studio screens.
+
 ## Worksheets fixed, Dictation maker, Unit tests, Teacher assistant (2026-10-19, branch claude/worksheets-tests-assistant-f232e3, from the user)
 - **Bug: old words leaking into new generations.** Causes found and fixed:
   - "Rewrite only the Dictation / Lingo practice" sent the *old* vocabulary table (and old sheet) to the AI next to the new word list. Now (`freshIfWordsChanged` in app.js) a changed list always means a full, fresh generation; the Exercises step says so and hides the partial buttons.
@@ -20,9 +26,9 @@
 - **New localStorage keys:** `vm_studio_docs_v1` (recent tests/dictations, teacher content), `vm_dictation_prefs_v1`, `vm_tests_prefs_v1` (settings). The profiles-sync branch needs to classify them in `js/sync/registry.js` when merged.
 - **AI cost:** a full 10-part test ≈ 2.5k in / 3k out tokens (≈ $0.0015 on Gemini Flash-Lite, a little more on DeepSeek); a dictation ≈ $0.0002; an assistant reading ≈ $0.0001. `node scripts/studio/try-studio.mjs [--dry-run]` runs the real prompts through the ledger ($0.003 spent while tuning). `content/pricing.json` gained `gemini-2.5-flash-lite` text prices.
 - **Checks:** `npm test` 389 pass (new: `worksheet-scope`, `worksheet-pictures`, `studio`); `npm run smoke` passes. Verified in the web app with a mock AI provider: picture cards, Greek help line, balance notes, stale/unit-change flow, dictation (book sentences), unit test (generate, version B, add/remove/move part, rewrite one part, edit a question, teacher's pack, listening bar), assistant (local understanding, question chips, plan card → test and dictation hand-off).
-- **Not done / next:** not merged into `main` (ask first). Not tried with a real key inside the app (only via the script). Listening audio is live speech, not a downloadable file (a Gemini TTS export would be a follow-up). No smoke step for the new screens yet (the profiles session also edits the smoke flow). The installer was not rebuilt.
+- **Not done / next:** Not tried with a real key inside the app (only via the script). Listening audio is live speech, not a downloadable file (a Gemini TTS export would be a follow-up). No smoke step for the new screens yet (the profiles session also edits the smoke flow). The installer was not rebuilt.
 
-## Arcade showtime: turn fix, finer word picking, avatars, a visual revamp (2026-10-19, branch claude/arcade-visual-revamp-b8b7d5, from the user; not merged)
+## Arcade showtime: turn fix, finer word picking, avatars, a visual revamp (2026-10-19, branch claude/arcade-visual-revamp-b8b7d5, from the user; merged)
 - **Bug fixed: in Top Answers (Teams) the first team opened every round.** After a steal the turn moved back to it. The round rules now live in a pure `createFeudFlow(turns, boards)` (`games/feud.js`): each round is opened by the next team in turn, whoever stole the last one (`passTo`); the thief's member has had their go; "Reveal all" mid-steal leaves the bank with the team that built it. Players mode no longer skips a child between rounds. Regression tests: `tests/feud.test.mjs` (they fail against the old rotation).
 - **Same bug in every game:** each game used to start with team 1 (and the first child). `createPlay({ startTeam, after })`: every new game starts with the next team, and in Players mode carries on after whoever was up when the last game ended. Other games' turn logic checked: Word Board, Spell Bee, Memory (a match keeps the turn, as in the rules), Hot Seat and Quiz rotate correctly. `players.js` now exports `turnApi(play)`, the turn API without drawing; the arcade wraps it.
 - **Choose your words** (`deck-picker.js`, pure helpers in `deck-source.js`, `tests/deckpicker.test.mjs`):
@@ -34,7 +40,7 @@
 - **Checks:** `npm test` 367 pass (1 skipped, as before); smoke passes and now also checks the six title screens and the page picker (run with the main checkout's Electron: `desktop/node_modules/electron/dist/electron.exe desktop --smoke`, since worktrees have no node_modules). Played every game in Whole class, Players and Teams in the web app (1366×768).
 - **Left / ideas:** Lingo Live keeps its own lobby and podium (only its team mascots changed). Avatars on the phones' page are still the 16 animals. A teacher review of the `wordLevel` levels on real classes.
 
-## Accounts & sync (2026-10-19, branch claude/profiles-sync-01bd26, from the user; not merged)
+## Accounts & sync (2026-10-19, branch claude/profiles-sync-01bd26, from the user; merged)
 - **What:** sign in with Google or email + password (web and desktop). Classes, worksheets, worksheet history, settings and game settings sync between computers, offline-first. AI keys sync only if turned on, end-to-end encrypted with a passphrase. Several teachers per computer (switch in Settings). A backup file export/import works without an account. Design: `docs/sync/PROPOSAL.md`; how it works and setup: `docs/sync/README.md`.
 - **Code:**
   - New: `desktop/renderer/js/sync/` (registry, merge, engine, crypto, backend-firebase, profiles, google, account-ui, index), `styles/sync.css`, `desktop/google-signin.js` (desktop Google loopback), `firebase/public/signin.html` + `signin.js` (hosted Google hand-off page), rules for `users/{uid}` in `firebase/database.rules.json`.

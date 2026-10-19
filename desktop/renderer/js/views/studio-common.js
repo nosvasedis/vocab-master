@@ -80,7 +80,7 @@ export function aiErrorToast(e) {
 export const profileBlock = (levelId) => getProfilePromptBlock(levelId);
 export const levelLabel = (levelId) => CLASS_PROFILES[levelId]?.label || "";
 
-/* ── Recent documents (this computer only) ────────────────────────── */
+/* ── Recent documents (synced with the account, js/sync/registry.js) ────────────────────────── */
 const DOCS_KEY = "vm_studio_docs_v1";
 export function recentDocs(kind) {
   return (readJSON(DOCS_KEY, []) || []).filter((d) => !kind || d.kind === kind);
