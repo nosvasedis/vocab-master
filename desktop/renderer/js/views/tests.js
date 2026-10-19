@@ -248,7 +248,9 @@ function renderOptions() {
 async function contextFor(sel) {
   const focus = sel.focus;
   const picFor = makePicFor([...(sel.words || []), ...focus]);
-  const pictureWords = [...new Set([...focus, ...(sel.words || [])].map((w) => w.english).filter((w) => picFor(w)))].slice(0, 16);
+  // Nouns first: picture tasks ask for things you can draw.
+  const nounFirst = (a, b) => Number(/^n/.test(b.type || "")) - Number(/^n/.test(a.type || ""));
+  const pictureWords = [...new Set([...focus, ...(sel.words || [])].filter((w) => picFor(w.english)).sort(nounFirst).map((w) => w.english))].slice(0, 16);
   let unitContext = await unitContextFor(sel);
   // Step 2 words from a coursebook unit still get that unit's context.
   if (!unitContext && sel.kind === "words" && isCpp()) unitContext = await buildUnitContext({ bookId: state.cpp.bookId, units: [state.cpp.unit] }, { loadLesson: loadLessonJson });

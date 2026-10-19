@@ -135,8 +135,10 @@ export function renderStudentPaper(doc, options = {}) {
     if (section.answerType === "open") body += openTaskHtml(section, layout);
     else if (section.task === "V-PIC") body += pictureCardsHtml(section, layout, options.showAnswers);
     else {
-      if (section.example) body += itemHtml(section, section.example, layout, { example: true });
-      body += section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
+      // Picture-choice questions sit two to a row, so a part fits on one page.
+      const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
+      const items = (section.example ? itemHtml(section, section.example, layout, { example: true }) : "") + section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
+      body += picGrid ? `<div class="st-pic-items">${items}</div>` : items;
     }
     return `<section class="ex-block st-sec st-${esc(section.skill)}">${partHead(section, i, layout)}${body}</section>`;
   }).join("");
@@ -204,9 +206,10 @@ export const STUDIO_PRINT_CSS = `
 .st-opt { display: inline-flex; align-items: center; gap: 1.6mm; }
 .st-opt b { display: inline-flex; align-items: center; justify-content: center; width: 4.8mm; height: 4.8mm; border: 0.8pt solid var(--ink); border-radius: 50%; font: 700 7.6pt/1 "Manrope", sans-serif; }
 .st-opt.picked b { background: #111; color: #fff; }
-.st-pic-options { display: flex; gap: 4mm; margin-top: 1mm; }
+.st-pic-items { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm 6mm; }
+.st-pic-options { display: flex; gap: 3mm; margin-top: 1mm; }
 .st-pic-opt { display: flex; flex-direction: column; align-items: center; gap: 1mm; padding: 1.6mm; border: 0.8pt solid var(--rule); border-radius: 2mm; }
-.st-opt-pic { width: 22mm; height: 22mm; object-fit: contain; }
+.st-opt-pic { width: 19mm; height: 19mm; object-fit: contain; }
 .st-box { width: 5mm; height: 5mm; border: 0.8pt solid var(--ink); border-radius: 1mm; display: inline-flex; align-items: center; justify-content: center; font-size: 9pt; }
 .st-pic-opt small { font: 700 7.4pt/1 "Manrope", sans-serif; color: var(--ink-3); }
 .st-tf { display: flex; align-items: flex-start; gap: 4mm; }

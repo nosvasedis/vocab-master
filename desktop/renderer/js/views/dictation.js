@@ -62,7 +62,7 @@ function build() {
   picker = createSourcePicker({ multiUnit: false, onChange: () => { renderShape(); } });
   picker.mount($("dcSource"));
   paper = createPaper($("dcPaper"));
-  segmented(host.querySelector('[data-seg="dcSheet"]'), { value: dc.sheet, onChange: (v) => { dc.sheet = v; renderPaper(); } });
+  dc.sheetSeg = segmented(host.querySelector('[data-seg="dcSheet"]'), { value: dc.sheet, onChange: (v) => { dc.sheet = v; renderPaper(); } });
   new ResizeObserver(() => fitPaper($("dcStage"), $("dcPaper"))).observe($("dcStage"));
 
   $("dcStyles").addEventListener("click", (e) => {
@@ -243,6 +243,8 @@ function renderPaper() {
   ["dcRead", "dcPrint", "dcPdf", "dcWord"].forEach((id) => { $(id).disabled = !has; });
   const stripsBtn = document.querySelector('[data-seg="dcSheet"] [data-value="strips"]');
   if (stripsBtn) stripsBtn.hidden = dc.doc?.sections?.[0]?.style !== "running";
+  if (dc.sheet === "strips" && stripsBtn?.hidden) dc.sheet = "student";
+  dc.sheetSeg?.set(dc.sheet);
   if (!has) { paper.clear(); $("dcProblems").innerHTML = ""; return; }
   paper.render(sheetHtml());
   fitPaper($("dcStage"), $("dcPaper"));

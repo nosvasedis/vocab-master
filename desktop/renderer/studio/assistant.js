@@ -108,7 +108,8 @@ export function parseRequest(text, context = {}) {
 
 /** Fill a partial plan with sensible defaults (the app's open unit and class). */
 export function completePlan(partial = {}, context = {}) {
-  const plan = { kind: "test", difficulty: "level", versions: 1, grammar: [], ...partial };
+  // No default kind: when the teacher hasn't said what to make, the assistant asks.
+  const plan = { difficulty: "level", versions: 1, grammar: [], ...partial };
   if (plan.source?.kind === "unit") {
     plan.source.bookId ||= context.bookId || (plan.levelId ? Object.keys(BOOK_LEVEL).find((b) => BOOK_LEVEL[b] === plan.levelId) : "") || "";
     if (!plan.source.units?.length && context.unit && plan.source.bookId === context.bookId) plan.source.units = [context.unit];

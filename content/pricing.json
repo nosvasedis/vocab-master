@@ -1,5 +1,5 @@
 {
-  "_note": "USD per 1M tokens. Gemini audio output billed at 25 tokens/second. Rates valid until 2026-12-31 (they double from 2027-01-01). Source: https://ai.google.dev/gemini-api/docs/pricing (checked 2026-10-17).",
+  "_note": "USD per 1M tokens. Gemini audio output billed at 25 tokens/second. Rates valid until 2026-12-31 (they double from 2027-01-01). Source: https://ai.google.dev/gemini-api/docs/pricing (checked 2026-10-17). Text: gemini-2.5-flash-lite $0.10 in / $0.40 out per 1M (checked 2026-10-19).",
   "audioTokensPerSecond": 25,
   "gemini": {
     "gemini-3.8-flash-tts": {
@@ -20,6 +20,12 @@
       "batch": {
         "in": 0.25,
         "out": 3
+      }
+    },
+    "gemini-2.5-flash-lite": {
+      "standard": {
+        "in": 0.1,
+        "out": 0.4
       }
     }
   },

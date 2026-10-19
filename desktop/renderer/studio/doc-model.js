@@ -118,7 +118,9 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     example,
     passageTitle: clean(raw.passageTitle),
     passage: String(raw.passage || "").trim(),
-    script: (Array.isArray(raw.script) ? raw.script : []).map((l) => ({ speaker: clean(l?.speaker) || "Narrator", text: clean(l?.text) })).filter((l) => l.text),
+    // The rubric is printed, so a narrator reading it aloud ("Teacher: Listen and tick…") is dropped.
+    script: (Array.isArray(raw.script) ? raw.script : []).map((l) => ({ speaker: clean(l?.speaker) || "Narrator", text: clean(l?.text) }))
+      .filter((l) => l.text && !(/^(teacher|narrator|announcer)$/i.test(l.speaker) && /^(now )?(listen|look|you will hear)\b/i.test(l.text))),
     frame: (Array.isArray(raw.frame) ? raw.frame : []).map(clean).filter(Boolean),
     prompts: (Array.isArray(raw.prompts) ? raw.prompts : []).map(clean).filter(Boolean),
     sample: Array.isArray(raw.sample) ? raw.sample.map(clean).join("\n") : String(raw.sample || "").trim(),
@@ -165,7 +167,7 @@ export function docPoints(doc) {
 /** Answer key lines for a section: [{ n, text }]. */
 export function answerKeyRows(section) {
   return (section.items || []).map((it) => {
-    if (section.answerType === "choice") return { n: it.n, text: `${LETTERS[it.answerIndex] ?? "?"}  ${it.answer}` };
+    if (section.answerType === "choice") return { n: it.n, text: `${LETTERS[it.answerIndex] ?? "?"}) ${it.answer}` };
     if (section.answerType === "match") return { n: it.n, text: `${it.letter} — ${it.answer}` };
     return { n: it.n, text: it.answer || "" };
   });

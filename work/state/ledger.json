@@ -10859,6 +10859,46 @@
       "outTok": 767,
       "usd": 0.000357,
       "job": "feud CPP3-U5"
+    },
+    {
+      "t": "2026-10-19T20:18:05.048Z",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash-lite",
+      "mode": "standard",
+      "inTok": 2406,
+      "outTok": 2744,
+      "usd": 0.001338,
+      "job": "studio-try: unit test"
+    },
+    {
+      "t": "2026-10-19T20:18:06.315Z",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash-lite",
+      "mode": "standard",
+      "inTok": 508,
+      "outTok": 254,
+      "usd": 0.000152,
+      "job": "studio-try: dictation"
+    },
+    {
+      "t": "2026-10-19T20:18:07.213Z",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash-lite",
+      "mode": "standard",
+      "inTok": 349,
+      "outTok": 151,
+      "usd": 0.000095,
+      "job": "studio-try: assistant"
+    },
+    {
+      "t": "2026-10-19T20:18:57.709Z",
+      "provider": "gemini",
+      "model": "gemini-2.5-flash-lite",
+      "mode": "standard",
+      "inTok": 2510,
+      "outTok": 2831,
+      "usd": 0.001383,
+      "job": "studio-try: unit test"
     }
   ]
 }

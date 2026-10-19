@@ -97,7 +97,7 @@ JSON: { "title": "short title", "sentences": [ { "text": "one sentence", "target
   const rules = [
     `Dictation style: ${style.label} — ${style.hint}`,
     connected
-      ? `Write ONE connected text of about ${spec.textWords} words (${Math.max(4, Math.round(spec.textWords / ((min + max) / 2)))}–${Math.round(spec.textWords / min) + 1} sentences, each ${min}–${max} words) in "text", and put the same sentences, in order, in "sentences".`
+      ? `Write ONE connected text of about ${spec.textWords} words (${Math.max(3, Math.round(spec.textWords / max))}–${Math.max(4, Math.ceil(spec.textWords / min))} sentences, each ${min}–${max} words) in "text", and put the same sentences, in order, in "sentences".`
       : `Write exactly ${spec.count} sentences, each ${min}–${max} words long.`,
     spec.style === "picture"
       ? "Each sentence uses exactly ONE target word, a different one each time; it must be easy to picture."
