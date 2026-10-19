@@ -72,24 +72,24 @@ function otherProfiles(s) {
     </div>`);
   }
   if (!rows.length) return "";
-  return `<div class="acct-sub"><h5>Other teachers on this computer</h5>${rows.join("")}</div>`;
+  return `<div class="acct-sub" data-area="profiles"><h5>Other teachers on this computer</h5>${rows.join("")}</div>`;
 }
 
 function keysBlock(s, open) {
   if (s.vault === "on") {
-    return `<div class="acct-sub"><h5>${icon("key", "i-sm")}AI keys</h5>
+    return `<div class="acct-sub" data-area="keys"><h5>${icon("key", "i-sm")}AI keys</h5>
       <p class="hint">Your AI keys sync, locked with your sync passphrase before they leave this computer. Nobody else can read them, not even the database.</p>
       <div class="acct-actions"><button type="button" class="btn btn-ghost btn-sm" data-ac="keys-off">Stop syncing keys</button></div>
     </div>`;
   }
   if (s.vault === "locked") {
-    return `<div class="acct-sub"><h5>${icon("key", "i-sm")}AI keys</h5>
+    return `<div class="acct-sub" data-area="keys"><h5>${icon("key", "i-sm")}AI keys</h5>
       <div class="key-status warn">${icon("alert", "i-sm")}<span>Type your sync passphrase to get your keys on this computer (and to upload a changed key).</span></div>
       <div class="acct-fields"><input class="input" id="acVaultPass" type="password" autocomplete="off" placeholder="Sync passphrase" /></div>
       <div class="acct-actions"><button type="button" class="btn btn-primary btn-sm" data-ac="keys-unlock">Unlock</button><span class="spacer"></span><button type="button" class="btn btn-ghost btn-sm" data-ac="keys-forgot">Forgot it?</button></div>
     </div>`;
   }
-  return `<div class="acct-sub"><h5>${icon("key", "i-sm")}AI keys</h5>
+  return `<div class="acct-sub" data-area="keys"><h5>${icon("key", "i-sm")}AI keys</h5>
     <label class="switch"><input type="checkbox" id="acKeysOn" ${open ? "checked" : ""} /><span class="track"></span><span class="sw-text">Sync my AI keys<small>Locked with a passphrase only you know. If you forget it, you'll paste your keys again.</small></span></label>
     ${open ? `<div class="acct-fields">
       <input class="input" id="acVaultPass" type="password" autocomplete="new-password" placeholder="Sync passphrase (not your password)" />
@@ -101,7 +101,7 @@ function keysBlock(s, open) {
 }
 
 function backupBlock() {
-  return `<div class="acct-sub"><h5>${icon("package", "i-sm")}Backup file</h5>
+  return `<div class="acct-sub" data-area="backup"><h5>${icon("package", "i-sm")}Backup file</h5>
     <p class="hint">Save everything to a file, or bring a file's worksheets, classes and settings into this computer. Works without an account.</p>
     <div class="acct-actions">
       <button type="button" class="btn btn-secondary btn-sm" data-ac="export">${icon("download", "i-sm")}Export backup</button>
@@ -132,13 +132,13 @@ function render(body, ui) {
     } else {
       const line = statusLine(s);
       if (line) html += `<p class="hint">${esc(line)}</p>`;
-      html += `<div class="acct-actions">
+      html += `<div class="acct-actions" data-area="main">
         <button type="button" class="btn btn-secondary btn-sm" data-ac="sync">${icon("refresh", "i-sm")}Sync now</button>
         <button type="button" class="btn btn-secondary btn-sm" data-ac="add">${icon("users", "i-sm")}Add another teacher</button>
         <span class="spacer"></span>
         <button type="button" class="btn btn-ghost btn-sm" data-ac="signout">Sign out</button>
       </div>`;
-      if (ui.adding) html += `<div class="acct-sub"><h5>Add another teacher</h5><p class="hint">Their own classes and worksheets; yours are kept aside on this computer until you switch back.</p>${signInForm()}</div>`;
+      if (ui.adding) html += `<div class="acct-sub" data-area="add"><h5>Add another teacher</h5><p class="hint">Their own classes and worksheets; yours are kept aside on this computer until you switch back.</p>${signInForm()}</div>`;
       html += keysBlock(s, ui.keysOpen);
     }
   }
@@ -152,17 +152,22 @@ function render(body, ui) {
 export function mountAccount(root) {
   const body = root.querySelector("#syncBody");
   if (!body) return;
-  const ui = { keysOpen: false, adding: false, busy: false };
+  const ui = { keysOpen: false, adding: false, busy: false, area: "" };
   const draw = () => { if (!ui.busy) render(body, ui); };
   const onStatus = () => { if (!body.isConnected) { window.removeEventListener("vm-sync-status", onStatus); cancelGoogle(); return; } draw(); };
   window.addEventListener("vm-sync-status", onStatus);
   draw();
 
+  // A message shows next to the part whose button was pressed (ui.area), not at the bottom of the panel.
   const msg = (tone, text) => {
     const m = body.querySelector("#acMsg");
     if (!m) return;
     m.className = `key-status ${tone}`;
     m.innerHTML = `${icon(tone === "ok" ? "check-circle" : tone === "info" ? "info" : "alert", "i-sm")}<span>${esc(text)}</span>`;
+    const area = (ui.area && body.querySelector(`[data-area="${ui.area}"]`)) || body.querySelector(".acct-signin");
+    if (area?.matches(".acct-sub, .acct-signin")) area.append(m);
+    else area?.after(m);
+    m.scrollIntoView({ block: "nearest" });
   };
   const val = (id) => body.querySelector(id)?.value || "";
   const busy = async (btn, fn) => {
@@ -180,7 +185,12 @@ export function mountAccount(root) {
   const after = (res, okText) => {
     if (res?.reload) { msg("info", "Switching… the app reloads in a moment."); return; }
     if (res?.cancelled) return;
-    if (!res?.ok) { draw(); msg("error", res?.error || "That didn't work."); return; }
+    if (!res?.ok) {
+      draw();
+      // The status line above already says it: don't print the same sentence twice.
+      if (!res?.error || res.error !== syncStatus().error) msg("error", res?.error || "That didn't work.");
+      return;
+    }
     ui.adding = false;
     draw();
     if (okText) msg("ok", okText);
@@ -216,6 +226,7 @@ export function mountAccount(root) {
     const btn = e.target.closest("[data-ac]");
     if (!btn) return;
     const ac = btn.dataset.ac;
+    ui.area = btn.closest("[data-area]")?.dataset.area || "";
     if (ac === "google") {
       msg("info", window.desktop ? "Finish signing in in your browser, then come back here." : "Finish signing in in the Google window.");
       after(await busy(btn, () => signIn({ method: "google" })), "Signed in.");

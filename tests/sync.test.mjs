@@ -250,6 +250,63 @@ test("engine: tombstones are forgotten after the TTL", () => {
   });
 });
 
+/** An account whose rules refuse some records (or all), like Firebase does: the whole write fails. */
+function refusingAccount(refuse) {
+  const acct = memoryAccount();
+  const put = acct.putItems;
+  acct.writes = 0;
+  acct.putItems = async (list) => {
+    acct.writes++;
+    if (list.some(refuse)) throw Object.assign(new Error("PERMISSION_DENIED: Permission denied"), { code: "PERMISSION_DENIED" });
+    return put(list);
+  };
+  return acct;
+}
+
+test("engine: one refused record no longer holds every other change back", async () => {
+  const acct = refusingAccount(({ id }) => id === "bad");
+  const now = clock();
+  const A = laptop(acct, now, { lingo_maker_saves: JSON.stringify([ws("w1", 1), ws("bad", 2), ws("w3", 3)]), vm_classes: JSON.stringify([{ id: "c1" }]) });
+  await A.engine.pull();
+  assert.deepEqual([...acct.items.keys()].sort(), ["lingo_maker_saves\u0001w1", "lingo_maker_saves\u0001w3", "vm_classes\u0001c1"]);
+  assert.equal(A.engine.status.pending, 1);
+  assert.equal(A.engine.status.phase, "error");
+  assert.match(A.engine.status.error, /1 item couldn't upload \(Saved worksheets\)/);
+
+  // Automatic pushes don't keep hammering the refused record until it changes...
+  const writes = acct.writes;
+  await A.engine.push();
+  assert.equal(acct.writes, writes);
+  // ...but "Sync now" tries it again.
+  await A.engine.pull({ retryRefused: true });
+  assert.ok(acct.writes > writes);
+});
+
+test("engine: an account that refuses everything says so in plain words and keeps the changes", async () => {
+  const acct = refusingAccount(() => true);
+  const A = laptop(acct, clock(), { lingo_maker_saves: JSON.stringify([ws("w1", 1), ws("w2", 2)]) });
+  await assert.rejects(A.engine.pull(), /PERMISSION_DENIED/);
+  assert.equal(A.engine.status.phase, "error");
+  assert.match(A.engine.status.error, /refused the upload \(permission denied\)/);
+  assert.equal(A.engine.status.pending, 2);
+  assert.equal(acct.items.size, 0);
+});
+
+test("engine: a record over the account's size limit is held back locally, the rest upload", async () => {
+  const acct = memoryAccount();
+  const huge = ws("huge", 1, "x".repeat(4_100_000));
+  const A = laptop(acct, clock(), { lingo_maker_saves: JSON.stringify([huge, ws("w2", 2)]) });
+  await A.engine.pull();
+  assert.deepEqual([...acct.items.keys()], ["lingo_maker_saves\u0001w2"]);
+  assert.equal(A.engine.status.pending, 1);
+  assert.match(A.engine.status.error, /couldn't upload/);
+});
+
+test("ui: the settings switch is its checkbox's positioning box (else focusing it scrolls the whole dialog)", () => {
+  const css = fs.readFileSync(path.join(RENDERER, "styles", "base.css"), "utf8");
+  assert.match(css, /\.switch \{ position: relative;/);
+});
+
 /* ── the key vault ─────────────────────────────────────────────────── */
 test("crypto: seal/open round trip; a wrong passphrase or another owner can't open it", async () => {
   const h = await unlockKey("correct horse battery staple");

@@ -384,7 +384,9 @@ kbd {
 .stepper-input button:hover { background: var(--surface-3); color: var(--text); }
 
 /* Switch */
-.switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-size: 13.5px; font-weight: 500; color: var(--text); }
+/* position: relative keeps the hidden checkbox inside its switch; otherwise it is placed against the dialog,
+   and focusing it scrolls the whole dialog (head gone, footer floating mid-window). */
+.switch { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; font-size: 13.5px; font-weight: 500; color: var(--text); }
 .switch input { position: absolute; opacity: 0; pointer-events: none; }
 .switch .track {
   position: relative; flex: none;

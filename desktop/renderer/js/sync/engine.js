@@ -3,11 +3,24 @@
    { getIndex, getItems, putItems, getVault, putVault } (backend-firebase.js, or a fake in the tests).
    localStorage stays the source of truth; the app keeps reading and writing it exactly as before. */
 import { SYNCED, SECRET } from "./registry.js";
-import { explode, implode, hash, localChanges, beats, stamp, expiredTombstones } from "./merge.js";
+import { explode, implode, hash, localChanges, beats, stamp, expiredTombstones, encodeSeg } from "./merge.js";
 import { unlockKey, seal, open } from "./crypto.js";
 
 export const STATE_KEY = "vm_sync_state";
 const CHUNK_BYTES = 4 * 1024 * 1024;
+// The account's limits (firebase/database.rules.json): a record over them can never upload.
+const MAX_VALUE = 4000000;
+const MAX_KEY = 64;
+const MAX_ID = 400;
+
+/** The database refused a write (security rules), as opposed to a dropped connection. */
+export const isDenied = (err) => /permission.?denied/i.test(`${err?.code || ""} ${err?.message || ""}`);
+
+/** Plain words for an error the teacher sees. */
+export function friendlySyncError(err) {
+  if (isDenied(err)) return "The sync service refused the upload (permission denied). Your changes are safe on this computer and upload once it accepts them.";
+  return err?.message || String(err);
+}
 
 const randomId = (prefix) => `${prefix}${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36).slice(-4)}`;
 const freshState = () => ({ v: 1, device: randomId("d"), items: {}, dirty: {}, vault: { on: false }, lastSync: 0 });
@@ -194,7 +207,8 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     else { save(); setStatus({}); }
   }
 
-  async function pull() {
+  /** Fetch what's new in the account, then upload. @param {{ retryRefused?: boolean }} opts see push() */
+  async function pull({ retryRefused = false } = {}) {
     if (!backend) return;
     if (pulling) return pulling;
     pulling = (async () => {
@@ -203,7 +217,10 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
         setStatus({ phase: "syncing" });
         await reconcile(await backend.getIndex());
         await pullVault();
-        await push();
+        await push({ retryRefused });
+      } catch (err) {
+        setStatus({ phase: "error", error: friendlySyncError(err) });
+        throw err;
       } finally {
         pulling = null;
       }
@@ -218,13 +235,30 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
       if (pendingCount()) await push();
       else { st.lastSync = time(); save(); setStatus({ phase: "synced", error: "" }); }
     } catch (err) {
-      setStatus({ phase: "error", error: err?.message || String(err) });
+      setStatus({ phase: "error", error: friendlySyncError(err) });
     }
   }
 
-  async function push() {
+  /** Records the account refused, `${key}\u0001${id}` → the version refused; retried only when they change or on "Sync now". */
+  const refused = new Map();
+  const refusedKey = (key, id) => `${key}\u0001${id}`;
+  const tooBig = ({ key, id, rec }) => encodeSeg(key).length > MAX_KEY || encodeSeg(id).length > MAX_ID || (rec.v?.length || 0) > MAX_VALUE;
+
+  function refusedMessage() {
+    const labels = [...new Set([...refused.keys()].map((k) => SYNCED[k.split("\u0001")[0]]?.label).filter(Boolean))];
+    const n = refused.size;
+    return `${n} item${n === 1 ? "" : "s"} couldn't upload (${labels.join(", ")}): the sync service refused ${n === 1 ? "it" : "them"}. ${n === 1 ? "It stays" : "They stay"} on this computer; everything else syncs.`;
+  }
+
+  /**
+   * Upload the outbox. One write per ~4 MB; if the account refuses a write, each record is tried alone so a
+   * single bad record (too big, or breaking a rule) can't hold every other change back.
+   * @param {{ retryRefused?: boolean }} opts retryRefused: try refused records again even if unchanged ("Sync now")
+   */
+  async function push({ retryRefused = false } = {}) {
     if (!backend) return;
     if (pushing) return pushing;
+    if (retryRefused) refused.clear();
     pushing = (async () => {
       try {
         captureAll();
@@ -236,10 +270,20 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
             const m = st.items[key]?.[id];
             if (!m) { clearDirty(key, id); continue; }
             const rec = m.del ? { t: m.t, by: m.by, del: true } : items.has(id) ? { t: m.t, by: m.by, v: items.get(id) } : null;
-            if (rec) batch.push({ key, id, rec });
-            else clearDirty(key, id);
+            if (!rec) { clearDirty(key, id); continue; }
+            const rk = refusedKey(key, id);
+            if (refused.has(rk) && refused.get(rk) === rec.t) continue; // unchanged since it was refused
+            refused.delete(rk);
+            const entry = { key, id, rec };
+            if (tooBig(entry)) refused.set(rk, rec.t);
+            else batch.push(entry);
           }
         }
+        const sentOk = (sent) => {
+          for (const { key, id, rec } of sent) if (st.items[key]?.[id]?.t === rec.t) clearDirty(key, id);
+          save();
+          setStatus({});
+        };
         let chunk = [];
         let bytes = 0;
         const flush = async () => {
@@ -247,10 +291,22 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
           const sent = chunk;
           chunk = [];
           bytes = 0;
-          await backend.putItems(sent);
-          for (const { key, id, rec } of sent) if (st.items[key]?.[id]?.t === rec.t) clearDirty(key, id);
-          save();
-          setStatus({});
+          try {
+            await backend.putItems(sent);
+            sentOk(sent);
+          } catch (err) {
+            if (!isDenied(err)) throw err;
+            if (sent.length === 1) { refused.set(refusedKey(sent[0].key, sent[0].id), sent[0].rec.t); return; }
+            let accepted = 0;
+            for (const entry of sent) {
+              try { await backend.putItems([entry]); sentOk([entry]); accepted++; } catch (e) {
+                if (!isDenied(e)) throw e;
+                refused.set(refusedKey(entry.key, entry.id), entry.rec.t);
+              }
+            }
+            // Nothing at all accepted: the account itself refuses writes, not one record.
+            if (!accepted) { for (const e of sent) refused.delete(refusedKey(e.key, e.id)); throw err; }
+          }
         };
         for (const entry of batch) {
           const size = (entry.rec.v?.length || 0) + 200;
@@ -262,9 +318,10 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
         await pushVault();
         st.lastSync = time();
         save();
-        setStatus({ phase: "synced", error: "" });
+        if (refused.size) setStatus({ phase: "error", error: refusedMessage() });
+        else setStatus({ phase: "synced", error: "" });
       } catch (err) {
-        setStatus({ phase: "error", error: err?.message || String(err) });
+        setStatus({ phase: "error", error: friendlySyncError(err) });
         throw err;
       } finally {
         pushing = null;

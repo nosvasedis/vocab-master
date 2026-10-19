@@ -131,10 +131,10 @@ export function accountBackend(h, uid) {
       await set(r("vault"), v);
     },
     /** Live updates: the index (small) and the vault's time; plus connection state and server clock. */
-    watch({ onIndex, onVault, onConnected, onOffset }) {
+    watch({ onIndex, onVault, onConnected, onOffset, onError }) {
       const offs = [
-        onValue(r("index"), (s) => onIndex?.(decodeIndex(s.val())), () => {}),
-        onValue(r("vault/t"), (s) => onVault?.(s.val()), () => {}),
+        onValue(r("index"), (s) => onIndex?.(decodeIndex(s.val())), (err) => onError?.(err)),
+        onValue(r("vault/t"), (s) => onVault?.(s.val()), (err) => onError?.(err)),
         onValue(ref(h.db, ".info/connected"), (s) => onConnected?.(!!s.val())),
         onValue(ref(h.db, ".info/serverTimeOffset"), (s) => onOffset?.(Number(s.val()) || 0)),
       ];

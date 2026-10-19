@@ -2,7 +2,7 @@
    Hooked in by js/main.js (initSync after hydrateStorage) and js/dialogs.js (the Account section).
    It watches localStorage writes itself, so no other module has to call it. */
 import { SYNCED, SECRET, isSynced, isSecret } from "./registry.js";
-import { createEngine } from "./engine.js";
+import { createEngine, friendlySyncError } from "./engine.js";
 import { encryptWithPassphrase, decryptWithPassphrase } from "./crypto.js";
 import {
   profileApp, dropProfileApp, restoredUser, accountBackend, emailSignIn, emailSignUp, resetPassword, googleSignIn, signOutProfile, friendlyAuthError, useEmulator,
@@ -114,6 +114,8 @@ function connect(u) {
     onVault: () => engine.pullVault().catch(() => {}).finally(() => publish()),
     onConnected: (c) => { connected = c; publish(); if (c) schedulePush(200); },
     onOffset: (ms) => engine.setClockOffset(ms),
+    // A refused read (e.g. the account's rules) would otherwise leave sync silently stuck.
+    onError: (err) => { first(); engine.setStatus({ phase: "error", error: friendlySyncError(err) }); },
   });
   publish();
   return ready;
@@ -273,12 +275,16 @@ export async function sendPasswordReset(email) {
 export async function syncNow() {
   if (!backend) return { ok: false, error: "Not signed in." };
   flushCaptures();
-  try { await engine.pull(); return { ok: true }; } catch (err) { return { ok: false, error: err?.message || String(err) }; }
+  try {
+    await engine.pull({ retryRefused: true });
+    const s = engine.status;
+    return s.phase === "error" ? { ok: false, error: s.error } : { ok: true };
+  } catch (err) { return { ok: false, error: friendlySyncError(err) }; }
 }
 
 /* ── AI keys ─────────────────────────────────────────────────────── */
 const vaultCall = async (fn) => {
-  try { await fn(); publish(); return { ok: true }; } catch (err) { publish(); return { ok: false, error: err?.code === "bad-passphrase" ? err.message : err?.message || String(err) }; }
+  try { await fn(); publish(); return { ok: true }; } catch (err) { publish(); return { ok: false, error: err?.code === "bad-passphrase" ? err.message : friendlySyncError(err) }; }
 };
 export const enableKeySync = (passphrase) => vaultCall(() => engine.unlockVault(passphrase));
 export const resetKeySync = (passphrase) => vaultCall(() => engine.resetVault(passphrase));

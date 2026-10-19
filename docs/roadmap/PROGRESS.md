@@ -2,7 +2,15 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-**Next:** nothing queued. `check/ai-key-3.2.0` is merged into `main` (2026-10-20); the 3.2.0 installer and portable exe are rebuilt (`desktop/release/`, package verified, packaged-app smoke passes).
+**Next:** publish the account database rules (`cd firebase && npx -y firebase-tools@latest deploy --only database --project vocab-master-live`) — without them every account upload is refused ("Permission denied"). Then merge `fix/sync-uploads`.
+
+## Sync fixes: stuck uploads, "Permission denied", the AI-keys switch (2026-10-20, branch fix/sync-uploads, from the user)
+- **Seen:** a new account stuck at "19 changes waiting to upload" with "Permission denied", and turning on "Sync my AI keys" broke the Settings window's layout.
+- **Cause of the refusal:** the live database still runs the Lingo-Live-only rules. `users/{uid}` (firebase/database.rules.json) was never deployed (the "waiting on the user" step below). With the committed rules on the emulator, the same flow syncs (3 classes + the key vault).
+- **Uploads (`engine.js`):** a refused write is retried record by record, so one bad record (over the 4 MB / id limits, or breaking a rule) no longer holds every other change back; refused records stay on the computer, are named in the status ("1 item couldn't upload (Saved worksheets)…"), and are retried when they change or on "Sync now". A refused read (`watch` errors were swallowed) now shows as a sync problem instead of a silent hang. Errors are in plain words (`friendlySyncError`).
+- **Layout:** `.switch` had no positioning box, so its hidden checkbox was placed against the whole dialog; focusing it scrolled the dialog itself (head gone, footer mid-window). `.switch { position: relative }` (base.css).
+- **Messages** in Account & sync now appear next to the button pressed (main actions, AI keys, backup…), not under "Backup file", and aren't repeated when the status line already says it.
+- **Checks:** `npm test` 440 pass (4 new in `tests/sync.test.mjs`). Checked in the web app against the local emulators: sign-up, key sync on, the dialog no longer scrolls, refused uploads (rules switched off on the emulator) show the plain message and "3 changes waiting", and they upload by themselves once the rules allow it. `check/ai-key-3.2.0` is merged into `main` (2026-10-20); the 3.2.0 installer and portable exe are rebuilt (`desktop/release/`, package verified, packaged-app smoke passes).
 
 ## 3.2.0 checked with a real DeepSeek key (2026-10-20, branch check/ai-key-3.2.0, from the user)
 - **Checked in the web app** (the teacher pasted the key in Settings) and with `try-studio.mjs --provider deepseek`. Spend about $0.04 (balance $2.49 → $2.45); the script calls are in the ledger (new `deepseek` provider, $0.10 cap, prices in `content/pricing.json`).
