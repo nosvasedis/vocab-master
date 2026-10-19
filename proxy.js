@@ -147,6 +147,7 @@ async function handleDocxExport(res, body) {
     if (type === "lingo") blob = await m.buildLingoDocx(data);
     else if (type === "dictation") blob = await m.buildDictationDocx(data);
     else if (type === "answer") blob = await m.buildAnswerKeyDocx(data);
+    else if (type === "studio") blob = await m.buildStudioDocx(data);
     else {
       res.writeHead(400, { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" });
       res.end(JSON.stringify({ error: "Invalid export type" }));

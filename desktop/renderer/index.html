@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="./styles/arcade.css" />
   <link rel="stylesheet" href="./styles/live.css" />
   <link rel="stylesheet" href="./styles/lesson.css" />
+  <link rel="stylesheet" href="./styles/studio.css" />
 </head>
 <body>
   <!-- ── Icon sprite ─────────────────────────────────────────────── -->
@@ -127,6 +128,20 @@
         <button type="button" class="sb-item" data-nav="preview">
           <span class="sb-step" data-step-dot="4">4</span>
           <span class="sb-item-text"><span>Preview &amp; export</span><small id="navSub-preview">Not generated yet</small></span>
+        </button>
+
+        <div class="sb-label">Make</div>
+        <button type="button" class="sb-item" data-nav="assistant">
+          <span class="sb-ico assistant"><svg class="i"><use href="#i-wand"/></svg></span>
+          <span class="sb-item-text"><span>Teacher assistant</span><small>Ask for any test or sheet</small></span>
+        </button>
+        <button type="button" class="sb-item" data-nav="tests">
+          <span class="sb-ico tests"><svg class="i"><use href="#i-clipboard"/></svg></span>
+          <span class="sb-item-text"><span>Unit test</span><small>4 skills · answer key</small></span>
+        </button>
+        <button type="button" class="sb-item" data-nav="dictation">
+          <span class="sb-ico dictation"><svg class="i"><use href="#i-mic"/></svg></span>
+          <span class="sb-item-text"><span>Dictation</span><small>5 styles · read aloud</small></span>
         </button>
 
         <div class="sb-label">Classroom</div>
@@ -547,6 +562,17 @@
               </div>
             </aside>
           </div>
+        </section>
+
+        <!-- ══ Make: assistant, unit test, dictation ══ -->
+        <section class="view view-wide" data-view="assistant">
+          <div class="view-inner studio-view" id="assistantView"></div>
+        </section>
+        <section class="view view-wide" data-view="tests">
+          <div class="studio-view" id="testsView"></div>
+        </section>
+        <section class="view view-wide" data-view="dictation">
+          <div class="studio-view" id="dictationView"></div>
         </section>
 
         <!-- ══ Lessons ══ -->

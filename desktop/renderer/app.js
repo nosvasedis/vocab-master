@@ -4657,6 +4657,12 @@ async function buildAnswerKeyDocx(data) {
   return d.Packer.toBlob(k.document(children));
 }
 
+/** Word file of a unit test or dictation ({ doc, which: "student" | "teacher" }), built where the docx library lives. */
+async function buildStudioDocx(data) {
+  const m = await import("./studio/doc-docx.js");
+  return m.buildStudioDocx(data, await loadDocxLibs());
+}
+
 function downloadBlob(blob, filename) {
   if (typeof window === "undefined" || typeof document === "undefined") {
     return blob;
@@ -5290,6 +5296,8 @@ export {
   isJunkBankEmoji,
   emojiHead,
   enforceTeacherVocabulary,
+  buildStudioDocx,
+  loadDocxLibs,
   validateAnswerKeys,
   isAnswerKeyIssue,
   buildUserPrompt,
