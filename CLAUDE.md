@@ -11,7 +11,7 @@ An AI vocabulary and worksheet studio for Greek-L1 ESL classes (A–E Senior), b
 - Tests: `npm test`
 
 ## Layout
-- `desktop/renderer/`: the single renderer (plain ES modules, no bundler). `js/main.js` is the shell, `app.js` the engine, `arcade/` the games, `js/views/` the screens.
+- `desktop/renderer/`: the single renderer (plain ES modules, no bundler). `js/main.js` is the shell, `app.js` the engine, `arcade/` the games, `js/views/` the screens, `js/voices/` the listening voices (Kokoro worker, Gemini studio voices; pure parts in `studio/`).
 - `desktop/main.js`: Electron main (the `app://` protocol, IPC). `proxy.js`: the web server and AI proxy.
 - `scripts/`: Node build pipelines (lessons, audio, art, packs). `content/`: pipeline config. `work/state/`: resumable job state.
 

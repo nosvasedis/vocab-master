@@ -11009,6 +11009,26 @@
       "outTok": 50,
       "usd": 0.000194,
       "job": "studio-try: key check"
+    },
+    {
+      "t": "2026-10-19T21:56:12.269Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 860,
+      "usd": 0.007791,
+      "job": "studio voices try"
+    },
+    {
+      "t": "2026-10-19T22:07:34.030Z",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash-tts",
+      "mode": "standard",
+      "inTok": 0,
+      "outTok": 121,
+      "usd": 0.001089,
+      "job": "studio voices route check (est)"
     }
   ]
 }

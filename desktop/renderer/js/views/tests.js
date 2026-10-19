@@ -2,7 +2,7 @@
  * items, points). One AI request writes the test from the whole unit (words by section, Big Question, readings,
  * lesson stories); any part can be rewritten alone. Version B, a teacher's pack, listening read by the app's
  * voices, click-to-edit items, and print / PDF / Word. */
-import { CLASS_PROFILES } from "../../app.js";
+import { CLASS_PROFILES, downloadBlob } from "../../app.js";
 import { state, prefs, isCpp } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy, openDialog } from "../ui.js";
@@ -16,14 +16,16 @@ import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheck
 import { makeVersionB, docProblems, docPoints, normalizeItem, balanceChoices, LETTERS } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext } from "../../studio/unit-context.js";
-import { playScript, RATE } from "../../studio/tts.js";
+import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
+import { audioFileName } from "../../studio/audio-track.js";
+import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { loadLessonJson } from "./studio-common.js";
 
 const PREFS_KEY = "vm_tests_prefs_v1";
 let picker;
 let paper;
 let built = false;
-const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set() };
+const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true };
 
 const savePrefs = () => writeJSON(PREFS_KEY, ts.spec);
 
@@ -128,7 +130,13 @@ function build() {
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
   $("tsPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(false), sheetTitle(), sheetTitle())));
   $("tsWord").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportWord(sheetDoc(), ts.sheet === "teacher" ? "teacher" : "student", sheetTitle()).catch((err) => toast(err.message, "error"))));
-  $("tsListen").addEventListener("click", (e) => { const b = e.target.closest("[data-play]"); if (b) togglePlay(b.dataset.play); });
+  $("tsListen").addEventListener("click", (e) => {
+    if (pickVoice(e)) { stopPlayer(); renderListen(); warmListening(); return; }
+    const play = e.target.closest("[data-play]");
+    if (play) { togglePlay(play.dataset.play); return; }
+    const wav = e.target.closest("[data-wav]");
+    if (wav) saveTrack(wav.dataset.wav, wav);
+  });
   $("tsProblems").addEventListener("click", (e) => { const b = e.target.closest("[data-rewrite]"); if (b) rewritePart(b.dataset.rewrite, b); });
   $("tsRecent").addEventListener("click", (e) => {
     const row = e.target.closest("[data-doc]");
@@ -372,17 +380,85 @@ function renderPaper() {
   fitPaper($("tsStage"), $("tsPaper"));
   const byPart = ts.doc.sections.filter((s) => s.problems?.length);
   $("tsProblems").innerHTML = byPart.length ? `<div class="callout warning st-problems">${icon("alert")}<div><b>Worth a quick look before printing</b>${byPart.map((s) => `<div class="prob-row"><span>Part ${ts.doc.sections.indexOf(s) + 1} · ${esc(TASKS[s.task]?.label || "")}: ${esc(s.problems.slice(0, 2).join("; "))}</span><button type="button" class="btn btn-ghost btn-sm" data-rewrite="${s.id}">${icon("refresh", "i-sm")}Write it again</button></div>`).join("")}</div></div>` : "";
-  const listening = ts.doc.sections.map((s, i) => ({ s, i })).filter(({ s }) => s.skill === "listening" && s.script?.length);
-  $("tsListen").innerHTML = listening.length ? `<div class="listen-bar">${icon("volume", "i-sm")}<b>Play the listening</b>${listening.map(({ s, i }) => `<button type="button" class="btn btn-secondary btn-sm${ts.playing === s.id ? " playing" : ""}" data-play="${s.id}">${icon(ts.playing === s.id ? "pause" : "play", "i-sm")}Track ${i + 1} · plays ${s.plays === 1 ? "once" : "twice"}</button>`).join("")}<small>The computer reads it — a different voice for each speaker.</small></div>` : "";
+  renderListen();
+}
+
+/* ── Listening: natural / studio / computer voices, a player per track and a WAV per track ── */
+const listeningParts = () => (ts.doc?.sections || []).map((s, i) => ({ s, i })).filter(({ s }) => s.skill === "listening" && s.script?.length);
+
+function renderListen() {
+  const parts = listeningParts();
+  if (!parts.length) { $("tsListen").innerHTML = ""; return; }
+  const chars = parts.reduce((n, { s }) => n + s.script.reduce((m, l) => m + String(l.text || "").length, 0), 0);
+  $("tsListen").innerHTML = `<div class="listen-bar">
+    <div class="lb-head">${icon("volume", "i-sm")}<b>Play the listening</b><span class="lb-voices">Voices ${voicePickerHtml()}</span></div>
+    <div class="lb-tracks">${parts.map(({ s, i }) => `<div class="lb-track">
+      <button type="button" class="btn btn-secondary btn-sm${ts.playing === s.id ? " playing" : ""}" data-play="${s.id}">${icon(ts.playing === s.id ? "pause" : "play", "i-sm")}${ts.playing === s.id ? "Stop" : `Track ${i + 1} · plays ${s.plays === 1 ? "once" : "twice"}`}</button>
+      <button type="button" class="icon-btn sm" data-wav="${s.id}" data-tip="Save track ${i + 1} as an audio file (WAV) — for a speaker, a CD player or the class page" aria-label="Save track ${i + 1} as audio">${icon("download", "i-sm")}</button>
+      ${statusPill(ts.status[s.id])}
+    </div>`).join("")}</div>
+    <small>${esc(voiceNote(chars, { downloaded: ts.naturalReady }))}</small>
+  </div>`;
+}
+
+function setStatus(id, st) {
+  ts.status[id] = st;
+  const row = $("tsListen").querySelector(`[data-play="${id}"]`)?.parentElement;
+  if (!row) return;
+  row.querySelector(".vp-status")?.remove();
+  row.insertAdjacentHTML("beforeend", statusPill(st));
+}
+
+function stopPlayer() {
+  if (!ts.player) return;
+  ts.player.stop();
+  ts.player = null;
+  ts.playing = null;
 }
 
 function togglePlay(id) {
-  if (ts.player) { ts.player.stop(); const was = ts.playing; ts.player = null; ts.playing = null; renderPaper(); if (was === id) return; }
+  const was = ts.playing;
+  if (ts.player) { stopPlayer(); delete ts.status[was]; renderListen(); if (was === id) return; }
   const s = ts.doc.sections.find((x) => x.id === id);
   if (!s) return;
   ts.playing = id;
-  ts.player = playScript(s.script, { plays: s.plays, rate: RATE[ts.doc.meta.classProfile] || 0.9, onEnd: () => { ts.player = null; ts.playing = null; renderPaper(); } });
-  renderPaper();
+  ts.player = playScript(s.script, {
+    plays: s.plays,
+    levelId: ts.doc.meta.classProfile,
+    onStatus: (st) => {
+      if (st.phase === "fallback") toast(st.message, "warn");
+      if (st.phase === "prepare" && ts.status[id]?.phase === "play") return; // playing while the rest is made
+      setStatus(id, st);
+    },
+    onEnd: () => { if (ts.playing === id) { ts.player = null; ts.playing = null; } delete ts.status[id]; ts.naturalReady = true; renderListen(); },
+  });
+  renderListen();
+}
+
+async function saveTrack(id, btn) {
+  const part = listeningParts().find(({ s }) => s.id === id);
+  if (!part || btn.disabled) return;
+  btn.disabled = true;
+  try {
+    const { blob, seconds } = await scriptWav(part.s.script, { plays: part.s.plays, levelId: ts.doc.meta.classProfile, onStatus: (st) => setStatus(id, st) });
+    setStatus(id, { phase: "save" });
+    downloadBlob(blob, audioFileName(`${sheetTitle()} · Track ${part.i + 1}`));
+    toast(`Track ${part.i + 1} saved as audio (${Math.round(seconds)} s).`, "ok", { ms: 2500 });
+  } catch (e) {
+    toast(e.message || "The audio file could not be made.", "error");
+  } finally {
+    btn.disabled = false;
+    delete ts.status[id];
+    ts.naturalReady = true;
+    renderListen();
+  }
+}
+
+/** Make the natural-voice clips in the background, so the listening plays at once in class. */
+async function warmListening() {
+  ts.naturalReady = await naturalDownloaded();
+  renderListen();
+  if (ts.doc) warmScripts(listeningParts().map(({ s }) => s.script), ts.doc.meta.classProfile);
 }
 
 /* Click a question on the paper to edit it (prompt, options, answer). */
@@ -445,6 +521,7 @@ function renderAll() {
   renderSheetSeg();
   renderRecent();
   renderPaper();
+  warmListening();
 }
 
 export function renderTestsView() {

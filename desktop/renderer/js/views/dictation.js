@@ -12,7 +12,8 @@ import { dictationDefaults, dictationPrompt, bookSentences, buildDictationDoc, r
 import { DICTATION_STYLES } from "../../studio/tasks.js";
 import { GRAMMAR_MENU, LEVEL_IDS, sentenceRange, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../../studio/doc-render.js";
-import { readDictation, RATE } from "../../studio/tts.js";
+import { readDictation } from "../voices/listening.js";
+import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 
 const PREFS_KEY = "vm_dictation_prefs_v1";
 const STYLE_ICON = { classic: "📝", gapped: "✏️", running: "🏃", dictogloss: "👂", picture: "🖼️" };
@@ -20,7 +21,7 @@ const STYLE_ICON = { classic: "📝", gapped: "✏️", running: "🏃", dictogl
 let picker;
 let paper;
 let built = false;
-const dc = { spec: null, doc: null, sheet: "student", player: null };
+const dc = { spec: null, doc: null, sheet: "student", player: null, status: null };
 
 function levelNow() {
   return dc.spec?.levelId || state.profileId || picker?.value().level || "B_SENIOR";
@@ -48,13 +49,14 @@ function build() {
       <div class="paper-toolbar">
         ${segHtml("dcSheet", [["student", "Student sheet"], ["teacher", "Teacher copy"], ["strips", "Wall strips"]], dc.sheet)}
         <span class="spacer"></span>
-        <button type="button" class="btn btn-accent btn-sm" id="dcRead" disabled data-tip="The computer reads each sentence slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
+        <button type="button" class="btn btn-accent btn-sm" id="dcRead" disabled data-tip="Each sentence is read, then read again slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
         <span class="export-pills">
           <button type="button" class="btn btn-secondary btn-sm" id="dcPrint" disabled>${icon("printer", "i-sm")}Print</button>
           <button type="button" class="btn btn-secondary btn-sm" id="dcPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
           <button type="button" class="btn btn-secondary btn-sm" id="dcWord" disabled>${icon("word", "i-sm")}Word</button>
         </span>
       </div>
+      <div id="dcVoices"></div>
       <div id="dcProblems"></div>
       <div class="paper-stage" id="dcStage"><div class="paper hidden" id="dcPaper"></div>
         <div class="studio-empty" id="dcEmpty"><div class="empty-owl">${owl()}</div><h3>Your read-aloud dictation will appear here</h3><p>Choose the words and a style on the left, then press <b>Make my dictation</b>. You get a sheet for the children and a copy for you — and the app can read it aloud.</p><ol class="empty-steps"><li>Pick the words</li><li>Choose a style</li><li>Make it ✨</li></ol></div>
@@ -107,6 +109,7 @@ function build() {
     if (k) { dc.spec[k] = e.target.checked; savePrefs(); if (dc.doc) { dc.doc.meta.greek = !!dc.spec.greek; dc.doc.meta.pictures = !!dc.spec.pictures; renderPaper(); } }
   });
   $("dcGenerate").addEventListener("click", (e) => generate(e.currentTarget));
+  $("dcVoices").addEventListener("click", (e) => { if (pickVoice(e)) { if (dc.player) toggleRead(); renderVoices(); } });
   $("dcRead").addEventListener("click", toggleRead);
   $("dcPrint").addEventListener("click", () => printHtml(sheetHtml(), sheetTitle()));
   $("dcPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(), sheetTitle(), fileBase())));
@@ -244,6 +247,7 @@ function renderPaper() {
   $("dcPaper").classList.toggle("hidden", !has);
   $("dcEmpty").classList.toggle("hidden", has);
   ["dcRead", "dcPrint", "dcPdf", "dcWord"].forEach((id) => { $(id).disabled = !has; });
+  renderVoices();
   const stripsBtn = document.querySelector('[data-seg="dcSheet"] [data-value="strips"]');
   if (stripsBtn) stripsBtn.hidden = dc.doc?.sections?.[0]?.style !== "running";
   if (dc.sheet === "strips" && stripsBtn?.hidden) dc.sheet = "student";
@@ -256,7 +260,7 @@ function renderPaper() {
 }
 
 function toggleRead() {
-  if (dc.player) { dc.player.stop(); dc.player = null; setReadBtn(false); return; }
+  if (dc.player) { dc.player.stop(); dc.player = null; dc.status = null; setReadBtn(false); renderVoices(); return; }
   const lines = readAloudLines(dc.doc);
   if (!lines.length) return;
   if (dc.sheet !== "teacher") { dc.sheet = "teacher"; document.querySelector('[data-seg="dcSheet"] [data-value="teacher"]')?.click(); }
@@ -264,11 +268,23 @@ function toggleRead() {
   const items = () => [...paper.root.querySelectorAll(".st-key .ex-item")];
   dc.player = readDictation(lines, {
     repeats: dc.spec.repeats,
-    rate: RATE[dc.doc.meta.classProfile] || 0.85,
+    levelId: dc.doc.meta.classProfile,
     punctuation: !!dc.spec.punctuationAloud,
     onLine: (i) => items().forEach((el, k) => el.classList.toggle("st-playing", k === i)),
-    onEnd: () => { dc.player = null; setReadBtn(false); },
+    onStatus: (st) => {
+      if (st.phase === "fallback") toast(st.message, "warn");
+      if (st.phase === "prepare" && dc.status?.phase === "play") return; // reading while the rest is made
+      dc.status = st;
+      renderVoices();
+    },
+    onEnd: () => { dc.player = null; dc.status = null; setReadBtn(false); renderVoices(); },
   });
+}
+
+/** Voices picker and the reader's status, above the paper. */
+function renderVoices() {
+  if (!dc.doc) { $("dcVoices").innerHTML = ""; return; }
+  $("dcVoices").innerHTML = `<div class="listen-bar dc-voice-bar"><div class="lb-head">${icon("volume", "i-sm")}<b>Reading voice</b>${voicePickerHtml()}${statusPill(dc.status)}</div><small>${esc(voiceNote(readAloudLines(dc.doc).join(" ").length * Math.max(1, dc.spec.repeats || 2)))}</small></div>`;
 }
 function setReadBtn(on) {
   $("dcRead").innerHTML = `${icon(on ? "pause" : "volume", "i-sm")}<span>${on ? "Stop reading" : "Read it aloud"}</span>`;

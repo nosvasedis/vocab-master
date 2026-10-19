@@ -12,8 +12,8 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 
 1. Go to the [**GitHub Releases**](../../releases/latest) page.
 2. Choose either download option:
-   - **💿 `Vocab-Master-Setup-3.2.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
-   - **🧳 `Vocab-Master-Portable-3.2.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
+   - **💿 `Vocab-Master-Setup-3.3.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
+   - **🧳 `Vocab-Master-Portable-3.3.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
 3. On first launch, open **Settings** (bottom of the sidebar). Choose **Google Gemini** or **DeepSeek** and paste your API key, or choose **ChatGPT** → **Continue with ChatGPT** to use an eligible ChatGPT Plus or Pro plan without an API key. For ChatGPT, allow plan usage in your browser, choose a model, then Save. Luna is selected first when available. Desktop credentials are stored encrypted on your PC via Windows DPAPI.
 
 ---
@@ -50,8 +50,9 @@ Vocab Master is a calm, four-step studio with a sidebar that always shows where 
 
 ### 🧑‍🏫 Make: assistant, unit tests, read-aloud dictation
 - **Teacher assistant** — say what you need ("a test for Unit 4", "Present Simple vs Present Continuous for E class", "τεστ για την ενότητα 5"). It asks at most two quick questions, shows an editable plan, then builds it. It also tells the two dictations apart: the **Dictation sheet** (vocabulary exercises, with the Lingo Launcher) or a **read-aloud dictation**.
-- **Unit test** — a printable all-round test for one or more units: listening (short new dialogues read by the computer), reading, vocabulary, grammar, writing and speaking, with points, timing, versions A and B, Greek instructions on or off, and a teacher's pack with the answer key and marking scheme.
+- **Unit test** — a printable all-round test for one or more units: listening (short new dialogues, a different voice for each speaker, saved as audio files too), reading, vocabulary, grammar, writing and speaking, with points, timing, versions A and B, Greek instructions on or off, and a teacher's pack with the answer key and marking scheme.
 - **Read-aloud dictation** — you (or the app) read, the class writes: classic, gapped, running (with wall strips), dictogloss or picture. Choose sentence count and length, unit words per sentence, gaps, difficulty and grammar focus; free sentences from the coursebook or one small AI request.
+- **Listening voices** — tests and dictations are read by **Natural voices** (Kokoro, an open voice model that runs on the computer: free, offline after a one-time ~90 MB download), **Studio voices** (Google Gemini with your own Gemini key, the most lifelike, about 1 cent per minute of speech) or the computer's own voices. Every listening is made once and kept, so it plays at once in class; any track can be saved as a WAV.
 
 ### 🖼️ Pictures
 Each word’s emoji can be drawn in four looks — **colour emoji**, **outline drawings** (OpenMoji, lightest on toner), **bold outline** (Microsoft Fluent high contrast) or **line icons** (Lucide, with outline drawings where Lucide has no match) — or switched off. One choice in the Preview’s Layout panel or in Settings applies to worksheets, PDFs, Word files and the games. Credits: OpenMoji (CC BY-SA 4.0), Fluent Emoji (MIT), Lucide (ISC).

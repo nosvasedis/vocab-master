@@ -93,6 +93,7 @@ const MIME = {
   ".opus": "audio/ogg",
   ".mp3": "audio/mpeg",
   ".wav": "audio/wav",
+  ".wasm": "application/wasm",
   ".zip": "application/zip",
   ".ico": "image/x-icon",
   ".woff2": "font/woff2",
@@ -171,10 +172,10 @@ function proxyDeepSeek(req, res, method, apiPath, body) {
   proxyApi(res, TARGET, method, apiPath, auth ? { Authorization: auth } : {}, body);
 }
 
-/** Google Gemini — only the v1beta model list and generateContent are forwarded. */
+/** Google Gemini — only the v1beta model list, generateContent and interactions (studio voices) are forwarded. */
 const GEMINI_HOST = "generativelanguage.googleapis.com";
 function proxyGemini(req, res, method, apiPath, body) {
-  if (!/^\/v1beta\/models(\/[\w.-]+:generateContent)?$/.test(apiPath)) {
+  if (!/^\/v1beta\/(models(\/[\w.-]+:generateContent)?|interactions)$/.test(apiPath)) {
     res.writeHead(400, { "Content-Type": "application/json" });
     return res.end(JSON.stringify({ error: { message: "Unsupported Gemini path" } }));
   }
