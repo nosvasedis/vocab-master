@@ -13,6 +13,7 @@ import { savePrefs } from "../state.js";
 import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 import { play } from "../../arcade/audio.js";
+import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
 
 let sheetSeg;
 let densitySeg;
@@ -109,7 +110,10 @@ export function renderPreview() {
 
 /* ── Layout options ──────────────────────────────────────────────── */
 function sheetLayout(sheet) {
-  return { ...WORKSHEET_LAYOUT_DEFAULTS[sheet], ...(state.preview.layout?.[sheet] || {}) };
+  const layout = { ...WORKSHEET_LAYOUT_DEFAULTS[sheet], ...(state.preview.layout?.[sheet] || {}) };
+  // Greek help lines default to on for A–C Senior (younger classes), off for D–E.
+  if (typeof layout.greekHelp !== "boolean") layout.greekHelp = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(state.data?.meta?.classProfile || state.profileId);
+  return layout;
 }
 
 /** Everything the worksheet renderers and Word builders need (saved in data.meta.layout). */
@@ -117,7 +121,7 @@ function layoutPayload() {
   return { lingo: sheetLayout("lingo"), dictation: sheetLayout("dictation"), answer: sheetLayout("answer"), schoolName: prefs.schoolName || "", pictureStyle: prefs.pictureStyle || "emoji" };
 }
 
-const LAYOUT_ROWS = { lingo: ["studentHeader", "scoreBoxes", "footer"], dictation: ["studentHeader", "scoreBoxes", "reuseNote", "footer"], answer: ["footer"] };
+const LAYOUT_ROWS = { lingo: ["studentHeader", "scoreBoxes", "greekHelp", "footer"], dictation: ["studentHeader", "scoreBoxes", "greekHelp", "reuseNote", "footer"], answer: ["footer"] };
 
 function renderLayoutControls() {
   const sheet = state.preview.sheet;
@@ -502,7 +506,7 @@ async function pdfHtml(sheet) {
   const opts = { showAnswers: false, density: state.preview.density, layout: layoutPayload() };
   const body = sheet === "lingo" ? renderLingoLauncher(state.data, opts)
     : sheet === "dictation" ? renderDictation(state.data, opts) : renderAnswerKey(state.data, opts);
-  return buildWorksheetPrintDocument(body, SHEET_NAME[sheet], await worksheetFontCss());
+  return inlinePictures(buildWorksheetPrintDocument(body, SHEET_NAME[sheet], await worksheetFontCss()));
 }
 
 /** Footer text for PDF pages (page numbers are added by the PDF renderer), or "" when switched off. */
@@ -515,14 +519,16 @@ function pdfFooter(sheet) {
 /** The worksheet plus PNG copies of its pictures, for Word files (never saved into the library). */
 async function wordData() {
   const style = prefs.pictureStyle || "emoji";
-  if (style === "emoji" || style === "none") return state.data;
   const d = state.data;
+  // Word-bank illustrations (picture exercise, "Word-bank pictures" table) travel as PNG copies.
+  const picPng = style === "none" ? {} : await picPngMap(d);
+  if (style === "emoji" || style === "none" || style === "pictures") return { ...d, meta: { ...d.meta, picPng } };
   const texts = [
     ...(d.lingoLauncher?.vocabulary || []).map((v) => v.emojis),
     ...[...(d.lingoLauncher?.practice || []), ...(d.dictation?.exercises || [])].flatMap((ex) => (ex.items || []).map((it) => it.prompt)),
   ];
   const emojis = texts.flatMap((t) => splitEmojiText(t || "").filter((p) => p.emoji).map((p) => p.text));
-  return { ...d, meta: { ...d.meta, pictures: await rasterisePictures(emojis, style) } };
+  return { ...d, meta: { ...d.meta, picPng, pictures: await rasterisePictures(emojis, style) } };
 }
 
 async function exportWord(sheet, btn) {

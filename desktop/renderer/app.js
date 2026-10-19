@@ -19,6 +19,7 @@ import {
   buildTabooCard,
   maskWordInText,
 } from "./arcade/deck.js";
+import { picForWord, picUrl } from "./js/pics.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -101,7 +102,7 @@ const EXERCISE_DESCRIPTIONS = {
   D22: "Crossword-style clues for vocabulary words.",
   D23: "Complete the analogy (word is to word as…).",
   D24: "Choose between similar-sounding or easily confused words.",
-  D25: "Picture or emoji cue — optional paraphrase hint in brackets, never the answer word.",
+  D25: "Look at the word-bank picture and write the word — Cambridge “look and write”. Uses the app's real illustrations.",
   D26: "Unscramble the jumbled letters to make the unit word — a short clue in brackets helps.",
   D27: "Fill in the missing letters of the unit word (t _ a _ k) — a short clue helps.",
   D28: "One word in [brackets] is misspelt — students write it correctly.",
@@ -145,7 +146,7 @@ const EXERCISE_EXAMPLES = {
   D22: 'Across: 5 letters — A course where athletes run races: ________ → track',
   D23: 'Arm is to limb as stadium path is to ________. → track',
   D24: 'Her story was a great (inspiration / respiration) to us. → inspiration',
-  D25: '🏃‍♀️🏟️ (oval path for runners) ________ → track',
+  D25: '[picture of a running track] (an oval path for runners) ________ → track',
   D26: 'ckrat (a path for running races) → track',
   D27: 't _ a _ k (a path for running races) → track',
   D28: 'The runners ran around the [trak]. → track',
@@ -208,7 +209,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D12: "Read the riddle and choose the correct answer from the brackets.",
   D13: "Match each word to the correct letter from the definition list.",
   D14: "Fill in all the gaps in the paragraph with words from the unit.",
-  D15: "Write T (true) or F (false) for each statement.",
+  D15: "Read the sentences. Write T (true) or F (false).",
   D16: "Sort the words from the word bank into the correct categories.",
   D17: "Complete each collocation with the missing word.",
   D18: "Choose the more formal or appropriate option in brackets.",
@@ -218,7 +219,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D22: "Solve the crossword-style clues.",
   D23: "Complete each analogy.",
   D24: "Choose the correct word from the similar options in brackets.",
-  D25: "Look at the picture cue and write the correct word.",
+  D25: "Look at the pictures. Write the words.",
   D26: "Unscramble the letters to make a word from the unit. The clue in brackets will help you.",
   D27: "Write the missing letters to complete each word. The clue in brackets will help you.",
   D28: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
@@ -235,6 +236,51 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   L11: "Read each question and write Yes or No.",
   L12: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
   L13: "Only one sentence is correct. Write A or B.",
+};
+
+/** The same task lines in Greek — an optional help line for younger classes (layout "Greek help"). */
+const EXERCISE_STUDENT_INSTRUCTIONS_EL = {
+  D01: "Διάβασε κάθε ορισμό και γράψε τη σωστή λέξη από το κουτί.",
+  D02: "Συμπλήρωσε το κενό με μια άλλη μορφή της λέξης με τα έντονα γράμματα.",
+  D03: "Διάλεξε τη σωστή λέξη μέσα στην παρένθεση.",
+  D04: "Γράψε τη λέξη που λείπει.",
+  D05: "Διάλεξε το σωστό αντίθετο μέσα στην παρένθεση.",
+  D06: "Διάλεξε τη λέξη με την ίδια σημασία (συνώνυμο).",
+  D07: "Ένωσε τα κομμάτια και φτιάξε τη σωστή λέξη.",
+  D08: "Η λέξη στις αγκύλες [ ] είναι λάθος. Γράψε τη σωστή λέξη της ενότητας.",
+  D09: "Βρες και διόρθωσε το γραμματικό λάθος.",
+  D10: "Φτιάξε καινούργια λέξη με την κατάληξη ή το πρόθεμα που σου δίνεται.",
+  D11: "Κύκλωσε τη λέξη που δεν ταιριάζει με τις άλλες.",
+  D12: "Διάβασε το αίνιγμα και διάλεξε τη σωστή απάντηση.",
+  D13: "Αντιστοίχισε κάθε λέξη με το σωστό γράμμα του ορισμού.",
+  D14: "Συμπλήρωσε τα κενά του κειμένου με λέξεις της ενότητας.",
+  D15: "Γράψε T (σωστό) ή F (λάθος).",
+  D16: "Βάλε τις λέξεις από το κουτί στη σωστή κατηγορία.",
+  D17: "Συμπλήρωσε τη φράση με τη λέξη που λείπει.",
+  D18: "Διάλεξε την πιο κατάλληλη επιλογή.",
+  D19: "Γράψε τη λέξη που ταιριάζει σε κάθε ορισμό.",
+  D20: "Κάθε πρόταση έχει ένα λάθος. Γράψε τη σωστή πρόταση.",
+  D21: "Βάλε τις προτάσεις στη σωστή σειρά.",
+  D22: "Λύσε τις ερωτήσεις του σταυρόλεξου.",
+  D23: "Συμπλήρωσε την αναλογία.",
+  D24: "Διάλεξε τη σωστή λέξη ανάμεσα σε λέξεις που μοιάζουν.",
+  D25: "Κοίτα τις εικόνες και γράψε τις λέξεις.",
+  D26: "Βάλε τα γράμματα στη σωστή σειρά και γράψε τη λέξη.",
+  D27: "Συμπλήρωσε τα γράμματα που λείπουν.",
+  D28: "Η λέξη στις αγκύλες [ ] είναι ανορθόγραφη. Γράψε τη σωστά.",
+  L01: "Συμπλήρωσε τα κενά με λέξεις από τη λίστα.",
+  L02: "Κύκλωσε τη σωστή λέξη.",
+  L03: "Διάλεξε το συνώνυμο.",
+  L04: "Διάλεξε το αντίθετο.",
+  L05: "Συμπλήρωσε κάθε φράση με τη σωστή λέξη από τη λίστα.",
+  L06: "Γράψε τι μέρος του λόγου είναι κάθε λέξη (ουσιαστικό, ρήμα κ.λπ.).",
+  L07: "Γράψε τη σωστή μορφή της λέξης.",
+  L08: "Βάλε τις λέξεις στη σωστή σειρά για να φτιάξεις πρόταση.",
+  L09: "Κύκλωσε τη λέξη που δεν ταιριάζει.",
+  L10: "Απάντησε στις ερωτήσεις με λέξεις της ενότητας.",
+  L11: "Διάβασε την ερώτηση και γράψε Yes ή No.",
+  L12: "Η λέξη στις αγκύλες [ ] είναι ανορθόγραφη. Γράψε τη σωστά.",
+  L13: "Μόνο μία πρόταση είναι σωστή. Γράψε A ή B.",
 };
 
 function getStudentExerciseInstruction(ex) {
@@ -1140,10 +1186,32 @@ function normalizeBracketChoices(data) {
   return data;
 }
 
+/**
+ * Word-bank illustrations for the vocabulary table ("Word-bank pictures" style) and the picture
+ * exercise (D25), via the same trusted lookup the arcade uses. Only fills gaps, so a saved worksheet
+ * keeps its pictures (and works where the manifest isn't loaded, e.g. Word files built in Node).
+ */
+function attachWorksheetPictures(data) {
+  const vocab = data?.lingoLauncher?.vocabulary || [];
+  vocab.forEach((v) => { if (!v.pic) { const t = picForWord(v.english, v.type); if (t) v.pic = t; } });
+  data?.dictation?.exercises?.forEach((ex) => {
+    if (ex.typeId !== "D25") return;
+    ex.items?.forEach((item) => {
+      if (item.pic) return;
+      const answer = String(item.answer || "").trim();
+      const entry = vocab.find((v) => normalizeWord(v.english) === normalizeWord(answer));
+      const t = picForWord(entry?.english || answer, entry?.type);
+      if (t) item.pic = t;
+    });
+  });
+  return data;
+}
+
 function normalizeWorksheetExercises(data) {
   if (data?.lingoLauncher?.vocabulary) {
     data.lingoLauncher.vocabulary = normalizeVocabulary(data.lingoLauncher.vocabulary);
   }
+  attachWorksheetPictures(data);
   normalizeDictationWordBanks(data);
   normalizeLetterPuzzles(data);
   normalizeD13Exercises(data);
@@ -1288,7 +1356,13 @@ function analyzeVocabFeatures(form) {
     if (r.antonyms?.trim() && t.antonyms !== false) hasAntonyms = true;
     if (r.derivatives?.trim() && t.derivatives !== false) hasDerivatives = true;
   });
-  return { hasSynonyms, hasAntonyms, hasDerivatives };
+  const pictureWords = wordsWithPictures(rows);
+  return { hasSynonyms, hasAntonyms, hasDerivatives, pictureWords, hasPictures: pictureWords.length >= 3 };
+}
+
+/** Words of a list that have a word-bank illustration (the picture exercise D25 needs 3 or more). */
+function wordsWithPictures(rows = []) {
+  return rows.filter((r) => String(r?.english || "").trim() && picForWord(r.english, r.type)).map((r) => r.english.trim());
 }
 
 function analyzeVocabFeaturesFromData(vocabulary) {
@@ -1300,7 +1374,8 @@ function analyzeVocabFeaturesFromData(vocabulary) {
     if (antonymTexts(v.antonyms).length) hasAntonyms = true;
     if (normalizeDerivativesList(v.derivatives).length) hasDerivatives = true;
   });
-  return { hasSynonyms, hasAntonyms, hasDerivatives };
+  const pictureWords = wordsWithPictures(vocabulary);
+  return { hasSynonyms, hasAntonyms, hasDerivatives, pictureWords, hasPictures: pictureWords.length >= 3 };
 }
 
 const RELATED_EXERCISE_MAP = {
@@ -1324,6 +1399,7 @@ function filterDictTypesByFeatures(types, features = {}) {
   return types.filter((id) => {
     if (id === "D06" && !features.hasSynonyms) return false;
     if (id === "D05" && !features.hasAntonyms) return false;
+    if (id === "D25" && Array.isArray(features.pictureWords) && features.pictureWords.length < 3) return false;
     return true;
   });
 }
@@ -2576,12 +2652,12 @@ function pictureKey(emoji) {
 /** HTML for a run of text: emojis drawn in `style` (or kept / removed), everything else escaped. */
 /** Same as textWithPictures, for HTML that is already escaped (emoji never occur inside tags). */
 function picturesInHtml(html, style = "emoji") {
-  if (style === "emoji" || !style) return html;
+  if (style === "emoji" || style === "pictures" || !style) return html;
   return splitEmojiText(html).map((p) => (!p.emoji ? p.text : style === "none" ? "" : pictureSource?.svg(p.text, style) || "")).join("");
 }
 
 function textWithPictures(text, style = "emoji") {
-  if (style === "emoji" || !style) return escapeHtml(text);
+  if (style === "emoji" || style === "pictures" || !style) return escapeHtml(text);
   return splitEmojiText(text).map((p) => {
     if (!p.emoji) return escapeHtml(p.text);
     if (style === "none") return "";
@@ -2606,6 +2682,8 @@ function resolveWorksheetLayout(sheet, meta = {}, options = {}) {
   if (typeof options.studentHeader === "boolean" && !options.layout) layout.studentHeader = options.studentHeader;
   layout.schoolName = String(options.layout?.schoolName ?? saved.schoolName ?? "").trim();
   layout.pictureStyle = options.layout?.pictureStyle ?? saved.pictureStyle ?? "emoji";
+  // Greek help under each task line: on by default for the younger classes (A–C Senior).
+  if (typeof layout.greekHelp !== "boolean") layout.greekHelp = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(meta.classProfile);
   return layout;
 }
 
@@ -2666,6 +2744,7 @@ function exerciseHeadHtml(ex, layout) {
     <span class="ex-num">Exercise ${escapeHtml(ex.number)}</span>
     <div class="ex-title">
       ${instr ? `<h3 class="ex-heading ex-instruction ws-heading">${escapeHtml(instr)}</h3>` : ""}
+      ${layout.greekHelp && !String(ex.instruction || "").trim() && EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId] ? `<p class="ex-help-el" lang="el">${escapeHtml(EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId])}</p>` : ""}
     </div>
     ${layout.scoreBoxes && n ? `<span class="ex-score"><i></i>/ ${n}</span>` : ""}
   </div>`;
@@ -2737,7 +2816,8 @@ function formatVocabCell(v, pictureStyle = "emoji") {
   if (v.type?.trim()) html += `<span class="v-pos">${escapeHtml(v.type.trim())}</span>`;
   // Greek sits on the same line: "be born phr. = γεννιέμαι" (saves a line per word).
   if (v.greek?.trim()) html += `<span class="v-tr"><span class="v-eq">=</span> <span class="v-greek">${escapeHtml(v.greek.trim())}</span></span>`;
-  const pics = v.emojis ? textWithPictures(v.emojis, pictureStyle).trim() : "";
+  // "Word-bank pictures": the app's illustration of the word (its emoji where a word has none).
+  const pics = pictureStyle === "pictures" && v.pic ? worksheetPicHtml(v.pic, "v-pic") : v.emojis ? textWithPictures(v.emojis, pictureStyle).trim() : "";
   if (pics) html += `<span class="v-emoji">${pics}</span>`;
   html += `</div>`;
   if (v.collocation) html += `<div class="vocab-coll v-coll">${phraseWithTargetHtml(v.collocation, v.english)}</div>`;
@@ -2753,6 +2833,28 @@ function formatVocabCell(v, pictureStyle = "emoji") {
   if (ant.length) rel.push(`<span class="vocab-related"><b>≠</b>${escapeHtml(ant.map(formatAntonymLine).join(", "))}</span>`);
   if (rel.length) html += `<div class="v-rel">${rel.join("")}</div>`;
   return html;
+}
+
+/** <img> for a picture-set token ("@w-volcano") on a worksheet; "" for anything else. */
+function worksheetPicHtml(token, cls = "ws-pic") {
+  const id = String(token || "").trim().replace(/^@/, "");
+  if (!/^(?:w|c|ui)-[a-z0-9][a-z0-9-]*$/.test(id)) return "";
+  return `<img class="${cls}" src="${escapeHtml(picUrl(id))}" data-pic="${escapeHtml(id)}" alt="" draggable="false">`;
+}
+
+/** Clue text of a picture item: the prompt without emoji, gaps or the answer line. */
+function pictureClue(prompt) {
+  return String(prompt || "").replace(/\p{Extended_Pictographic}|️|‍/gu, "").replace(/_{2,}/g, "").replace(/\s{2,}/g, " ").trim();
+}
+
+/** Cambridge-style "look and write": a grid of picture cards, each with its writing line. */
+function renderPictureCards(ex, options) {
+  return `<div class="pic-grid">${(ex.items || []).map((item) => {
+    const hint = pictureClue(item.prompt);
+    const pic = worksheetPicHtml(item.pic);
+    const ans = options.showAnswers && item.answer ? `<span class="teacher-ans-pill">✓ ${escapeHtml(item.answer)}</span>` : "";
+    return `<div class="ex-item pic-card" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span>${pic ? `<div class="pic-frame">${pic}</div>` : ""}${hint ? `<div class="pic-clue">${escapeHtml(hint)}</div>` : ""}<div class="pic-line">${ans}</div></div>`;
+  }).join("")}</div>`;
 }
 
 function answerPill(item, showAnswers) {
@@ -2818,6 +2920,10 @@ function renderDictation(data, options = {}) {
       body += ex.typeId === "D13" ? renderMatchDefinitionsList(ex.wordBank) : renderWordBankTable(ex.wordBank);
     }
     if (ex.stemHeader) body += `<p class="stem-header">${escapeHtml(ex.stemHeader)}</p>`;
+    if (ex.typeId === "D25" && ex.items.some((it) => it.pic)) {
+      body += `${renderPictureCards(ex, options)}</section>`;
+      return;
+    }
     ex.items.forEach((item) => {
       body += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${picturesInHtml(formatDictationItemHtml(item, ex.typeId), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
     });
@@ -2884,7 +2990,7 @@ DICTATION FORMATS (never give away answers to students):
 - D15 True / false: each item starts with "( )" for students to write T or F; statement uses unit vocabulary in context; answer = "T" or "F" only
 - D20 Error correction: like D08 — each sentence has a deliberate vocabulary mistake; answer = corrected sentence; prompt must NOT already be correct
 - D11 Odd one out: each item = exactly 4 comma-separated words on one line (e.g. "run, jump, swim, apple") — NOT full sentences
-- D25 Picture / emoji cue: each item is mainly emoji(s); add (short paraphrase) ONLY if the emoji is ambiguous — NEVER use the answer word or a close form (FORBIDDEN: "➡️ (arrow pointing farther)" for answer farther/further); paraphrase instead: "➡️ (more distance this way)"
+- D25 Picture cue (Cambridge "look and write"): the app prints the word-bank PICTURE of each answer, so use NO emojis. prompt = a short clue in brackets that tells similar pictures apart, e.g. "(an oval path for runners)" — NEVER the answer word or a close form; answer = the unit word. Use only words from the "words with pictures" list when one is given
 - D26 Jumbled letters: prompt = "scrambledLetters (short clue)" e.g. "ckrat (a path for running races)"; the scramble MUST be the answer's letters in a different order (single word, lower case); the clue must NOT contain the answer or a close form; answer = the unit word
 - D27 Missing letters: prompt = "t _ a _ k (short clue)" — the answer's letters with 2–3 letters replaced by "_" separated by spaces (never the first letter); clue must NOT contain the answer; answer = the full unit word (single word)
 - D28 Spelling check: sentence with ONE misspelt unit word in [square brackets] (a realistic learner error, e.g. [competion]); answer = the correctly spelt word; the bracketed word must NOT be a real English word
@@ -3001,6 +3107,14 @@ D12 MYSTERY RIDDLE — mandatory:
 BRACKET-CHOICE DICTATION (D03/D05/D06 etc.) — mandatory:
 - ~${CLASS_PROFILES[form.classProfile]?.itemsPerExercise || 5} items per exercise — do NOT list every vocabulary word in one exercise
 - Each sentence must be UNIQUE — never copy sentences from Lingo Launcher practice`;
+  }
+  if (plan.dictationTypes?.includes("D25")) {
+    const words = wordsWithPictures(form.vocabRows || []);
+    block += `
+D25 PICTURE CUE — mandatory:
+- The app prints the word-bank picture of each answer; write NO emojis
+- prompt = a short clue in brackets that tells the picture apart from similar ones; answer = the word${words.length ? `
+- Words with pictures (use ONLY these as D25 answers): ${JSON.stringify(words)}` : ""}`;
   }
   if (plan.dictationTypes?.includes("D13")) {
     block += `
@@ -3295,7 +3409,8 @@ async function callDeepSeek(apiKey, systemPrompt, userPrompt, retryHint) {
     return chatgptRequest({ systemPrompt, userPrompt, retryHint: retryHint || "" });
   }
   if (activeProvider === "gemini") return callGemini(apiKey, systemPrompt, userPrompt, retryHint);
-  const url = "http://localhost:8787/chat/completions";
+  // Same origin: the web server may run on another port (and the desktop app routes it over IPC).
+  const url = "/chat/completions";
   const messages = [
     { role: "system", content: systemPrompt },
     { role: "user", content: userPrompt + (retryHint ? "\n\nFIX:\n" + retryHint : "") },
@@ -4161,6 +4276,21 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .key-block .item-num { width: 4.6mm; height: 4.6mm; margin-top: 0.4mm; font-size: 7pt; }
 .ans-tests-tag { color: var(--ink-3); font-size: 8.4pt; margin-left: 1.6mm; }
 
+/* Greek help line and word-bank pictures */
+.ex-help-el { margin: 0.4mm 0 0; font-size: 8.8pt; line-height: 1.3; font-style: italic; color: var(--ink-3); }
+.v-pic { width: 9mm; height: 9mm; object-fit: contain; }
+.pic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; margin: 0 0 2mm 9.8mm; }
+.ex-item.pic-card { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1.2mm; margin: 0; padding: 2.4mm 2.4mm 3mm; border: 0.8pt solid var(--ink); border-radius: 2.6mm; break-inside: avoid; }
+.pic-card .item-num { position: absolute; top: 1.6mm; left: 1.6mm; margin: 0; }
+.pic-frame { width: 100%; height: 28mm; display: flex; align-items: center; justify-content: center; }
+.ws-pic { max-width: 100%; max-height: 28mm; object-fit: contain; }
+.pic-clue { font-size: 8.8pt; line-height: 1.25; color: var(--ink-2); text-align: center; }
+.pic-line { width: 88%; height: 6mm; border-bottom: 0.8pt solid var(--ink); display: flex; align-items: flex-end; justify-content: center; }
+.worksheet.density-compact .pic-frame { height: 22mm; }
+.worksheet.density-compact .ws-pic { max-height: 22mm; }
+.worksheet.density-comfortable .pic-frame { height: 34mm; }
+.worksheet.density-comfortable .ws-pic { max-height: 34mm; }
+
 /* Density */
 .worksheet.density-compact { font-size: 10pt; }
 .worksheet.density-compact .ex-item { font-size: 10pt; line-height: 1.45; margin-bottom: 0.6mm; }
@@ -4270,9 +4400,15 @@ async function docxKit(meta, sheet) {
   // Text with its emojis drawn in the chosen picture style (PNG copies prepared by the app in meta.pictures).
   const pics = meta.pictures || {};
   const toBytes = (b64) => (typeof Buffer !== "undefined" ? Buffer.from(b64, "base64") : Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
+  // Word-bank illustrations as PNG (WebP can't go into Word), prepared by the app in meta.picPng.
+  const picPng = meta.picPng || {};
+  const picRun = (token, size) => {
+    const b64 = picPng[String(token || "").replace(/^@/, "")];
+    return b64 ? new d.ImageRun({ data: toBytes(b64), transformation: { width: size, height: size } }) : null;
+  };
   const textRuns = (text, o = {}) => {
     const style = layout.pictureStyle || "emoji";
-    if (style === "emoji") return [run(text, o)];
+    if (style === "emoji" || style === "pictures") return [run(text, o)];
     const out = [];
     let buf = "";
     for (const p of splitEmojiText(text)) {
@@ -4354,12 +4490,13 @@ async function docxKit(meta, sheet) {
     // "Exercise N" in an outlined box, then its instruction as the heading.
     const head = [badge(`${label} ${ex.number}`, 19), ...(instr ? [new d.TextRun({ text: "\t" }), run(instr, { display: true, bold: true, size: 22 })] : [])];
     if (layout.scoreBoxes && n) head.push(new d.TextRun({ text: "\t" }), run(`____ / ${n}`, { display: true, bold: true, size: 18 }));
+    const greek = layout.greekHelp && !String(ex.instruction || "").trim() ? EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId] : "";
     return [para(head, {
       keepNext: true,
-      spacing: { before: 3 * MM, after: 1.6 * MM },
+      spacing: { before: 3 * MM, after: greek ? 0 : 1.6 * MM },
       indent: { left: 27 * MM, hanging: 27 * MM },
       tabStops: [{ type: d.TabStopType.LEFT, position: 27 * MM }, { type: d.TabStopType.RIGHT, position: 180 * MM }],
-    })];
+    }), ...(greek ? [para([run(greek, { italics: true, size: 17, color: GREY })], { keepNext: true, indent: { left: 27 * MM }, spacing: { after: 1.6 * MM } })] : [])];
   }
 
   const chipsBox = (words) => new d.Table({
@@ -4405,7 +4542,7 @@ async function docxKit(meta, sheet) {
     });
   }
 
-  return { d, run, textRuns, badge, para, header, section, exerciseHead, chipsBox, item, document, line, none, INK, GREY, RULE, TINT, layout };
+  return { d, run, textRuns, picRun, badge, para, header, section, exerciseHead, chipsBox, item, document, line, none, INK, GREY, RULE, TINT, layout };
 }
 
 async function buildLingoDocx(data) {
@@ -4421,7 +4558,9 @@ async function buildLingoDocx(data) {
       const top = [badge(v.number, 16), run(`  ${v.english}`, { display: true, bold: true, size: 23 })];
       if (v.type?.trim()) top.push(run(`  ${v.type.trim()}`, { italics: true, size: 17, color: k.GREY }));
       if (v.greek?.trim()) top.push(run("  =  ", { bold: true, size: 19, color: k.GREY }), run(v.greek.trim(), { bold: true, size: 20 }));
-      if (v.emojis) top.push(run("  "), ...textRuns(v.emojis, { size: 19, pic: 22 }));
+      const vpic = k.layout.pictureStyle === "pictures" && v.pic ? k.picRun(v.pic, 30) : null;
+      if (vpic) top.push(run("  "), vpic);
+      else if (v.emojis) top.push(run("  "), ...textRuns(v.emojis, { size: 19, pic: 22 }));
       lines.push(para(top));
       const sub = (runs) => para(runs, { indent: { left: 6 * MM } });
       if (v.collocation) {
@@ -4485,6 +4624,9 @@ async function buildDictationDocx(data) {
       let runs;
       if (ex.typeId === "D02" && it.stem) {
         runs = [run(`${stripLeadingItemNumber(it.prompt)}  `), run(String(it.stem).toUpperCase(), { display: true, bold: true })];
+      } else if (ex.typeId === "D25" && it.pic && k.picRun(it.pic, 80)) {
+        const clue = pictureClue(it.prompt);
+        runs = [k.picRun(it.pic, 80), run(`   ${clue ? `${clue}  ` : ""}`, { size: 19, color: "444444" }), run("______________________")];
       } else if ((ex.typeId === "D08" || ex.typeId === "D28") && /\[[^\]]+\]/.test(it.prompt || "")) {
         runs = stripLeadingItemNumber(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
       } else {

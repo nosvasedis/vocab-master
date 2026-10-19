@@ -18,6 +18,7 @@ const NEEDS = {
   D06: ["hasSynonyms", "synonyms"], L03: ["hasSynonyms", "synonyms"],
   D05: ["hasAntonyms", "opposites"], L04: ["hasAntonyms", "opposites"],
   D02: ["hasDerivatives", "derivatives"], L07: ["hasDerivatives", "derivatives"],
+  D25: ["hasPictures", "3+ words with word-bank pictures"],
 };
 const STAGES = [
   [0, "Reading your word list"],
@@ -197,7 +198,7 @@ function exCard(id, section, features) {
     <span class="exc-title">${esc(EXERCISE_LABELS[id] || id)}</span>
     <span class="exc-desc">${esc(EXERCISE_DESCRIPTIONS[id] || "")}</span>
     ${EXERCISE_EXAMPLES?.[id] ? `<span class="exc-example">${esc(EXERCISE_EXAMPLES[id])}</span>` : ""}
-    ${need ? `<span class="exc-need">${icon("alert")}Turn on ${esc(need)} in Step 2 to use this</span>` : ""}
+    ${need ? `<span class="exc-need">${icon("alert")}${id === "D25" ? "Needs 3+ words that have word-bank pictures" : `Turn on ${esc(need)} in Step 2 to use this`}</span>` : ""}
   </label>`;
 }
 

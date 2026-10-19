@@ -232,7 +232,7 @@ function picture(text, keepText = false) {
   return splitEmojiText(str).map((p) => {
     if (!p.emoji) return keepText ? esc(p.text) : "";
     if (style === "none") return "";
-    if (style === "emoji") return esc(p.text);
+    if (style === "emoji" || style === "pictures") return esc(p.text);
     return pictureSvg(p.text, style) || "";
   }).join("").trim();
 }
