@@ -322,6 +322,15 @@ export const sfx = {
   star: () => play("star"),
   enter: () => play("enter"),
   exit: () => play("exit"),
+  intro: () => play("intro"),
+  swoosh: () => play("swoosh"),
+  count: () => play("count"),
+  go: () => play("go"),
+  turn: () => play("turn"),
+  drumroll: () => play("drumroll"),
+  fanfare: () => play("fanfare"),
+  reveal: () => play("reveal"),
+  sparkle: () => play("sparkle"),
 };
 
 /* ── Text-to-speech (system voice) ───────────────────────────────── */

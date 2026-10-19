@@ -1,6 +1,19 @@
-/* Lingo Arcade — visual effects: canvas confetti and floating score popups. */
+/* Lingo Arcade — visual effects: canvas confetti (paper, stars, ribbons) and floating score popups.
+   The big-screen moments (title screens, round cards, sparks) live in showtime.js. */
 
 const COLORS = ["#7b6bff", "#c056f0", "#ff8a4c", "#ffd23f", "#34d399", "#38bdf8", "#ff5e7a"];
+
+/** A five-pointed star of radius r around (0, 0). */
+function star(c, r) {
+  c.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const a = -Math.PI / 2 + (i * Math.PI) / 5;
+    const d = i % 2 ? r * 0.45 : r;
+    i ? c.lineTo(Math.cos(a) * d, Math.sin(a) * d) : c.moveTo(Math.cos(a) * d, Math.sin(a) * d);
+  }
+  c.closePath();
+  c.fill();
+}
 
 export function confetti(host, { count = 140, originX = 0.5, originY = 0.35, spread = 1 } = {}) {
   if (!host || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
@@ -22,7 +35,7 @@ export function confetti(host, { count = 140, originX = 0.5, originY = 0.35, spr
       w: 6 + Math.random() * 7, h: 8 + Math.random() * 10,
       rot: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.35,
       color: COLORS[(Math.random() * COLORS.length) | 0],
-      shape: Math.random() < 0.3 ? "circle" : "rect",
+      shape: ((r) => (r < 0.22 ? "circle" : r < 0.4 ? "star" : r < 0.52 ? "ribbon" : "rect"))(Math.random()),
       life: 0,
     };
   });
@@ -47,6 +60,8 @@ export function confetti(host, { count = 140, originX = 0.5, originY = 0.35, spr
       c.rotate(p.rot);
       c.fillStyle = p.color;
       if (p.shape === "circle") { c.beginPath(); c.arc(0, 0, p.w / 2, 0, Math.PI * 2); c.fill(); }
+      else if (p.shape === "star") star(c, p.w * 0.75);
+      else if (p.shape === "ribbon") c.fillRect(-p.w / 5, -p.h, p.w / 2.5, p.h * 2 * Math.abs(Math.cos(p.rot * 1.5)));
       else c.fillRect(-p.w / 2, -p.h / 2, p.w, p.h * Math.abs(Math.cos(p.rot * 2)));
       c.restore();
     }

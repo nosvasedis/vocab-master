@@ -8,7 +8,8 @@ import { confetti, floatText } from "./fx.js";
 import { mountGame, esc, svg } from "./host.js";
 import { firstEmoji, buildArcadeDeck } from "./deck.js";
 import { openDeckPicker } from "./deck-picker.js";
-import { rowById, describePick } from "./deck-source.js";
+import { rowById, describePick, logPlayed } from "./deck-source.js";
+import { hasVoiceFor } from "./voice.js";
 import flashcards from "./games/flashcards.js";
 import memory from "./games/memory.js";
 import spelling from "./games/spelling.js";
@@ -17,8 +18,11 @@ import taboo from "./games/taboo.js";
 import live from "./games/live.js";
 import board from "./games/board.js";
 import feud from "./games/feud.js";
-import { teamPic, avatarPic, picForWord } from "../js/pics.js";
+import { picForWord } from "../js/pics.js";
 import * as P from "./players.js";
+import * as A from "./avatars.js";
+import { titleCard, turnToast, countdown, countTo, sparks, bouncy, reducedMotion } from "./showtime.js";
+import { openAvatarPicker, openCrestPicker } from "./avatar-picker.js";
 
 // Quiz Show stays for lessons' practice steps (hub: false); in the arcade, Word Board and Top Answers replace it.
 export const GAMES = [live, board, feud, flashcards, memory, spelling, taboo, quiz];
@@ -74,6 +78,9 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDec
     delArm: false,
     greek: localStorage.getItem("vm_arcade_greek") === "on", // hidden by default, like the lessons
     picture: picture || ((t) => esc(t)),
+    gamesStarted: 0,         // each game starts with the next team, so one team doesn't always go first
+    lastUp: null,            // players mode: who was up when the last game ended (the next game carries on after them)
+    intro: null,             // a game's title screen while it is showing
   };
   if (!currentClass()) session.classId = classes[0]?.id || null;
   buildPlay();
@@ -177,19 +184,28 @@ function syncToggles() {
 }
 
 /* ── Who's playing → a fresh line-up for each game ─────────────────── */
-function buildPlay() {
+function buildPlay({ forGame = false } = {}) {
   const cls = currentClass();
-  session.play = P.createPlay({ mode: session.mode, cls, absent: session.absent, teamCount: cls?.teamCount || 2, teamNames: cls?.teamNames || [] });
+  session.play = P.createPlay({
+    mode: session.mode, cls, absent: session.absent, teamCount: cls?.teamCount || 2, teamNames: cls?.teamNames || [],
+    startTeam: session.gamesStarted, after: session.lastUp,
+  });
+  if (forGame) session.gamesStarted++;
 }
 
-const sideIcon = (s) => (session.play.mode === "players" ? avatarPic(s.emoji) : teamPic(s.emoji));
-const playerChip = (p) => (p ? `<span class="who-chip" style="--team:${p.color}">${avatarPic(p.emoji)}<b>${esc(p.name)}</b></span>` : "");
+/** A side's badge: a child's avatar disc, a team's crest, or the class star. */
+function sideBadge(s, o = {}) {
+  if (!s) return "";
+  if (s.shape) return A.crestBadge(s, o);
+  return A.avatarDisc(s.emoji, s.color, o);
+}
+const playerChip = (p) => (p ? `<span class="who-chip" style="--team:${p.color}">${A.avatarDisc(p.emoji, p.color, { cls: "sm" })}<b>${esc(p.name)}</b></span>` : "");
 
 /** "🦊 Maria" (players), "🦊 Maria · 🚀 Rockets" (teams), "" (class) — for the games' turn banners. */
 function turnHtml() {
   const { side, player } = P.current(session.play);
   if (session.play.mode === "players") return playerChip(player);
-  if (session.play.mode === "teams") return `${playerChip(player)}<span class="who-for">·</span><span class="who-team" style="--team:${side.color}">${teamPic(side.emoji)} ${esc(side.name)}</span>`;
+  if (session.play.mode === "teams") return `${playerChip(player)}<span class="who-for">·</span><span class="who-team" style="--team:${side.color}">${A.crestBadge(side, { cls: "xs" })} ${esc(side.name)}</span>`;
   return "";
 }
 
@@ -203,7 +219,7 @@ function renderTeams() {
     const top = P.rankPlayers(play)[0];
     wrap.innerHTML = `
       <div class="arc-team active arc-up" style="--team:${player?.color || "#7b6bff"}" title="Whose turn it is">
-        <span class="t-emoji">${player ? avatarPic(player.emoji) : ""}</span>
+        <span class="t-emoji">${player ? A.avatarDisc(player.emoji, player.color, { cls: "sm" }) : ""}</span>
         <span class="t-name">${esc(player?.name || "")}</span>
         <span class="t-score">${player?.score ?? 0}</span>
         <span class="t-adj"><button type="button" data-adj="1" aria-label="Add a point">+</button><button type="button" data-adj="-1" aria-label="Remove a point">−</button></span>
@@ -216,7 +232,7 @@ function renderTeams() {
   const { player } = P.current(play);
   wrap.innerHTML = P.sides(play).map((t, i) => `
     <div class="arc-team${!solo && i === play.team ? " active" : ""}" data-team="${i}" style="--team:${t.color}" title="${solo ? "Class score" : "Click to make it this team's turn"}">
-      <span class="t-emoji">${teamPic(t.emoji)}</span>
+      <span class="t-emoji">${solo ? A.crestBadge({ ...t, shape: "star" }, { cls: "sm" }) : A.crestBadge(t, { cls: "sm" })}</span>
       <span class="t-name">${esc(t.name)}${!solo && i === play.team && player ? `<small class="t-who">${esc(player.name)}</small>` : ""}</span>
       <span class="t-score">${t.score}</span>
       <span class="t-adj"><button type="button" data-adj="1" aria-label="Add a point">+</button><button type="button" data-adj="-1" aria-label="Remove a point">−</button></span>
@@ -255,7 +271,7 @@ function openSpinner() {
   if (!pick) return;
   const ov = document.createElement("div");
   ov.className = "arc-spinner";
-  ov.innerHTML = `<div class="sp-box"><h2>🎲 Who's next?</h2><div class="sp-names">${pool.map((p) => `<span class="sp-name${play.had.has(p.id) ? " had" : ""}" data-id="${p.id}" style="--team:${p.color}">${avatarPic(p.emoji)}<b>${esc(p.name)}</b></span>`).join("")}</div><p class="sp-hint">Click anywhere to continue</p></div>`;
+  ov.innerHTML = `<div class="sp-box"><h2>🎲 Who's next?</h2><div class="sp-names">${pool.map((p) => `<span class="sp-name${play.had.has(p.id) ? " had" : ""}" data-id="${p.id}" style="--team:${p.color}">${A.avatarDisc(p.emoji, p.color, { cls: "md" })}<b>${esc(p.name)}</b></span>`).join("")}</div><p class="sp-hint">Click anywhere to continue</p></div>`;
   session.root.appendChild(ov);
   const chips = [...ov.querySelectorAll(".sp-name")];
   const fresh = chips.filter((c) => !c.classList.contains("had"));
@@ -268,6 +284,7 @@ function openSpinner() {
     chips.forEach((c) => c.classList.remove("hot"));
     target.classList.add("hot", "picked");
     sfx.star();
+    sparks(target, { count: 26, color: pick.color });
     renderTeams();
     session.game?.onTurn?.();
   };
@@ -291,10 +308,10 @@ function openBoard() {
   const ov = document.createElement("div");
   ov.className = "arc-board";
   const ranked = P.rankPlayers(play);
-  const teamOf = (p) => (play.mode === "teams" && play.teams[p.team] ? `<span class="bd-team" style="--team:${play.teams[p.team].color}">${teamPic(play.teams[p.team].emoji)}</span>` : "");
+  const teamOf = (p) => (play.mode === "teams" && play.teams[p.team] ? `<span class="bd-team">${A.crestBadge(play.teams[p.team], { cls: "sm" })}</span>` : "");
   ov.innerHTML = `<div class="bd-box">
     <header><h2>${play.mode === "teams" ? "🏅 Players' points" : "🏆 Scores"}</h2><button type="button" class="arc-btn ghost" data-close-board>${svg("x", "i-sm")}Close</button></header>
-    <ol class="bd-list">${ranked.map((p) => `<li style="--team:${p.color}" class="${p.id === play.player ? "up" : ""}"><span class="bd-rank">${p.rank}</span>${avatarPic(p.emoji)}<b>${esc(p.name)}</b>${teamOf(p)}<span class="bd-turns">${p.right}/${p.turns} right</span><span class="bd-score">${p.score}</span><button type="button" data-pick="${p.id}" title="Make it ${esc(p.name)}'s turn">Their turn</button></li>`).join("")}</ol>
+    <ol class="bd-list">${ranked.map((p) => `<li style="--team:${p.color}" class="${p.id === play.player ? "up" : ""}"><span class="bd-rank">${p.rank}</span>${A.avatarDisc(p.emoji, p.color, { cls: "md" })}<b>${esc(p.name)}</b>${teamOf(p)}<span class="bd-turns">${p.right}/${p.turns} right</span><span class="bd-score">${p.score}</span><button type="button" data-pick="${p.id}" title="Make it ${esc(p.name)}'s turn">Their turn</button></li>`).join("")}</ol>
   </div>`;
   session.root.appendChild(ov);
   ov.addEventListener("click", (e) => {
@@ -306,47 +323,55 @@ function openBoard() {
 
 function teamApi() {
   const play = session.play;
+  const core = P.turnApi(play);
   const pill = () => session.root.querySelector(play.mode === "players" ? ".arc-up" : `[data-team="${play.team}"]`);
+  const bump = (el) => { el?.classList.add("bump"); setTimeout(() => el?.classList.remove("bump"), 600); };
+  /** Run a turn change, redraw the scoreboard, and (when someone else is up) slide in a "Your turn" banner. */
+  const turnChange = (fn, { toast = true } = {}) => {
+    const before = `${play.team}|${play.player}`;
+    fn();
+    renderTeams();
+    if (!toast || play.mode === "class" || before === `${play.team}|${play.player}`) return;
+    const host = session.root.querySelector(".arc-game");
+    if (!host) return;
+    const side = P.activeSide(play);
+    turnToast(host, { html: turnHtml(), color: side?.color, label: play.mode === "teams" && before.split("|")[0] !== String(play.team) ? `${side.name}' turn` : "Your turn" });
+    sfx.turn();
+  };
   return {
-    /** Whole-class mode (no turns). */
-    get solo() { return play.mode === "class"; },
-    get mode() { return play.mode; },
-    /** Scoring sides: [class], the players, or the teams. */
-    get teams() { return P.sides(play); },
-    /** Lingo Live with answer cards: teams answer together; individual players answer as one class (phones are per player). */
-    get groups() { return play.mode === "teams" ? play.teams : [play.classSide]; },
-    active: () => P.activeSide(play),
-    player: () => P.current(play).player,
+    get solo() { return core.solo; },
+    get mode() { return core.mode; },
+    get teams() { return core.teams; },
+    get groups() { return core.groups; },
+    active: core.active,
+    activeIndex: core.activeIndex,
+    player: core.player,
     turnHtml,
+    /** A side's badge (avatar disc, team crest or class star), for banners and round cards. */
+    badge: (side, o) => sideBadge(side, o),
     award(points, { from = null } = {}) {
-      const side = P.award(play, points);
+      const side = core.award(points);
       renderTeams();
       const el = pill();
-      el?.classList.add("bump");
-      setTimeout(() => el?.classList.remove("bump"), 600);
+      bump(el);
       floatText(from || el, `+${points}`, { color: side?.color || "#ffd23f" });
+      if (points >= 20 && from) sparks(from, { count: 14, color: side?.color });
       sfx.points();
     },
-    /** Points for one group (Lingo Live: several teams score on the same question). */
+    /** Points for one group (Lingo Live: several teams score on the same question; Top Answers: a failed steal). */
     awardTo(index, points, { from = null, quiet = false } = {}) {
-      const group = this.groups[index];
+      const group = core.awardTo(index, points);
       if (!group) return;
-      group.score += points;
       renderTeams();
       const el = session.root.querySelector(`[data-team="${index}"]`);
-      el?.classList.add("bump");
-      setTimeout(() => el?.classList.remove("bump"), 600);
+      bump(el);
       if (!quiet) floatText(from || el, `+${points}`, { color: group.color });
     },
-    nextTurn() {
-      P.nextTurn(play);
-      renderTeams();
-    },
+    nextTurn() { turnChange(core.nextTurn); },
     /** Teams: the next member of the same team answers (players: the next player). */
-    nextMember() {
-      P.nextMember(play);
-      renderTeams();
-    },
+    nextMember() { turnChange(core.nextMember); },
+    /** Teams: hand the turn to a team (its next fair member). Games announce this themselves. */
+    passTo(index) { turnChange(() => core.passTo(index), { toast: false }); },
   };
 }
 
@@ -358,7 +383,10 @@ function firstPicture(emojis) {
 
 /* ── Hub ─────────────────────────────────────────────────────────── */
 function clearFx() {
-  session.root?.querySelectorAll(".arc-confetti, .arc-spinner, .arc-board").forEach((c) => c.remove());
+  session.root?.querySelectorAll(".arc-confetti, .arc-spinner, .arc-board, .avp").forEach((c) => c.remove());
+  document.querySelectorAll(".sx-sparks").forEach((c) => c.remove());
+  session.intro?.destroy();
+  session.intro = null;
 }
 
 /** The "Who's playing?" panel: mode, class, names (away today), teams. */
@@ -380,11 +408,12 @@ function whoHtml() {
       <div class="ht-add"><input id="newCls" placeholder="Class name, e.g. B Senior" maxlength="30"><button type="button" class="arc-btn primary sm" data-new-class>Create</button></div></div>`;
   }
   const present = cls.players.filter((p) => !session.absent.has(p.id));
-  const chip = (p, i) => {
+  const chip = (p) => {
     const away = session.absent.has(p.id);
-    const av = P.PLAYER_AVATARS[cls.players.indexOf(p) % P.PLAYER_AVATARS.length];
-    return `<span class="ht-chip${away ? " away" : ""}" style="--team:${P.PLAYER_COLORS[cls.players.indexOf(p) % P.PLAYER_COLORS.length]}">
-      <button type="button" data-tap="${p.id}" title="${session.mode === "teams" ? "Move to the next team" : away ? "Back today" : "Away today"}">${avatarPic(av)}<b>${esc(p.name)}</b></button>
+    const look = A.playerLook(cls, p);
+    return `<span class="ht-chip${away ? " away" : ""}" style="--team:${look.color}">
+      <button type="button" class="hc-av" data-avatar="${p.id}" title="Choose ${esc(p.name)}'s avatar">${A.avatarDisc(look.emoji, look.color, { cls: "sm" })}</button>
+      <button type="button" data-tap="${p.id}" title="${session.mode === "teams" ? "Move to the next team" : away ? "Back today" : "Away today"}"><b>${esc(p.name)}</b></button>
       ${session.mode === "teams" ? `<button type="button" class="hc-away" data-away="${p.id}" title="${away ? "Back today" : "Away today"}">${away ? "↩" : "💤"}</button>` : ""}
       <button type="button" class="hc-del" data-del="${p.id}" title="Remove from the class">×</button></span>`;
   };
@@ -393,17 +422,18 @@ function whoHtml() {
     const n = cls.teamCount || 2;
     P.fillTeams(cls, cls.players.map((p) => p.id), n);
     roster = `<div class="ht-teambar"><div class="arc-seg" id="teamSeg">${[2, 3, 4].map((k) => `<button type="button" data-n="${k}" class="${k === n ? "on" : ""}">${k} teams</button>`).join("")}</div>
-        <button type="button" class="arc-btn ghost sm" data-shuffle>🔀 Shuffle teams</button></div>
+        <button type="button" class="arc-btn ghost sm" data-shuffle>🔀 Shuffle teams</button>
+        <button type="button" class="arc-btn ghost sm" data-surprise title="A different random avatar and colour for everyone">🎲 Surprise avatars</button></div>
       <div class="ht-cols" style="--cols:${n}">${P.TEAM_PRESETS.slice(0, n).map((t, ti) => {
         const members = cls.players.filter((p) => cls.assign[p.id] === ti);
-        return `<div class="ht-col" style="--team:${t.color}"><label class="ht-name"><span>${teamPic(t.emoji)}</span><input data-tname="${ti}" value="${esc(cls.teamNames?.[ti] || t.name)}" maxlength="16" spellcheck="false" aria-label="Team ${ti + 1} name"></label>
+        return `<div class="ht-col" style="--team:${A.teamCrest(cls, ti).color}"><label class="ht-name"><button type="button" class="ht-crest" data-crest="${ti}" title="Choose the team's crest">${A.crestBadge(A.teamCrest(cls, ti), { cls: "md" })}</button><input data-tname="${ti}" value="${esc(cls.teamNames?.[ti] || t.name)}" maxlength="16" spellcheck="false" aria-label="Team ${ti + 1} name"></label>
           <div class="ht-members">${members.map(chip).join("") || `<p class="ht-empty">Tap a name to move it here</p>`}</div>
           <small class="ht-count">${members.filter((p) => !session.absent.has(p.id)).length} playing</small></div>`;
       }).join("")}</div>`;
   } else {
-    roster = `<div class="ht-roster">${cls.players.map(chip).join("") || `<p class="ht-empty">No names yet — add the class below.</p>`}</div>`;
+    roster = `${cls.players.length ? `<div class="ht-teambar"><span class="ht-avtip">Tap a face to choose an avatar</span><button type="button" class="arc-btn ghost sm" data-surprise title="A different random avatar and colour for everyone">🎲 Surprise avatars</button></div>` : ""}<div class="ht-roster">${cls.players.map(chip).join("") || `<p class="ht-empty">No names yet — add the class below.</p>`}</div>`;
   }
-  const tip = session.mode === "teams" ? "Tap a name to move them to the next team · 💤 away today · × remove" : "Tap a name if they're away today · × removes them from the class";
+  const tip = session.mode === "teams" ? "Tap a face to choose an avatar · a name to move them to the next team · a crest to change it · 💤 away today · × remove" : "Tap a face to choose an avatar · a name if they're away today · × removes them from the class";
   return `<div class="ht-head"><span class="ht-label">${svg("users", "i-sm")}Who's playing? <em>${present.length} of ${cls.players.length}</em></span>${seg}</div>
     ${classPick}
     <p class="ht-solo">${mode.hint}</p>
@@ -588,6 +618,7 @@ function openPicker() {
     picked: session.pickIds || [],
     minWords,
     hasWorksheet: !!session.baseDeck.length && session.source !== "start",
+    hasVoice: (row) => hasVoiceFor(row.english),
     onClose: closePicker,
     onApply: applyPick,
   });
@@ -642,6 +673,15 @@ function onWhoClick(e) {
     if (t.dataset.mode) { session.mode = t.dataset.mode; store("vm_arcade_mode", session.mode); session.delArm = false; sfx.tap(); refreshWho(); return; }
     if (t.dataset.n && cls) { cls.teamCount = Number(t.dataset.n); P.balanceTeams(cls, cls.players.map((p) => p.id), cls.teamCount); sfx.tap(); changed(); return; }
     if (t.hasAttribute("data-shuffle") && cls) { P.balanceTeams(cls, cls.players.filter((p) => !session.absent.has(p.id)).map((p) => p.id), cls.teamCount || 2); sfx.whoosh(); changed(); return; }
+    if (t.dataset.avatar && cls) { openAvatars(t.dataset.avatar); return; }
+    if (t.dataset.crest && cls) { openCrests(Number(t.dataset.crest)); return; }
+    if (t.hasAttribute("data-surprise") && cls) {
+      A.shuffleAvatars(cls);
+      sfx.sparkle();
+      changed();
+      host.querySelectorAll(".ht-chip .av").forEach((a, i) => a.animate?.([{ transform: "scale(0.3) rotate(-30deg)" }, { transform: "scale(1.15)" }, { transform: "none" }], { duration: 520, delay: i * 35, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "backwards" }));
+      return;
+    }
     if (t.hasAttribute("data-new-class")) { createClass(host.querySelector("#newCls")?.value); return; }
     if (t.hasAttribute("data-add")) { addNames(host.querySelector("#addNames")?.value); return; }
     if (t.hasAttribute("data-del-class") && cls) {
@@ -703,6 +743,30 @@ function createClass(name) {
   refreshWho(true);
 }
 
+/** The avatar picker for one child (arrows go through the class). Choices are saved with the class at once. */
+function openAvatars(playerId) {
+  const cls = currentClass();
+  if (!cls || session.root.querySelector(".avp")) return;
+  sfx.whoosh();
+  openAvatarPicker({
+    root: session.root, cls, playerId, sfx, esc,
+    onChange() { saveClasses(); refreshWho(); },
+  });
+}
+
+/** The crest picker for a team: mascot, colour, badge shape and name. */
+function openCrests(teamIndex) {
+  const cls = currentClass();
+  if (!cls || session.root.querySelector(".avp")) return;
+  sfx.whoosh();
+  openCrestPicker({
+    root: session.root, cls, teamIndex, sfx, esc,
+    teamName: (i) => cls.teamNames?.[i] || P.TEAM_PRESETS[i].name,
+    onRename(i, name) { cls.teamNames = cls.teamNames || []; cls.teamNames[i] = name; },
+    onChange() { saveClasses(); refreshWho(); },
+  });
+}
+
 function addNames(text) {
   const cls = currentClass();
   const names = P.parseNames(text);
@@ -715,13 +779,63 @@ function addNames(text) {
 }
 
 /* ── Game lifecycle ──────────────────────────────────────────────── */
-function startGame(id) {
+/** Each game's title screen: its colours, a one-line promise and three steps a class can read from the back. */
+const INTRO = {
+  flashcards: { c: "#7b6bff", c2: "#c056f0", tag: "See it, hear it, say it!", steps: [["👀", "Look at the card — what's the word?"], ["🗣️", "Say it out loud together"], ["✅", "Sort them: we know it · still learning"]] },
+  memory: { c: "#22c3ee", c2: "#7b6bff", tag: "Find the matching pairs!", steps: [["🃏", "Turn over two cards"], ["🔍", "Match each word with its picture"], ["🎯", "A match scores and you go again"]] },
+  spelling: { c: "#f2a900", c2: "#ff8a4c", tag: "Hear it. Spell it. Win it!", steps: [["👂", "Listen to the word"], ["🔤", "Tap the letters in the right order"], ["⭐", "Fewer hints, more points"]] },
+  board: { c: "#5b3df5", c2: "#22c3ee", tag: "Pick a tile — dare the big points!", steps: [["🎯", "Choose a category and points"], ["⏱️", "Answer before the time runs out"], ["⭐", "One tile hides double points!"]] },
+  feud: { c: "#fbbf24", c2: "#f472b6", tag: "100 children answered — what did they say?", steps: [["💬", "Name things that fit the topic"], ["📋", "Find the top answers on the board"], ["❌", "Three strikes… and the other team can steal!"]] },
+  taboo: { c: "#ff5e7a", c2: "#ff8a4c", tag: "Describe it — but don't say it!", steps: [["🪑", "One player sits with their back to the board"], ["🗣️", "The others describe the word in English"], ["🚫", "Never say the forbidden words!"]] },
+  quiz: { c: "#6366f1", c2: "#ec4899", tag: "Pick the right answer!", steps: [["❓", "Read the question"], ["🔤", "Choose A, B, C or D"], ["🔥", "Answer quickly for bonus points"]] },
+};
+
+/** "Who's playing" on a title screen: team crests face to face, the players' avatars, or the whole class. */
+function introWho() {
+  const play = session.play;
+  if (play.mode === "teams") {
+    return `<div class="sx-vs">${play.teams.map((t, i) => `${i ? `<span class="sx-vs-x">VS</span>` : ""}<span class="sx-team" style="--team:${t.color};--i:${i}">${A.crestBadge(t, { cls: "lg" })}<b>${esc(t.name)}</b><small>${play.players.filter((p) => p.team === i).map((p) => esc(p.name)).join(" · ")}</small></span>`).join("")}</div>`;
+  }
+  if (play.mode === "players") {
+    const shown = play.players.slice(0, 14);
+    return `<div class="sx-crowd">${shown.map((p, i) => `<span class="sx-kid" style="--i:${i}">${A.avatarDisc(p.emoji, p.color, { cls: "md" })}<b>${esc(p.name)}</b></span>`).join("")}${play.players.length > shown.length ? `<span class="sx-more">+${play.players.length - shown.length}</span>` : ""}</div>`;
+  }
+  return `<div class="sx-class">${A.crestBadge({ emoji: "⭐", color: "#ffd23f", shape: "star" }, { cls: "md" })}<b>Whole class</b><small>one team, one score</small></div>`;
+}
+
+function introFor(def) {
+  const i = INTRO[def.id] || { c: "#7b6bff", c2: "#c056f0", tag: def.description, steps: [] };
+  const steps = i.steps.map(([icon, text]) => ({ icon, text }));
+  if (def.id === "feud" && session.play.mode !== "teams") steps[2] = { icon: "❌", text: "Three strikes and the round is over!" };
+  const plan = session.plan;
+  return {
+    title: def.title,
+    emoji: def.emoji,
+    color: i.c,
+    color2: i.c2,
+    tagline: i.tag,
+    steps,
+    who: introWho(),
+    kicker: plan ? `Ready-made lesson · game ${plan.i + 1} of ${plan.ids.length}` : "Lingo Arcade",
+    keys: "<kbd>Space</kbd> start · <kbd>Esc</kbd> all games",
+    sfx,
+  };
+}
+
+/**
+ * Start a game: a fresh line-up (the next team goes first), then its title screen, then the game.
+ * quick: "Play again" skips the title screen for a 3 · 2 · 1 countdown.
+ */
+function startGame(id, { quick = false } = {}) {
   const def = GAMES.find((g) => g.id === id);
   if (!def) return;
   clearFx();
   session.game?.destroy?.();
+  session.game = null;
   session.gameDef = def;
-  buildPlay(); // a fresh line-up and scores for every game
+  buildPlay({ forGame: true }); // a fresh line-up and scores for every game
+  // Remember what the class played ("Choose your words" can hide this week's words).
+  store("vm_arcade_played", logPlayed(safeJSON(localStorage.getItem("vm_arcade_played"), {}), session.deck));
   renderTeams();
   sfx.whoosh();
   const main = session.root.querySelector("#arcMain");
@@ -731,62 +845,105 @@ function startGame(id) {
     <span class="arc-progress" id="arcProgress"></span>`;
   session.root.querySelector("[data-back]").addEventListener("click", () => showHub());
   main.innerHTML = `<div class="arc-game g-${def.id}"><div class="game-stage" id="gameStage"></div></div>`;
+  const area = main.querySelector(".arc-game");
   const stage = main.querySelector("#gameStage");
-  session.game = mountGame(def, {
-    stage,
-    root: session.root,
-    deck: session.deck,
-    picture: session.picture,
-    teams: teamApi(),
-    greek: () => session.greek,
-    setProgress(html) { const p = session.root.querySelector("#arcProgress"); if (p) p.innerHTML = html; },
-    onFinish: (o) => showFinish(def, o),
-    onRestart: () => startGame(id),
-    onHub: () => showHub(),
-  });
+  const mount = () => {
+    if (!session || session.gameDef !== def || !stage.isConnected) return;
+    stage.classList.add("stage-in");
+    session.game = mountGame(def, {
+      stage,
+      root: session.root,
+      deck: session.deck,
+      picture: session.picture,
+      teams: teamApi(),
+      greek: () => session.greek,
+      setProgress(html) { const p = session.root.querySelector("#arcProgress"); if (p) p.innerHTML = html; },
+      onFinish: (o) => showFinish(def, o),
+      onRestart: () => startGame(id, { quick: true }),
+      onHub: () => showHub(),
+    });
+  };
+  // Lingo Live has its own lobby; every other game opens on its title screen.
+  if (def.id === "live") { mount(); return; }
+  if (quick) { countdown(area, { sfx }).then(mount); return; }
+  session.intro = titleCard(area, introFor(def));
+  session.intro.done.then((ok) => { if (ok && session) { session.intro = null; mount(); } });
 }
 
+/**
+ * The end screen: a drumroll, the podium rising from last place to first, the winner's crown, fanfare and confetti.
+ * Class mode: the class's points count up under the trophy.
+ */
 function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extraAction = null } = {}) {
   session.game?.destroy?.();
   session.game = { destroy() {} };
   clearFx();
   const main = session.root.querySelector("#arcMain");
   const play = session.play;
+  session.lastUp = play.player; // the next game carries on after whoever was up
   const solo = play.mode === "class";
   const ranked = play.mode === "players" ? P.rankPlayers(play) : [...P.sides(play)].sort((a, b) => b.score - a.score);
   const tie = !solo && ranked.length > 1 && ranked[0].score === ranked[1].score;
   const winner = ranked[0];
   const heading = solo ? title : tie ? "It's a tie!" : play.mode === "players" ? `${winner.name} wins!` : `${winner.name} win!`;
-  const podium = ranked.slice(0, play.mode === "players" ? 3 : 4);
+  const podium = solo ? [] : ranked.slice(0, play.mode === "players" ? 3 : 4);
   const nextId = session.plan?.ids[session.plan.i + 1];
   const nextDef = nextId ? GAMES.find((g) => g.id === nextId) : null;
   const stars = play.mode === "teams" ? P.rankPlayers(play).filter((p) => p.score > 0).slice(0, 3) : [];
   const rest = play.mode === "players" ? ranked.slice(3) : [];
-  sfx.win();
+  // Reveal times (ms): last place first, the winner last, as the drumroll lands.
+  const still = reducedMotion();
+  const n = podium.length;
+  const at = (rank) => (still ? 0 : 350 + (n - 1 - rank) * 520);
+  const winAt = still ? 0 : solo ? 500 : at(0) + 380;
+  const after = winAt + (still ? 0 : 450);
+  // Podium order on screen: 2nd, 1st, 3rd, 4th.
+  const slot = (i) => (n >= 3 ? [1, 0, 2, 3][i] : i);
+  const top = Math.max(1, winner?.score || 0);
   main.innerHTML = `
-    <div class="arc-finish">
-      <div class="fin-trophy">🏆</div>
-      <h1>${esc(heading)}</h1>
-      ${subtitle ? `<p class="fin-sub">${esc(subtitle)}</p>` : ""}
-      ${stats.length ? `<div class="fin-stats">${stats.map((s) => `<div><b>${esc(s.value)}</b><span>${esc(s.label)}</span></div>`).join("")}</div>` : ""}
-      ${!solo ? `<div class="podium">${podium.map((t, i) => `
-        <div class="pod" style="--team:${t.color};--h:${Math.max(44, Math.round((t.score / Math.max(1, winner.score)) * 160))}px;animation-delay:${i * 120}ms">
-          <span class="pod-emoji">${sideIcon(t)}</span><span class="pod-name">${esc(t.name)}</span>
-          <span class="pod-bar"><b>${t.score}</b></span>
-        </div>`).join("")}</div>` : `<div class="fin-score"><b>${winner.score}</b><span>class points</span></div>`}
-      ${stars.length ? `<div class="fin-stars"><span>⭐ Stars of the game</span>${stars.map((p) => `${playerChip(p)}<em>${p.score}</em>`).join("")}</div>` : ""}
-      ${rest.length ? `<ol class="fin-rest" start="4">${rest.map((p) => `<li>${avatarPic(p.emoji)}<b>${esc(p.name)}</b><em>${p.score}</em></li>`).join("")}</ol>` : ""}
-      <div class="fin-actions">
+    <div class="arc-finish fin2${solo ? " solo" : ""}" style="--g1:${INTRO[def.id]?.c || "#7b6bff"};--g2:${INTRO[def.id]?.c2 || "#c056f0"}">
+      <div class="fin-rays" aria-hidden="true" style="--d:${winAt}ms"></div>
+      <div class="fin-head">
+        <div class="fin-kick">${def.emoji} ${esc(def.title)} · ${solo ? "well played!" : tie ? "what a game!" : "and the winner is…"}</div>
+        <h1 class="fin-title" style="--d:${winAt}ms" aria-label="${esc(heading)}">${bouncy(heading, "fin-l")}</h1>
+        ${subtitle ? `<p class="fin-sub" style="--d:${after}ms">${esc(subtitle)}</p>` : ""}
+      </div>
+      ${solo ? `<div class="fin-solo" style="--d:${winAt}ms"><div class="fin-trophy">🏆</div><div class="fin-score"><b data-count="${winner.score}">0</b><span>class points</span></div></div>`
+        : `<div class="podium p${n}">${podium.map((t, i) => {
+          const rank = ranked.indexOf(t);
+          const first = rank === 0 || (tie && t.score === winner.score);
+          return `<div class="pod${first ? " first" : ""}" style="--team:${t.color};--p:${Math.max(0.32, t.score / top).toFixed(3)};--d:${at(i)}ms;order:${slot(i)}">
+            <span class="pod-crown" aria-hidden="true">${first ? "👑" : ""}</span>
+            <span class="pod-face">${sideBadge(t, { cls: first ? "xl" : "lg" })}</span>
+            <span class="pod-name">${esc(t.name)}</span>
+            <span class="pod-bar"><b data-count="${t.score}" data-at="${at(i)}">0</b><i class="pod-place">${i + 1}</i></span>
+          </div>`;
+        }).join("")}</div>`}
+      ${stats.length ? `<div class="fin-stats" style="--d:${after}ms">${stats.map((s) => `<div><b>${esc(s.value)}</b><span>${esc(s.label)}</span></div>`).join("")}</div>` : ""}
+      ${stars.length ? `<div class="fin-stars" style="--d:${after + 150}ms"><span>⭐ Stars of the game</span>${stars.map((p) => `${playerChip(p)}<em>${p.score}</em>`).join("")}</div>` : ""}
+      ${rest.length ? `<ol class="fin-rest" start="4" style="--d:${after + 150}ms">${rest.map((p) => `<li>${A.avatarDisc(p.emoji, p.color, { cls: "sm" })}<b>${esc(p.name)}</b><em>${p.score}</em></li>`).join("")}</ol>` : ""}
+      <div class="fin-actions" style="--d:${after + 250}ms">
         ${extraAction ? `<button type="button" class="arc-btn ghost" data-extra>${esc(extraAction.label)}</button>` : ""}
         <button type="button" class="arc-btn ghost" data-hub2>${svg("grid", "i-sm")}All games</button>
         <button type="button" class="arc-btn ${nextDef ? "ghost" : "primary"}" data-again>${svg("rotate", "i-sm")}Play again</button>
         ${nextDef ? `<button type="button" class="arc-btn primary xl" data-next-plan>Next: ${nextDef.emoji} ${esc(nextDef.title)}${svg("arrow-right", "i-sm")}</button>` : session.plan ? `<span class="fin-plan-done">🎓 Lesson complete!</span>` : ""}
       </div>
     </div>`;
-  confetti(session.root, { count: 220, originY: 0.25 });
-  setTimeout(() => session && confetti(session.root, { count: 120, originX: 0.2, originY: 0.5 }), 450);
-  setTimeout(() => session && confetti(session.root, { count: 120, originX: 0.8, originY: 0.5 }), 750);
-  main.querySelector("[data-again]").addEventListener("click", () => startGame(def.id));
+  const fin = main.querySelector(".arc-finish");
+  const later = (fn, ms) => setTimeout(() => { if (session && fin.isConnected) fn(); }, ms);
+  if (!solo && !still) sfx.drumroll();
+  // Each score counts up as its bar rises.
+  fin.querySelectorAll(".pod-bar b[data-count]").forEach((b) => later(() => { countTo(b, Number(b.dataset.count), { ms: 700 }); if (!still) sfx.reveal(); }, Number(b.dataset.at) + 150));
+  const big = fin.querySelector(".fin-score b[data-count]");
+  if (big) later(() => countTo(big, Number(big.dataset.count), { ms: 1100 }), winAt);
+  later(() => {
+    sfx.fanfare();
+    confetti(session.root, { count: 220, originY: 0.25 });
+    sparks(fin.querySelector(".pod.first .pod-face, .fin-trophy"), { count: 30, size: 1.4 });
+  }, winAt);
+  later(() => confetti(session.root, { count: 120, originX: 0.2, originY: 0.5 }), winAt + 450);
+  later(() => confetti(session.root, { count: 120, originX: 0.8, originY: 0.5 }), winAt + 750);
+  main.querySelector("[data-again]").addEventListener("click", () => startGame(def.id, { quick: true }));
   main.querySelector("[data-hub2]").addEventListener("click", () => showHub());
   main.querySelector("[data-next-plan]")?.addEventListener("click", () => { session.plan.i++; startGame(nextId); });
   main.querySelector("[data-extra]")?.addEventListener("click", () => extraAction.run());
@@ -799,14 +956,14 @@ function onKey(e) {
     e.preventDefault();
     e.stopPropagation();
     if (session.picker) { closePicker(); return; }
-    const overlay = session.root.querySelector(".arc-spinner, .arc-board");
-    if (overlay) { overlay.remove(); return; }
+    const overlay = session.root.querySelector(".avp, .arc-spinner, .arc-board");
+    if (overlay) { overlay.dispatchEvent(new CustomEvent("arc-close")); overlay.remove(); return; }
     if (session.gameDef) showHub();
     else closeArcade();
     return;
   }
   if (typing || session.picker) return;
-  if (session.root.querySelector(".arc-spinner, .arc-board")) { e.preventDefault(); e.stopPropagation(); return; } // keys wait while a pick or the scores are open
+  if (session.root.querySelector(".avp, .arc-spinner, .arc-board")) { if (!session.root.querySelector(".avp")) { e.preventDefault(); e.stopPropagation(); } return; } // keys wait while a pick or the scores are open
   if ((e.key === "g" || e.key === "G") && !session.game?.capturesLetters) { e.preventDefault(); toggleGreek(); return; }
   if (session.game?.onKey) {
     session.game.onKey(e);

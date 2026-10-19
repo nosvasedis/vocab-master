@@ -70,6 +70,114 @@ export function pickRounds(candidates, rounds = ROUNDS) {
   return picked;
 }
 
+/**
+ * The rules of a Top Answers game, without any drawing (tested in Node). `turns` is the arcade's turn API (ctx.teams,
+ * or players.js turnApi): mode, teams, active(), activeIndex(), award(), awardTo(), nextTurn(), nextMember(), passTo().
+ *   • Whole class: every answer scores for the class.
+ *   • Players: each answer scores for the child who said it; the turn moves on after every guess or strike.
+ *   • Teams: the team that's up builds the round's bank, its members taking turns; three strikes and the next team
+ *     may steal the bank with one guess. Each round is opened by the next team in turn, whoever stole the last one.
+ * Every action returns what happened ({ kind, … }) so the game can draw it; `fx` options pass through to award().
+ */
+export function createFeudFlow(turns, boards) {
+  const teamsMode = () => turns.mode === "teams" && turns.teams.length > 1;
+  const s = {
+    b: 0, revealed: new Set(), hinted: new Set(), strikes: 0, bank: 0, stealing: false, owner: -1, over: false,
+    found: 0, note: "", opener: teamsMode() ? turns.activeIndex() : 0, said: new Set(),
+  };
+  const board = () => boards[s.b];
+  const mult = () => roundMultiplier(s.b, boards.length);
+  const teamName = (i) => turns.teams[i]?.name || "";
+  function end(note) {
+    s.over = true;
+    s.note = note;
+    board().answers.forEach((_, i) => s.revealed.add(i)); // show every answer
+    return note;
+  }
+  return {
+    state: s,
+    teamsMode,
+    mult,
+    board,
+    /** The class said answer `i` (typed or tapped). */
+    found(i, fx = {}) {
+      if (s.over || s.revealed.has(i) || !board().answers[i]) return null;
+      s.revealed.add(i);
+      s.said.add(`${s.b}:${i}`);
+      s.found++;
+      const pts = board().answers[i].points * mult();
+      if (s.stealing) {
+        const thief = turns.active();
+        turns.award(s.bank, fx);
+        turns.nextMember(); // the thief has had their go
+        return { kind: "steal-won", pts: s.bank, note: end(`${thief.name} stole it with “${board().answers[i].text}”! +${s.bank}`) };
+      }
+      if (teamsMode()) s.bank += pts;
+      else turns.award(pts, fx);
+      if (turns.mode === "players") turns.nextTurn(); // players: everyone gets a go
+      else if (teamsMode()) turns.nextMember(); // teams: members take turns guessing
+      if (s.revealed.size >= board().answers.length) {
+        if (teamsMode()) { const team = turns.active(); turns.award(s.bank, fx); return { kind: "cleared", pts, note: end(`${team.name} cleared the board! +${s.bank}`) }; }
+        return { kind: "cleared", pts, note: end("Board cleared!") };
+      }
+      return { kind: "found", pts };
+    },
+    /** A wrong answer (✕). */
+    strike() {
+      if (s.over) return null;
+      if (s.stealing) {
+        turns.awardTo(s.owner, s.bank);
+        turns.nextMember(); // the thief has had their go
+        return { kind: "steal-lost", note: end(`No steal — ${teamName(s.owner)} keep ${s.bank} points.`) };
+      }
+      s.strikes++;
+      if (turns.mode === "players") turns.nextTurn();
+      else if (teamsMode() && s.strikes < 3) turns.nextMember();
+      if (s.strikes < 3) return { kind: "strike", strikes: s.strikes };
+      if (teamsMode() && s.bank > 0) {
+        // The next team may steal the round's points with one right answer.
+        s.owner = turns.activeIndex();
+        s.stealing = true;
+        turns.nextTurn();
+        return { kind: "steal", strikes: s.strikes, thief: turns.active() };
+      }
+      if (teamsMode()) turns.nextMember(); // three strikes and nothing banked: that member has had their go too
+      return { kind: "out", strikes: s.strikes, note: end("Three strikes!") };
+    },
+    /** 💡 Mark the top answer nobody has found (or been hinted) yet; returns its index or -1. */
+    hint() {
+      const i = board().answers.findIndex((_, k) => !s.revealed.has(k) && !s.hinted.has(k));
+      if (i >= 0 && !s.over) s.hinted.add(i);
+      return s.over ? -1 : i;
+    },
+    /** Show the rest of the board: a team keeps what it banked (or, mid-steal, the team that built it does). */
+    revealAll(fx = {}) {
+      if (s.over) return null;
+      if (teamsMode() && s.bank > 0) {
+        if (s.stealing) { turns.awardTo(s.owner, s.bank); return { kind: "revealed", note: end(`${teamName(s.owner)} keep ${s.bank} points.`) }; }
+        const team = turns.active();
+        turns.award(s.bank, fx);
+        return { kind: "revealed", note: end(`${team.name} keep ${s.bank} points.`) };
+      }
+      return { kind: "revealed", note: end("Here are all the answers.") };
+    },
+    /** On to the next board ({ kind: "done" } after the last). Teams: the next team in turn opens it. */
+    next() {
+      if (!s.over) return null;
+      if (s.b + 1 >= boards.length) return { kind: "done" };
+      Object.assign(s, { b: s.b + 1, revealed: new Set(), hinted: new Set(), strikes: 0, bank: 0, stealing: false, owner: -1, over: false, note: "" });
+      if (teamsMode()) {
+        s.opener = (s.opener + 1) % turns.teams.length;
+        turns.passTo(s.opener);
+      }
+      // Players: the turn already moved on after every guess, so whoever is up now opens the board.
+      return { kind: "round", b: s.b, opener: teamsMode() ? turns.teams[s.opener] : null };
+    },
+    /** Was answer `i` of the current board said by the class (not just shown at the end)? */
+    said: (i) => s.said.has(`${s.b}:${i}`),
+  };
+}
+
 export default {
   id: "feud",
   title: "Top Answers",
@@ -78,22 +186,14 @@ export default {
   tags: ["Teams", "Speaking", "Show"],
   minWords: 3,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak, teams } = ctx;
+    const { stage, esc, svg, sfx, speak, teams, fx } = ctx;
     let boards = [];
-    let b = 0;
-    let revealed = new Set();
-    let hinted = new Set();
-    let strikes = 0;
-    let bank = 0;
-    let stealing = false;
-    let owner = null; // the team that built the bank
-    let over = false;
-    let found = 0;
-    let scored = 0;
+    let flow = null;
+    let fresh = -1; // the tile that has just flipped (only it animates)
+    let entering = true; // a new board: tiles slide in one by one
+    let busy = false; // a round card is on screen
     const timers = [];
     const later = (fn, ms) => timers.push(setTimeout(fn, ms));
-    const teamsMode = () => teams.mode === "teams" && teams.teams.length > 1;
-    const mult = () => roundMultiplier(b, boards.length);
 
     const tilePic = (a) => {
       const w = a.wordId ? byId.get(a.wordId) : null;
@@ -106,24 +206,29 @@ export default {
     };
 
     function render() {
-      const board = boards[b];
-      const m = mult();
-      ctx.setProgress(`Round <b>${b + 1}</b> / ${boards.length} · ${found} found`);
+      const s = flow.state;
+      const board = boards[s.b];
+      const m = flow.mult();
+      ctx.setProgress(`Round <b>${s.b + 1}</b> / ${boards.length} · ${s.found} found`);
       const half = Math.ceil(board.answers.length / 2);
-      const slot = (a, i) => revealed.has(i)
-        ? `<div class="fd-slot on${over && !a._said ? " late" : ""}" style="animation-delay:0ms"><span class="fd-n">${i + 1}</span><span class="fd-pic">${tilePic(a)}</span><b>${esc(a.text)}</b><span class="fd-pts">${a.points * m}</span></div>`
-        : `<button type="button" class="fd-slot" data-slot="${i}" title="Tap if the class said this one"><span class="fd-n">${i + 1}</span>${hinted.has(i) ? `<span class="fd-hint">${letters(a)}</span>` : ""}</button>`;
-      const who = teams.solo || over ? "" : `<div class="turn-banner" style="--team:${teams.active().color}"><span>${stealing ? "Steal!" : "Your answer:"}</span>${teams.turnHtml()}</div>`;
-      const dots = boards.map((_, i) => `<i class="${i < b ? "done" : i === b ? "now" : ""}${roundMultiplier(i, boards.length) > 1 ? " big" : ""}"></i>`).join("");
+      const slot = (a, i) => {
+        const k = i < half ? i : i - half;
+        if (s.revealed.has(i)) {
+          return `<div class="fd-slot on${s.over && !flow.said(i) ? " late" : ""}${i === fresh ? " fresh" : ""}${entering ? " enter" : ""}" style="--i:${k}" data-on="${i}"><span class="fd-n">${i + 1}</span><span class="fd-pic">${tilePic(a)}</span><b>${esc(a.text)}</b><span class="fd-pts">${a.points * m}</span></div>`;
+        }
+        return `<button type="button" class="fd-slot${entering ? " enter" : ""}" style="--i:${k}" data-slot="${i}" title="Tap if the class said this one"><span class="fd-n">${i + 1}</span>${s.hinted.has(i) ? `<span class="fd-hint">${letters(a)}</span>` : ""}</button>`;
+      };
+      const who = teams.solo || s.over ? "" : `<div class="turn-banner${s.stealing ? " steal" : ""}" style="--team:${teams.active().color}"><span>${s.stealing ? "Steal!" : "Your answer:"}</span>${teams.turnHtml()}</div>`;
+      const dots = boards.map((_, i) => `<i class="${i < s.b ? "done" : i === s.b ? "now" : ""}${roundMultiplier(i, boards.length) > 1 ? " big" : ""}"></i>`).join("");
       stage.innerHTML = `
-        <div class="fd m${m}">
+        <div class="fd m${m}${s.stealing ? " stealing" : ""}">
           <div class="fd-top">
-            <div class="fd-rounds" title="Round ${b + 1} of ${boards.length}">${dots}</div>
+            <div class="fd-rounds" title="Round ${s.b + 1} of ${boards.length}">${dots}</div>
             ${who}
             ${m > 1 ? `<div class="fd-mult">${m === 3 ? "TRIPLE" : "DOUBLE"} POINTS <b>×${m}</b></div>` : ""}
-            ${teamsMode() ? `<div class="fd-bank"><span>Round points</span><b>${bank}</b></div>` : ""}
+            ${flow.teamsMode() ? `<div class="fd-bank"><span>Round points</span><b>${s.bank}</b></div>` : ""}
           </div>
-          <div class="fd-marquee">
+          <div class="fd-marquee${entering ? " enter" : ""}">
             <span class="fd-topic">${esc(board.topic || "📋")}</span>
             <h2 class="fd-prompt">${esc(board.prompt)}</h2>
             <span class="fd-survey">100 children surveyed</span>
@@ -132,162 +237,160 @@ export default {
             <div class="fd-col">${board.answers.slice(0, half).map((a, i) => slot(a, i)).join("")}</div>
             <div class="fd-col">${board.answers.slice(half).map((a, i) => slot(a, i + half)).join("")}</div>
           </div>
-          <div class="fd-strikes">${[0, 1, 2].map((i) => `<span class="${i < strikes ? "on" : ""}">✕</span>`).join("")}</div>
+          <div class="fd-strikes">${[0, 1, 2].map((i) => `<span class="${i < s.strikes ? "on" : ""}">✕</span>`).join("")}</div>
           <div class="fd-controls" id="fdControls">
-            ${over ? `<span class="fd-note">${esc(roundNote())}</span><button type="button" class="arc-btn primary" data-next>${b + 1 < boards.length ? "Next round" : "See the winners"}${svg("arrow-right", "i-sm")}<kbd>Enter</kbd></button>`
-              : `<input id="fdSay" placeholder="${stealing ? "One guess to steal…" : "Type what they say, press Enter"}" autocomplete="off" spellcheck="false" maxlength="40">
+            ${s.over ? `<span class="fd-note">${esc(s.note)}</span><button type="button" class="arc-btn primary" data-next>${s.b + 1 < boards.length ? "Next round" : "See the winners"}${svg("arrow-right", "i-sm")}<kbd>Enter</kbd></button>`
+              : `<input id="fdSay" placeholder="${s.stealing ? "One guess to steal…" : "Type what they say, press Enter"}" autocomplete="off" spellcheck="false" maxlength="40">
                  <button type="button" class="arc-btn primary" data-check>Check<kbd>Enter</kbd></button>
                  <button type="button" class="arc-btn ghost" data-strike title="A wrong answer">✕ Strike</button>
                  <button type="button" class="arc-btn ghost" data-hint title="Show the first letter of the top answer left">💡 Hint</button>
                  <button type="button" class="arc-btn ghost" data-show title="Show the rest of the board">Reveal all</button>`}
           </div>
         </div>`;
-      if (!over) setTimeout(() => stage.querySelector("#fdSay")?.focus(), 30);
+      entering = false;
+      if (!s.over && !busy) setTimeout(() => stage.querySelector("#fdSay")?.focus(), 30);
     }
-
-    let lastNote = "";
-    const roundNote = () => lastNote;
 
     function bigX() {
       const x = document.createElement("div");
       x.className = "fd-x";
-      x.textContent = "✕".repeat(Math.max(1, strikes));
+      x.textContent = "✕".repeat(Math.max(1, Math.min(3, flow.state.strikes)));
       stage.appendChild(x);
+      fx.shake(stage.querySelector(".fd-board"), { strength: 16 });
       later(() => x.remove(), 1100);
     }
 
-    function revealAnswer(i, { score = true } = {}) {
-      const board = boards[b];
-      if (revealed.has(i)) return;
-      revealed.add(i);
-      const a = board.answers[i];
-      a._said = true;
-      found++;
+    /** The round is over: show every answer, the note, and celebrate what was found. */
+    function roundOver(res) {
+      fresh = -1;
+      render();
+      if (flow.state.found) ctx.confetti({ count: flow.mult() > 1 ? 130 : 70, originY: 0.35 });
+      if (res.kind === "steal-won" || res.kind === "cleared") sfx.fanfare();
+    }
+
+    function reveal(i) {
+      if (busy || !flow || flow.state.over) return;
+      const a = boards[flow.state.b].answers[i];
+      const from = stage.querySelector(`[data-slot="${i}"]`);
+      const res = flow.found(i, { from: from || stage.querySelector(".fd-prompt") });
+      if (!res) return;
       sfx.correct();
       const w = a.wordId ? byId.get(a.wordId) : null;
       speak(w?.english || a.text);
-      const pts = a.points * mult();
-      if (score) {
-        if (stealing) { stealWon(a); return; }
-        scored += pts;
-        if (teamsMode()) bank += pts;
-        else teams.award(pts, { from: stage.querySelector(`[data-slot="${i}"]`) || stage.querySelector(".fd-prompt") });
-        if (teams.mode === "players") teams.nextTurn(); // players: everyone gets a go
-        else if (teamsMode()) teams.nextMember?.(); // teams: members take turns guessing
-      }
-      if (revealed.size >= board.answers.length) { endRound(teamsMode() ? `${teams.active().name} cleared the board! +${bank}` : "Board cleared!"); return; }
-      render();
+      fresh = i;
+      if (res.kind === "found") render();
+      else roundOver(res);
+      fx.sparks(stage.querySelector(`[data-on="${i}"]`), { count: 22, color: "#fbbf24" });
+      if (flow.teamsMode() && res.kind === "found") fx.pop(stage.querySelector(".fd-bank b"), { scale: 1.4 });
     }
 
     function strike() {
+      if (busy || !flow || flow.state.over) return;
+      const res = flow.strike();
+      if (!res) return;
       sfx.buzzer();
-      if (stealing) { stealLost(); return; }
-      strikes++;
+      if (res.kind === "steal-lost") { roundOver(res); return; }
       bigX();
-      if (teams.mode === "players") teams.nextTurn();
-      else if (teamsMode() && strikes < 3) teams.nextMember?.();
-      if (strikes >= 3) {
-        if (teamsMode() && bank > 0) {
-          // The next team may steal the round's points with one right answer.
-          owner = teams.active();
-          stealing = true;
-          teams.nextTurn();
-          later(render, 900);
-          return;
-        }
-        later(() => endRound("Three strikes!"), 900);
+      if (res.kind === "steal") {
+        busy = true;
+        later(async () => {
+          await fx.announce({ kicker: "Three strikes!", title: "Steal!", sub: `${teams.turnHtml()}<span>one guess to steal <b>${flow.state.bank}</b> points</span>`, icon: teams.badge(res.thief, { cls: "xl" }), color: res.thief.color, ms: 1900, big: true });
+          busy = false;
+          render();
+        }, 800);
         return;
       }
+      if (res.kind === "out") { later(() => roundOver(res), 900); return; }
       later(render, 600);
     }
 
-    function stealWon(a) {
-      const thief = teams.active();
-      teams.award(bank, { from: stage.querySelector(".fd-bank") });
-      endRound(`${thief.name} stole it with “${a.text}”! +${bank}`);
-    }
-
-    function stealLost() {
-      const idx = teams.teams.indexOf(owner);
-      if (idx >= 0) teams.awardTo(idx, bank);
-      endRound(`No steal — ${owner.name} keep ${bank} points.`);
-    }
-
-    function endRound(note) {
-      if (teamsMode() && !stealing && bank > 0 && revealed.size >= boards[b].answers.length) teams.award(bank, { from: stage.querySelector(".fd-bank") });
-      over = true;
-      lastNote = note;
-      boards[b].answers.forEach((_, i) => revealed.add(i)); // show every answer
-      if (found) ctx.confetti({ count: mult() > 1 ? 130 : 70, originY: 0.35 });
+    function hint() {
+      if (busy || !flow || flow.hint() < 0) return;
+      sfx.sparkle();
       render();
+    }
+
+    /** A round card ("Round 2 · Tigers start!"), then the new board slides in. */
+    async function openRound() {
+      const s = flow.state;
+      const m = flow.mult();
+      const opener = flow.teamsMode() ? teams.active() : null;
+      const up = teams.mode === "players" ? teams.player() : null;
+      busy = true;
+      await fx.announce({
+        kicker: `Round ${s.b + 1} of ${boards.length}`,
+        title: m === 3 ? "Triple points!" : m === 2 ? "Double points!" : opener ? `${opener.name} start!` : up ? `${up.name} starts!` : "Survey says…",
+        sub: `${m > 1 && (opener || up) ? `${teams.turnHtml()} <span>${opener ? "open" : "opens"} the board</span>` : ""}<span class="sx-ann-q">${esc(boards[s.b].prompt)}</span>`,
+        icon: opener ? teams.badge(opener, { cls: "xl" }) : up ? teams.badge(up, { cls: "xl" }) : `<span class="sx-ann-emoji">${esc(boards[s.b].topic || "📋")}</span>`,
+        color: m === 3 ? "#f472b6" : m === 2 ? "#38bdf8" : opener?.color || up?.color || "#fbbf24",
+        big: m > 1,
+        ms: m > 1 ? 1900 : 1500,
+      });
+      busy = false;
+      entering = true;
+      render();
+      sfx.reveal();
+      if (m > 1) ctx.confetti({ count: 50, originY: 0.2 });
     }
 
     function check() {
       const input = stage.querySelector("#fdSay");
       const said = input?.value || "";
-      if (!said.trim()) return;
-      const i = matchAnswer(said, boards[b].answers, revealed);
-      if (i >= 0) revealAnswer(i);
-      else strike();
+      if (!said.trim() || !flow) return;
+      const i = matchAnswer(said, boards[flow.state.b].answers, flow.state.revealed);
+      if (i >= 0) reveal(i);
+      else { if (input) input.value = ""; strike(); }
     }
 
-    /** 💡 Show the first letter and length of the top answer nobody has found yet. */
-    function hint() {
-      const i = boards[b].answers.findIndex((_, k) => !revealed.has(k) && !hinted.has(k));
-      if (i < 0) return;
-      hinted.add(i);
-      sfx.whoosh();
-      render();
+    function revealAll() {
+      if (busy || !flow) return;
+      const res = flow.revealAll({ from: stage.querySelector(".fd-bank") });
+      if (res) { sfx.reveal(); roundOver(res); }
     }
 
     function next() {
-      if (!over) return;
-      if (b + 1 >= boards.length) {
-        ctx.finish({ title: "Top Answers!", stats: [{ value: String(found), label: "answers found" }, { value: String(boards.length), label: "rounds played" }] });
+      if (busy || !flow) return;
+      const res = flow.next();
+      if (!res) return;
+      if (res.kind === "done") {
+        ctx.finish({ title: "Top Answers!", stats: [{ value: String(flow.state.found), label: "answers found" }, { value: String(boards.length), label: "rounds played" }] });
         return;
       }
-      b++;
-      revealed = new Set();
-      hinted = new Set();
-      strikes = 0;
-      bank = 0;
-      stealing = false;
-      owner = null;
-      over = false;
-      teams.nextTurn(); // the next team / player opens the next board
-      sfx.whoosh();
-      render();
-      if (mult() > 1) ctx.confetti?.({ count: 40, originY: 0.2 });
+      fresh = -1;
+      openRound();
     }
 
     stage.addEventListener("click", (e) => {
       const s = e.target.closest("[data-slot]");
-      if (s && !over) { revealAnswer(Number(s.dataset.slot)); return; }
+      if (s) { reveal(Number(s.dataset.slot)); return; }
       if (e.target.closest("[data-check]")) { check(); return; }
       if (e.target.closest("[data-strike]")) { strike(); return; }
       if (e.target.closest("[data-hint]")) { hint(); return; }
-      if (e.target.closest("[data-show]")) { endRound(teamsMode() && bank ? `${teams.active().name} keep ${bank} points.` : "Here are all the answers."); if (teamsMode() && bank) teams.award(bank); return; }
+      if (e.target.closest("[data-show]")) { revealAll(); return; }
       if (e.target.closest("[data-next]")) next();
     });
     stage.addEventListener("keydown", (e) => {
       if (e.target.id === "fdSay" && e.key === "Enter") { e.preventDefault(); check(); }
     });
 
-    stage.innerHTML = `<div class="fd"><h2 class="fd-prompt">Loading the boards…</h2></div>`;
+    stage.innerHTML = `<div class="fd"><h2 class="fd-prompt fd-loading">Loading the boards…</h2></div>`;
     loadBoards().then((data) => {
-      // Deep copies: the game marks answers as said, and the cached file is shared between games.
+      // Deep copies: the cached file is shared between games.
       boards = pickRounds(boardsForDeck(ctx.fullDeck || ctx.deck, data)).map((x) => JSON.parse(JSON.stringify(x)));
       if (!boards.length) { stage.innerHTML = `<div class="fd"><h2 class="fd-prompt">No Top Answers boards yet — run scripts/lessons/build-feud.mjs.</h2></div>`; return; }
-      render();
+      flow = createFeudFlow(teams, boards);
+      stage.innerHTML = `<div class="fd"></div>`;
+      openRound();
     });
 
     return {
       capturesLetters: true, // typing in the answer box must not toggle Greek
-      onTurn() { if (!over && boards.length) render(); },
+      onTurn() { if (flow && !flow.state.over && !busy) render(); },
       onKey(e) {
+        if (!flow || busy) return;
         if (document.activeElement?.id === "fdSay") return; // typing an answer
-        if (over && (e.key === "Enter" || e.key === " " || e.key === "ArrowRight")) { e.preventDefault(); next(); }
-        else if (!over && /^[1-8]$/.test(e.key)) { const i = Number(e.key) - 1; if (boards[b] && i < boards[b].answers.length) revealAnswer(i); }
+        if (flow.state.over && (e.key === "Enter" || e.key === " " || e.key === "ArrowRight")) { e.preventDefault(); next(); }
+        else if (!flow.state.over && /^[1-8]$/.test(e.key)) { const i = Number(e.key) - 1; if (i < boards[flow.state.b].answers.length) reveal(i); }
       },
       destroy() { timers.forEach(clearTimeout); },
     };

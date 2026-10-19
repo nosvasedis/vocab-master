@@ -9,7 +9,7 @@ export default {
   tags: ["Whole class", "Speaking", "Warm-up"],
   minWords: 1,
   create(ctx) {
-    const { stage, esc, svg, sfx, speak, pic } = ctx;
+    const { stage, esc, svg, sfx, speak, pic, fx } = ctx;
     let deck = ctx.deck;
     let i = 0;
     let flipped = false;
@@ -32,9 +32,9 @@ export default {
           <button type="button" class="fc-nav next" data-nav="1" aria-label="Next card">${svg("chevron-right")}</button>
         </div>
         <div class="fc-actions">
-          <button type="button" class="arc-btn learn" data-mark="learn">${svg("rotate", "i-sm")}Still learning <kbd>1</kbd></button>
+          <button type="button" class="arc-btn learn" data-mark="learn">${svg("rotate", "i-sm")}Still learning <b class="fc-n" id="fcLearnN">0</b><kbd>1</kbd></button>
           <button type="button" class="arc-btn ghost" data-flip>${svg("refresh", "i-sm")}Flip <kbd>Space</kbd></button>
-          <button type="button" class="arc-btn know" data-mark="know">${svg("check", "i-sm")}I know it <kbd>2</kbd></button>
+          <button type="button" class="arc-btn know" data-mark="know">${svg("check", "i-sm")}I know it <b class="fc-n" id="fcKnowN">0</b><kbd>2</kbd></button>
         </div>
       </div>`;
 
@@ -92,6 +92,10 @@ export default {
       stage.querySelector("#fcDots").innerHTML = deck.map((w, k) => `<span class="${status.get(w.english) || ""}${k === i ? " cur" : ""}"></span>`).join("");
       const known = [...status.values()].filter((s) => s === "know").length;
       ctx.setProgress(`<b>${i + 1}</b> / ${deck.length} · ${known} known`);
+      stage.querySelector("#fcKnowN").textContent = known;
+      stage.querySelector("#fcLearnN").textContent = [...status.values()].filter((s) => s === "learn").length;
+      // The deck under the card gets thinner as cards are sorted.
+      stack.style.setProperty("--left", String(Math.min(3, deck.filter((w) => !status.has(w.english)).length - 1)));
     }
 
     function render(dir = 0) {
@@ -128,6 +132,9 @@ export default {
       if (!card || card.classList.contains("leaving")) return;
       status.set(deck[i].english, kind);
       kind === "know" ? sfx.correct() : sfx.pop();
+      renderDots();
+      if (kind === "know") fx.sparks(card, { count: 24, color: "#34d399", spread: 1.4 });
+      fx.pop(stage.querySelector(kind === "know" ? "#fcKnowN" : "#fcLearnN"), { scale: 1.6 });
       card.classList.add("leaving", kind === "know" ? "out-right" : "out-left");
       setTimeout(() => {
         const next = deck.findIndex((w, k) => k > i && !status.has(w.english));
