@@ -3,6 +3,7 @@
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
 import { LETTERS, answerKeyRows, docPoints } from "./doc-model.js";
+import { scaledSize } from "./text-size.js";
 
 const MM = 56.7;
 const FONT = "Segoe UI";
@@ -14,7 +15,8 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
   const greek = !!meta.greek;
   const showPics = meta.pictures !== false;
   const toBytes = (b64) => (typeof Buffer !== "undefined" ? Buffer.from(b64, "base64") : Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
-  const run = (text, o = {}) => new d.TextRun({ text: String(text ?? ""), font: o.display ? DISPLAY : FONT, size: o.size || 22, bold: o.bold, italics: o.italics, color: o.color });
+  const textSize = meta.layout?.textSize;
+  const run = (text, o = {}) => new d.TextRun({ text: String(text ?? ""), font: o.display ? DISPLAY : FONT, size: scaledSize(o.size || 22, textSize), bold: o.bold, italics: o.italics, color: o.color });
   const para = (children, o = {}) => new d.Paragraph({ children, ...o });
   const pic = (token, size) => {
     const b64 = showPics && pics[String(token || "").replace(/^@/, "")];
@@ -101,7 +103,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
       return;
     }
-    const all = [...(s.example ? [{ ...s.example, n: 0 }] : []), ...s.items];
+    const all = [...(s.example && (meta.layout?.examples !== false || s.task === "R-ORDER" || teacher) ? [{ ...s.example, n: 0 }] : []), ...s.items];
     all.forEach((it) => {
       const ex = it.n === 0;
       const runs = [];

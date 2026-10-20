@@ -16,6 +16,8 @@ import { inlinePictures, picPngMap } from "../../studio/pic-assets.js";
 import { BOOK_LEVEL } from "../../studio/levels.js";
 import { addOwnWords, mergeOwnWords } from "../../studio/own-words.js";
 import { readJSON, writeJSON } from "../bridge.js";
+import { segmented as segmentedCtl } from "../ui.js";
+import { TEXT_SIZES, SPACINGS, textSizeKey } from "../../studio/text-size.js";
 import { recentDocs } from "../made.js";
 import { lingoSVG, lingoBadge } from "../../lesson/lingo-art.js";
 
@@ -468,6 +470,21 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       refreshKeyWords().then(() => changed(false));
     },
   };
+}
+
+/* ── Page controls under a paper: text size, spacing, (tests) examples ── */
+/** layout: the doc's meta.layout. examples: show the "Examples" switch (tests). */
+export function pageControlsHtml(layout = {}, { examples = false } = {}) {
+  return `<div class="page-ctl">
+    <span class="page-ctl-l">${icon("zoom-in", "i-xs")}Text size</span>${segHtml("textSize", Object.entries(TEXT_SIZES).map(([k, v]) => [k, `<span title="${esc(v.name)}">${esc(v.label)}</span>`]), textSizeKey(layout.textSize))}
+    <span class="page-ctl-l">${icon("layers", "i-xs")}Spacing</span>${segHtml("density", SPACINGS, layout.density || "standard")}
+    ${examples ? `<label class="switch sm" data-tip="The solved question 0 at the start of each part" data-tip-pos="bottom"><input type="checkbox" data-page-examples ${layout.examples !== false ? "checked" : ""} /><span class="track"></span><span class="sw-text">Examples</span></label>` : ""}
+  </div>`;
+}
+/** Wire the page controls: onChange({ textSize | density | examples }). */
+export function wirePageControls(host, onChange) {
+  host.querySelectorAll("[data-segmented]").forEach((root) => segmentedCtl(root, { value: root.querySelector(".active")?.dataset.value, onChange: (v) => onChange({ [root.dataset.seg]: v }) }));
+  host.querySelector("[data-page-examples]")?.addEventListener("change", (e) => onChange({ examples: e.target.checked }));
 }
 
 /* ── Small form helpers ───────────────────────────────────────────── */

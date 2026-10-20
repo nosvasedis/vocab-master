@@ -5,6 +5,7 @@ import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
 import { LETTERS, answerKeyRows, docPoints } from "./doc-model.js";
+import { textSizeKey } from "./text-size.js";
 
 const GAP = /_{3,}/g;
 const line = (cls = "") => `<span class="st-line ${cls}"></span>`;
@@ -22,6 +23,8 @@ export function docLayout(doc, options = {}) {
     pictures: doc?.meta?.pictures !== false,
     schoolName: "",
     density: "standard",
+    textSize: "standard",
+    examples: true,
     ...(doc?.meta?.layout || {}),
     ...(options.layout || {}),
   };
@@ -59,7 +62,9 @@ function passageHtml(section) {
 function bankHtml(section) {
   if (!section.bank?.length) return "";
   if (section.answerType === "match") {
-    return `<div class="match-defs">${section.bank.map((b) => `<p class="match-def-line"><b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
+    // Short meanings sit in two columns (half the height).
+    const twoCol = section.bank.length >= 6 && section.bank.every((b) => String(b.text).length <= 38);
+    return `<div class="match-defs${twoCol ? " two-col" : ""}">${section.bank.map((b) => `<p class="match-def-line"><b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
   }
   return `<div class="word-bank">${section.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`;
 }
@@ -68,9 +73,11 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   const num = `<span class="item-num">${example ? "0" : esc(it.n)}</span>`;
   const exAns = example ? `<span class="st-ex-ans">${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]}` : section.answerType === "match" ? it.letter?.toUpperCase() || "" : it.answer)}</span>` : "";
   const key = showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]} ${it.answer}` : section.answerType === "match" ? it.letter?.toUpperCase() : it.answer)}</span>` : "";
-  const cls = `ex-item st-item${example ? " st-example" : ""}`;
+  let cls = `ex-item st-item${example ? " st-example" : ""}`;
   if (section.answerType === "choice") {
     const pics = layout.pictures && it.optionPics?.length;
+    // Short options go on the question's line (they wrap under it when there is no room).
+    if (!pics && section.task !== "R-SIGNS" && it.options.join("").length + it.options.length * 3 <= 40 && String(it.prompt || "").length <= 90) cls += " st-inline-opts";
     const opts = pics
       ? `<div class="st-pic-options">${it.options.map((o, i) => `<div class="st-pic-opt${example && i === it.answerIndex ? " picked" : ""}">${pic(it.optionPics[i], "st-opt-pic")}<span class="st-box">${example && i === it.answerIndex ? "✓" : ""}</span><small>${(LETTERS[i] || "").toUpperCase()}</small></div>`).join("")}</div>`
       : `<div class="st-options">${it.options.map((o, i) => `<span class="st-opt${example && i === it.answerIndex ? " picked" : ""}"><b>${LETTERS[i]}</b>${esc(o)}</span>`).join("")}</div>`;
@@ -95,7 +102,7 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
 
 function pictureCardsHtml(section, layout, showAnswers) {
   const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}${it.hint ? `<div class="st-hint">${esc(it.hint)}</div>` : ""}<div class="pic-line">${section.answerType === "tf" ? `<span class="st-tf-box">${example ? esc(it.answer) : ""}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}` : example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
-  return `<div class="pic-grid">${section.example?.pic ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
+  return `<div class="pic-grid">${section.example?.pic && layout.examples !== false ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
 }
 
 function openTaskHtml(section, layout) {
@@ -165,12 +172,12 @@ export function renderStudentPaper(doc, options = {}) {
     else {
       // Picture-choice questions sit two to a row, so a part fits on one page.
       const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
-      const items = (section.example ? itemHtml(section, section.example, layout, { example: true }) : "") + section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
+      const items = (section.example && (layout.examples !== false || section.task === "R-ORDER") ? itemHtml(section, section.example, layout, { example: true }) : "") + section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
       body += picGrid ? `<div class="st-pic-items">${items}</div>` : items;
     }
     return `<section class="ex-block st-sec st-${esc(section.skill)}">${partHead(section, i, layout)}${body}</section>`;
   }).join("");
-  return `<div class="worksheet studio-sheet density-${esc(layout.density)}">${headerFor(doc, layout)}${parts}</div>`;
+  return `<div class="worksheet studio-sheet density-${esc(layout.density)} text-${textSizeKey(layout.textSize)}">${headerFor(doc, layout)}${parts}</div>`;
 }
 
 const WRITING_RUBRIC = [["Task", "All the points are there; the reader understands."], ["Vocabulary", "Uses unit words correctly."], ["Language", "Sentences, grammar, spelling and punctuation."]];
@@ -206,7 +213,7 @@ export function renderTeacherPack(doc, options = {}) {
     }
     return `${h}</section>`;
   }).join("");
-  return `<div class="worksheet answer-key-sheet studio-sheet density-${esc(layout.density)}">${headerFor(doc, layout, { teacher: true })}${worksheetSectionHtml("Marking scheme")}${scheme}${worksheetSectionHtml("Answer key & scripts")}<div class="key-grid st-key-grid">${parts}</div></div>`;
+  return `<div class="worksheet answer-key-sheet studio-sheet density-${esc(layout.density)} text-${textSizeKey(layout.textSize)}">${headerFor(doc, layout, { teacher: true })}${worksheetSectionHtml("Marking scheme")}${scheme}${worksheetSectionHtml("Answer key & scripts")}<div class="key-grid st-key-grid">${parts}</div></div>`;
 }
 
 /** Wall strips for a running dictation, big print, to cut out. */
@@ -217,6 +224,19 @@ export function renderRunningStrips(doc) {
 }
 
 export const STUDIO_PRINT_CSS = `
+/* A part may run on to the next page — no half-empty pages before a long part. What belongs together stays
+   together: a question, a text, a word box, a matching list, picture cards, and a heading with what follows. */
+.studio-sheet .ex-block, .studio-sheet .key-block { break-inside: auto; page-break-inside: auto; }
+.studio-sheet .ex-head, .studio-sheet .st-audio, .studio-sheet .st-task, .studio-sheet .st-skill { break-after: avoid; page-break-after: avoid; }
+.studio-sheet .st-passage, .studio-sheet .word-bank, .studio-sheet .match-defs, .studio-sheet .st-story-pics, .studio-sheet .st-notes, .studio-sheet .st-example, .studio-sheet .key-head { break-inside: avoid; page-break-inside: avoid; }
+.studio-sheet .key-head { break-after: avoid; page-break-after: avoid; }
+/* Room without waste: tighter part spacing, short options on the question's line, short meanings in two columns. */
+.studio-sheet .ex-block { margin-bottom: 3.6mm; }
+.studio-sheet .ex-head { margin-bottom: 1.4mm; }
+.st-inline-opts .item-text { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 5mm; }
+.st-inline-opts .st-options { margin-top: 0; }
+.match-defs.two-col { columns: 2; column-gap: 6mm; }
+.match-defs.two-col .match-def-line { break-inside: avoid; margin-top: 0; }
 .studio-sheet .st-skill { font: 800 7.4pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.4mm; }
 .studio-sheet .ex-head { align-items: flex-start; }
 .studio-sheet .st-points { margin-left: auto; }

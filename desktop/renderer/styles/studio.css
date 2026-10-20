@@ -976,3 +976,10 @@
 .tb-hint span { overflow: hidden; text-overflow: ellipsis; }
 .tb-hint.hidden { display: flex !important; visibility: hidden; }
 @media (max-width: 900px) { .tb-hint { display: none !important; } }
+
+/* Page controls under a test or dictation paper: text size, spacing, examples */
+.page-ctl-wrap { display: flex; justify-content: center; }
+.page-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 14px; background: color-mix(in srgb, var(--surface) 90%, transparent); box-shadow: var(--shadow-xs); }
+.page-ctl-l { display: inline-flex; align-items: center; gap: 5px; font: 700 11.5px/1 var(--font-ui); color: var(--text-3); }
+.page-ctl-l:not(:first-child) { margin-left: 6px; }
+.page-ctl .segmented button { min-width: 34px; }

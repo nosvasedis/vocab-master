@@ -6,7 +6,7 @@ import { state, prefs, LEVEL_COLORS, on } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, safePaperHtml, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
+  makePicFor, safePaperHtml, pageControlsHtml, wirePageControls, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
   wizardNav, createWizard, classMemoryBrief,
 } from "./studio-common.js";
 import { segmented, withBusy } from "../ui.js";
@@ -132,6 +132,7 @@ function build() {
               </span>
             </span>
           </div>
+          <div class="page-ctl-wrap hidden" id="dcPageCtl"></div>
           <div id="dcVoices"></div>
           <div id="dcProblems"></div>
           <div class="paper-stage tb-stage" id="dcStage"><div class="paper hidden" id="dcPaper"></div>
@@ -485,6 +486,7 @@ async function generate(btn) {
         if (epoch !== dc.epoch) return; // the dictation was closed or deleted meanwhile
         made.id = againId;
       }
+      made.meta.layout = { ...(made.meta.layout || {}), ...(dc.spec.page || {}) };
       setDoc(made);
       saveDoc(dc.doc);
       dc.sheet = dc.doc.sections[0].style === "running" ? "strips" : "student";
@@ -526,7 +528,16 @@ function renderPaper() {
   if (stripsBtn) stripsBtn.hidden = dc.doc?.sections?.[0]?.style !== "running";
   if (dc.sheet === "strips" && stripsBtn?.hidden) dc.sheet = "student";
   dc.sheetSeg?.set(dc.sheet);
+  $("dcPageCtl").classList.toggle("hidden", !has);
   if (!has) { paper.clear(); $("dcProblems").innerHTML = ""; return; }
+  $("dcPageCtl").innerHTML = pageControlsHtml(dc.doc.meta.layout || {});
+  wirePageControls($("dcPageCtl"), (change) => {
+    dc.doc.meta.layout = { ...(dc.doc.meta.layout || {}), ...change };
+    dc.spec.page = { ...(dc.spec.page || {}), ...change };
+    savePrefs();
+    saveDoc(dc.doc);
+    renderPaper();
+  });
   paper.render(safePaperHtml(() => sheetHtml(), "dictation"));
   fitPaper($("dcStage"), $("dcPaper"));
   const probs = dc.doc.sections[0].problems || [];

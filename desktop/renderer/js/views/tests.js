@@ -8,7 +8,7 @@ import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, wizardNav, createWizard, safePaperHtml, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
+  makePicFor, wizardNav, createWizard, safePaperHtml, pageControlsHtml, wirePageControls, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
 } from "./studio-common.js";
 /** The class profile plus what the class has already met (class memory, when the teacher turned it on). */
 const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
@@ -132,6 +132,7 @@ function build() {
               <button type="button" class="btn btn-secondary btn-sm" id="tsWord" disabled>${icon("word", "i-sm")}Word</button>
             </span>
           </div>
+          <div class="page-ctl-wrap hidden" id="tsPageCtl"></div>
           <div id="tsListen"></div>
           <div id="tsProblems"></div>
           <div class="paper-stage tb-stage" id="tsStage"><div class="paper hidden" id="tsPaper"></div>
@@ -846,6 +847,7 @@ async function generate(btn) {
       const meta = { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.ctx = { ...ctx, meta };
       setDoc(buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }));
+      ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), ...(ts.spec.page || {}) };
       await topUpShortParts(spec, ctx, meta);
       await checkKeys(ts.doc);
       ts.doc.versionB = spec.versions > 1 ? makeVersionB(ts.doc) : null;
@@ -1034,7 +1036,16 @@ function renderPaper() {
   ["tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
   renderOutline();
   renderFoot();
+  $("tsPageCtl").classList.toggle("hidden", !has);
   if (!has) { paper.clear(); $("tsProblems").innerHTML = ""; $("tsListen").innerHTML = ""; return; }
+  // Text size, spacing and examples belong to this test (and become the next test's starting point).
+  $("tsPageCtl").innerHTML = pageControlsHtml(ts.doc.meta.layout || {}, { examples: ts.sheet !== "teacher" });
+  wirePageControls($("tsPageCtl"), (change) => {
+    ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), ...change };
+    ts.spec.page = { ...(ts.spec.page || {}), ...change };
+    savePrefs();
+    refreshDoc();
+  });
   paper.render(safePaperHtml(() => sheetHtml(), "test"));
   editor?.decorate();
   fitPaper($("tsStage"), $("tsPaper"));

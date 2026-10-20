@@ -21,6 +21,7 @@ import {
   maskWordInText,
 } from "./arcade/deck.js";
 import { picForWord, picUrl } from "./js/pics.js";
+import { TEXT_SIZE_CSS, textSizeKey, scaledSize } from "./studio/text-size.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -2976,7 +2977,7 @@ function renderLingoLauncher(data, options = {}) {
   });
 
   return `
-    <div class="worksheet lingo-sheet density-${escapeHtml(density)}">
+    <div class="worksheet lingo-sheet density-${escapeHtml(density)} text-${textSizeKey(options.textSize || meta.textSize)}">
       ${worksheetHeaderHtml(meta, { title: "Lingo Launcher", kind: "Vocabulary study sheet", layout })}
       ${worksheetSectionHtml(`Words to learn · ${vocab.length}`)}
       <table class="vocab-table"><tbody>${rows.join("")}</tbody></table>
@@ -3022,7 +3023,7 @@ function renderDictation(data, options = {}) {
   });
 
   return `
-    <div class="worksheet dictation-sheet density-${escapeHtml(density)}">
+    <div class="worksheet dictation-sheet density-${escapeHtml(density)} text-${textSizeKey(options.textSize || meta.textSize)}">
       ${worksheetHeaderHtml(meta, { title: "Dictation", kind: "Vocabulary test", layout })}
       ${body}
     </div>`;
@@ -3046,7 +3047,7 @@ function renderAnswerKey(data, options = {}) {
   const body = keySection("Lingo Launcher practice", data.lingoLauncher?.practice || [], "Lingo") + keySection("Dictation", data.dictation?.exercises || [], "Dictation");
 
   return `
-    <div class="worksheet answer-key-sheet density-${escapeHtml(density)}">
+    <div class="worksheet answer-key-sheet density-${escapeHtml(density)} text-${textSizeKey(options.textSize || meta.textSize)}">
       ${worksheetHeaderHtml(meta, { title: "Answer Key", kind: "Teacher’s copy", layout })}
       ${body}
     </div>`;
@@ -4294,6 +4295,7 @@ async function fixAllWorksheetIssues(form, apiKey, existingData, validation) {
 /* ─── Print export ─── */
 const WORKSHEET_PRINT_CSS = `
 @page { size: A4; margin: 13mm 14mm 15mm; }
+${TEXT_SIZE_CSS}
 html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .worksheet {
   --ink: #111;
@@ -4519,7 +4521,7 @@ async function docxKit(meta, sheet) {
   const run = (text, o = {}) => new d.TextRun({
     text: String(text ?? ""),
     font: o.display ? F.docxDisplay : F.docx,
-    size: o.size || 22,
+    size: scaledSize(o.size || 22, meta?.textSize),
     bold: o.bold,
     italics: o.italics,
     color: o.color,

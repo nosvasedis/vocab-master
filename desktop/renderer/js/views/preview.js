@@ -17,6 +17,7 @@ import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
 
 let sheetSeg;
 let densitySeg;
+let textSizeSeg;
 let shadow;
 
 const SHEET_NAME = { lingo: "Lingo Launcher", dictation: "Dictation", answer: "Answer Key" };
@@ -59,6 +60,10 @@ export function initPreview() {
   densitySeg = segmented($("densitySeg"), {
     value: state.preview.density,
     onChange: (v) => { state.preview.density = v; emit("preview"); renderPaper(); },
+  });
+  textSizeSeg = segmented($("textSizeSeg"), {
+    value: state.preview.textSize || "standard",
+    onChange: (v) => { state.preview.textSize = v; emit("preview"); renderPaper(); },
   });
   $("optAnswers").addEventListener("change", (e) => { state.preview.showAnswers = e.target.checked; emit("preview"); renderPaper(); });
   document.querySelectorAll("[data-layout]").forEach((cb) => cb.addEventListener("change", () => {
@@ -110,6 +115,7 @@ export function initPreview() {
 export function renderPreview() {
   sheetSeg.set(state.preview.sheet);
   densitySeg.set(state.preview.density);
+  textSizeSeg.set(state.preview.textSize || "standard");
   $("optAnswers").checked = state.preview.showAnswers;
   renderLayoutControls();
   const has = !!state.data;
@@ -156,7 +162,7 @@ function renderLayoutControls() {
 
 /* ── Paper ───────────────────────────────────────────────────────── */
 function renderOpts() {
-  return { showAnswers: state.preview.showAnswers, density: state.preview.density, layout: layoutPayload() };
+  return { showAnswers: state.preview.showAnswers, density: state.preview.density, textSize: state.preview.textSize, layout: layoutPayload() };
 }
 
 function syncMeta() {
@@ -164,6 +170,7 @@ function syncMeta() {
   state.data.meta.layout = layoutPayload();
   state.data.meta.includeStudentHeader = !!sheetLayout("lingo").studentHeader;
   state.data.meta.density = state.preview.density;
+  state.data.meta.textSize = state.preview.textSize || "standard";
 }
 
 function renderPaper() {
@@ -719,7 +726,7 @@ function savedToast(filePath, label) {
 
 /** Standalone A4 document for PDF export, with the worksheet fonts embedded. */
 async function pdfHtml(sheet) {
-  const opts = { showAnswers: false, density: state.preview.density, layout: layoutPayload() };
+  const opts = { showAnswers: false, density: state.preview.density, textSize: state.preview.textSize, layout: layoutPayload() };
   const body = sheet === "lingo" ? renderLingoLauncher(state.data, opts)
     : sheet === "dictation" ? renderDictation(state.data, opts) : renderAnswerKey(state.data, opts);
   return inlinePictures(buildWorksheetPrintDocument(body, SHEET_NAME[sheet], await worksheetFontCss()));
@@ -787,7 +794,7 @@ export async function printSheet(sheet = state.preview.sheet) {
   if (!state.data) { toast("Generate or open a unit first.", "warn"); return; }
   try {
     play("print");
-    openWorksheetPrint(state.data, sheet, { density: state.preview.density, layout: layoutPayload(), fontCss: await worksheetFontCss() });
+    openWorksheetPrint(state.data, sheet, { density: state.preview.density, textSize: state.preview.textSize, layout: layoutPayload(), fontCss: await worksheetFontCss() });
   } catch (e) {
     toast(e.message || String(e), "error");
   }
