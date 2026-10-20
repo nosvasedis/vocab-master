@@ -773,3 +773,9 @@
 .mk-sheets .paper-col { padding-top: 14px; }
 @media (max-width: 1180px) { .mk-sheets .mk-pill-t small { display: none; } }
 @media (max-width: 980px) { .mk-sheets .mk-pill-t { display: none; } .mk-new span { display: none; } }
+
+/* The edit tip: one quiet line inside the paper's toolbar */
+.tb-hint { flex: 1; min-width: 0; margin: 0; justify-content: flex-end; gap: 5px; font-size: 11.5px; color: var(--text-3); white-space: nowrap; }
+.tb-hint span { overflow: hidden; text-overflow: ellipsis; }
+.tb-hint.hidden { display: flex !important; visibility: hidden; }
+@media (max-width: 900px) { .tb-hint { display: none !important; } }

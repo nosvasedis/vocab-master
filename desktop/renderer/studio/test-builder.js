@@ -251,8 +251,40 @@ Only include the fields a part needs. One object per part, same ids, same order.
     DISTRACTOR_RULE,
     "When a part tests two grammar points, each item tests ONE of them and the items alternate between them.",
   ].filter(Boolean);
-  const user = `${topicMode ? "" : `UNIT CONTEXT\n${unitContextPrompt(ctx.unitContext)}\n\n`}RULES\n${rules.map((r) => `- ${r}`).join("\n")}\n\nLOCKED TEST PLAN (${parts.length} part${parts.length === 1 ? "" : "s"})\n${parts.map((p) => partBrief(p, spec.parts.indexOf(p), spec, ctx.pictureWords || [])).join("\n")}`;
+  const rewrite = rewriteBlock(ctx.rewrite, parts);
+  const user = `${topicMode ? "" : `UNIT CONTEXT\n${unitContextPrompt(ctx.unitContext)}\n\n`}RULES\n${rules.map((r) => `- ${r}`).join("\n")}\n\nLOCKED TEST PLAN (${parts.length} part${parts.length === 1 ? "" : "s"})\n${parts.map((p) => partBrief(p, spec.parts.indexOf(p), spec, ctx.pictureWords || [])).join("\n")}${rewrite ? `\n\n${rewrite}` : ""}`;
   return { system, user };
+}
+
+/** A part as it is now, in a few lines (so a rewrite can be told what to move away from). */
+function partDigest(s) {
+  return [
+    s.passageTitle || s.passage ? `text: ${s.passageTitle ? `"${s.passageTitle}" ` : ""}${String(s.passage || "").slice(0, 160)}…` : "",
+    s.script?.length ? `script: ${s.script.slice(0, 3).map((l) => `${l.speaker}: ${l.text}`).join(" / ")}…` : "",
+    s.task_prompt ? `task: ${s.task_prompt}` : "",
+    s.cards?.length ? `cards: ${s.cards.map((c) => c.title).join(", ")}` : "",
+    s.items?.length ? `questions: ${s.items.map((it) => `${it.prompt || ""}${it.answer ? ` → ${it.answer}` : ""}`).join(" | ")}` : "",
+  ].filter(Boolean).join("\n  ");
+}
+
+/** Writing a part again: the teacher's wish first, and the old version to move away from. rewrite: { wish, previous: [sections] } */
+function rewriteBlock(rewrite, parts) {
+  if (!rewrite) return "";
+  const old = parts.map((p) => (rewrite.previous || []).find((s) => s.id === p.id)).filter(Boolean);
+  return [
+    "THIS IS A REWRITE — it must be clearly NEW: a new text or script (new situation, new names, new title) and new questions; do not reuse sentences, situations or the same tested words where others fit.",
+    rewrite.wish ? `THE TEACHER ASKED FOR THIS REWRITE (follow it exactly, it comes before everything else): "${rewrite.wish}"` : "",
+    old.length ? `THE OLD VERSION (move away from it):\n  ${old.map(partDigest).join("\n  ")}` : "",
+  ].filter(Boolean).join("\n");
+}
+
+/** How much a rewritten part still looks like the old one (0 = all new, 1 = the same), from its text and questions. */
+export function partSimilarity(a, b) {
+  const bag = (s) => new Set(`${s?.passage || ""} ${(s?.script || []).map((l) => l.text).join(" ")} ${(s?.items || []).map((it) => `${it.prompt} ${it.answer}`).join(" ")} ${s?.task_prompt || ""}`.toLowerCase().match(/[a-z]{3,}/g) || []);
+  const A = bag(a);
+  const B = bag(b);
+  if (!A.size || !B.size) return 0;
+  return [...A].filter((x) => B.has(x)).length / new Set([...A, ...B]).size;
 }
 
 /**
@@ -325,6 +357,9 @@ function requiredAnswers(section) {
   return out;
 }
 
+/** Parts whose answers must be the tested words (their answers are checked against them). */
+const SCOPED = ["V-PIC", "V-BANK", "V-MC", "R-GAP", "L-GAP"];
+
 /** A small prompt that rewrites only some items of a part. ctx: { profileBlock, focusWords, pictureWords } */
 export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
   const plan = spec.parts.find((x) => x.id === section.id) || { id: section.id, task: section.task, skill: section.skill, items: section.items.length };
@@ -343,8 +378,9 @@ ${ctx.profileBlock || ""}`;
     section.bank?.length && section.answerType !== "match" ? `WORD BOX: ${section.bank.join(", ")}` : "",
     `THE ITEMS NOW:\n${section.items.map(show).join("\n")}`,
     section.problems?.length ? `PROBLEMS:\n${section.problems.map((p) => `- ${p}`).join("\n")}` : "",
-    ctx.instruction ? `THE TEACHER WANTS for items ${itemNs.join(", ")}: ${ctx.instruction}` : ctx.fresh ? `Write a NEW, different question for items ${itemNs.join(", ")} — not a rewording of the one there now.` : "",
-    `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${src ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ""}`,
+    ctx.instruction ? `FOR ITEM${itemNs.length > 1 ? "S" : ""} ${itemNs.join(", ")} (these rules come first):
+${ctx.instruction}` : "",
+    `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${src ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? (SCOPED.includes(section.task) ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ` Use words the class knows (the unit words where they fit: ${focus.slice(0, 30).join(", ")}).`) : ""}`,
     Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.` : "",
     t.answer === "choice" ? DISTRACTOR_RULE : "",
   ].filter(Boolean).join("\n\n");
@@ -412,7 +448,7 @@ function keepPics(s) {
 
 /** Answers outside the tested words, per part (vocabulary, reading gaps and listening gaps). */
 function scopeProblems(section, focusWords) {
-  if (!focusWords?.length || !["V-PIC", "V-BANK", "V-MC", "R-GAP", "L-GAP"].includes(section.task)) return [];
+  if (!focusWords?.length || !SCOPED.includes(section.task)) return [];
   const terms = allowedTerms(focusWords);
   return section.items.filter((it) => !answerInScope(it.answer, terms)).map((it) => `item ${it.n}: "${it.answer}" is not one of the tested words`);
 }

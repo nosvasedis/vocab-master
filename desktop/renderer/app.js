@@ -12,6 +12,7 @@ import {
 } from "./coursebook-data.js";
 import { sanitizeVocabField, rejectionNote } from "./vocab-quality.js";
 import { IRREGULAR_FORMS, wordFormPattern, findOutsideAnswers, worksheetMatchesForm, wordsKey, unitIdentity, allowedTerms } from "./studio/word-scope.js";
+import { remakePlan, remakeProblems, remakeRetryHint } from "./studio/remake.js";
 import { BINARY_TYPES, binaryBalance, balancedPattern, repairABItems, choicesPredictable, rebalanceChoiceItems } from "./studio/answer-balance.js";
 import {
   buildArcadeDeck,
@@ -3685,8 +3686,11 @@ async function regenerateDictationOnly(form, apiKey, existingData, options = {})
     tune: planTune(options, picked.tune),
   };
   const systemPrompt = buildSystemPrompt(profileId, plan);
+  // A new version: the old lines, so the AI writes really new ones.
+  const oldLines = (existingData.dictation?.exercises || []).flatMap((ex) => (ex.items || []).map((i) => i.prompt)).filter(Boolean).slice(0, 40);
   const userPrompt = buildUserPrompt(form, plan, form.teacherHints) +
-    `\n\nUSE THIS EXACT VOCABULARY TABLE (do not change):\n${JSON.stringify(vocab, null, 2)}`;
+    `\n\nUSE THIS EXACT VOCABULARY TABLE (do not change):\n${JSON.stringify(vocab, null, 2)}` +
+    (oldLines.length ? `\n\nTHIS IS A NEW VERSION of the Dictation sheet: write completely new sentences — never reuse or reword these old lines:\n${JSON.stringify(oldLines)}` : "");
 
   const { data, validation } = await callDeepSeekWithValidation({
     apiKey,
@@ -3726,7 +3730,8 @@ async function regenerateLingoPracticeOnly(form, apiKey, existingData, options =
   };
   const systemPrompt = buildSystemPrompt(profileId, plan);
   const userPrompt = buildUserPrompt(form, plan, form.teacherHints) +
-    `\n\nONLY regenerate lingoLauncher.practice. Keep dictation exercises identical to:\n${JSON.stringify(existingData.dictation, null, 2)}`;
+    `\n\nONLY regenerate lingoLauncher.practice. Keep dictation exercises identical to:\n${JSON.stringify(existingData.dictation, null, 2)}` +
+    ((existingData.lingoLauncher?.practice || []).length ? `\n\nTHIS IS A NEW VERSION of the Lingo practice: write completely new lines — never reuse or reword these old ones:\n${JSON.stringify(existingData.lingoLauncher.practice.flatMap((ex) => (ex.items || []).map((i) => i.prompt)).filter(Boolean).slice(0, 30))}` : "");
 
   const { data, validation } = await callDeepSeekWithValidation({
     apiKey,
@@ -4106,23 +4111,33 @@ async function remakeWorksheetItem(form, apiKey, existingData, { sheet, exercise
   const ex = getWorksheetExercise(existingData, sheet, exercise);
   const current = getWorksheetItem(existingData, sheet, exercise, item);
   if (!ex || !current) throw new Error("That line is no longer on the sheet.");
-  const reason = wish
-    ? `The teacher wants this line changed: ${wish}. Keep the same exercise type and format.`
-    : "The teacher wants a NEW, different line for this exercise type — not a rewording of the current one. Keep the format; use a unit word this exercise does not already test when possible.";
-  const targets = [{ sheet, exercise, item, typeId: ex.typeId, reason }];
-  const profileId = form.classProfile || existingData.meta?.classProfile;
   const vocab = existingData.lingoLauncher?.vocabulary || [];
+  // The wish becomes precise rules built from the line itself (which word it uses, what the other lines use) and
+  // checks on the reply; a reply that ignores it goes back with the reason (studio/remake.js), up to 3 tries.
+  const plan = remakePlan({ wish, item: current, siblings: (ex.items || []).filter((i) => i.number !== item), candidates: vocab.map((v) => v.english), kind: "line" });
+  const targets = [{ sheet, exercise, item, typeId: ex.typeId, reason: `${plan.instruction}
+Keep the exercise type (${ex.typeId}) and its format exactly; the answer must be a unit word (or its form) from the vocabulary table.` }];
+  const profileId = form.classProfile || existingData.meta?.classProfile;
   const others = (ex.items || []).filter((i) => i.number !== item).map((i) => i.prompt);
   const userPrompt = `${buildFixItemsUserPrompt(existingData, targets, vocab)}
 
 The other lines of this exercise (never repeat one of them): ${JSON.stringify(others)}`;
-  const aiResult = await callDeepSeek(apiKey, buildFixItemsSystemPrompt(profileId, targets), userPrompt, "");
-  const data = mergeItemFixes(existingData, aiResult, targets);
-  normalizeWorksheetExercises(data);
-  const validation = validateWorksheet(data);
-  data.coverageReport = validation.coverage;
-  const after = getWorksheetItem(data, sheet, exercise, item);
-  return { data, validation, changed: !!after && (after.prompt !== current.prompt || after.answer !== current.answer) };
+  const targetKeys = targetKeysFromFixTargets(targets);
+  let problems = [];
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const aiResult = await callDeepSeek(apiKey, buildFixItemsSystemPrompt(profileId, targets), userPrompt, attempt ? remakeRetryHint(problems) : "");
+    const data = mergeItemFixes(existingData, aiResult, targets);
+    normalizeWorksheetExercises(data);
+    const validation = validateWorksheet(data);
+    const after = getWorksheetItem(data, sheet, exercise, item);
+    problems = remakeProblems(current, after, plan.checks);
+    problems.push(...issuesStillForTargets(validation.issues, targetKeys, data).map((t) => t.reason));
+    if (!problems.length) {
+      data.coverageReport = validation.coverage;
+      return { data, validation, changed: true, problems: [] };
+    }
+  }
+  return { data: existingData, validation: validateWorksheet(existingData), changed: false, problems };
 }
 
 function mergeDictationItemUpdates(data, updates) {

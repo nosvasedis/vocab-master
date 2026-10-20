@@ -486,20 +486,17 @@ function saveDialogFor(name) {
 }
 
 function registerDownloadHandler() {
-  session.defaultSession.on("will-download", async (event, item) => {
-    event.preventDefault();
-    const win = BrowserWindow.fromWebContents(item.getWebContents()) || mainWindow;
+  // Electron itself shows the Save window with these options and holds the download until the teacher chooses.
+  // (Cancelling the download and opening our own dialog lost the file: a cancelled item can't be resumed.)
+  session.defaultSession.on("will-download", (_event, item, contents) => {
+    const win = (contents && !contents.isDestroyed() && BrowserWindow.fromWebContents(contents)) || mainWindow;
     const suggested = item.getFilename() || "worksheet.docx";
-    const { canceled, filePath } = await dialog.showSaveDialog(win, saveDialogFor(suggested));
-    if (canceled || !filePath) return;
-    item.setSavePath(filePath);
-    item.resume();
-    item.on("done", (_e, state) => {
+    item.setSaveDialogOptions(saveDialogFor(suggested));
+    item.once("done", (_e, state) => {
+      const savePath = item.getSavePath();
+      if (state === "completed" && savePath) savedPaths.add(savePath);
       if (win && !win.isDestroyed()) {
-        win.webContents.send("download:done", {
-          state,
-          filename: path.basename(filePath),
-        });
+        win.webContents.send("download:done", { state, filename: savePath ? path.basename(savePath) : suggested, path: state === "completed" ? savePath : "" });
       }
     });
   });

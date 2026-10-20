@@ -87,7 +87,43 @@ function go(view, { force = false, silent = false } = {}) {
   emit("view");
 }
 
+/* ── Sidebar: pinned open, or a slim rail that slides open while the mouse is over it ── */
+let sbTimer = 0;
+const narrow = window.matchMedia("(max-width: 1100px)");
+function applySidebar() {
+  const rail = !prefs.sidebarPinned || narrow.matches;
+  $("app").classList.toggle("sb-rail", rail);
+  $("sbPin").setAttribute("aria-pressed", String(!!prefs.sidebarPinned));
+  $("sbPin").dataset.tip = prefs.sidebarPinned ? "Let the sidebar tuck away (Ctrl+B)" : "Keep the sidebar open (Ctrl+B)";
+  if (!rail) $("sidebar").classList.remove("peek");
+}
+function toggleSidebarPin() {
+  prefs.sidebarPinned = !prefs.sidebarPinned;
+  savePrefs();
+  play(prefs.sidebarPinned ? "press" : "close");
+  applySidebar();
+}
+function initSidebar() {
+  if (prefs.sidebarPinned === undefined) prefs.sidebarPinned = false;
+  const sb = $("sidebar");
+  const peek = (on, ms) => {
+    clearTimeout(sbTimer);
+    sbTimer = setTimeout(() => { if ($("app").classList.contains("sb-rail")) sb.classList.toggle("peek", on); }, ms);
+  };
+  // Opens after a short rest on the rail (a mouse passing by doesn't open it); closes a moment after leaving.
+  sb.addEventListener("mouseenter", () => peek(true, 140));
+  sb.addEventListener("mouseleave", () => peek(false, 260));
+  sb.addEventListener("focusin", () => peek(true, 0));
+  sb.addEventListener("focusout", (e) => { if (!sb.contains(e.relatedTarget)) peek(false, 120); });
+  // A click in the sidebar that goes somewhere tucks it away again.
+  sb.addEventListener("click", (e) => { if (e.target.closest(".sb-item, .ai-card") && $("app").classList.contains("sb-rail")) peek(false, 60); });
+  $("sbPin").addEventListener("click", toggleSidebarPin);
+  narrow.addEventListener?.("change", applySidebar);
+  applySidebar();
+}
+
 /* ── Chrome: sidebar, top bar, flow bar ──────────────────────────── */
+const VIEW_ICON = { home: "home", setup: "file", words: "file", exercises: "file", preview: "file", tests: "clipboard", dictation: "mic", assistant: "sparkles", library: "library", lessons: "graduation" };
 /** The Worksheets maker's steps (its header pills, like the Test Maker's). */
 const WS_STEPS = [
   { view: "setup", label: "Class & unit", sub: "Level, book, words" },
@@ -125,6 +161,9 @@ function renderChrome() {
   const view = state.view;
   const meta = VIEW_META[view];
   $("pageTitle").textContent = meta.title;
+  $("pageIco").innerHTML = icon(VIEW_ICON[view] || "home");
+  $("pageIco").dataset.view = FLOW.includes(view) ? "worksheets" : view;
+  document.querySelector(".tb-ask")?.classList.toggle("hidden", view === "assistant");
   $("pageSub").textContent = meta.sub;
 
   const inFlow = FLOW.includes(view);
@@ -323,7 +362,7 @@ function wire() {
     if (g) go(g.dataset.goto);
   });
   document.addEventListener("click", (e) => { if (e.target.closest("[data-ws-new]")) newUnit(); });
-  $("btnPlayTop").addEventListener("click", openGames);
+  initSidebar();
   $("btnSettings").addEventListener("click", () => openSettings());
   $("aiStatusCard").addEventListener("click", () => openSettings());
   $("btnHelp").addEventListener("click", openHelp);
@@ -343,6 +382,7 @@ function wire() {
     if (e.key === "Escape" && hasOpenDialog()) { e.preventDefault(); closeTopDialog(); return; }
     if (hasOpenDialog()) return;
     const mod = e.ctrlKey || e.metaKey;
+    if (mod && e.key.toLowerCase() === "b") { e.preventDefault(); toggleSidebarPin(); return; }
     if (mod && e.key.toLowerCase() === "n") { e.preventDefault(); newUnit(); return; }
     if (mod && e.key.toLowerCase() === "p") { e.preventDefault(); printSheet(); return; }
     if (mod && e.key === "Enter") { e.preventDefault(); flowNext(); return; }
@@ -355,8 +395,8 @@ function wire() {
     if (action === "new") newUnit();
     if (action === "print") printSheet();
   });
-  d?.onDownloadDone?.(({ state: st, filename }) => {
-    if (st === "completed") toast(`Saved ${filename}.`, "ok");
+  d?.onDownloadDone?.(({ state: st, filename, path: savedAt }) => {
+    if (st === "completed") toast(`Saved ${filename}.`, "ok", { actions: savedAt && d.showItemInFolder ? [{ label: "Show in folder", run: () => d.showItemInFolder(savedAt) }] : [] });
     else if (st === "interrupted") toast(`Saving ${filename} was interrupted.`, "error");
   });
   window.addEventListener("beforeunload", flushDraft);

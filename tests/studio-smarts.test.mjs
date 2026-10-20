@@ -8,6 +8,8 @@ import { renderStudentPaper, renderTeacherPack } from "../desktop/renderer/studi
 import { parseRequest, mergeAiPlan, planSummary, REVIEW } from "../desktop/renderer/studio/assistant.js";
 import { reviseSection } from "../desktop/renderer/studio/test-builder.js";
 import { unitWords } from "../desktop/renderer/studio/unit-context.js";
+import { completePlan as completeAssistantPlan } from "../desktop/renderer/studio/assistant.js";
+import { unitContextPrompt, buildUnitContext } from "../desktop/renderer/studio/unit-context.js";
 
 const DAY = 86400000;
 const NOW = Date.UTC(2026, 9, 20);
@@ -155,14 +157,16 @@ test("speaking parts have cards for the students and a script for the teacher", 
 
 /* ── Editing the paper and remaking one question ─────────────────── */
 
-test("a teacher's wish (or a fresh question) goes into the remake prompt", () => {
+test("the remake rules go first in the prompt, and the answers-only-from-the-list rule only where it belongs", () => {
   const { spec, doc } = readingDoc();
-  const wish = fixItemsPrompt(spec, doc.sections[0], [3], { instruction: "use the word park" }).user;
-  assert.match(wish, /THE TEACHER WANTS for items 3: use the word park/);
-  const fresh = fixItemsPrompt(spec, doc.sections[0], [3], { fresh: true }).user;
-  assert.match(fresh, /Write a NEW, different question for items 3/);
+  const user = fixItemsPrompt(spec, doc.sections[0], [3], { instruction: "It is built on the word \"dog\".", focusWords: [{ english: "park" }] }).user;
+  assert.ok(user.includes('FOR ITEM 3 (these rules come first):\nIt is built on the word "dog".'));
+  assert.ok(!user.includes("Answers come only from these words"), "a reading question may use any word the class knows");
   const clean = { ...doc.sections[0], problems: [] };
-  assert.ok(!fixItemsPrompt(spec, clean, [1], { fresh: true }).user.includes("PROBLEMS:"), "no empty problems list");
+  assert.ok(!fixItemsPrompt(spec, clean, [1], {}).user.includes("PROBLEMS:"), "no empty problems list");
+  const vocabSpec = { ...testDefaults("B_SENIOR"), parts: [{ ...makePart("vocabulary", "V-BANK", "B_SENIOR"), id: "v1", items: 2 }] };
+  const vdoc = buildTestDoc(vocabSpec, { sections: [{ id: "v1", items: [{ prompt: "A ____ roars.", answer: "lion" }, { prompt: "A ____ has stripes.", answer: "zebra" }] }] }, { levelId: "B_SENIOR", meta: {} });
+  assert.match(fixItemsPrompt(vocabSpec, vdoc.sections[0], [1], { focusWords: [{ english: "lion" }, { english: "zebra" }] }).user, /Answers come only from these words/);
 });
 
 test("editing a part on the paper checks it again and keeps what the teacher wrote", () => {
@@ -193,4 +197,26 @@ test("unit words carry their coursebook page (for the small page tag on word chi
   const words = unitWords("CPP2", 4, ["A"]);
   assert.ok(words.length > 0);
   assert.ok(words.every((w) => Number(w.page) > 0), "every word has a page");
+});
+
+/* ── Any class can use any book ──────────────────────────────────── */
+
+test("a book the teacher names is never replaced by the AI's guess from the class", () => {
+  const ctx = { bookId: "CPP2", unit: 1, level: "B_SENIOR" };
+  const local = parseRequest("a test for B senior on Primary Paths 1 unit 3", ctx);
+  assert.equal(local.source.bookId, "CPP1");
+  const merged = mergeAiPlan(local, { source: { kind: "unit", bookId: "CPP2", units: [3] }, levelId: "B_SENIOR" });
+  assert.equal(merged.source.bookId, "CPP1");
+  assert.deepEqual(merged.source.units, [3]);
+  assert.equal(completeAssistantPlan(merged, ctx).levelId, "B_SENIOR");
+  // No book named: the AI may fill it in.
+  assert.equal(mergeAiPlan({}, { source: { kind: "unit", bookId: "CPP3", units: [2] } }).source.bookId, "CPP3");
+  // No class named: the class open in the app, not the book's usual class.
+  assert.equal(completeAssistantPlan(parseRequest("a test on Primary Path 1 unit 2", ctx), ctx).levelId, "B_SENIOR");
+  assert.equal(completeAssistantPlan(parseRequest("a test on Primary Path 1 unit 2", {}), {}).levelId, "A_SENIOR");
+});
+
+test("the unit context tells the AI to write for the class, not for the book's usual class", async () => {
+  const ctx = await buildUnitContext({ bookId: "CPP1", units: [3] }, { loadLesson: async () => null });
+  assert.match(unitContextPrompt(ctx), /^BOOK: Cambridge Primary Paths 1 \(any class may use this book/);
 });

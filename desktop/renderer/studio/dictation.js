@@ -85,7 +85,7 @@ export function bookSentences(spec, words, rand = Math.random) {
 }
 
 /** System and user prompts for one AI call (small: only the chosen words travel). */
-export function dictationPrompt(spec, words, { profileBlock = "", pictureWords = [] } = {}) {
+export function dictationPrompt(spec, words, { profileBlock = "", pictureWords = [], avoid = [] } = {}) {
   const [min, max] = sentenceRange(spec.levelId, spec.length, spec.difficulty);
   const style = DICTATION_STYLES[spec.style] || DICTATION_STYLES.classic;
   const connected = spec.style === "dictogloss" || spec.style === "running";
@@ -111,6 +111,8 @@ JSON: { "title": "short title", "sentences": [ { "text": "one sentence", "target
     spec.topic ? `Context / topic: ${spec.topic}` : "Context: one familiar situation for children, so the sentences make sense together.",
     "Simple punctuation only (full stops, commas, question marks, apostrophes). No Greek. No numbers written as digits.",
   ];
+  // "Make it again": the old sentences, so the new ones are really new.
+  if (avoid.length) rules.push(`This is a NEW version: write completely different sentences (a new situation, new names) — never reuse or reword these: ${avoid.map((x) => `"${x}"`).join(" ")}`);
   const user = rules.map((r) => `- ${r}`).join("\n");
   return { system, user };
 }

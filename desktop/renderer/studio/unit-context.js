@@ -102,7 +102,7 @@ export async function buildUnitContext({ bookId, units = [], sections = SECTIONS
 /** Compact text of a unit context for an AI prompt (keeps prompts small: example sentences and story lines are capped). */
 export function unitContextPrompt(ctx, { maxExamples = 10, maxStory = 6 } = {}) {
   if (!ctx) return "";
-  const lines = [`BOOK: ${ctx.bookTitle}`];
+  const lines = [`BOOK: ${ctx.bookTitle} (any class may use this book — a year early or late; write for the CLASS PROFILE, not for the book's usual class)`];
   for (const u of ctx.units) {
     lines.push(`UNIT ${u.unit} — Big Question: "${u.title}"${u.readings.nonfiction ? ` · Readings: "${u.readings.nonfiction}" (non-fiction), "${u.readings.fiction}" (fiction)` : ""}`);
     for (const s of SECTIONS) if (u.sections[s]?.length) lines.push(`  ${SECTION_LABEL[s]} words: ${u.sections[s].join(", ")}`);

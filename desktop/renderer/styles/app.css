@@ -775,13 +775,6 @@
   .unit-tile small { font-size: 9.5px; }
 }
 @media (max-width: 1100px) {
-  :root { --sidebar-w: 76px; }
-  .sb-brand-text, .sb-item-text, .sb-label, .ai-text, .ai-card > .i, .sb-new span, .sb-version, .sb-count { display: none; }
-  .sb-brand { justify-content: center; padding-inline: 0; }
-  .sb-item { justify-content: center; padding: 9px 0; }
-  .sb-new { padding: 0; }
-  .ai-card { justify-content: center; padding: 12px 0; }
-  .sb-foot-row { flex-direction: column; }
   .level-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .unit-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .word-row { grid-template-columns: 24px 22px minmax(150px, 1fr) minmax(0, 1.8fr) auto; }
@@ -888,3 +881,40 @@
 /* Page number on word chips: tiny, quiet, never wraps the chip */
 .wc-pg { flex: none; align-self: flex-start; margin: 3px -3px 0 -2px; padding: 0 3px; border-radius: 4px; font: 700 9px/13px var(--font-ui); letter-spacing: .02em; color: var(--text-3); background: var(--surface-3); opacity: .85; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .word-chip.on .wc-pg { color: inherit; background: color-mix(in srgb, currentColor 10%, transparent); }
+
+/* ── Sidebar: pinned open, or a slim rail that slides out over the page on hover (js/main.js initSidebar) ── */
+.app.sb-rail { --sidebar-w: 76px; }
+.app.sb-rail .sidebar { position: relative; z-index: 40; width: 76px; overflow: hidden; transition: width 230ms var(--ease-out), box-shadow 230ms var(--ease-out), background 230ms; }
+.app.sb-rail .sidebar .sb-item, .app.sb-rail .sidebar .sb-brand { white-space: nowrap; }
+.app.sb-rail .sidebar.peek { width: 264px; background: color-mix(in srgb, var(--surface) 94%, transparent); box-shadow: 22px 0 48px -16px rgba(24, 18, 70, 0.32); }
+.app.sb-rail .sidebar:not(.peek) :is(.sb-brand-text, .sb-item-text, .sb-label, .ai-text, .ai-card > .i, .sb-version, .sb-count, .sb-pin) { display: none; }
+.app.sb-rail .sidebar:not(.peek) .sb-brand { justify-content: center; padding-inline: 0; }
+.app.sb-rail .sidebar:not(.peek) .sb-item { justify-content: center; padding: 9px 0; }
+.app.sb-rail .sidebar:not(.peek) .ai-card { justify-content: center; padding: 12px 0; }
+.app.sb-rail .sidebar:not(.peek) .sb-foot-row { flex-direction: column; }
+.app.sb-rail .sidebar:not(.peek) .sb-nav { scrollbar-width: none; }
+.sb-pin { margin-left: auto; flex: none; color: var(--text-3); }
+.sb-pin[aria-pressed="true"] { color: var(--brand-ink); background: var(--brand-soft); }
+@media (max-width: 1100px) { .sb-pin { display: none !important; } }
+
+/* ── Top bar: the screen's icon and name, the unit in chips, Ask Lingo ── */
+.topbar {
+  gap: 14px; padding: 0 22px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 86%, transparent), color-mix(in srgb, var(--surface) 66%, transparent));
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+}
+.tb-ico { display: grid; place-items: center; width: 38px; height: 38px; flex: none; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #6d5df6, #a855f7); box-shadow: 0 6px 14px rgba(91, 76, 245, 0.26); transition: background var(--dur) var(--ease); }
+.tb-ico .i { width: 19px; height: 19px; }
+.tb-ico[data-view="worksheets"] { background: linear-gradient(135deg, #f26b3a, #f7a531); box-shadow: 0 6px 14px rgba(242, 107, 58, 0.26); }
+.tb-ico[data-view="tests"] { background: linear-gradient(135deg, #5b5ff6, #38b2f8); box-shadow: 0 6px 14px rgba(91, 95, 246, 0.26); }
+.tb-ico[data-view="dictation"] { background: linear-gradient(135deg, #0c9f7a, #22b8cf); box-shadow: 0 6px 14px rgba(12, 159, 122, 0.26); }
+.tb-ico[data-view="library"] { background: linear-gradient(135deg, #475569, #94a3b8); box-shadow: 0 6px 14px rgba(71, 85, 105, 0.22); }
+.tb-ico[data-view="lessons"] { background: linear-gradient(135deg, #8b5cf6, #ec4899); box-shadow: 0 6px 14px rgba(139, 92, 246, 0.26); }
+.tb-title h1 { font: 800 18px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.tb-title p { max-width: 64ch; margin-top: 1px; font-size: 12px; }
+.ctx-chip { height: 32px; background: color-mix(in srgb, var(--surface) 78%, transparent); }
+.tb-ask { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 15px 0 12px; border: 1px solid color-mix(in srgb, var(--brand) 32%, var(--border)); border-radius: 99px; background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 11%, var(--surface)), var(--surface)); color: var(--brand-ink); font: 700 13px/1 var(--font-ui); white-space: nowrap; cursor: pointer; transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast); }
+.tb-ask .i { color: var(--brand); }
+.tb-ask:hover { transform: translateY(-1px); box-shadow: 0 6px 16px color-mix(in srgb, var(--brand) 22%, transparent); }
+@media (max-width: 960px) { .tb-ask span { display: none; } .tb-ask { padding: 0 10px; } }
+.topbar .tb-actions { margin-left: auto; }

@@ -391,7 +391,7 @@ async function generate(btn) {
         if (!raw.sentences.length) { toast("These words have no book sentences — try AI-written sentences.", "warn"); return; }
         if (s.style === "dictogloss" || s.style === "running") raw.text = raw.sentences.map((x) => x.text).join(" ");
       } else {
-        const { system, user } = dictationPrompt(spec, words, { profileBlock: [profileBlock(s.levelId), classMemoryBrief(s.levelId, words)].filter(Boolean).join("\n"), pictureWords });
+        const { system, user } = dictationPrompt(spec, words, { profileBlock: [profileBlock(s.levelId), classMemoryBrief(s.levelId, words)].filter(Boolean).join("\n"), pictureWords, avoid: btn?.dataset?.again !== undefined ? (dc.doc?.sections?.[0]?.sentences || []).map((x) => x.text).filter(Boolean).slice(0, 15) : [] });
         raw = await askAi(system, user);
         let doc = buildDictationDoc(spec, raw, words, ctx);
         const bad = doc.sections[0].problems;

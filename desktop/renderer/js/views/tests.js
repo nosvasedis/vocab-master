@@ -14,7 +14,7 @@ import {
 const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
 import { TASKS, SKILLS, tasksFor, defaultTask, tfLabels } from "../../studio/tasks.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes } from "../../studio/test-builder.js";
+import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
@@ -83,7 +83,7 @@ function build() {
         <div class="mk-paper tb-paper">
           <div class="paper-toolbar tb-toolbar">
             <div id="tsSheetSeg"></div>
-            <span class="spacer"></span>
+            <p class="edit-hint tb-hint hidden" id="tsEditHint"></p>
             <label class="switch sm"><input type="checkbox" id="tsAnswers" /><span class="track"></span><span class="sw-text">Show answers</span></label>
             <span class="export-pills tb-exports">
               <button type="button" class="btn btn-secondary btn-sm" id="tsPrint" disabled>${icon("printer", "i-sm")}Print</button>
@@ -93,7 +93,6 @@ function build() {
           </div>
           <div id="tsListen"></div>
           <div id="tsProblems"></div>
-          <p class="edit-hint hidden" id="tsEditHint"></p>
           <div class="paper-stage tb-stage" id="tsStage"><div class="paper hidden" id="tsPaper"></div>
             <div class="mk-empty" id="tsEmpty">
               <div class="empty-owl">${owl()}</div>
@@ -121,7 +120,7 @@ function build() {
   $("tsNext").addEventListener("click", (e) => { if (wiz.index === RESULT - 1) generate(e.currentTarget); else wiz.show(wiz.index + 1); });
   $("tsShape").addEventListener("click", (e) => {
     const lvl = e.target.closest("[data-level]");
-    if (lvl) { ts.levelTouched = true; setLevel(lvl.dataset.level); return; }
+    if (lvl) { ts.levelTouched = true; setLevel(lvl.dataset.level); ts.spec.levelChosen = true; savePrefs(); return; }
     const len = e.target.closest("[data-length]");
     if (len) {
       ts.spec.length = len.dataset.length;
@@ -246,7 +245,7 @@ function build() {
       return ts.ctx;
     },
     profile: (levelId, focus) => withMemory(levelId, focus),
-    ask: (system, user) => askAi(system, user),
+    ask: (system, user, retryHint = "") => askAi(system, user, { retryHint }),
     checkKeys: (ids) => checkKeys(ts.doc, ids),
     commit: () => refreshDoc(),
     rewritePart: (id, wish) => rewritePart(id, null, wish),
@@ -262,6 +261,7 @@ function setLevel(levelId, { quiet = false } = {}) {
     ...testDefaults(levelId, old.length),
     topic: old.topic, title: old.title, grammar: old.grammar || [], grammarOwn: old.grammarOwn || "",
     versions: old.versions, difficulty: old.difficulty || "level", pictures: old.pictures !== false, studentHeader: old.studentHeader !== false,
+    levelChosen: !!old.levelChosen,
   };
   fitParts({ quiet: true });
   savePrefs();
@@ -294,7 +294,12 @@ const grammarList = () => [...ts.spec.grammar, ...(ts.spec.grammarOwn?.trim() ? 
 function onSourceChange(sel, { byUser = true } = {}) {
   const key = sourceKey(sel);
   if (byUser) {
-    if (sel.kind === "unit" && sel.level && !ts.levelTouched && sel.level !== ts.spec.levelId) setLevel(sel.level, { quiet: true });
+    // A class the teacher chose stays when the book changes (a B class may still be on Primary Path 1); until then the
+    // class follows the book's usual class, and says so.
+    if (sel.kind === "unit" && sel.level && !ts.levelTouched && !ts.spec.levelChosen && sel.level !== ts.spec.levelId) {
+      setLevel(sel.level, { quiet: true });
+      toast(`Class set to ${levelLabel(sel.level)}, the book’s usual class — change it in Step 2 if your class uses this book in another year.`, "info", { ms: 4200 });
+    }
     // A title written for one unit doesn't belong on another unit's test.
     if (ts.sourceKey && key !== ts.sourceKey && ts.spec.title) { ts.spec.title = ""; savePrefs(); }
   }
@@ -683,14 +688,21 @@ async function fixPart(partId, btn) {
 async function rewritePart(partId, btn, wish = "") {
   if (!ts.doc) return false;
   const { sel, spec } = specForAi();
-  if (wish) spec.parts.forEach((p) => { if (p.id === partId) p.note = [p.note, wish].filter(Boolean).join("; "); });
+  const old = ts.doc.sections.find((x) => x.id === partId);
   return withBusy(btn, async () => {
     try {
       const ctx = ts.ctx?.focus ? ts.ctx : await contextFor(sel);
-      const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus) }, [partId]);
-      const reply = await askAi(system, user);
+      // The AI is told the teacher's wish first and what the old part looked like; a part that comes back
+      // nearly the same goes back once more with that reason.
+      const prompt = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus), rewrite: { wish, previous: old ? [old] : [] } }, [partId]);
       const meta = ts.ctx?.meta || { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
-      ts.doc = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
+      let next = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        const reply = await askAi(prompt.system, prompt.user, { retryHint: attempt ? "Your part was almost the same as the old version. Write a really NEW one: a new situation, new sentences and new questions, following the teacher's wish." : "" });
+        next = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
+        if (!old || partSimilarity(old, next.sections.find((x) => x.id === partId)) < 0.6) break;
+      }
+      ts.doc = next;
       await checkKeys(ts.doc, [partId]);
       ts.stale.delete(partId);
       refreshDoc();
@@ -739,8 +751,8 @@ function renderPaper() {
   $("tsEmpty").classList.toggle("hidden", has);
   $("tsEditHint").classList.toggle("hidden", !has);
   $("tsEditHint").innerHTML = ts.sheet === "teacher"
-    ? `${icon("pencil", "i-sm")}<span>Click a listening script, a speaking script or a model answer to change it.</span>`
-    : `${icon("pencil", "i-sm")}<span>Click anything on the paper to change it. Hover a question for <b>✨ Remake</b> — Lingo writes just that one again.</span>`;
+    ? `${icon("pencil", "i-xs")}<span>Click a script or model answer to edit</span>`
+    : `${icon("pencil", "i-xs")}<span>Click to edit · hover a question for ✨ Remake</span>`;
   $("tsSheetSeg").classList.toggle("hidden", !has);
   $("testsView").classList.toggle("has-doc", has);
   ["tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
@@ -815,7 +827,8 @@ async function saveTrack(id, btn) {
     const { blob, seconds } = await scriptWav(part.s.script, { plays: part.s.plays, levelId: ts.doc.meta.classProfile, onStatus: (st) => setStatus(id, st) });
     setStatus(id, { phase: "save" });
     downloadBlob(blob, audioFileName(`${sheetTitle()} · Track ${part.i + 1}`));
-    toast(`Track ${part.i + 1} saved as audio (${Math.round(seconds)} s).`, "ok", { ms: 2500 });
+    // In the app a Save window opens (the app says “Saved …” once the file is written); in a browser it downloads.
+    if (!window.desktop) toast(`Track ${part.i + 1} saved as audio (${Math.round(seconds)} s).`, "ok", { ms: 2500 });
   } catch (e) {
     toast(e.message || "The audio file could not be made.", "error");
   } finally {

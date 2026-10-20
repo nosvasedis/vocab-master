@@ -216,7 +216,7 @@ function onPaperActivate(e) {
 }
 
 /* ── ✨ Remake one line ── */
-const LINE_WISHES = [["Easier", "make it easier for this class"], ["Harder", "make it a bit harder"], ["Another word", "use a different unit word"], ["Shorter", "make the sentence shorter"], ["New context", "put the word in a new everyday situation"]];
+const LINE_WISHES = [["Another word", "build it on another word, not the same one"], ["Easier", "make it easier for this class"], ["Harder", "make it a bit harder"], ["Shorter", "make the sentence shorter"], ["New situation", "keep the word but write a new everyday situation"]];
 function remakeDialog(sheet, exIndex, itemIndex) {
   const ex = getExercise(sheet, exIndex);
   const item = ex?.items?.[itemIndex];
@@ -257,7 +257,7 @@ async function remakeLine(sheet, exIndex, itemIndex, wish) {
   try {
     const res = await remakeWorksheetItem(buildForm(), getApiKey(), state.data, { sheet, exercise: ex.number, item: item.number, wish });
     actions.setAiState("on");
-    if (!res.changed) { toast("Lingo couldn’t write that line — try again, or edit it yourself.", "warn"); return; }
+    if (!res.changed) { toast(`Lingo didn’t manage it (${res.problems?.[0] || "no new line came back"}). Try other words in the box, or edit the line yourself.`, "warn", { ms: 7000 }); return; }
     state.data = res.data;
     persistSession();
     renderPreview();

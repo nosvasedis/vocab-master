@@ -7,6 +7,7 @@
 import { esc, icon, toast, openDialog } from "../ui.js";
 import { SKILLS, TASKS, tfLabels } from "../../studio/tasks.js";
 import { reviseSection, fixItemsPrompt, applyItemFixes } from "../../studio/test-builder.js";
+import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
 
 const CSS = `
 .pe-t { position: relative; cursor: pointer; border-radius: 6px; transition: background 140ms, box-shadow 140ms; }
@@ -25,7 +26,7 @@ const CSS = `
 `;
 
 const lines = (v) => String(v || "").split("\n").map((x) => x.trim()).filter(Boolean);
-const WISHES = [["Easier", "make it easier for this class"], ["Harder", "make it a bit harder"], ["Another word", "test a different word from the list"], ["Better wrong options", "make the wrong options more tempting but still clearly wrong"], ["Shorter", "make the sentence shorter and simpler"]];
+const WISHES = [["Another word", "build it on another word, not the same one"], ["Easier", "make it easier for this class"], ["Harder", "make it a bit harder"], ["Better wrong options", "write better wrong options"], ["Shorter", "make the sentence shorter"]];
 
 /**
  * host: { root, doc(), view(), sheet(), spec(), ctx(): Promise<{ picFor, focus, pictureWords }>, profile(levelId, focus),
@@ -300,17 +301,33 @@ export function mountTestEditing(host) {
     el.classList.add("pe-busy");
     bar?.remove(); bar = null; barFor = null;
     const before = snapshot();
+    const restore = () => Object.assign(host.doc(), JSON.parse(before));
     try {
       const ctx = await host.ctx();
       const spec = host.spec();
-      const { system, user } = fixItemsPrompt(spec, s, [n], { profileBlock: host.profile(spec.levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction: wish, fresh: !wish });
-      const reply = await host.ask(system, user);
-      const changed = applyItemFixes(host.doc(), spec, id, reply, [n], { picFor: ctx.picFor, focusWords: ctx.focus });
-      if (!changed.length) { toast("Lingo couldn’t write that question — try again, or edit it yourself.", "warn"); return; }
+      // The wish becomes precise rules built from the question itself, and checks on the answer: a reply that
+      // ignores the wish (the same word again, the same sentence) goes back to Lingo with the reason, up to 3 tries.
+      const original = JSON.parse(JSON.stringify(s.items[idx]));
+      const plan = remakePlan({ wish, item: original, siblings: s.items.filter((_, k) => k !== idx), candidates: ctx.focus || [] });
+      let problems = [];
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const sec = A(id);
+        const { system, user } = fixItemsPrompt(spec, sec, [n], { profileBlock: host.profile(spec.levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction: plan.instruction });
+        const reply = await host.ask(system, user, attempt ? remakeRetryHint(problems) : "");
+        const changed = applyItemFixes(host.doc(), spec, id, reply, [n], { picFor: ctx.picFor, focusWords: ctx.focus });
+        const now = A(id)?.items[idx];
+        problems = changed.length ? remakeProblems(original, now, plan.checks) : ["no new question came back"];
+        // A new question with its own fault (answer not among the options, a word outside the list) is not done either.
+        if (changed.length) problems.push(...(A(id)?.problems || []).filter((p) => p.startsWith(`item ${n}:`)).map((p) => p.replace(/^item \d+: /, "")));
+        if (!problems.length) break;
+        restore();
+      }
+      if (problems.length) { toast(`Lingo didn’t manage it (${problems[0]}). Try other words in the box, or edit the question yourself.`, "warn", { ms: 7000 }); return; }
       await host.checkKeys([id]);
       done(before, `Question ${n} is new.`);
       flash(id, n);
     } catch (e) {
+      restore();
       toast(e?.message || "Lingo couldn’t remake that question.", "error");
     } finally {
       busy.delete(el);

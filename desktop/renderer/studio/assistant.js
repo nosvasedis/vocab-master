@@ -129,6 +129,8 @@ export function parseRequest(text, context = {}) {
   if (units.length || bookId) {
     const book = bookId || context.bookId || "";
     plan.source = { kind: "unit", bookId: book, units: units.length ? units : context.unit ? [context.unit] : [] };
+    // The book the teacher named stays: a B class may still be on Primary Path 1 (never guessed from the class).
+    if (bookId) plan.bookNamed = true;
   } else if (/this unit|current unit|my words|my word list|αυτή την ενότητα/.test(t) && context.bookId) {
     plan.source = { kind: "unit", bookId: context.bookId, units: [context.unit] };
   } else if (grammar.length || /\babout\b|\bon\b|topic|θέμα/.test(t)) {
@@ -190,7 +192,8 @@ export function completePlan(partial = {}, context = {}) {
     plan.source.bookId ||= context.bookId || (plan.levelId ? Object.keys(BOOK_LEVEL).find((b) => BOOK_LEVEL[b] === plan.levelId) : "") || "";
     if (!plan.source.units?.length && context.unit && plan.source.bookId === context.bookId) plan.source.units = [context.unit];
   }
-  if (!plan.levelId) plan.levelId = (plan.source?.kind === "unit" && BOOK_LEVEL[plan.source.bookId]) || context.level || "";
+  // The class: the one the teacher named, else the class open in the app (it may use any book), else the book's usual class.
+  if (!plan.levelId) plan.levelId = context.level || (plan.source?.kind === "unit" && BOOK_LEVEL[plan.source.bookId]) || "";
   // A grammar / topic test (no coursebook unit) leans on grammar, with reading and writing around it.
   if ((plan.kind === "test" || plan.kind === "quiz") && plan.source?.kind === "topic" && !plan.skills?.length) {
     plan.skills = plan.kind === "quiz" ? ["grammar", "grammar", "vocabulary"] : ["grammar", "grammar", "vocabulary", "reading", "writing"];
@@ -279,7 +282,7 @@ Read the teacher's request (English or Greek) and return ONLY JSON:
   "review": false,
   "note": "anything else the teacher asked for, short", "reply": "one friendly sentence to the teacher (in the teacher's language)" }
 "vocab" is about which of the unit's words to use: key = the lessons' key words; all = every word of the chosen parts (BQ = Big Question, A/B = lessons, WB = Workbook); some = a number of words; mix = key words plus others; pick = only the words in "only". "count" = sentences of a dictation; "items" = questions in each test part. "review" = true when the teacher wants to revise or recycle words the class studied before (the app adds them from its class memory).
-Books: CPP1 = Cambridge Primary Path 1 (A Senior), CPP2 = Primary Path 2 (B Senior), CPP3 = Primary Path 3 (C Senior). Leave a field empty when the teacher didn't say it.`;
+Books: CPP1 = Cambridge Primary Path 1, CPP2 = Primary Path 2, CPP3 = Primary Path 3 (usually A, B and C Senior — but any class may use any book: a B class may still be on Primary Path 1). NEVER work out the book from the class or the class from the book: bookId only when the teacher names the book, levelId only when the teacher names the class. Leave a field empty when the teacher didn't say it.`;
   const user = `Open in the app now: ${context.bookId ? `${context.bookId} Unit ${context.unit}` : "no unit"}, class ${context.level || "not chosen"}.
 Plan so far: ${JSON.stringify(plan)}
 Teacher: ${text}`;
@@ -291,7 +294,12 @@ export function mergeAiPlan(plan, ai = {}) {
   const p = { ...plan };
   if (KINDS[ai.kind]) p.kind = ai.kind;
   if (LEVEL_IDS.includes(ai.levelId)) p.levelId = ai.levelId;
-  if (ai.source?.kind === "unit" && CPP_BOOKS[ai.source.bookId]) p.source = { kind: "unit", bookId: ai.source.bookId, units: (ai.source.units || []).map(Number).filter((u) => u >= 1 && u <= 9) };
+  if (ai.source?.kind === "unit" && (CPP_BOOKS[ai.source.bookId] || p.source?.kind === "unit")) {
+    // A book the teacher named (read locally) is never replaced by the AI's guess; units the teacher named stay too.
+    const units = (ai.source.units || []).map(Number).filter((u) => u >= 1 && u <= 9);
+    const bookId = p.bookNamed && p.source?.bookId ? p.source.bookId : CPP_BOOKS[ai.source.bookId] ? ai.source.bookId : p.source?.bookId || "";
+    p.source = { kind: "unit", bookId, units: p.source?.kind === "unit" && p.source.units?.length && p.bookNamed ? p.source.units : units.length ? units : p.source?.units || [] };
+  }
   else if (ai.source?.kind === "topic" && ai.source.topic) p.source = { kind: "topic", topic: grammarLabel(ai.source.topic) };
   const skills = (ai.skills || []).filter((s) => SKILLS[s] && s !== "dictation");
   if (skills.length) p.skills = skills;

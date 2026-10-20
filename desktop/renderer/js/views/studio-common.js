@@ -328,7 +328,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
         <div class="mk-block"><h4 class="mk-h">Book</h4>
           <div class="book-grid mk-books">${BOOK_IDS.map((id) => {
     const prof = CLASS_PROFILES[CPP_BOOKS[id].recommendedProfile];
-    return `<button type="button" class="book-card${id === st.bookId ? " selected" : ""}" data-sp-book="${id}" style="--bk:${BOOK_COLORS[id] || "var(--brand)"}"><span class="book-cover">${id.slice(-1)}</span><span class="book-meta"><strong>Primary Path ${id.slice(-1)}</strong><span>${esc(prof?.label || "")} · CEFR ${esc(CPP_BOOKS[id].cefr || "")}</span></span></button>`;
+    return `<button type="button" class="book-card${id === st.bookId ? " selected" : ""}" data-sp-book="${id}" style="--bk:${BOOK_COLORS[id] || "var(--brand)"}"><span class="book-cover">${id.slice(-1)}</span><span class="book-meta"><strong>Primary Path ${id.slice(-1)}</strong><span>Usually ${esc(prof?.label || "")} · CEFR ${esc(CPP_BOOKS[id].cefr || "")}</span></span></button>`;
   }).join("")}</div></div>
         <div class="mk-block"><div class="mk-h-row"><h4 class="mk-h">${multiUnit && st.several ? "Units" : "Unit"}</h4>
           ${multiUnit ? `<label class="switch sm"><input type="checkbox" data-sp-several ${st.several ? "checked" : ""} /><span class="track"></span><span class="sw-text">Several units</span></label>` : ""}</div>

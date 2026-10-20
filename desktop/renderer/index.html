@@ -175,6 +175,7 @@
           <strong>Vocab Master</strong>
           <span>Teacher Studio</span>
         </div>
+        <button type="button" class="icon-btn sm sb-pin" id="sbPin" aria-pressed="false" data-tip="Keep the sidebar open (Ctrl+B)" aria-label="Keep the sidebar open"><svg class="i i-sm"><use href="#i-panel"/></svg></button>
       </div>
 
       <nav class="sb-nav" aria-label="Main">
@@ -248,14 +249,15 @@
     <!-- ══ Main ══ -->
     <div class="main">
       <header class="topbar">
+        <span class="tb-ico" id="pageIco" aria-hidden="true"><svg class="i"><use href="#i-home"/></svg></span>
         <div class="tb-title">
-          <h1 id="pageTitle">Unit setup</h1>
-          <p id="pageSub">Choose the class level and the coursebook unit.</p>
+          <h1 id="pageTitle">Home</h1>
+          <p id="pageSub"></p>
         </div>
         <div class="tb-context" id="ctxChips"></div>
         <div class="tb-actions">
-          <button type="button" class="btn btn-accent btn-sm" id="btnPlayTop">
-            <svg class="i i-sm"><use href="#i-gamepad"/></svg>Play games
+          <button type="button" class="tb-ask" data-goto="assistant" data-tip="Tell Lingo what you need — a test, a dictation, worksheets">
+            <svg class="i i-sm"><use href="#i-sparkles"/></svg><span>Ask Lingo</span>
           </button>
         </div>
       </header>
@@ -618,14 +620,13 @@
                   <button type="button" data-value="dictation">📝 Dictation</button>
                   <button type="button" data-value="answer">📋 Answer key</button>
                 </div>
-                <span class="spacer"></span>
+                <p class="edit-hint tb-hint" id="editHint"><svg class="i i-xs"><use href="#i-pencil"/></svg><span>Click to edit · hover a line for ✨ Remake</span></p>
                 <div class="zoom-ctl">
                   <button type="button" class="icon-btn sm" id="zoomOut" aria-label="Zoom out"><svg class="i i-sm"><use href="#i-zoom-out"/></svg></button>
                   <span id="zoomLabel">100%</span>
                   <button type="button" class="icon-btn sm" id="zoomIn" aria-label="Zoom in"><svg class="i i-sm"><use href="#i-zoom-in"/></svg></button>
                 </div>
               </div>
-              <div class="edit-hint" id="editHint"><svg class="i i-sm"><use href="#i-pencil"/></svg>Click any word box or line to edit it. Hover a line for ✨ Remake — Lingo writes just that line again.</div>
               <div class="paper-stage" id="paperStage">
                 <div class="paper" id="paper"></div>
               </div>

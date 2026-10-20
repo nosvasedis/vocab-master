@@ -49,12 +49,10 @@ export function initSetup() {
   $("bookGrid").addEventListener("click", (e) => {
     const card = e.target.closest("[data-book]");
     if (!card || card.dataset.book === state.cpp.bookId) return;
-    const prevRecommended = CPP_BOOKS[state.cpp.bookId]?.recommendedProfile;
     state.cpp.bookId = card.dataset.book;
     state.cpp.pages = "";
-    if (!state.profileId || state.profileId === prevRecommended) {
-      state.profileId = CPP_BOOKS[state.cpp.bookId].recommendedProfile;
-    }
+    // The class stays as the teacher chose it: a B class may still be on Primary Path 1. Only an empty class gets the book's usual one.
+    if (!state.profileId) state.profileId = CPP_BOOKS[state.cpp.bookId].recommendedProfile;
     loadPoolWords({ reason: `${CPP_BOOKS[state.cpp.bookId].title}` });
     emit("setup", "words", "level");
   });
@@ -234,7 +232,7 @@ function renderBooks() {
       <span class="book-cover">${esc(b.id.slice(-1))}</span>
       <span class="book-meta">
         <strong>Primary Path ${esc(b.id.slice(-1))}</strong>
-        <span>${esc(prof?.label || "")} · CEFR ${esc(b.cefr)}</span>
+        <span>Usually ${esc(prof?.label || "")} · CEFR ${esc(b.cefr)}</span>
       </span>
     </button>`;
   }).join("");
