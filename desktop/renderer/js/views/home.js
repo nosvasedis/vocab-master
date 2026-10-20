@@ -2,19 +2,22 @@
  * what the teacher was last working on (the worksheet unit, recent tests, dictations and saved units),
  * and what to do in class. Everything shown is read from what is already saved; nothing is fetched. */
 import { CLASS_PROFILES, CPP_BOOKS, getAllSavedSessions } from "../../app.js";
-import { state, filledWords, bookTitle, unitNumber, isCpp, LEVEL_COLORS } from "../state.js";
+import { state, filledWords, bookTitle, unitNumber, isCpp, LEVEL_COLORS, on } from "../state.js";
 import { isAiReady } from "../bridge.js";
 import { actions } from "../actions.js";
 import { $, esc, icon, plural } from "../ui.js";
 import { owl, recentDocs } from "./studio-common.js";
 import { askAssistant } from "./assistant.js";
-import { openSavedTest } from "./tests.js";
-import { openSession } from "./library.js";
+import { openMade, isOpen } from "../made.js";
 
 let built = false;
 let hooks = { newUnit: () => {}, openGames: () => {} };
 
-export function initHome(h) { hooks = { ...hooks, ...h }; }
+export function initHome(h) {
+  hooks = { ...hooks, ...h };
+  // Something made, opened or deleted elsewhere (an Undo, another computer): the recent list follows.
+  on("library", () => { if (built && state.view === "home") renderHome(); });
+}
 
 const FLOW = [["setup", "Class & unit"], ["words", "Words"], ["exercises", "Exercises"], ["preview", "Your sheets"]];
 
@@ -68,8 +71,7 @@ function build() {
     if (act === "games") hooks.openGames();
     if (act === "projector") actions.openProjector();
     if (act === "settings") actions.openSettings();
-    if (act === "test") { if (openSavedTest(arg)) actions.go("tests"); }
-    if (act === "unit") openSession(arg, "preview");
+    if (act === "test" || act === "dictation" || act === "unit") openMade(act, arg);
   });
   built = true;
 }
@@ -124,12 +126,12 @@ function recentList() {
   const docs = recentDocs().map((d) => ({
     at: d.savedAt, kind: d.kind, title: d.meta?.title || (d.kind === "test" ? "Test" : "Dictation"),
     sub: [d.meta?.subtitle, CLASS_PROFILES[d.meta?.classProfile]?.label].filter(Boolean).join(" · "),
-    lvl: d.meta?.classProfile, act: d.kind === "test" ? `test:${d.id}` : "go:dictation",
+    lvl: d.meta?.classProfile, act: `${d.kind}:${d.id}`, id: d.id,
   }));
   const units = (getAllSavedSessions() || []).slice(0, 4).map((s) => ({
     at: s.savedAt || s.updatedAt || s.createdAt, kind: "unit", title: s.label || "Worksheet unit",
     sub: [s.pageRange ? `pp. ${s.pageRange}` : "", CLASS_PROFILES[s.profileId]?.label].filter(Boolean).join(" · "),
-    lvl: s.profileId, act: `unit:${s.id}`,
+    lvl: s.profileId, act: `unit:${s.id}`, id: s.id,
   }));
   const items = [...docs.slice(0, 6), ...units].sort((a, b) => String(b.at || "").localeCompare(String(a.at || ""))).slice(0, 6);
   if (!items.length) return `<p class="hm-none">${icon("clock", "i-sm")}Everything you make is kept here, so you can print it again any time.</p>`;
@@ -137,7 +139,7 @@ function recentList() {
   const kindName = { test: "Test", dictation: "Dictation", unit: "Worksheets" };
   return `<div class="hm-recent">${items.map((it) => `<button type="button" class="hm-recent-row" data-hm="${esc(it.act)}" data-kind="${it.kind}">
       <span class="hm-recent-ico">${icon(kindIco[it.kind], "i-sm")}</span>
-      <span class="hm-recent-text"><b>${esc(it.title)}</b><small>${esc(kindName[it.kind])}${it.sub ? ` · ${esc(it.sub)}` : ""}</small></span>
+      <span class="hm-recent-text"><b>${esc(it.title)}</b><small>${esc(kindName[it.kind])}${isOpen(it.kind, it.id) ? " · open now" : ""}${it.sub ? ` · ${esc(it.sub)}` : ""}</small></span>
       ${it.lvl && LEVEL_COLORS[it.lvl] ? `<span class="hm-dot" style="background:${LEVEL_COLORS[it.lvl]}"></span>` : ""}
       <small class="hm-when">${esc(when(it.at))}</small>
     </button>`).join("")}</div>`;

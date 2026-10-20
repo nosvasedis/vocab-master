@@ -15,6 +15,7 @@ import {
   bookTitle, unitNumber, pageRange, isCpp, LEVEL_COLORS, BOOK_COLORS, coursebookQuery, pickFromQuery,
 } from "./state.js";
 import { actions } from "./actions.js";
+import { registerMaker, deleteMade, reconcile, makerActsHtml, SAVES_KEY, DOCS_KEY } from "./made.js";
 import { initSetup, loadPoolWords, validateSetup, renderSetup, highlightSetupGap } from "./views/setup.js";
 import { initWords, renderWords } from "./views/words.js";
 import { initExercises, enterExercises, runGenerate } from "./views/exercises.js";
@@ -146,7 +147,7 @@ function renderWorksheetsTop(view) {
       const done = i !== idx && stepDone(st.view);
       return `${i ? `<i class="mk-sep" aria-hidden="true"></i>` : ""}<button type="button" class="mk-pill${i === idx ? " active" : ""}${done ? " done" : ""}" data-goto="${st.view}"${i === idx ? ` aria-current="step"` : ""}${locked ? ` disabled title="Generate the worksheets first"` : ""}><span class="mk-pill-n"><span>${i + 1}</span>${icon("check", "i-xs")}</span><span class="mk-pill-t"><b>${st.label}</b><small>${st.sub}</small></span></button>`;
     }).join("")}</nav>
-    <button type="button" class="btn btn-ghost btn-sm mk-new" data-ws-new data-tip="Start a fresh unit (Ctrl+N)">${icon("plus", "i-sm")}<span>New unit</span></button>`;
+    <div class="mk-acts">${makerActsHtml("unit", { open: !!(state.data && state.sessionId), newLabel: "New unit", always: true })}</div>`;
   $$("[data-ws-top]").forEach((el) => { if (el.closest(".view")?.dataset.view === view) el.innerHTML = html; else el.innerHTML = ""; });
 }
 
@@ -263,6 +264,35 @@ function openUnit({ form, data, plan }) {
   go("preview", { force: true });
 }
 
+/** The Worksheets maker in js/made.js: the open unit is state.data + state.sessionId. */
+function registerWorksheets() {
+  registerMaker("unit", {
+    openId: () => (state.data && state.sessionId) || null,
+    open(id) {
+      const s = getSavedSession(id);
+      if (!s) return false;
+      applyForm(s.form || {}, s.plan || null);
+      state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(s.data)));
+      state.plan = s.plan || state.plan;
+      state.sessionId = s.id;
+      emit("setup", "words", "level", "data");
+      return true;
+    },
+    // Closed (deleted here or on another computer): the unit's words and sheets go, the class and book stay.
+    close() {
+      const view = state.view;
+      resetState();
+      state.view = view;
+      emit("setup", "words", "data", "level");
+      lastFlow = "setup";
+      if (FLOW.includes(view)) go("setup", { force: true, silent: true });
+    },
+    busy: () => state.busy,
+    // A word list that hasn't become worksheets yet is in no library entry.
+    unsaved: () => !state.data && filledWords().length > 0,
+  });
+}
+
 async function newUnit() {
   if (state.busy) { toast("Please wait for the AI to finish first.", "warn"); return; }
   const unsaved = !state.data && filledWords().length > 0;
@@ -278,7 +308,7 @@ async function newUnit() {
   }
   // A new unit starts with no words: they load only when the teacher picks them (Step 1 or "Load unit words").
   resetState();
-  emit("setup", "words", "data", "level");
+  emit("setup", "words", "data", "level", "library");
   go("setup", { force: true });
   toast("Fresh unit started — everything you generated is in your library.", "info", { ms: 3000 });
 }
@@ -361,7 +391,10 @@ function wire() {
     const g = e.target.closest("[data-goto]");
     if (g) go(g.dataset.goto);
   });
-  document.addEventListener("click", (e) => { if (e.target.closest("[data-ws-new]")) newUnit(); });
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-ws-top] [data-mk-new]")) newUnit();
+    if (e.target.closest("[data-ws-top] [data-mk-del]") && state.sessionId) deleteMade("unit", state.sessionId);
+  });
   initSidebar();
   $("btnSettings").addEventListener("click", () => openSettings());
   $("aiStatusCard").addEventListener("click", () => openSettings());
@@ -416,7 +449,8 @@ async function startSync() {
   window.addEventListener("vm-sync-changed", (e) => {
     const keys = e.detail?.keys || [];
     if (keys.includes("vm_prefs_v2")) { Object.assign(prefs, readJSON("vm_prefs_v2", {})); applyTheme(); configureAudio(soundPrefs()); }
-    if (keys.includes("lingo_maker_saves")) { updateLibraryCount(); if (state.view === "library") renderLibrary(); }
+    // Worksheets, tests or dictations changed on another computer: a maker whose open item was deleted there is emptied.
+    if (keys.includes(SAVES_KEY) || keys.includes(DOCS_KEY)) { reconcile({ remote: true }); emit("library"); }
     if (keys.some((k) => k === "lingo_maker_api_key" || k === "vm_gemini_api_key" || k === "vm_ai_provider")) setAiState();
   });
 }
@@ -442,6 +476,7 @@ async function boot() {
       if (s) state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(s.data)));
       else state.sessionId = null;
     }
+    registerWorksheets();
 
     Object.assign(actions, { go, openSettings, openArcade: openGames, openProjector, setAiState, settingsSaved: async () => { await ensurePictureStyle(prefs.pictureStyle); if (state.view === "preview") renderPreview(); } });
     initSetup();

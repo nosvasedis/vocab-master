@@ -2,11 +2,11 @@
  * class and the sentences, then who writes them and how they are read; the last step is the paper with the
  * read-aloud player, print / PDF / Word for the student sheet, the teacher copy and the wall strips. */
 import { CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";
-import { state, prefs, LEVEL_COLORS } from "../state.js";
+import { state, prefs, LEVEL_COLORS, on } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
+  makePicFor, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
   wizardNav, createWizard, classMemoryBrief,
 } from "./studio-common.js";
 import { segmented, withBusy } from "../ui.js";
@@ -17,6 +17,7 @@ import { GRAMMAR_MENU, LEVEL_IDS, sentenceRange, DIFFICULTY, grammarLabel } from
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../../studio/doc-render.js";
 import { readDictation } from "../voices/listening.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
+import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
 
 const PREFS_KEY = "vm_dictation_prefs_v1";
 const STYLE_ICON = { classic: "📝", gapped: "✏️", running: "🏃", dictogloss: "👂", picture: "🖼️" };
@@ -35,7 +36,7 @@ let picker;
 let paper;
 let wiz;
 let built = false;
-const dc = { spec: null, doc: null, sheet: "student", player: null, status: null };
+const dc = { spec: null, doc: null, sheet: "student", player: null, status: null, epoch: 0 };
 
 function savePrefs() { writeJSON(PREFS_KEY, dc.spec); }
 const grammarList = () => [...dc.spec.grammar, ...(dc.spec.grammarOwn?.trim() ? [grammarLabel(dc.spec.grammarOwn)] : [])];
@@ -44,7 +45,49 @@ const connectedStyle = () => dc.spec.style === "dictogloss" || dc.spec.style ===
 export function initDictation() {
   const saved = readJSON(PREFS_KEY, null);
   dc.spec = saved?.levelId ? { ...dictationDefaults(saved.levelId), ...saved } : dictationDefaults(state.profileId || "B_SENIOR");
+  // Opening, closing and deleting go through js/made.js (the Library, Home and this screen's own list alike).
+  registerMaker("dictation", {
+    // Before the screen is first shown, the dictation left open last time counts as open.
+    openId: () => (built ? dc.doc?.id : rememberedOpen("dictation")) || null,
+    open(id) {
+      const d = findMade("dictation", id);
+      if (!d) return false;
+      if (!built) build();
+      openDoc(d);
+      return true;
+    },
+    reveal() { dc.showResult = true; },
+    close: () => closeDoc(),
+    busy: () => !!dc.writing,
+  });
 }
+
+/** The dictation on the paper (null = none); the open one is remembered for the next start. */
+function setDoc(d) {
+  dc.doc = d || null;
+  rememberOpen("dictation", dc.doc?.id);
+}
+
+function openDoc(d) {
+  stopReading();
+  setDoc(d);
+  dc.spec = { ...dc.spec, ...d.spec };
+  dc.sheet = d.sections?.[0]?.style === "running" ? "strips" : "student";
+  dc.showResult = true;
+}
+
+/** Put the open dictation away (it stays in the Library) and start again at Step 1. */
+function closeDoc() {
+  dc.epoch++;
+  if (!built) { rememberOpen("dictation", null); return; }
+  stopReading();
+  setDoc(null);
+  dc.sheet = "student";
+  renderAll();
+  if (!dc.writing) wiz.show(0, { scroll: false });
+}
+
+function stopReading() { if (dc.player) toggleRead(); }
 
 function build() {
   const host = $("dictationView");
@@ -54,6 +97,7 @@ function build() {
     <header class="mk-top">
       <div class="mk-brand"><span class="mk-badge">${icon("mic")}</span><div><b>Read-aloud dictation</b><span id="dcSummary"></span></div></div>
       ${wizardNav(STEPS)}
+      <div class="mk-acts" id="dcActs"></div>
     </header>
     <div class="mk-body">
       <section class="mk-page">
@@ -166,7 +210,7 @@ function build() {
   $("dcOutline").addEventListener("click", (e) => {
     const again = e.target.closest("[data-again]");
     if (again) { generate(again); return; }
-    if (e.target.closest("[data-new]")) { if (dc.player) toggleRead(); dc.doc = null; renderAll(); wiz.show(0); }
+    if (e.target.closest("[data-new]")) closeMade("dictation");
   });
   $("dcVoices").addEventListener("click", (e) => { if (pickVoice(e)) { if (dc.player) toggleRead(); renderVoices(); } });
   $("dcRead").addEventListener("click", toggleRead);
@@ -176,11 +220,19 @@ function build() {
   $("dcRecent").addEventListener("click", (e) => {
     const row = e.target.closest("[data-doc]");
     if (!row) return;
-    if (e.target.closest("[data-del]")) { deleteDoc(row.dataset.doc); renderRecent(); return; }
-    const d = recentDocs("dictation").find((x) => x.id === row.dataset.doc);
-    if (d) { dc.doc = d; dc.spec = { ...dc.spec, ...d.spec }; renderAll(); wiz.show(RESULT); toast("Opened a saved dictation.", "ok", { ms: 2000 }); }
+    if (e.target.closest("[data-del]")) deleteMade("dictation", row.dataset.doc);
+    else openMade("dictation", row.dataset.doc);
+  });
+  $("dcActs").addEventListener("click", (e) => {
+    if (e.target.closest("[data-mk-new]")) closeMade("dictation");
+    if (e.target.closest("[data-mk-del]") && dc.doc) deleteMade("dictation", dc.doc.id);
   });
   built = true;
+  // The dictation that was open when the app last closed comes back (unless it was deleted meanwhile).
+  const left = rememberedOpen("dictation");
+  if (left) { const d = findMade("dictation", left); if (d) openDoc(d); else rememberOpen("dictation", null); }
+  // Something saved, opened or deleted anywhere (Library, Home, another computer): refresh this screen's list.
+  on("library", () => { if (state.view === "dictation") { renderRecent(); renderFoot(); } });
   wiz.show(0, { scroll: false });
 }
 
@@ -347,6 +399,7 @@ function renderFoot() {
   if ((sel?.focus || []).length >= 3) done.push(0);
   if (dc.doc) done.push(3);
   wiz.mark({ done, locked: dc.doc || dc.writing ? [] : [RESULT] });
+  $("dcActs").innerHTML = makerActsHtml("dictation", { open: !!dc.doc && !dc.writing, newLabel: "New dictation" });
 }
 
 function renderRecent() {
@@ -356,8 +409,8 @@ function renderRecent() {
   $("dcRecent").innerHTML = list.map((d) => {
     const sec = d.sections?.[0] || {};
     const style = DICTATION_STYLES[sec.style];
-    return `<div class="tb-recent-card" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
-        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${STYLE_ICON[sec.style] || ""} ${esc(style?.label || "Read-aloud dictation")}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")}</span>
+    return `<div class="tb-recent-card${d.id === dc.doc?.id ? " is-open" : ""}" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
+        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${STYLE_ICON[sec.style] || ""} ${esc(style?.label || "Read-aloud dictation")}${d.id === dc.doc?.id ? ` <span class="badge brand">Open</span>` : ""}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")}</span>
           <span class="trc-meta">${plural(sec.sentences?.length || 0, "sentence")}${when(d.savedAt) ? ` · ${esc(when(d.savedAt))}` : ""}</span></button>
         <button type="button" class="icon-btn sm danger trc-del" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`;
   }).join("");
@@ -379,6 +432,10 @@ async function generate(btn) {
   if (s.style === "picture" && pictureWords.length < 3) { toast("Picture dictation needs 3+ words that have word-bank pictures.", "warn"); return; }
   const spec = { ...s, grammar: [...s.grammar, ...(s.grammarOwn?.trim() ? [grammarLabel(s.grammarOwn)] : [])] };
   const ctx = { meta: { ...sel.meta, label: sel.label, classLabel: levelLabel(s.levelId) }, picFor };
+  // "Make it again" replaces the open dictation in the Library; "Make my dictation" adds a new one.
+  const againId = btn?.dataset?.again !== undefined ? dc.doc?.id : null;
+  const epoch = dc.epoch;
+  stopReading();
   dc.writing = true;
   wiz.show(RESULT);
   const stopBusy = s.source === "ai" ? busyOverlay($("dcStage"), { title: "Lingo is writing your dictation…", note: "Usually 5–15 seconds", steps: [[0, "Reading your words"], [2, `Writing sentences for ${levelLabel(s.levelId)}`], [6, "Checking that every sentence uses your words"], [14, "Almost there…"]] }) : () => {};
@@ -400,7 +457,12 @@ async function generate(btn) {
           raw = await askAi(system, user, { retryHint: `Fix these problems:\n${bad.join("\n")}` });
         }
       }
-      dc.doc = buildDictationDoc(spec, raw, words, ctx);
+      const made = buildDictationDoc(spec, raw, words, ctx);
+      if (againId) {
+        if (epoch !== dc.epoch) return; // the dictation was closed or deleted meanwhile
+        made.id = againId;
+      }
+      setDoc(made);
       saveDoc(dc.doc);
       dc.sheet = dc.doc.sections[0].style === "running" ? "strips" : "student";
       renderAll();
@@ -495,23 +557,13 @@ export function renderDictationView(preset = null) {
   if (dc.showResult) { dc.showResult = false; wiz.show(RESULT, { scroll: false }); }
 }
 
-/** Open a saved dictation (from the Library or Home). */
-export function openSavedDictation(id) {
-  if (!built) build();
-  const d = recentDocs("dictation").find((x) => x.id === id);
-  if (!d) return false;
-  dc.doc = d;
-  dc.spec = { ...dc.spec, ...d.spec };
-  dc.sheet = d.sections?.[0]?.style === "running" ? "strips" : "student";
-  dc.showResult = true;
-  return true;
-}
-
 /** Settings handed over by the assistant: { levelId, style, count, grammar, topic, source: picker state }. */
 export function applyPreset(p) {
   dc.spec = { ...dictationDefaults(p.levelId || dc.spec.levelId), ...p.spec };
   if (p.picker) picker.set(p.picker);
-  dc.doc = null;
+  dc.epoch++;
+  stopReading();
+  setDoc(null);
   savePrefs();
   renderAll();
   wiz.show(RESULT - 1, { scroll: false });

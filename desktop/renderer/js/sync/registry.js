@@ -36,6 +36,7 @@ export const SECRET = { lingo_maker_api_key: "deepseek", vm_gemini_api_key: "gem
 /** Keys that stay on this computer, and why. */
 export const LOCAL_ONLY = {
   vm_draft_v2: "the unsaved worksheet being built; saved worksheets sync",
+  vm_open_docs_v1: "which test and dictation are open on this computer; the items themselves sync",
   vm_fc_retry: "a one-off flashcard retry list",
   vm_arcade_teams: "legacy, read once to pick a game mode",
   vm_sync_state: "sync bookkeeping for the active profile",
@@ -46,4 +47,4 @@ export const LOCAL_ONLY = {
 export const isSynced = (key) => Object.prototype.hasOwnProperty.call(SYNCED, key);
 export const isSecret = (key) => Object.prototype.hasOwnProperty.call(SECRET, key);
 /** Every key a profile owns on this computer (moved aside when another teacher switches in). */
-export const PROFILE_KEYS = [...Object.keys(SYNCED), ...Object.keys(SECRET), "vm_draft_v2", "vm_fc_retry", "vm_sync_state"];
+export const PROFILE_KEYS = [...Object.keys(SYNCED), ...Object.keys(SECRET), "vm_draft_v2", "vm_open_docs_v1", "vm_fc_retry", "vm_sync_state"];

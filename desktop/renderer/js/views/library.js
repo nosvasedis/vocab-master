@@ -1,19 +1,14 @@
 /* Library — everything the teacher has made: worksheet units, unit tests and read-aloud dictations, with tabs,
- * search, a class filter, open / delete, and backup & restore of all of it. */
-import {
-  CLASS_PROFILES, getAllSavedSessions, getSavedSession, deleteSavedSession, normalizeWorksheetExercises,
-} from "../../app.js";
-import { $, esc, icon, plural, toast, confirmDialog, timeAgo } from "../ui.js";
-import { state, emit, on, applyForm, LEVEL_COLORS } from "../state.js";
+ * search, a class filter, open / delete, and backup & restore of all of it. Opening and deleting go through
+ * js/made.js, so the maker that has an item open is told at once. */
+import { CLASS_PROFILES, getAllSavedSessions } from "../../app.js";
+import { $, esc, icon, plural, toast, timeAgo } from "../ui.js";
+import { emit, on, LEVEL_COLORS } from "../state.js";
 import { actions } from "../actions.js";
 import { readJSON, writeJSON } from "../bridge.js";
-import { recentDocs, deleteDoc } from "./studio-common.js";
-import { openSavedTest } from "./tests.js";
-import { openSavedDictation } from "./dictation.js";
-import { TASKS, SKILLS, DICTATION_STYLES } from "../../studio/tasks.js";
+import { recentDocs, openMade, deleteMade, isOpen, reconcile, SAVES_KEY, DOCS_KEY } from "../made.js";
+import { SKILLS, DICTATION_STYLES } from "../../studio/tasks.js";
 
-const SAVES_KEY = "lingo_maker_saves";
-const DOCS_KEY = "vm_studio_docs_v1";
 const KINDS = [
   ["all", "Everything", "library"],
   ["unit", "Worksheets", "file"],
@@ -38,30 +33,14 @@ export function initLibrary() {
     if (f) importBackup(f);
     e.target.value = "";
   });
-  $("libraryGrid").addEventListener("click", async (e) => {
+  $("libraryGrid").addEventListener("click", (e) => {
     const card = e.target.closest("[data-id]");
     const btn = e.target.closest("[data-act]");
     if (!card || !btn) return;
-    const id = card.dataset.id;
-    const type = card.dataset.type;
-    if (btn.dataset.act === "open") {
-      if (type === "test") { if (openSavedTest(id)) actions.go("tests"); return; }
-      if (type === "dictation") { if (openSavedDictation(id)) actions.go("dictation"); return; }
-      openSession(id, "preview");
-    }
-    if (btn.dataset.act === "words") openSession(id, "words");
-    if (btn.dataset.act === "delete") {
-      const title = card.querySelector(".lib-title strong")?.textContent || "this";
-      const what = type === "test" ? "test" : type === "dictation" ? "dictation" : "unit";
-      const ok = await confirmDialog({ title: `Delete this ${what}?`, body: `“${title}” will be removed from your library.`, okLabel: `Delete ${what}` });
-      if (!ok) return;
-      if (type === "unit") { deleteSavedSession(id); if (state.sessionId === id) state.sessionId = null; } else deleteDoc(id);
-      card.style.transition = "opacity 200ms, transform 200ms";
-      card.style.opacity = "0";
-      card.style.transform = "scale(0.96)";
-      setTimeout(() => emit("library"), 180);
-      toast(`${what[0].toUpperCase()}${what.slice(1)} deleted.`, "info");
-    }
+    const { id, type } = card.dataset;
+    if (btn.dataset.act === "open") openMade(type, id);
+    if (btn.dataset.act === "words") openMade("unit", id, { view: "words" });
+    if (btn.dataset.act === "delete") deleteMade(type, id);
   });
   on("library", () => { renderLibrary(); updateLibraryCount(); });
 }
@@ -88,18 +67,6 @@ export function updateLibraryCount() {
   $("libraryCount").classList.toggle("hidden", !n);
 }
 
-export function openSession(id, view = "preview") {
-  const s = getSavedSession(id);
-  if (!s) { toast("That unit no longer exists.", "error"); return; }
-  applyForm(s.form || {}, s.plan || null);
-  state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(s.data)));
-  state.plan = s.plan || state.plan;
-  state.sessionId = s.id;
-  emit("setup", "words", "level", "data");
-  actions.go(view);
-  toast(`Opened ${s.label}.`, "ok", { ms: 2400 });
-}
-
 function cardHtml(it, i) {
   const p = CLASS_PROFILES[it.level];
   const base = `class="lib-card" data-id="${esc(it.id)}" data-type="${it.type}" style="--lvl:${LEVEL_COLORS[it.level] || "var(--brand)"};animation-delay:${Math.min(i, 12) * 35}ms"`;
@@ -107,7 +74,7 @@ function cardHtml(it, i) {
   const top = `<div class="lib-top">
       <span class="lc-letter">${esc((p?.label || "?").charAt(0))}</span>
       <div class="lib-title"><strong title="${esc(it.title)}">${esc(it.title)}</strong><span>${esc(it.sub)}</span></div>
-      ${it.type === "unit" && it.id === state.sessionId ? `<span class="badge brand">Open</span>` : `<span class="lib-kind ${it.type}">${kindChip[0]}${kindChip[1]}</span>`}
+      ${isOpen(it.type, it.id) ? `<span class="badge brand" data-tip="Open in its maker now">Open</span>` : `<span class="lib-kind ${it.type}">${kindChip[0]}${kindChip[1]}</span>`}
     </div>`;
   const words = it.words.length ? `<div class="lib-words">${it.words.slice(0, 7).map((w) => `<span>${esc(w)}</span>`).join("")}${it.words.length > 7 ? `<span>+${it.words.length - 7}</span>` : ""}</div>` : "";
   let meta;
@@ -193,6 +160,7 @@ function importBackup(file) {
         docs.forEach((d) => byId.set(d.id, d));
         writeJSON(DOCS_KEY, [...byId.values()].sort((a, b) => new Date(b.savedAt || 0) - new Date(a.savedAt || 0)).slice(0, 300));
       }
+      reconcile();
       emit("library");
       toast(`Restored ${[incoming.length && plural(incoming.length, "unit"), docs.length && plural(docs.length, "test and dictation", "tests and dictations")].filter(Boolean).join(" and ")}.`, "ok");
     } catch (err) {

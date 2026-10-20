@@ -16,6 +16,7 @@ import { inlinePictures, picPngMap } from "../../studio/pic-assets.js";
 import { BOOK_LEVEL } from "../../studio/levels.js";
 import { addOwnWords, mergeOwnWords } from "../../studio/own-words.js";
 import { readJSON, writeJSON } from "../bridge.js";
+import { recentDocs } from "../made.js";
 import { lingoSVG, lingoBadge } from "../../lesson/lingo-art.js";
 
 /* ── Lingo the owl (the app's mascot) and the friendly "working on it" overlay ── */
@@ -92,20 +93,8 @@ export function aiErrorToast(e) {
 export const profileBlock = (levelId) => getProfilePromptBlock(levelId);
 export const levelLabel = (levelId) => CLASS_PROFILES[levelId]?.label || "";
 
-/* ── Recent documents (synced with the account, js/sync/registry.js) ────────────────────────── */
-const DOCS_KEY = "vm_studio_docs_v1";
-export function recentDocs(kind) {
-  return (readJSON(DOCS_KEY, []) || []).filter((d) => !kind || d.kind === kind);
-}
-export function saveDoc(doc) {
-  const all = (readJSON(DOCS_KEY, []) || []).filter((d) => d.id !== doc.id);
-  all.unshift({ ...doc, savedAt: new Date().toISOString() });
-  // Everything made is kept (the Library lists it); only the very oldest go past 300.
-  writeJSON(DOCS_KEY, all.slice(0, 300));
-}
-export function deleteDoc(id) {
-  writeJSON(DOCS_KEY, (readJSON(DOCS_KEY, []) || []).filter((d) => d.id !== id));
-}
+/* ── Recent documents: kept by js/made.js, which also opens, closes and deletes everything made ── */
+export { recentDocs, saveDoc } from "../made.js";
 
 /* ── Class memory (the teacher turns it on) ─────────────────────────
  * What a class already met, read from the Library: review words for a new test or dictation, and a short brief

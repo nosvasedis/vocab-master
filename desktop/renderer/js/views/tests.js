@@ -3,12 +3,12 @@
  * lesson stories); any part can be rewritten alone. Version B, a teacher's pack, listening read by the app's
  * voices, click-to-edit items, and print / PDF / Word. */
 import { CLASS_PROFILES, CPP_BOOKS, downloadBlob } from "../../app.js";
-import { state, prefs, isCpp, filledWords, LEVEL_COLORS } from "../state.js";
+import { state, prefs, isCpp, filledWords, LEVEL_COLORS, on } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, wizardNav, createWizard, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
+  makePicFor, wizardNav, createWizard, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
 } from "./studio-common.js";
 /** The class profile plus what the class has already met (class memory, when the teacher turned it on). */
 const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
@@ -25,13 +25,14 @@ import { audioFileName } from "../../studio/audio-track.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { loadLessonJson } from "./studio-common.js";
 import { mountTestEditing } from "./test-edit.js";
+import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
 
 const PREFS_KEY = "vm_tests_prefs_v1";
 let picker;
 let paper;
 let editor = null;
 let built = false;
-const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true, peek: null };
+const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true, peek: null, epoch: 0 };
 
 const savePrefs = () => writeJSON(PREFS_KEY, ts.spec);
 
@@ -40,6 +41,42 @@ export function initTests() {
   // A part whose task no longer exists is dropped (older settings).
   if (Array.isArray(saved?.parts)) saved.parts = saved.parts.filter((p) => TASKS[p?.task]);
   ts.spec = saved?.levelId && Array.isArray(saved.parts) ? { ...testDefaults(saved.levelId), ...saved } : testDefaults(state.profileId || "B_SENIOR");
+  // Opening, closing and deleting go through js/made.js (the Library, Home and this screen's own list alike).
+  registerMaker("test", {
+    // Before the screen is first shown, the test left open last time counts as open.
+    openId: () => (built ? ts.doc?.id : rememberedOpen("test")) || null,
+    open(id) {
+      const d = findMade("test", id);
+      if (!d) return false;
+      if (!built) build();
+      openDoc(d);
+      ts.showResult = true;
+      return true;
+    },
+    reveal() { ts.showResult = true; },
+    close: () => closeDoc(),
+    busy: () => !!ts.writing,
+  });
+}
+
+/** The test on the paper (null = none); the open one is remembered for the next start. */
+function setDoc(d) {
+  ts.doc = d || null;
+  rememberOpen("test", ts.doc?.id);
+}
+
+/** Put the open test away (it stays in the Library) and start again at Step 1. A part still being
+ *  rewritten for it is dropped when its reply comes (ts.epoch). */
+function closeDoc() {
+  ts.epoch++;
+  if (!built) { rememberOpen("test", null); return; }
+  stopPlayer();
+  setDoc(null);
+  ts.ctx = null; ts.stale.clear(); ts.sheet = "A"; ts.peek = null;
+  ts.spec.title = "";
+  savePrefs();
+  renderAll();
+  if (!ts.writing) wiz.show(0, { scroll: false });
 }
 
 const STEPS = [
@@ -60,6 +97,7 @@ function build() {
     <header class="mk-top">
       <div class="mk-brand"><span class="mk-badge">${icon("clipboard")}</span><div><b>Test Maker</b><span id="tsSummary"></span></div></div>
       ${wizardNav(STEPS)}
+      <div class="mk-acts" id="tsActs"></div>
     </header>
     <div class="mk-body">
       <section class="mk-page">
@@ -202,7 +240,7 @@ function build() {
     if (fx) { fixPart(fx.dataset.fix, fx); return; }
     const rw = e.target.closest("[data-rewrite]");
     if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
-    if (e.target.closest("[data-new]")) { stopPlayer(); ts.doc = null; ts.ctx = null; ts.stale.clear(); ts.spec.title = ""; savePrefs(); renderAll(); wiz.show(0); }
+    if (e.target.closest("[data-new]")) closeMade("test");
   });
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
@@ -221,12 +259,15 @@ function build() {
     const b = e.target.closest("[data-rewrite]");
     if (b) rewritePart(b.dataset.rewrite, b);
   });
+  $("tsActs").addEventListener("click", (e) => {
+    if (e.target.closest("[data-mk-new]")) closeMade("test");
+    if (e.target.closest("[data-mk-del]") && ts.doc) deleteMade("test", ts.doc.id);
+  });
   $("tsRecent").addEventListener("click", (e) => {
     const row = e.target.closest("[data-doc]");
     if (!row) return;
-    if (e.target.closest("[data-del]")) { deleteDoc(row.dataset.doc); renderRecent(); return; }
-    const d = recentDocs("test").find((x) => x.id === row.dataset.doc);
-    if (d) { openDoc(d); renderAll(); wiz.show(RESULT); toast("Opened a saved test.", "ok", { ms: 2000 }); }
+    if (e.target.closest("[data-del]")) deleteMade("test", row.dataset.doc);
+    else openMade("test", row.dataset.doc);
   });
   editor = mountTestEditing({
     root: paper.root,
@@ -247,6 +288,11 @@ function build() {
     rewritePart: (id, wish) => rewritePart(id, null, wish),
   });
   built = true;
+  // The test that was open when the app last closed comes back (unless it was deleted meanwhile).
+  const left = rememberedOpen("test");
+  if (left) { const d = findMade("test", left); if (d) { openDoc(d); ts.showResult = true; } else rememberOpen("test", null); }
+  // Something saved, opened or deleted anywhere (Library, Home, another computer): refresh this screen's list.
+  on("library", () => { if (state.view === "tests") { renderRecent(); renderFoot(); } });
   wiz.show(0, { scroll: false });
 }
 
@@ -420,57 +466,99 @@ function knobsHtml(p, texts) {
   return rows.join("");
 }
 
+/** The facts a closed part shows on one line: questions, difficulty, the chosen text and every setting. */
+function partFacts(p, texts) {
+  const t = TASKS[p.task];
+  const o = partOpts(p, ts.spec.levelId);
+  const facts = [];
+  if (t.answer !== "open") facts.push(plural(p.items, "question"));
+  if (p.skill === "writing" && p.words) facts.push(`up to ${p.words[1]} words`);
+  facts.push(PART_LEVELS[partLevel(p)].label);
+  if (t.knobs?.includes("text") && texts.length) {
+    const chosen = texts.find((x) => x.id === o.text);
+    facts.push(chosen ? `“${chosen.title}”` : "Lingo writes the text");
+  }
+  for (const k of t.knobs || []) {
+    if (k === "text" || ((k === "genre" || k === "length") && o.text && texts.some((x) => x.id === o.text))) continue;
+    const label = KNOBS[k].values.find(([v]) => String(v) === String(o[k]))?.[1];
+    if (label) facts.push(`${KNOBS[k].label}: ${label}`);
+  }
+  return facts;
+}
+
+/**
+ * Step 3: one row per part, all the same height when closed — the number and skill, the exercise (a button
+ * to the library), its kind, a one-line summary of the settings and the points. One part opens at a time:
+ * what the children do (with a paper preview) beside every setting. Above: each part's share of the points.
+ */
 function renderParts() {
   const s = ts.spec;
   const texts = picker ? unitTexts() : [];
+  if (ts.openPart && !s.parts.some((p) => p.id === ts.openPart)) ts.openPart = null;
+  const total = specPoints(s) || 1;
   const rows = s.parts.map((p, i) => {
     const t = TASKS[p.task];
     const open = t.answer === "open";
     const stale = ts.stale.has(p.id);
+    const expanded = ts.openPart === p.id;
     const o = partOpts(p, s.levelId);
     const lv = partLevel(p);
+    const facts = partFacts(p, texts);
+    const head = `<div class="pc-head" data-expand="${p.id}">
+        <span class="pc-num" aria-hidden="true"><b>${i + 1}</b><span>${SKILLS[p.skill].icon}</span></span>
+        <div class="pc-main">
+          <small class="pc-skill">${esc(SKILLS[p.skill].label)}${stale ? ` · <em>${ts.doc ? "changed — write it again" : "changed"}</em>` : ""}</small>
+          <div class="pc-name">
+            <button type="button" class="pc-task" data-pick="${p.id}" data-tip="Change the exercise" aria-label="Change the exercise of part ${i + 1}: ${esc(t.label)}"><span>${esc(t.label)}</span>${icon("chevron-down", "i-sm")}</button>
+            <span class="tk-kind kind-${esc(t.kind)}">${t.kind === "recognise" ? "Recognise" : t.kind === "recall" ? "Recall" : "Create"}</span>
+          </div>
+          <p class="pc-facts" title="${esc(facts.join(" · "))}">${facts.map((x) => `<span>${esc(x)}</span>`).join("")}${p.note ? `<span class="pc-wish">${icon("pencil", "i-xs")}${esc(p.note)}</span>` : ""}</p>
+        </div>
+        <span class="pc-pts"><b>${partPoints(p)}</b><small>pts</small></span>
+        <span class="part-acts">
+          <button type="button" class="icon-btn sm" data-move="-1" data-tip="Move up" aria-label="Move part ${i + 1} up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
+          <button type="button" class="icon-btn sm" data-move="1" data-tip="Move down" aria-label="Move part ${i + 1} down" ${i === s.parts.length - 1 ? "disabled" : ""}>${icon("chevron-down", "i-sm")}</button>
+          <button type="button" class="icon-btn sm danger" data-remove data-tip="Remove this part" aria-label="Remove part ${i + 1}">${icon("trash", "i-sm")}</button>
+        </span>
+        <button type="button" class="pc-toggle" data-expand="${p.id}" aria-expanded="${expanded}" aria-controls="pcBody-${p.id}">${icon(expanded ? "chevron-up" : "sliders", "i-sm")}<span>${expanded ? "Done" : "Settings"}</span></button>
+      </div>`;
+    if (!expanded) return `<li class="part-card${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">${head}</li>`;
     const textPick = t.knobs?.includes("text") && texts.length
       ? `<div class="pc-knob pc-knob-text"><span class="pc-lbl">Reading text</span>${textChooserHtml(p.id, texts, o.text, { newNote: `${textWords(s.levelId, o.length).join("–")} words, your settings`, peek: ts.peek === p.id })}</div>`
       : "";
-    return `<article class="part-card${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">
-      <div class="pc-top">
-        <span class="pc-ico" aria-hidden="true">${SKILLS[p.skill].icon}</span>
-        <div class="pc-title">
-          <small>Part ${i + 1} · ${esc(SKILLS[p.skill].label)}${stale ? ` · <em>changed</em>` : ""}</small>
-          <button type="button" class="pc-task" data-pick="${p.id}" aria-label="Change the exercise of part ${i + 1}: ${esc(t.label)}"><span>${esc(t.label)}</span>${icon("chevron-down", "i-sm")}</button>
+    return `<li class="part-card open${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">${head}
+      <div class="pc-body" id="pcBody-${p.id}">
+        <div class="pc-about">
+          <div class="pc-badges">${taskBadges(p.task, s.levelId)}</div>
+          <p class="pc-blurb">${esc(t.blurb || "")}</p>
+          <div class="pc-sample" aria-label="How it looks on the paper">${sampleHtml(p.task)}</div>
+          ${t.trains?.length ? `<p class="pc-trains">${icon("target", "i-xs")}<span>Trains: ${esc(t.trains.join(" · "))}</span></p>` : ""}
         </div>
-        <span class="part-acts">
-          <button type="button" class="icon-btn sm" data-move="-1" aria-label="Move up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
-          <button type="button" class="icon-btn sm" data-move="1" aria-label="Move down" ${i === s.parts.length - 1 ? "disabled" : ""}>${icon("chevron-down", "i-sm")}</button>
-          <button type="button" class="icon-btn sm danger" data-remove aria-label="Remove part">${icon("trash", "i-sm")}</button>
-        </span>
-      </div>
-      <div class="pc-badges">${taskBadges(p.task, s.levelId)}</div>
-      <div class="pc-about">
-        <p class="pc-blurb">${esc(t.blurb || "")}</p>
-        <div class="pc-sample" aria-label="How it looks">${sampleHtml(p.task)}</div>
-      </div>
-      <div class="pc-set">
-        <div class="pc-ctl">
-          ${open ? `<span class="part-ctl">${stepperHtml(`pts:${p.id}`, p.points || 10, 4, 30)}<small>points</small></span>` : `<span class="part-ctl">${stepperHtml(`items:${p.id}`, p.items, 3, 12)}<small>questions</small></span>`}
-          ${p.skill === "writing" && p.words ? `<span class="part-ctl">${stepperHtml(`words:${p.id}`, p.words[1], 15, 150)}<small>words max</small></span>` : ""}
-          <span class="pc-pts">${partPoints(p)}<small>pts</small></span>
+        <div class="pc-set">
+          <div class="pc-ctl">
+            ${open ? `<span class="part-ctl">${stepperHtml(`pts:${p.id}`, p.points || 10, 4, 30)}<small>points</small></span>` : `<span class="part-ctl">${stepperHtml(`items:${p.id}`, p.items, 3, 12)}<small>questions</small></span>`}
+            ${p.skill === "writing" && p.words ? `<span class="part-ctl">${stepperHtml(`words:${p.id}`, p.words[1], 15, 150)}<small>words max</small></span>` : ""}
+          </div>
+          <div class="pc-level" style="--lv:${(lv - 1) * 25}%" data-lv="${lv}">
+            <span class="pc-lbl">Difficulty</span>
+            <input type="range" min="1" max="5" step="1" value="${lv}" data-part-level="${p.id}" aria-label="Difficulty of part ${i + 1}" aria-valuetext="${PART_LEVELS[lv].label}" />
+            <b class="pc-level-v">${PART_LEVELS[lv].label}</b>
+          </div>
+          ${textPick}
+          ${knobsHtml(p, texts)}
+          <div class="pc-knob"><span class="pc-lbl">Your wish</span><input class="input sm part-note" data-part-note="${p.id}" placeholder="Optional, e.g. “about a school trip”" value="${esc(p.note || "")}" /></div>
+          ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${stale ? "Write this part with the new settings" : "Write this part again"}</button>` : ""}
         </div>
-        <div class="pc-level" style="--lv:${(lv - 1) * 25}%" data-lv="${lv}">
-          <span class="pc-level-l">Difficulty</span>
-          <input type="range" min="1" max="5" step="1" value="${lv}" data-part-level="${p.id}" aria-label="Difficulty of part ${i + 1}" aria-valuetext="${PART_LEVELS[lv].label}" />
-          <b class="pc-level-v">${PART_LEVELS[lv].label}</b>
-        </div>
-        ${textPick}
-        ${knobsHtml(p, texts)}
       </div>
-      <input class="input sm part-note" data-part-note="${p.id}" placeholder="Any wish for this part? (optional) e.g. “about a school trip”" value="${esc(p.note || "")}" />
-      ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${stale ? "Write this part" : "Write it again"}</button>` : ""}
-    </article>`;
+    </li>`;
   }).join("");
   const mix = Object.entries(s.parts.reduce((m, p) => { const k = TASKS[p.task]?.kind; m[k] = (m[k] || 0) + 1; return m; }, {}));
-  $("tsParts").innerHTML = `${s.parts.length ? `<div class="pc-mix">${icon("layers", "i-sm")}<span>This test:</span>${mix.map(([k, n]) => `<span class="tk-kind kind-${k}">${n} × ${k === "recognise" ? "Recognise" : k === "recall" ? "Recall" : "Create"}</span>`).join("")}<small>${mix.length < 2 ? "Mix kinds of exercise for a fairer test." : "A good mix: recognising, recalling and creating."}</small></div>` : ""}
-    <div class="part-list">${rows || `<p class="st-hint">No parts yet — add one below.</p>`}</div>
+  const bar = s.parts.map((p, i) => `<button type="button" class="pc-seg" data-skill="${p.skill}" data-expand="${p.id}" style="flex:${Math.max(1, partPoints(p))}" data-tip="Part ${i + 1} · ${esc(TASKS[p.task].label)} · ${partPoints(p)} pts" aria-label="Part ${i + 1}: ${partPoints(p)} of ${total} points">${SKILLS[p.skill].icon}</button>`).join("");
+  $("tsParts").innerHTML = `${s.parts.length ? `<div class="pc-overview">
+      <div class="pc-bar" aria-label="Each part's share of the points">${bar}</div>
+      <div class="pc-mix">${icon("layers", "i-sm")}<span>This test:</span>${mix.map(([k, n]) => `<span class="tk-kind kind-${k}">${n} × ${k === "recognise" ? "Recognise" : k === "recall" ? "Recall" : "Create"}</span>`).join("")}<small>${mix.length < 2 ? "Mix kinds of exercise for a fairer test." : "A good mix: recognising, recalling and creating."}</small></div>
+    </div>` : ""}
+    <ol class="part-list">${rows || `<li class="st-hint">No parts yet — add one below.</li>`}</ol>
     <div class="add-parts"><span>Add a part</span><div class="add-grid">${Object.entries(SKILLS).filter(([k]) => k !== "dictation").map(([k, v]) => `<button type="button" class="add-tile" data-add="${k}" data-skill="${k}"><span>${v.icon}</span>${esc(v.label)}${icon("plus", "i-xs")}</button>`).join("")}</div></div>`;
   const sum = `${plural(s.parts.length, "part")} · ${specPoints(s)} points · ≈ ${estimateMinutes(s)} min`;
   $("tsSum").textContent = sum;
@@ -505,7 +593,9 @@ function libraryFor(p, mode, skill) {
       const t = TASKS[taskId];
       ts.spec.parts.push(makePart(t.skill, taskId, ts.spec.levelId));
       fitTexts();
-      markStale(ts.spec.parts.at(-1).id); savePrefs(); renderParts();
+      // A new part opens, ready to tune.
+      ts.openPart = ts.spec.parts.at(-1).id;
+      markStale(ts.openPart); savePrefs(); renderParts();
       requestAnimationFrame(() => $("tsParts").querySelector(`[data-part="${ts.spec.parts.at(-1).id}"]`)?.scrollIntoView({ block: "nearest", behavior: "smooth" }));
     },
   });
@@ -513,6 +603,14 @@ function libraryFor(p, mode, skill) {
 
 function onPartsClick(e) {
   const s = ts.spec;
+  const ex = e.target.closest("[data-expand]");
+  if (ex && (ex.matches("button") || !e.target.closest("button, input, a"))) {
+    const id = ex.dataset.expand;
+    ts.openPart = ts.openPart === id ? null : id;
+    renderParts();
+    if (ts.openPart) document.querySelector(`#tsParts [data-part="${id}"]`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    return;
+  }
   const add = e.target.closest("[data-add]");
   if (add) { libraryFor(null, "add", add.dataset.add); return; }
   const pick = e.target.closest("[data-pick]");
@@ -661,6 +759,7 @@ function renderFoot() {
   if (spec.parts.length) done.push(2);
   if (ts.doc) done.push(3);
   wiz.mark({ done, locked: ts.doc || ts.writing ? [] : [RESULT] });
+  $("tsActs").innerHTML = makerActsHtml("test", { open: !!ts.doc && !ts.writing, newLabel: "New test" });
 }
 
 /* ── Generation ───────────────────────────────────────────────────── */
@@ -720,7 +819,7 @@ async function generate(btn) {
       const reply = await askAi(system, user);
       const meta = { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.ctx = { ...ctx, meta };
-      ts.doc = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta });
+      setDoc(buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }));
       await checkKeys(ts.doc);
       ts.doc.versionB = spec.versions > 1 ? makeVersionB(ts.doc) : null;
       ts.stale.clear();
@@ -770,14 +869,17 @@ async function fixPart(partId, btn) {
   const t = problemTargets(sec);
   if (t.whole) { rewritePart(partId, btn); return; }
   const { sel, spec } = specForAi();
+  const epoch = ts.epoch;
   await withBusy(btn, async () => {
     try {
       const ctx = ts.ctx?.focus ? ts.ctx : await contextFor(sel);
       const { system, user } = fixItemsPrompt(spec, sec, t.items, { profileBlock: withMemory(spec.levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords });
       const reply = await askAi(system, user);
+      if (epoch !== ts.epoch) return; // the test was closed or deleted meanwhile
       const changed = applyItemFixes(ts.doc, spec, partId, reply, t.items, { picFor: ctx.picFor, focusWords: ctx.focus });
       if (!changed.length) { toast("Lingo couldn’t fix those questions — try “Write it again”.", "warn"); return; }
       await checkKeys(ts.doc, [partId]);
+      if (epoch !== ts.epoch) return;
       refreshDoc();
       const left = ts.doc.sections.find((x) => x.id === partId)?.problems?.length || 0;
       toast(`Fixed ${changed.length === 1 ? `question ${changed[0]}` : `questions ${changed.join(", ")}`}${left ? " — one more thing to look at" : ""}.`, left ? "warn" : "ok", { ms: 2600 });
@@ -788,6 +890,7 @@ async function fixPart(partId, btn) {
 async function rewritePart(partId, btn, wish = "") {
   if (!ts.doc) return false;
   const { sel, spec } = specForAi();
+  const epoch = ts.epoch;
   const old = ts.doc.sections.find((x) => x.id === partId);
   return withBusy(btn, async () => {
     try {
@@ -799,11 +902,13 @@ async function rewritePart(partId, btn, wish = "") {
       let next = null;
       for (let attempt = 0; attempt < 2; attempt++) {
         const reply = await askAi(prompt.system, prompt.user, { retryHint: attempt ? "Your part was almost the same as the old version. Write a really NEW one: a new situation, new sentences and new questions, following the teacher's wish." : "" });
+        if (epoch !== ts.epoch) return false; // the test was closed or deleted meanwhile
         next = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
         if (!old || partSimilarity(old, next.sections.find((x) => x.id === partId)) < 0.6) break;
       }
       ts.doc = next;
       await checkKeys(ts.doc, [partId]);
+      if (epoch !== ts.epoch) return false;
       ts.stale.delete(partId);
       refreshDoc();
       renderParts();
@@ -951,8 +1056,8 @@ function renderRecent() {
   $("tsRecentWrap").classList.toggle("hidden", !list.length);
   const when = (iso) => { const d = iso ? new Date(iso) : null; return d && !Number.isNaN(d) ? d.toLocaleDateString(undefined, { day: "numeric", month: "short" }) : ""; };
   $("tsRecent").innerHTML = list.length
-    ? list.map((d) => `<div class="tb-recent-card" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
-        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${esc(d.meta?.title || "Test")}</b><span>${esc(d.meta?.subtitle || "")}</span>
+    ? list.map((d) => `<div class="tb-recent-card${d.id === ts.doc?.id ? " is-open" : ""}" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
+        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${esc(d.meta?.title || "Test")}${d.id === ts.doc?.id ? ` <span class="badge brand">Open</span>` : ""}</b><span>${esc(d.meta?.subtitle || "")}</span>
           <span class="trc-meta">${plural(d.sections?.length || 0, "part")} · ${esc(d.meta?.points || "")} pts${when(d.savedAt) ? ` · ${esc(when(d.savedAt))}` : ""}</span></button>
         <button type="button" class="icon-btn sm danger trc-del" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`).join("")
     : `<p class="st-hint">Your tests are kept here, so you can open and print them again any time.</p>`;
@@ -982,7 +1087,11 @@ export function applyTestPreset({ spec = {}, picker: pk = null } = {}) {
   const levelId = spec.levelId || ts.spec.levelId;
   ts.levelTouched = true;
   ts.spec = { ...testDefaults(levelId, spec.length || "standard"), ...spec, title: spec.title || "" };
-  ts.doc = null;
+  // The test that was open stays in the Library; the assistant's plan starts a new one.
+  ts.epoch++;
+  stopPlayer();
+  setDoc(null);
+  ts.ctx = null; ts.stale.clear(); ts.sheet = "A";
   if (pk) {
     // A topic plan already carries its topic in Step 1, so the assistant's note isn't a second topic.
     if (pk.kind === "topic" && ts.spec.topic && pk.topic) ts.spec.topic = "";
@@ -998,7 +1107,9 @@ export function generateTestNow() { return generate($("tsGenerate")); }
 
 /** Show a saved test, with Step 1 set back to the unit, words or topic it was written from. */
 function openDoc(d) {
-  ts.doc = d;
+  // A part still being rewritten for the test that was open is dropped when its reply comes.
+  if (ts.doc?.id !== d.id) { ts.epoch++; stopPlayer(); }
+  setDoc(d);
   ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)), grammarOwn: "" };
   ts.levelTouched = true;
   ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;
@@ -1020,14 +1131,4 @@ function openDoc(d) {
   } else if (src.kind === "words" && filledWords().length >= 3) pk = { kind: "current", own: asOwn(words.filter((w) => w.own)) };
   if (pk) { ts.sourceKey = ""; picker.set(pk); }
   savePrefs();
-}
-
-/** Open a saved test (from the Home screen). */
-export function openSavedTest(id) {
-  if (!built) build();
-  const d = recentDocs("test").find((x) => x.id === id);
-  if (!d) return false;
-  openDoc(d);
-  ts.showResult = true;
-  return true;
 }

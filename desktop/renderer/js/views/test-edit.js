@@ -113,14 +113,16 @@ export function mountTestEditing(host) {
     return JSON.stringify({ sections: host.doc().sections, meta: host.doc().meta });
   }
   function done(before, message) {
+    const doc = host.doc();
     host.commit();
-    toast(message, "ok", { ms: 5000, actions: [{ label: "Undo", run: () => { const s = JSON.parse(before); Object.assign(host.doc(), s); host.commit(); toast("Undone.", "info", { ms: 1600 }); } }] });
+    toast(message, "ok", { ms: 5000, actions: [{ label: "Undo", run: () => { if (host.doc() !== doc) return; Object.assign(doc, JSON.parse(before)); host.commit(); toast("Undone.", "info", { ms: 1600 }); } }] });
   }
   /** Change a part in the AI's shape and check it again. */
   async function revise(id, edit, message) {
     const before = snapshot();
     const ctx = await host.ctx().catch(() => ({}));
-    if (!reviseSection(host.doc(), host.spec(), id, edit, { picFor: ctx.picFor, focusWords: ctx.focus })) return;
+    // The test was closed or deleted meanwhile: nothing to change.
+    if (!host.doc() || !reviseSection(host.doc(), host.spec(), id, edit, { picFor: ctx.picFor, focusWords: ctx.focus })) return;
     const s = A(id);
     done(before, s?.problems?.length ? `${message} — Lingo noticed something: see the orange note.` : message);
   }
@@ -301,7 +303,8 @@ export function mountTestEditing(host) {
     el.classList.add("pe-busy");
     bar?.remove(); bar = null; barFor = null;
     const before = snapshot();
-    const restore = () => Object.assign(host.doc(), JSON.parse(before));
+    const doc0 = host.doc();
+    const restore = () => { if (host.doc() === doc0) Object.assign(doc0, JSON.parse(before)); };
     try {
       const ctx = await host.ctx();
       const spec = host.spec();
@@ -314,6 +317,7 @@ export function mountTestEditing(host) {
         const sec = A(id);
         const { system, user } = fixItemsPrompt(spec, sec, [n], { profileBlock: host.profile(spec.levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction: plan.instruction });
         const reply = await host.ask(system, user, attempt ? remakeRetryHint(problems) : "");
+        if (host.doc() !== doc0) return; // the test was closed, deleted or rewritten meanwhile
         const changed = applyItemFixes(host.doc(), spec, id, reply, [n], { picFor: ctx.picFor, focusWords: ctx.focus });
         const now = A(id)?.items[idx];
         problems = changed.length ? remakeProblems(original, now, plan.checks) : ["no new question came back"];
@@ -324,6 +328,7 @@ export function mountTestEditing(host) {
       }
       if (problems.length) { toast(`Lingo didn’t manage it (${problems[0]}). Try other words in the box, or edit the question yourself.`, "warn", { ms: 7000 }); return; }
       await host.checkKeys([id]);
+      if (host.doc() !== doc0) return;
       done(before, `Question ${n} is new.`);
       flash(id, n);
     } catch (e) {
@@ -357,11 +362,12 @@ export function mountTestEditing(host) {
           const wish = root.querySelector("#pe_pwish").value.trim();
           close();
           const before = snapshot();
+          const docId = host.doc()?.id;
           const secEl = host.root.querySelectorAll("section.st-sec")[host.view().sections.findIndex((x) => x.id === s.id)];
           secEl?.classList.add("pe-t", "pe-busy");
           const ok = await host.rewritePart(s.id, wish);
           secEl?.classList.remove("pe-busy");
-          if (ok) toast("That part is new.", "ok", { ms: 5000, actions: [{ label: "Undo", run: () => { Object.assign(host.doc(), JSON.parse(before)); host.commit(); } }] });
+          if (ok) toast("That part is new.", "ok", { ms: 5000, actions: [{ label: "Undo", run: () => { const d = host.doc(); if (!d || d.id !== docId) return; Object.assign(d, JSON.parse(before)); host.commit(); } }] });
         });
       },
     });
