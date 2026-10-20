@@ -38,6 +38,7 @@
   - a sample test opened on step 5 (outline, toolbar, problems);
   - a real coursebook-sentence gapped dictation made end to end.
 - **Not tried:** writing a test or an AI dictation with a real AI key (no key in the preview browser).
+- The 3.3.0 installer and portable exe are rebuilt with it (package verified; the unpacked app passes `--smoke`).
 
 ## Compact, step-by-step source picker (Unit test + Read-aloud dictation) (2026-10-20, from the user, replaced by the section above)
 - **Seen:** Step 1 was a wall of chips, and unit 9 wrapped onto its own line.
