@@ -8,10 +8,10 @@ import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy, openDialog } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, pickRow, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay,
+  makePicFor, wizardNav, createWizard, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay,
 } from "./studio-common.js";
-import { TASKS, SKILLS, tasksFor, defaultTask } from "../../studio/tasks.js";
-import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
+import { TASKS, SKILLS, tasksFor, defaultTask, tfLabels } from "../../studio/tasks.js";
+import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
 import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints, normalizeItem, balanceChoices, LETTERS } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
@@ -34,75 +34,85 @@ export function initTests() {
   ts.spec = saved?.levelId && Array.isArray(saved.parts) ? { ...testDefaults(saved.levelId), ...saved } : testDefaults(state.profileId || "B_SENIOR");
 }
 
+const STEPS = [
+  { label: "Content", sub: "Unit, words or topic" },
+  { label: "Class", sub: "Level and length" },
+  { label: "Parts", sub: "The exercises" },
+  { label: "Finish", sub: "Title and paper" },
+  { label: "Your test", sub: "Print, PDF, Word" },
+];
+const RESULT = STEPS.length - 1;
+let wiz;
+
 function build() {
   const host = $("testsView");
-  const step = (n, title, sub, body, extra = "") => `<section class="tb-step" data-step="${n}">
-      <header class="tb-step-head"><span class="tb-num">${n}</span><div><h3>${title}${extra}</h3><p>${sub}</p></div></header>
-      ${body}
-    </section>`;
+  const head = (title, sub, extra = "") => `<header class="mk-page-head"><div><h2>${title}</h2><p>${sub}</p></div>${extra}</header>`;
   host.innerHTML = `
-  <div class="studio-layout tb">
-    <div class="studio-settings tb-builder">
-      <div class="tb-head">
-        <span class="tb-head-ico">${icon("clipboard")}</span>
-        <div class="tb-head-text"><b>Test builder</b><span id="tsSummary"></span></div>
-      </div>
-      <div class="tb-steps">
-        ${step(1, "What does the test cover?", "A coursebook unit, your word list, or a grammar point or topic — then the grammar it tests.", `<div id="tsSource"></div><div id="tsFocus" class="tb-focus"></div>`)}
-        ${step(2, "Your class &amp; how long", "Sets the level of the language and the size of the test.", `<div id="tsShape"></div>`)}
-        ${step(3, "The parts", "Each part is one exercise: change its type, its questions or its points.", `<div id="tsParts"></div>`, `<span class="st-sum" id="tsSum"></span>`)}
-        ${step(4, "Final touches", "The title, versions, Greek help and what goes on the paper.", `<div id="tsOptions"></div>`)}
-      </div>
-      <div class="tb-foot">
-        <div id="tsPlanNote"></div>
-        <div class="tb-foot-row">
-          <div class="tb-meter" id="tsMeter"></div>
-          <button type="button" class="btn btn-magic btn-lg" id="tsGenerate">${icon("sparkles")}Write my test</button>
-        </div>
-      </div>
-    </div>
-    <div class="studio-paper tb-paper">
-      <div class="paper-toolbar tb-toolbar">
-        <div id="tsSheetSeg"></div>
-        <button type="button" class="btn btn-ghost btn-sm hidden" id="tsNew" data-tip="Back to your tests (this one is saved)">${icon("plus", "i-sm")}New test</button>
-        <span class="spacer"></span>
-        <label class="switch sm"><input type="checkbox" id="tsAnswers" /><span class="track"></span><span class="sw-text">Show answers</span></label>
-        <span class="export-pills tb-exports">
-          <button type="button" class="btn btn-secondary btn-sm" id="tsPrint" disabled>${icon("printer", "i-sm")}Print</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="tsPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
-          <button type="button" class="btn btn-secondary btn-sm" id="tsWord" disabled>${icon("word", "i-sm")}Word</button>
-        </span>
-      </div>
-      <div id="tsListen"></div>
-      <div id="tsProblems"></div>
-      <p class="edit-hint hidden" id="tsEditHint">${icon("pencil", "i-sm")}Tip: click any question on the paper to change it.</p>
-      <div class="paper-stage tb-stage" id="tsStage"><div class="paper hidden" id="tsPaper"></div>
-        <div class="studio-empty tb-empty" id="tsEmpty">
-          <div class="tb-empty-hero">
-            <div class="empty-owl">${owl()}</div>
-            <div>
-              <span class="tb-kicker">${icon("sparkles", "i-xs")}Unit test</span>
-              <h3>A complete test in under a minute</h3>
-              <p>Choose the unit and your class, check the parts, then press <b>Write my test</b>. You get the children’s paper (and a version B if you like) plus a teacher’s pack with the answers, the listening scripts and a marking guide.</p>
+  <div class="mk mk-test">
+    <header class="mk-top">
+      <div class="mk-brand"><span class="mk-badge">${icon("clipboard")}</span><div><b>Unit test</b><span id="tsSummary"></span></div></div>
+      ${wizardNav(STEPS)}
+    </header>
+    <div class="mk-body">
+      <section class="mk-page">
+        ${head("What does the test cover?", "Start from a coursebook unit, the words you prepared in Worksheets, or a grammar point or topic.")}
+        <div class="mk-card"><div id="tsSource"></div></div>
+        <div id="tsFocus" class="mk-focus"></div>
+        <div class="mk-recent hidden" id="tsRecentWrap"><h4>${icon("clock", "i-sm")}Or open one of your tests</h4><div id="tsRecent" class="tb-recent-grid"></div></div>
+      </section>
+      <section class="mk-page" hidden>
+        ${head("Your class &amp; how long", "The class sets the language of every question; the length sets how many parts the test starts with.")}
+        <div id="tsShape" class="mk-stack"></div>
+      </section>
+      <section class="mk-page" hidden>
+        ${head("The parts", "Each part is one exercise. Change its type, its questions or its points, move it, or remove it.", `<span class="mk-pill-sum" id="tsSum"></span>`)}
+        <div id="tsParts"></div>
+      </section>
+      <section class="mk-page" hidden>
+        ${head("Final touches", "What goes on the paper — then Lingo writes the test.")}
+        <div class="mk-finish"><div class="mk-card" id="tsOptions"></div><aside class="mk-ready" id="tsReady"></aside></div>
+      </section>
+      <section class="mk-page mk-result" hidden>
+        <aside class="mk-outline" id="tsOutline"></aside>
+        <div class="mk-paper tb-paper">
+          <div class="paper-toolbar tb-toolbar">
+            <div id="tsSheetSeg"></div>
+            <span class="spacer"></span>
+            <label class="switch sm"><input type="checkbox" id="tsAnswers" /><span class="track"></span><span class="sw-text">Show answers</span></label>
+            <span class="export-pills tb-exports">
+              <button type="button" class="btn btn-secondary btn-sm" id="tsPrint" disabled>${icon("printer", "i-sm")}Print</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="tsPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
+              <button type="button" class="btn btn-secondary btn-sm" id="tsWord" disabled>${icon("word", "i-sm")}Word</button>
+            </span>
+          </div>
+          <div id="tsListen"></div>
+          <div id="tsProblems"></div>
+          <p class="edit-hint hidden" id="tsEditHint">${icon("pencil", "i-sm")}Tip: click any question on the paper to change it.</p>
+          <div class="paper-stage tb-stage" id="tsStage"><div class="paper hidden" id="tsPaper"></div>
+            <div class="mk-empty" id="tsEmpty">
+              <div class="empty-owl">${owl()}</div>
+              <h3>Your test will appear here</h3>
+              <p>Check the four steps, then press <b>Write my test</b>. You get the children’s paper (and a version B if you like) plus a teacher’s pack with the answers, the listening scripts and a marking guide.</p>
+              <button type="button" class="btn btn-secondary" data-mk-go="3">${icon("arrow-left", "i-sm")}Back to Final touches</button>
             </div>
           </div>
-          <div class="tb-features">
-            <div><span>${icon("layers")}</span><b>4 skills</b><small>Listening, reading, vocabulary, grammar, writing</small></div>
-            <div><span>${icon("copy")}</span><b>Version A + B</b><small>Same test, shuffled — no copying</small></div>
-            <div><span>${icon("volume")}</span><b>Listening voices</b><small>Played by natural voices, saved as audio</small></div>
-            <div><span>${icon("key")}</span><b>Teacher’s pack</b><small>Answers, scripts and a marking guide</small></div>
-          </div>
-          <div class="tb-recent"><h4>${icon("clock", "i-sm")}Your recent tests</h4><div id="tsRecent" class="tb-recent-grid"></div></div>
         </div>
-      </div>
+      </section>
     </div>
+    <footer class="mk-foot">
+      <button type="button" class="btn btn-ghost" id="tsBack">${icon("arrow-left", "i-sm")}<span>Back</span></button>
+      <div class="mk-foot-mid"><div id="tsPlanNote"></div><div class="tb-meter" id="tsMeter"></div></div>
+      <button type="button" class="btn btn-primary" id="tsNext"><span>Next</span>${icon("arrow-right", "i-sm")}</button>
+    </footer>
   </div>`;
+  wiz = createWizard(host.querySelector(".mk"), { onShow: () => { renderFoot(); if (wiz?.index === RESULT) fitPaper($("tsStage"), $("tsPaper")); } });
   picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange });
   picker.mount($("tsSource"));
-  $("tsSource").addEventListener("click", (e) => { if (e.target.closest("[data-pk-toggle]") && ts.focusOpen) { ts.focusOpen = null; renderFocus(); } });
   paper = createPaper($("tsPaper"));
   new ResizeObserver(() => fitPaper($("tsStage"), $("tsPaper"))).observe($("tsStage"));
 
+  $("tsBack").addEventListener("click", () => wiz.show(wiz.index - 1));
+  $("tsNext").addEventListener("click", (e) => { if (wiz.index === RESULT - 1) generate(e.currentTarget); else wiz.show(wiz.index + 1); });
   $("tsShape").addEventListener("click", (e) => {
     const lvl = e.target.closest("[data-level]");
     if (lvl) { ts.levelTouched = true; setLevel(lvl.dataset.level); return; }
@@ -116,9 +126,6 @@ function build() {
     }
   });
   $("tsFocus").addEventListener("click", (e) => {
-    const tog = e.target.closest("[data-pk-toggle]");
-    // One line open at a time in Step 1: opening grammar or texts closes the source's line.
-    if (tog) { ts.focusOpen = ts.focusOpen === tog.dataset.pkToggle ? null : tog.dataset.pkToggle; if (ts.focusOpen) picker.close(); renderFocus(); return; }
     const g = e.target.closest("[data-grammar]");
     if (!g) return;
     const v = g.dataset.grammar;
@@ -134,7 +141,6 @@ function build() {
       $("tsFocus").querySelector('[data-grammar=""]')?.classList.toggle("active", !grammarList().length);
       renderPlanNote();
     }
-    refreshFocusValues();
     savePrefs();
   });
   $("tsParts").addEventListener("click", onPartsClick);
@@ -162,12 +168,13 @@ function build() {
       ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), studentHeader: ts.spec.studentHeader !== false };
       renderPaper();
     }
-    if (k === "pictures") { renderParts(); }
+    if (k === "pictures") renderParts();
   });
   $("tsOptions").addEventListener("input", (e) => {
     if (e.target.id !== "tsTitle") return;
     ts.spec.title = e.target.value;
     savePrefs();
+    renderReady();
   });
   // The open test takes the new title when the teacher leaves the field (an empty field puts the usual title back).
   $("tsOptions").addEventListener("change", (e) => {
@@ -175,8 +182,12 @@ function build() {
     ts.doc.meta.title = ts.spec.title.trim() || defaultTitle(sourceInfo().src) || ts.doc.meta.title;
     refreshDoc();
   });
-  $("tsNew").addEventListener("click", () => { stopPlayer(); ts.doc = null; ts.ctx = null; ts.stale.clear(); ts.spec.title = ""; savePrefs(); renderAll(); });
-  $("tsGenerate").addEventListener("click", (e) => generate(e.currentTarget));
+  $("tsReady").addEventListener("click", (e) => { const b = e.target.closest("#tsGenerate"); if (b) generate(b); });
+  $("tsOutline").addEventListener("click", (e) => {
+    const rw = e.target.closest("[data-rewrite]");
+    if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
+    if (e.target.closest("[data-new]")) { stopPlayer(); ts.doc = null; ts.ctx = null; ts.stale.clear(); ts.spec.title = ""; savePrefs(); renderAll(); wiz.show(0); }
+  });
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
   $("tsPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(false), sheetTitle(), sheetTitle())));
@@ -194,10 +205,11 @@ function build() {
     if (!row) return;
     if (e.target.closest("[data-del]")) { deleteDoc(row.dataset.doc); renderRecent(); return; }
     const d = recentDocs("test").find((x) => x.id === row.dataset.doc);
-    if (d) { openDoc(d); renderAll(); toast("Opened a saved test.", "ok", { ms: 2000 }); }
+    if (d) { openDoc(d); renderAll(); wiz.show(RESULT); toast("Opened a saved test.", "ok", { ms: 2000 }); }
   });
   paperEditing();
   built = true;
+  wiz.show(0, { scroll: false });
 }
 
 function setLevel(levelId, { quiet = false } = {}) {
@@ -244,8 +256,6 @@ function onSourceChange(sel, { byUser = true } = {}) {
     if (ts.sourceKey && key !== ts.sourceKey && ts.spec.title) { ts.spec.title = ""; savePrefs(); }
   }
   ts.sourceKey = key;
-  // Another kind of source starts with its lines closed (a topic test opens its grammar).
-  if (sel.kind !== ts.sourceKind) { ts.sourceKind = sel.kind; ts.focusOpen = undefined; }
   // A saved test that was just opened keeps its parts as they were written.
   if (byUser || !ts.doc) fitParts({ quiet: !byUser });
   renderFocus();
@@ -263,19 +273,8 @@ function fitParts({ quiet = false } = {}) {
   if (!quiet) toast(changed.map((c) => `Part ${ts.spec.parts.findIndex((p) => p.id === c.id) + 1} is now “${TASKS[c.to].label}” — “${TASKS[c.from].label}” ${c.reason}.`).join(" "), "info", { ms: 4200 });
 }
 
-/** What the Grammar and Texts lines say when closed. */
-function focusValues(sel = picker.value()) {
-  const { hasUnit } = sourceInfo(sel);
-  const chosen = grammarList();
-  const topic = String(ts.spec.topic || "").trim();
-  const grammar = chosen.length ? esc(chosen.join(", ")) : sel.kind === "topic" ? `<small>Choose, or leave it to the topic</small>` : hasUnit ? "The unit’s grammar" : "What the class knows";
-  const texts = hasUnit
-    ? `${esc(unitThemes(sel).join(", "))}${topic ? ` <small>· ${esc(topic)}</small>` : ""}`
-    : topic ? esc(topic) : "<small>Lingo chooses</small>";
-  return { grammar, texts };
-}
-
-/* Grammar and the texts, as two compact lines under the source; they say what the source already brings. */
+/* Step 1, under the source: the grammar to test and what the texts are about. They say what the source already
+ * brings (a unit has its own grammar and stories) and only ask for what it doesn't. */
 function renderFocus() {
   if (!picker) return;
   const sel = picker.value();
@@ -283,49 +282,50 @@ function renderFocus() {
   const s = ts.spec;
   const topicMode = sel.kind === "topic";
   const chosen = grammarList();
-  // A topic test is mostly about its grammar: that line starts open.
-  if (ts.focusOpen === undefined) ts.focusOpen = topicMode ? "grammar" : null;
   const menu = [...new Set([...(GRAMMAR_MENU[s.levelId] || []), ...s.grammar])];
   const chips = menu.map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("");
   const grammarHint = topicMode
-    ? "Choose one or more, or type your own — or leave it and just type the topic above."
+    ? `Choose one or more for ${esc(levelLabel(s.levelId))}, or type your own — or leave it and just describe the topic above.`
     : hasUnit
       ? "Lingo takes the grammar from the unit’s example sentences. Choose a point only to put the focus on it."
-      : "These words don’t come from a coursebook unit: choose the grammar to test, or leave it to what the class knows.";
+      : "Your words don’t come from a coursebook unit: choose the grammar to test, or leave it to what the class knows.";
   const defaultChip = topicMode ? "" : `<button type="button" class="chip tb-default${chosen.length ? "" : " active"}" data-grammar="">${icon(hasUnit ? "book-open" : "graduation", "i-xs")}${hasUnit ? "The unit’s grammar" : "What the class knows"}</button>`;
-  const v = focusValues(sel);
-  const grammarBody = `<div class="gram-chips">${defaultChip}${chips}</div>
-      <input class="input sm" id="tsGrammarOwn" placeholder="…or type a grammar point" value="${esc(s.grammarOwn || "")}" />
-      <p class="pk-note">${esc(grammarHint)}</p>`;
-  const textsBody = hasUnit
-    ? `<p class="pk-note">About the unit’s Big Question, stories and readings. Add a setting if you like:</p>
-      <input class="input sm" id="tsTopic" placeholder="e.g. a school trip" value="${esc(s.topic || "")}" />`
-    : `<input class="input sm" id="tsTopic" placeholder="e.g. a day at the zoo — or leave it to Lingo" value="${esc(s.topic || "")}" />
-      <p class="pk-note">Your words don’t come with a unit’s stories, so the texts can be about anything you like.</p>`;
-  $("tsFocus").innerHTML = `<div class="pk-rows">
-    ${pickRow("grammar", "Grammar", v.grammar, ts.focusOpen === "grammar", grammarBody)}
-    ${topicMode ? "" : pickRow("texts", "Texts", v.texts, ts.focusOpen === "texts", textsBody)}
-  </div>`;
+  const grammarCard = `<div class="mk-card">
+      <div class="mk-card-head"><span class="mk-card-ico">${icon("sliders")}</span><div><h3>${topicMode ? "Grammar to test" : "Grammar"}</h3><p>${grammarHint}</p></div></div>
+      <div class="gram-chips">${defaultChip}${chips}</div>
+      <input class="input" id="tsGrammarOwn" placeholder="…or type a grammar point" value="${esc(s.grammarOwn || "")}" />
+    </div>`;
+  const textsCard = topicMode ? "" : `<div class="mk-card">
+      <div class="mk-card-head"><span class="mk-card-ico">${icon("book-open")}</span><div><h3>What the texts are about</h3><p>${hasUnit ? "The reading and listening texts follow the unit’s Big Question and stories." : "Your words don’t come with a unit’s stories, so tell Lingo what the texts are about — or leave it to Lingo."}</p></div></div>
+      ${hasUnit ? `<div class="mk-theme">${unitThemes(sel).map((t) => `<span>${icon("book", "i-xs")}${esc(t)}</span>`).join("")}</div>` : ""}
+      <input class="input" id="tsTopic" placeholder="${hasUnit ? "Optional: a setting, e.g. a school trip" : "e.g. a day at the zoo"}" value="${esc(s.topic || "")}" />
+    </div>`;
+  $("tsFocus").classList.toggle("one", topicMode);
+  $("tsFocus").innerHTML = grammarCard + textsCard;
 }
 
-/** Keep the closed lines in step while the teacher types. */
-function refreshFocusValues() {
-  const v = focusValues();
-  const set = (k, html) => { const el = $("tsFocus").querySelector(`[data-pk="${k}"] .pk-val`); if (el) el.innerHTML = html; };
-  set("grammar", v.grammar);
-  set("texts", v.texts);
-}
-
+/* Step 2: the class (the same cards as Worksheets → Step 1), the length and the difficulty. */
 function renderShape() {
   const s = ts.spec;
   const p = CLASS_PROFILES[s.levelId];
+  const d = TEST_DEFAULTS[s.levelId] || {};
   const lenIcon = { quiz: "zap", standard: "clipboard", full: "layers" };
+  const skillsOf = (k) => [...new Set(LENGTHS[k].skills)].map((x) => SKILLS[x].label).join(" · ");
   $("tsShape").innerHTML = `
-    <div class="tb-levels" role="radiogroup" aria-label="Class">${LEVEL_IDS.map((id) => `<button type="button" role="radio" aria-checked="${id === s.levelId}" class="tb-level${id === s.levelId ? " active" : ""}" data-level="${id}" style="--lvl:${LEVEL_COLORS[id]}"><span class="tb-level-l">${esc(CLASS_PROFILES[id].label[0])}</span><small>${esc(CLASS_PROFILES[id].cefr)}</small></button>`).join("")}</div>
-    <p class="tb-level-note"><b>${esc(p.label)}</b> · ${esc(p.greekGrades)} · ages ${esc(p.ageRange)}</p>
-    <div class="len-cards">${Object.entries(LENGTHS).map(([k, l]) => `<button type="button" class="len-card${s.length === k ? " active" : ""}" data-length="${k}"><span class="len-ico">${icon(lenIcon[k] || "clipboard", "i-sm")}</span><b>${esc(l.label)}</b><small>≈ ${l.minutes} min · ${l.skills.length} parts</small></button>`).join("")}</div>
-    <div class="tb-field"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>`;
-  $("tsShape").querySelectorAll("[data-segmented]").forEach((root) => segmented(root, { value: s[root.dataset.seg], onChange: (v) => { s[root.dataset.seg] = v; savePrefs(); } }));
+    <div class="mk-card">
+      <div class="mk-card-head"><span class="mk-card-ico">${icon("graduation")}</span><div><h3>Class</h3><p>Every question, text and instruction is written for this level.</p></div></div>
+      <div class="level-grid" role="radiogroup" aria-label="Class">${LEVEL_IDS.map((id) => {
+    const lp = CLASS_PROFILES[id];
+    return `<button type="button" class="level-card${id === s.levelId ? " selected" : ""}" data-level="${id}" role="radio" aria-checked="${id === s.levelId}" style="--lvl:${LEVEL_COLORS[id]}"><span class="lc-top"><span class="lc-letter">${esc(lp.label[0])}</span><span class="lc-check">${icon("check")}</span></span><span class="lc-name">${esc(lp.label)}</span><span class="lc-cefr">CEFR ${esc(lp.cefr)}</span><span class="lc-grade">${esc(lp.greekGrades)}</span></button>`;
+  }).join("")}</div>
+      <div class="level-detail"><span class="ld-item">${icon("graduation")}<span><strong>${esc(p.label)}</strong> · ages ${esc(p.ageRange)}</span></span><span class="ld-item">${icon("list")}<span><strong>${d.items || 5}</strong> questions a part</span></span><span class="ld-item">${icon("pencil")}<span>Writing: <strong>${(d.writingWords || []).join("–")} words</strong></span></span><span class="ld-item">${icon("check-circle")}<span>${tfLabels(s.levelId).join(" / ")} answers</span></span></div>
+    </div>
+    <div class="mk-card">
+      <div class="mk-card-head"><span class="mk-card-ico">${icon("timer")}</span><div><h3>How long</h3><p>A starting set of parts — you can change every part in the next step.</p></div></div>
+      <div class="mk-lengths">${Object.entries(LENGTHS).map(([k, l]) => `<button type="button" class="mk-length${s.length === k ? " active" : ""}" data-length="${k}" aria-pressed="${s.length === k}"><span class="mk-length-ico">${icon(lenIcon[k] || "clipboard")}</span><b>${esc(l.label)}</b><span class="mk-length-meta">≈ ${l.minutes} min · ${l.skills.length} parts</span><small>${esc(skillsOf(k))}</small></button>`).join("")}</div>
+      <div class="mk-row"><span class="mk-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
+    </div>`;
+  $("tsShape").querySelectorAll("[data-segmented]").forEach((root) => segmented(root, { value: s[root.dataset.seg], onChange: (v) => { s[root.dataset.seg] = v; savePrefs(); renderReady(); } }));
 }
 
 /* ── Parts editor ─────────────────────────────────────────────────── */
@@ -418,11 +418,12 @@ function renderOptions() {
   const s = ts.spec;
   const auto = picker ? defaultTitle(sourceInfo().src) : "";
   $("tsOptions").innerHTML = `
-    <div class="st-row col"><span class="st-lbl">Title on the paper</span>
-      <input class="input sm" id="tsTitle" placeholder="${esc(auto || "Lingo names it from the topic")}" value="${esc(s.title || "")}" />
-      ${s.title?.trim() ? "" : `<small class="st-hint">${auto ? `Leave it empty for “${esc(auto)}”.` : "Leave it empty and Lingo gives the test a short title."}</small>`}</div>
-    <div class="st-row"><span class="st-lbl">Versions</span>${segHtml("versions", [[1, "One version"], [2, "A + B (no copying!)"]], s.versions)}</div>
-    <div class="st-switches">
+    <div class="mk-card-head"><span class="mk-card-ico">${icon("file")}</span><div><h3>On the paper</h3><p>The title, the versions and what the children see.</p></div></div>
+    <div class="mk-field"><label class="mk-lbl" for="tsTitle">Title</label>
+      <input class="input" id="tsTitle" placeholder="${esc(auto || "Lingo names it from the topic")}" value="${esc(s.title || "")}" />
+      <small class="mk-hint">${auto ? `Leave it empty for “${esc(auto)}”.` : "Leave it empty and Lingo gives the test a short title."}</small></div>
+    <div class="mk-field"><span class="mk-lbl">Versions</span>${segHtml("versions", [[1, "One version"], [2, "A + B (no copying!)"]], s.versions)}</div>
+    <div class="st-switches mk-switches">
       ${switchHtml("greek", "Instructions also in Greek", "A small Greek line under each English instruction", s.greek)}
       ${switchHtml("pictures", "Show pictures", "The app’s illustrations in picture tasks", s.pictures)}
       ${switchHtml("studentHeader", "Name & score box", "Name · Class · Date · Score at the top", s.studentHeader !== false)}
@@ -430,8 +431,78 @@ function renderOptions() {
   $("tsOptions").querySelectorAll("[data-segmented]").forEach((root) => segmented(root, { value: String(s[root.dataset.seg]), onChange: (v) => {
     s[root.dataset.seg] = Number(v);
     savePrefs();
+    renderReady();
     if (ts.doc) { ts.doc.versionB = s.versions > 1 ? makeVersionB(ts.doc) : null; ts.doc.meta.version = s.versions > 1 ? "A" : ""; renderSheetSeg(); renderPaper(); }
   } }));
+  renderReady();
+}
+
+/** Step 4's summary: everything the test will be, and the button that writes it. */
+function renderReady() {
+  if (!picker || !$("tsReady")) return;
+  const { sel, spec } = specForAi();
+  const { pictureWords, hasUnit } = sourceInfo(sel);
+  const probs = planProblems(spec, { pictureWords, focusWords: sel.focus, hasUnit });
+  const title = spec.title?.trim() || defaultTitle(sourceInfo(sel).src) || "Lingo names it";
+  const row = (ico, label, value, step) => `<button type="button" class="mk-ready-row" data-mk-go="${step}"><span>${icon(ico, "i-sm")}</span><small>${label}</small><b>${value}</b>${icon("pencil", "i-xs mk-ready-edit")}</button>`;
+  $("tsReady").innerHTML = `
+    <div class="mk-ready-head"><span class="mk-badge">${icon("clipboard")}</span><div><small>Ready to write</small><b>${esc(title)}</b></div></div>
+    <div class="mk-ready-rows">
+      ${row(sel.kind === "topic" ? "bulb" : sel.kind === "unit" ? "book-open" : "list", "Covers", esc(sourceLabel(sel, spec)), 0)}
+      ${row("sliders", "Grammar", esc(spec.grammar.join(", ") || (sel.kind === "topic" ? "From the topic" : hasUnit ? "The unit’s grammar" : "What the class knows")), 0)}
+      ${row("graduation", "Class", `${esc(levelLabel(spec.levelId))} · ${esc(CLASS_PROFILES[spec.levelId]?.cefr || "")}`, 1)}
+      ${row("layers", "Parts", `${plural(spec.parts.length, "part")} · ${specPoints(spec)} points · ≈ ${estimateMinutes(spec)} min`, 2)}
+      ${row("copy", "Versions", spec.versions > 1 ? "A + B" : "One version", 3)}
+    </div>
+    ${probs.length ? `<div class="callout warning">${icon("alert")}<span>${esc(probs.join(" "))}</span></div>` : ""}
+    <button type="button" class="btn btn-magic btn-lg mk-go" id="tsGenerate"${probs.length ? " disabled" : ""}>${icon("sparkles")}${ts.doc ? "Write a new test" : "Write my test"}</button>
+    <small class="mk-hint">Usually 20–40 seconds. You get the children’s paper and a teacher’s pack with the answers.</small>`;
+}
+
+/** The result page's side column: the test at a glance, each part with "Write it again". */
+function renderOutline() {
+  const d = ts.doc;
+  if (!d) { $("tsOutline").innerHTML = `<div class="mk-outline-card"><small>Nothing written yet</small><b>Your test</b><p class="mk-hint">Press <b>Write my test</b> in Final touches.</p></div>`; return; }
+  $("tsOutline").innerHTML = `
+    <div class="mk-outline-card">
+      <small>${esc(d.meta.classLabel || levelLabel(d.meta.classProfile))}${d.versionB ? " · A + B" : ""}</small>
+      <b>${esc(d.meta.title || "Test")}</b>
+      <span class="mk-hint">${esc(d.meta.subtitle || "")}</span>
+      <div class="mk-outline-meter"><span><b>${docPoints(d)}</b> points</span><span><b>${d.sections.length}</b> parts</span><span><b>≈${d.meta.minutes || estimateMinutes(ts.spec)}</b> min</span></div>
+    </div>
+    <ol class="mk-outline-parts">${d.sections.map((sec, i) => {
+    const stale = ts.stale.has(sec.id);
+    return `<li data-skill="${sec.skill}" class="${stale ? "stale" : ""}${sec.problems?.length ? " warn" : ""}"><span class="mk-op-ico">${SKILLS[sec.skill]?.icon || ""}</span><span class="mk-op-t"><small>Part ${i + 1} · ${esc(SKILLS[sec.skill]?.label || "")}${stale ? " · changed" : ""}</small><b>${esc(TASKS[sec.task]?.label || "")}</b></span><button type="button" class="icon-btn sm" data-rewrite="${sec.id}" data-tip="${stale ? "Write this part again with its new settings" : "Write it again"}" aria-label="Write part ${i + 1} again">${icon("refresh", "i-sm")}</button></li>`;
+  }).join("")}</ol>
+    <div class="mk-outline-acts">
+      <button type="button" class="btn btn-secondary btn-sm" data-mk-go="2">${icon("sliders", "i-sm")}Change the parts</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-new data-tip="Start again (this one is saved in your recent tests)">${icon("plus", "i-sm")}New test</button>
+    </div>`;
+}
+
+/** The sticky bar: Back, what to fix (or the size of the test), and Next / Write my test. */
+function renderFoot() {
+  if (!wiz || !picker) return;
+  const i = wiz.index;
+  const { sel, spec } = specForAi();
+  const { pictureWords, hasUnit } = sourceInfo(sel);
+  const probs = planProblems(spec, { pictureWords, focusWords: sel.focus, hasUnit });
+  const back = $("tsBack");
+  back.style.visibility = i === 0 ? "hidden" : "visible";
+  back.querySelector("span").textContent = i > 0 ? STEPS[i - 1].label : "";
+  // Planning notes belong to the steps, not to the finished paper.
+  $("tsPlanNote").hidden = i === RESULT;
+  const next = $("tsNext");
+  next.hidden = i === RESULT;
+  next.className = `btn ${i === RESULT - 1 ? "btn-magic" : "btn-primary"}`;
+  if (i < RESULT) next.querySelector("span").textContent = i === RESULT - 1 ? (ts.doc ? "Write a new test" : "Write my test") : `Next: ${STEPS[i + 1].label}`;
+  next.disabled = i === RESULT - 1 && !!probs.length;
+  // Steps with a tick; "Your test" opens once there is one.
+  const done = [1];
+  if (!probs.some((p) => /words to test|topic, or choose/.test(p))) done.push(0);
+  if (spec.parts.length) done.push(2);
+  if (ts.doc) done.push(3);
+  wiz.mark({ done, locked: ts.doc || ts.writing ? [] : [RESULT] });
 }
 
 /* ── Generation ───────────────────────────────────────────────────── */
@@ -474,11 +545,15 @@ function renderPlanNote() {
   $("tsPlanNote").innerHTML = probs.length
     ? `<div class="callout warning">${icon("alert")}<span>${esc(probs.join(" "))}</span></div>`
     : notes.length ? `<div class="callout info">${icon("info")}<span>${esc(notes.join(" "))}</span></div>` : "";
-  $("tsGenerate").disabled = !!probs.length;
+  renderReady();
+  renderFoot();
 }
 
 async function generate(btn) {
   const { sel, spec } = specForAi();
+  // The test is written on its own page; a failed first try goes back to Final touches.
+  ts.writing = true;
+  wiz.show(RESULT);
   const stopBusy = busyOverlay($("tsStage"), { title: "Lingo is writing your test…", note: "Usually 20–40 seconds — a full 4-skills test can take a minute", steps: [[0, "Reading the unit: words, stories and the Big Question"], [4, `Writing ${plural(spec.parts.length, "part")} for ${levelLabel(spec.levelId)}`], [14, "Writing the listening and reading texts"], [26, "Checking every answer and mixing the answer key"], [45, "Almost there…"]] });
   await withBusy(btn, async () => {
     try {
@@ -496,7 +571,10 @@ async function generate(btn) {
       renderAll();
       const probs = docProblems(ts.doc);
       toast(probs.length ? `Your test is ready — ${plural(probs.length, "small thing")} to look at.` : `Your test is ready: ${plural(ts.doc.sections.length, "part")}, ${docPoints(ts.doc)} points.`, probs.length ? "warn" : "ok");
-    } catch (e) { aiErrorToast(e); } finally { stopBusy(); }
+    } catch (e) {
+      aiErrorToast(e);
+      if (!ts.doc) wiz.show(RESULT - 1);
+    } finally { ts.writing = false; stopBusy(); renderFoot(); }
   });
 }
 
@@ -563,10 +641,11 @@ function renderPaper() {
   $("tsPaper").classList.toggle("hidden", !has);
   $("tsEmpty").classList.toggle("hidden", has);
   $("tsEditHint").classList.toggle("hidden", !has || ts.sheet === "teacher");
-  $("tsNew").classList.toggle("hidden", !has);
   $("tsSheetSeg").classList.toggle("hidden", !has);
   $("testsView").classList.toggle("has-doc", has);
   ["tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
+  renderOutline();
+  renderFoot();
   if (!has) { paper.clear(); $("tsProblems").innerHTML = ""; $("tsListen").innerHTML = ""; return; }
   paper.render(sheetHtml());
   fitPaper($("tsStage"), $("tsPaper"));
@@ -701,6 +780,7 @@ function openItemEditor(section, item) {
 
 function renderRecent() {
   const list = recentDocs("test").slice(0, 6);
+  $("tsRecentWrap").classList.toggle("hidden", !list.length);
   const when = (iso) => { const d = iso ? new Date(iso) : null; return d && !Number.isNaN(d) ? d.toLocaleDateString(undefined, { day: "numeric", month: "short" }) : ""; };
   $("tsRecent").innerHTML = list.length
     ? list.map((d) => `<div class="tb-recent-card" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
@@ -724,6 +804,8 @@ function renderAll() {
 export function renderTestsView() {
   if (!built) build();
   renderAll();
+  // A test opened from the Home screen shows its paper.
+  if (ts.showResult) { ts.showResult = false; wiz.show(RESULT, { scroll: false }); }
 }
 
 /** Settings from the assistant: { spec (partial), picker (state) }. */
@@ -742,6 +824,7 @@ export function applyTestPreset({ spec = {}, picker: pk = null } = {}) {
   }
   savePrefs();
   renderAll();
+  wiz.show(RESULT - 1, { scroll: false });
 }
 export function generateTestNow() { return generate($("tsGenerate")); }
 
@@ -770,5 +853,6 @@ export function openSavedTest(id) {
   const d = recentDocs("test").find((x) => x.id === id);
   if (!d) return false;
   openDoc(d);
+  ts.showResult = true;
   return true;
 }

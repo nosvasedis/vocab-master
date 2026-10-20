@@ -4,7 +4,7 @@ import {
   CPP_BOOKS, CLASS_PROFILES, selectSmartCoursebookWords, getProfilePromptBlock, callAi, WORKSHEET_PRINT_CSS, downloadBlob,
 } from "../../app.js";
 import { $, esc, icon, plural, toast } from "../ui.js";
-import { state, filledWords, prefs, isCpp, bookTitle, unitNumber } from "../state.js";
+import { state, filledWords, prefs, isCpp, bookTitle, unitNumber, BOOK_COLORS } from "../state.js";
 import { getApiKey, isAiReady, desktop, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 import { picForWord } from "../pics.js";
@@ -174,7 +174,6 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     picked: new Set(),
     topic: "",
     keyWords: [],
-    open: null, // the line opened in the unit chooser: book | unit | parts | words
     several: false, // tests: taps add units instead of switching
   };
   if (filledWords().length >= 3) st.kind = "current";
@@ -213,8 +212,8 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       level: BOOK_LEVEL[st.bookId],
     };
   }
-  /* Compact and step by step: one line per choice (Book · Unit · Parts · Words) shows what is chosen;
-   * tapping a line opens just that choice, and picking moves on to the next one. */
+  /* Full-size and step by step, like Worksheets → Step 1: where the words come from (three cards), then the
+   * book covers, the unit tiles and a panel with the unit's parts and the words to test. */
   function render() {
     if (!host) return;
     const book = CPP_BOOKS[st.bookId];
@@ -222,39 +221,43 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     const words = st.kind === "unit" ? all() : [];
     const f = focus();
     const keyCount = words.filter((w) => st.keyWords.includes(w.english.toLowerCase())).length;
-    const modes = [
-      ["unit", "book", "A unit", "A coursebook unit"],
-      ["current", "list", "My words", "The words in your Vocabulary list (Step 2)"],
-      ...(allowTopic ? [["topic", "bulb", "Grammar/topic", "A grammar point or a topic, without a word list"]] : []),
-    ];
     const noList = filledWords().length < 3;
-    const wordLine = (list, n) => `<span class="sp-words">${esc(list.slice(0, n).map((w) => w.english).join(", "))}${list.length > n ? "…" : ""}</span>`;
-    const unitsVal = st.units.length === 1
-      ? `${st.units[0]} <small>· ${esc(book.units[st.units[0]]?.title || "")}</small>`
-      : `${st.units.join(", ")} <small>· ${st.units.length} units</small>`;
-    const partsVal = `${st.sections.map((s) => esc(SECTION_LABEL[s])).join(", ")} <small>· ${words.length} words</small>`;
-    const focusVal = { key: "★ Lesson key words", all: "All the words", pick: "My choice" }[st.focusMode];
-    const opt = (attr, v, on, label, extra = "") => `<button type="button" class="pk-opt${on ? " active" : ""}" ${attr}="${esc(v)}" aria-pressed="${on}"${extra}>${label}</button>`;
+    const modes = [
+      ["unit", "book-open", "A coursebook unit", "Primary Path 1–3: its words, stories and Big Question"],
+      ["current", "list", "My word list", noList ? "Add 3+ words in Worksheets → Step 2 first" : `The ${plural(filledWords().length, "word")} in Worksheets → Step 2`],
+      ...(allowTopic ? [["topic", "bulb", "A grammar point or topic", "No word list: Lingo uses words the class knows"]] : []),
+    ];
+    const chips = (list, max = 60) => `${list.slice(0, max).map((w) => `<span class="word-chip on static"><span>${esc(w.english)}</span></span>`).join("")}${list.length > max ? `<span class="mk-more">+${list.length - max} more</span>` : ""}`;
+    const unitTitle = (u) => book.units[u]?.title || "";
     host.innerHTML = `
-      <div class="sp-tabs" role="tablist" style="--n:${modes.length}">${modes.map(([k, ico, l, tip]) => `<button type="button" role="tab" aria-selected="${st.kind === k}" class="sp-tab${st.kind === k ? " active" : ""}" data-sp-kind="${k}" ${k === "current" && noList ? "disabled data-tip=\"Add 3+ words in Step 2 first\"" : `data-tip="${esc(tip)}"`}>${icon(ico, "i-xs")}<span>${l}</span></button>`).join("")}</div>
-      ${st.kind === "current" ? `<p class="sp-summary"><span class="sp-clamp">${icon("check-circle", "i-xs")}<b>${plural(f.length, "word")}</b> from your list${bookTitle() ? ` · ${esc(bookTitle())}${unitNumber() ? ` Unit ${esc(unitNumber())}` : ""}` : ""}: ${wordLine(f, 14)}</span></p>` : ""}
-      ${st.kind === "topic" ? `<input class="input sm" data-sp-topic placeholder="${esc(topicPlaceholder)}" value="${esc(st.topic)}" />` : ""}
-      ${st.kind === "unit" ? `<div class="pk-rows">
-        ${pickRow("book", "Book", `Primary Path ${st.bookId.slice(-1)}`, st.open === "book",
-    `<div class="pk-grid" style="--cols:3">${BOOK_IDS.map((id) => opt("data-sp-book", id, id === st.bookId, `Primary Path ${id.slice(-1)}`)).join("")}</div>`)}
-        ${pickRow("unit", multiUnit ? "Units" : "Unit", unitsVal, st.open === "unit",
-    `<div class="pk-grid pk-units" style="--cols:9">${Array.from({ length: 9 }, (_, i) => i + 1).map((u) => opt("data-sp-unit", u, st.units.includes(u), u, ` data-tip="${esc(book.units[u]?.title || "")}"`)).join("")}</div>
-          <div class="pk-foot"><p class="pk-note">${st.units.map((u) => `<b>Unit ${u}</b> ${esc(book.units[u]?.title || "")}`).join(" · ")}</p>
-            ${multiUnit ? `<button type="button" class="pk-link" data-sp-several="${st.several ? "" : "1"}">${st.several ? "Just one unit" : `${icon("plus", "i-xs")}Several units`}</button>` : ""}</div>
-          ${multiUnit && st.several ? `<p class="pk-note">Tap the numbers to add or remove units.</p>` : ""}`)}
-        ${pickRow("parts", "Parts", partsVal, st.open === "parts",
-    `<div class="pk-grid" style="--cols:2">${["BQ", "A", "B", "WB"].map((s) => opt("data-sp-sec", s, st.sections.includes(s), `${esc(SECTION_LABEL[s])}${counts ? ` <small>${counts[s]}</small>` : ""}`)).join("")}</div>
-          <p class="pk-note">The parts of the unit the words come from.</p>`)}
-        ${pickRow("words", "Words", `${focusVal} <small>· ${f.length}</small>`, st.open === "words",
-    `<div class="pk-grid" style="--cols:3">${opt("data-sp-focus", "key", st.focusMode === "key", `★ Key words${keyCount ? ` <small>${keyCount}</small>` : ""}`)}${opt("data-sp-focus", "all", st.focusMode === "all", `All <small>${words.length}</small>`)}${opt("data-sp-focus", "pick", st.focusMode === "pick", "Let me choose")}</div>
-          ${st.focusMode === "pick" ? `<div class="sp-pick">${words.map((w) => `<button type="button" class="word-chip${st.picked.has(w.english.toLowerCase()) ? " on" : ""}" data-sp-word="${esc(w.english.toLowerCase())}"><span>${esc(w.english)}</span></button>`).join("")}</div>` : `<p class="pk-note">The lesson key words are the ones the lessons teach; “All” takes every word of the chosen parts.</p>`}`)}
-      </div>
-      <p class="sp-summary"><span class="sp-clamp">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b>: ${wordLine(f, 16)}</span></p>` : ""}`;
+      <div class="mk-choices" style="--n:${modes.length}" role="radiogroup" aria-label="What the words come from">${modes.map(([k, ico, title, sub]) => `<button type="button" role="radio" aria-checked="${st.kind === k}" class="mk-choice${st.kind === k ? " active" : ""}" data-sp-kind="${k}"${k === "current" && noList ? " disabled" : ""}><span class="mk-choice-ico">${icon(ico)}</span><span class="mk-choice-t"><b>${title}</b><small>${esc(sub)}</small></span><span class="mk-tick">${icon("check", "i-xs")}</span></button>`).join("")}</div>
+      ${st.kind === "current" ? `<div class="mk-panel">
+        <div class="mk-panel-head"><div><h4>${plural(f.length, "word")} from your list</h4><p>${esc(bookTitle() || "Your own words")}${unitNumber() ? ` · Unit ${esc(unitNumber())}` : ""}</p></div>
+          <button type="button" class="btn btn-ghost btn-sm" data-sp-edit>${icon("pencil", "i-sm")}Change the list</button></div>
+        <div class="mk-words">${chips(f)}</div></div>` : ""}
+      ${st.kind === "topic" ? `<div class="mk-panel"><label class="mk-h" for="spTopic">What should the test be about?</label>
+        <input class="input lg" id="spTopic" data-sp-topic placeholder="${esc(topicPlaceholder)}" value="${esc(st.topic)}" /></div>` : ""}
+      ${st.kind === "unit" ? `
+        <div class="mk-block"><h4 class="mk-h">Book</h4>
+          <div class="book-grid mk-books">${BOOK_IDS.map((id) => {
+    const prof = CLASS_PROFILES[CPP_BOOKS[id].recommendedProfile];
+    return `<button type="button" class="book-card${id === st.bookId ? " selected" : ""}" data-sp-book="${id}" style="--bk:${BOOK_COLORS[id] || "var(--brand)"}"><span class="book-cover">${id.slice(-1)}</span><span class="book-meta"><strong>Primary Path ${id.slice(-1)}</strong><span>${esc(prof?.label || "")} · CEFR ${esc(CPP_BOOKS[id].cefr || "")}</span></span></button>`;
+  }).join("")}</div></div>
+        <div class="mk-block"><div class="mk-h-row"><h4 class="mk-h">${multiUnit && st.several ? "Units" : "Unit"}</h4>
+          ${multiUnit ? `<label class="switch sm"><input type="checkbox" data-sp-several ${st.several ? "checked" : ""} /><span class="track"></span><span class="sw-text">Several units</span></label>` : ""}</div>
+          <div class="unit-grid mk-units">${Array.from({ length: 9 }, (_, i) => i + 1).map((u) => `<button type="button" class="unit-tile${st.units.includes(u) ? " selected" : ""}" data-sp-unit="${u}" data-tip="${esc(unitTitle(u))}"><span>Unit</span><b>${u}</b><small>${esc(unitTitle(u))}</small></button>`).join("")}</div></div>
+        <div class="mk-panel mk-unit">
+          <div class="mk-panel-head"><div><h4>${st.units.map((u) => `Unit ${u} · ${esc(unitTitle(u))}`).join("<br>")}</h4><p>${multiUnit && st.several ? "Tap more units to add them to the test." : `Primary Path ${st.bookId.slice(-1)} · the words, stories and Big Question come from here.`}</p></div></div>
+          <div class="mk-field"><span class="mk-lbl">Parts of the unit</span><div class="mk-chips">${["BQ", "A", "B", "WB"].map((s) => `<button type="button" class="chip${st.sections.includes(s) ? " active" : ""}" data-sp-sec="${s}">${esc(SECTION_LABEL[s])}${counts ? ` <small>${counts[s]}</small>` : ""}</button>`).join("")}</div></div>
+          <div class="mk-field"><span class="mk-lbl">Words to test</span><div class="mk-chips">
+            <button type="button" class="chip${st.focusMode === "key" ? " active" : ""}" data-sp-focus="key">★ Lesson key words${keyCount ? ` <small>${keyCount}</small>` : ""}</button>
+            <button type="button" class="chip${st.focusMode === "all" ? " active" : ""}" data-sp-focus="all">All <small>${words.length}</small></button>
+            <button type="button" class="chip${st.focusMode === "pick" ? " active" : ""}" data-sp-focus="pick">${icon("pencil", "i-xs")}Let me choose</button></div></div>
+          <div class="mk-words${st.focusMode === "pick" ? " picking" : ""}">${st.focusMode === "pick"
+    ? words.map((w) => `<button type="button" class="word-chip${st.picked.has(w.english.toLowerCase()) ? " on" : ""}" data-sp-word="${esc(w.english.toLowerCase())}"><span>${esc(w.english)}</span></button>`).join("")
+    : chips(f)}</div>
+          <p class="mk-count">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> ${st.focusMode === "pick" ? "chosen — tap words to add or remove them" : "chosen"}</p>
+        </div>` : ""}`;
   }
   const changed = (byUser = true) => { render(); onChange?.(value(), { byUser }); };
   function mount(el) {
@@ -263,23 +266,16 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     host.addEventListener("click", async (e) => {
       const b = e.target.closest("button");
       if (!b || b.disabled) return;
-      // Opening or closing a line changes nothing that was chosen.
-      if (b.dataset.pkToggle) { st.open = st.open === b.dataset.pkToggle ? null : b.dataset.pkToggle; render(); return; }
-      if (b.dataset.spKind) { st.kind = b.dataset.spKind; st.open = null; }
-      // "Several units" lets taps add units; "Just one unit" keeps the first.
-      if (b.dataset.spSeveral !== undefined) {
-        st.several = !!b.dataset.spSeveral;
-        if (!st.several && st.units.length > 1) { st.units = [st.units[0]]; st.picked.clear(); await refreshKeyWords(); }
-      }
-      // A new book: the next thing to choose is its unit.
-      if (b.dataset.spBook) { st.bookId = b.dataset.spBook; st.picked.clear(); st.open = "unit"; await refreshKeyWords(); }
+      if (b.dataset.spEdit !== undefined) { actions.go("words"); return; }
+      if (b.dataset.spKind) st.kind = b.dataset.spKind;
+      if (b.dataset.spBook) { st.bookId = b.dataset.spBook; st.picked.clear(); await refreshKeyWords(); }
       if (b.dataset.spUnit) {
         const u = Number(b.dataset.spUnit);
-        // Tests may cover several units: tapping adds or removes a unit (at least one stays); one unit closes the line.
+        // A tap switches unit; with "Several units" on (tests), taps add or remove units (at least one stays).
         if (multiUnit && st.several) {
           st.units = st.units.includes(u) ? st.units.filter((x) => x !== u) : [...st.units, u].sort((a, z) => a - z);
           if (!st.units.length) st.units = [u];
-        } else { st.units = [u]; st.open = null; }
+        } else st.units = [u];
         st.picked.clear();
         await refreshKeyWords();
       }
@@ -291,7 +287,6 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       }
       if (b.dataset.spFocus) {
         st.focusMode = b.dataset.spFocus;
-        if (st.focusMode !== "pick") st.open = null;
         // Picking starts from the key words, so the teacher only adds or removes a few.
         if (st.focusMode === "pick" && !st.picked.size) all().filter((w) => st.keyWords.includes(w.english.toLowerCase())).forEach((w) => st.picked.add(w.english.toLowerCase()));
       }
@@ -301,19 +296,23 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       }
       changed();
     });
+    // "Several units" off keeps the first unit.
+    host.addEventListener("change", async (e) => {
+      if (e.target.dataset.spSeveral === undefined) return;
+      st.several = e.target.checked;
+      if (!st.several && st.units.length > 1) { st.units = [st.units[0]]; st.picked.clear(); await refreshKeyWords(); }
+      changed();
+    });
     host.addEventListener("input", (e) => { if (e.target.dataset.spTopic !== undefined) { st.topic = e.target.value; onChange?.(value(), { byUser: true }); } });
     refreshKeyWords().then(() => changed(false));
     render();
   }
   return {
     mount, value, render,
-    /** Close the open line (another chooser on the screen opened one). */
-    close() { if (st.open) { st.open = null; render(); } },
     set(next = {}) {
       Object.assign(st, next);
       if (next.picked) st.picked = new Set(next.picked);
       st.several = st.units.length > 1;
-      st.open = null;
       refreshKeyWords().then(() => changed(false));
     },
   };
@@ -326,11 +325,45 @@ export const stepperHtml = (name, value, min, max) => `<span class="stepper" dat
 
 export { $, esc, icon, plural, toast };
 
-/**
- * One line of a compact chooser: a label, what is chosen now and a chevron; only an open line shows its options.
- * value and body are HTML (escape before). The host handles clicks on [data-pk-toggle].
- */
-export const pickRow = (key, label, value, open, body) => `<div class="pk-row${open ? " open" : ""}" data-pk="${key}">
-  <button type="button" class="pk-head" data-pk-toggle="${key}" aria-expanded="${open}"><span class="pk-lbl">${label}</span><span class="pk-val">${value}</span>${icon("chevron-down", "i-sm pk-chev")}</button>
-  ${open ? `<div class="pk-body">${body}</div>` : ""}
-</div>`;
+
+/* ── Maker wizard (Unit test, Read-aloud dictation) ───────────────────
+ * A full-width page per step under a tinted header with step pills, and a sticky bar with Back / Next.
+ * steps: [{ label, sub }]. The last step is the result (the paper). */
+export const wizardNav = (steps) => `<nav class="mk-steps" aria-label="Steps">${steps.map((s, i) => `${i ? `<i class="mk-sep" aria-hidden="true"></i>` : ""}<button type="button" class="mk-pill" data-mk-go="${i}"><span class="mk-pill-n"><span>${i + 1}</span>${icon("check", "i-xs")}</span><span class="mk-pill-t"><b>${s.label}</b><small>${s.sub}</small></span></button>`).join("")}</nav>`;
+
+/** Shows one .mk-page at a time; pills and any [data-mk-go] button move between them. */
+export function createWizard(root, { onShow } = {}) {
+  const pages = () => [...root.querySelectorAll(".mk-page")];
+  let cur = 0;
+  let seen = 0; // the furthest step opened: only steps up to it get a tick
+  let marks = { done: [], locked: [] };
+  const w = {
+    get index() { return cur; },
+    get count() { return pages().length; },
+    show(i, { scroll = true } = {}) {
+      const all = pages();
+      cur = Math.max(0, Math.min(all.length - 1, Number(i) || 0));
+      seen = Math.max(seen, cur);
+      all.forEach((p, k) => { p.hidden = k !== cur; });
+      root.dataset.page = String(cur + 1);
+      w.mark();
+      if (scroll) $("scroller")?.scrollTo({ top: 0 });
+      onShow?.(cur);
+    },
+    /** done: steps with a tick; locked: steps that can't be opened yet. */
+    mark(next = marks) {
+      marks = next;
+      root.querySelectorAll(".mk-pill").forEach((b, k) => {
+        b.classList.toggle("active", k === cur);
+        b.classList.toggle("done", k !== cur && k <= seen && marks.done.includes(k));
+        b.disabled = marks.locked.includes(k);
+        if (k === cur) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+      });
+    },
+  };
+  root.addEventListener("click", (e) => {
+    const g = e.target.closest("[data-mk-go]");
+    if (g && !g.disabled) w.show(g.dataset.mkGo);
+  });
+  return w;
+}

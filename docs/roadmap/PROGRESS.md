@@ -4,7 +4,42 @@
 
 **Next:** nothing queued. The Unit test fixes (deleting parts; Step 1 decides grammar, texts and parts) are on `main` and in the rebuilt exes (2026-10-20, section below). The studio redesign and the Dictation redesign (`feature/dictation-redesign`) are merged into `main` (2026-10-20): `npm test` 446 pass, `npm run smoke` passes. The 3.3.0 installer and portable exe are rebuilt from it (desktop/release/; package verified; the unpacked app passes `--smoke`). Earlier: the account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes. The 3.3.0 listening voices are merged too (section below). The 3.3.0 installer and portable exe are rebuilt (desktop/release/, about 190 MB each, package verified); the packaged app passes `--smoke --voices` (4 threads, a real natural-voice sentence).
 
-## Compact, step-by-step source picker (Unit test + Read-aloud dictation) (2026-10-20, from the user)
+## Unit test & Read-aloud dictation as full-screen step-by-step makers (2026-10-20, from the user)
+- **Asked:** "a fuller screen experience, step by step, more aligned with the Worksheets stuff but better and nicer; dictation and Unit test visually distinct". This replaces the two-column builder and the compact picker below.
+- **Wizard shell** (`wizardNav`, `createWizard` in `studio-common.js`; `.mk-*` in `studio.css`):
+  - A sticky tinted header with the maker's badge and a summary line, plus clickable step pills (number → tick once passed; "Your test" stays locked until there is one).
+  - One full-width page per step, and a sticky bar: Back · plan warnings or the size of the test · Next / Write.
+  - The last step is the paper, with an outline column beside it.
+- **Identity:**
+  - Unit test: indigo → sky with a dot-grid header.
+  - Dictation: emerald → teal with a sound-wave header.
+  - The pills, chosen cards, Next button and voice bar follow each maker's colour (`--mk`, `--mk-2`).
+- **Source picker** (both makers):
+  - Three cards: a coursebook unit / my word list / a grammar point or topic (tests only).
+  - The Worksheets book covers and unit tiles (9 in a row, with titles), and a "Several units" switch (tests).
+  - A unit panel with the parts of the unit, the words to test and the chosen words as chips.
+  - "My word list" shows its words and a "Change the list" button (goes to Worksheets → Step 2).
+- **Unit test steps:**
+  1. Content (source + Grammar card + "What the texts are about" card, recent tests).
+  2. Class (Worksheets level cards and class details) and length (three cards) with difficulty.
+  3. Parts (two-column part cards, add tiles).
+  4. Finish (title, versions, switches + a sticky "Ready to write" summary whose rows jump to their step, and Write my test).
+  5. Your test (outline with "Write it again" per part, Change the parts, New test; toolbar, listening, problems, paper).
+  - Writing moves to step 5 with Lingo's overlay; a failed first try goes back to Finish. A test opened from Home or the recent list opens on step 5.
+- **Dictation steps:**
+  1. Words.
+  2. Style (big cards with "Great for A–B…").
+  3. Class & the sentences (level cards, sentence settings in two columns, Grammar and Theme cards, greyed when the coursebook writes the sentences).
+  4. Finish (who writes, reading, switches + "Ready to make").
+  5. Your dictation (outline with the sentences, Make it again, Another style, New dictation; Read it aloud in the toolbar).
+- **Checks:** `npm test` 449 pass; `npm run smoke` passes. Tried in the web app at 1440 and 1024 px, light and dark:
+  - every step of both makers, Back/Next, pills, ticks and the locked result;
+  - trash a part, "Several units";
+  - a sample test opened on step 5 (outline, toolbar, problems);
+  - a real coursebook-sentence gapped dictation made end to end.
+- **Not tried:** writing a test or an AI dictation with a real AI key (no key in the preview browser).
+
+## Compact, step-by-step source picker (Unit test + Read-aloud dictation) (2026-10-20, from the user, replaced by the section above)
 - **Seen:** Step 1 was a wall of chips, and unit 9 wrapped onto its own line.
 - **Source picker** (`createSourcePicker` in `studio-common.js`):
   - A quiet segmented bar: A unit · My words · Grammar/topic.
