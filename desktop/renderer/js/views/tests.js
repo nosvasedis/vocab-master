@@ -12,9 +12,11 @@ import {
 } from "./studio-common.js";
 /** The class profile plus what the class has already met (class memory, when the teacher turned it on). */
 const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
-import { TASKS, SKILLS, tasksFor, defaultTask, tfLabels } from "../../studio/tasks.js";
+import { TASKS, SKILLS, KNOBS, tfLabels, partOpts } from "../../studio/tasks.js";
+import { textsFor } from "../../studio/reading-texts.js";
+import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity } from "../../studio/test-builder.js";
+import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, suggestText } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
@@ -29,7 +31,7 @@ let picker;
 let paper;
 let editor = null;
 let built = false;
-const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true };
+const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true, peek: null };
 
 const savePrefs = () => writeJSON(PREFS_KEY, ts.spec);
 
@@ -71,7 +73,7 @@ function build() {
         <div id="tsShape" class="mk-stack"></div>
       </section>
       <section class="mk-page" hidden>
-        ${head("The parts", "Each part is one exercise. Change its type, its questions or its points, move it, or remove it.", `<span class="mk-pill-sum" id="tsSum"></span>`)}
+        ${head("The parts", "Each part is one exercise. Open the library to choose how each skill is tested, then tune it: questions, difficulty, texts and help.", `<span class="mk-pill-sum" id="tsSum"></span>`)}
         <div id="tsParts"></div>
       </section>
       <section class="mk-page" hidden>
@@ -151,14 +153,7 @@ function build() {
   $("tsParts").addEventListener("click", onPartsClick);
   $("tsParts").addEventListener("change", (e) => {
     // A new difficulty applies the next time the part is written.
-    if (e.target.closest("[data-part-level]")) { markStale(e.target.dataset.partLevel); renderParts(); return; }
-    const sel = e.target.closest("[data-part-task]");
-    if (!sel) return;
-    const p = ts.spec.parts.find((x) => x.id === sel.dataset.partTask);
-    const fresh = makePart(p.skill, sel.value, ts.spec.levelId);
-    Object.assign(p, { task: sel.value, items: fresh.items, points: fresh.points, words: fresh.words });
-    markStale(p.id);
-    savePrefs(); renderParts();
+    if (e.target.closest("[data-part-level]")) { markStale(e.target.dataset.partLevel); renderParts(); }
   });
   $("tsParts").addEventListener("input", (e) => {
     const lv = e.target.closest("[data-part-level]");
@@ -168,6 +163,7 @@ function build() {
       const box = lv.closest(".pc-level");
       box.style.setProperty("--lv", `${(p.level - 1) * 25}%`);
       box.querySelector(".pc-level-v").textContent = PART_LEVELS[p.level].label;
+      box.dataset.lv = String(p.level);
       lv.setAttribute("aria-valuetext", PART_LEVELS[p.level].label);
       savePrefs();
       return;
@@ -314,11 +310,40 @@ function onSourceChange(sel, { byUser = true } = {}) {
 /** Swap parts the source can't support (picture tasks without picture words, the Big Question without a unit). */
 function fitParts({ quiet = false } = {}) {
   if (!picker) return;
+  fitTexts();
   const changed = fitPartsToSource(ts.spec.parts, ts.spec.levelId, sourceInfo().src);
   if (!changed.length) return;
   changed.forEach((c) => markStale(c.id));
   savePrefs();
   if (!quiet) toast(changed.map((c) => `Part ${ts.spec.parts.findIndex((p) => p.id === c.id) + 1} is now “${TASKS[c.to].label}” — “${TASKS[c.from].label}” ${c.reason}.`).join(" "), "info", { ms: 4200 });
+}
+
+/** The unit's own reading texts for the Step 1 choice (a coursebook unit, or Step 2 words from one). */
+function unitTexts(sel = picker?.value()) {
+  if (!sel) return [];
+  if (sel.kind === "unit") return textsFor(sel.bookId, sel.units);
+  if (sel.kind === "words" && isCpp()) return textsFor(state.cpp.bookId, [state.cpp.unit]);
+  return [];
+}
+
+/**
+ * Reading parts read the unit's own texts: a part the teacher hasn't set gets one (a story for ordering and "who",
+ * a different text for each part); a text of another unit is dropped when the source changes. "Lingo writes a
+ * text" (an empty choice) stays as chosen.
+ */
+function fitTexts() {
+  const texts = unitTexts();
+  const ids = new Set(texts.map((t) => t.id));
+  const used = new Set();
+  for (const p of ts.spec.parts) {
+    if (!TASKS[p.task]?.knobs?.includes("text")) continue;
+    p.opts = p.opts || {};
+    const was = p.opts.text;
+    if (was && !ids.has(was)) delete p.opts.text;
+    if (p.opts.text === undefined && texts.length) p.opts.text = suggestText(p.task, texts, used) || undefined;
+    if (p.opts.text) used.add(p.opts.text);
+    if (p.opts.text !== was) markStale(p.id);
+  }
 }
 
 /* Step 1, under the source: the grammar to test and what the texts are about. They say what the source already
@@ -346,6 +371,7 @@ function renderFocus() {
   const textsCard = topicMode ? "" : `<div class="mk-card">
       <div class="mk-card-head"><span class="mk-card-ico">${icon("book-open")}</span><div><h3>What the texts are about</h3><p>${hasUnit ? "The reading and listening texts follow the unit’s Big Question and stories." : "Your words don’t come with a unit’s stories, so tell Lingo what the texts are about — or leave it to Lingo."}</p></div></div>
       ${hasUnit ? `<div class="mk-theme">${unitThemes(sel).map((t) => `<span>${icon("book", "i-xs")}${esc(t)}</span>`).join("")}</div>` : ""}
+      ${unitTexts(sel).length ? `<p class="mk-hint tb-texts">${icon("book-open", "i-xs")}${plural(unitTexts(sel).length, "ready-made reading text")} for this unit (a fact text, a story and an everyday text each) — reading parts use them, and you can swap them in Parts.</p>` : ""}
       <input class="input" id="tsTopic" placeholder="${hasUnit ? "Optional: a setting, e.g. a school trip" : "e.g. a day at the zoo"}" value="${esc(s.topic || "")}" />
     </div>`;
   $("tsFocus").classList.toggle("one", topicMode);
@@ -379,23 +405,39 @@ function renderShape() {
 /* ── Parts editor ─────────────────────────────────────────────────── */
 function markStale(id) { if (ts.doc) ts.stale.add(id); }
 
+/** A part's own settings as chip groups (text type, length, recording, plays, choices, letter help, support). */
+function knobsHtml(p, texts) {
+  const t = TASKS[p.task];
+  const o = partOpts(p, ts.spec.levelId);
+  const rows = [];
+  for (const k of t.knobs || []) {
+    if (k === "text") continue;
+    // A ready-made text has its own type and length.
+    if ((k === "genre" || k === "length") && o.text && texts.some((x) => x.id === o.text)) continue;
+    const kn = KNOBS[k];
+    rows.push(`<div class="pc-knob"><span class="pc-lbl">${esc(kn.label)}</span><div class="pc-chips" role="radiogroup" aria-label="${esc(kn.label)}">${kn.values.map(([v, label]) => `<button type="button" class="pc-chip${String(o[k]) === String(v) ? " active" : ""}" data-knob="${k}" data-val="${esc(v)}" data-part-opt="${p.id}" role="radio" aria-checked="${String(o[k]) === String(v)}">${esc(label)}</button>`).join("")}</div></div>`);
+  }
+  return rows.join("");
+}
+
 function renderParts() {
   const s = ts.spec;
-  const src = picker ? sourceInfo().src : null;
-  const taskOption = (x, p) => {
-    const why = src && x.id !== p.task ? taskBlock(x.id, src) : "";
-    return `<option value="${x.id}" ${x.id === p.task ? "selected" : ""}${why ? " disabled" : ""}>${esc(x.label)}${why ? ` — ${esc(why)}` : ""}</option>`;
-  };
+  const texts = picker ? unitTexts() : [];
   const rows = s.parts.map((p, i) => {
     const t = TASKS[p.task];
     const open = t.answer === "open";
     const stale = ts.stale.has(p.id);
-    return `<div class="part-card${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">
+    const o = partOpts(p, s.levelId);
+    const lv = partLevel(p);
+    const textPick = t.knobs?.includes("text") && texts.length
+      ? `<div class="pc-knob pc-knob-text"><span class="pc-lbl">Reading text</span>${textChooserHtml(p.id, texts, o.text, { newNote: `${textWords(s.levelId, o.length).join("–")} words, your settings`, peek: ts.peek === p.id })}</div>`
+      : "";
+    return `<article class="part-card${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">
       <div class="pc-top">
         <span class="pc-ico" aria-hidden="true">${SKILLS[p.skill].icon}</span>
         <div class="pc-title">
           <small>Part ${i + 1} · ${esc(SKILLS[p.skill].label)}${stale ? ` · <em>changed</em>` : ""}</small>
-          <select class="select sm" data-part-task="${p.id}" aria-label="Task for part ${i + 1}">${tasksFor(p.skill).map((x) => taskOption(x, p)).join("")}</select>
+          <button type="button" class="pc-task" data-pick="${p.id}" aria-label="Change the exercise of part ${i + 1}: ${esc(t.label)}"><span>${esc(t.label)}</span>${icon("chevron-down", "i-sm")}</button>
         </div>
         <span class="part-acts">
           <button type="button" class="icon-btn sm" data-move="-1" aria-label="Move up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
@@ -403,21 +445,32 @@ function renderParts() {
           <button type="button" class="icon-btn sm danger" data-remove aria-label="Remove part">${icon("trash", "i-sm")}</button>
         </span>
       </div>
-      <div class="pc-ctl">
-        ${open ? `<span class="part-ctl">${stepperHtml(`pts:${p.id}`, p.points || 10, 4, 30)}<small>points</small></span>` : `<span class="part-ctl">${stepperHtml(`items:${p.id}`, p.items, 3, 12)}<small>questions</small></span>`}
-        ${p.skill === "writing" && p.words ? `<span class="part-ctl">${stepperHtml(`words:${p.id}`, p.words[1], 15, 150)}<small>words max</small></span>` : ""}
-        <span class="pc-pts">${partPoints(p)}<small>pts</small></span>
+      <div class="pc-badges">${taskBadges(p.task, s.levelId)}</div>
+      <div class="pc-about">
+        <p class="pc-blurb">${esc(t.blurb || "")}</p>
+        <div class="pc-sample" aria-label="How it looks">${sampleHtml(p.task)}</div>
       </div>
-      ${t.answer === "choice" || t.answer === "word" ? `<div class="pc-level" style="--lv:${(partLevel(p) - 1) * 25}%">
-        <span class="pc-level-l">Difficulty</span>
-        <input type="range" min="1" max="5" step="1" value="${partLevel(p)}" data-part-level="${p.id}" aria-label="Difficulty of part ${i + 1}" aria-valuetext="${PART_LEVELS[partLevel(p)].label}" />
-        <b class="pc-level-v">${PART_LEVELS[partLevel(p)].label}</b>
-      </div>` : ""}
+      <div class="pc-set">
+        <div class="pc-ctl">
+          ${open ? `<span class="part-ctl">${stepperHtml(`pts:${p.id}`, p.points || 10, 4, 30)}<small>points</small></span>` : `<span class="part-ctl">${stepperHtml(`items:${p.id}`, p.items, 3, 12)}<small>questions</small></span>`}
+          ${p.skill === "writing" && p.words ? `<span class="part-ctl">${stepperHtml(`words:${p.id}`, p.words[1], 15, 150)}<small>words max</small></span>` : ""}
+          <span class="pc-pts">${partPoints(p)}<small>pts</small></span>
+        </div>
+        <div class="pc-level" style="--lv:${(lv - 1) * 25}%" data-lv="${lv}">
+          <span class="pc-level-l">Difficulty</span>
+          <input type="range" min="1" max="5" step="1" value="${lv}" data-part-level="${p.id}" aria-label="Difficulty of part ${i + 1}" aria-valuetext="${PART_LEVELS[lv].label}" />
+          <b class="pc-level-v">${PART_LEVELS[lv].label}</b>
+        </div>
+        ${textPick}
+        ${knobsHtml(p, texts)}
+      </div>
       <input class="input sm part-note" data-part-note="${p.id}" placeholder="Any wish for this part? (optional) e.g. “about a school trip”" value="${esc(p.note || "")}" />
       ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${stale ? "Write this part" : "Write it again"}</button>` : ""}
-    </div>`;
+    </article>`;
   }).join("");
-  $("tsParts").innerHTML = `<div class="part-list">${rows || `<p class="st-hint">No parts yet — add one below.</p>`}</div>
+  const mix = Object.entries(s.parts.reduce((m, p) => { const k = TASKS[p.task]?.kind; m[k] = (m[k] || 0) + 1; return m; }, {}));
+  $("tsParts").innerHTML = `${s.parts.length ? `<div class="pc-mix">${icon("layers", "i-sm")}<span>This test:</span>${mix.map(([k, n]) => `<span class="tk-kind kind-${k}">${n} × ${k === "recognise" ? "Recognise" : k === "recall" ? "Recall" : "Create"}</span>`).join("")}<small>${mix.length < 2 ? "Mix kinds of exercise for a fairer test." : "A good mix: recognising, recalling and creating."}</small></div>` : ""}
+    <div class="part-list">${rows || `<p class="st-hint">No parts yet — add one below.</p>`}</div>
     <div class="add-parts"><span>Add a part</span><div class="add-grid">${Object.entries(SKILLS).filter(([k]) => k !== "dictation").map(([k, v]) => `<button type="button" class="add-tile" data-add="${k}" data-skill="${k}"><span>${v.icon}</span>${esc(v.label)}${icon("plus", "i-xs")}</button>`).join("")}</div></div>`;
   const sum = `${plural(s.parts.length, "part")} · ${specPoints(s)} points · ≈ ${estimateMinutes(s)} min`;
   $("tsSum").textContent = sum;
@@ -425,13 +478,60 @@ function renderParts() {
   renderPlanNote();
 }
 
+/** A part takes a new exercise (from the library): new item counts and settings, the same place in the test. */
+function setTask(p, taskId) {
+  const t = TASKS[taskId];
+  if (!t || (p.task === taskId)) return;
+  const fresh = makePart(t.skill, taskId, ts.spec.levelId);
+  const keepItems = t.answer !== "open" && TASKS[p.task]?.answer !== "open";
+  Object.assign(p, { skill: t.skill, task: taskId, items: keepItems ? p.items : fresh.items, points: fresh.points, words: fresh.words, opts: {} });
+  fitTexts();
+  markStale(p.id);
+  savePrefs(); renderParts();
+}
+
+function libraryFor(p, mode, skill) {
+  const i = ts.spec.parts.indexOf(p);
+  openTaskLibrary({
+    skill: skill || p?.skill,
+    levelId: ts.spec.levelId,
+    levelName: levelLabel(ts.spec.levelId),
+    current: mode === "change" ? p.task : "",
+    src: picker ? sourceInfo().src : null,
+    mode,
+    partLabel: i >= 0 ? `Part ${i + 1}` : "",
+    onPick: (taskId) => {
+      if (mode === "change") { setTask(p, taskId); toast(`Part ${i + 1} is now “${TASKS[taskId].label}”.`, "ok", { ms: 2000 }); return; }
+      const t = TASKS[taskId];
+      ts.spec.parts.push(makePart(t.skill, taskId, ts.spec.levelId));
+      fitTexts();
+      markStale(ts.spec.parts.at(-1).id); savePrefs(); renderParts();
+      requestAnimationFrame(() => $("tsParts").querySelector(`[data-part="${ts.spec.parts.at(-1).id}"]`)?.scrollIntoView({ block: "nearest", behavior: "smooth" }));
+    },
+  });
+}
+
 function onPartsClick(e) {
   const s = ts.spec;
   const add = e.target.closest("[data-add]");
-  if (add) {
-    const skill = add.dataset.add;
-    s.parts.push(makePart(skill, picker ? taskForSource(skill, s.levelId, sourceInfo().src) : defaultTask(skill, s.levelId), s.levelId));
-    markStale(s.parts.at(-1).id); savePrefs(); renderParts();
+  if (add) { libraryFor(null, "add", add.dataset.add); return; }
+  const pick = e.target.closest("[data-pick]");
+  if (pick) { libraryFor(s.parts.find((x) => x.id === pick.dataset.pick), "change"); return; }
+  const peek = e.target.closest("[data-peek]");
+  if (peek) { ts.peek = ts.peek === peek.dataset.peek ? null : peek.dataset.peek; renderParts(); return; }
+  const knob = e.target.closest("[data-knob]");
+  if (knob) {
+    const p = s.parts.find((x) => x.id === knob.dataset.partOpt);
+    const k = knob.dataset.knob;
+    const raw = knob.dataset.val;
+    const v = k === "text" ? raw : KNOBS[k].values.find(([x]) => String(x) === raw)?.[0];
+    if (!p || v === undefined || partOpts(p, s.levelId)[k] === v) return;
+    p.opts = { ...(p.opts || {}), [k]: v };
+    if (k === "text" && v && ts.peek !== p.id) ts.peek = null;
+    // How often the recording plays changes only the paper; everything else is written again.
+    if (k === "plays" && ts.doc) { const sec = ts.doc.sections.find((x) => x.id === p.id); if (sec) { sec.plays = v; refreshDoc(); } }
+    else markStale(p.id);
+    savePrefs(); renderParts();
     return;
   }
   const rw = e.target.closest("[data-rewrite]");

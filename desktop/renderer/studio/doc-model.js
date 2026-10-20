@@ -3,7 +3,8 @@
  * items, optional reading passage / listening script / word bank / writing frame, and points.
  * This module turns AI output into clean sections, balances answer keys, builds an A/B version and
  * totals the points. Rendering lives in doc-render.js. */
-import { TASKS, SKILLS, tfLabels, rubricFor } from "./tasks.js";
+import { TASKS, SKILLS, tfLabels, rubricFor, partOpts } from "./tasks.js";
+import { readingText } from "./reading-texts.js";
 import { balancedPositions, binaryBalance } from "./answer-balance.js";
 
 export const LETTERS = "abcdefgh";
@@ -57,7 +58,7 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     if (raw?.evidence) item.evidence = clean(raw.evidence);
   } else {
     item.answer = clean(raw?.answer ?? raw?.sample ?? "");
-    if (!item.answer && t.answer !== "open") problems.push("missing answer");
+    if (!item.answer && t.answer !== "open" && task !== "R-ORDER") problems.push("missing answer");
   }
   if (task === "V-PIC" && picFor) {
     const p = picFor(item.answer);
@@ -79,6 +80,45 @@ export function repairOrderItem(item, rand = Math.random) {
   for (let t = 0; t < 8 && jumble.join(" ") === answer.join(" "); t++) jumble = shuffled(answer, rand);
   item.prompt = jumble.join(" / ");
   return true;
+}
+
+/** A word with its letters mixed up ("frog" → "g · o · r · f"), never in the right order. */
+export function scramble(word, rand = Math.random) {
+  const letters = String(word || "").toLowerCase().replace(/[^a-z]/g, "").split("");
+  if (letters.length < 2) return letters.join("");
+  let out = shuffled(letters, rand);
+  for (let t = 0; t < 12 && out.join("") === letters.join(""); t++) out = shuffled(letters, rand);
+  return out.join(" · ");
+}
+
+/** Letter help for a word: "first" → "g _ _ _ _ _", "count" → "_ _ _ _ _ _ (6 letters)", "none" → "". */
+export function letterHint(word, mode) {
+  const w = String(word || "").trim();
+  if (!w || mode === "none" || !mode) return "";
+  const n = w.replace(/[^A-Za-z]/g, "").length;
+  const blanks = (s) => s.split(" ").map((part) => part.replace(/[A-Za-z]/g, "_").split("").join(" ")).join("   ");
+  if (mode === "first") return `${w[0].toLowerCase()} ${blanks(w.slice(1)).trim()}`.trim();
+  return `${blanks(w)} (${n} letters)`;
+}
+
+/**
+ * "Put the events in order": the example is event 1 and the items come in text order, so the app numbers them
+ * 2, 3, 4… and mixes them up (never left in order). Items that already carry a full set of numbers (an edited part)
+ * keep them. Each item gets a letter for the paper.
+ */
+export function orderEvents(example, items, rand = Math.random) {
+  const want = items.map((_, i) => String(i + 2));
+  const have = items.map((it) => String(it.answer || "").trim());
+  if (example) example.answer = "1";
+  let list = items;
+  if ([...have].sort().join() !== [...want].sort().join()) {
+    items.forEach((it, i) => { it.answer = want[i]; });
+    list = shuffled(items, rand);
+    for (let t = 0; t < 8 && list.length > 1 && list.every((it, i) => it === items[i]); t++) list = shuffled(items, rand);
+  }
+  list.forEach((it, i) => { it.n = i + 1; it.letter = LETTERS[i]; });
+  if (example) example.letter = "";
+  return list;
 }
 
 /** Option order that spreads the right answer evenly over a, b, c… across a section (other options keep their order). */
@@ -108,7 +148,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   const problems = [];
   const rawItems = Array.isArray(raw.items) ? raw.items : [];
   const want = plan.items || rawItems.length;
-  const items = [];
+  let items = [];
   for (const r of rawItems) {
     if (items.length >= want) break;
     const { item, problems: p } = normalizeItem(r, plan.task, ctx);
@@ -122,6 +162,9 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (example) example.n = 0;
 
   const rubric = rubricFor(plan.task, ctx.levelId);
+  const opts = partOpts(plan, ctx.levelId);
+  // A reading text from the app's own unit texts is printed exactly as written (the AI only writes the questions).
+  const given = opts.text ? readingText(opts.text) : null;
   const section = {
     id: plan.id,
     task: plan.task,
@@ -132,8 +175,9 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     rubricEl: rubric.el,
     items,
     example,
-    passageTitle: clean(raw.passageTitle),
-    passage: String(raw.passage || "").trim(),
+    passageTitle: given ? given.title : clean(raw.passageTitle),
+    passage: given ? given.text : String(raw.passage || "").trim(),
+    ...(given ? { textId: given.id } : {}),
     // The rubric is printed, so a narrator reading it aloud ("Teacher: Listen and tick…") is dropped.
     script: (Array.isArray(raw.script) ? raw.script : []).map((l) => ({ speaker: clean(l?.speaker) || "Narrator", text: clean(l?.text) }))
       .filter((l) => l.text && !(/^(teacher|narrator|announcer)$/i.test(l.speaker) && /^(now )?(listen|look|you will hear)\b/i.test(l.text))),
@@ -152,7 +196,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     })).filter((c) => c.title || c.student || c.questions.length).slice(0, 6),
     pictures: [],
     bank: [],
-    plays: 2,
+    plays: opts.plays === 1 ? 1 : 2,
     words: plan.words || null,
   };
   if (ctx.picFor) section.pictures = (Array.isArray(raw.pictures) ? raw.pictures : []).map((w) => ({ word: clean(w), pic: ctx.picFor(w) })).filter((p) => p.pic);
@@ -163,6 +207,9 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     const defs = shuffled([...new Set([...(example?.answer ? [example.answer] : []), ...items.map((it) => it.answer)])]);
     section.bank = defs.map((text, i) => ({ letter: LETTERS[i], text }));
     [example, ...items].filter(Boolean).forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)] || ""; it.prompt ||= ""; });
+  } else if (task.answer === "open" && task.skill === "writing" && Array.isArray(raw.bank) && raw.bank.length) {
+    // A word box for writing with lots of support.
+    section.bank = [...new Set(raw.bank.map(clean).filter(Boolean))].slice(0, 10);
   } else if (task.bank) {
     const words = [...new Set([...(raw.bank || []), ...items.map((it) => it.answer)].map(clean).filter(Boolean))];
     let bank = shuffled(words);
@@ -171,6 +218,13 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   }
   if (task.answer === "choice") balanceChoices(items);
   if (plan.task === "G-ORDER") [example, ...items].filter(Boolean).forEach((it) => repairOrderItem(it));
+  if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
+  // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
+  if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
+  if (["V-DEF", "V-PIC"].includes(plan.task)) {
+    const mode = opts.hint;
+    [example, ...items].filter(Boolean).forEach((it) => { const h = letterHint(it.answer, mode); if (h) it.hint = h; else delete it.hint; });
+  }
 
   // Points: one per item; open tasks carry their own total.
   section.pointsEach = task.answer === "open" ? 0 : plan.pointsEach || 1;
@@ -201,6 +255,7 @@ export function answerKeyRows(section) {
   return (section.items || []).map((it) => {
     if (section.answerType === "choice") return { n: it.n, text: `${LETTERS[it.answerIndex] ?? "?"}) ${it.answer}` };
     if (section.answerType === "match") return { n: it.n, text: `${it.letter} — ${it.answer}` };
+    if (section.task === "R-ORDER") return { n: (it.letter || "").toUpperCase() || it.n, text: `${it.answer} — ${it.prompt}` };
     return { n: it.n, text: it.answer || "" };
   });
 }

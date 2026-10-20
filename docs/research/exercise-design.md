@@ -22,4 +22,21 @@ Short notes behind the worksheet, dictation and unit-test changes. Greek-L1 clas
 5. Each skill has recognition → recall progression; writing is scaffolded; listening uses new short texts (not the per-word recordings).
 6. Level defaults: sentence length and item counts follow the class profile (A Senior ≈ 7 words per sentence … E Senior ≈ 16).
 
+## Test Maker exercise library (2026-10-20)
+
+The test's exercise picker became a library of 37 task types (6 skills). Each task carries what the children do, why (what it trains), its kind (**recognise → recall → create**), the classes it suits (A–E fit range) and a small paper preview. Rationale per addition:
+
+| Addition | Why |
+|---|---|
+| **Kind badges + "This test" mix bar** (recognise / recall / create) | Retrieval and production build stronger memory than recognition alone (see retrieval and involvement-load rows above); a fair unit test moves from recognising to recalling to creating, so the teacher sees the balance at a glance. |
+| **Class fit** ("Great for B Senior", "A stretch", "Easy") and per-class defaults | YLE task types change with the level (Starters picture-led → Flyers longer texts and own writing). Defaults follow that path: A/B start picture-led, C mixes, D writes an email, E an opinion paragraph. |
+| **Reading:** who said it / questions / put the events in order / words in the text, plus 81 ready-made unit texts (fact, story, everyday text per unit of CPP 1–3) | Children need to *read connected text* that recycles the unit's words in a new context (involvement load: search + evaluation). Story texts suit sequencing; texts are 50–95 words in CPP1, 60–125 in CPP2, 85–160 in CPP3, in line with YLE reading lengths. |
+| **Listening:** match people to things, complete the notes; plays once/twice; dialogue or monologue | YLE "listen and draw lines" and Flyers/KET note completion; hearing it twice is the YLE norm for young learners, once is a stretch for E Senior. |
+| **Vocabulary:** unscramble/spell, word from its meaning, which words go together (collocation), word forms | Spelling and form-meaning recall; collocation and word-family work are the next step after single-word recall (B1 Preliminary word formation). Letter hints (first letters / letter count / none) scaffold by class. |
+| **Grammar:** make the question, text cloze, translate from Greek | Question forming is a known gap for Greek learners; a cloze tests grammar in connected text; short L1→L2 translation targets L1 transfer errors explicitly. |
+| **Writing:** sentences from starters, email/message, story from pictures, opinion paragraph; support full/some/none | Scaffolding fades with level: frames + word box → prompts only → independent writing (Flyers 20+ words, A2 Key email 25+, B1 Preliminary story/opinion ~100). |
+| **Speaking:** tell the story, discuss a question | YLE picture-story and Key/Preliminary discussion tasks. |
+
+Part settings (text length, text type, recording, plays, options, hints, support, difficulty) live on each part and reach the AI brief; the class's defaults fill what the teacher leaves untouched.
+
 _Limits: most of the classroom evidence on spacing and involvement load comes from small studies or older learners; we use it as guidance, not proof._

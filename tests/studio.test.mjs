@@ -159,6 +159,7 @@ test("the test prompt locks the plan: part ids, item counts, balanced T/F orders
 
 test("the test doc: balanced choices, mixed T/F check, word scope, matching letters, points", () => {
   const spec = { ...testDefaults("C_SENIOR", "full"), source: { kind: "unit" } };
+  spec.parts.push(makePart("vocabulary", "V-MATCH", "C_SENIOR"), makePart("reading", "R-TF", "C_SENIOR"));
   const focus = ["volcano", "lava", "crust", "plate", "melt", "snowy", "stream"].map((english) => ({ english }));
   const doc = buildTestDoc(spec, fakeReply(spec, { tf: ["T"] }), { levelId: "C_SENIOR", focusWords: focus, meta: { unit: 4, bookTitle: "Cambridge Primary Paths 2" } });
   assert.equal(doc.meta.title, "Unit 4 Test");
@@ -373,7 +374,8 @@ test("unit tests only offer the tasks the Step 1 source supports", () => {
   assert.ok(changed.length >= 3);
   assert.deepEqual(spec.parts.map((p) => p.id), ids, "parts keep their ids and order");
   assert.ok(spec.parts.every((p) => !taskBlock(p.task, topic)));
-  const writing = spec.parts.find((p) => p.skill === "writing" && p.task === "W-GUIDED");
+  // A Senior without pictures writes "Finish the sentences about you".
+  const writing = spec.parts.find((p) => p.skill === "writing" && p.task === "W-SENT");
   assert.ok(writing.words && writing.points, "an open task keeps its words and points");
   assert.equal(fitPartsToSource(spec.parts, "A_SENIOR", topic).length, 0, "nothing to change twice");
 });

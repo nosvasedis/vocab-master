@@ -96,6 +96,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         ])));
         return;
       }
+      if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [run(`${f}  `), run("______________________________", { color: "8A8A8A" })]))); return; }
       s.frame.forEach((f) => children.push(para([run(`• ${f}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
       return;
@@ -104,7 +105,8 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     all.forEach((it) => {
       const ex = it.n === 0;
       const runs = [];
-      if (s.task === "V-PIC") { const img = pic(it.pic, 80); if (img) runs.push(img); runs.push(run(`   ${it.prompt ? `${it.prompt}  ` : ""}`, { size: 19, color: "555555" }), run(ex ? it.answer : "______________________", { italics: ex })); }
+      if (s.task === "V-PIC") { const img = pic(it.pic, 80); if (img) runs.push(img); runs.push(run(`   ${it.prompt ? `${it.prompt}  ` : ""}${it.hint ? `[${it.hint}]  ` : ""}`, { size: 19, color: "555555" }), run(ex ? it.answer : "______________________", { italics: ex })); }
+      else if (s.task === "R-ORDER") runs.push(run(ex ? "[ 1 ]  " : "[    ]  ", { bold: true }), run(it.prompt));
       else if (s.answerType === "choice") {
         if (it.prompt) runs.push(run(gapText(it.prompt)), new d.TextRun({ break: 1 }));
         const optPics = it.optionPics?.map((p) => pic(p, 60));
@@ -114,8 +116,8 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         });
       } else if (s.answerType === "tf") runs.push(run(gapText(it.prompt)), run(`      ${ex ? it.answer : "______"}`, { bold: true }));
       else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? (it.letter || "").toUpperCase() : "_____"}`));
-      else runs.push(run(gapText(it.prompt)), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
-      children.push(item(ex ? "0" : it.n, runs));
+      else runs.push(run(gapText(it.prompt)), ...(it.hint ? [run(`   [${it.hint}]`, { bold: true, size: 19, color: "555555" })] : []), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
+      children.push(item(ex ? (s.task === "R-ORDER" ? "✓" : "0") : s.task === "R-ORDER" ? (it.letter || "").toUpperCase() : it.n, runs));
     });
   });
 
