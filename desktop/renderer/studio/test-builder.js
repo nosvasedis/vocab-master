@@ -2,7 +2,8 @@
  * A test is a list of parts (skill + task + items + points) the teacher can change; one AI call writes
  * all parts (or one part again). The coursebook unit's whole context goes into the prompt in compact
  * form (studio/unit-context.js). Listening scripts are read by the app's voices (studio/tts.js). */
-import { TASKS, SKILLS, defaultTask, tfLabels } from "./tasks.js";
+import { TASKS, SKILLS, defaultTask, secondTask, tfLabels, partOpts, levelIndex } from "./tasks.js";
+import { readingText } from "./reading-texts.js";
 import { TEST_DEFAULTS, DIFFICULTY } from "./levels.js";
 import { balancedPattern } from "./answer-balance.js";
 import { normalizeSection, docPoints, newDocId, tfValue } from "./doc-model.js";
@@ -29,6 +30,37 @@ export const PART_LEVELS = [
 ];
 export const partLevel = (p) => Math.max(1, Math.min(5, Math.round(Number(p?.level) || 3)));
 
+/** The same slider for yes/no parts (how far the statements move from the text's words) and for open parts. */
+const TF_LEVELS = [null,
+  "statements repeat the text's own words; a \"no\" statement changes one obvious detail",
+  "statements are close to the text's words; the changed detail is easy to spot",
+  "statements say the text's ideas in other words; a \"no\" statement changes one detail a careless reader misses",
+  "statements paraphrase; some need two sentences of the text put together",
+  "statements paraphrase throughout; some need two sentences put together or a small inference (how someone feels, why something happens)"];
+const OPEN_LEVELS = [null,
+  "a short, very concrete task with familiar ideas; simple sentences are enough",
+  "a concrete task; the model answer uses simple sentences joined with and / but / because",
+  "a task right for the class; the model answer uses linking words and the unit words naturally",
+  "a slightly more demanding task (more points, a reason or an example); the model answer is a little longer and richer",
+  "a demanding task for strong students: opinions with reasons and examples, varied sentences and linking words"];
+
+/** What the difficulty slider asks for, for this part's kind of answer. */
+export function levelGuide(p) {
+  const n = partLevel(p);
+  const t = TASKS[p?.task] || {};
+  if (t.answer === "tf") return TF_LEVELS[n];
+  if (t.answer === "open") return OPEN_LEVELS[n];
+  return PART_LEVELS[n].guide;
+}
+
+/** Reading texts of about this many words, by class (Short / Medium / Long). */
+const TEXT_WORDS = [70, 95, 125, 155, 185];
+const LENGTH_FACTOR = { short: 0.7, medium: 1, long: 1.35 };
+export function textWords(levelId, length = "medium") {
+  const n = Math.round((TEXT_WORDS[levelIndex(levelId)] * (LENGTH_FACTOR[length] || 1)) / 5) * 5;
+  return [Math.max(35, n - 15), n + 15];
+}
+
 /**
  * Wrong options that teach (distractor design for young learners, after Cambridge YLE / A2 Key item writing):
  * each wrong option is wrong for one reason a learner could really get wrong, never filler.
@@ -38,8 +70,6 @@ export const DISTRACTOR_RULE = "Wrong options (distractors) must tempt: the same
 /** Speaking cards per part, by class. */
 const SPEAKING_CARDS = { A_SENIOR: 2, B_SENIOR: 2, C_SENIOR: 3, D_SENIOR: 3, E_SENIOR: 3 };
 
-/** Second choice of task for a skill that appears twice. */
-const SECOND = { listening: ["L-YN", "L-GAP"], reading: ["R-GAP", "R-MC"], vocabulary: ["V-MATCH", "V-MC"], grammar: ["G-ORDER", "G-FORM"], writing: ["W-MESSAGE"], speaking: ["S-BQ"] };
 
 let partSeq = 0;
 export const newPartId = () => `p${Date.now().toString(36).slice(-4)}${(partSeq++).toString(36)}`;
@@ -57,7 +87,15 @@ export function makePart(skill, task, levelId) {
     pointsEach: 1,
     points: open ? (skill === "speaking" ? d.speakingPoints : d.writingPoints) : undefined,
     words: skill === "writing" ? [...d.writingWords] : undefined,
+    opts: {},
   };
+}
+
+/** The task used instead of one that needs pictures (or a unit), for this class. */
+export function fallbackTask(task, levelId) {
+  if (task === "W-PICTURES" && levelIndex(levelId) === 0) return "W-SENT";
+  if (task === "S-DISCUSS") return "S-ROLE";
+  return TASK_FALLBACK[task] || task;
 }
 
 /** Parts for a length preset at a level, skipping picture tasks when pictures are off or missing. */
@@ -66,8 +104,8 @@ export function presetParts(length, levelId, { pictures = true } = {}) {
   const seen = {};
   return skills.map((skill) => {
     const n = (seen[skill] = (seen[skill] || 0) + 1);
-    let task = n === 1 ? defaultTask(skill, levelId) : SECOND[skill][0];
-    if (!pictures && TASKS[task]?.needs?.includes("pictures")) task = { listening: "L-MC", vocabulary: "V-BANK", writing: "W-GUIDED", speaking: "S-QUESTIONS" }[skill] || task;
+    let task = n === 1 ? defaultTask(skill, levelId) : secondTask(skill, levelId);
+    if (!pictures && TASKS[task]?.needs?.includes("pictures")) task = fallbackTask(task, levelId);
     return makePart(skill, task, levelId);
   });
 }
@@ -96,7 +134,8 @@ export function estimateMinutes(spec) {
     const t = TASKS[p.task];
     if (p.skill === "writing") return m + Math.max(8, Math.round((p.words?.[1] || 40) / 5));
     if (p.skill === "speaking") return m + 0; // done one by one, outside the written time
-    return m + p.items * d.minutesPerItem + (p.skill === "listening" ? 3 : p.skill === "reading" ? 4 : 1) + (t?.bank ? 1 : 0);
+    const reading = t?.needs?.includes("passage") ? { short: 3, medium: 4, long: 6 }[p.opts?.length] || 4 : 0;
+    return m + p.items * d.minutesPerItem + (p.skill === "listening" ? 3 * (p.opts?.plays === 1 ? 0.6 : 1) : reading || 1) + (t?.bank ? 1 : 0);
   }, 0));
 }
 
@@ -109,7 +148,7 @@ export const specPoints = (spec) => spec.parts.reduce((n, p) => n + partPoints(p
  * "A grammar point or topic" brings no word list at all: no picture tasks, no Big Question. */
 
 /** The task used instead of one the source can't support. */
-export const TASK_FALLBACK = { "L-PIC": "L-MC", "V-PIC": "V-BANK", "W-PICTURES": "W-GUIDED", "S-PICTURE": "S-QUESTIONS", "S-BQ": "S-QUESTIONS" };
+export const TASK_FALLBACK = { "L-PIC": "L-MC", "V-PIC": "V-BANK", "W-PICTURES": "W-GUIDED", "S-PICTURE": "S-QUESTIONS", "S-STORY": "S-QUESTIONS", "S-DISCUSS": "S-ROLE", "S-BQ": "S-QUESTIONS" };
 
 /**
  * Why a task can't be used with this source ("" when it can).
@@ -127,7 +166,7 @@ export function taskBlock(taskId, src = {}) {
 export function taskForSource(skill, levelId, src) {
   const first = defaultTask(skill, levelId);
   if (!taskBlock(first, src)) return first;
-  const fb = TASK_FALLBACK[first];
+  const fb = fallbackTask(first, levelId);
   if (fb && !taskBlock(fb, src)) return fb;
   return Object.keys(TASKS).find((id) => TASKS[id].skill === skill && !taskBlock(id, src)) || first;
 }
@@ -141,16 +180,29 @@ export function fitPartsToSource(parts, levelId, src) {
   for (const p of parts) {
     const reason = taskBlock(p.task, src);
     if (!reason) continue;
-    const fb = TASK_FALLBACK[p.task];
+    const fb = fallbackTask(p.task, levelId);
     const to = fb && !taskBlock(fb, src) ? fb : taskForSource(p.skill, levelId, src);
     if (to === p.task) continue;
     const fresh = makePart(p.skill, to, levelId);
     const wasOpen = TASKS[p.task].answer === "open";
     changed.push({ id: p.id, from: p.task, to, reason });
     // Same number of questions when both tasks have questions; level defaults otherwise.
-    Object.assign(p, { task: to, items: TASKS[to].answer === "open" || wasOpen ? fresh.items : p.items, points: fresh.points, words: fresh.words });
+    Object.assign(p, { task: to, items: TASKS[to].answer === "open" || wasOpen ? fresh.items : p.items, points: fresh.points, words: fresh.words, opts: {} });
   }
   return changed;
+}
+
+/** Which kind of unit text suits a reading task best: a story for "who" and "in order", otherwise a fact text first. */
+const TEXT_PREFERENCE = { "R-ORDER": ["story", "everyday", "fact"], "R-WHO": ["story", "everyday", "fact"] };
+
+/** A unit text for a reading part (texts: the unit's texts; used: ids other parts already read). */
+export function suggestText(task, texts = [], used = new Set()) {
+  const order = TEXT_PREFERENCE[task] || ["fact", "story", "everyday"];
+  for (const kind of order) {
+    const t = texts.find((x) => x.kind === kind && !used.has(x.id));
+    if (t) return t.id;
+  }
+  return texts.find((x) => !used.has(x.id))?.id || "";
 }
 
 /** The title a test gets when the teacher leaves the field empty (the AI names topic tests). */
@@ -161,7 +213,7 @@ export function defaultTitle(src = {}) {
 }
 
 /** Word-answer tasks: every item needs its own tested word. */
-const ONE_WORD_EACH = ["V-PIC", "V-BANK", "V-MC", "V-MATCH", "R-GAP"];
+const ONE_WORD_EACH = ["V-PIC", "V-BANK", "V-MC", "V-MATCH", "V-DEF", "V-SPELL", "R-GAP"];
 
 /** Problems with the plan before any AI call (each one blocks "Write my test"). */
 export function planProblems(spec, { pictureWords = [], focusWords = [], hasUnit } = {}) {
@@ -187,11 +239,38 @@ export function planNotes(spec, { focusWords = [] } = {}) {
     .map(({ p, i }) => `Part ${i + 1} has ${p.items} questions but only ${focusWords.length} word${focusWords.length === 1 ? " is" : "s are"} chosen, so some words will come twice.`);
 }
 
+const GENRE = { story: "a story with named characters", article: "a fact text (like a children's magazine article)", email: "an email or a letter", diary: "a diary entry or a blog post", dialogue: "a dialogue between two or three people (Name: line)", notice: "a poster, notice or advertisement with short lines" };
+const AUDIO = { dialogue: "a dialogue between two speakers", talk: "one speaker: a phone message, a short talk or a description", interview: "an interview (one speaker asks, the other answers)", announcement: "an announcement (at school, a station, a museum) by one speaker" };
+const SUPPORT = {
+  full: "Support: LOTS — frame = 4–5 sentence starters, and \"bank\" = 6–8 useful words for a word box.",
+  some: "",
+  none: "Support: NONE — frame = only the points to cover, as short notes, no sentence starters.",
+};
+
+/** The knob settings of a part as prompt lines. */
+function knobLines(p, spec) {
+  const t = TASKS[p.task];
+  const o = partOpts(p, spec.levelId);
+  const out = [];
+  const text = o.text ? readingText(o.text) : null;
+  if (text) {
+    out.push(`  READING TEXT (given — the app prints it exactly as below; do NOT write a passage or a passageTitle): "${text.title}"\n    ${text.text.replace(/\n+/g, "\n    ")}`);
+    out.push("  Every question is about THIS text and is answered by it alone; never ask about something the text doesn't say.");
+  } else if (t.needs?.includes("passage") && p.skill !== "writing") {
+    const [a, b] = textWords(spec.levelId, o.length);
+    out.push(`  The text: ${a}–${b} words${o.genre && o.genre !== "any" ? `, ${GENRE[o.genre]}` : ""}, with a short title.`);
+  }
+  if (o.audio && o.audio !== "any") out.push(`  The recording: ${AUDIO[o.audio]}.`);
+  if (o.plays === 1) out.push("  It is played ONCE: every answer is said slowly and clearly, never in the middle of a long sentence.");
+  if (o.support && SUPPORT[o.support]) out.push(`  ${SUPPORT[o.support]}`);
+  return out;
+}
+
 function partBrief(p, i, spec, pictureWords) {
   const t = TASKS[p.task];
   const lines = [`PART ${i + 1} — id "${p.id}" — ${SKILLS[p.skill].label}: ${t.label} [${p.task}]`, `  What to write: ${t.ai}`];
   if (t.answer !== "open") lines.push(`  Items: exactly ${p.items}, plus ONE extra "example" item (shown solved as item 0, not counted).`);
-  if (t.answer === "choice") lines.push(`  Each item: "options" (${t.options || 3}) and "answer" = the exact text of the right option.`);
+  if (t.answer === "choice") lines.push(`  Each item: "options" (${t.knobs?.includes("options") ? partOpts(p, spec.levelId).options : t.options || 3}) and "answer" = the exact text of the right option.`);
   if (t.answer === "tf") {
     const [yes, no] = tfLabels(spec.levelId);
     lines.push(`  Answer each with "${yes}" or "${no}" in THIS order: ${balancedPattern(tfLabels(spec.levelId), p.items).join(", ")}.`);
@@ -199,12 +278,13 @@ function partBrief(p, i, spec, pictureWords) {
     lines.push(`  Write the ${src} first, then one statement per item. A "${yes}" statement says what the ${src} says; a "${no}" statement changes one detail (who, what, where or when) so the ${src} clearly says otherwise. Every statement is about something the ${src} says. Never key "${no}" for something that is said.`);
     lines.push(`  Each item (and the example) also has "evidence": the exact words of the ${src} that decide its answer.`);
   }
+  lines.push(...knobLines(p, spec));
   if (p.skill === "writing" && p.words) lines.push(`  Students write ${p.words[0]}–${p.words[1]} words.`);
   if (p.skill === "speaking") {
     const n = SPEAKING_CARDS[spec.levelId] || 3;
     lines.push(`  Speaking: "warmup" = 2 easy opening questions; "cards" = exactly ${n} cards, easy to harder. Each card: "title" (2–4 words), "student" (one short instruction the student reads, e.g. "Talk about your favourite place."), "keyWords" (3–5 unit words to use), "questions" (3–4 questions the teacher asks, in order, easy to harder), "followUps" (1–2 "Why?"-type questions for stronger students), "model" (a short model answer at class level using the key words).`);
   }
-  if (t.answer === "choice" || t.answer === "word") lines.push(`  Difficulty of this part: ${PART_LEVELS[partLevel(p)].label} — ${PART_LEVELS[partLevel(p)].guide}.`);
+  lines.push(`  Difficulty of this part: ${PART_LEVELS[partLevel(p)].label} — ${levelGuide(p)}.`);
   if (t.needs?.includes("pictures") && pictureWords.length) lines.push(`  Picture words (ONLY these can be pictures): ${pictureWords.join(", ")}`);
   if (p.note) lines.push(`  Teacher's note for this part: ${p.note}`);
   return lines.join("\n");
@@ -244,7 +324,7 @@ Only include the fields a part needs. One object per part, same ids, same order.
     `Difficulty: ${DIFFICULTY[spec.difficulty]?.note || DIFFICULTY.level.note}`,
     "Listening scripts: only what the speakers say — no rubric, no narrator saying \"Listen and…\". Natural spoken English for children, 2 speakers with first names (a child and an adult, or two children), short turns, every answer clearly said once; distractors may be mentioned. No sound effects.",
     "Every non-writing, non-speaking part MUST include its \"example\" item.",
-    "Reading texts: 80–180 words depending on the level, a clear title, about the unit topic.",
+    "Reading texts: the length each part asks for, a clear title, about the unit topic. A text the plan gives is used as it is.",
     "Every correct answer must be clearly right and every wrong option clearly wrong. No trick questions. No Greek anywhere.",
     "Every part has its own sentences: never reuse a sentence or item from another part, even with a different task.",
     "Facts in texts and scripts must be true (lava is hot, ash is grey); only the \"no\" statements may be wrong.",
@@ -273,6 +353,7 @@ function rewriteBlock(rewrite, parts) {
   const old = parts.map((p) => (rewrite.previous || []).find((s) => s.id === p.id)).filter(Boolean);
   return [
     "THIS IS A REWRITE — it must be clearly NEW: a new text or script (new situation, new names, new title) and new questions; do not reuse sentences, situations or the same tested words where others fit.",
+    parts.some((p) => p.opts?.text) ? "A part with a READING TEXT given keeps that text: write new questions about it." : "",
     rewrite.wish ? `THE TEACHER ASKED FOR THIS REWRITE (follow it exactly, it comes before everything else): "${rewrite.wish}"` : "",
     old.length ? `THE OLD VERSION (move away from it):\n  ${old.map(partDigest).join("\n  ")}` : "",
   ].filter(Boolean).join("\n");
@@ -358,7 +439,7 @@ function requiredAnswers(section) {
 }
 
 /** Parts whose answers must be the tested words (their answers are checked against them). */
-const SCOPED = ["V-PIC", "V-BANK", "V-MC", "R-GAP", "L-GAP"];
+const SCOPED = ["V-PIC", "V-BANK", "V-MC", "V-DEF", "V-SPELL", "R-GAP", "L-GAP"];
 
 /** A small prompt that rewrites only some items of a part. ctx: { profileBlock, focusWords, pictureWords } */
 export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {

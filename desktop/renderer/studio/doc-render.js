@@ -82,13 +82,17 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   if (section.answerType === "match") {
     return `<div class="${cls}">${num}<div class="item-text"><b>${esc(it.prompt)}</b> ${example ? exAns : line("short")}${key}</div></div>`;
   }
+  if (section.task === "R-ORDER") {
+    return `<div class="${cls} st-order"><span class="item-num">${example ? "✓" : esc((it.letter || "").toUpperCase())}</span><div class="item-text"><span class="st-order-box">${example ? esc(it.answer) : ""}</span><span>${esc(it.prompt)}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
+  }
   const hasGap = GAP.test(it.prompt); GAP.lastIndex = 0;
   const prompt = /^\(\d+\)$/.test(it.prompt) ? `<b>${esc(it.prompt)}</b>` : withGaps(it.prompt);
-  return `<div class="${cls}">${num}<div class="item-text">${prompt}${example ? ` ${exAns}` : hasGap ? "" : ` ${line()}`}${key}</div></div>`;
+  const hint = it.hint ? ` <span class="st-hint">${esc(it.hint)}</span>` : "";
+  return `<div class="${cls}">${num}<div class="item-text">${prompt}${hint}${example ? ` ${exAns}` : hasGap ? "" : ` ${line()}`}${key}</div></div>`;
 }
 
 function pictureCardsHtml(section, layout, showAnswers) {
-  const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}<div class="pic-line">${example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
+  const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}${it.hint ? `<div class="st-hint">${esc(it.hint)}</div>` : ""}<div class="pic-line">${example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
   return `<div class="pic-grid">${section.example?.pic ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
 }
 
@@ -96,6 +100,8 @@ function openTaskHtml(section, layout) {
   const words = section.words ? `<span class="st-words">${esc(section.words[0])}–${esc(section.words[1])} words</span>` : "";
   const pics = layout.pictures && section.pictures.length ? `<div class="st-story-pics">${section.pictures.map((p, i) => `<div class="st-story-pic">${pic(p.pic)}<small>${i + 1}</small></div>`).join("")}</div>` : "";
   if (section.skill === "speaking") return `${pics}${speakingCardsHtml(section)}`;
+  // "Finish the sentences": each starter gets its own line to write on.
+  if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${esc(f)}</span>${line("grow")}</p>`).join("")}</div>`;
   const frame = section.frame.length ? `<ul class="st-frame">${section.frame.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>` : "";
   const n = Math.max(5, Math.round(((section.words?.[1] || 40) / 8)));
   return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)} ${words}</p>` : words ? `<p class="st-task">${words}</p>` : ""}${pics}${frame}<div class="st-lines">${Array.from({ length: n }, () => line("full")).join("")}</div>`;
@@ -222,6 +228,14 @@ export const STUDIO_PRINT_CSS = `
 .st-line.short { min-width: 18mm; }
 .st-line.tiny { min-width: 9mm; }
 .st-line.full { display: block; width: 100%; height: 8mm; }
+.st-line.grow { flex: 1; min-width: 30mm; }
+.st-hint { display: inline-block; margin: 0 1.6mm; padding: 0.2mm 1.8mm; border: 0.6pt dashed var(--ink-3); border-radius: 1.4mm; font: 700 9.6pt/1.4 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.06em; color: var(--ink-2); white-space: nowrap; }
+.pic-card .st-hint { margin: 0.6mm 0 0; font-size: 8.6pt; }
+.st-order .item-text { display: flex; align-items: center; gap: 3mm; }
+.st-order-box { flex: none; width: 7mm; height: 7mm; border: 0.8pt solid var(--ink); border-radius: 1.4mm; text-align: center; font: 700 10pt/7mm "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }
+.st-starters { margin: 0 0 1mm 9.8mm; }
+.st-starter { display: flex; align-items: flex-end; gap: 2mm; margin: 0 0 3.2mm; font-size: 10.4pt; }
+.st-starter .item-num { flex: none; }
 .st-item { align-items: flex-start; }
 .st-options { display: flex; flex-wrap: wrap; gap: 1.4mm 6mm; margin-top: 0.6mm; }
 .st-opt { display: inline-flex; align-items: center; gap: 1.6mm; }

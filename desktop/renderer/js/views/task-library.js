@@ -1,0 +1,135 @@
+/* Test Maker — the exercise library: every task type of every skill as a card that says what the children do, why,
+ * which class it suits and how it looks on paper (a tiny preview), plus the unit's reading texts. Used by the parts
+ * step (js/views/tests.js) to change a part's exercise or add a new part. */
+import { esc, icon, openDialog } from "../ui.js";
+import { TASKS, SKILLS, KINDS, tasksFor, taskFit, defaultTask, secondTask } from "../../studio/tasks.js";
+import { taskBlock } from "../../studio/test-builder.js";
+import { TEXT_KINDS, wordCount, textUnitWords } from "../../studio/reading-texts.js";
+
+const LETTERS = "abcd";
+const TEST_SKILLS = Object.keys(SKILLS).filter((k) => k !== "dictation");
+
+/** A small paper-like preview of a task, from its sample (TASKS[id].sample). */
+export function sampleHtml(taskId) {
+  const t = TASKS[taskId];
+  const s = t?.sample;
+  if (!s) return "";
+  const out = [];
+  if (s.audio) out.push(`<div class="sp-audio">${icon("volume", "i-xs")}<span>${esc(s.audio)}</span></div>`);
+  if (s.text) out.push(`<div class="sp-text">${esc(s.text)}</div>`);
+  if (s.bank) out.push(`<div class="sp-bank">${s.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`);
+  if (s.pairs) {
+    out.push(`<div class="sp-pairs"><div>${s.pairs.map(([a], i) => `<span><i>${i + 1}</i>${esc(a)}</span>`).join("")}</div><div>${s.pairs.map((_, i) => `<span><i>${LETTERS[i].toUpperCase()}</i>${esc(s.pairs[(i + 1) % s.pairs.length][1])}</span>`).join("")}</div></div>`);
+  } else if (s.list) {
+    out.push(`<div class="sp-order">${s.list.map((x, i) => `<span><b>${i === 1 ? "1" : ""}</b>${esc(x)}</span>`).join("")}</div>`);
+  } else if (t.answer === "open") {
+    if (s.pics) out.push(`<div class="sp-pics">${s.pics.map((p) => `<span>${p}</span>`).join("")}</div>`);
+    if (s.q) out.push(`<div class="sp-q">${esc(s.q)}</div>`);
+    if (s.lines) out.push(`<div class="sp-lines">${s.lines.map((l) => `<span>${esc(l)}</span>`).join("")}</div>`);
+  } else {
+    const q = s.q ? `<span class="sp-qt">${esc(s.q)}${s.hint ? ` <em class="sp-hint">${esc(s.hint)}</em>` : ""}</span>` : "";
+    if (s.pics && t.answer === "choice") {
+      out.push(`<div class="sp-q">${q}</div><div class="sp-pics">${s.pics.map((p, i) => `<span class="${i === s.a ? "on" : ""}">${p}${i === s.a ? "<b>✓</b>" : ""}</span>`).join("")}</div>`);
+    } else if (s.pics) {
+      out.push(`<div class="sp-pics one">${s.pics.map((p) => `<span>${p}</span>`).join("")}<div class="sp-q">${q}<span class="sp-ans">${esc(s.a)}</span></div></div>`);
+    } else if (t.answer === "choice") {
+      out.push(`${q ? `<div class="sp-q">${q}</div>` : ""}<div class="sp-opts">${s.o.map((o, i) => `<span class="${i === s.a ? "on" : ""}"><b>${LETTERS[i]}</b>${esc(o)}</span>`).join("")}</div>`);
+    } else if (t.answer === "tf") {
+      out.push(`<div class="sp-q sp-tf">${q}<span class="sp-box">${esc(s.a)}</span></div>`);
+    } else {
+      out.push(`<div class="sp-q">${q}<span class="sp-ans">${esc(s.a)}</span></div>`);
+    }
+  }
+  return `<div class="sp" data-skill="${esc(t.skill)}">${out.join("")}</div>`;
+}
+
+/** The kind and class-fit badges of a task. */
+export function taskBadges(taskId, levelId) {
+  const t = TASKS[taskId];
+  const fit = taskFit(taskId, levelId);
+  return `<span class="tk-kind kind-${esc(t.kind)}" data-tip="${esc(KINDS[t.kind]?.hint || "")}">${esc(KINDS[t.kind]?.label || "")}</span>${fit.label ? `<span class="tk-fit fit-${fit.fit}">${fit.fit === "great" ? icon("check", "i-xs") : ""}${esc(fit.label)}</span>` : ""}`;
+}
+
+function card(t, { levelId, current, src, recommended }) {
+  const block = src ? taskBlock(t.id, src) : "";
+  const fit = taskFit(t.id, levelId);
+  const isCurrent = t.id === current;
+  return `<button type="button" class="tl-card kind-${esc(t.kind)} fit-${fit.fit}${isCurrent ? " current" : ""}${block ? " blocked" : ""}" data-task="${esc(t.id)}" data-skill="${esc(t.skill)}"${block ? ` aria-disabled="true"` : ""}>
+    <span class="tl-top">${taskBadges(t.id, levelId)}${recommended.includes(t.id) ? `<span class="tk-rec">${icon("star", "i-xs")}Lingo's pick</span>` : ""}${isCurrent ? `<span class="tl-now">${icon("check", "i-xs")}In this part</span>` : ""}</span>
+    <b class="tl-title">${esc(t.label)}</b>
+    <span class="tl-blurb">${esc(t.blurb || "")}</span>
+    ${sampleHtml(t.id)}
+    <span class="tl-trains">${(t.trains || []).map((x) => `<span>${esc(x)}</span>`).join("")}</span>
+    ${block ? `<span class="tl-block">${icon("alert", "i-xs")}${esc(block[0].toUpperCase() + block.slice(1))}</span>` : ""}
+  </button>`;
+}
+
+/**
+ * The library dialog. mode "change" (a part's exercise) or "add" (a new part).
+ * onPick(taskId) is called with the chosen task; the dialog closes.
+ */
+export function openTaskLibrary({ skill, levelId, levelName = "", current = "", src = null, mode = "change", partLabel = "", onPick }) {
+  let tab = skill || "reading";
+  let onlyFit = false;
+  const recommended = (k) => [defaultTask(k, levelId), secondTask(k, levelId)];
+  const grid = () => {
+    const list = tasksFor(tab, levelId).filter((t) => !onlyFit || taskFit(t.id, levelId).fit === "great");
+    return list.map((t) => card(t, { levelId, current, src, recommended: recommended(tab) })).join("") || `<p class="tl-empty">No ${esc(SKILLS[tab].label.toLowerCase())} exercises are made for ${esc(levelName || "this class")} — turn off the filter to see them all.</p>`;
+  };
+  const tabs = () => TEST_SKILLS.map((k) => `<button type="button" class="tl-tab${k === tab ? " active" : ""}" data-tab="${k}" data-skill="${k}" role="tab" aria-selected="${k === tab}"><span>${SKILLS[k].icon}</span>${esc(SKILLS[k].label)}<small>${tasksFor(k).length}</small></button>`).join("");
+  const title = mode === "add" ? "Add a part" : `Change the exercise${partLabel ? ` · ${partLabel}` : ""}`;
+  return openDialog({
+    title,
+    subtitle: `Every exercise says what the children do and how it looks on paper. Badges show what suits ${levelName || "your class"}.`,
+    iconName: "layers",
+    size: "tl-dialog",
+    body: `<div class="tl-tabs" role="tablist">${tabs()}</div>
+      <div class="tl-bar">
+        <div class="tl-legend">${Object.entries(KINDS).map(([k, v]) => `<span class="kind-${k}" data-tip="${esc(v.hint)}"><i></i>${esc(v.label)}</span>`).join("")}<small>A fair test moves from recognising to recalling to creating.</small></div>
+        <label class="switch sm"><input type="checkbox" data-only-fit /><span class="track"></span><span class="sw-text">Only for ${esc(levelName || "my class")}</span></label>
+      </div>
+      <div class="tl-grid" data-skill="${tab}">${grid()}</div>`,
+    onMount(root, close) {
+      const body = root.querySelector(".dialog-body");
+      const redraw = () => {
+        root.querySelector(".tl-tabs").innerHTML = tabs();
+        const g = root.querySelector(".tl-grid");
+        g.dataset.skill = tab;
+        g.innerHTML = grid();
+      };
+      root.querySelector("[data-only-fit]").addEventListener("change", (e) => { onlyFit = e.target.checked; redraw(); });
+      body.addEventListener("click", (e) => {
+        const tb = e.target.closest("[data-tab]");
+        if (tb) { tab = tb.dataset.tab; redraw(); body.scrollTop = 0; return; }
+        const c = e.target.closest("[data-task]");
+        if (!c || c.getAttribute("aria-disabled") === "true") return;
+        close();
+        onPick?.(c.dataset.task);
+      });
+    },
+  });
+}
+
+/** The reading-text chooser inside a reading part: "Lingo writes a new text" or one of the unit's own texts. */
+export function textChooserHtml(partId, texts, chosen, { newNote = "", peek = false } = {}) {
+  const sel = texts.find((t) => t.id === chosen) || null;
+  const cardFor = (t) => {
+    const k = TEXT_KINDS[t.kind] || {};
+    const words = textUnitWords(t).length;
+    return `<button type="button" class="tx-card${t.id === chosen ? " active" : ""}" data-knob="text" data-val="${esc(t.id)}" data-part-opt="${esc(partId)}" aria-pressed="${t.id === chosen}">
+      <span class="tx-kind">${k.icon || ""} ${esc(t.genre)}${texts.some((x) => x.unit !== t.unit) ? ` · U${t.unit}` : ""}</span>
+      <b>${esc(t.title)}</b>
+      <small>${wordCount(t.text)} words · ${words} unit word${words === 1 ? "" : "s"}</small>
+    </button>`;
+  };
+  return `<div class="tx-pick">
+    <div class="tx-cards">
+      <button type="button" class="tx-card tx-new${!sel ? " active" : ""}" data-knob="text" data-val="" data-part-opt="${esc(partId)}" aria-pressed="${!sel}"><span class="tx-kind">${icon("sparkles", "i-xs")} New</span><b>Lingo writes a text</b><small>${esc(newNote)}</small></button>
+      ${texts.map(cardFor).join("")}
+    </div>
+    ${sel ? `<div class="tx-preview${peek ? " open" : ""}">
+      <button type="button" class="tx-peek" data-peek="${esc(partId)}" aria-expanded="${peek}">${icon(peek ? "eye-off" : "eye", "i-xs")}${peek ? "Hide the text" : `Read “${esc(sel.title)}”`}</button>
+      ${peek ? `<div class="tx-body"><h5>${esc(sel.title)}</h5>${sel.text.split(/\n+/).map((p) => `<p>${esc(p)}</p>`).join("")}<div class="tx-words">${textUnitWords(sel).map((w) => `<span>${esc(w)}</span>`).join("")}</div></div>` : ""}
+    </div>` : ""}
+  </div>`;
+}
