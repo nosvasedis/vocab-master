@@ -16,6 +16,7 @@
 - **Unit test Step 1:** Grammar and Texts are two more lines under the source. Their closed value says what applies ("The unit's grammar", "Unit 7 · Why is free time important? · a school trip") and updates while typing. Only one line is open across Step 1; a topic test opens Grammar.
 - **Dictation step 3:** the "Grammar & a theme" fold is now the same two lines. With coursebook sentences they say "Not used".
 - **Checks:** `npm test` 449 pass; `npm run smoke` passes. Tried in the web app at 1440 px, light and dark, on both screens: book → unit → close, several units on and off, parts and words, grammar typing, one line open at a time, and dictation with AI or book sentences.
+- The 3.3.0 installer and portable exe are rebuilt with it (package verified; the unpacked app passes `--smoke`).
 
 ## Unit test: parts can be deleted again; Step 1 decides grammar, texts and parts (2026-10-20, from the user)
 - **Bug:** the trash can (and the move arrows) on a part did nothing. The parts click handler took the step `<section data-step="3">` for a stepper button and threw. Now it only matches `[data-stepper] [data-step]` (same guard in `dictation.js`).
