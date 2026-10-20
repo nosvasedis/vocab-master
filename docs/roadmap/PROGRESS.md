@@ -2,7 +2,13 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-**Next:** nothing queued. **Since 3.5.0 (2026-10-20) the desktop app updates itself:** a push to `main` that changes `desktop/renderer/**` reaches installed apps on its own (keep `main` green); a new exe is needed only for shell changes, via `npm run release` — see CLAUDE.md → Shipping and RESUME.md → "Shipping changes to teachers". Latest release: **v3.5.1** (class memory, Library of everything, fix-one-question, restart fix; section below). Teachers on 3.4.0 or older must install 3.5.0 once by hand.
+**Next:** nothing queued. **Since 3.5.0 (2026-10-20) the desktop app updates itself:** a push to `main` that changes `desktop/renderer/**` reaches installed apps on its own (keep `main` green); a new exe is needed only for shell changes, via `npm run release` — see CLAUDE.md → Shipping and RESUME.md → "Shipping changes to teachers". Current version: **v3.5.2** (ChatGPT exercise remake fix; section below). Teachers on 3.4.0 or older must install 3.5.0 once by hand.
+
+## 3.5.2 — ChatGPT exercise remakes (2026-10-20, from the user)
+- Reproduced the misleading connection error with a synthetic GPT-6 Luna test-part rewrite: the live route rejected JSON-object mode because the input message did not mention JSON, even though the separate instructions did.
+- The shared ChatGPT adapter now adds the JSON output instruction to the input for every generation and remake. HTTP errors retain the server message or direct-admission detail; stream errors retain their message too. Model choice, account storage, and worksheet logic are unchanged.
+- Added regression coverage for a real test-part prompt and for HTTP errors without an error code, including direct-admission failures. All 480 tests pass; desktop and packaged smoke checks pass. The corrected runtime completed a live synthetic five-question GPT-6 Luna rewrite without changing saved exercises or the connection.
+- Version 3.5.2 in both packages and lockfiles, with updated README download names. Distribute the shell fix through a versioned Setup/Portable release with latest.yml and the installer blockmap; portable users download the new executable.
 
 ## 3.5.1 — class memory, a Library of everything, smarter tests (2026-10-20, from the user)
 - **Updates:** "Restart now" relaunches (portable copies restart from their real exe; a `--relaunch` copy waits for the single-instance lock). Page updates apply in place (`applyPending` + reload, no restart). A floating card announces ready updates ("Update now" / "Restart to update" / "Download") and "Vocab Master is up to date" after one.

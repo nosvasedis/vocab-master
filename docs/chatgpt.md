@@ -37,7 +37,11 @@ are never returned in public session state.
 Inference uses `https://api.openai.com/v1/responses`, `store:false`, `stream:true`,
 an instructions string, and the request context in `input`. Unsupported preview
 parameters such as temperature/max_output_tokens are omitted. JSON is accepted
-in JSON-object mode, and is still parsed and validated by the app. Model discovery
+in JSON-object mode, and is still parsed and validated by the app. Every input
+message includes an explicit JSON output instruction: mentioning JSON only in
+the separate `instructions` field does not satisfy the route's JSON-mode check.
+HTTP failures retain OpenAI's message (or direct-admission `detail`) instead of
+being mislabeled as connection failures. Model discovery
 runs in the background so offline access to saved units is not delayed. Output is accepted
 only after `response.completed`; incomplete streams, refusals, late usage-limit
 errors and invalid JSON are failures. No fallback to another provider or model.
@@ -53,8 +57,12 @@ tokens; they do not use a real subscription.
 Before claiming live account verification, complete browser authorization with a
 real eligible account, load its models, select the intended model, and generate
 a small unit. A connected badge and a model list alone do not prove inference.
-The current automated/UI verification uses mock OpenAI and does not establish
-availability or remaining allowance for a particular user's real account.
+Automated/UI verification uses mock OpenAI and does not establish availability
+or remaining allowance for a particular user's real account. On 2026-10-20, an
+isolated Electron diagnostic with the existing connection reproduced an HTTP 400
+for a synthetic test-part rewrite whose input did not mention JSON. The corrected
+shared runtime completed that synthetic five-question rewrite with GPT-6 Luna.
+The diagnostic did not modify the saved connection, settings, or exercises.
 
 ## Official protocol references
 

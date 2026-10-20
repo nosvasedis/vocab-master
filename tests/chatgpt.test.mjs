@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { generateKeyPairSync, sign } from "node:crypto";
 import { createChatGPT, completedText } from "../desktop/chatgpt.js";
 import { configureAi, autofillVocabulary } from "../desktop/renderer/app.js";
+import { testDefaults, testPrompt } from "../desktop/renderer/studio/test-builder.js";
 
 const { privateKey, publicKey } = generateKeyPairSync("rsa", { modulusLength: 2048 });
 const jwk = { ...publicKey.export({ format: "jwk" }), kid: "test-key", use: "sig", alg: "RS256" };
@@ -33,7 +34,14 @@ function harness(t) {
       if (h.modelUnauthorized) { h.modelUnauthorized--; return json({ error: { code: "invalid_token" } }, 401); }
       return json({ models: h.models });
     }
-    if (url.endsWith("/responses")) return new Response(h.reply, { headers: { "Content-Type": "text/event-stream" } });
+    if (url.endsWith("/responses")) {
+      if (h.responseError) return json(h.responseError, h.responseStatus || 400);
+      const body = JSON.parse(options.body);
+      if (body.text?.format?.type === "json_object" && !/json/i.test(JSON.stringify(body.input))) {
+        return json({ error: { message: "Response input messages must contain the word 'json' in some form to use 'text.format' of type 'json_object'.", type: "invalid_request_error", param: "input", code: null } }, 400);
+      }
+      return new Response(h.reply, { headers: { "Content-Type": "text/event-stream" } });
+    }
     throw new Error(`Unexpected URL: ${url}`);
   };
   h.runtime = createChatGPT({ readState: () => structuredClone(h.saved), writeState: (s) => { if (h.storageError) throw new Error("Disk full"); h.saved = structuredClone(s); }, fetchImpl, now: () => h.clock, requestTimeoutMs: 3000 });
@@ -129,6 +137,49 @@ test("refresh is serialized, uses issued client/resource, and persists rotated t
   assert.equal(form.get("resource"), "https://api.openai.com/v1");
   assert.equal(form.has("scope"), false);
   assert.equal(h.saved.profiles[0].refreshToken, "secret-refresh-2");
+});
+
+test("remaking a test part satisfies JSON mode even when only the system prompt mentions JSON", async (t) => {
+  const h = harness(t); await h.login();
+  const spec = testDefaults("B_SENIOR");
+  const part = spec.parts.find((p) => p.skill === "vocabulary");
+  const { system, user } = testPrompt(spec, { focusWords: [{ english: "cat", type: "n." }, { english: "dog", type: "n." }] }, [part.id]);
+  assert.match(system, /JSON/);
+  assert.doesNotMatch(user, /json/i, "reproduces the actual remake prompt that failed on the live route");
+  h.reply = finish(JSON.stringify({ sections: [{ id: part.id, items: [{ prompt: "A pet that barks.", answer: "dog" }] }] }));
+  const result = await h.runtime.generate({ systemPrompt: system, userPrompt: user });
+  assert.equal(result.sections[0].id, part.id);
+  const body = JSON.parse(h.calls.find((c) => c.url.endsWith("/responses")).body);
+  assert.equal(body.model, "gpt-6-luna");
+  assert.ok(body.input[0].content.includes(user));
+  assert.match(body.input[0].content, /JSON/);
+  assert.equal(h.calls.filter((c) => c.url.endsWith("/responses")).length, 1);
+});
+
+test("HTTP rejections without an error code retain the diagnostic instead of claiming a connection failure", async (t) => {
+  const h = harness(t); await h.login();
+  h.responseError = { error: { code: null, type: "invalid_request_error", param: "input", message: "Response input messages must contain the word 'json'." } };
+  await assert.rejects(h.runtime.generate({ systemPrompt: "Return JSON", userPrompt: "Rewrite this exercise." }), (e) => {
+    assert.match(e.message, /input messages must contain/);
+    assert.doesNotMatch(e.message, /connection|reach ChatGPT/);
+    assert.equal(e.status, 400);
+    assert.equal(e.param, "input");
+    return true;
+  });
+  assert.equal(h.runtime.status().connected, true);
+  assert.equal(h.tokenCalls, 1);
+});
+
+test("direct-admission errors retain their detail and preserve the connection", async (t) => {
+  const h = harness(t); await h.login();
+  h.responseStatus = 503; h.responseError = { detail: "Direct routing is temporarily unavailable." };
+  await assert.rejects(h.runtime.generate({ systemPrompt: "Return JSON", userPrompt: "Rewrite this exercise." }), (e) => {
+    assert.match(e.message, /Direct routing is temporarily unavailable/);
+    assert.equal(e.status, 503);
+    return true;
+  });
+  assert.equal(h.runtime.status().connected, true);
+  assert.equal(h.tokenCalls, 1);
 });
 test("401 refresh retries once; expired renewable sessions require reconnect", async (t) => {
   const h = harness(t); await h.login(); h.modelUnauthorized = 1;

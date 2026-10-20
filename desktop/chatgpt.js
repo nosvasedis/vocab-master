@@ -22,6 +22,16 @@ export function chatgptError(error) {
   return error?.message || "Couldn't reach ChatGPT. Check your connection and try again.";
 }
 
+function responseError(res, data) {
+  const error = data?.error;
+  const code = error?.code || data?.code || (typeof error === "string" ? error : res.status === 401 ? "unauthorized" : "chatgpt_error");
+  const detail = error?.message || (typeof data?.detail === "string" ? data.detail : "");
+  const message = detail || `ChatGPT rejected the request (HTTP ${res.status}). Please try again.`;
+  return Object.assign(fail(chatgptError({ code, message }), code), {
+    status: res.status, param: error?.param || "", requestId: res.headers.get("x-request-id") || "",
+  });
+}
+
 /** Parse SSE across arbitrary UTF-8/chunk boundaries; partial output is never success. */
 export async function completedText(body) {
   if (!body) throw fail("ChatGPT returned an empty stream.");
@@ -34,7 +44,7 @@ export async function completedText(body) {
     try { e = JSON.parse(raw); } catch { throw fail("ChatGPT sent an unreadable response. Please try again."); }
     if (e.type === "response.failed" || e.type === "error") {
       const err = e.response?.error || e.error || e;
-      throw fail(chatgptError({ code: err.code }), err.code);
+      throw fail(chatgptError({ code: err.code, message: err.message }), err.code);
     }
     if (e.type === "response.incomplete") throw fail("ChatGPT's reply was incomplete. Try fewer words or exercises.");
     if (e.type === "response.refusal.delta" || e.type === "response.refusal.done") throw fail("ChatGPT could not complete this request. Review your word list and try again.");
@@ -106,10 +116,7 @@ export function createChatGPT({ readState, writeState, fetchImpl = globalThis.fe
     let data;
     try { data = await res.json(); } catch { throw fail("ChatGPT sent an unreadable response."); }
     finally { finishes.get(res)?.(); }
-    if (!res.ok) {
-      const code = data.error?.code || data.code || (typeof data.error === "string" ? data.error : res.status === 401 ? "unauthorized" : "chatgpt_error");
-      throw fail(chatgptError({ code }), code);
-    }
+    if (!res.ok) throw responseError(res, data);
     return data;
   }
   async function config() {
@@ -259,8 +266,7 @@ export function createChatGPT({ readState, writeState, fetchImpl = globalThis.fe
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
       finishes.get(res)?.();
-      const code = data.error?.code || (res.status === 401 ? "session_expired" : "chatgpt_error");
-      throw fail(chatgptError({ code }), code);
+      throw responseError(res, data);
     }
     return res;
   }
@@ -317,7 +323,8 @@ export function createChatGPT({ readState, writeState, fetchImpl = globalThis.fe
     if (!status().ready) throw fail("Choose an available ChatGPT model in Settings. Your previous model may no longer be available.", "model_not_available");
     const res = await authorized(p, `${RESOURCE}/responses`, {
       method: "POST", headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
-      body: JSON.stringify({ model: p.model, instructions: `${systemPrompt}\nReturn only the requested valid JSON object. Do not include Markdown fences or commentary.`, input: [{ role: "user", content: userPrompt + (retryHint ? `\n\nFIX:\n${retryHint}` : "") }], text: { format: { type: "json_object" } }, store: false, stream: true }),
+      // JSON mode checks input messages; mentioning JSON only in instructions is insufficient.
+      body: JSON.stringify({ model: p.model, instructions: `${systemPrompt}\nReturn only the requested valid JSON object. Do not include Markdown fences or commentary.`, input: [{ role: "user", content: userPrompt + (retryHint ? `\n\nFIX:\n${retryHint}` : "") + "\n\nReturn the result as a valid JSON object." }], text: { format: { type: "json_object" } }, store: false, stream: true }),
     });
     // Keep cancellation and timeout active through the completed stream, not just headers.
     const reader = res.body?.getReader();
