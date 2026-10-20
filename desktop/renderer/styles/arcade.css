@@ -862,6 +862,17 @@ button.fd-slot:has(.fd-hint) { gap: 18px; }
 .dp-search span { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
 .dp-search input { height: 44px; padding: 0 14px; border-radius: 12px; border: 2px solid var(--line); background: rgba(0, 0, 0, 0.3); color: var(--ink); font: 600 16px var(--font-ui); outline: none; }
 .dp-search input:focus { border-color: #7b6bff; }
+/* The teacher's own words, played alongside the picked book words */
+.dp-own { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 6px 8px; padding: 12px; border-radius: 14px; border: 2px dashed rgba(123, 107, 255, 0.45); background: rgba(123, 107, 255, 0.08); }
+.dp-own .dp-search input { height: 40px; font-size: 15px; }
+.dp-own > .arc-btn { height: 40px; }
+.dp-own > .dp-empty, .dp-own-list { grid-column: 1 / -1; margin: 0; }
+.dp-own-list { display: flex; flex-wrap: wrap; gap: 6px; max-height: 150px; overflow-y: auto; }
+.dp-own-w { display: inline-flex; align-items: center; gap: 6px; padding: 0 0 0 11px; border-radius: 99px; background: rgba(123, 107, 255, 0.22); border: 1px solid rgba(123, 107, 255, 0.5); font-size: 13px; }
+.dp-own-w b { font-weight: 700; color: var(--ink); }
+.dp-own-w small { color: var(--ink-3); }
+.dp-own-w .x { height: 30px; padding: 0 10px; color: var(--ink-3); border-left: 1px solid rgba(123, 107, 255, 0.35); }
+.dp-own-w .x:hover { color: var(--bad); }
 .dp-tools { display: flex; flex-wrap: wrap; gap: 8px; }
 .dp-ready { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .dp-ready li { font-size: 12.5px; font-weight: 650; padding: 4px 10px; border-radius: 99px; color: var(--ink-3); background: rgba(255, 255, 255, 0.06); }

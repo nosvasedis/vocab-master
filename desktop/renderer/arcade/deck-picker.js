@@ -10,7 +10,9 @@
 import {
   listBooks, unitSections, unitInfo, filterWords, describePick, pickBreakdown, searchWords, randomPick, rowById, typeGroup,
   TYPE_GROUPS, SECTION_INFO, LEVELS, LENGTHS, wordLevel, wordsOnPages, pagesSummary, recentWords, saveDeck, deleteDeck, reviewPick,
+  describeDeck, ownNotPicked,
 } from "./deck-source.js";
+import { addOwnWords } from "../studio/own-words.js";
 import { CPP_WORDBANK } from "../coursebook-data.js";
 
 let lessonIndex = null;
@@ -68,7 +70,10 @@ export function openDeckPicker(o) {
     pageSrc: "sb", // sb | wb | both
     decks: read("vm_arcade_decks", []),
     naming: false,
+    own: (o.own || []).map((w) => ({ english: w.english, greek: w.greek || "" })), // the teacher's own words
   };
+  /** Words in the deck: the picked book words plus the own words that aren't among them. */
+  const deckSize = () => st.picked.size + ownNotPicked(st.picked, st.own).length;
   const recent = recentWords(read("vm_arcade_played", {}), { days: 7 });
   const el = document.createElement("div");
   el.className = "dp";
@@ -203,7 +208,7 @@ export function openDeckPicker(o) {
   }
 
   function cartHtml() {
-    const n = st.picked.size;
+    const n = deckSize();
     const parts = pickBreakdown(st.picked);
     const hits = st.search ? searchWords(st.search, 24) : [];
     const ready = o.minWords.map((g) => ({ ...g, ok: n >= g.min }));
@@ -212,19 +217,25 @@ export function openDeckPicker(o) {
     return `
       <div class="dp-cart-top">
         <div class="dp-count"><b id="dpCount">${n}</b><span>${n === 1 ? "word" : "words"} in your deck</span></div>
-        <p class="dp-desc">${esc(describePick(st.picked))}</p>
+        <p class="dp-desc">${esc(describeDeck(st.picked, st.own))}</p>
       </div>
       <div class="dp-breakdown">${parts.map((p) => `<span class="dp-part" data-bk="${p.bookId}" data-bu="${p.unit}"><button type="button" data-goto="${p.bookId}|${p.unit}" title="Show this unit">${esc(p.label)} <b>${p.count}</b></button><button type="button" class="x" data-rm="${p.ids.join(",")}" aria-label="Remove these ${p.count} words">×</button></span>`).join("") || `<p class="dp-empty">Nothing picked yet. Tap a quick pick, a unit's ★ key words, type the pages you taught, or tap single words.</p>`}</div>
       <label class="dp-search"><span>Find a word</span><input id="dpSearch" value="${esc(st.search)}" placeholder="type: apple, travel, uncle…" autocomplete="off" spellcheck="false" maxlength="30"></label>
       ${hits.length ? `<div class="dp-hits">${hits.map((w) => `<button type="button" class="dp-word${st.picked.has(w.id) ? " on" : ""}" data-word="${w.id}" title="${esc(`${w.bookId.replace("CPP", "Book ")} · Unit ${w.unit} · p. ${w.page}`)}"><span class="dp-wp">${o.pic(w)}</span><span class="dp-we">${esc(w.english)}</span><small>${esc(w.bookId.replace("CPP", "B"))}·U${w.unit}</small></button>`).join("")}</div>` : st.search.length > 1 ? `<p class="dp-empty">No word like “${esc(st.search)}”.</p>` : ""}
+      <div class="dp-own">
+        <label class="dp-search"><span>Add your own words</span><input id="dpOwn" placeholder="e.g. crater, ash cloud, volcano - ηφαίστειο" autocomplete="off" spellcheck="false"></label>
+        <button type="button" class="arc-btn ghost sm" data-own-add>＋ Add</button>
+        ${st.own.length ? `<div class="dp-own-list">${st.own.map((w, i) => `<span class="dp-own-w"><b>${esc(w.english)}</b>${w.greek ? `<small>${esc(w.greek)}</small>` : ""}<button type="button" class="x" data-own-del="${i}" aria-label="Remove ${esc(w.english)}">×</button></span>`).join("")}</div>` : `<p class="dp-empty">Words that aren't in the books, or from another unit — they play alongside the words you picked. Separate them with commas.</p>`}
+      </div>
       <div class="dp-tools">
         ${n > 12 ? `<button type="button" class="arc-btn ghost sm" data-trim="12">🎲 Keep 12 at random</button>` : ""}
         ${stale.length && stale.length < n ? `<button type="button" class="arc-btn ghost sm" data-unstale title="Leave out words the class played in the last 7 days">🕘 Leave out ${stale.length} played this week</button>` : ""}
-        ${o.hasWorksheet ? `<button type="button" class="arc-btn ghost sm" data-worksheet>📄 My worksheet words</button>` : ""}
+        ${o.worksheetWords?.length ? `<button type="button" class="arc-btn ghost sm" data-worksheet-add title="Add the words of your worksheet (Worksheets → Step 2) to these">＋ My worksheet words</button>` : ""}
+        ${o.hasWorksheet ? `<button type="button" class="arc-btn ghost sm" data-worksheet title="Play only the words of your worksheet">📄 Only my worksheet words</button>` : ""}
         ${n ? `<button type="button" class="arc-btn ghost sm" data-clear>Clear all</button>` : ""}
       </div>
       ${n >= 3 ? (st.naming
-        ? `<div class="dp-save"><input id="dpDeckName" value="${esc(describePick(st.picked))}" maxlength="40" spellcheck="false" aria-label="Deck name"><button type="button" class="arc-btn primary sm" data-save-ok>Save</button><button type="button" class="arc-btn ghost sm" data-save-cancel>Cancel</button></div>`
+        ? `<div class="dp-save"><input id="dpDeckName" value="${esc(describeDeck(st.picked, st.own))}" maxlength="40" spellcheck="false" aria-label="Deck name"><button type="button" class="arc-btn primary sm" data-save-ok>Save</button><button type="button" class="arc-btn ghost sm" data-save-cancel>Cancel</button></div>`
         : `<button type="button" class="arc-btn ghost sm dp-save-btn" data-save>💾 Save this deck for next time</button>`) : ""}
       <ul class="dp-ready">${ready.map((g) => `<li class="${g.ok ? "ok" : ""}">${g.ok ? "✓" : "○"} ${esc(g.title)}${g.ok ? "" : ` <small>needs ${g.min}+</small>`}</li>`).join("")}</ul>
       <button type="button" class="arc-btn primary dp-go" data-apply ${n < 3 ? "disabled" : ""}>${svg("play", "i-sm")}${n < 3 ? "Pick at least 3 words" : `Play with ${n} words`}</button>
@@ -267,9 +278,19 @@ export function openDeckPicker(o) {
   const filtersChanged = () => { saveFilters(); sfx.tap(); renderBrowse(); };
   const flipIn = (set, v) => { set.has(v) ? set.delete(v) : set.add(v); };
 
+  /** Add typed or pasted own words to the deck. */
+  function addOwn(text) {
+    const before = st.own.length;
+    st.own = addOwnWords(st.own, text);
+    if (st.own.length === before) { el.querySelector("#dpOwn")?.focus(); return; }
+    sfx.pop();
+    renderCart();
+    bumpCount();
+    el.querySelector("#dpOwn")?.focus();
+  }
   function saveNamed() {
     const name = el.querySelector("#dpDeckName")?.value || "";
-    st.decks = saveDeck(st.decks, name, inBookOrder(st.picked));
+    st.decks = saveDeck(st.decks, name, inBookOrder(st.picked), Date.now(), st.own);
     write("vm_arcade_decks", st.decks);
     st.naming = false;
     sfx.star();
@@ -310,7 +331,7 @@ export function openDeckPicker(o) {
       bumpCount();
       return;
     }
-    if (d.load) { const deck = st.decks.find((x) => x.id === d.load); if (deck) { st.picked = new Set(deck.ids.filter((id) => rowById.has(id))); const r = rowById.get(deck.ids[0]); if (r) { st.bookId = r.bookId; st.unit = r.unit; loadKeys(); } sfx.whoosh(); renderAll(); bumpCount(); } return; }
+    if (d.load) { const deck = st.decks.find((x) => x.id === d.load); if (deck) { st.picked = new Set(deck.ids.filter((id) => rowById.has(id))); st.own = (deck.own || []).map((w) => ({ ...w })); const r = rowById.get(deck.ids[0]); if (r) { st.bookId = r.bookId; st.unit = r.unit; loadKeys(); } sfx.whoosh(); renderAll(); bumpCount(); } return; }
     if (d.unsave) { st.decks = deleteDeck(st.decks, d.unsave); write("vm_arcade_decks", st.decks); sfx.pointsDown(); renderBrowse(); return; }
     // Sections, units, words
     const sec = d.secKey || d.secAll || d.secNone;
@@ -330,13 +351,17 @@ export function openDeckPicker(o) {
     if (d.rm) { toggle(d.rm.split(","), false); sfx.pointsDown(); renderAll(); return; }
     if (d.trim) { st.picked = new Set(randomPick([...st.picked], Number(d.trim))); sfx.whoosh(); renderAll(); bumpCount(); return; }
     if (t.hasAttribute("data-unstale")) { [...st.picked].forEach((id) => { if (recent.has(rowById.get(id)?.english.toLowerCase())) st.picked.delete(id); }); sfx.pointsDown(); renderAll(); bumpCount(); return; }
-    if (t.hasAttribute("data-clear")) { st.picked.clear(); sfx.pointsDown(); renderAll(); return; }
+    if (t.hasAttribute("data-clear")) { st.picked.clear(); st.own = []; sfx.pointsDown(); renderAll(); return; }
+    // The teacher's own words
+    if (t.hasAttribute("data-own-add")) { addOwn(el.querySelector("#dpOwn")?.value); return; }
+    if (d.ownDel !== undefined) { st.own = st.own.filter((_, i) => i !== Number(d.ownDel)); sfx.pointsDown(); renderCart(); return; }
+    if (t.hasAttribute("data-worksheet-add")) { addOwn(o.worksheetWords.map((w) => (w.greek ? `${w.english} = ${w.greek}` : w.english)).join("\n")); return; }
     if (t.hasAttribute("data-save")) { st.naming = true; sfx.tap(); renderCart(); return; }
     if (t.hasAttribute("data-save-cancel")) { st.naming = false; sfx.tap(); renderCart(); return; }
     if (t.hasAttribute("data-save-ok")) { saveNamed(); return; }
     if (t.hasAttribute("data-worksheet")) { o.onApply(null); return; }
     // Keep the book's own order so decks read like the unit.
-    if (t.hasAttribute("data-apply") && st.picked.size >= 3) o.onApply(inBookOrder(st.picked));
+    if (t.hasAttribute("data-apply") && deckSize() >= 3) o.onApply(inBookOrder(st.picked), ownNotPicked(st.picked, st.own));
   });
   el.addEventListener("input", (e) => {
     if (e.target.id === "dpSearch") { st.search = e.target.value; renderCart({ keepFocus: true }); }
@@ -345,6 +370,7 @@ export function openDeckPicker(o) {
   el.addEventListener("keydown", (e) => {
     if (e.key === "Escape") { e.stopPropagation(); e.preventDefault(); if (st.naming) { st.naming = false; renderCart(); } else o.onClose(); return; }
     if (e.key === "Enter" && e.target.id === "dpDeckName") { e.preventDefault(); saveNamed(); return; }
+    if (e.key === "Enter" && e.target.id === "dpOwn") { e.preventDefault(); addOwn(e.target.value); return; }
     if (e.key === "Enter" && e.target.id === "dpPages") { e.preventDefault(); const rows = pageRows(); if (rows.length) { toggle(rows.map((w) => w.id), true); sfx.pop(); renderAll(); bumpCount(); } }
   }, true);
 

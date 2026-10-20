@@ -381,7 +381,7 @@ test("unit tests only offer the tasks the Step 1 source supports", () => {
 test("unit test plan checks follow the source: topic or grammar, words, pictures", () => {
   const base = testDefaults("C_SENIOR", "standard");
   const topicSpec = { ...base, parts: presetParts("standard", "C_SENIOR"), source: { kind: "topic" }, topic: "", grammar: [] };
-  assert.match(planProblems(topicSpec).join(" "), /Type the topic, or choose the grammar/);
+  assert.match(planProblems(topicSpec).join(" "), /Type the topic, choose the grammar to test, or add the words/);
   assert.equal(planProblems({ ...topicSpec, grammar: ["Past Simple (regular verbs)"] }).length, 0, "grammar alone is enough");
   assert.equal(planProblems({ ...topicSpec, topic: "my town" }).length, 0, "a topic alone is enough");
   const a = { ...testDefaults("A_SENIOR", "standard"), source: { kind: "words" } };

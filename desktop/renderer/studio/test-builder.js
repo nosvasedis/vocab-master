@@ -95,7 +95,7 @@ export const TASK_FALLBACK = { "L-PIC": "L-MC", "V-PIC": "V-BANK", "W-PICTURES":
 export function taskBlock(taskId, src = {}) {
   const t = TASKS[taskId];
   if (!t) return "unknown task";
-  if (t.needs?.includes("pictures") && (src.pictureWords ?? 0) < 3) return src.kind === "topic" ? "needs a word list with pictures" : "needs 3+ chosen words with pictures";
+  if (t.needs?.includes("pictures") && (src.pictureWords ?? 0) < 3) return src.kind === "topic" ? "needs 3+ words with pictures (add them under the topic)" : "needs 3+ chosen words with pictures";
   if (taskId === "S-BQ" && !src.hasUnit) return "needs a coursebook unit";
   return "";
 }
@@ -145,7 +145,7 @@ export function planProblems(spec, { pictureWords = [], focusWords = [], hasUnit
   const out = [];
   const kind = spec.source?.kind;
   if (!spec.parts.length) out.push("Add at least one part.");
-  if (kind === "topic" && !String(spec.topic || "").trim() && !(spec.grammar || []).length) out.push("Type the topic, or choose the grammar to test.");
+  if (kind === "topic" && !String(spec.topic || "").trim() && !(spec.grammar || []).length && !focusWords.length) out.push("Type the topic, choose the grammar to test, or add the words to use.");
   if (kind && kind !== "topic" && !focusWords.length) out.push("Choose the words to test.");
   const src = { kind, hasUnit: hasUnit ?? kind === "unit", pictureWords: pictureWords.length };
   const needPics = spec.parts.filter((p) => TASKS[p.task]?.needs?.includes("pictures"));
@@ -203,8 +203,11 @@ Only include the fields a part needs. One object per part, same ids, same order.
     topicMode
       ? topic
         ? `Topic: ${topic} — choose vocabulary the class knows; every part is about this topic${grammar.length ? "" : " (if it names grammar, the grammar parts test that grammar)"}.`
-        : "Topic: everyday situations this class knows (home, school, friends, free time) — choose vocabulary the class knows; the grammar focus below is what this test is about."
+        : `Topic: everyday situations this class knows (home, school, friends, free time) — choose vocabulary the class knows; ${grammar.length ? "the grammar focus below is what this test is about" : "the words below are what this test is about"}.`
       : `TEST THESE WORDS (answers come only from this list; a word may be inflected to fit): ${focus.map((w) => `${w.english}${w.type ? ` (${w.type})` : ""}`).join(", ")}`,
+    // A topic test can still have words the teacher wants: the vocabulary parts test exactly those.
+    topicMode && focus.length ? `TEST THESE WORDS in the vocabulary parts (their answers come only from this list; a word may be inflected to fit); the other parts use them where they fit: ${focus.map((w) => `${w.english}${w.type ? ` (${w.type})` : ""}`).join(", ")}` : "",
+    !topicMode && focus.some((w) => w.own) ? `The teacher added some words of their own (not from the unit): ${focus.filter((w) => w.own).map((w) => w.english).join(", ")} — test them like the others and use them naturally in the texts.` : "",
     topicMode ? "" : hasUnit ? "Texts and scripts may also use other words of the unit listed below and very common words; nothing above the class level." : "Texts and scripts may also use very common words; nothing above the class level.",
     grammar.length
       ? `Grammar focus (grammar parts test it; other parts may use it): ${grammar.join(", ")}`
@@ -293,7 +296,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
     kind: "test",
     createdAt: previous?.createdAt || new Date().toISOString(),
     spec: JSON.parse(JSON.stringify(spec)),
-    focusWords: (ctx.focusWords || []).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "" })),
+    focusWords: (ctx.focusWords || []).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "", ...(w.own ? { own: true } : {}) })),
     meta: {
       title,
       subtitle: meta.label || (spec.source?.kind === "topic" ? [spec.topic, ...(spec.grammar || [])].filter(Boolean).join(" · ") : ""),

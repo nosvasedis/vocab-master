@@ -1,7 +1,7 @@
 /* Teacher assistant — the teacher says what they need; the assistant asks at most two questions (as chips),
  * shows an editable plan card, then builds it with the Unit test, Dictation or worksheet makers. */
-import { CPP_BOOKS, CLASS_PROFILES } from "../../app.js";
-import { state, emit, isCpp, LEVEL_COLORS, targetText } from "../state.js";
+import { CPP_BOOKS, CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";
+import { state, emit, isCpp, LEVEL_COLORS, targetText, makeWord, coursebookEntryToWord } from "../state.js";
 import { isAiReady } from "../bridge.js";
 import { actions } from "../actions.js";
 import { segmented } from "../ui.js";
@@ -247,9 +247,24 @@ function onPlanInput(e) {
 /* ── Hand-off ─────────────────────────────────────────────────────── */
 function pickerState(p) {
   const src = p.source || {};
-  if (src.kind === "unit") return { kind: "unit", bookId: src.bookId, units: src.units?.length ? src.units : [1], sections: ["BQ", "A", "B"], focusMode: "key" };
-  if (src.kind === "topic") return { kind: "topic", topic: src.topic || p.grammar?.join(", ") || "" };
-  return { kind: "current" };
+  // Words the teacher named ("… plus the words crater, lava") go in as their own words, mixed in.
+  const own = (p.words || []).map((w) => ({ english: w.english, greek: w.greek || "" }));
+  if (src.kind === "unit") return { kind: "unit", bookId: src.bookId, units: src.units?.length ? src.units : [1], sections: ["BQ", "A", "B"], focusMode: "key", own };
+  if (src.kind === "topic") return { kind: "topic", topic: src.topic || p.grammar?.join(", ") || "", own };
+  return { kind: "current", own };
+}
+
+/** Worksheets: the teacher's named words join the Step 2 list (with the coursebook's details when a book has them). */
+function addPlanWords(p) {
+  const have = new Set(state.words.map((w) => w.english.trim().toLowerCase()).filter(Boolean));
+  const add = (p.words || []).filter((w) => !have.has(w.english.toLowerCase()));
+  if (!add.length) return 0;
+  state.words = state.words.filter((w) => w.english.trim());
+  for (const w of add) {
+    const hit = lookupCoursebookWord(w.english, state.cpp.bookId, state.cpp.unit);
+    state.words.push(hit ? { ...coursebookEntryToWord(hit), ...(w.greek ? { greek: w.greek } : {}) } : makeWord({ english: w.english, greek: w.greek || "" }));
+  }
+  return add.length;
 }
 
 /** Test settings from the plan: a preset length, or one part per chosen skill (two for repeated skills). */
@@ -301,16 +316,18 @@ async function makeWorksheets(p, generate) {
     state.cpp.unit = p.source.units[0];
     state.cpp.pages = "";
     loadPoolWords({ silent: true, force: true });
+    const added = addPlanWords(p);
     emit("setup", "words", "level");
     actions.go("words");
-    toast("The unit’s words are ready. Have a quick look, then press Continue to choose the exercises.", "info", { ms: 5000 });
+    toast(`The unit’s words are ready${added ? `, with your ${added === 1 ? "word" : `${added} words`} added` : ""}. Have a quick look, then press Continue to choose the exercises.`, "info", { ms: 5000 });
     return;
   }
   if (p.source?.kind === "topic") {
     state.source = "custom";
     state.custom = { bookTitle: "Grammar practice", unit: 1, pages: "" };
     state.inputMode = "freeform";
-    state.freeform = `Worksheets on ${p.source.topic} for ${CLASS_PROFILES[p.levelId].label} (${CLASS_PROFILES[p.levelId].cefr}). Choose ${targetText(p.levelId)} words that practise it naturally.${p.grammar?.length ? ` Grammar focus: ${p.grammar.join(", ")}.` : ""}${p.difficulty && p.difficulty !== "level" ? ` Make it ${p.difficulty === "easier" ? "a little easier" : "a little harder"} than usual.` : ""}`;
+    // Named words are part of the brief.
+    state.freeform = `Worksheets on ${p.source.topic} for ${CLASS_PROFILES[p.levelId].label} (${CLASS_PROFILES[p.levelId].cefr}). Choose ${targetText(p.levelId)} words that practise it naturally.${p.grammar?.length ? ` Grammar focus: ${p.grammar.join(", ")}.` : ""}${p.difficulty && p.difficulty !== "level" ? ` Make it ${p.difficulty === "easier" ? "a little easier" : "a little harder"} than usual.` : ""}${p.words?.length ? ` Include these words: ${p.words.map((w) => w.english).join(", ")}.` : ""}`;
   }
   emit("setup", "words", "level");
   actions.go("exercises");

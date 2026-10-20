@@ -12,6 +12,7 @@ import {
 import { segmented, withBusy } from "../ui.js";
 import { dictationDefaults, dictationPrompt, bookSentences, buildDictationDoc, readAloudLines } from "../../studio/dictation.js";
 import { DICTATION_STYLES } from "../../studio/tasks.js";
+import { containsForm } from "../../studio/word-scope.js";
 import { GRAMMAR_MENU, LEVEL_IDS, sentenceRange, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../../studio/doc-render.js";
 import { readDictation } from "../voices/listening.js";
@@ -279,8 +280,10 @@ function renderReady() {
   const sel = picker.value();
   const [min, max] = sentenceRange(s.levelId, s.length, s.difficulty);
   const prob = planProblem();
+  // Own words the book has no example sentence for can't be in a coursebook dictation.
+  const noBookSentence = withExamples(sel.focus.filter((w) => w.own), sel.meta).filter((w) => !w.example || !containsForm(w.example, w.english));
   const reads = { 1: "once", 2: "twice", 3: "3 times" }[s.repeats] || `${s.repeats} times`;
-  const row = (ico, label, value, step) => `<button type="button" class="mk-ready-row" data-mk-go="${step}"><span>${icon(ico, "i-sm")}</span><small>${label}</small><b>${value}</b>${icon("pencil", "i-xs mk-ready-edit")}</button>`;
+  const row =(ico, label, value, step) => `<button type="button" class="mk-ready-row" data-mk-go="${step}"><span>${icon(ico, "i-sm")}</span><small>${label}</small><b>${value}</b>${icon("pencil", "i-xs mk-ready-edit")}</button>`;
   $("dcReady").innerHTML = `
     <div class="mk-ready-head"><span class="mk-badge">${icon("mic")}</span><div><small>Ready to make</small><b>${STYLE_ICON[s.style] || ""} ${esc(DICTATION_STYLES[s.style]?.label || "")} dictation</b></div></div>
     <div class="mk-ready-rows">
@@ -292,6 +295,7 @@ function renderReady() {
       ${row("volume", "Reading", `Each sentence ${reads}`, 3)}
     </div>
     ${prob ? `<div class="callout warning">${icon("alert")}<span>${esc(prob)}</span></div>` : ""}
+    ${s.source === "book" && noBookSentence.length ? `<div class="callout info">${icon("info")}<span>The coursebook has no sentence for ${esc(noBookSentence.map((w) => w.english).join(", "))}. Choose <b>The AI</b> as the writer to include ${noBookSentence.length === 1 ? "it" : "them"}.</span></div>` : ""}
     <button type="button" class="btn btn-magic btn-lg mk-go" id="dcGenerate"${prob ? " disabled" : ""}>${icon(s.source === "book" ? "book-open" : "sparkles")}${dc.doc ? "Make a new dictation" : "Make my dictation"}</button>
     <small class="mk-hint">${s.source === "book" ? "Instant — from the book’s example sentences." : "Usually 5–15 seconds."} Then press <b>Read it aloud</b> in class.</small>`;
 }

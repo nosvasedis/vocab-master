@@ -79,7 +79,9 @@ export function bookSentences(spec, words, rand = Math.random) {
   const pool = shuffled(words.filter((w) => w.example && containsForm(w.example, w.english)), rand);
   const fits = pool.filter((w) => { const n = countWords(w.example); return n >= min - 1 && n <= max + 2; });
   const rest = pool.filter((w) => !fits.includes(w)).sort((a, b) => Math.abs(countWords(a.example) - (min + max) / 2) - Math.abs(countWords(b.example) - (min + max) / 2));
-  return [...fits, ...rest].slice(0, spec.count).map((w) => ({ text: clean(w.example), targets: [w.english] }));
+  // The teacher's own words come first: they were added on purpose.
+  const ordered = [...fits, ...rest];
+  return [...ordered.filter((w) => w.own), ...ordered.filter((w) => !w.own)].slice(0, spec.count).map((w) => ({ text: clean(w.example), targets: [w.english] }));
 }
 
 /** System and user prompts for one AI call (small: only the chosen words travel). */

@@ -6,6 +6,7 @@
 import { CPP_BOOKS } from "../coursebook-data.js";
 import { parseLevel, GRAMMAR_MENU, LEVEL_IDS, BOOK_LEVEL, grammarLabel } from "./levels.js";
 import { SKILLS, DICTATION_STYLES } from "./tasks.js";
+import { parseOwnWords } from "./own-words.js";
 
 export const KINDS = {
   test: { label: "Unit test", icon: "🧾" },
@@ -80,7 +81,29 @@ function findKind(t) {
  * Local reading of a request. context: { level, bookId, unit } (the unit open in the app).
  * Returns a partial plan; fields it can't tell are left undefined.
  */
+/**
+ * Words the teacher lists to include: "… plus the words crater, lava and ash", "also test: island, coast",
+ * «… και τις λέξεις κρατήρας, lava». Returns the words and the request without them (so they aren't read as a topic).
+ */
+export function findOwnWords(text) {
+  const src = String(text || "");
+  const m = src.match(/\b(?:plus|also|add|adding|including|include|with|and)\s+(?:also\s+)?(?:test\s+)?(?:the\s+|these\s+|my\s+|some\s+)?(?:extra\s+|own\s+|other\s+)?words?\b\s*:?\s*([^.?!;]+)/i)
+    || src.match(/\b(?:extra|own|other)\s+words?\s*:?\s*([^.?!;]+)/i)
+    || src.match(/\bwords?\s*:\s*([^.?!;]+)/i)
+    || src.match(/\b(?:also|plus)\s+(?:test|include|add|use)\s*:\s*([^.?!;]+)/i)
+    || src.match(/(?:και\s+)?(?:τις\s+)?(?:λέξεις|λεξεις)\s*:?\s*([^.?!;]+)/i);
+  if (!m) return { words: [], rest: src };
+  const list = m[1].replace(/\s+(?:too|as well|also)\s*$/i, "");
+  // "the words of unit 4" is about the unit's words, not a list.
+  if (/^\s*(?:of|from|in|for)\b/i.test(list)) return { words: [], rest: src };
+  const words = parseOwnWords(list.replace(/\s+(?:and|και|&)\s+/gi, ", "))
+    .filter((w) => !/\d|\bunit\b|\bclass\b|\bsenior\b/i.test(w.english) && w.english.split(" ").length <= 4);
+  return words.length ? { words, rest: src.replace(m[0], " ").replace(/\s+/g, " ").trim() } : { words: [], rest: src };
+}
+
 export function parseRequest(text, context = {}) {
+  const own = findOwnWords(text);
+  text = own.rest;
   const t = norm(text);
   const plan = {};
   const kind = findKind(t);
@@ -114,6 +137,7 @@ export function parseRequest(text, context = {}) {
   if (n) plan.count = Number(n[1]);
   const style = /dictation|dictogloss/.test(t) && Object.keys(DICTATION_STYLES).find((s) => t.includes(s) || (s === "classic" && /normal dictation/.test(t)));
   if (style) { plan.style = style; plan.kind = "dictation"; delete plan.dictationChoice; }
+  if (own.words.length) plan.words = own.words;
   return plan;
 }
 
@@ -182,6 +206,7 @@ export function planSummary(plan) {
   if (plan.grammar?.length) bits.push(`grammar: ${plan.grammar.join(", ")}`);
   if (plan.difficulty && plan.difficulty !== "level") bits.push(plan.difficulty === "easier" ? "a little easier" : "a little harder");
   if (plan.versions > 1) bits.push("versions A and B");
+  if (plan.words?.length) bits.push(`also your words: ${plan.words.map((w) => w.english).join(", ")}`);
   return `${kind} for ${who}${src ? ` on ${src}` : ""}${bits.length ? ` — ${bits.join("; ")}` : ""}.`;
 }
 

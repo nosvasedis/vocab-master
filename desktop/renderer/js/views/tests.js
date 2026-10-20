@@ -15,7 +15,7 @@ import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from
 import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints, normalizeItem, balanceChoices, LETTERS } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
-import { buildUnitContext } from "../../studio/unit-context.js";
+import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
 import { audioFileName } from "../../studio/audio-track.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
@@ -499,7 +499,7 @@ function renderFoot() {
   next.disabled = i === RESULT - 1 && !!probs.length;
   // Steps with a tick; "Your test" opens once there is one.
   const done = [1];
-  if (!probs.some((p) => /words to test|topic, or choose/.test(p))) done.push(0);
+  if (!probs.some((p) => /words to test|Type the topic/.test(p))) done.push(0);
   if (spec.parts.length) done.push(2);
   if (ts.doc) done.push(3);
   wiz.mark({ done, locked: ts.doc || ts.writing ? [] : [RESULT] });
@@ -533,7 +533,7 @@ function specForAi() {
 }
 
 /** The line under the test's title and in the header: the unit, the word list, or the topic and grammar. */
-const sourceLabel = (sel, spec = specForAi().spec) => (sel.kind === "topic" ? [spec.topic, ...spec.grammar].filter(Boolean).join(" · ") || "A grammar point or topic" : sel.label);
+const sourceLabel = (sel, spec = specForAi().spec) => (sel.kind === "topic" ? [spec.topic, ...spec.grammar, sel.focus.length ? plural(sel.focus.length, "word") : ""].filter(Boolean).join(" · ") || "A grammar point or topic" : sel.label);
 
 function renderPlanNote() {
   if (!picker) return;
@@ -836,13 +836,20 @@ function openDoc(d) {
   ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;
   const src = d.spec?.source || {};
   let pk = null;
+  const words = (d.focusWords || []).filter((w) => w.english);
+  const asOwn = (list) => list.map((w) => ({ english: w.english, greek: w.greek || "" }));
   if (src.kind === "unit" && CPP_BOOKS[src.bookId]) {
-    const picked = (d.focusWords || []).map((w) => String(w.english || "").toLowerCase()).filter(Boolean);
-    pk = { kind: "unit", bookId: src.bookId, units: src.units?.length ? src.units : [1], sections: src.sections?.length ? src.sections : ["BQ", "A", "B"], focusMode: picked.length ? "pick" : "key", picked };
+    const units = src.units?.length ? src.units : [1];
+    const sections = src.sections?.length ? src.sections : ["BQ", "A", "B"];
+    // The unit's words come back as picked words; the rest (own words, or words of tests saved before own words) as own words.
+    const inUnit = new Set(units.flatMap((u) => unitWords(src.bookId, u, sections)).map((w) => w.english.toLowerCase()));
+    const picked = words.filter((w) => !w.own && inUnit.has(w.english.toLowerCase())).map((w) => w.english.toLowerCase());
+    const own = asOwn(words.filter((w) => w.own || !inUnit.has(w.english.toLowerCase())));
+    pk = { kind: "unit", bookId: src.bookId, units, sections, focusMode: picked.length ? "pick" : "key", picked, own };
   } else if (src.kind === "topic") {
-    pk = { kind: "topic", topic: d.spec.topic || "" };
+    pk = { kind: "topic", topic: d.spec.topic || "", own: asOwn(words) };
     ts.spec.topic = "";
-  } else if (src.kind === "words" && filledWords().length >= 3) pk = { kind: "current" };
+  } else if (src.kind === "words" && filledWords().length >= 3) pk = { kind: "current", own: asOwn(words.filter((w) => w.own)) };
   if (pk) { ts.sourceKey = ""; picker.set(pk); }
   savePrefs();
 }

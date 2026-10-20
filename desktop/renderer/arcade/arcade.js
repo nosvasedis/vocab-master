@@ -8,7 +8,8 @@ import { confetti, floatText } from "./fx.js";
 import { mountGame, esc, svg } from "./host.js";
 import { firstEmoji, buildArcadeDeck } from "./deck.js";
 import { openDeckPicker } from "./deck-picker.js";
-import { rowById, describePick, logPlayed } from "./deck-source.js";
+import { rowById, describeDeck, logPlayed } from "./deck-source.js";
+import { lookupCoursebookWord } from "../coursebook-data.js";
 import { hasVoiceFor } from "./voice.js";
 import flashcards from "./games/flashcards.js";
 import memory from "./games/memory.js";
@@ -65,6 +66,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDec
     buildDeck,             // coursebook rows → a game deck (trusted pictures)
     source: "start",
     pickIds: null,         // coursebook word ids picked in "Choose your words" (remembered, see restorePick)
+    pickOwn: [],           // the teacher's own words added in "Choose your words": [{ english, greek }]
     plan: null,            // the ready-made lesson: { ids, i }
     picker: null,
     onPrefs,
@@ -585,13 +587,29 @@ function countUp(el) {
   requestAnimationFrame(step);
 }
 
-/** "Choose your words" is remembered on this computer: the arcade opens with the same words until the teacher picks again. */
+/** The deck of a pick: the coursebook rows (trusted pictures), then the teacher's own words. */
+function deckOf(ids, own = []) {
+  const rows = ids.map((id) => rowById.get(id)).filter(Boolean);
+  const book = rows.length ? (session.buildDeck ? session.buildDeck(rows) : buildArcadeDeck(rows)) : [];
+  // An own word takes the coursebook's type, Greek, phrase and example when the word is in a book; the bank's emoji
+  // fillers are left out (buildArcadeDeck still gives it the illustrated picture when there is one).
+  const lookup = (english) => { const hit = lookupCoursebookWord(english); return hit ? { ...hit, emojis: "" } : null; };
+  const seen = new Set(book.map((w) => w.english.toLowerCase()));
+  const mine = buildArcadeDeck(own.map((w) => ({ english: w.english, greek: w.greek || "" })), lookup).filter((w) => !seen.has(w.english.toLowerCase()));
+  return [...book, ...mine];
+}
+
+/** "Choose your words" is remembered on this computer: the arcade opens with the same words until the teacher picks again.
+ *  Saved as { ids, own } (older versions saved the ids alone). */
 function restorePick() {
-  const ids = (safeJSON(localStorage.getItem(PICK_KEY), null) || []).filter((id) => rowById.has(id));
-  if (ids.length < 3) return;
-  session.deck = session.buildDeck ? session.buildDeck(ids.map((id) => rowById.get(id))) : buildArcadeDeck(ids.map((id) => rowById.get(id)));
-  session.title = describePick(ids);
+  const saved = safeJSON(localStorage.getItem(PICK_KEY), null);
+  const ids = (Array.isArray(saved) ? saved : saved?.ids || []).filter((id) => rowById.has(id));
+  const own = Array.isArray(saved?.own) ? saved.own.filter((w) => w?.english) : [];
+  if (ids.length + own.length < 3) return;
+  session.deck = deckOf(ids, own);
+  session.title = describeDeck(ids, own);
   session.pickIds = ids;
+  session.pickOwn = own;
   session.source = "book";
 }
 
@@ -607,6 +625,9 @@ function openPicker() {
     sfx,
     pic: rowPicture,
     picked: session.pickIds || [],
+    own: session.pickOwn || [],
+    // The worksheet's words can be added to a book pick (the arcade was opened with them).
+    worksheetWords: session.baseDeck.map((w) => ({ english: w.english, greek: w.greek || "" })),
     minWords,
     hasWorksheet: !!session.baseDeck.length && session.source !== "start",
     hasVoice: (row) => hasVoiceFor(row.english),
@@ -622,22 +643,23 @@ function rowPicture(row) {
   return token ? session.picture(token) : "";
 }
 
-/** ids = the picked coursebook words; null = go back to the words the arcade was opened with. */
-function applyPick(ids) {
+/** ids = the picked coursebook words, own = the teacher's own words; ids null = go back to the words the arcade was opened with. */
+function applyPick(ids, own = []) {
   closePicker();
   if (!ids) {
     session.deck = session.baseDeck;
     session.title = session.baseTitle;
     session.pickIds = null;
+    session.pickOwn = [];
     session.source = "start";
   } else {
-    const rows = ids.map((id) => rowById.get(id)).filter(Boolean);
-    session.deck = session.buildDeck ? session.buildDeck(rows) : buildArcadeDeck(rows);
-    session.title = describePick(ids);
+    session.deck = deckOf(ids, own);
+    session.title = describeDeck(ids, own);
     session.pickIds = ids;
+    session.pickOwn = own;
     session.source = "book";
   }
-  if (ids) store(PICK_KEY, ids); else { try { localStorage.removeItem(PICK_KEY); } catch { /* storage unavailable */ } }
+  if (ids) store(PICK_KEY, { ids, own }); else { try { localStorage.removeItem(PICK_KEY); } catch { /* storage unavailable */ } }
   sfx.win();
   showHub();
   confetti(session.root, { count: 90, originY: 0.2 });

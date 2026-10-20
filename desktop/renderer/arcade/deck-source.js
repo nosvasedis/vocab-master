@@ -141,10 +141,25 @@ export function recentWords(log, { days = 7, now = Date.now() } = {}) {
 }
 
 /* ── Saved decks (vm_arcade_decks: [{ id, name, ids, at }]) ─────────── */
-export function saveDeck(list, name, ids, now = Date.now()) {
-  const clean = String(name || "").replace(/\s+/g, " ").trim().slice(0, 40) || describePick(ids);
+export function saveDeck(list, name, ids, now = Date.now(), own = []) {
+  const clean = String(name || "").replace(/\s+/g, " ").trim().slice(0, 40) || describeDeck(ids, own);
   const rest = (Array.isArray(list) ? list : []).filter((d) => d.name.toLowerCase() !== clean.toLowerCase());
-  return [{ id: `d${now.toString(36)}`, name: clean, ids: [...ids], at: now }, ...rest].slice(0, 30);
+  const deck = { id: `d${now.toString(36)}`, name: clean, ids: [...ids], at: now };
+  if (own.length) deck.own = own.map((w) => ({ english: w.english, greek: w.greek || "" }));
+  return [deck, ...rest].slice(0, 30);
+}
+
+/** The teacher's own words that aren't already picked from the book (same headword). */
+export function ownNotPicked(ids, own = []) {
+  const picked = new Set([...ids].map((id) => String(rowById.get(id)?.english || "").trim().toLowerCase()));
+  return own.filter((w) => !picked.has(String(w.english || "").trim().toLowerCase()));
+}
+
+/** A deck's title: the book pick, plus the teacher's own words ("Primary Path 2 · Unit 4 + 3 own words"). */
+export function describeDeck(ids, own = []) {
+  const extra = ownNotPicked(ids, own).length;
+  if (![...ids].length) return extra ? `Your own words · ${extra} ${extra === 1 ? "word" : "words"}` : "No words picked";
+  return `${describePick(ids)}${extra ? ` + ${extra} own ${extra === 1 ? "word" : "words"}` : ""}`;
 }
 export const deleteDeck = (list, id) => (Array.isArray(list) ? list : []).filter((d) => d.id !== id);
 

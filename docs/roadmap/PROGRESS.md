@@ -4,6 +4,37 @@
 
 **Next:** nothing queued. The Unit test fixes (deleting parts; Step 1 decides grammar, texts and parts) are on `main` and in the rebuilt exes (2026-10-20, section below). The studio redesign and the Dictation redesign (`feature/dictation-redesign`) are merged into `main` (2026-10-20): `npm test` 446 pass, `npm run smoke` passes. The 3.3.0 installer and portable exe are rebuilt from it (desktop/release/; package verified; the unpacked app passes `--smoke`). Earlier: the account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes. The 3.3.0 listening voices are merged too (section below). The 3.3.0 installer and portable exe are rebuilt (desktop/release/, about 190 MB each, package verified); the packaged app passes `--smoke --voices` (4 threads, a real natural-voice sentence).
 
+## 3.4.0 — the teacher's own words, mixed in everywhere (2026-10-20, from the user)
+- **Asked:** a teacher picks a unit (and some of its words) but also wants to test other words of their own, in every feature.
+- **Audit:**
+  - Worksheets already allowed it (Step 2 is free typing over the pool).
+  - Unit test, Read-aloud dictation, the arcade (and so Lingo Live) and the assistant did not.
+  - The arcade could play book words *or* the worksheet's words, never both, and nothing outside the books.
+- **`studio/own-words.js` (pure):**
+  - `parseOwnWords`: commas / semicolons / new lines; optional Greek as "word - ελληνικά", "word = …", "word (…)"; list bullets and numbers stripped.
+  - `addOwnWords`, `ownWordEntry`: the coursebook's type, Greek and example from any book; the teacher's Greek wins; `own: true`.
+  - `mergeOwnWords`: no repeats.
+- **Unit test & dictation (shared picker, `studio-common.js`):**
+  - An "Add your own words" box in all three sources (a unit, my word list, a grammar point or topic). Add / Enter / paste a list; chips with ×; "Remove all"; a word already in the unit's list shows faded and counts once.
+  - `value().focus` = source words + own words; the labels read "… + 3 own words".
+- **Tests:**
+  - The prompt names the teacher's own words.
+  - A topic test can be built around words alone (`planProblems`), and the prompt's vocabulary parts test them.
+  - Saved tests remember which words were own (`focusWords[].own`) and reopen with them.
+  - The topic picture message now says "needs 3+ words with pictures (add them under the topic)".
+- **Dictation:** coursebook-sentence dictations put own words first (`bookSentences`). The ready card names own words the books have no sentence for, and suggests the AI.
+- **Arcade:**
+  - "Choose your words" has an "Add your own words" box and "＋ My worksheet words", which adds the worksheet's words to a book pick; "Only my worksheet words" keeps the old behaviour.
+  - Decks = book rows (trusted pictures) + own words (looked up in the bank, illustrated picture when there is one).
+  - `vm_arcade_pick` is now `{ ids, own }` (old arrays still read); saved decks keep `own`; `describeDeck` / `ownNotPicked` in `deck-source.js`.
+- **Assistant:** `findOwnWords` reads "… plus the words crater, lava and ash cloud", "also test: island, coast", "extra words: penguin - πιγκουίνος", «… και τις λέξεις …» (not "the words of unit 4"). The words go to the test / dictation as own words and to Worksheets → Step 2 (topic worksheets: in the brief). The plan summary lists them.
+- **Version 3.4.0** (root + desktop package.json and locks, READMEs; the README tour mentions own words).
+- **Checks:** `npm test` 455 pass (new `tests/own-words.test.mjs`, 6 tests). Tried in the web app:
+  - unit + own words (add, Enter, paste a list, remove, duplicate shown once), topic with words, the ready card;
+  - a coursebook dictation with an own word from another unit (first) and one not in the books (named);
+  - the arcade (book unit + 2 own words → 147, played, remembered after reopening);
+  - the assistant ("… plus the words crater, skateboard and ash cloud" → the test's own words).
+
 ## GitHub release v3.3.0 published (2026-10-20, from the user)
 - Releases had stopped at v2.0.0 (2026-10-16); 3.0–3.3 were never published. **v3.3.0** is now the Latest release (https://github.com/nosvasedis/vocab-master/releases/tag/v3.3.0), tag on `main` 4b7e9ec, with `Vocab-Master-Setup-3.3.0.exe` and `Vocab-Master-Portable-3.3.0.exe` (same bytes as `desktop/release/`, built from fb73205; only docs changed after). The notes cover everything since 2.0. README heading says 3.3; its download link (releases/latest) now gets 3.3.0.
 - **For the next release:** bump the version (root + desktop package.json), `npm run dist`, then `gh release create vX.Y.Z desktop/release/Vocab-Master-Setup-X.Y.Z.exe desktop/release/Vocab-Master-Portable-X.Y.Z.exe --latest`.

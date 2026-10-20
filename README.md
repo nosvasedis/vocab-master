@@ -1,4 +1,4 @@
-# Vocab Master — Teacher Studio 3.3 🎓
+# Vocab Master — Teacher Studio 3.4 🎓
 
 **AI-Powered Vocabulary ("Lingo Launcher") & Assessment ("Dictation") Worksheet Architect for ESL Teachers (A–E Senior / CEFR Early A1 to B1).**
 
@@ -12,8 +12,8 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 
 1. Go to the [**GitHub Releases**](../../releases/latest) page.
 2. Choose either download option:
-   - **💿 `Vocab-Master-Setup-3.3.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
-   - **🧳 `Vocab-Master-Portable-3.3.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
+   - **💿 `Vocab-Master-Setup-3.4.0.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller.
+   - **🧳 `Vocab-Master-Portable-3.4.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
 3. On first launch, open **Settings** (bottom of the sidebar). Choose **Google Gemini** or **DeepSeek** and paste your API key, or choose **ChatGPT** → **Continue with ChatGPT** to use an eligible ChatGPT Plus or Pro plan without an API key. For ChatGPT, allow plan usage in your browser, choose a model, then Save. Luna is selected first when available. Desktop credentials are stored encrypted on your PC via Windows DPAPI.
 
 ---
@@ -50,8 +50,8 @@ Vocab Master is a calm, four-step studio with a sidebar that always shows where 
 
 ### 🧑‍🏫 Make: assistant, unit tests, read-aloud dictation
 - **Teacher assistant** — say what you need ("a test for Unit 4", "Present Simple vs Present Continuous for E class", "τεστ για την ενότητα 5"). It asks at most two quick questions, shows an editable plan, then builds it. It also tells the two dictations apart: the **Dictation sheet** (vocabulary exercises, with the Lingo Launcher) or a **read-aloud dictation**.
-- **Unit test** — a printable all-round test for one or more units: listening (short new dialogues, a different voice for each speaker, saved as audio files too), reading, vocabulary, grammar, writing and speaking, with points, timing, versions A and B, Greek instructions on or off, and a teacher's pack with the answer key and marking scheme.
-- **Read-aloud dictation** — you (or the app) read, the class writes: classic, gapped, running (with wall strips), dictogloss or picture. Choose sentence count and length, unit words per sentence, gaps, difficulty and grammar focus; free sentences from the coursebook or one small AI request.
+- **Unit test** — a printable all-round test for one or more units: listening (short new dialogues, a different voice for each speaker, saved as audio files too), reading, vocabulary, grammar, writing and speaking, with points, timing, versions A and B, Greek instructions on or off, and a teacher's pack with the answer key and marking scheme. Start from a coursebook unit, your word list, or a grammar point or topic — and **add your own words** (from another unit, another book, or anywhere; with the Greek if you like) to be tested alongside.
+- **Read-aloud dictation** — you (or the app) read, the class writes: classic, gapped, running (with wall strips), dictogloss or picture. Choose sentence count and length, unit words per sentence, gaps, difficulty and grammar focus; free sentences from the coursebook or one small AI request. Your own words can be mixed in with the unit's.
 - **Listening voices** — tests and dictations are read by **Natural voices** (Kokoro, an open voice model that runs on the computer: free, offline after a one-time ~90 MB download), **Studio voices** (Google Gemini with your own Gemini key, the most lifelike, about 1 cent per minute of speech) or the computer's own voices. Every listening is made once and kept, so it plays at once in class; any track can be saved as a WAV.
 
 ### 🖼️ Pictures
@@ -70,7 +70,7 @@ ChatGPT uses the official public OAuth and Responses API flow for local apps. It
 Full-screen worksheet for the interactive whiteboard. Tap a line — or press <kbd>Space</kbd> — to reveal answers one by one; zoom for the back row.
 
 ### 🎮 Lingo Arcade — smartboard games
-Play as the whole class, as named players, or as 2–4 teams of members, with saved classes, avatars and team crests, fair turns (everyone answers before anyone repeats), animated title, round and finish screens, sound effects and recorded voices. **Choose your words** by book, unit, section or page range (pp. 34–41), with filters, quick picks and saved decks.
+Play as the whole class, as named players, or as 2–4 teams of members, with saved classes, avatars and team crests, fair turns (everyone answers before anyone repeats), animated title, round and finish screens, sound effects and recorded voices. **Choose your words** by book, unit, section or page range (pp. 34–41), with filters, quick picks and saved decks — plus **your own words** (or your worksheet's words) mixed in with the book's.
 - **Flashcards** — giant 3D cards, English-first or Greek-first; sort into "still learning" and "I know it", then practise just the tricky ones.
 - **Memory Match** — numbered tiles students can call out; match words with Greek, pictures or phrases.
 - **Spell Bee** — hear the word, read the clue, build it from letter tiles or type it.
