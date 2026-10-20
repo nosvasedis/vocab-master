@@ -52,3 +52,38 @@ test("worksheets take the text size too (screen, print and Word)", async () => {
   assert.match(renderLingoLauncher(fx.data, { textSize: "large" }), /class="worksheet lingo-sheet density-standard text-large"/);
   assert.match(renderDictation({ ...fx.data, meta: { ...fx.data.meta, textSize: "small" } }, {}), /text-small/);
 });
+
+test("header switches: every line can be turned off — on worksheets, tests and in Word", async () => {
+  const fs = await import("node:fs");
+  const { renderLingoLauncher } = await import("../desktop/renderer/app.js");
+  const { headerOptions, HEADER_DEFAULTS } = await import("../desktop/renderer/studio/paper-header.js");
+  const fx = JSON.parse(fs.readFileSync(new URL("../desktop/smoke-fixture.json", import.meta.url), "utf8"));
+  const ws = (header) => renderLingoLauncher(fx.data, { layout: { schoolName: "Frontistirio Iris", header, lingo: { studentHeader: true } } });
+  const full = ws({});
+  assert.match(full, /Frontistirio Iris/);
+  assert.match(full, /class="ws-book"/);
+  assert.match(full, /<b>Date<\/b>/);
+  const bare = ws({ school: false, book: false, unit: false, unitTitle: false, pages: false, class: false, date: false, classLine: false, extra: true, extraText: "Spring test · Ms V." });
+  assert.doesNotMatch(bare, /Frontistirio Iris/);
+  assert.doesNotMatch(bare, /class="ws-band-meta"/, "no empty right column");
+  assert.doesNotMatch(bare, /<b>Date<\/b>/);
+  assert.match(bare, /<b>Name<\/b>/);
+  assert.match(bare, /Spring test · Ms V\./);
+  assert.doesNotMatch(ws({ name: false, classLine: false, date: false, score: false }), /ws-student/, "all four off: no box");
+  assert.equal(headerOptions({ studentHeader: false }).name, false, "the old Name & score switch still hides the box");
+  assert.equal(HEADER_DEFAULTS.extra, false);
+
+  // Tests: time, points and version follow their switches; the score box shows the total.
+  const doc = docWith("V-MC", { header: { minutes: false } });
+  doc.meta.minutes = 25; doc.meta.version = "A"; doc.meta.subtitle = "Unit 4";
+  const html = renderStudentPaper(doc);
+  assert.doesNotMatch(html, /25 min/);
+  assert.match(html, /Version A/);
+  assert.match(html, /3 points/);
+  assert.match(html, /class="ws-total">3</);
+  assert.doesNotMatch(renderStudentPaper({ ...doc, meta: { ...doc.meta, layout: { header: { points: false, version: false, title: false } } } }), /Version A|3 points|ws-title/);
+  // Word: the same switches.
+  const withAll = await buildStudioDocx({ doc: { ...doc, meta: { ...doc.meta, layout: {} } }, which: "student" });
+  const without = await buildStudioDocx({ doc: { ...doc, meta: { ...doc.meta, layout: { header: { title: false, kind: false, points: false, version: false, minutes: false, name: false, classLine: false, date: false, score: false } } } }, which: "student" });
+  assert.ok(without.size < withAll.size);
+});

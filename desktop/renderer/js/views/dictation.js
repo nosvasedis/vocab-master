@@ -16,6 +16,7 @@ import { containsForm } from "../../studio/word-scope.js";
 import { GRAMMAR_MENU, LEVEL_IDS, sentenceRange, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../../studio/doc-render.js";
 import { relabelDoc } from "../../studio/doc-model.js";
+import { openHeaderDialog } from "../header-dialog.js";
 import { readDictation } from "../voices/listening.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
@@ -531,13 +532,18 @@ function renderPaper() {
   $("dcPageCtl").classList.toggle("hidden", !has);
   if (!has) { paper.clear(); $("dcProblems").innerHTML = ""; return; }
   $("dcPageCtl").innerHTML = pageControlsHtml(dc.doc.meta.layout || {});
-  wirePageControls($("dcPageCtl"), (change) => {
+  const setPage = (change) => {
+    if (!dc.doc) return;
     dc.doc.meta.layout = { ...(dc.doc.meta.layout || {}), ...change };
     dc.spec.page = { ...(dc.spec.page || {}), ...change };
     savePrefs();
     saveDoc(dc.doc);
     renderPaper();
-  });
+  };
+  wirePageControls($("dcPageCtl"), setPage, () => openHeaderDialog({
+    header: dc.doc.meta.layout?.header, schoolName: prefs.schoolName || "", subtitle: "This dictation — and the next ones you make",
+    onChange: (header) => setPage({ header }),
+  }));
   paper.render(safePaperHtml(() => sheetHtml(), "dictation"));
   fitPaper($("dcStage"), $("dcPaper"));
   const probs = dc.doc.sections[0].problems || [];

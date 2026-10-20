@@ -45,7 +45,7 @@ export const state = {
   plan: null,
   data: null,
   sessionId: null,
-  preview: { sheet: "lingo", showAnswers: false, density: "standard", textSize: "standard", zoom: 1, layout: {} },
+  preview: { sheet: "lingo", showAnswers: false, density: "standard", textSize: "standard", zoom: 1, layout: {}, header: {} },
   busy: false,
 };
 

@@ -4,6 +4,7 @@
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
 import { LETTERS, answerKeyRows, docPoints } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
+import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./paper-header.js";
 
 const MM = 56.7;
 const FONT = "Segoe UI";
@@ -34,11 +35,18 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
 
   const children = [];
   const teacher = which === "teacher";
-  children.push(para([run(teacher ? `${meta.title || "Test"} · Teacher’s pack` : meta.title || "Test", { display: true, bold: true, size: 40 })]));
-  const sub = [meta.bookTitle, meta.unit ? `Unit ${meta.unit}` : "", meta.classLabel, meta.version ? `Version ${meta.version}` : "", meta.minutes ? `${meta.minutes} min` : "", !teacher ? `${docPoints(doc)} points` : ""].filter(Boolean).join(" · ");
-  children.push(para([run(sub, { size: 18, color: "555555" })], { spacing: { after: 2 * MM } }));
-  if (!teacher && meta.layout?.studentHeader !== false) {
-    children.push(para([run("Name ", { bold: true, size: 17 }), run("______________________________   ", { color: "8A8A8A" }), run("Class ", { bold: true, size: 17 }), run("________   ", { color: "8A8A8A" }), run("Date ", { bold: true, size: 17 }), run("________   ", { color: "8A8A8A" }), run("Score ", { bold: true, size: 17 }), run(`_____ / ${docPoints(doc)}`, { color: "8A8A8A" })], { spacing: { after: 3 * MM } }));
+  // The header follows the same switches as the paper (paper-header.js).
+  const h = headerOptions(meta.layout || {});
+  const headLines = headerMetaLines(meta, h, meta.unitTitle || "");
+  if (h.school && meta.schoolName) children.push(para([run(String(meta.schoolName).toUpperCase(), { bold: true, size: 15, color: "444444" })]));
+  if (h.title) children.push(para([run(teacher ? `${meta.title || "Test"} · Teacher’s pack` : meta.title || "Test", { display: true, bold: true, size: 40 })]));
+  const sub = [headLines.book, headLines.unitLine, headLines.detail, headerKindLine(teacher ? "" : meta.subtitle || "", { version: meta.version, minutes: meta.minutes, points: !teacher ? docPoints(doc) : "" }, h)].filter(Boolean).join(" · ");
+  if (sub) children.push(para([run(sub, { size: 18, color: "555555" })], { spacing: { after: headerExtra(h) ? 0 : 2 * MM } }));
+  if (headerExtra(h)) children.push(para([run(headerExtra(h), { size: 18, color: "444444" })], { spacing: { after: 2 * MM } }));
+  const fields = !teacher && meta.layout?.studentHeader !== false ? studentFields(h) : [];
+  if (fields.length) {
+    const blank = { name: "______________________________   ", classLine: "________   ", date: "________   ", score: `_____ / ${h.points ? docPoints(doc) : "____"}` };
+    children.push(para(fields.flatMap(([k, label]) => [run(`${label} `, { bold: true, size: 17 }), run(blank[k], { color: "8A8A8A" })]), { spacing: { after: 3 * MM } }));
   }
 
   (doc.sections || []).forEach((s, i) => {

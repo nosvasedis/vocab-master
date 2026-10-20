@@ -983,3 +983,12 @@
 .page-ctl-l { display: inline-flex; align-items: center; gap: 5px; font: 700 11.5px/1 var(--font-ui); color: var(--text-3); }
 .page-ctl-l:not(:first-child) { margin-left: 6px; }
 .page-ctl .segmented button { min-width: 34px; }
+
+/* The Header dialog: presets, then a switch for every line, in groups */
+.hd { display: flex; flex-direction: column; gap: 12px; }
+.hd-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.hd-group { margin: 0; padding: 10px 12px 12px; border: 1px solid var(--border); border-radius: 14px; }
+.hd-group legend { padding: 0 6px; font: 800 11px/1 var(--font-ui); letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+.hd-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 14px; }
+.hd-extra { margin: 10px 0 0; }
+.hd-group .st-hint { margin: 8px 0 0; }

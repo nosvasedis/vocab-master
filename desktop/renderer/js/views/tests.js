@@ -25,6 +25,7 @@ import { audioFileName } from "../../studio/audio-track.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { loadLessonJson } from "./studio-common.js";
 import { mountTestEditing } from "./test-edit.js";
+import { openHeaderDialog } from "../header-dialog.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
 
 const PREFS_KEY = "vm_tests_prefs_v1";
@@ -1040,12 +1041,17 @@ function renderPaper() {
   if (!has) { paper.clear(); $("tsProblems").innerHTML = ""; $("tsListen").innerHTML = ""; return; }
   // Text size, spacing and examples belong to this test (and become the next test's starting point).
   $("tsPageCtl").innerHTML = pageControlsHtml(ts.doc.meta.layout || {}, { examples: ts.sheet !== "teacher" });
-  wirePageControls($("tsPageCtl"), (change) => {
+  const setPage = (change) => {
+    if (!ts.doc) return;
     ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), ...change };
     ts.spec.page = { ...(ts.spec.page || {}), ...change };
     savePrefs();
     refreshDoc();
-  });
+  };
+  wirePageControls($("tsPageCtl"), setPage, () => openHeaderDialog({
+    header: ts.doc.meta.layout?.header, test: true, schoolName: prefs.schoolName || "", subtitle: "This test — and the next tests you make",
+    onChange: (header) => setPage({ header }),
+  }));
   paper.render(safePaperHtml(() => sheetHtml(), "test"));
   editor?.decorate();
   fitPaper($("tsStage"), $("tsPaper"));

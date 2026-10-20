@@ -32,10 +32,10 @@ export function docLayout(doc, options = {}) {
 
 function headerFor(doc, layout, { teacher = false } = {}) {
   const m = doc.meta || {};
-  const facts = [m.version ? `Version ${m.version}` : "", m.minutes ? `${m.minutes} min` : "", !teacher && docPoints(doc) ? `${docPoints(doc)} points` : ""].filter(Boolean).join(" · ");
+  const facts = { version: m.version || "", minutes: m.minutes || "", points: !teacher ? docPoints(doc) || "" : "" };
   return worksheetHeaderHtml(
     { bookTitle: m.bookTitle, unit: m.unit, pageRange: m.pages || "", classLabel: m.classLabel, classProfile: m.classProfile },
-    { title: teacher ? `${m.title || "Test"} · Teacher’s pack` : m.title || "Test", kind: teacher ? "Answer key · scripts · marking" : [m.subtitle, facts].filter(Boolean).join(" · "), layout: { studentHeader: !teacher && layout.studentHeader, reuseNote: false, schoolName: layout.schoolName } },
+    { title: teacher ? `${m.title || "Test"} · Teacher’s pack` : m.title || "Test", kind: teacher ? "Answer key · scripts · marking" : m.subtitle || "", facts, layout: { studentHeader: !teacher && layout.studentHeader, reuseNote: false, schoolName: layout.schoolName, header: layout.header } },
   );
 }
 

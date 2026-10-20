@@ -479,10 +479,12 @@ export function pageControlsHtml(layout = {}, { examples = false } = {}) {
     <span class="page-ctl-l">${icon("zoom-in", "i-xs")}Text size</span>${segHtml("textSize", Object.entries(TEXT_SIZES).map(([k, v]) => [k, `<span title="${esc(v.name)}">${esc(v.label)}</span>`]), textSizeKey(layout.textSize))}
     <span class="page-ctl-l">${icon("layers", "i-xs")}Spacing</span>${segHtml("density", SPACINGS, layout.density || "standard")}
     ${examples ? `<label class="switch sm" data-tip="The solved question 0 at the start of each part" data-tip-pos="bottom"><input type="checkbox" data-page-examples ${layout.examples !== false ? "checked" : ""} /><span class="track"></span><span class="sw-text">Examples</span></label>` : ""}
+    <button type="button" class="btn btn-ghost btn-sm" data-page-header data-tip="Choose what the top of the paper shows" data-tip-pos="bottom">${icon("sliders", "i-sm")}Header</button>
   </div>`;
 }
-/** Wire the page controls: onChange({ textSize | density | examples }). */
-export function wirePageControls(host, onChange) {
+/** Wire the page controls: onChange({ textSize | density | examples }); onHeader() opens the header switches. */
+export function wirePageControls(host, onChange, onHeader) {
+  host.querySelector("[data-page-header]")?.addEventListener("click", () => onHeader?.());
   host.querySelectorAll("[data-segmented]").forEach((root) => segmentedCtl(root, { value: root.querySelector(".active")?.dataset.value, onChange: (v) => onChange({ [root.dataset.seg]: v }) }));
   host.querySelector("[data-page-examples]")?.addEventListener("change", (e) => onChange({ examples: e.target.checked }));
 }

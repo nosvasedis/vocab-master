@@ -22,6 +22,7 @@ import {
 } from "./arcade/deck.js";
 import { picForWord, picUrl } from "./js/pics.js";
 import { TEXT_SIZE_CSS, textSizeKey, scaledSize } from "./studio/text-size.js";
+import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./studio/paper-header.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -2774,6 +2775,8 @@ function resolveWorksheetLayout(sheet, meta = {}, options = {}) {
   if (typeof options.studentHeader === "boolean" && !options.layout) layout.studentHeader = options.studentHeader;
   layout.schoolName = String(options.layout?.schoolName ?? saved.schoolName ?? "").trim();
   layout.pictureStyle = options.layout?.pictureStyle ?? saved.pictureStyle ?? "emoji";
+  // What the header shows (paper-header.js): the same switches for all three sheets.
+  layout.header = { ...(saved.header || {}), ...(options.layout?.header || {}) };
   // Greek help under each task line: on by default for the younger classes (A–C Senior).
   if (typeof layout.greekHelp !== "boolean") layout.greekHelp = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(meta.classProfile);
   return layout;
@@ -2785,35 +2788,41 @@ function worksheetUnitTitle(meta = {}) {
   return (id && CPP_BOOKS[id]?.units?.[Number(meta.unit)]?.title) || "";
 }
 
-function worksheetMetaParts(meta = {}) {
-  const pages = String(meta.pageRange || "").trim();
-  return {
-    book: meta.bookTitle || "",
-    unitLine: [meta.unit ? `Unit ${meta.unit}` : "", worksheetUnitTitle(meta)].filter(Boolean).join(" · "),
-    detail: [pages ? `pp. ${pages}` : "", meta.classLabel || ""].filter(Boolean).join(" · "),
-  };
+/** Book, unit and detail lines; h = the header switches (all on when not given — the footer uses it too). */
+function worksheetMetaParts(meta = {}, h) {
+  return headerMetaLines(meta, h || headerOptions(), worksheetUnitTitle(meta));
 }
 
-function worksheetHeaderHtml(meta, { title, kind, layout }) {
-  const m = worksheetMetaParts(meta);
+/**
+ * The header of every paper. Each line follows the teacher's header switches (layout.header, paper-header.js):
+ * school, title, subtitle (+ version, time and points for tests: facts), their own line, book, unit, unit
+ * title, pages, class, and each field of the student box.
+ */
+function worksheetHeaderHtml(meta, { title, kind, facts = {}, layout }) {
+  const h = headerOptions(layout);
+  const m = worksheetMetaParts(meta, h);
+  const kindLine = headerKindLine(kind, facts, h);
+  const extra = headerExtra(h);
+  const fields = layout.studentHeader ? studentFields(h) : [];
+  const side = m.book || m.unitLine || m.detail;
+  const top = (h.school && layout.schoolName) || h.title || kindLine || extra;
   return `<header class="ws-head">
-    <div class="ws-band">
+    ${top || side ? `<div class="ws-band${side ? "" : " no-meta"}">
       <div class="ws-band-title">
-        ${layout.schoolName ? `<div class="ws-school">${escapeHtml(layout.schoolName)}</div>` : ""}
-        <h1 class="ws-title ws-heading">${escapeHtml(title)}</h1>
-        <div class="ws-kind">${escapeHtml(kind)}</div>
+        ${h.school && layout.schoolName ? `<div class="ws-school">${escapeHtml(layout.schoolName)}</div>` : ""}
+        ${h.title ? `<h1 class="ws-title ws-heading">${escapeHtml(title)}</h1>` : ""}
+        ${kindLine ? `<div class="ws-kind">${escapeHtml(kindLine)}</div>` : ""}
+        ${extra ? `<div class="ws-extra">${escapeHtml(extra)}</div>` : ""}
       </div>
-      <div class="ws-band-meta">
+      ${side ? `<div class="ws-band-meta">
         ${m.book ? `<div class="ws-book">${escapeHtml(m.book)}</div>` : ""}
         ${m.unitLine ? `<div class="ws-unit">${escapeHtml(m.unitLine)}</div>` : ""}
         ${m.detail ? `<div class="ws-detail">${escapeHtml(m.detail)}</div>` : ""}
-      </div>
-    </div>
-    ${layout.studentHeader ? `<div class="ws-student">
-      <span class="ws-field grow"><b>Name</b><i></i></span>
-      <span class="ws-field"><b>Class</b><i></i></span>
-      <span class="ws-field"><b>Date</b><i></i></span>
-      <span class="ws-field score"><b>Score</b><i></i><em>/</em><i></i></span>
+      </div>` : ""}
+    </div>` : ""}
+    ${fields.length ? `<div class="ws-student">${fields.map(([k, label], i) => k === "score"
+      ? `<span class="ws-field score"><b>${label}</b><i></i><em>/</em>${facts.points && h.points ? `<span class="ws-total">${escapeHtml(facts.points)}</span>` : "<i></i>"}</span>`
+      : `<span class="ws-field${k === "name" || (i === 0 && !h.name) ? " grow" : ""}"><b>${label}</b><i></i></span>`).join("")}
     </div>` : ""}
     ${layout.reuseNote ? `<div class="ws-reuse">✎ This sheet is shared — please don’t write on it. Write your answers in your notebook.</div>` : ""}
   </header>`;
@@ -4324,6 +4333,9 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
   border: 1pt solid var(--ink); border-radius: 3mm; overflow: hidden;
 }
 .ws-band-title { padding: 3mm 5mm 3.2mm 5.4mm; display: flex; flex-direction: column; justify-content: center; min-width: 56%; border-left: 2.2mm solid var(--ink); }
+.ws-extra { font: 600 9pt/1.3 ${WORKSHEET_FONTS.display}; color: var(--ink-2); margin-top: 1mm; }
+.ws-band.no-meta .ws-band-title { min-width: 0; flex: 1; }
+.ws-total { font: 700 9pt/1 ${WORKSHEET_FONTS.display}; padding-left: 1mm; }
 .ws-school { font: 700 7.4pt/1.2 ${WORKSHEET_FONTS.display}; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 1mm; }
 .ws-title { font-size: 22pt; font-weight: 800; letter-spacing: -0.015em; line-height: 1.05; margin: 0; color: var(--ink); }
 .ws-kind { font: 700 8.4pt/1.3 ${WORKSHEET_FONTS.display}; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); margin-top: 1.2mm; }
@@ -4560,7 +4572,10 @@ async function docxKit(meta, sheet) {
   };
 
   function header(title, kind) {
-    const m = worksheetMetaParts(meta);
+    const h = headerOptions(layout);
+    const m = worksheetMetaParts(meta, h);
+    const extra = headerExtra(h);
+    kind = headerKindLine(kind, {}, h);
     const band = new d.Table({
       width: { size: 100, type: d.WidthType.PERCENTAGE },
       borders: { top: line(8), bottom: line(8), left: line(8), right: line(8), insideHorizontal: none, insideVertical: line(4, RULE) },
@@ -4572,9 +4587,11 @@ async function docxKit(meta, sheet) {
             margins: { top: 3 * MM, bottom: 3 * MM, left: 5 * MM, right: 4 * MM },
             verticalAlign: d.VerticalAlign.CENTER,
             children: [
-              ...(layout.schoolName ? [para([run(layout.schoolName, { display: true, bold: true, size: 15, color: "444444", caps: true, spacing: 20 })])] : []),
-              para([run(title, { display: true, bold: true, size: 44, color: INK })]),
-              para([run(kind, { display: true, bold: true, size: 16, color: GREY, caps: true, spacing: 24 })]),
+              ...(h.school && layout.schoolName ? [para([run(layout.schoolName, { display: true, bold: true, size: 15, color: "444444", caps: true, spacing: 20 })])] : []),
+              ...(h.title ? [para([run(title, { display: true, bold: true, size: 44, color: INK })])] : []),
+              ...(kind ? [para([run(kind, { display: true, bold: true, size: 16, color: GREY, caps: true, spacing: 24 })])] : []),
+              ...(extra ? [para([run(extra, { size: 18, color: "444444" })])] : []),
+              ...(!h.title && !kind && !extra && !(h.school && layout.schoolName) ? [para([run("")])] : []),
             ],
           }),
           new d.TableCell({
@@ -4582,7 +4599,8 @@ async function docxKit(meta, sheet) {
             margins: { top: 2.4 * MM, bottom: 2.4 * MM, left: 4 * MM, right: 5 * MM },
             verticalAlign: d.VerticalAlign.CENTER,
             children: [
-              para([run(m.book, { display: true, bold: true, size: 19 })], { alignment: d.AlignmentType.RIGHT }),
+              ...(m.book ? [para([run(m.book, { display: true, bold: true, size: 19 })], { alignment: d.AlignmentType.RIGHT })] : []),
+              ...(!m.book && !m.unitLine && !m.detail ? [para([run("")])] : []),
               ...(m.unitLine ? [para([run(m.unitLine, { size: 18, color: "444444" })], { alignment: d.AlignmentType.RIGHT })] : []),
               ...(m.detail ? [para([run(m.detail, { size: 16, color: GREY })], { alignment: d.AlignmentType.RIGHT })] : []),
             ],
@@ -4591,14 +4609,11 @@ async function docxKit(meta, sheet) {
       })],
     });
     const out = [band];
-    if (layout.studentHeader) {
+    const fields = layout.studentHeader ? studentFields(h) : [];
+    if (fields.length) {
       const field = (label, blank) => [run(`${label} `, { display: true, bold: true, size: 15, color: "444444", caps: true, spacing: 16 }), run(blank, { size: 18, color: "8A8A8A" })];
-      out.push(para([
-        ...field("Name", "_______________________________"), run("    "),
-        ...field("Class", "__________"), run("    "),
-        ...field("Date", "__________"), run("    "),
-        ...field("Score", "____ / ____"),
-      ], {
+      const blank = { name: "_______________________________", classLine: "__________", date: "__________", score: "____ / ____" };
+      out.push(para(fields.flatMap(([k, label], i) => [...(i ? [run("    ")] : []), ...field(label, blank[k])]), {
         spacing: { before: 3 * MM },
         border: { top: line(6), bottom: line(6), left: line(6), right: line(6) },
         indent: { left: 2 * MM, right: 2 * MM },
@@ -4796,6 +4811,9 @@ async function buildAnswerKeyDocx(data) {
 /** Word file of a unit test or dictation ({ doc, which: "student" | "teacher" }), built where the docx library lives. */
 async function buildStudioDocx(data) {
   const m = await import("./studio/doc-docx.js");
+  // The unit's title (Big Question) for the header's "Unit title" line.
+  const meta = data?.doc?.meta;
+  if (meta && meta.unitTitle == null) data = { ...data, doc: { ...data.doc, meta: { ...meta, unitTitle: worksheetUnitTitle(meta) } } };
   return m.buildStudioDocx(data, await loadDocxLibs());
 }
 

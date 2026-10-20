@@ -12,6 +12,7 @@ import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictur
 import { savePrefs } from "../state.js";
 import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
+import { openHeaderDialog } from "../header-dialog.js";
 import { play } from "../../arcade/audio.js";
 import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
 
@@ -66,6 +67,11 @@ export function initPreview() {
     onChange: (v) => { state.preview.textSize = v; emit("preview"); renderPaper(); },
   });
   $("optAnswers").addEventListener("change", (e) => { state.preview.showAnswers = e.target.checked; emit("preview"); renderPaper(); });
+  // The header switches apply to all three sheets (screen, print, PDF and Word).
+  $("btnHeader").addEventListener("click", () => openHeaderDialog({
+    header: state.preview.header, schoolName: prefs.schoolName || "", subtitle: "All three sheets of this unit",
+    onChange: (header) => { state.preview.header = header; emit("preview"); renderPaper(); },
+  }));
   document.querySelectorAll("[data-layout]").forEach((cb) => cb.addEventListener("change", () => {
     const sheet = state.preview.sheet;
     state.preview.layout[sheet] = { ...sheetLayout(sheet), [cb.dataset.layout]: cb.checked };
@@ -142,7 +148,7 @@ function sheetLayout(sheet) {
 
 /** Everything the worksheet renderers and Word builders need (saved in data.meta.layout). */
 function layoutPayload() {
-  return { lingo: sheetLayout("lingo"), dictation: sheetLayout("dictation"), answer: sheetLayout("answer"), schoolName: prefs.schoolName || "", pictureStyle: prefs.pictureStyle || "emoji" };
+  return { lingo: sheetLayout("lingo"), dictation: sheetLayout("dictation"), answer: sheetLayout("answer"), schoolName: prefs.schoolName || "", pictureStyle: prefs.pictureStyle || "emoji", header: state.preview.header || {} };
 }
 
 const LAYOUT_ROWS = { lingo: ["studentHeader", "scoreBoxes", "greekHelp", "footer"], dictation: ["studentHeader", "scoreBoxes", "greekHelp", "reuseNote", "footer"], answer: ["footer"] };
