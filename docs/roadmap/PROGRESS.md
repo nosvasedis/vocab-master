@@ -29,6 +29,7 @@
   - `vm_arcade_pick` is now `{ ids, own }` (old arrays still read); saved decks keep `own`; `describeDeck` / `ownNotPicked` in `deck-source.js`.
 - **Assistant:** `findOwnWords` reads "… plus the words crater, lava and ash cloud", "also test: island, coast", "extra words: penguin - πιγκουίνος", «… και τις λέξεις …» (not "the words of unit 4"). The words go to the test / dictation as own words and to Worksheets → Step 2 (topic worksheets: in the brief). The plan summary lists them.
 - **Version 3.4.0** (root + desktop package.json and locks, READMEs; the README tour mentions own words).
+- **Released:** GitHub release **v3.4.0** is Latest (tag on 60ec07e) with the Setup and Portable exes (190 MB each, same bytes as desktop/release/; package verified; the unpacked app passes `--smoke`).
 - **Checks:** `npm test` 455 pass (new `tests/own-words.test.mjs`, 6 tests). Tried in the web app:
   - unit + own words (add, Enter, paste a list, remove, duplicate shown once), topic with words, the ready card;
   - a coursebook dictation with an own word from another unit (first) and one not in the books (named);
