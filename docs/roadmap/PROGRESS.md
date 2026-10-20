@@ -49,6 +49,7 @@
     - Electron run 1 → update ready; run 2 → the window loaded the updated title, alive cleared the trial.
     - A broken-page commit → after 45 s "live: reverting … the pages did not start", marked bad, restarted on the last good pages.
   - Browser: assistant word panel, interactions and every hand-off (test, dictation, worksheets — the browser's own Step 2 list restored); Settings → Updates in all its states (stubbed bridge).
+- **Released with `npm run release`:** GitHub release **v3.5.0** is Latest (tag on 6c070c9): Setup, Portable, `latest.yml`, blockmap. Package verified, packaged smoke passed; the packaged app (separate data folder) logged "live: current" and "exe: current" against GitHub.
 - **Not tried:** a real exe-to-exe auto-update (needs a release newer than the installed one; the first will be 3.5.0 → the next version). 3.4.0 and older have no updater: teachers install 3.5.0 once by hand.
 
 ## 3.4.0 — the teacher's own words, mixed in everywhere (2026-10-20, from the user)
