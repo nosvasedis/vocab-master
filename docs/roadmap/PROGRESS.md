@@ -2,7 +2,33 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-**Next:** nothing queued. The studio redesign and the Dictation redesign (`feature/dictation-redesign`) are merged into `main` (2026-10-20): `npm test` 446 pass, `npm run smoke` passes. The 3.3.0 installer and portable exe are rebuilt from it (desktop/release/; package verified; the unpacked app passes `--smoke`). Earlier: the account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes. The 3.3.0 listening voices are merged too (section below). The 3.3.0 installer and portable exe are rebuilt (desktop/release/, about 190 MB each, package verified); the packaged app passes `--smoke --voices` (4 threads, a real natural-voice sentence).
+**Next:** nothing queued. The Unit test fixes (deleting parts; Step 1 decides grammar, texts and parts) are on `main` and in the rebuilt exes (2026-10-20, section below). The studio redesign and the Dictation redesign (`feature/dictation-redesign`) are merged into `main` (2026-10-20): `npm test` 446 pass, `npm run smoke` passes. The 3.3.0 installer and portable exe are rebuilt from it (desktop/release/; package verified; the unpacked app passes `--smoke`). Earlier: the account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes. The 3.3.0 listening voices are merged too (section below). The 3.3.0 installer and portable exe are rebuilt (desktop/release/, about 190 MB each, package verified); the packaged app passes `--smoke --voices` (4 threads, a real natural-voice sentence).
+
+## Unit test: parts can be deleted again; Step 1 decides grammar, texts and parts (2026-10-20, from the user)
+- **Bug:** the trash can (and the move arrows) on a part did nothing. The parts click handler took the step `<section data-step="3">` for a stepper button and threw. Now it only matches `[data-stepper] [data-step]` (same guard in `dictation.js`).
+- **Why the revamp:** "Grammar, a theme & the title (optional)" sat in Step 2 whatever Step 1 said, so a topic test asked for its topic twice, a coursebook unit was offered a free theme and a generic grammar menu next to its own, and stale prefs leaked a theme into topic tests.
+- **Step 1 "What does the test cover?"** (`renderFocus` in `js/views/tests.js`): under the source picker, the grammar and the texts change with the source.
+  - *Coursebook unit*, or *My word list* from the coursebook: grammar defaults to **The unit's grammar** (from the book's example sentences; choosing a chip only puts the focus on it). The texts are shown as the unit's Big Question, with an optional setting.
+  - *My word list* with no unit: **What the class knows** by default, plus "What are the texts about?".
+  - *A grammar point or topic*: the Step 1 text is the topic and the chips are the grammar to test (either one is enough). There's no second theme field.
+- **Title** moved to Final touches. When it's empty, the placeholder shows the title the test will get (`defaultTitle`). It is cleared on a unit change and on New test, and editing it renames an open test.
+- **Parts follow the source** (`taskBlock`, `taskForSource`, `fitPartsToSource` in `studio/test-builder.js`):
+  - Picture tasks need 3+ words with pictures; the Big Question talk needs a unit. Tasks that don't fit are greyed out in the menu with the reason.
+  - Added parts get a task that works, and a source change swaps blocked parts (with a toast).
+  - `planNotes`: a soft note when a one-word-answer part has more questions than chosen words.
+- **Prompt:** a topic test's topic is the Step 1 text only. Without a unit, the grammar line asks for what the class knows (not "the unit's example sentences").
+- **Other:**
+  - Opening a saved test (recent list or Home) sets Step 1 back to its book, units, sections and exact words (or its topic) and leaves its parts as written.
+  - A class change keeps the grammar, theme, difficulty and switches.
+  - The picker's `onChange` now gets `{ byUser }`.
+- **Checks:** `npm test` 449 pass (3 new in `tests/studio.test.mjs`). Tried in the web app:
+  - trash, move, add;
+  - word list → topic → unit, with blocked tasks swapped and greyed;
+  - grammar and title, the title reset on a unit change;
+  - a saved test reopened with Step 1 restored and no part changed;
+  - title rename and trash on an open test;
+  - Dictation steppers.
+- `npm run smoke` passes. `desktop/node_modules` was missing (gone with the worktree cleanup); reinstalled with `npm --prefix desktop ci`. The 3.3.0 installer and portable exe are rebuilt (package verified; the unpacked app passes `--smoke`).
 
 ## Fix: Step 2 words no longer preselected (2026-10-20, from the user)
 - Opening the app without a draft and pressing **New** used to fill Step 2 with a smart pick (`loadPoolWords` in `main.js`). Now a new unit starts empty; words load only when the teacher picks a book / unit / section / Load option in Step 1, or presses **Load unit words** in Step 2's banner (it reads "Reset to unit words" once there are words). Changing the class no longer fills an empty list. `npm test` 446 pass; checked in the web app (New, reload, class change, Load). The 3.3.0 installer and portable exe are rebuilt with it (package verified, the unpacked app passes `--smoke`). Cleanup: the merged worktrees and local branches are removed.
