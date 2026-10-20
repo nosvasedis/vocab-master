@@ -361,12 +361,17 @@ async function startSync() {
 /* ── Boot ────────────────────────────────────────────────────────── */
 async function boot() {
   try {
+    const splash = window.__splash || { step() {}, done() {} };
+    splash.step("Loading your units…", 18);
     await hydrateStorage();
+    splash.step("Syncing your account…", 38);
     await startSync();
     applyTheme();
+    splash.step("Preparing pictures and sounds…", 62);
     configureAudio(soundPrefs());
     await Promise.all([ensurePictureStyle(prefs.pictureStyle), initPics()]);
     initVoice();
+    splash.step("Setting up your screens…", 82);
 
     loadDraft();
     if (state.sessionId) {
@@ -401,8 +406,10 @@ async function boot() {
     updateLibraryCount();
     if (FLOW.includes(state.view)) lastFlow = state.view;
     go("home", { silent: true });
+    splash.done();
   } catch (err) {
     console.error(err);
+    window.__splash?.done();
     const banner = document.createElement("div");
     banner.className = "callout danger";
     banner.style.cssText = "position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:999;max-width:640px";
