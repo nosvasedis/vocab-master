@@ -1,4 +1,4 @@
-# Vocab Master — Teacher Studio 3.5.2 🎓
+# Vocab Master — Teacher Studio 3.5.3 🎓
 
 **AI-Powered Vocabulary ("Lingo Launcher") & Assessment ("Dictation") Worksheet Architect for ESL Teachers (A–E Senior / CEFR Early A1 to B1).**
 
@@ -12,8 +12,8 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 
 1. Go to the [**GitHub Releases**](../../releases/latest) page.
 2. Choose either download option:
-   - **💿 `Vocab-Master-Setup-3.5.2.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller — and **keeps itself up to date**.
-   - **🧳 `Vocab-Master-Portable-3.5.2.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
+   - **💿 `Vocab-Master-Setup-3.5.3.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller — and **keeps itself up to date**.
+   - **🧳 `Vocab-Master-Portable-3.5.3.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
 3. On first launch, open **Settings** (bottom of the sidebar). Choose **Google Gemini** or **DeepSeek** and paste your API key, or choose **ChatGPT** → **Continue with ChatGPT** to use an eligible ChatGPT Plus or Pro plan without an API key. For ChatGPT, allow plan usage in your browser, choose a model, then Save. Luna is selected first when available. Desktop credentials are stored encrypted on your PC via Windows DPAPI.
 
 ### 🔄 Updates — automatic
