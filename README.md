@@ -1,4 +1,4 @@
-# Vocab Master — Teacher Studio 3.2 🎓
+# Vocab Master — Teacher Studio 3.3 🎓
 
 **AI-Powered Vocabulary ("Lingo Launcher") & Assessment ("Dictation") Worksheet Architect for ESL Teachers (A–E Senior / CEFR Early A1 to B1).**
 
