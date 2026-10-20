@@ -15,32 +15,32 @@ export function sampleHtml(taskId) {
   const s = t?.sample;
   if (!s) return "";
   const out = [];
-  if (s.audio) out.push(`<div class="sp-audio">${icon("volume", "i-xs")}<span>${esc(s.audio)}</span></div>`);
-  if (s.text) out.push(`<div class="sp-text">${esc(s.text)}</div>`);
-  if (s.bank) out.push(`<div class="sp-bank">${s.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`);
+  if (s.audio) out.push(`<div class="tkp-audio">${icon("volume", "i-xs")}<span>${esc(s.audio)}</span></div>`);
+  if (s.text) out.push(`<div class="tkp-text">${esc(s.text)}</div>`);
+  if (s.bank) out.push(`<div class="tkp-bank">${s.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`);
   if (s.pairs) {
-    out.push(`<div class="sp-pairs"><div>${s.pairs.map(([a], i) => `<span><i>${i + 1}</i>${esc(a)}</span>`).join("")}</div><div>${s.pairs.map((_, i) => `<span><i>${LETTERS[i].toUpperCase()}</i>${esc(s.pairs[(i + 1) % s.pairs.length][1])}</span>`).join("")}</div></div>`);
+    out.push(`<div class="tkp-pairs"><div>${s.pairs.map(([a], i) => `<span><i>${i + 1}</i>${esc(a)}</span>`).join("")}</div><div>${s.pairs.map((_, i) => `<span><i>${LETTERS[i].toUpperCase()}</i>${esc(s.pairs[(i + 1) % s.pairs.length][1])}</span>`).join("")}</div></div>`);
   } else if (s.list) {
-    out.push(`<div class="sp-order">${s.list.map((x, i) => `<span><b>${i === 1 ? "1" : ""}</b>${esc(x)}</span>`).join("")}</div>`);
+    out.push(`<div class="tkp-order">${s.list.map((x, i) => `<span><b>${i === 1 ? "1" : ""}</b>${esc(x)}</span>`).join("")}</div>`);
   } else if (t.answer === "open") {
-    if (s.pics) out.push(`<div class="sp-pics">${s.pics.map((p) => `<span>${p}</span>`).join("")}</div>`);
-    if (s.q) out.push(`<div class="sp-q">${esc(s.q)}</div>`);
-    if (s.lines) out.push(`<div class="sp-lines">${s.lines.map((l) => `<span>${esc(l)}</span>`).join("")}</div>`);
+    if (s.pics) out.push(`<div class="tkp-pics">${s.pics.map((p) => `<span>${p}</span>`).join("")}</div>`);
+    if (s.q) out.push(`<div class="tkp-q">${esc(s.q)}</div>`);
+    if (s.lines) out.push(`<div class="tkp-lines">${s.lines.map((l) => `<span>${esc(l)}</span>`).join("")}</div>`);
   } else {
-    const q = s.q ? `<span class="sp-qt">${esc(s.q)}${s.hint ? ` <em class="sp-hint">${esc(s.hint)}</em>` : ""}</span>` : "";
+    const q = s.q ? `<span class="tkp-qt">${esc(s.q)}${s.hint ? ` <em class="tkp-hint">${esc(s.hint)}</em>` : ""}</span>` : "";
     if (s.pics && t.answer === "choice") {
-      out.push(`<div class="sp-q">${q}</div><div class="sp-pics">${s.pics.map((p, i) => `<span class="${i === s.a ? "on" : ""}">${p}${i === s.a ? "<b>✓</b>" : ""}</span>`).join("")}</div>`);
+      out.push(`<div class="tkp-q">${q}</div><div class="tkp-pics">${s.pics.map((p, i) => `<span class="${i === s.a ? "on" : ""}">${p}${i === s.a ? "<b>✓</b>" : ""}</span>`).join("")}</div>`);
     } else if (s.pics) {
-      out.push(`<div class="sp-pics one">${s.pics.map((p) => `<span>${p}</span>`).join("")}<div class="sp-q">${q}<span class="sp-ans">${esc(s.a)}</span></div></div>`);
+      out.push(`<div class="tkp-pics one">${s.pics.map((p) => `<span>${p}</span>`).join("")}<div class="tkp-q">${q}<span class="tkp-ans">${esc(s.a)}</span></div></div>`);
     } else if (t.answer === "choice") {
-      out.push(`${q ? `<div class="sp-q">${q}</div>` : ""}<div class="sp-opts">${s.o.map((o, i) => `<span class="${i === s.a ? "on" : ""}"><b>${LETTERS[i]}</b>${esc(o)}</span>`).join("")}</div>`);
+      out.push(`${q ? `<div class="tkp-q">${q}</div>` : ""}<div class="tkp-opts">${s.o.map((o, i) => `<span class="${i === s.a ? "on" : ""}"><b>${LETTERS[i]}</b>${esc(o)}</span>`).join("")}</div>`);
     } else if (t.answer === "tf") {
-      out.push(`<div class="sp-q sp-tf">${q}<span class="sp-box">${esc(s.a)}</span></div>`);
+      out.push(`<div class="tkp-q tkp-tf">${q}<span class="tkp-box">${esc(s.a)}</span></div>`);
     } else {
-      out.push(`<div class="sp-q">${q}<span class="sp-ans">${esc(s.a)}</span></div>`);
+      out.push(`<div class="tkp-q">${q}<span class="tkp-ans">${esc(s.a)}</span></div>`);
     }
   }
-  return `<div class="sp" data-skill="${esc(t.skill)}">${out.join("")}</div>`;
+  return `<div class="tkp" data-skill="${esc(t.skill)}">${out.join("")}</div>`;
 }
 
 /** The kind and class-fit badges of a task. */
