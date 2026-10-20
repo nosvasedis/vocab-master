@@ -59,7 +59,7 @@ function passageHtml(section) {
 function bankHtml(section) {
   if (!section.bank?.length) return "";
   if (section.answerType === "match") {
-    return `<div class="match-defs">${section.bank.map((b) => `<p class="match-def-line"><b>${esc(b.letter.toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
+    return `<div class="match-defs">${section.bank.map((b) => `<p class="match-def-line"><b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
   }
   return `<div class="word-bank">${section.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`;
 }
@@ -72,7 +72,7 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   if (section.answerType === "choice") {
     const pics = layout.pictures && it.optionPics?.length;
     const opts = pics
-      ? `<div class="st-pic-options">${it.options.map((o, i) => `<div class="st-pic-opt${example && i === it.answerIndex ? " picked" : ""}">${pic(it.optionPics[i], "st-opt-pic")}<span class="st-box">${example && i === it.answerIndex ? "✓" : ""}</span><small>${LETTERS[i].toUpperCase()}</small></div>`).join("")}</div>`
+      ? `<div class="st-pic-options">${it.options.map((o, i) => `<div class="st-pic-opt${example && i === it.answerIndex ? " picked" : ""}">${pic(it.optionPics[i], "st-opt-pic")}<span class="st-box">${example && i === it.answerIndex ? "✓" : ""}</span><small>${(LETTERS[i] || "").toUpperCase()}</small></div>`).join("")}</div>`
       : `<div class="st-options">${it.options.map((o, i) => `<span class="st-opt${example && i === it.answerIndex ? " picked" : ""}"><b>${LETTERS[i]}</b>${esc(o)}</span>`).join("")}</div>`;
     return `<div class="${cls}">${num}<div class="item-text">${it.prompt ? `<div>${withGaps(it.prompt)}</div>` : ""}${opts}${key}</div></div>`;
   }
@@ -137,7 +137,7 @@ function dictationHtml(section, layout, showAnswers) {
     return s.map((x) => `<div class="ex-item st-item">${`<span class="item-num">${x.n}</span>`}<div class="item-text">${withGaps(x.gapped)}${showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(x.answers.join(", "))}</span>` : ""}</div></div>`).join("");
   }
   if (style === "picture") {
-    const grid = `<div class="pic-grid st-dict-pics">${(section.pictures || []).map((p) => `<div class="ex-item pic-card"><span class="item-num">${esc(p.letter.toUpperCase())}</span><div class="pic-frame">${layout.pictures ? pic(p.pic) : ""}</div><div class="st-dict-pic-lines"><span>No. ${line("tiny")}</span>${line("short")}</div>${showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(p.n)} · ${esc(p.word)}</span>` : ""}</div>`).join("")}</div>`;
+    const grid = `<div class="pic-grid st-dict-pics">${(section.pictures || []).map((p) => `<div class="ex-item pic-card"><span class="item-num">${esc((p.letter || "").toUpperCase())}</span><div class="pic-frame">${layout.pictures ? pic(p.pic) : ""}</div><div class="st-dict-pic-lines"><span>No. ${line("tiny")}</span>${line("short")}</div>${showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(p.n)} · ${esc(p.word)}</span>` : ""}</div>`).join("")}</div>`;
     return grid;
   }
   if (style === "dictogloss") {

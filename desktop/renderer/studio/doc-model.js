@@ -7,7 +7,8 @@ import { TASKS, SKILLS, tfLabels, rubricFor, partOpts } from "./tasks.js";
 import { readingText } from "./reading-texts.js";
 import { balancedPositions, binaryBalance } from "./answer-balance.js";
 
-export const LETTERS = "abcdefgh";
+/** Letters for options, matching meanings and order boxes: enough for the longest part (12 questions + the example). */
+export const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
 const lc = (s) => clean(s).toLowerCase().replace(/[.!?]+$/, "");

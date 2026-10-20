@@ -19,7 +19,7 @@ export function sampleHtml(taskId) {
   if (s.text) out.push(`<div class="tkp-text">${esc(s.text)}</div>`);
   if (s.bank) out.push(`<div class="tkp-bank">${s.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`);
   if (s.pairs) {
-    out.push(`<div class="tkp-pairs"><div>${s.pairs.map(([a], i) => `<span><i>${i + 1}</i>${esc(a)}</span>`).join("")}</div><div>${s.pairs.map((_, i) => `<span><i>${LETTERS[i].toUpperCase()}</i>${esc(s.pairs[(i + 1) % s.pairs.length][1])}</span>`).join("")}</div></div>`);
+    out.push(`<div class="tkp-pairs"><div>${s.pairs.map(([a], i) => `<span><i>${i + 1}</i>${esc(a)}</span>`).join("")}</div><div>${s.pairs.map((_, i) => `<span><i>${(LETTERS[i] || "").toUpperCase()}</i>${esc(s.pairs[(i + 1) % s.pairs.length][1])}</span>`).join("")}</div></div>`);
   } else if (s.list) {
     out.push(`<div class="tkp-order">${s.list.map((x, i) => `<span><b>${i === 1 ? "1" : ""}</b>${esc(x)}</span>`).join("")}</div>`);
   } else if (t.answer === "open") {

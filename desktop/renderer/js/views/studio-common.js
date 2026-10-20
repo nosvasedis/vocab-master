@@ -137,6 +137,13 @@ export function createPaper(host) {
     clear() { root.innerHTML = ""; },
   };
 }
+/** The paper's HTML, or — if drawing it fails — a note on the paper instead of a blank page (the document stays saved). */
+export function safePaperHtml(draw, what = "paper") {
+  try { return draw(); } catch (err) {
+    console.error(`The ${what} could not be drawn`, err);
+    return `<div style="margin:40px auto;max-width:460px;padding:18px 20px;border:1.5px solid #f59e0b;border-radius:12px;background:#fff8eb;font:500 14px/1.5 system-ui,sans-serif;color:#7a4b00"><b>This ${esc(what)} couldn't be drawn.</b><br>It is saved in your Library. Try writing it (or one part) again, or close it and open it again. <small style="display:block;margin-top:8px;opacity:.75">${esc(err?.message || String(err))}</small></div>`;
+  }
+}
 export function fitPaper(stage, paper) {
   const z = Math.max(0.4, Math.min(1, (stage.clientWidth - 12) / (210 * 3.7795)));
   paper.style.setProperty("--zoom", z.toFixed(3));

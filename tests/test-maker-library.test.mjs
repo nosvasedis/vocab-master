@@ -185,3 +185,24 @@ test("word families work from A Senior: a class ladder in the prompt and the wor
   assert.match(prompt("A_SENIOR"), /CLASS LADDER — A Senior: ONE easy/);
   assert.match(prompt("E_SENIOR"), /CLASS LADDER — E Senior: B1 word formation/);
 });
+
+test("every exercise draws at every size, for every class: 3–12 questions + example, version B, teacher's pack, Word", async () => {
+  const words = ["volcano", "lava", "ash", "crater", "magma", "rock", "island", "cloud", "smoke", "steam", "heat", "earth", "fire"];
+  for (const levelId of LEVEL_IDS) for (const [id, t] of Object.entries(TASKS)) for (const n of [3, 8, 12]) {
+    const part = { ...makePart(t.skill, id, levelId), id: "x", items: t.answer === "open" ? 1 : n };
+    const spec = { ...testDefaults(levelId), parts: [part], source: { kind: "unit" } };
+    const items = Array.from({ length: part.items }, (_, i) => {
+      if (t.answer === "choice") return { prompt: `The ________ is hot ${i}.`, options: [words[i], "snow", "ice", "rain"].slice(0, t.options || 3), answer: words[i] };
+      if (t.answer === "tf") return { prompt: `Statement ${i}`, answer: i % 2 ? "no" : "yes" };
+      if (t.answer === "match") return { prompt: words[i], answer: `meaning ${i}` };
+      return { prompt: `We saw the ________ (${i}).`, answer: words[i] };
+    });
+    const example = t.answer === "open" ? undefined : t.answer === "match" ? { prompt: "sun", answer: "meaning sun" } : items[0];
+    const reply = { sections: [{ id: "x", items, example, passage: "A text.", script: [{ speaker: "Mia", text: "Hello." }], prompt: "Write.", frame: ["Starter…"], sample: "Model.", cards: [{ title: "Card", student: "Talk.", questions: ["Q?"] }] }] };
+    const doc = buildTestDoc(spec, reply, { levelId, meta: {} });
+    doc.versionB = makeVersionB(doc);
+    const what = `${id} ${levelId} ${n}`;
+    assert.doesNotThrow(() => { renderStudentPaper(doc); renderTeacherPack(doc); renderStudentPaper(doc.versionB); renderTeacherPack(doc.versionB); }, what);
+    if (n === 12 && levelId === "E_SENIOR") assert.ok((await buildStudioDocx({ doc, which: "student" })).size > 1000, what);
+  }
+});

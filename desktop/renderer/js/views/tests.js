@@ -8,7 +8,7 @@ import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, wizardNav, createWizard, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
+  makePicFor, wizardNav, createWizard, safePaperHtml, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
 } from "./studio-common.js";
 /** The class profile plus what the class has already met (class memory, when the teacher turned it on). */
 const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
@@ -979,7 +979,7 @@ function renderPaper() {
   renderOutline();
   renderFoot();
   if (!has) { paper.clear(); $("tsProblems").innerHTML = ""; $("tsListen").innerHTML = ""; return; }
-  paper.render(sheetHtml());
+  paper.render(safePaperHtml(() => sheetHtml(), "test"));
   editor?.decorate();
   fitPaper($("tsStage"), $("tsPaper"));
   const byPart = ts.doc.sections.filter((s) => s.problems?.length);

@@ -111,7 +111,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         if (it.prompt) runs.push(run(gapText(it.prompt)), new d.TextRun({ break: 1 }));
         const optPics = it.optionPics?.map((p) => pic(p, 60));
         it.options.forEach((o, k) => {
-          if (optPics?.[k]) runs.push(optPics[k], run(`  ${LETTERS[k].toUpperCase()} ${ex && k === it.answerIndex ? "✓" : "☐"}      `, { bold: true }));
+          if (optPics?.[k]) runs.push(optPics[k], run(`  ${(LETTERS[k] || "").toUpperCase()} ${ex && k === it.answerIndex ? "✓" : "☐"}      `, { bold: true }));
           else runs.push(run(`${ex && k === it.answerIndex ? "(" : ""}${LETTERS[k]}${ex && k === it.answerIndex ? ")" : ")"} `, { bold: true }), run(`${o}      `));
         });
       } else if (s.answerType === "tf") runs.push(run(gapText(it.prompt)), run(`      ${ex ? it.answer : "______"}`, { bold: true }));
