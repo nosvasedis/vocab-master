@@ -73,11 +73,9 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   const num = `<span class="item-num">${example ? "0" : esc(it.n)}</span>`;
   const exAns = example ? `<span class="st-ex-ans">${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]}` : section.answerType === "match" ? it.letter?.toUpperCase() || "" : it.answer)}</span>` : "";
   const key = showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]} ${it.answer}` : section.answerType === "match" ? it.letter?.toUpperCase() : it.answer)}</span>` : "";
-  let cls = `ex-item st-item${example ? " st-example" : ""}`;
+  const cls = `ex-item st-item${example ? " st-example" : ""}`;
   if (section.answerType === "choice") {
     const pics = layout.pictures && it.optionPics?.length;
-    // Short options go on the question's line (they wrap under it when there is no room).
-    if (!pics && section.task !== "R-SIGNS" && it.options.join("").length + it.options.length * 3 <= 40 && String(it.prompt || "").length <= 90) cls += " st-inline-opts";
     const opts = pics
       ? `<div class="st-pic-options">${it.options.map((o, i) => `<div class="st-pic-opt${example && i === it.answerIndex ? " picked" : ""}">${pic(it.optionPics[i], "st-opt-pic")}<span class="st-box">${example && i === it.answerIndex ? "✓" : ""}</span><small>${(LETTERS[i] || "").toUpperCase()}</small></div>`).join("")}</div>`
       : `<div class="st-options">${it.options.map((o, i) => `<span class="st-opt${example && i === it.answerIndex ? " picked" : ""}"><b>${LETTERS[i]}</b>${esc(o)}</span>`).join("")}</div>`;
@@ -230,11 +228,11 @@ export const STUDIO_PRINT_CSS = `
 .studio-sheet .ex-head, .studio-sheet .st-audio, .studio-sheet .st-task, .studio-sheet .st-skill { break-after: avoid; page-break-after: avoid; }
 .studio-sheet .st-passage, .studio-sheet .word-bank, .studio-sheet .match-defs, .studio-sheet .st-story-pics, .studio-sheet .st-notes, .studio-sheet .st-example, .studio-sheet .key-head { break-inside: avoid; page-break-inside: avoid; }
 .studio-sheet .key-head { break-after: avoid; page-break-after: avoid; }
-/* Room without waste: tighter part spacing, short options on the question's line, short meanings in two columns. */
+/* Room without waste: tighter part spacing, short meanings in two columns; the options stay neatly under their question. */
 .studio-sheet .ex-block { margin-bottom: 3.6mm; }
 .studio-sheet .ex-head { margin-bottom: 1.4mm; }
-.st-inline-opts .item-text { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 5mm; }
-.st-inline-opts .st-options { margin-top: 0; }
+.studio-sheet .ex-item:has(.st-options) { line-height: 1.5; margin-bottom: 1.8mm; }
+.studio-sheet .ex-item:has(.st-options) .st-options { margin-top: 0.4mm; }
 .match-defs.two-col { columns: 2; column-gap: 6mm; }
 .match-defs.two-col .match-def-line { break-inside: avoid; margin-top: 0; }
 .studio-sheet .st-skill { font: 800 7.4pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.4mm; }
