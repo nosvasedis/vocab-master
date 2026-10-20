@@ -248,6 +248,15 @@ const SUPPORT = {
 };
 
 /** The knob settings of a part as prompt lines. */
+/** Word families, by class: which word-building changes each class meets (Pre-A1 endings → B1 word formation). */
+const FAMILY_LADDER = [
+  "A Senior: ONE easy, very common change to a word the children know: plural -s / -es (CAT → cats), a person who does it with -er (TEACH → teacher, FARM → farmer), weather and feeling words with -y (SUN → sunny, RAIN → rainy). Short, concrete sentences; never a prefix.",
+  "B Senior: ONE common change: -er / -or people (PLAY → player), -y adjectives (SALT → salty, DIRT → dirty), -ful (COLOUR → colourful), the opposite with un- (HAPPY → unhappy), -ly for how (SLOW → slowly).",
+  "C Senior: one change: -ful / -less (CARE → careful, careless), un- / dis- opposites, -ly adverbs, -er / -ist / -ian people (ART → artist, MUSIC → musician), -y adjectives.",
+  "D Senior: noun, verb and adjective families: -ness, -tion / -sion, -ment, -able, -ous, dis- / im- / in- opposites (DECIDE → decision, ENJOY → enjoyable, POSSIBLE → impossible).",
+  "E Senior: B1 word formation: any of the above, some with two changes (CARE → carelessly, HELP → unhelpful) or a spelling change (DECIDE → decision, FAME → famous); the sentence decides the word class.",
+];
+
 function knobLines(p, spec) {
   const t = TASKS[p.task];
   const o = partOpts(p, spec.levelId);
@@ -263,6 +272,7 @@ function knobLines(p, spec) {
   if (o.audio && o.audio !== "any") out.push(`  The recording: ${AUDIO[o.audio]}.`);
   if (o.plays === 1) out.push("  It is played ONCE: every answer is said slowly and clearly, never in the middle of a long sentence.");
   if (o.support && SUPPORT[o.support]) out.push(`  ${SUPPORT[o.support]}`);
+  if (p.task === "V-FORM") out.push(`  CLASS LADDER — ${FAMILY_LADDER[levelIndex(spec.levelId)]}`);
   return out;
 }
 
