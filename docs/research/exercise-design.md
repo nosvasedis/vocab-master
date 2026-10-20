@@ -22,6 +22,16 @@ Short notes behind the worksheet, dictation and unit-test changes. Greek-L1 clas
 5. Each skill has recognition → recall progression; writing is scaffolded; listening uses new short texts (not the per-word recordings).
 6. Level defaults: sentence length and item counts follow the class profile (A Senior ≈ 7 words per sentence … E Senior ≈ 16).
 
+## Five more Test Maker exercises (2026-10-21)
+Checked against the Cambridge Starters/Movers/Flyers handbook (2024) and the A2 Key for Schools format (2020 update). Added only task types those exams use and that the app can print well:
+- **Listen for the main idea** (L-GIST, C–E): several short recordings, one gist question each (A2 Key Listening Part 4) — listening for the point, not a word.
+- **Choose the right reply** (R-REPLY, A–E): functional dialogue completion (Movers/Flyers Reading & Writing, older A2 Key) — distractors are real short-answer and tense errors.
+- **Signs and messages** (R-SIGNS, C–E): notices, labels and messages, meaning in other words (A2 Key Reading Part 1).
+- **Read and choose the word** (R-MCCLOZE, B–E): multiple-choice cloze, three options of the same word class (Movers Part 4, A2 Key Part 4).
+- **Look and tick or cross** (V-TICK, A–B): picture + word, yes/no (Starters Reading & Writing Part 1).
+Left out on purpose: "listen and colour" and "find the differences" (need composed scenes the app cannot draw well); a categorising task (needs a table layout the paper does not have yet).
+Sources: https://www.cambridgeenglish.org/es/Images/young-learners-handbook-2024.pdf · https://www.cambridgeenglish.org/images/update-2020-a2-key.pdf · https://cambridgeenglish.org/exams/key-for-schools/exam-format
+
 ## Test Maker exercise library (2026-10-20)
 
 The test's exercise picker became a library of 37 task types (6 skills). Each task carries what the children do, why (what it trains), its kind (**recognise → recall → create**), the classes it suits (A–E fit range) and a small paper preview. Rationale per addition:

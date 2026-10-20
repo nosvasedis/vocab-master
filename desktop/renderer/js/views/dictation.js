@@ -15,6 +15,7 @@ import { DICTATION_STYLES } from "../../studio/tasks.js";
 import { containsForm } from "../../studio/word-scope.js";
 import { GRAMMAR_MENU, LEVEL_IDS, sentenceRange, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../../studio/doc-render.js";
+import { relabelDoc } from "../../studio/doc-model.js";
 import { readDictation } from "../voices/listening.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
@@ -70,7 +71,7 @@ function setDoc(d) {
 
 function openDoc(d) {
   stopReading();
-  setDoc(d);
+  setDoc(relabelDoc(d));
   dc.spec = { ...dc.spec, ...d.spec };
   dc.sheet = d.sections?.[0]?.style === "running" ? "strips" : "student";
   dc.showResult = true;
@@ -325,6 +326,24 @@ function planProblem() {
   return "";
 }
 
+/** When the chosen words can't fill the sentence count: picture sentences need a different picture word
+ *  each, book sentences need a book sentence per word. Said before making it, not discovered after. */
+function countNote() {
+  const s = dc.spec;
+  if (connectedStyle() || !picker) return "";
+  const sel = picker.value();
+  const words = withExamples(sel.focus, sel.meta);
+  if (s.style === "picture") {
+    const n = words.filter((w) => makePicFor(words)(w.english)).length;
+    if (n >= 3 && n < s.count) return `Only ${n} of your words have pictures, so this picture dictation will have ${n} sentences, not ${s.count}. Add words with pictures for more.`;
+  }
+  if (s.source === "book") {
+    const n = words.filter((w) => w.example && containsForm(w.example, w.english)).length;
+    if (n < s.count) return `Only ${n} of your words have a coursebook sentence, so the dictation will have ${n} sentences, not ${s.count}. Choose more words, or The AI as the writer.`;
+  }
+  return "";
+}
+
 function renderReady() {
   if (!picker || !$("dcReady")) return;
   const s = dc.spec;
@@ -346,6 +365,7 @@ function renderReady() {
       ${row("volume", "Reading", `Each sentence ${reads}`, 3)}
     </div>
     ${prob ? `<div class="callout warning">${icon("alert")}<span>${esc(prob)}</span></div>` : ""}
+    ${!prob && countNote() ? `<div class="callout warning">${icon("alert")}<span>${esc(countNote())}</span></div>` : ""}
     ${s.source === "book" && noBookSentence.length ? `<div class="callout info">${icon("info")}<span>The coursebook has no sentence for ${esc(noBookSentence.map((w) => w.english).join(", "))}. Choose <b>The AI</b> as the writer to include ${noBookSentence.length === 1 ? "it" : "them"}.</span></div>` : ""}
     <button type="button" class="btn btn-magic btn-lg mk-go" id="dcGenerate"${prob ? " disabled" : ""}>${icon(s.source === "book" ? "book-open" : "sparkles")}${dc.doc ? "Make a new dictation" : "Make my dictation"}</button>
     <small class="mk-hint">${s.source === "book" ? "Instant — from the book’s example sentences." : "Usually 5–15 seconds."} Then press <b>Read it aloud</b> in class.</small>`;
@@ -448,11 +468,16 @@ async function generate(btn) {
       } else {
         const { system, user } = dictationPrompt(spec, words, { profileBlock: [profileBlock(s.levelId), classMemoryBrief(s.levelId, words)].filter(Boolean).join("\n"), pictureWords, avoid: btn?.dataset?.again !== undefined ? (dc.doc?.sections?.[0]?.sentences || []).map((x) => x.text).filter(Boolean).slice(0, 15) : [] });
         raw = await askAi(system, user);
-        let doc = buildDictationDoc(spec, raw, words, ctx);
-        const bad = doc.sections[0].problems;
-        // One cheap retry when many sentences miss the brief.
-        if (bad.length >= Math.max(2, Math.ceil(doc.sections[0].sentences.length / 3))) {
-          raw = await askAi(system, user, { retryHint: `Fix these problems:\n${bad.join("\n")}` });
+        const first = buildDictationDoc(spec, raw, words, ctx);
+        const bad = first.sections[0].problems;
+        const short = !connectedStyle() && first.sections[0].sentences.length < spec.count;
+        // One retry when sentences are missing or many miss the brief; the better of the two is kept.
+        if (short || bad.length >= Math.max(2, Math.ceil(first.sections[0].sentences.length / 3))) {
+          const hint = [short ? `Write EXACTLY ${spec.count} sentences — last time there were only ${first.sections[0].sentences.length}.` : "", bad.length ? `Fix these problems:\n${bad.join("\n")}` : ""].filter(Boolean).join("\n");
+          const again = await askAi(system, user, { retryHint: hint });
+          const second = buildDictationDoc(spec, again, words, ctx);
+          const score = (d) => d.sections[0].sentences.length * 10 - d.sections[0].problems.length;
+          if (score(second) >= score(first)) raw = again;
         }
       }
       const made = buildDictationDoc(spec, raw, words, ctx);

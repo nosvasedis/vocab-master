@@ -66,6 +66,14 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     if (p) item.pic = p;
     else problems.push("no picture for this word");
   }
+  // "Look and tick or cross": the picture is its own word; the printed word matches it (yes) or not (no).
+  if (task === "V-TICK") {
+    const word = clean(raw?.picture ?? raw?.pic ?? (item.tf === 0 ? String(item.prompt).replace(/^(an?|the)\s+/i, "") : ""));
+    const p = word && picFor ? picFor(word) : null;
+    if (word) item.picWord = word;
+    if (p) item.pic = p;
+    else if (picFor) problems.push("no picture for this word");
+  }
   return { item, problems };
 }
 
@@ -115,6 +123,27 @@ export function familyHint(prompt, answer, mode) {
   const at = base ? w.toLowerCase().indexOf(base.toLowerCase()) : -1;
   if (at < 0 || base.length >= w.length) return letterHint(w, "first");
   return w.split("").map((ch, i) => (i >= at && i < at + base.length) || !/[A-Za-z]/.test(ch) ? ch.toLowerCase() : "_").join(" ");
+}
+
+/**
+ * Give every lettered thing its letter again (match meanings, order boxes, picture-dictation pictures).
+ * Documents saved when the letters stopped at "h" have empty boxes after it; this fills them. Returns the doc.
+ */
+export function relabelDoc(doc) {
+  for (const d of [doc, doc?.versionB].filter(Boolean)) {
+    for (const s of d.sections || []) {
+      if (s.answerType === "match" && Array.isArray(s.bank) && s.bank.length && typeof s.bank[0] === "object") {
+        s.bank.forEach((b, i) => { b.letter = LETTERS[i]; });
+        const byText = new Map(s.bank.map((b) => [String(b.text), b.letter]));
+        [s.example, ...(s.items || [])].filter(Boolean).forEach((it) => { it.letter = byText.get(String(it.answer)) || ""; });
+      } else if (s.task === "R-ORDER") {
+        (s.items || []).forEach((it, i) => { it.letter = LETTERS[i]; });
+      } else if (Array.isArray(s.pictures) && s.pictures.length) {
+        s.pictures.forEach((p, i) => { p.letter = LETTERS[i]; const x = (s.sentences || []).find((y) => y.n === p.n); if (x) x.letter = p.letter; });
+      }
+    }
+  }
+  return doc;
 }
 
 /**

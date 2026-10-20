@@ -74,7 +74,9 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
     const opts = pics
       ? `<div class="st-pic-options">${it.options.map((o, i) => `<div class="st-pic-opt${example && i === it.answerIndex ? " picked" : ""}">${pic(it.optionPics[i], "st-opt-pic")}<span class="st-box">${example && i === it.answerIndex ? "✓" : ""}</span><small>${(LETTERS[i] || "").toUpperCase()}</small></div>`).join("")}</div>`
       : `<div class="st-options">${it.options.map((o, i) => `<span class="st-opt${example && i === it.answerIndex ? " picked" : ""}"><b>${LETTERS[i]}</b>${esc(o)}</span>`).join("")}</div>`;
-    return `<div class="${cls}">${num}<div class="item-text">${it.prompt ? `<div>${withGaps(it.prompt)}</div>` : ""}${opts}${key}</div></div>`;
+    // A sign or message is printed in a box, like the real thing.
+    const prompt = !it.prompt ? "" : section.task === "R-SIGNS" ? `<div class="st-notice">${esc(it.prompt)}</div>` : `<div>${withGaps(it.prompt)}</div>`;
+    return `<div class="${cls}">${num}<div class="item-text">${prompt}${opts}${key}</div></div>`;
   }
   if (section.answerType === "tf") {
     return `<div class="${cls}">${num}<div class="item-text st-tf"><span>${withGaps(it.prompt)}</span><span class="st-tf-box">${example ? esc(it.answer) : ""}</span>${key}</div></div>`;
@@ -92,7 +94,7 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
 }
 
 function pictureCardsHtml(section, layout, showAnswers) {
-  const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}${it.hint ? `<div class="st-hint">${esc(it.hint)}</div>` : ""}<div class="pic-line">${example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
+  const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}${it.hint ? `<div class="st-hint">${esc(it.hint)}</div>` : ""}<div class="pic-line">${section.answerType === "tf" ? `<span class="st-tf-box">${example ? esc(it.answer) : ""}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}` : example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
   return `<div class="pic-grid">${section.example?.pic ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
 }
 
@@ -159,7 +161,7 @@ export function renderStudentPaper(doc, options = {}) {
     if (!["writing"].includes(section.skill) || section.task === "W-MESSAGE") body += passageHtml(section);
     body += bankHtml(section);
     if (section.answerType === "open") body += openTaskHtml(section, layout);
-    else if (section.task === "V-PIC") body += pictureCardsHtml(section, layout, options.showAnswers);
+    else if (section.task === "V-PIC" || section.task === "V-TICK") body += pictureCardsHtml(section, layout, options.showAnswers);
     else {
       // Picture-choice questions sit two to a row, so a part fits on one page.
       const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
@@ -231,6 +233,7 @@ export const STUDIO_PRINT_CSS = `
 .st-line.grow { flex: 1; min-width: 30mm; }
 .st-hint { display: inline-block; margin: 0 1.6mm; padding: 0.2mm 1.8mm; border: 0.6pt dashed var(--ink-3); border-radius: 1.4mm; font: 700 9.6pt/1.4 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.06em; color: var(--ink-2); white-space: nowrap; }
 .pic-card .st-hint { margin: 0.6mm 0 0; font-size: 8.6pt; }
+.st-notice { display: inline-block; max-width: 92%; margin: 0 0 1.2mm; padding: 1.6mm 3mm; border: 0.5mm solid #1f2430; border-radius: 1.6mm; font-weight: 700; letter-spacing: 0.01em; background: #fbfaf6; }
 .st-order .item-text { display: flex; align-items: center; gap: 3mm; }
 .st-order-box { flex: none; width: 7mm; height: 7mm; border: 0.8pt solid var(--ink); border-radius: 1.4mm; text-align: center; font: 700 10pt/7mm "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }
 .st-starters { margin: 0 0 1mm 9.8mm; }

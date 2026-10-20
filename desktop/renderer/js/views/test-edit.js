@@ -4,7 +4,7 @@
  * the script, the speaking script and the model answer. A hovered question shows a small bar: Edit, and ✨ Remake —
  * Lingo rewrites just that question, with the teacher's wish or fresh. A part's heading has ✨ Rewrite part.
  * Every change keeps the part checked (reviseSection) and can be undone from its toast. */
-import { esc, icon, toast, openDialog } from "../ui.js";
+import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, tfLabels } from "../../studio/tasks.js";
 import { reviseSection, fixItemsPrompt, applyItemFixes } from "../../studio/test-builder.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
@@ -23,6 +23,8 @@ const CSS = `
 .pe-bar button:hover { background: #efedff; }
 .pe-bar button.magic { color: #fff; background: linear-gradient(135deg, #6d5df6, #a855f7); }
 .pe-bar button.magic:hover { filter: brightness(1.08); }
+.pe-bar button.danger { color: #c2410c; }
+.pe-bar button.danger:hover { background: #fff1e8; }
 `;
 
 const lines = (v) => String(v || "").split("\n").map((x) => x.trim()).filter(Boolean);
@@ -89,7 +91,7 @@ export function mountTestEditing(host) {
     if (!d || busy.has(el)) { bar = null; return; }
     bar = document.createElement("div");
     bar.className = "pe-bar";
-    bar.innerHTML = `<button type="button" data-pe-act="edit">✎ Edit</button>${d.remake ? `<button type="button" class="magic" data-pe-act="remake" title="Lingo writes this question again">✨ Remake</button>` : ""}${d.rewrite ? `<button type="button" class="magic" data-pe-act="rewrite" title="Lingo writes this whole part again">✨ Rewrite part</button>` : ""}`;
+    bar.innerHTML = `<button type="button" data-pe-act="edit">✎ Edit</button>${d.remake ? `<button type="button" class="magic" data-pe-act="remake" title="Lingo writes this question again">✨ Remake</button>` : ""}${d.rewrite ? `<button type="button" class="magic" data-pe-act="rewrite" title="Lingo writes this whole part again">✨ Rewrite part</button>` : ""}${d.kind === "item" ? `<button type="button" class="danger" data-pe-act="delete" title="Delete this question — the part renumbers and its points change">🗑 Delete</button>` : ""}`;
     el.appendChild(bar);
   }
   host.root.addEventListener("mouseover", (e) => {
@@ -105,6 +107,7 @@ export function mountTestEditing(host) {
     const act = path.find((n) => n.dataset?.peAct)?.dataset.peAct || "edit";
     if (act === "remake") remakeDialog(d, el);
     else if (act === "rewrite") rewriteDialog(d);
+    else if (act === "delete") deleteItem(d);
     else openEditor(d, el);
   });
 
@@ -126,6 +129,42 @@ export function mountTestEditing(host) {
     const s = A(id);
     done(before, s?.problems?.length ? `${message} — Lingo noticed something: see the orange note.` : message);
   }
+  /**
+   * Delete one question: the part is checked again, so the numbers, the letters of a matching list, the word
+   * box, the points and the total all follow; Step 3 gets the new number of questions. Undo puts it back.
+   */
+  async function deleteItem(d) {
+    const s = A(d.id);
+    if (!s) return;
+    if (s.items.length <= 1) { toast("A part needs at least one question — to drop the whole part, remove it in Step 3 (The parts).", "warn", { ms: 5000 }); return; }
+    const idx = itemIndex(s, d.ref);
+    const n = idx + 1;
+    const doc = host.doc();
+    const before = snapshot();
+    const lc = (x) => String(x || "").trim().toLowerCase();
+    const ctx = await host.ctx().catch(() => ({}));
+    if (host.doc() !== doc) return;
+    const ok = reviseSection(doc, host.spec(), d.id, (raw) => {
+      if (!raw.items[idx]) return false;
+      const [gone] = raw.items.splice(idx, 1);
+      // Its answer leaves the word box too (unless another question still needs it).
+      if (Array.isArray(raw.bank) && gone?.answer && !raw.items.some((it) => lc(it.answer) === lc(gone.answer))) {
+        const at = raw.bank.findIndex((w) => lc(w) === lc(gone.answer));
+        if (at >= 0) raw.bank.splice(at, 1);
+      }
+    }, { picFor: ctx.picFor, focusWords: ctx.focus });
+    if (!ok) return;
+    host.itemsChanged?.(d.id);
+    host.commit();
+    toast(`Question ${n} deleted — ${plural(A(d.id).items.length, "question")} left in this part.`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
+      if (host.doc() !== doc) return;
+      Object.assign(doc, JSON.parse(before));
+      host.itemsChanged?.(d.id);
+      host.commit();
+      toast("Question put back.", "info", { ms: 1600 });
+    } }] });
+  }
+
   /** The A-version item a paper item stands for (version B shuffles questions). */
   function itemIndex(s, ref) {
     if (host.sheet() !== "B") return ref.n - 1;

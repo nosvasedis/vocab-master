@@ -16,8 +16,8 @@ import { TASKS, SKILLS, KNOBS, tfLabels, partOpts } from "../../studio/tasks.js"
 import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, suggestText } from "../../studio/test-builder.js";
-import { makeVersionB, docProblems, docPoints } from "../../studio/doc-model.js";
+import { testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
+import { makeVersionB, docProblems, docPoints, relabelDoc } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
@@ -292,6 +292,15 @@ function build() {
     ask: (system, user, retryHint = "") => askAi(system, user, { retryHint }),
     checkKeys: (ids) => checkKeys(ts.doc, ids),
     commit: () => refreshDoc(),
+    // A question deleted (or put back) on the paper: Step 3 shows the part's new number of questions.
+    itemsChanged(id) {
+      const p = ts.spec.parts.find((x) => x.id === id);
+      const s = ts.doc?.sections.find((x) => x.id === id);
+      if (!p || !s || TASKS[p.task]?.answer === "open") return;
+      p.items = Math.max(1, s.items.length);
+      savePrefs();
+      renderParts();
+    },
     rewritePart: (id, wish) => rewritePart(id, null, wish),
   });
   built = true;
@@ -542,7 +551,7 @@ function renderParts() {
       </div>`;
     if (!expanded) return `<li class="part-card${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">${head}</li>`;
     const textPick = t.knobs?.includes("text") && texts.length
-      ? `<div class="pc-knob pc-knob-text"><span class="pc-lbl">Reading text</span>${textChooserHtml(p.id, texts, o.text, { newNote: `${textWords(s.levelId, o.length).join("–")} words, your settings`, peek: ts.peek === p.id })}</div>`
+      ? `<div class="pc-knob pc-knob-text"><span class="pc-lbl">Reading text</span>${textChooserHtml(p.id, texts, o.text, { newNote: `${partTextWords(p, s.levelId).join("–")} words, your settings`, peek: ts.peek === p.id })}</div>`
       : "";
     return `<li class="part-card open${stale ? " stale" : ""}" data-part="${p.id}" data-skill="${p.skill}">${head}
       <div class="pc-body" id="pcBody-${p.id}">
@@ -785,7 +794,9 @@ async function contextFor(sel) {
   const picFor = makePicFor([...(sel.words || []), ...focus]);
   // Nouns first: picture tasks ask for things you can draw.
   const nounFirst = (a, b) => Number(/^n/.test(b.type || "")) - Number(/^n/.test(a.type || ""));
-  const pictureWords = [...new Set([...focus, ...(sel.words || [])].filter((w) => picFor(w.english)).sort(nounFirst).map((w) => w.english))].slice(0, 16);
+  // Enough picture words for the biggest picture part (three pictures a question), never fewer than 16.
+  const picNeed = Math.max(16, ...ts.spec.parts.filter((p) => TASKS[p.task]?.needs?.includes("pictures")).map((p) => (p.items + 1) * 3));
+  const pictureWords = [...new Set([...focus, ...(sel.words || [])].filter((w) => picFor(w.english)).sort(nounFirst).map((w) => w.english))].slice(0, picNeed);
   const unitContext = await unitContextFor(sel);
   return { focus, picFor, pictureWords, unitContext };
 }
@@ -835,6 +846,7 @@ async function generate(btn) {
       const meta = { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.ctx = { ...ctx, meta };
       setDoc(buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }));
+      await topUpShortParts(spec, ctx, meta);
       await checkKeys(ts.doc);
       ts.doc.versionB = spec.versions > 1 ? makeVersionB(ts.doc) : null;
       ts.stale.clear();
@@ -848,6 +860,41 @@ async function generate(btn) {
       if (!ts.doc) wiz.show(RESULT - 1);
     } finally { ts.writing = false; stopBusy(); renderFoot(); }
   });
+}
+
+/** Parts that came back with fewer questions than asked: [{ id, have, want }]. */
+function shortParts(doc, ids = null) {
+  return (doc?.sections || []).filter((s) => !ids || ids.includes(s.id)).map((s) => {
+    const m = (s.problems || []).map((p) => String(p).match(/^has (\d+) of (\d+) items/)).find(Boolean);
+    return m ? { id: s.id, have: Number(m[1]), want: Number(m[2]) } : null;
+  }).filter(Boolean);
+}
+
+/**
+ * One more try for the parts that came back short (the AI ran out of text or script): only those parts are
+ * written again, and a new version replaces the old one only when it has more questions.
+ */
+async function topUpShortParts(spec, ctx, meta) {
+  const short = shortParts(ts.doc);
+  if (!short.length) return 0;
+  const epoch = ts.epoch;
+  const docId = ts.doc.id;
+  const prompt = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus) }, short.map((x) => x.id));
+  let reply;
+  try {
+    reply = await askAi(prompt.system, prompt.user, { retryHint: `Last time ${short.map((x) => `part "${x.id}" had only ${x.have} of ${x.want} items`).join("; ")}. Write EXACTLY the number of items each part asks for, plus the example — make the text or script longer if it needs more details.` });
+  } catch { return 0; }
+  if (epoch !== ts.epoch || ts.doc?.id !== docId) return 0;
+  const next = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
+  let fixed = 0;
+  ts.doc.sections = ts.doc.sections.map((s) => {
+    if (!short.some((x) => x.id === s.id)) return s;
+    const n = next.sections.find((y) => y.id === s.id);
+    if (n && n.items.length > s.items.length) { fixed++; return n; }
+    return s;
+  });
+  ts.doc.meta.points = docPoints(ts.doc);
+  return fixed;
 }
 
 /** Yes/no keys are re-answered from the text alone by a second small call; a failed check leaves the test as it is. */
@@ -915,11 +962,20 @@ async function rewritePart(partId, btn, wish = "") {
       const prompt = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus), rewrite: { wish, previous: old ? [old] : [] } }, [partId]);
       const meta = ts.ctx?.meta || { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       let next = null;
+      let hint = "";
+      const count = (d) => d?.sections.find((x) => x.id === partId)?.items.length || 0;
       for (let attempt = 0; attempt < 2; attempt++) {
-        const reply = await askAi(prompt.system, prompt.user, { retryHint: attempt ? "Your part was almost the same as the old version. Write a really NEW one: a new situation, new sentences and new questions, following the teacher's wish." : "" });
+        const reply = await askAi(prompt.system, prompt.user, { retryHint: hint });
         if (epoch !== ts.epoch) return false; // the test was closed or deleted meanwhile
-        next = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
-        if (!old || partSimilarity(old, next.sections.find((x) => x.id === partId)) < 0.6) break;
+        const cand = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
+        // A second try is kept unless it has fewer questions than the first.
+        if (!next || count(cand) >= count(next)) next = cand;
+        const short = shortParts(cand, [partId])[0];
+        const same = old && partSimilarity(old, cand.sections.find((x) => x.id === partId)) >= 0.6;
+        if (!short && !same) break;
+        hint = short
+          ? `Your part had only ${short.have} of the ${short.want} items. Write EXACTLY ${short.want} items plus the example — make the text or script longer if it needs more details.`
+          : "Your part was almost the same as the old version. Write a really NEW one: a new situation, new sentences and new questions, following the teacher's wish.";
       }
       ts.doc = next;
       await checkKeys(ts.doc, [partId]);
@@ -1123,7 +1179,7 @@ export function generateTestNow() { return generate($("tsGenerate")); }
 function openDoc(d) {
   // A part still being rewritten for the test that was open is dropped when its reply comes.
   if (ts.doc?.id !== d.id) { ts.epoch++; stopPlayer(); }
-  setDoc(d);
+  setDoc(relabelDoc(d));
   ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)), grammarOwn: "" };
   ts.levelTouched = true;
   ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;

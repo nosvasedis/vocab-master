@@ -72,7 +72,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     if (s.skill === "listening") children.push(para([run(`Listen to track ${i + 1}. You will hear it ${s.plays === 1 ? "once" : "twice"}.`, { size: 18, color: "555555" })]));
     if (s.skill === "dictation") {
       if (s.style === "gapped") s.sentences.forEach((x) => children.push(item(x.n, [run(gapText(x.gapped))])));
-      else if (s.style === "picture") s.pictures.forEach((p) => { const img = pic(p.pic, 70); children.push(item(p.letter.toUpperCase(), [...(img ? [img] : []), run("   No. ____   ______________________")])); });
+      else if (s.style === "picture") s.pictures.forEach((p) => { const img = pic(p.pic, 70); children.push(item((p.letter || "").toUpperCase(), [...(img ? [img] : []), run("   No. ____   ______________________")])); });
       else if (s.style === "dictogloss") { if (s.keyWords?.length) children.push(box([para([run(s.keyWords.join("   •   "), { bold: true })])])); children.push(para([run("My notes", { bold: true, size: 18 })]), ...lines(4), para([run("Our text", { bold: true, size: 18 })]), ...lines(Math.max(6, Math.ceil((s.textWords || 60) / 9)))); }
       else children.push(...lines(s.style === "running" ? Math.max(6, Math.ceil((s.textWords || 60) / 8)) : s.sentences.length));
       return;
@@ -105,7 +105,8 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     all.forEach((it) => {
       const ex = it.n === 0;
       const runs = [];
-      if (s.task === "V-PIC") { const img = pic(it.pic, 80); if (img) runs.push(img); runs.push(run(`   ${it.prompt ? `${it.prompt}  ` : ""}${it.hint ? `[${it.hint}]  ` : ""}`, { size: 19, color: "555555" }), run(ex ? it.answer : "______________________", { italics: ex })); }
+      if (s.task === "V-TICK") { const img = pic(it.pic, 80); if (img) runs.push(img); runs.push(run(`   ${it.prompt}   `, { bold: true }), run(ex ? it.answer : "________", { italics: ex })); }
+      else if (s.task === "V-PIC") { const img = pic(it.pic, 80); if (img) runs.push(img); runs.push(run(`   ${it.prompt ? `${it.prompt}  ` : ""}${it.hint ? `[${it.hint}]  ` : ""}`, { size: 19, color: "555555" }), run(ex ? it.answer : "______________________", { italics: ex })); }
       else if (s.task === "R-ORDER") runs.push(run(ex ? "[ 1 ]  " : "[    ]  ", { bold: true }), run(it.prompt));
       else if (s.answerType === "choice") {
         if (it.prompt) runs.push(run(gapText(it.prompt)), new d.TextRun({ break: 1 }));

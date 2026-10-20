@@ -43,6 +43,8 @@ td.editable-vocab:hover { box-shadow: inset 0 0 0 2px #b7aefc; }
 .pe-bar button { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border: 0; border-radius: 7px; background: transparent; color: #3b2fc9; font: inherit; cursor: pointer; }
 .pe-bar button:hover { background: #efedff; }
 .pe-bar button.magic { color: #fff; background: linear-gradient(135deg, #6d5df6, #a855f7); }
+.pe-bar button.danger { color: #c2410c; }
+.pe-bar button.danger:hover { background: #fff1e8; }
 .ex-item.pe-busy { pointer-events: none; background: #f3f1ff; }
 .ex-item.pe-busy > * { opacity: .35; }
 .ex-item.pe-busy::after { content: "Lingo is rewriting…"; position: absolute; inset: 0; display: grid; place-items: center; font: 700 12px/1 "Segoe UI", sans-serif; color: #4b3fd6; }
@@ -79,12 +81,12 @@ export function initPreview() {
   new ResizeObserver(() => applyZoom()).observe($("paperStage"));
 
   shadow.addEventListener("click", onPaperActivate);
-  // Hovering a line shows Edit and ✨ Remake (Lingo writes just that line again).
+  // Hovering a line shows Edit, ✨ Remake (Lingo writes just that line again) and Delete.
   shadow.addEventListener("mouseover", (e) => {
     const item = e.composedPath().find((n) => n.classList?.contains("editable") && n.classList.contains("ex-item"));
     if (!item || item.querySelector(".pe-bar") || item.classList.contains("pe-busy")) return;
     shadow.querySelectorAll(".pe-bar").forEach((b) => b.remove());
-    item.insertAdjacentHTML("beforeend", `<div class="pe-bar"><button type="button" data-pe-act="edit">✎ Edit</button><button type="button" class="magic" data-pe-act="remake" title="Lingo writes this line again">✨ Remake</button></div>`);
+    item.insertAdjacentHTML("beforeend", `<div class="pe-bar"><button type="button" data-pe-act="edit">✎ Edit</button><button type="button" class="magic" data-pe-act="remake" title="Lingo writes this line again">✨ Remake</button><button type="button" class="danger" data-pe-act="delete" title="Delete this line — the exercise renumbers">🗑 Delete</button></div>`);
   });
   shadow.addEventListener("mouseleave", () => shadow.querySelectorAll(".pe-bar").forEach((b) => b.remove()), true);
   shadow.addEventListener("keydown", (e) => {
@@ -212,7 +214,32 @@ function onPaperActivate(e) {
   if (!item || item.classList.contains("pe-busy")) return;
   e.preventDefault();
   if (path.some((n) => n.dataset?.peAct === "remake")) { remakeDialog(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item)); return; }
+  if (path.some((n) => n.dataset?.peAct === "delete")) { deleteLine(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item)); return; }
   openItemEditor(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item));
+}
+
+/* ── Delete one line: the exercise renumbers, its answer leaves the word box, the answer key follows ── */
+function deleteLine(sheet, exIndex, itemIndex) {
+  const ex = getExercise(sheet, exIndex);
+  const item = ex?.items?.[itemIndex];
+  if (!ex || !item) return;
+  if (ex.items.length <= 1) { toast("An exercise needs at least one line — edit or remake this one instead.", "warn", { ms: 4500 }); return; }
+  const before = JSON.stringify(state.data);
+  const lc = (x) => String(typeof x === "string" ? x : x?.english || x?.text || x?.word || "").trim().toLowerCase();
+  const [gone] = ex.items.splice(itemIndex, 1);
+  ex.items.forEach((it, i) => { it.number = i + 1; });
+  // Its answer leaves the word box / word list too, unless another line still needs it (lettered answers stay).
+  const answer = lc(gone?.answer);
+  if (answer.length > 1 && !ex.items.some((it) => lc(it.answer) === answer)) {
+    for (const key of ["wordBank", "wordList"]) {
+      const at = Array.isArray(ex[key]) ? ex[key].findIndex((w) => lc(w) === answer) : -1;
+      if (at >= 0) ex[key].splice(at, 1);
+    }
+  }
+  state.data = normalizeWorksheetExercises(state.data);
+  persistSession();
+  renderPreview();
+  toast(`Line ${item.number} deleted — ${plural(ex.items.length, "line")} left in exercise ${ex.number}.`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); } }] });
 }
 
 /* ── ✨ Remake one line ── */
