@@ -55,7 +55,10 @@ function describe(info) {
   if (exe.state === "ready") return { tone: "ready", head: `Version ${exe.version} is ready to install`, sub: "Restart and the new version opens — your work stays.", action: "restart", label: "Restart to install" };
   if (exe.state === "available") return { tone: "ready", head: `Version ${exe.version} is available`, sub: "This portable copy can’t update itself: download the new version from the release page.", action: "download", label: "Download" };
   if (info.state === "ready") return { tone: "ready", head: "An update is ready", sub: info.pending?.message ? `What’s new: ${info.pending.message}` : "It’s used from the next start.", action: "restart", label: "Restart now" };
-  if (info.state === "downloading") return { tone: "busy", head: `Getting the update… ${info.progress || 0}%`, sub: info.message || "" };
+  if (info.state === "downloading") {
+    const files = (info.message || "").match(/\((\d+ changed files?)\)/)?.[1];
+    return { tone: "busy", head: `Getting the update… ${info.progress || 0}%`, sub: `${files ? `${files} · ` : ""}used from the next start` };
+  }
   if (exe.state === "downloading") return { tone: "busy", head: `Downloading version ${exe.version}… ${exe.progress || 0}%`, sub: "It installs when you restart." };
   if (info.state === "checking") return { tone: "busy", head: "Looking for updates…", sub: "" };
   if (info.state === "needs-app") return { tone: "warn", head: "A new version of the app is needed", sub: info.message || "" };

@@ -4,6 +4,53 @@
 
 **Next:** nothing queued. The Unit test fixes (deleting parts; Step 1 decides grammar, texts and parts) are on `main` and in the rebuilt exes (2026-10-20, section below). The studio redesign and the Dictation redesign (`feature/dictation-redesign`) are merged into `main` (2026-10-20): `npm test` 446 pass, `npm run smoke` passes. The 3.3.0 installer and portable exe are rebuilt from it (desktop/release/; package verified; the unpacked app passes `--smoke`). Earlier: the account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes. The 3.3.0 listening voices are merged too (section below). The 3.3.0 installer and portable exe are rebuilt (desktop/release/, about 190 MB each, package verified); the packaged app passes `--smoke --voices` (4 threads, a real natural-voice sentence).
 
+## 3.5.0 — a smarter assistant (which words), and the app updates itself (2026-10-20, from the user)
+- **Assistant: which words.** It used to take each unit's key words whatever the teacher said, and the plan didn't show the words at all.
+  - `studio/word-choice.js` (pure): `findWordChoice` reads all / key / "15 words", "a few" / a mix / "only …" / "all except …", plus the parts of the unit ("Lesson A", "and the workbook", "not the Big Question"; a part named alone = all its words). English and Greek.
+  - Lists end where the request goes on (`cutList`, also used for own words).
+  - `chooseUnitWords` gives the words themselves: key words first, spread over the unit; never more than asked.
+  - **Bug fixed:** `selectSmartCoursebookWords(list, 0)` returns everything. A number filled by key words alone sent every word to the dictation; now `spread()` guards it, with a regression test.
+- **Assistant, more:**
+  - skills left out ("no listening", «χωρίς ακρόαση»); questions per part ("5 questions each"); pictures on/off; a title ("called …");
+  - length from minutes; "from the book sentences" = a read-aloud dictation written by the coursebook.
+  - The AI fallback prompt returns `vocab` / `addWords` / `items` / `pictures` / `title` / `writer`, validated in `mergeAiPlan`. Worksheets default to "Fits the class" (SMART_PICK).
+- **Plan card — Which words?:**
+  - Key words / All / A number (stepper) / A mix / I'll choose (and Fits the class for worksheets).
+  - The unit's parts with counts; the chosen words (key words amber, × leaves one out, "Left out: … ↺" puts it back); own words (add / Enter / paste).
+  - Plus Questions in each part, Who writes the sentences (dictation), Title and Pictures.
+- **Hand-off:**
+  - Tests and dictations get exactly the shown words: plain key / all stay live choices; anything finer goes as a pick, and words not in the unit become own words.
+  - Worksheets get those words in Step 2; a word-list plan with own words adds them.
+- **Live updates** (`desktop/live-update.js`):
+  - `scripts/live-base.cjs` (predist) writes `renderer/live-base.json` (gitignored): the commit and every page file's Git blob fingerprint.
+  - The installed app asks GitHub's API for `main`'s newest commit and file tree (2 requests; repo is public). It builds `userData/live/<commit>/`:
+    - all code copied from the installed app or downloaded;
+    - changed assets downloaded and each verified against its blob SHA-1;
+    - voice clips never (they aren't in Git).
+  - `app://` serves the live copy (deleted files 404), and so does the Word engine (`loadEngine`).
+  - Used from the next start, or at once via Restart.
+  - Safety:
+    - the pages must call `updates:alive` within 45 s, or (crash, failed load) they are set aside as bad and the app restarts on the last good pages;
+    - two starts without alive also revert;
+    - a new exe clears live pages;
+    - `renderer/live-requires.json` "shell" above `SHELL_API` waits for a new exe;
+    - updates over 150 MB wait for a new exe.
+  - Checks 20 s after start, then every 3 h; Settings switch "Update automatically".
+- **Exe updates** (`desktop/exe-update.js`): electron-updater with the GitHub provider (publish config; `dist` uses `--publish never` and makes `latest.yml`). It downloads in the background and installs on restart or quit. The portable exe gets a "version X is available — Download" toast.
+- **UI** (`js/updates.js`):
+  - toasts: "Vocab Master was updated — <commit message>" once, "An update is ready … Restart now", "Version X is ready — Restart to install";
+  - Settings → Updates card (up to date / checking / downloading % / ready / needs a new app / offline), with Check now, Restart, Download, Update automatically, and the version + pages date;
+  - Help → Check for updates.
+- **Releasing an exe** is now `npm run release` (`scripts/release.mjs`): checks main is clean and pushed and the tag is new, then tests, dist, package check, packaged smoke, `gh release create` with Setup, Portable, `latest.yml` and the blockmap. No CI build: voice clips aren't in Git, so only this PC can build a full exe. RESUME.md "Shipping changes to teachers" explains which changes need what.
+- **Checks:**
+  - `npm test` (new `tests/word-choice.test.mjs` 6, `tests/live-update.test.mjs` 7, with a fake GitHub: update, gaps from the installed app, deletions, path escape, rollback after 2 bad starts, revert, new exe, tampered download, needs-app, auto off).
+  - Real GitHub, with a temporary branch (`live-update-test`, deleted afterwards):
+    - Node run: 1.8 s, only the changed files downloaded, the changed title served.
+    - Electron run 1 → update ready; run 2 → the window loaded the updated title, alive cleared the trial.
+    - A broken-page commit → after 45 s "live: reverting … the pages did not start", marked bad, restarted on the last good pages.
+  - Browser: assistant word panel, interactions and every hand-off (test, dictation, worksheets — the browser's own Step 2 list restored); Settings → Updates in all its states (stubbed bridge).
+- **Not tried:** a real exe-to-exe auto-update (needs a release newer than the installed one; the first will be 3.5.0 → the next version). 3.4.0 and older have no updater: teachers install 3.5.0 once by hand.
+
 ## 3.4.0 — the teacher's own words, mixed in everywhere (2026-10-20, from the user)
 - **Asked:** a teacher picks a unit (and some of its words) but also wants to test other words of their own, in every feature.
 - **Audit:**

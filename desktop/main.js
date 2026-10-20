@@ -49,6 +49,9 @@ protocol.registerSchemesAsPrivileged([
   },
 ]);
 
+// Testing (also the installed app): run against a separate data folder (e.g. to try live updates without touching real data).
+if (process.env.VM_USER_DATA) app.setPath("userData", process.env.VM_USER_DATA);
+
 // The smoke test must never touch the teacher's real History / settings / API key.
 if (process.argv.includes("--smoke")) {
   const smokeDir = path.join(app.getPath("temp"), "lingo-launcher-smoke");
@@ -429,6 +432,17 @@ function createWindow() {
 
   if (process.argv.includes("--smoke")) {
     mainWindow.webContents.once("did-finish-load", () => runSmokeTest());
+  }
+  // Development self-test of live updates: report what this window runs, look for an update, exit.
+  if (!app.isPackaged && process.env.VM_LIVE_SELFTEST) {
+    mainWindow.webContents.once("did-finish-load", async () => {
+      await new Promise((r) => setTimeout(r, 6000));
+      const page = await mainWindow.webContents.executeJavaScript("({ title: document.title, booted: !!window.__VM__, updatesApi: !!window.desktop?.updates })");
+      const before = updatesInfo();
+      const after = await live.check({ manual: true });
+      console.log("LIVE_SELFTEST " + JSON.stringify({ page, aliveTimer: !!aliveTimer, before: { live: before.live, build: before.build, state: before.state }, after: { state: after.state, pending: after.pending, message: after.message } }));
+      app.exit(0);
+    });
   }
 }
 

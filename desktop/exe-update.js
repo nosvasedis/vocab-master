@@ -12,7 +12,7 @@ export function createExeUpdater({ app, io, log = () => {} }) {
   const portable = !!process.env.PORTABLE_EXECUTABLE_DIR;
   let status = { kind: portable ? "portable" : "installer", state: "idle", version: "", url: "", progress: 0 };
   const listeners = new Set();
-  const set = (next) => { status = { ...status, ...next }; listeners.forEach((fn) => fn(status)); };
+  const set = (next) => { if (next.state && next.state !== status.state) log(`exe: ${next.state}${next.version ? ` ${next.version}` : ""}`); status = { ...status, ...next }; listeners.forEach((fn) => fn(status)); };
   let updater = null;
 
   function autoUpdater() {

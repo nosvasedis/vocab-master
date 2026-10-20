@@ -44,6 +44,11 @@ State lives in `work/state/*.json` (committed). Re-running the same command cont
 
 (Scripts are added phase by phase; PROGRESS.md lists which exist.)
 
+## Shipping changes to teachers
+- **Pages (almost everything: `desktop/renderer/**`)**: commit and push to `main`. Installed apps fetch the changed files from GitHub within ~3 hours or at their next start (`desktop/live-update.js`) and use them from the following start. No exe needed. Voice clips (`assets/audio/*.ogg`, not in Git) are the exception.
+- **The app shell** (`desktop/main.js`, `preload.cjs`, Electron, new IPC the pages rely on, voice clips): bump the version in `package.json` and `desktop/package.json` (and the README file names), commit, push, then `npm run release` (tests, build, package check, packaged smoke, GitHub release with `latest.yml` — installed Setup copies update themselves). If new pages need the new shell, raise `SHELL_API` in `desktop/live-update.js` **and** `desktop/renderer/live-requires.json` together: older apps then wait for the new exe instead of loading pages they can't run.
+- Test live updates without touching real data: `VM_USER_DATA=<temp folder> VM_LIVE=1 VM_LIVE_BRANCH=<branch> VM_LIVE_SELFTEST=1 npx electron .` in `desktop/` (prints `LIVE_SELFTEST {…}`).
+
 ## Conventions
 - Plain ES modules, no bundler. The renderer is shared by Electron (`app://`) and the web server (`proxy.js`).
 - Match the existing code style: short header comment per file, `esc()` for every interpolated string, no frameworks.

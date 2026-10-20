@@ -78,7 +78,7 @@ export function createLiveUpdater({ rendererDir, liveRoot, io, log = () => {}, r
   let active = null; // { sha, dir, deleted: Set, message, date } — fixed for this run of the app
   const listeners = new Set();
   const save = () => { try { fs.mkdirSync(liveRoot, { recursive: true }); fs.writeFileSync(`${stateFile}.tmp`, JSON.stringify(state, null, 2)); fs.renameSync(`${stateFile}.tmp`, stateFile); } catch (e) { log("live: state not saved", e.message); } };
-  const set = (next) => { status = { ...status, ...next }; listeners.forEach((fn) => fn(info())); };
+  const set = (next) => { if (next.state && next.state !== status.state) log(`live: ${next.state}${next.message ? ` — ${next.message}` : ""}`); status = { ...status, ...next }; listeners.forEach((fn) => fn(info())); };
   const manifestOf = (dir) => read(path.join(dir, "manifest.json"), null);
   const usable = (entry) => entry?.dir && fs.existsSync(path.join(entry.dir, "manifest.json")) && entry.base === base?.commit;
 
