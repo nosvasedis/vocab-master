@@ -4,6 +4,19 @@
 
 **Next:** nothing queued. The Unit test fixes (deleting parts; Step 1 decides grammar, texts and parts) are on `main` and in the rebuilt exes (2026-10-20, section below). The studio redesign and the Dictation redesign (`feature/dictation-redesign`) are merged into `main` (2026-10-20): `npm test` 446 pass, `npm run smoke` passes. The 3.3.0 installer and portable exe are rebuilt from it (desktop/release/; package verified; the unpacked app passes `--smoke`). Earlier: the account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes. The 3.3.0 listening voices are merged too (section below). The 3.3.0 installer and portable exe are rebuilt (desktop/release/, about 190 MB each, package verified); the packaged app passes `--smoke --voices` (4 threads, a real natural-voice sentence).
 
+## Compact, step-by-step source picker (Unit test + Read-aloud dictation) (2026-10-20, from the user)
+- **Seen:** Step 1 was a wall of chips, and unit 9 wrapped onto its own line.
+- **Source picker** (`createSourcePicker` in `studio-common.js`):
+  - A quiet segmented bar: A unit · My words · Grammar/topic.
+  - Unit mode is a card of four lines (Book · Unit · Parts · Words). Each line shows what's chosen; tapping one opens only its options (`pickRow`, `.pk-*` in `studio.css`).
+  - Picking moves on: a new book opens Unit; one unit, Key words or All closes the line.
+  - Units are a fixed 9-column grid; parts are 2 columns.
+  - Tests: a tap switches unit, and **Several units** turns on adding (restored tests with 2+ units start with it on).
+  - The word summary is clamped to 2 lines.
+- **Unit test Step 1:** Grammar and Texts are two more lines under the source. Their closed value says what applies ("The unit's grammar", "Unit 7 · Why is free time important? · a school trip") and updates while typing. Only one line is open across Step 1; a topic test opens Grammar.
+- **Dictation step 3:** the "Grammar & a theme" fold is now the same two lines. With coursebook sentences they say "Not used".
+- **Checks:** `npm test` 449 pass; `npm run smoke` passes. Tried in the web app at 1440 px, light and dark, on both screens: book → unit → close, several units on and off, parts and words, grammar typing, one line open at a time, and dictation with AI or book sentences.
+
 ## Unit test: parts can be deleted again; Step 1 decides grammar, texts and parts (2026-10-20, from the user)
 - **Bug:** the trash can (and the move arrows) on a part did nothing. The parts click handler took the step `<section data-step="3">` for a stepper button and threw. Now it only matches `[data-stepper] [data-step]` (same guard in `dictation.js`).
 - **Why the revamp:** "Grammar, a theme & the title (optional)" sat in Step 2 whatever Step 1 said, so a topic test asked for its topic twice, a coursebook unit was offered a free theme and a generic grammar menu next to its own, and stale prefs leaked a theme into topic tests.

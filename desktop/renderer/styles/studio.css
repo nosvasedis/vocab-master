@@ -56,6 +56,49 @@
 .sp-summary { display: block; margin: 2px 0 0; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); font-size: 12.5px; color: var(--text-2); }
 .sp-summary .i { color: var(--success); vertical-align: -2px; margin-right: 4px; }
 .sp-words { color: var(--text-3); }
+/* Source tabs: a quiet segmented bar (unit · my word list · grammar / topic) */
+.sp-tabs { display: flex; gap: 3px; padding: 3px; border-radius: 12px; background: var(--surface-3); }
+.sp-tab { flex: 1 1 auto; display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 0; height: 32px; padding: 0 6px; border: 0; border-radius: 9px; background: transparent; font: 650 12.5px/1 var(--font-ui); color: var(--text-2); cursor: pointer; transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast); }
+.sp-tab span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sp-tab .i { flex: none; opacity: 0.8; }
+.sp-tab:hover:not(:disabled):not(.active) { color: var(--text); background: color-mix(in srgb, var(--surface) 55%, transparent); }
+.sp-tab.active { color: var(--brand-ink); background: var(--surface); box-shadow: var(--shadow-xs); }
+.sp-tab.active .i { opacity: 1; }
+.sp-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+.source-picker .sp-summary { margin: 0; line-height: 1.5; }
+.sp-clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.sp-clamp .i { display: inline-block; }
+
+/* Compact chooser lines: label · what is chosen · chevron; one line opens at a time */
+.pk-rows { border: 1px solid var(--border); border-radius: 13px; background: var(--surface); overflow: hidden; }
+.pk-row + .pk-row { border-top: 1px solid var(--divider); }
+.pk-head { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 8px 10px 8px 12px; border: 0; background: transparent; font: inherit; text-align: left; color: var(--text); cursor: pointer; transition: background var(--dur-fast); }
+.pk-head:hover { background: var(--surface-2); }
+.pk-head:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+.pk-lbl { flex: none; width: 62px; font-size: 11.5px; font-weight: 700; color: var(--text-3); }
+.pk-val { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 650; }
+.pk-val small { font-size: 12px; font-weight: 500; color: var(--text-3); }
+.pk-chev { flex: none; color: var(--text-3); transition: transform var(--dur) var(--ease); }
+.pk-row.open > .pk-head { background: var(--surface-2); }
+.pk-row.open .pk-chev { transform: rotate(180deg); color: var(--brand); }
+.pk-body { display: flex; flex-direction: column; gap: 8px; padding: 2px 10px 12px 12px; background: var(--surface-2); animation: pk-in 180ms var(--ease); }
+@keyframes pk-in { from { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .pk-body { animation: none; } }
+.pk-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: 5px; }
+.pk-opt { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; height: 32px; padding: 0 6px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface); font: 650 12.5px/1 var(--font-ui); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; transition: border-color var(--dur-fast), background var(--dur-fast), color var(--dur-fast); }
+.pk-opt:hover { border-color: var(--border-strong); color: var(--text); }
+.pk-opt.active { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-ink); }
+.pk-opt small { font-size: 11px; font-weight: 700; color: var(--text-3); }
+.pk-opt.active small { color: inherit; opacity: 0.7; }
+.pk-units .pk-opt { padding: 0; font-family: var(--font-display); font-weight: 800; }
+.pk-note { margin: 0; font-size: 11.5px; line-height: 1.45; color: var(--text-3); }
+.pk-note b { color: var(--text-2); }
+.pk-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.pk-link { flex: none; display: inline-flex; align-items: center; gap: 3px; padding: 2px 4px; border: 0; border-radius: 6px; background: none; font: 700 11.5px/1.3 var(--font-ui); color: var(--brand-ink); cursor: pointer; }
+.pk-link:hover { background: var(--brand-soft); }
+.pk-body .gram-chips { max-height: 150px; overflow-y: auto; padding: 1px; }
+.pk-body .input { background: var(--surface); }
+.dc-more { margin-top: 2px; }
 .sp-pick { display: flex; flex-wrap: wrap; gap: 5px; max-height: 190px; overflow-y: auto; padding: 4px; border: 1px solid var(--border); border-radius: 10px; }
 .sp-pick .word-chip { height: 28px; font-size: 12px; }
 
@@ -230,17 +273,11 @@
 .tb-badge { display: inline-grid; place-items: center; min-width: 19px; height: 19px; padding: 0 6px; border-radius: 99px; font-size: 11px; font-weight: 800; color: #fff; background: var(--brand); }
 .tb-more-body { display: flex; flex-direction: column; gap: 12px; padding: 2px 12px 14px; }
 
-/* Step 1: the grammar and the texts, shaped by the source above */
-.tb-focus { display: flex; flex-direction: column; gap: 14px; padding-top: 12px; border-top: 1px dashed var(--divider); }
+/* Step 1: the grammar and the texts, two chooser lines under the source */
+.tb-focus { display: flex; flex-direction: column; }
 .tb-focus:empty { display: none; }
-.tb-focus-row { display: flex; flex-direction: column; gap: 7px; }
-.tb-focus-row > .st-lbl { display: inline-flex; align-items: center; gap: 6px; }
-.tb-focus-row > .st-hint { margin: 0; }
 .tb-focus .chip.tb-default { font-weight: 700; }
 .tb-focus .chip.tb-default .i { margin-right: 4px; }
-.tb-theme { margin: 0; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); font-size: 12.5px; line-height: 1.45; color: var(--text-2); }
-.tb-theme .i { margin-right: 5px; vertical-align: -2px; color: var(--brand); }
-.tb-theme b { color: var(--text); }
 
 /* Parts */
 .part-list { display: flex; flex-direction: column; gap: 8px; }

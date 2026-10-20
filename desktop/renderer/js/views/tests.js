@@ -8,7 +8,7 @@ import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy, openDialog } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay,
+  makePicFor, pickRow, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay,
 } from "./studio-common.js";
 import { TASKS, SKILLS, tasksFor, defaultTask } from "../../studio/tasks.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
@@ -99,6 +99,7 @@ function build() {
   </div>`;
   picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange });
   picker.mount($("tsSource"));
+  $("tsSource").addEventListener("click", (e) => { if (e.target.closest("[data-pk-toggle]") && ts.focusOpen) { ts.focusOpen = null; renderFocus(); } });
   paper = createPaper($("tsPaper"));
   new ResizeObserver(() => fitPaper($("tsStage"), $("tsPaper"))).observe($("tsStage"));
 
@@ -115,6 +116,9 @@ function build() {
     }
   });
   $("tsFocus").addEventListener("click", (e) => {
+    const tog = e.target.closest("[data-pk-toggle]");
+    // One line open at a time in Step 1: opening grammar or texts closes the source's line.
+    if (tog) { ts.focusOpen = ts.focusOpen === tog.dataset.pkToggle ? null : tog.dataset.pkToggle; if (ts.focusOpen) picker.close(); renderFocus(); return; }
     const g = e.target.closest("[data-grammar]");
     if (!g) return;
     const v = g.dataset.grammar;
@@ -130,6 +134,7 @@ function build() {
       $("tsFocus").querySelector('[data-grammar=""]')?.classList.toggle("active", !grammarList().length);
       renderPlanNote();
     }
+    refreshFocusValues();
     savePrefs();
   });
   $("tsParts").addEventListener("click", onPartsClick);
@@ -239,6 +244,8 @@ function onSourceChange(sel, { byUser = true } = {}) {
     if (ts.sourceKey && key !== ts.sourceKey && ts.spec.title) { ts.spec.title = ""; savePrefs(); }
   }
   ts.sourceKey = key;
+  // Another kind of source starts with its lines closed (a topic test opens its grammar).
+  if (sel.kind !== ts.sourceKind) { ts.sourceKind = sel.kind; ts.focusOpen = undefined; }
   // A saved test that was just opened keeps its parts as they were written.
   if (byUser || !ts.doc) fitParts({ quiet: !byUser });
   renderFocus();
@@ -256,40 +263,57 @@ function fitParts({ quiet = false } = {}) {
   if (!quiet) toast(changed.map((c) => `Part ${ts.spec.parts.findIndex((p) => p.id === c.id) + 1} is now “${TASKS[c.to].label}” — “${TASKS[c.from].label}” ${c.reason}.`).join(" "), "info", { ms: 4200 });
 }
 
+/** What the Grammar and Texts lines say when closed. */
+function focusValues(sel = picker.value()) {
+  const { hasUnit } = sourceInfo(sel);
+  const chosen = grammarList();
+  const topic = String(ts.spec.topic || "").trim();
+  const grammar = chosen.length ? esc(chosen.join(", ")) : sel.kind === "topic" ? `<small>Choose, or leave it to the topic</small>` : hasUnit ? "The unit’s grammar" : "What the class knows";
+  const texts = hasUnit
+    ? `${esc(unitThemes(sel).join(", "))}${topic ? ` <small>· ${esc(topic)}</small>` : ""}`
+    : topic ? esc(topic) : "<small>Lingo chooses</small>";
+  return { grammar, texts };
+}
+
+/* Grammar and the texts, as two compact lines under the source; they say what the source already brings. */
 function renderFocus() {
   if (!picker) return;
-  const { sel, hasUnit } = sourceInfo();
+  const sel = picker.value();
+  const { hasUnit } = sourceInfo(sel);
   const s = ts.spec;
   const topicMode = sel.kind === "topic";
   const chosen = grammarList();
+  // A topic test is mostly about its grammar: that line starts open.
+  if (ts.focusOpen === undefined) ts.focusOpen = topicMode ? "grammar" : null;
   const menu = [...new Set([...(GRAMMAR_MENU[s.levelId] || []), ...s.grammar])];
   const chips = menu.map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("");
-  const themes = unitThemes(sel);
-  const grammarHead = topicMode ? "Grammar to test" : "Grammar";
   const grammarHint = topicMode
     ? "Choose one or more, or type your own — or leave it and just type the topic above."
     : hasUnit
       ? "Lingo takes the grammar from the unit’s example sentences. Choose a point only to put the focus on it."
       : "These words don’t come from a coursebook unit: choose the grammar to test, or leave it to what the class knows.";
   const defaultChip = topicMode ? "" : `<button type="button" class="chip tb-default${chosen.length ? "" : " active"}" data-grammar="">${icon(hasUnit ? "book-open" : "graduation", "i-xs")}${hasUnit ? "The unit’s grammar" : "What the class knows"}</button>`;
-  const texts = topicMode ? "" : hasUnit
-    ? `<div class="tb-focus-row">
-        <span class="st-lbl">The texts</span>
-        <p class="tb-theme">${icon("book-open", "i-xs")}About ${themes.map((t) => `<b>${esc(t)}</b>`).join(", ")} — the unit’s Big Question, stories and readings.</p>
-        <input class="input sm" id="tsTopic" placeholder="Optional: a setting for the texts, e.g. a school trip" value="${esc(s.topic || "")}" />
-      </div>`
-    : `<div class="tb-focus-row">
-        <span class="st-lbl">What are the texts about?</span>
-        <input class="input sm" id="tsTopic" placeholder="e.g. a day at the zoo — or leave it to Lingo" value="${esc(s.topic || "")}" />
-      </div>`;
-  $("tsFocus").innerHTML = `
-    <div class="tb-focus-row">
-      <span class="st-lbl">${grammarHead}${!topicMode && chosen.length ? ` <span class="tb-badge">${chosen.length}</span>` : ""}</span>
-      <div class="gram-chips">${defaultChip}${chips}</div>
+  const v = focusValues(sel);
+  const grammarBody = `<div class="gram-chips">${defaultChip}${chips}</div>
       <input class="input sm" id="tsGrammarOwn" placeholder="…or type a grammar point" value="${esc(s.grammarOwn || "")}" />
-      <small class="st-hint">${esc(grammarHint)}</small>
-    </div>
-    ${texts}`;
+      <p class="pk-note">${esc(grammarHint)}</p>`;
+  const textsBody = hasUnit
+    ? `<p class="pk-note">About the unit’s Big Question, stories and readings. Add a setting if you like:</p>
+      <input class="input sm" id="tsTopic" placeholder="e.g. a school trip" value="${esc(s.topic || "")}" />`
+    : `<input class="input sm" id="tsTopic" placeholder="e.g. a day at the zoo — or leave it to Lingo" value="${esc(s.topic || "")}" />
+      <p class="pk-note">Your words don’t come with a unit’s stories, so the texts can be about anything you like.</p>`;
+  $("tsFocus").innerHTML = `<div class="pk-rows">
+    ${pickRow("grammar", "Grammar", v.grammar, ts.focusOpen === "grammar", grammarBody)}
+    ${topicMode ? "" : pickRow("texts", "Texts", v.texts, ts.focusOpen === "texts", textsBody)}
+  </div>`;
+}
+
+/** Keep the closed lines in step while the teacher types. */
+function refreshFocusValues() {
+  const v = focusValues();
+  const set = (k, html) => { const el = $("tsFocus").querySelector(`[data-pk="${k}"] .pk-val`); if (el) el.innerHTML = html; };
+  set("grammar", v.grammar);
+  set("texts", v.texts);
 }
 
 function renderShape() {

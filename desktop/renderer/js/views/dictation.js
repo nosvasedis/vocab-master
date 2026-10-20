@@ -5,7 +5,7 @@ import { state, prefs, LEVEL_COLORS } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
+  makePicFor, pickRow, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
 } from "./studio-common.js";
 import { segmented, withBusy } from "../ui.js";
 import { dictationDefaults, dictationPrompt, bookSentences, buildDictationDoc, readAloudLines } from "../../studio/dictation.js";
@@ -125,7 +125,7 @@ function build() {
     const lvl = t.closest("[data-level]");
     if (lvl) { setLevel(lvl.dataset.level); return; }
     const src = t.closest("[data-source]");
-    if (src) { dc.spec.source = src.dataset.source; savePrefs(); renderOptions(); return; }
+    if (src) { dc.spec.source = src.dataset.source; savePrefs(); renderShape(); return; }
     const g = t.closest("[data-grammar]");
     if (g) {
       const v = g.dataset.grammar;
@@ -138,8 +138,19 @@ function build() {
   $("dcShape").addEventListener("input", (e) => {
     if (e.target.id === "dcTopic") { dc.spec.topic = e.target.value; savePrefs(); }
     if (e.target.id === "dcGrammarOwn") { dc.spec.grammarOwn = e.target.value; savePrefs(); }
+    // The closed line says what is chosen, also while typing.
+    const val = (k) => $("dcShape").querySelector(`[data-pk="${k}"] .pk-val`);
+    if (dc.spec.source === "book") return;
+    if (e.target.id === "dcTopic" && val("theme")) val("theme").innerHTML = dc.spec.topic.trim() ? esc(dc.spec.topic.trim()) : "<small>Lingo chooses</small>";
+    if (e.target.id === "dcGrammarOwn" && val("grammar")) {
+      const chosen = [...dc.spec.grammar, ...(dc.spec.grammarOwn.trim() ? [grammarLabel(dc.spec.grammarOwn)] : [])];
+      val("grammar").innerHTML = chosen.length ? esc(chosen.join(", ")) : "What the class knows";
+    }
   });
-  $("dcShape").addEventListener("toggle", (e) => { if (e.target.matches?.(".tb-more")) dc.moreOpen = e.target.open; }, true);
+  $("dcShape").addEventListener("click", (e) => {
+    const tog = e.target.closest("[data-pk-toggle]");
+    if (tog) { dc.moreOpen = dc.moreOpen === tog.dataset.pkToggle ? null : tog.dataset.pkToggle; renderShape(); }
+  });
   $("dcOptions").addEventListener("click", onControls);
   $("dcOptions").addEventListener("change", (e) => {
     const k = e.target.dataset.opt;
@@ -181,7 +192,9 @@ function renderShape() {
   const [min, max] = sentenceRange(lvl, s.length, s.difficulty);
   const connected = s.style === "dictogloss" || s.style === "running";
   const grammar = GRAMMAR_MENU[lvl] || [];
-  const extras = s.grammar.length + (s.grammarOwn?.trim() ? 1 : 0) + (s.topic?.trim() ? 1 : 0);
+  const chosen = [...s.grammar, ...(s.grammarOwn?.trim() ? [grammarLabel(s.grammarOwn)] : [])];
+  const book = s.source === "book";
+  const unused = "<small>Not used — the coursebook’s own sentences</small>";
   $("dcShape").innerHTML = `
     <div class="tb-levels" role="radiogroup" aria-label="Class">${LEVEL_IDS.map((id) => `<button type="button" role="radio" aria-checked="${id === lvl}" class="tb-level${id === lvl ? " active" : ""}" data-level="${id}" style="--lvl:${LEVEL_COLORS[id]}"><span class="tb-level-l">${esc(CLASS_PROFILES[id].label[0])}</span><small>${esc(CLASS_PROFILES[id].cefr)}</small></button>`).join("")}</div>
     <p class="tb-level-note"><b>${esc(p.label)}</b> · ${esc(p.greekGrades)} · ages ${esc(p.ageRange)} · defaults set for this class</p>
@@ -194,14 +207,15 @@ function renderShape() {
       ${s.style === "gapped" ? `<div class="tb-field"><span class="st-lbl">Gaps in each sentence</span>${segHtml("gapsPerSentence", [[1, "1"], [2, "2"], [3, "3"]], s.gapsPerSentence)}</div>` : ""}
       <div class="tb-field"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
     </div>
-    <details class="tb-more"${dc.moreOpen ? " open" : ""}>
-      <summary>${icon("sliders", "i-sm")}<span>Grammar &amp; a theme</span>${extras ? `<span class="tb-badge">${extras}</span>` : `<small>optional</small>`}${icon("chevron-down", "i-sm tb-more-chev")}</summary>
-      <div class="tb-more-body">
-        <div class="st-row col"><span class="st-lbl">Grammar to practise</span><div class="gram-chips">${grammar.map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div>
-          <input class="input sm" id="dcGrammarOwn" placeholder="…or type your own, e.g. There is / there are" value="${esc(s.grammarOwn || "")}" /></div>
-        <div class="st-row col"><span class="st-lbl">A theme for the sentences</span><input class="input sm" id="dcTopic" placeholder="e.g. a trip to the mountains, a birthday party" value="${esc(s.topic || "")}" /></div>
-      </div>
-    </details>`;
+    <div class="pk-rows dc-more">
+      ${pickRow("grammar", "Grammar", book ? unused : chosen.length ? esc(chosen.join(", ")) : "What the class knows", dc.moreOpen === "grammar",
+    `<div class="gram-chips">${grammar.map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div>
+        <input class="input sm" id="dcGrammarOwn" placeholder="…or type your own, e.g. There is / there are" value="${esc(s.grammarOwn || "")}" />
+        <p class="pk-note">${book ? "Only used when the AI writes the sentences (Final touches)." : "Most sentences will use it. Leave it empty for grammar the class already knows."}</p>`)}
+      ${pickRow("theme", "Theme", book ? unused : s.topic?.trim() ? esc(s.topic.trim()) : "<small>Lingo chooses</small>", dc.moreOpen === "theme",
+    `<input class="input sm" id="dcTopic" placeholder="e.g. a trip to the mountains, a birthday party" value="${esc(s.topic || "")}" />
+        <p class="pk-note">One situation, so the sentences make sense together.</p>`)}
+    </div>`;
   $("dcShape").querySelectorAll("[data-segmented]").forEach((root) => {
     segmented(root, { value: String(s[root.dataset.seg]), onChange: (v) => { s[root.dataset.seg] = /^\d+$/.test(v) ? Number(v) : v; savePrefs(); renderShape(); } });
   });
