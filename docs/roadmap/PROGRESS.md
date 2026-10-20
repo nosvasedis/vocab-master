@@ -4,6 +4,10 @@
 
 **Next:** nothing queued. The Unit test fixes (deleting parts; Step 1 decides grammar, texts and parts) are on `main` and in the rebuilt exes (2026-10-20, section below). The studio redesign and the Dictation redesign (`feature/dictation-redesign`) are merged into `main` (2026-10-20): `npm test` 446 pass, `npm run smoke` passes. The 3.3.0 installer and portable exe are rebuilt from it (desktop/release/; package verified; the unpacked app passes `--smoke`). Earlier: the account database rules are live on `vocab-master-live` (deployed 2026-10-20, `--only database`); the user's stuck 19 changes uploaded with "Sync now". `fix/sync-uploads` is merged into `main`. The exes were not rebuilt with the sync fixes. The 3.3.0 listening voices are merged too (section below). The 3.3.0 installer and portable exe are rebuilt (desktop/release/, about 190 MB each, package verified); the packaged app passes `--smoke --voices` (4 threads, a real natural-voice sentence).
 
+## GitHub release v3.3.0 published (2026-10-20, from the user)
+- Releases had stopped at v2.0.0 (2026-10-16); 3.0–3.3 were never published. **v3.3.0** is now the Latest release (https://github.com/nosvasedis/vocab-master/releases/tag/v3.3.0), tag on `main` 4b7e9ec, with `Vocab-Master-Setup-3.3.0.exe` and `Vocab-Master-Portable-3.3.0.exe` (same bytes as `desktop/release/`, built from fb73205; only docs changed after). The notes cover everything since 2.0. README heading says 3.3; its download link (releases/latest) now gets 3.3.0.
+- **For the next release:** bump the version (root + desktop package.json), `npm run dist`, then `gh release create vX.Y.Z desktop/release/Vocab-Master-Setup-X.Y.Z.exe desktop/release/Vocab-Master-Portable-X.Y.Z.exe --latest`.
+
 ## Unit test & Read-aloud dictation as full-screen step-by-step makers (2026-10-20, from the user)
 - **Asked:** "a fuller screen experience, step by step, more aligned with the Worksheets stuff but better and nicer; dictation and Unit test visually distinct". This replaces the two-column builder and the compact picker below.
 - **Wizard shell** (`wizardNav`, `createWizard` in `studio-common.js`; `.mk-*` in `studio.css`):
