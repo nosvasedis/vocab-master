@@ -7,6 +7,8 @@ import { CPP_BOOKS } from "../coursebook-data.js";
 import { parseLevel, GRAMMAR_MENU, LEVEL_IDS, BOOK_LEVEL, grammarLabel } from "./levels.js";
 import { SKILLS, DICTATION_STYLES } from "./tasks.js";
 import { parseOwnWords } from "./own-words.js";
+import { findWordChoice, normalizeChoice, describeChoice, cutList, WORD_MODES, SECTION_KEYS } from "./word-choice.js";
+import { LENGTHS } from "./test-builder.js";
 
 export const KINDS = {
   test: { label: "Unit test", icon: "🧾" },
@@ -93,15 +95,22 @@ export function findOwnWords(text) {
     || src.match(/\b(?:also|plus)\s+(?:test|include|add|use)\s*:\s*([^.?!;]+)/i)
     || src.match(/(?:και\s+)?(?:τις\s+)?(?:λέξεις|λεξεις)\s*:?\s*([^.?!;]+)/i);
   if (!m) return { words: [], rest: src };
-  const list = m[1].replace(/\s+(?:too|as well|also)\s*$/i, "");
+  // The list ends where the next part of the request begins ("…, without pictures").
+  const cut = cutList(m[1]);
+  const list = cut.replace(/\s+(?:too|as well|also)\s*$/i, "");
   // "the words of unit 4" is about the unit's words, not a list.
   if (/^\s*(?:of|from|in|for)\b/i.test(list)) return { words: [], rest: src };
   const words = parseOwnWords(list.replace(/\s+(?:and|και|&)\s+/gi, ", "))
     .filter((w) => !/\d|\bunit\b|\bclass\b|\bsenior\b/i.test(w.english) && w.english.split(" ").length <= 4);
-  return words.length ? { words, rest: src.replace(m[0], " ").replace(/\s+/g, " ").trim() } : { words: [], rest: src };
+  const consumed = m[0].slice(0, m[0].length - m[1].length) + cut;
+  return words.length ? { words, rest: src.replace(consumed, " ").replace(/\s+/g, " ").trim() } : { words: [], rest: src };
 }
 
 export function parseRequest(text, context = {}) {
+  // Which of the unit's words ("all the words", "15 words", "only lava and ash", "except crater") — read first, so
+  // a word list isn't taken for a topic; then the teacher's own extra words ("plus the words …").
+  const choice = findWordChoice(text);
+  text = choice.rest;
   const own = findOwnWords(text);
   text = own.rest;
   const t = norm(text);
@@ -123,11 +132,34 @@ export function parseRequest(text, context = {}) {
     const topic = text.replace(/\b(make|create|write|give me|i need|please|a|an|the|test|quiz|worksheet|dictation|for|class|senior|level|[a-e] class)\b/gi, " ").replace(/\s+/g, " ").trim();
     if (grammar.length || topic.split(" ").length >= 2) plan.source = { kind: "topic", topic: grammar.length ? grammar.join(", ") : topic[0].toUpperCase() + topic.slice(1) };
   }
-  const skills = Object.keys(SKILLS).filter((s) => s !== "dictation" && new RegExp(`\\b${s}\\b`).test(t));
+  // Skills: "with listening and reading" picks them; "no listening", "without speaking" leaves them out.
+  const SKILL_NAMES = Object.keys(SKILLS).filter((s) => s !== "dictation");
+  // Greek names of the skills read the same way («χωρίς ακρόαση», «με λεξιλόγιο και γραμματική»).
+  const ts = t.replace(/ακρόαση|ακουστικ\S*/g, "listening").replace(/ανάγνωση|κατανόηση κειμένου/g, "reading").replace(/λεξιλόγιο/g, "vocabulary")
+    .replace(/γραμματική/g, "grammar").replace(/παραγωγή γραπτού λόγου|γραφή|έκθεση/g, "writing").replace(/προφορικ\S*|ομιλία/g, "speaking")
+    .replace(/χωρίς/g, "without").replace(/\s+(?:ή|και)\s+/g, (m) => (m.includes("ή") ? " or " : " and "));
+  const dropped = SKILL_NAMES.filter((s) => new RegExp(`\\b(?:no|without|not|except|skip|leave out|minus)\\s+(?:the\\s+|a\\s+)?(?:\\w+\\s+(?:or|and)\\s+)?${s}\\b`).test(ts));
+  const skills = SKILL_NAMES.filter((s) => !dropped.includes(s) && new RegExp(`\\b${s}\\b`).test(ts));
   if (/four skills|4 skills|all skills|όλες τις δεξιότητες/.test(t)) plan.length = "full";
   else if (skills.length) plan.skills = skills;
+  if (dropped.length) plan.dropSkills = dropped;
   if (/\bshort\b|quick|20 min/.test(t)) plan.length = "quiz";
   if (/\bfull\b|long|60 min|1 hour/.test(t)) plan.length = "full";
+  const mins = t.match(/\b(\d{2,3})\s*(?:minutes?|mins?|λεπτά)\b/);
+  if (mins) { const m = Number(mins[1]); plan.length = m <= 25 ? "quiz" : m <= 45 ? "standard" : "full"; }
+  // "5 questions each", "8 items per part"
+  const per = t.match(/\b(\d{1,2})\s*(?:questions|items|ερωτήσεις)\s*(?:each|per part|in each part|a part|for each part|σε κάθε)/);
+  if (per) plan.items = Math.max(3, Math.min(12, Number(per[1])));
+  if (/\b(?:no|without)\s+pictures?\b|χωρίς εικόνες/.test(t)) plan.pictures = false;
+  else if (/\bwith pictures?\b|με εικόνες/.test(t)) plan.pictures = true;
+  // "called \"Volcano quiz\"", "title: Revision 2"
+  const title = text.match(/\b(?:called|titled|named|title\s*:)\s*["“'‘]([^"”'’]{2,60})["”'’]/i) || text.match(/\btitle\s*:\s*([^.,;!?]{2,60})/i);
+  if (title) plan.title = title[1].trim();
+  // A dictation from the coursebook's own sentences, or new ones by the AI.
+  if (/book(?:'s)? sentences|coursebook sentences|sentences from the (?:course)?book|from the book|προτάσεις (?:του|από το) βιβλί/.test(t)) plan.writer = "book";
+  else if (/\bnew sentences\b|\bai sentences\b|write (?:new|fresh) sentences/.test(t)) plan.writer = "ai";
+  // Sentences (from the book or new) only belong to a read-aloud dictation.
+  if (plan.writer && plan.dictationChoice && !plan.kind) { plan.kind = "dictation"; delete plan.dictationChoice; }
   if (/two versions|2 versions|version b|a and b versions|a\/b|δύο εκδοχές/.test(t)) plan.versions = 2;
   if (/easier|easy|weak|πιο εύκολ/.test(t)) plan.difficulty = "easier";
   if (/harder|challeng|strong|πιο δύσκολ/.test(t)) plan.difficulty = "harder";
@@ -138,8 +170,12 @@ export function parseRequest(text, context = {}) {
   const style = /dictation|dictogloss/.test(t) && Object.keys(DICTATION_STYLES).find((s) => t.includes(s) || (s === "classic" && /normal dictation/.test(t)));
   if (style) { plan.style = style; plan.kind = "dictation"; delete plan.dictationChoice; }
   if (own.words.length) plan.words = own.words;
+  if (choice.choice) plan.vocab = choice.choice;
   return plan;
 }
+
+/** Words a worksheet unit aims for, per class (state.js SMART_PICK). */
+const CLASS_WORDS = { A_SENIOR: 12, B_SENIOR: 15, C_SENIOR: 18, D_SENIOR: 20, E_SENIOR: 22 };
 
 /** Fill a partial plan with sensible defaults (the app's open unit and class). */
 export function completePlan(partial = {}, context = {}) {
@@ -157,6 +193,16 @@ export function completePlan(partial = {}, context = {}) {
   if (plan.kind === "quiz") plan.length ||= "quiz";
   if (plan.kind === "test") plan.length ||= plan.skills?.length ? "custom" : "standard";
   if (plan.greek === undefined && plan.levelId) plan.greek = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(plan.levelId);
+  // Skills left out ("no listening") come off the usual set for the length.
+  if (plan.dropSkills?.length && (plan.kind === "test" || plan.kind === "quiz")) {
+    const base = plan.skills?.length ? plan.skills : [...new Set((LENGTHS[plan.length] || LENGTHS.standard).skills)];
+    const kept = base.filter((s) => !plan.dropSkills.includes(s));
+    if (kept.length) { plan.skills = kept; if (plan.length !== "quiz") plan.length = "custom"; }
+  }
+  // Which of the unit's words: the key words for tests and dictations; for worksheets, as many as suit the class.
+  if (plan.source?.kind === "unit" || plan.source?.kind === "current") {
+    plan.vocab = normalizeChoice(plan.vocab || {}, { fallback: plan.kind === "worksheet" ? "smart" : "key", classCount: CLASS_WORDS[plan.levelId] || 15 });
+  }
   return plan;
 }
 
@@ -205,6 +251,12 @@ export function planSummary(plan) {
   if (plan.kind === "dictation") bits.push(`${DICTATION_STYLES[plan.style || "classic"].label.toLowerCase()} style${plan.count ? `, ${plan.count} sentences` : ""}`);
   if (plan.grammar?.length) bits.push(`grammar: ${plan.grammar.join(", ")}`);
   if (plan.difficulty && plan.difficulty !== "level") bits.push(plan.difficulty === "easier" ? "a little easier" : "a little harder");
+  if (plan.source?.kind === "unit" && plan.vocab) bits.push(describeChoice(plan.vocab));
+  if (plan.items) bits.push(`${plan.items} questions a part`);
+  if (plan.dropSkills?.length && !(plan.kind === "test" || plan.kind === "quiz")) bits.push(`no ${plan.dropSkills.join(" or ")}`);
+  if (plan.pictures === false) bits.push("no pictures");
+  if (plan.writer === "book") bits.push("sentences from the coursebook");
+  if (plan.title) bits.push(`titled “${plan.title}”`);
   if (plan.versions > 1) bits.push("versions A and B");
   if (plan.words?.length) bits.push(`also your words: ${plan.words.map((w) => w.english).join(", ")}`);
   return `${kind} for ${who}${src ? ` on ${src}` : ""}${bits.length ? ` — ${bits.join("; ")}` : ""}.`;
@@ -215,7 +267,11 @@ export function assistantPrompt(text, context = {}, plan = {}) {
   const system = `You help a Greek teacher of English (φροντιστήριο, classes A–E Senior, ages 8–14) plan a test, quiz, dictation or worksheet.
 "worksheet" = the app's vocabulary sheets: a Lingo Launcher study sheet plus a Dictation sheet of vocabulary exercises (when the teacher says "dictation sheet" or means testing the unit's words, it is "worksheet"). "dictation" = a read-aloud dictation: the teacher reads sentences and the class writes them down.
 Read the teacher's request (English or Greek) and return ONLY JSON:
-{ "kind": "test|quiz|dictation|worksheet", "levelId": "A_SENIOR|B_SENIOR|C_SENIOR|D_SENIOR|E_SENIOR|", "source": { "kind": "unit|topic", "bookId": "CPP1|CPP2|CPP3|", "units": [n], "topic": "" }, "skills": ["listening|reading|vocabulary|grammar|writing|speaking"], "grammar": ["..."], "length": "quiz|standard|full|", "difficulty": "easier|level|harder", "versions": 1, "style": "classic|gapped|running|dictogloss|picture|", "count": 0, "note": "anything else the teacher asked for, short", "reply": "one friendly sentence to the teacher (in the teacher's language)" }
+{ "kind": "test|quiz|dictation|worksheet", "levelId": "A_SENIOR|B_SENIOR|C_SENIOR|D_SENIOR|E_SENIOR|", "source": { "kind": "unit|topic", "bookId": "CPP1|CPP2|CPP3|", "units": [n], "topic": "" }, "skills": ["listening|reading|vocabulary|grammar|writing|speaking"], "grammar": ["..."], "length": "quiz|standard|full|", "difficulty": "easier|level|harder", "versions": 1, "style": "classic|gapped|running|dictogloss|picture|", "count": 0, "items": 0, "pictures": true, "title": "", "writer": "ai|book|",
+  "vocab": { "mode": "key|all|some|mix|pick|", "count": 0, "sections": ["BQ","A","B","WB"], "only": ["unit words to use, when the teacher names exactly which"], "except": ["unit words to leave out"] },
+  "addWords": ["extra words the teacher wants added that may not be in the unit"],
+  "note": "anything else the teacher asked for, short", "reply": "one friendly sentence to the teacher (in the teacher's language)" }
+"vocab" is about which of the unit's words to use: key = the lessons' key words; all = every word of the chosen parts (BQ = Big Question, A/B = lessons, WB = Workbook); some = a number of words; mix = key words plus others; pick = only the words in "only". "count" = sentences of a dictation; "items" = questions in each test part.
 Books: CPP1 = Cambridge Primary Path 1 (A Senior), CPP2 = Primary Path 2 (B Senior), CPP3 = Primary Path 3 (C Senior). Leave a field empty when the teacher didn't say it.`;
   const user = `Open in the app now: ${context.bookId ? `${context.bookId} Unit ${context.unit}` : "no unit"}, class ${context.level || "not chosen"}.
 Plan so far: ${JSON.stringify(plan)}
@@ -238,6 +294,21 @@ export function mergeAiPlan(plan, ai = {}) {
   if (Number(ai.versions) === 2) p.versions = 2;
   if (DICTATION_STYLES[ai.style]) p.style = ai.style;
   if (Number(ai.count) > 0) p.count = Math.min(15, Number(ai.count));
+  if (Number(ai.items) > 0) p.items = Math.max(3, Math.min(12, Number(ai.items)));
+  if (typeof ai.pictures === "boolean" && ai.pictures === false) p.pictures = false;
+  if (ai.title) p.title = String(ai.title).slice(0, 60);
+  if (["ai", "book"].includes(ai.writer)) p.writer = ai.writer;
+  if (ai.vocab && typeof ai.vocab === "object" && (WORD_MODES[ai.vocab.mode] || ai.vocab.sections?.length || ai.vocab.except?.length)) {
+    const v = { ...(p.vocab || {}) };
+    if (WORD_MODES[ai.vocab.mode]) v.mode = ai.vocab.mode;
+    if (Number(ai.vocab.count) > 0) v.count = Number(ai.vocab.count);
+    const secs = (ai.vocab.sections || []).filter((x) => SECTION_KEYS.includes(x));
+    if (secs.length) v.sections = secs;
+    if (Array.isArray(ai.vocab.only) && ai.vocab.only.length) v.only = ai.vocab.only.map(String).slice(0, 60);
+    if (Array.isArray(ai.vocab.except) && ai.vocab.except.length) v.except = ai.vocab.except.map(String).slice(0, 60);
+    p.vocab = v;
+  }
+  if (Array.isArray(ai.addWords) && ai.addWords.length) p.words = parseOwnWords([...(p.words || []).map((w) => w.english), ...ai.addWords.map(String)].join(", ")).slice(0, 40);
   if (ai.note) p.note = String(ai.note).slice(0, 200);
   return p;
 }
@@ -248,6 +319,6 @@ export function needsAi(text, partial) {
   // A bare "dictation" is settled by asking "Which dictation do you mean?", not by the AI guessing.
   if (partial.dictationChoice && !partial.kind) return words > 14;
   if (!partial.kind && words > 3) return true;
-  const understood = ["kind", "levelId", "source", "grammar", "skills", "length", "style", "count", "versions", "difficulty"].filter((k) => partial[k] !== undefined).length;
+  const understood = ["kind", "levelId", "source", "grammar", "skills", "length", "style", "count", "versions", "difficulty", "vocab", "words", "items", "dropSkills", "pictures", "title", "writer"].filter((k) => partial[k] !== undefined).length;
   return words > 14 && understood < 3;
 }
