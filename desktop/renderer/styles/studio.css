@@ -230,6 +230,18 @@
 .tb-badge { display: inline-grid; place-items: center; min-width: 19px; height: 19px; padding: 0 6px; border-radius: 99px; font-size: 11px; font-weight: 800; color: #fff; background: var(--brand); }
 .tb-more-body { display: flex; flex-direction: column; gap: 12px; padding: 2px 12px 14px; }
 
+/* Step 1: the grammar and the texts, shaped by the source above */
+.tb-focus { display: flex; flex-direction: column; gap: 14px; padding-top: 12px; border-top: 1px dashed var(--divider); }
+.tb-focus:empty { display: none; }
+.tb-focus-row { display: flex; flex-direction: column; gap: 7px; }
+.tb-focus-row > .st-lbl { display: inline-flex; align-items: center; gap: 6px; }
+.tb-focus-row > .st-hint { margin: 0; }
+.tb-focus .chip.tb-default { font-weight: 700; }
+.tb-focus .chip.tb-default .i { margin-right: 4px; }
+.tb-theme { margin: 0; padding: 8px 10px; border-radius: 10px; background: var(--surface-2); font-size: 12.5px; line-height: 1.45; color: var(--text-2); }
+.tb-theme .i { margin-right: 5px; vertical-align: -2px; color: var(--brand); }
+.tb-theme b { color: var(--text); }
+
 /* Parts */
 .part-list { display: flex; flex-direction: column; gap: 8px; }
 .part-card {

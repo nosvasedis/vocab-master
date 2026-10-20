@@ -164,7 +164,7 @@ const BOOK_IDS = Object.keys(CPP_BOOKS);
  * Where the words come from: the Step 2 list, coursebook units (book → units → sections → words), or a free topic.
  * mount(host) renders it; value() returns { kind, bookId, units, sections, words, focus, label, meta }.
  */
-export function createSourcePicker({ multiUnit = false, allowTopic = false, onChange } = {}) {
+export function createSourcePicker({ multiUnit = false, allowTopic = false, topicPlaceholder = "e.g. Present Simple vs Present Continuous, daily routines", onChange } = {}) {
   const st = {
     kind: "unit",
     bookId: (isCpp() && state.cpp.bookId) || "CPP1",
@@ -223,7 +223,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, onCh
     host.innerHTML = `
       <div class="sp-modes">${modes.map(([k, l]) => `<button type="button" class="chip${st.kind === k ? " active" : ""}" data-sp-kind="${k}" ${k === "current" && filledWords().length < 3 ? "disabled title=\"Add 3+ words in Step 2 first\"" : ""}>${l}</button>`).join("")}</div>
       ${st.kind === "current" ? `<p class="sp-summary">${icon("check-circle", "i-xs")}Using <b>${plural(f.length, "word")}</b> from your Vocabulary list${bookTitle() ? ` · ${esc(bookTitle())}${unitNumber() ? ` Unit ${esc(unitNumber())}` : ""}` : ""}: <span class="sp-words">${esc(f.slice(0, 14).map((w) => w.english).join(", "))}${f.length > 14 ? "…" : ""}</span></p>` : ""}
-      ${st.kind === "topic" ? `<input class="input" data-sp-topic placeholder="e.g. Present Simple vs Present Continuous, daily routines" value="${esc(st.topic)}" />` : ""}
+      ${st.kind === "topic" ? `<input class="input" data-sp-topic placeholder="${esc(topicPlaceholder)}" value="${esc(st.topic)}" />` : ""}
       ${st.kind === "unit" ? `
         <div class="sp-row"><span class="sp-lbl">Book</span>${BOOK_IDS.map((id) => `<button type="button" class="chip${id === st.bookId ? " active" : ""}" data-sp-book="${id}">Primary Path ${id.slice(-1)}</button>`).join("")}</div>
         <div class="sp-row"><span class="sp-lbl">Unit${multiUnit ? "s" : ""}</span>${multiUnit ? `<small class="sp-hint">tap to add or remove</small>` : ""}${Array.from({ length: 9 }, (_, i) => i + 1).map((u) => `<button type="button" class="chip sp-unit${st.units.includes(u) ? " active" : ""}" data-sp-unit="${u}" title="${esc(book.units[u]?.title || "")}">${u}</button>`).join("")}</div>
@@ -237,7 +237,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, onCh
         ${st.focusMode === "pick" ? `<div class="sp-pick">${words.map((w) => `<button type="button" class="word-chip${st.picked.has(w.english.toLowerCase()) ? " on" : ""}" data-sp-word="${esc(w.english.toLowerCase())}"><span>${esc(w.english)}</span></button>`).join("")}</div>` : ""}
         <p class="sp-summary">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> chosen: <span class="sp-words">${esc(f.slice(0, 16).map((w) => w.english).join(", "))}${f.length > 16 ? "…" : ""}</span></p>` : ""}`;
   }
-  const changed = () => { render(); onChange?.(value()); };
+  const changed = (byUser = true) => { render(); onChange?.(value(), { byUser }); };
   function mount(el) {
     host = el;
     host.classList.add("source-picker");
@@ -273,8 +273,8 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, onCh
       }
       changed();
     });
-    host.addEventListener("input", (e) => { if (e.target.dataset.spTopic !== undefined) { st.topic = e.target.value; onChange?.(value()); } });
-    refreshKeyWords().then(changed);
+    host.addEventListener("input", (e) => { if (e.target.dataset.spTopic !== undefined) { st.topic = e.target.value; onChange?.(value(), { byUser: true }); } });
+    refreshKeyWords().then(() => changed(false));
     render();
   }
   return {
@@ -282,7 +282,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, onCh
     set(next = {}) {
       Object.assign(st, next);
       if (next.picked) st.picked = new Set(next.picked);
-      refreshKeyWords().then(changed);
+      refreshKeyWords().then(() => changed(false));
     },
   };
 }

@@ -6,7 +6,7 @@ import { buildStudioDocx } from "../desktop/renderer/app.js";
 import { sentenceRange, parseLevel, DICTATION_DEFAULTS, LEVEL_IDS, GRAMMAR_MENU } from "../desktop/renderer/studio/levels.js";
 import { unitWords, sectionCounts, buildUnitContext, unitContextPrompt, storyLines } from "../desktop/renderer/studio/unit-context.js";
 import { dictationDefaults, maskTargets, bookSentences, buildDictationDoc, dictationPrompt, splitStrips, checkSentences, readAloudLines } from "../desktop/renderer/studio/dictation.js";
-import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, planProblems } from "../desktop/renderer/studio/test-builder.js";
+import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle } from "../desktop/renderer/studio/test-builder.js";
 import { makeVersionB, docPoints, answerKeyRows, normalizeItem, tfValue, normalizeSection, repairOrderItem } from "../desktop/renderer/studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../desktop/renderer/studio/doc-render.js";
 import { parseRequest, completePlan, clarifyingQuestions, answerQuestion, mergeAiPlan, needsAi, planSummary } from "../desktop/renderer/studio/assistant.js";
@@ -352,4 +352,67 @@ test("matching: the example's meaning is in the lettered list, so its letter sho
   const b = makeVersionB(doc, Math.random);
   assert.equal(b.sections[0].bank.find((x) => x.letter === b.sections[0].example.letter)?.text, "a big round thing in space");
   for (const which of ["student", "teacher"]) assert.ok((await buildStudioDocx({ doc, which })).size > 1000);
+});
+
+test("unit tests only offer the tasks the Step 1 source supports", () => {
+  const topic = { kind: "topic", hasUnit: false, pictureWords: 0 };
+  const unit = { kind: "unit", hasUnit: true, pictureWords: 12 };
+  const ownList = { kind: "words", hasUnit: false, pictureWords: 2 };
+  // A grammar point or topic has no word list: no picture tasks, no Big Question.
+  for (const id of ["L-PIC", "V-PIC", "W-PICTURES", "S-PICTURE", "S-BQ"]) assert.ok(taskBlock(id, topic), id);
+  for (const id of Object.keys(TASKS)) assert.equal(taskBlock(id, unit), "", id);
+  assert.match(taskBlock("V-PIC", ownList), /3\+ chosen words with pictures/);
+  assert.equal(taskBlock("S-BQ", ownList), "needs a coursebook unit");
+  assert.equal(taskForSource("vocabulary", "A_SENIOR", topic), "V-BANK");
+  assert.equal(taskForSource("speaking", "A_SENIOR", topic), "S-QUESTIONS");
+  assert.equal(taskForSource("vocabulary", "A_SENIOR", unit), "V-PIC");
+
+  const spec = testDefaults("A_SENIOR", "full");
+  const ids = spec.parts.map((p) => p.id);
+  const changed = fitPartsToSource(spec.parts, "A_SENIOR", topic);
+  assert.ok(changed.length >= 3);
+  assert.deepEqual(spec.parts.map((p) => p.id), ids, "parts keep their ids and order");
+  assert.ok(spec.parts.every((p) => !taskBlock(p.task, topic)));
+  const writing = spec.parts.find((p) => p.skill === "writing" && p.task === "W-GUIDED");
+  assert.ok(writing.words && writing.points, "an open task keeps its words and points");
+  assert.equal(fitPartsToSource(spec.parts, "A_SENIOR", topic).length, 0, "nothing to change twice");
+});
+
+test("unit test plan checks follow the source: topic or grammar, words, pictures", () => {
+  const base = testDefaults("C_SENIOR", "standard");
+  const topicSpec = { ...base, parts: presetParts("standard", "C_SENIOR"), source: { kind: "topic" }, topic: "", grammar: [] };
+  assert.match(planProblems(topicSpec).join(" "), /Type the topic, or choose the grammar/);
+  assert.equal(planProblems({ ...topicSpec, grammar: ["Past Simple (regular verbs)"] }).length, 0, "grammar alone is enough");
+  assert.equal(planProblems({ ...topicSpec, topic: "my town" }).length, 0, "a topic alone is enough");
+  const a = { ...testDefaults("A_SENIOR", "standard"), source: { kind: "words" } };
+  const words = [{ english: "lava" }, { english: "ash" }];
+  assert.match(planProblems(a, { focusWords: words, pictureWords: ["lava"] }).join(" "), /Part \d \(Look and write \(pictures\)\) needs 3\+ chosen words with pictures/);
+  assert.match(planProblems({ ...a, parts: [makePart("speaking", "S-BQ", "A_SENIOR")] }, { focusWords: words }).join(" "), /needs a coursebook unit/);
+  assert.equal(planProblems({ ...a, parts: [makePart("speaking", "S-BQ", "A_SENIOR")] }, { focusWords: words, hasUnit: true }).length, 0);
+  // More one-word answers than chosen words is a note, not a blocker.
+  const v = { ...a, parts: [makePart("vocabulary", "V-BANK", "A_SENIOR")] };
+  assert.match(planNotes(v, { focusWords: words }).join(" "), /5 questions but only 2 words/);
+  assert.deepEqual(planNotes({ ...v, source: { kind: "topic" } }, { focusWords: words }), []);
+  assert.equal(defaultTitle({ kind: "unit", units: [4] }), "Unit 4 Test");
+  assert.equal(defaultTitle({ kind: "unit", units: [3, 4] }), "Units 3, 4 Test");
+  assert.equal(defaultTitle({ kind: "topic" }), "");
+});
+
+test("the test prompt's grammar and topic lines fit the source", async () => {
+  const spec = { ...testDefaults("B_SENIOR", "quiz"), source: { kind: "unit" } };
+  const ctx = await buildUnitContext({ bookId: "CPP2", units: [4] }, { loadLesson });
+  assert.match(testPrompt(spec, { unitContext: ctx, focusWords: unit4 }).user, /Grammar: the grammar the unit's example sentences show/);
+  // A word list with no coursebook unit has no example sentences to lean on.
+  const own = testPrompt({ ...spec, source: { kind: "words" }, topic: "a day at the zoo" }, { focusWords: unit4 }).user;
+  assert.match(own, /Grammar: what this class already knows/);
+  assert.match(own, /The texts and scripts are about: a day at the zoo/);
+  assert.doesNotMatch(own, /other words of the unit/);
+  // A topic test with only grammar chosen.
+  const g = testPrompt({ ...spec, source: { kind: "topic" }, topic: "", grammar: ["Present Continuous"] }, {}).user;
+  assert.match(g, /Topic: everyday situations/);
+  assert.match(g, /Grammar focus[^\n]*Present Continuous/);
+  assert.doesNotMatch(g, /UNIT CONTEXT|TEST THESE WORDS/);
+  const t = testPrompt({ ...spec, source: { kind: "topic" }, topic: "my town", grammar: [] }, {}).user;
+  assert.match(t, /Topic: my town/);
+  assert.doesNotMatch(t, /Context the teacher wants/);
 });

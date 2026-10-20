@@ -80,15 +80,88 @@ export function estimateMinutes(spec) {
 export const partPoints = (p) => (TASKS[p.task]?.answer === "open" ? p.points || 10 : (p.items || 0) * (p.pointsEach || 1));
 export const specPoints = (spec) => spec.parts.reduce((n, p) => n + partPoints(p), 0);
 
-/** Problems with the plan before any AI call. */
-export function planProblems(spec, { pictureWords = [], focusWords = [] } = {}) {
+/* ── What the Step 1 source allows ────────────────────────────────────
+ * A coursebook unit brings words, pictures, a Big Question and its own grammar (from the book's example
+ * sentences). "My word list" brings words (and the unit's context when the list came from the coursebook).
+ * "A grammar point or topic" brings no word list at all: no picture tasks, no Big Question. */
+
+/** The task used instead of one the source can't support. */
+export const TASK_FALLBACK = { "L-PIC": "L-MC", "V-PIC": "V-BANK", "W-PICTURES": "W-GUIDED", "S-PICTURE": "S-QUESTIONS", "S-BQ": "S-QUESTIONS" };
+
+/**
+ * Why a task can't be used with this source ("" when it can).
+ * src: { kind: "unit" | "words" | "topic", hasUnit, pictureWords: n }
+ */
+export function taskBlock(taskId, src = {}) {
+  const t = TASKS[taskId];
+  if (!t) return "unknown task";
+  if (t.needs?.includes("pictures") && (src.pictureWords ?? 0) < 3) return src.kind === "topic" ? "needs a word list with pictures" : "needs 3+ chosen words with pictures";
+  if (taskId === "S-BQ" && !src.hasUnit) return "needs a coursebook unit";
+  return "";
+}
+
+/** A task for a skill that this source supports: the class default, else its fallback, else the first that works. */
+export function taskForSource(skill, levelId, src) {
+  const first = defaultTask(skill, levelId);
+  if (!taskBlock(first, src)) return first;
+  const fb = TASK_FALLBACK[first];
+  if (fb && !taskBlock(fb, src)) return fb;
+  return Object.keys(TASKS).find((id) => TASKS[id].skill === skill && !taskBlock(id, src)) || first;
+}
+
+/**
+ * Swap parts whose task this source can't support for one it can (same skill, same id).
+ * Returns [{ id, from, to, reason }] for the parts that changed.
+ */
+export function fitPartsToSource(parts, levelId, src) {
+  const changed = [];
+  for (const p of parts) {
+    const reason = taskBlock(p.task, src);
+    if (!reason) continue;
+    const fb = TASK_FALLBACK[p.task];
+    const to = fb && !taskBlock(fb, src) ? fb : taskForSource(p.skill, levelId, src);
+    if (to === p.task) continue;
+    const fresh = makePart(p.skill, to, levelId);
+    const wasOpen = TASKS[p.task].answer === "open";
+    changed.push({ id: p.id, from: p.task, to, reason });
+    // Same number of questions when both tasks have questions; level defaults otherwise.
+    Object.assign(p, { task: to, items: TASKS[to].answer === "open" || wasOpen ? fresh.items : p.items, points: fresh.points, words: fresh.words });
+  }
+  return changed;
+}
+
+/** The title a test gets when the teacher leaves the field empty (the AI names topic tests). */
+export function defaultTitle(src = {}) {
+  if (src.kind === "unit" && src.units?.length) return `Unit${src.units.length > 1 ? "s" : ""} ${src.units.join(", ")} Test`;
+  if (src.kind === "words" && src.unit) return `Unit ${src.unit} Test`;
+  return "";
+}
+
+/** Word-answer tasks: every item needs its own tested word. */
+const ONE_WORD_EACH = ["V-PIC", "V-BANK", "V-MC", "V-MATCH", "R-GAP"];
+
+/** Problems with the plan before any AI call (each one blocks "Write my test"). */
+export function planProblems(spec, { pictureWords = [], focusWords = [], hasUnit } = {}) {
   const out = [];
+  const kind = spec.source?.kind;
   if (!spec.parts.length) out.push("Add at least one part.");
+  if (kind === "topic" && !String(spec.topic || "").trim() && !(spec.grammar || []).length) out.push("Type the topic, or choose the grammar to test.");
+  if (kind && kind !== "topic" && !focusWords.length) out.push("Choose the words to test.");
+  const src = { kind, hasUnit: hasUnit ?? kind === "unit", pictureWords: pictureWords.length };
   const needPics = spec.parts.filter((p) => TASKS[p.task]?.needs?.includes("pictures"));
-  if (needPics.length && spec.pictures && pictureWords.length < 3) out.push(`${needPics.map((p) => TASKS[p.task].label).join(", ")} needs 3+ words with pictures — choose another task or more words.`);
-  if (needPics.length && !spec.pictures) out.push("Pictures are off, but some parts use pictures.");
-  if (spec.source?.kind !== "topic" && !focusWords.length) out.push("Choose the words to test.");
+  if (needPics.length && !spec.pictures) out.push("Pictures are off, but some parts use pictures — turn them on in Final touches or change those parts.");
+  else {
+    const blocked = spec.parts.map((p, i) => ({ i, reason: taskBlock(p.task, src), p })).filter((x) => x.reason);
+    if (blocked.length) out.push(blocked.map(({ i, p, reason }) => `Part ${i + 1} (${TASKS[p.task].label}) ${reason}.`).join(" "));
+  }
   return out;
+}
+
+/** Soft notes (never block): word-answer parts asking for more answers than there are tested words. */
+export function planNotes(spec, { focusWords = [] } = {}) {
+  if (spec.source?.kind === "topic" || !focusWords.length) return [];
+  return spec.parts.map((p, i) => ({ p, i })).filter(({ p }) => ONE_WORD_EACH.includes(p.task) && p.items > focusWords.length)
+    .map(({ p, i }) => `Part ${i + 1} has ${p.items} questions but only ${focusWords.length} word${focusWords.length === 1 ? " is" : "s are"} chosen, so some words will come twice.`);
 }
 
 function partBrief(p, i, spec, pictureWords) {
@@ -123,13 +196,20 @@ ${ctx.profileBlock || ""}
 
 JSON: { "title": "short test title", "sections": [ { "id": "<part id>", "passageTitle": "", "passage": "", "script": [ { "speaker": "Name", "text": "line" } ], "bank": [], "example": { "prompt": "", "options": [], "answer": "" }, "items": [ { "prompt": "", "options": [], "answer": "" } ], "prompt": "", "frame": [], "pictures": [], "prompts": [], "sample": "" } ] }
 Only include the fields a part needs. One object per part, same ids, same order.`;
+  const hasUnit = !topicMode && !!ctx.unitContext;
+  const topic = String(spec.topic || "").trim();
+  const grammar = spec.grammar || [];
   const rules = [
     topicMode
-      ? `Topic: ${spec.topic || "general English for this class"} — choose vocabulary the class knows; every item tests the topic.`
+      ? topic
+        ? `Topic: ${topic} — choose vocabulary the class knows; every part is about this topic${grammar.length ? "" : " (if it names grammar, the grammar parts test that grammar)"}.`
+        : "Topic: everyday situations this class knows (home, school, friends, free time) — choose vocabulary the class knows; the grammar focus below is what this test is about."
       : `TEST THESE WORDS (answers come only from this list; a word may be inflected to fit): ${focus.map((w) => `${w.english}${w.type ? ` (${w.type})` : ""}`).join(", ")}`,
-    topicMode ? "" : "Texts and scripts may also use other words of the unit listed below and very common words; nothing above the class level.",
-    spec.grammar?.length ? `Grammar focus (grammar parts test it; other parts may use it): ${spec.grammar.join(", ")}` : "Grammar: the grammar the unit's example sentences show, at this class level.",
-    spec.topic && !topicMode ? `Context the teacher wants: ${spec.topic}` : "",
+    topicMode ? "" : hasUnit ? "Texts and scripts may also use other words of the unit listed below and very common words; nothing above the class level." : "Texts and scripts may also use very common words; nothing above the class level.",
+    grammar.length
+      ? `Grammar focus (grammar parts test it; other parts may use it): ${grammar.join(", ")}`
+      : hasUnit ? "Grammar: the grammar the unit's example sentences show, at this class level." : "Grammar: what this class already knows (see the class profile) — nothing new.",
+    topic && !topicMode ? `${hasUnit ? "Context the teacher wants for the texts" : "The texts and scripts are about"}: ${topic}` : "",
     `Difficulty: ${DIFFICULTY[spec.difficulty]?.note || DIFFICULTY.level.note}`,
     "Listening scripts: only what the speakers say — no rubric, no narrator saying \"Listen and…\". Natural spoken English for children, 2 speakers with first names (a child and an adult, or two children), short turns, every answer clearly said once; distractors may be mentioned. No sound effects.",
     "Every non-writing, non-speaking part MUST include its \"example\" item.",
@@ -216,7 +296,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
     focusWords: (ctx.focusWords || []).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "" })),
     meta: {
       title,
-      subtitle: meta.label || (spec.source?.kind === "topic" ? spec.topic : ""),
+      subtitle: meta.label || (spec.source?.kind === "topic" ? [spec.topic, ...(spec.grammar || [])].filter(Boolean).join(" · ") : ""),
       bookTitle: meta.bookTitle || "",
       unit: meta.unit || "",
       classProfile: spec.levelId,

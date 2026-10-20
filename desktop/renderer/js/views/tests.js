@@ -2,8 +2,8 @@
  * items, points). One AI request writes the test from the whole unit (words by section, Big Question, readings,
  * lesson stories); any part can be rewritten alone. Version B, a teacher's pack, listening read by the app's
  * voices, click-to-edit items, and print / PDF / Word. */
-import { CLASS_PROFILES, downloadBlob } from "../../app.js";
-import { state, prefs, isCpp, LEVEL_COLORS } from "../state.js";
+import { CLASS_PROFILES, CPP_BOOKS, downloadBlob } from "../../app.js";
+import { state, prefs, isCpp, filledWords, LEVEL_COLORS } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy, openDialog } from "../ui.js";
 import {
@@ -12,7 +12,7 @@ import {
 } from "./studio-common.js";
 import { TASKS, SKILLS, tasksFor, defaultTask } from "../../studio/tasks.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, LENGTHS } from "../../studio/test-builder.js";
+import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints, normalizeItem, balanceChoices, LETTERS } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext } from "../../studio/unit-context.js";
@@ -48,10 +48,10 @@ function build() {
         <div class="tb-head-text"><b>Test builder</b><span id="tsSummary"></span></div>
       </div>
       <div class="tb-steps">
-        ${step(1, "Which unit?", "The words, stories and Big Question your test is built from.", `<div id="tsSource"></div>`)}
+        ${step(1, "What does the test cover?", "A coursebook unit, your word list, or a grammar point or topic — then the grammar it tests.", `<div id="tsSource"></div><div id="tsFocus" class="tb-focus"></div>`)}
         ${step(2, "Your class &amp; how long", "Sets the level of the language and the size of the test.", `<div id="tsShape"></div>`)}
         ${step(3, "The parts", "Each part is one exercise: change its type, its questions or its points.", `<div id="tsParts"></div>`, `<span class="st-sum" id="tsSum"></span>`)}
-        ${step(4, "Final touches", "Versions, Greek help and what goes on the paper.", `<div id="tsOptions"></div>`)}
+        ${step(4, "Final touches", "The title, versions, Greek help and what goes on the paper.", `<div id="tsOptions"></div>`)}
       </div>
       <div class="tb-foot">
         <div id="tsPlanNote"></div>
@@ -97,10 +97,7 @@ function build() {
       </div>
     </div>
   </div>`;
-  picker = createSourcePicker({ multiUnit: true, allowTopic: true, onChange: (sel) => {
-    if (sel.kind === "unit" && sel.level && !ts.levelTouched && sel.level !== ts.spec.levelId) setLevel(sel.level, { quiet: true });
-    renderPlanNote();
-  } });
+  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange });
   picker.mount($("tsSource"));
   paper = createPaper($("tsPaper"));
   new ResizeObserver(() => fitPaper($("tsStage"), $("tsPaper"))).observe($("tsStage"));
@@ -112,21 +109,27 @@ function build() {
     if (len) {
       ts.spec.length = len.dataset.length;
       ts.spec.parts = presetParts(ts.spec.length, ts.spec.levelId, { pictures: ts.spec.pictures });
+      fitParts({ quiet: true });
       savePrefs();
       renderShape(); renderParts();
-      return;
-    }
-    const g = e.target.closest("[data-grammar]");
-    if (g) {
-      const v = g.dataset.grammar;
-      ts.spec.grammar = ts.spec.grammar.includes(v) ? ts.spec.grammar.filter((x) => x !== v) : [...ts.spec.grammar, v];
-      savePrefs(); renderShape();
     }
   });
-  $("tsShape").addEventListener("input", (e) => {
+  $("tsFocus").addEventListener("click", (e) => {
+    const g = e.target.closest("[data-grammar]");
+    if (!g) return;
+    const v = g.dataset.grammar;
+    // "The unit's grammar" / "What the class knows" = no focus chosen.
+    if (v === "") { ts.spec.grammar = []; ts.spec.grammarOwn = ""; }
+    else ts.spec.grammar = ts.spec.grammar.includes(v) ? ts.spec.grammar.filter((x) => x !== v) : [...ts.spec.grammar, v];
+    savePrefs(); renderFocus(); renderPlanNote();
+  });
+  $("tsFocus").addEventListener("input", (e) => {
     if (e.target.id === "tsTopic") ts.spec.topic = e.target.value;
-    if (e.target.id === "tsTitle") ts.spec.title = e.target.value;
-    if (e.target.id === "tsGrammarOwn") ts.spec.grammarOwn = e.target.value;
+    if (e.target.id === "tsGrammarOwn") {
+      ts.spec.grammarOwn = e.target.value;
+      $("tsFocus").querySelector('[data-grammar=""]')?.classList.toggle("active", !grammarList().length);
+      renderPlanNote();
+    }
     savePrefs();
   });
   $("tsParts").addEventListener("click", onPartsClick);
@@ -154,10 +157,20 @@ function build() {
       ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), studentHeader: ts.spec.studentHeader !== false };
       renderPaper();
     }
-    if (k === "pictures") renderPlanNote();
+    if (k === "pictures") { renderParts(); }
   });
-  $("tsShape").addEventListener("toggle", (e) => { if (e.target.matches?.(".tb-more")) ts.moreOpen = e.target.open; }, true);
-  $("tsNew").addEventListener("click", () => { stopPlayer(); ts.doc = null; ts.ctx = null; ts.stale.clear(); renderAll(); });
+  $("tsOptions").addEventListener("input", (e) => {
+    if (e.target.id !== "tsTitle") return;
+    ts.spec.title = e.target.value;
+    savePrefs();
+  });
+  // The open test takes the new title when the teacher leaves the field (an empty field puts the usual title back).
+  $("tsOptions").addEventListener("change", (e) => {
+    if (e.target.id !== "tsTitle" || !ts.doc) return;
+    ts.doc.meta.title = ts.spec.title.trim() || defaultTitle(sourceInfo().src) || ts.doc.meta.title;
+    refreshDoc();
+  });
+  $("tsNew").addEventListener("click", () => { stopPlayer(); ts.doc = null; ts.ctx = null; ts.stale.clear(); ts.spec.title = ""; savePrefs(); renderAll(); });
   $("tsGenerate").addEventListener("click", (e) => generate(e.currentTarget));
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
@@ -176,39 +189,118 @@ function build() {
     if (!row) return;
     if (e.target.closest("[data-del]")) { deleteDoc(row.dataset.doc); renderRecent(); return; }
     const d = recentDocs("test").find((x) => x.id === row.dataset.doc);
-    if (d) { ts.doc = d; ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)) }; ts.stale.clear(); ts.sheet = "A"; ts.ctx = null; renderAll(); toast("Opened a saved test.", "ok", { ms: 2000 }); }
+    if (d) { openDoc(d); renderAll(); toast("Opened a saved test.", "ok", { ms: 2000 }); }
   });
   paperEditing();
   built = true;
 }
 
 function setLevel(levelId, { quiet = false } = {}) {
-  const keepLength = ts.spec.length;
-  ts.spec = { ...testDefaults(levelId, keepLength), topic: ts.spec.topic, title: ts.spec.title, versions: ts.spec.versions, grammar: [] };
+  const old = ts.spec;
+  // A new class brings its own parts and item counts; what the teacher chose about the content stays.
+  ts.spec = {
+    ...testDefaults(levelId, old.length),
+    topic: old.topic, title: old.title, grammar: old.grammar || [], grammarOwn: old.grammarOwn || "",
+    versions: old.versions, difficulty: old.difficulty || "level", pictures: old.pictures !== false, studentHeader: old.studentHeader !== false,
+  };
+  fitParts({ quiet: true });
   savePrefs();
-  renderShape(); renderParts(); renderOptions();
+  renderShape(); renderFocus(); renderParts(); renderOptions();
   if (!quiet) toast(`${levelLabel(levelId)}: ${plural(ts.spec.parts.length, "part")}, about ${estimateMinutes(ts.spec)} minutes.`, "info", { ms: 2400 });
+}
+
+/* ── Step 1: what the source brings, and the grammar / texts that fit it ── */
+const sourceKey = (sel) => [sel.kind, sel.bookId || "", (sel.units || []).join(","), sel.meta?.unit || ""].join("|");
+
+/** What the Step 1 choice brings: its words with pictures and whether a coursebook unit stands behind it. */
+function sourceInfo(sel = picker.value()) {
+  const all = [...sel.focus, ...(sel.words || [])];
+  const picFor = makePicFor(all);
+  const pictureWords = [...new Set(all.filter((w) => picFor(w.english)).map((w) => w.english.toLowerCase()))];
+  // "My word list" from the coursebook still gets that unit's stories and Big Question (contextFor).
+  const hasUnit = sel.kind === "unit" || (sel.kind === "words" && isCpp());
+  return { sel, pictureWords, hasUnit, src: { kind: sel.kind, hasUnit, pictureWords: pictureWords.length, units: sel.units, unit: sel.meta?.unit } };
+}
+
+/** The unit(s) the texts are about: "Unit 4 · How do volcanoes change the land?" */
+function unitThemes(sel) {
+  if (sel.kind === "unit") return sel.units.map((u) => `Unit ${u} · ${CPP_BOOKS[sel.bookId]?.units?.[u]?.title || ""}`);
+  if (sel.kind === "words" && isCpp()) return [`Unit ${state.cpp.unit} · ${CPP_BOOKS[state.cpp.bookId]?.units?.[state.cpp.unit]?.title || ""}`];
+  return [];
+}
+
+const grammarList = () => [...ts.spec.grammar, ...(ts.spec.grammarOwn?.trim() ? [grammarLabel(ts.spec.grammarOwn)] : [])];
+
+function onSourceChange(sel, { byUser = true } = {}) {
+  const key = sourceKey(sel);
+  if (byUser) {
+    if (sel.kind === "unit" && sel.level && !ts.levelTouched && sel.level !== ts.spec.levelId) setLevel(sel.level, { quiet: true });
+    // A title written for one unit doesn't belong on another unit's test.
+    if (ts.sourceKey && key !== ts.sourceKey && ts.spec.title) { ts.spec.title = ""; savePrefs(); }
+  }
+  ts.sourceKey = key;
+  // A saved test that was just opened keeps its parts as they were written.
+  if (byUser || !ts.doc) fitParts({ quiet: !byUser });
+  renderFocus();
+  renderOptions();
+  renderParts();
+}
+
+/** Swap parts the source can't support (picture tasks without picture words, the Big Question without a unit). */
+function fitParts({ quiet = false } = {}) {
+  if (!picker) return;
+  const changed = fitPartsToSource(ts.spec.parts, ts.spec.levelId, sourceInfo().src);
+  if (!changed.length) return;
+  changed.forEach((c) => markStale(c.id));
+  savePrefs();
+  if (!quiet) toast(changed.map((c) => `Part ${ts.spec.parts.findIndex((p) => p.id === c.id) + 1} is now “${TASKS[c.to].label}” — “${TASKS[c.from].label}” ${c.reason}.`).join(" "), "info", { ms: 4200 });
+}
+
+function renderFocus() {
+  if (!picker) return;
+  const { sel, hasUnit } = sourceInfo();
+  const s = ts.spec;
+  const topicMode = sel.kind === "topic";
+  const chosen = grammarList();
+  const menu = [...new Set([...(GRAMMAR_MENU[s.levelId] || []), ...s.grammar])];
+  const chips = menu.map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("");
+  const themes = unitThemes(sel);
+  const grammarHead = topicMode ? "Grammar to test" : "Grammar";
+  const grammarHint = topicMode
+    ? "Choose one or more, or type your own — or leave it and just type the topic above."
+    : hasUnit
+      ? "Lingo takes the grammar from the unit’s example sentences. Choose a point only to put the focus on it."
+      : "These words don’t come from a coursebook unit: choose the grammar to test, or leave it to what the class knows.";
+  const defaultChip = topicMode ? "" : `<button type="button" class="chip tb-default${chosen.length ? "" : " active"}" data-grammar="">${icon(hasUnit ? "book-open" : "graduation", "i-xs")}${hasUnit ? "The unit’s grammar" : "What the class knows"}</button>`;
+  const texts = topicMode ? "" : hasUnit
+    ? `<div class="tb-focus-row">
+        <span class="st-lbl">The texts</span>
+        <p class="tb-theme">${icon("book-open", "i-xs")}About ${themes.map((t) => `<b>${esc(t)}</b>`).join(", ")} — the unit’s Big Question, stories and readings.</p>
+        <input class="input sm" id="tsTopic" placeholder="Optional: a setting for the texts, e.g. a school trip" value="${esc(s.topic || "")}" />
+      </div>`
+    : `<div class="tb-focus-row">
+        <span class="st-lbl">What are the texts about?</span>
+        <input class="input sm" id="tsTopic" placeholder="e.g. a day at the zoo — or leave it to Lingo" value="${esc(s.topic || "")}" />
+      </div>`;
+  $("tsFocus").innerHTML = `
+    <div class="tb-focus-row">
+      <span class="st-lbl">${grammarHead}${!topicMode && chosen.length ? ` <span class="tb-badge">${chosen.length}</span>` : ""}</span>
+      <div class="gram-chips">${defaultChip}${chips}</div>
+      <input class="input sm" id="tsGrammarOwn" placeholder="…or type a grammar point" value="${esc(s.grammarOwn || "")}" />
+      <small class="st-hint">${esc(grammarHint)}</small>
+    </div>
+    ${texts}`;
 }
 
 function renderShape() {
   const s = ts.spec;
   const p = CLASS_PROFILES[s.levelId];
-  const extras = s.grammar.length + (s.grammarOwn?.trim() ? 1 : 0) + (s.topic?.trim() ? 1 : 0) + (s.title?.trim() ? 1 : 0);
   const lenIcon = { quiz: "zap", standard: "clipboard", full: "layers" };
   $("tsShape").innerHTML = `
     <div class="tb-levels" role="radiogroup" aria-label="Class">${LEVEL_IDS.map((id) => `<button type="button" role="radio" aria-checked="${id === s.levelId}" class="tb-level${id === s.levelId ? " active" : ""}" data-level="${id}" style="--lvl:${LEVEL_COLORS[id]}"><span class="tb-level-l">${esc(CLASS_PROFILES[id].label[0])}</span><small>${esc(CLASS_PROFILES[id].cefr)}</small></button>`).join("")}</div>
     <p class="tb-level-note"><b>${esc(p.label)}</b> · ${esc(p.greekGrades)} · ages ${esc(p.ageRange)}</p>
     <div class="len-cards">${Object.entries(LENGTHS).map(([k, l]) => `<button type="button" class="len-card${s.length === k ? " active" : ""}" data-length="${k}"><span class="len-ico">${icon(lenIcon[k] || "clipboard", "i-sm")}</span><b>${esc(l.label)}</b><small>≈ ${l.minutes} min · ${l.skills.length} parts</small></button>`).join("")}</div>
-    <div class="tb-field"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
-    <details class="tb-more"${ts.moreOpen ? " open" : ""}>
-      <summary>${icon("sliders", "i-sm")}<span>Grammar, a theme &amp; the title</span>${extras ? `<span class="tb-badge">${extras}</span>` : `<small>optional</small>`}${icon("chevron-down", "i-sm tb-more-chev")}</summary>
-      <div class="tb-more-body">
-        <div class="st-row col"><span class="st-lbl">Grammar to test</span><div class="gram-chips">${(GRAMMAR_MENU[s.levelId] || []).map((g) => `<button type="button" class="chip${s.grammar.includes(g) ? " active" : ""}" data-grammar="${esc(g)}">${esc(g)}</button>`).join("")}</div>
-          <input class="input sm" id="tsGrammarOwn" placeholder="…or type one" value="${esc(s.grammarOwn || "")}" /></div>
-        <div class="st-row col"><span class="st-lbl">A theme for the texts</span><input class="input sm" id="tsTopic" placeholder="e.g. a school trip to a volcano museum" value="${esc(s.topic || "")}" /></div>
-        <div class="st-row col"><span class="st-lbl">Title</span><input class="input sm" id="tsTitle" placeholder="Unit 4 Test" value="${esc(s.title || "")}" /></div>
-      </div>
-    </details>`;
+    <div class="tb-field"><span class="st-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>`;
   $("tsShape").querySelectorAll("[data-segmented]").forEach((root) => segmented(root, { value: s[root.dataset.seg], onChange: (v) => { s[root.dataset.seg] = v; savePrefs(); } }));
 }
 
@@ -217,6 +309,11 @@ function markStale(id) { if (ts.doc) ts.stale.add(id); }
 
 function renderParts() {
   const s = ts.spec;
+  const src = picker ? sourceInfo().src : null;
+  const taskOption = (x, p) => {
+    const why = src && x.id !== p.task ? taskBlock(x.id, src) : "";
+    return `<option value="${x.id}" ${x.id === p.task ? "selected" : ""}${why ? " disabled" : ""}>${esc(x.label)}${why ? ` — ${esc(why)}` : ""}</option>`;
+  };
   const rows = s.parts.map((p, i) => {
     const t = TASKS[p.task];
     const open = t.answer === "open";
@@ -226,7 +323,7 @@ function renderParts() {
         <span class="pc-ico" aria-hidden="true">${SKILLS[p.skill].icon}</span>
         <div class="pc-title">
           <small>Part ${i + 1} · ${esc(SKILLS[p.skill].label)}${stale ? ` · <em>changed</em>` : ""}</small>
-          <select class="select sm" data-part-task="${p.id}" aria-label="Task for part ${i + 1}">${tasksFor(p.skill).map((x) => `<option value="${x.id}" ${x.id === p.task ? "selected" : ""}>${esc(x.label)}</option>`).join("")}</select>
+          <select class="select sm" data-part-task="${p.id}" aria-label="Task for part ${i + 1}">${tasksFor(p.skill).map((x) => taskOption(x, p)).join("")}</select>
         </div>
         <span class="part-acts">
           <button type="button" class="icon-btn sm" data-move="-1" aria-label="Move up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
@@ -254,7 +351,12 @@ function renderParts() {
 function onPartsClick(e) {
   const s = ts.spec;
   const add = e.target.closest("[data-add]");
-  if (add) { s.parts.push(makePart(add.dataset.add, defaultTask(add.dataset.add, s.levelId), s.levelId)); markStale(s.parts.at(-1).id); savePrefs(); renderParts(); return; }
+  if (add) {
+    const skill = add.dataset.add;
+    s.parts.push(makePart(skill, picker ? taskForSource(skill, s.levelId, sourceInfo().src) : defaultTask(skill, s.levelId), s.levelId));
+    markStale(s.parts.at(-1).id); savePrefs(); renderParts();
+    return;
+  }
   const rw = e.target.closest("[data-rewrite]");
   if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
   const row = e.target.closest("[data-part]");
@@ -290,7 +392,11 @@ function onPartsClick(e) {
 
 function renderOptions() {
   const s = ts.spec;
+  const auto = picker ? defaultTitle(sourceInfo().src) : "";
   $("tsOptions").innerHTML = `
+    <div class="st-row col"><span class="st-lbl">Title on the paper</span>
+      <input class="input sm" id="tsTitle" placeholder="${esc(auto || "Lingo names it from the topic")}" value="${esc(s.title || "")}" />
+      ${s.title?.trim() ? "" : `<small class="st-hint">${auto ? `Leave it empty for “${esc(auto)}”.` : "Leave it empty and Lingo gives the test a short title."}</small>`}</div>
     <div class="st-row"><span class="st-lbl">Versions</span>${segHtml("versions", [[1, "One version"], [2, "A + B (no copying!)"]], s.versions)}</div>
     <div class="st-switches">
       ${switchHtml("greek", "Instructions also in Greek", "A small Greek line under each English instruction", s.greek)}
@@ -317,25 +423,33 @@ async function contextFor(sel) {
   return { focus, picFor, pictureWords, unitContext };
 }
 
+/**
+ * The settings the AI gets. Only what fits the Step 1 source goes in: a topic test's topic is the Step 1 text
+ * (the "texts" field belongs to unit and word-list tests), and the grammar is the chips plus the typed point.
+ */
 function specForAi() {
   const sel = picker.value();
   const spec = JSON.parse(JSON.stringify(ts.spec));
   spec.source = sel.kind === "topic" ? { kind: "topic" } : { kind: sel.kind, bookId: sel.bookId, units: sel.units, sections: sel.sections };
-  if (sel.kind === "topic") spec.topic = [sel.topic, spec.topic].filter(Boolean).join(" — ");
-  spec.grammar = [...spec.grammar, ...(spec.grammarOwn?.trim() ? [grammarLabel(spec.grammarOwn)] : [])];
+  spec.topic = sel.kind === "topic" ? sel.topic.trim() : String(spec.topic || "").trim();
+  spec.grammar = grammarList();
+  delete spec.grammarOwn;
   return { sel, spec };
 }
 
+/** The line under the test's title and in the header: the unit, the word list, or the topic and grammar. */
+const sourceLabel = (sel, spec = specForAi().spec) => (sel.kind === "topic" ? [spec.topic, ...spec.grammar].filter(Boolean).join(" · ") || "A grammar point or topic" : sel.label);
+
 function renderPlanNote() {
   if (!picker) return;
-  const sel = picker.value();
-  const picFor = makePicFor([...(sel.words || []), ...sel.focus]);
-  const pictureWords = [...(sel.words || []), ...sel.focus].filter((w) => picFor(w.english));
-  const spec = { ...ts.spec, source: { kind: sel.kind } };
-  const probs = planProblems(spec, { pictureWords, focusWords: sel.focus });
-  if (sel.kind === "topic" && !sel.topic.trim()) probs.push("Type the topic or grammar point to test.");
-  $("tsSummary").textContent = `${sel.kind === "topic" ? sel.topic.trim() || "A topic" : sel.label} · ${levelLabel(ts.spec.levelId)}`;
-  $("tsPlanNote").innerHTML = probs.length ? `<div class="callout warning">${icon("alert")}<span>${esc(probs.join(" "))}</span></div>` : "";
+  const { sel, spec } = specForAi();
+  const { pictureWords, hasUnit } = sourceInfo(sel);
+  const probs = planProblems(spec, { pictureWords, focusWords: sel.focus, hasUnit });
+  const notes = planNotes(spec, { focusWords: sel.focus });
+  $("tsSummary").textContent = `${sourceLabel(sel, spec)} · ${levelLabel(ts.spec.levelId)}`;
+  $("tsPlanNote").innerHTML = probs.length
+    ? `<div class="callout warning">${icon("alert")}<span>${esc(probs.join(" "))}</span></div>`
+    : notes.length ? `<div class="callout info">${icon("info")}<span>${esc(notes.join(" "))}</span></div>` : "";
   $("tsGenerate").disabled = !!probs.length;
 }
 
@@ -347,7 +461,7 @@ async function generate(btn) {
       const ctx = await contextFor(sel);
       const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: profileBlock(spec.levelId) });
       const reply = await askAi(system, user);
-      const meta = { ...sel.meta, label: sel.label, classLabel: levelLabel(spec.levelId) };
+      const meta = { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.ctx = { ...ctx, meta };
       ts.doc = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta });
       await checkKeys(ts.doc);
@@ -377,7 +491,7 @@ async function rewritePart(partId, btn) {
       const ctx = ts.ctx?.focus ? ts.ctx : await contextFor(sel);
       const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: profileBlock(spec.levelId) }, [partId]);
       const reply = await askAi(system, user);
-      const meta = ts.ctx?.meta || { ...sel.meta, label: sel.label, classLabel: levelLabel(spec.levelId) };
+      const meta = ts.ctx?.meta || { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.doc = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
       await checkKeys(ts.doc, [partId]);
       ts.stale.delete(partId);
@@ -574,6 +688,7 @@ function renderRecent() {
 
 function renderAll() {
   renderShape();
+  renderFocus();
   renderParts();
   renderOptions();
   renderSheetSeg();
@@ -592,19 +707,44 @@ export function applyTestPreset({ spec = {}, picker: pk = null } = {}) {
   if (!built) build();
   const levelId = spec.levelId || ts.spec.levelId;
   ts.levelTouched = true;
-  ts.spec = { ...testDefaults(levelId, spec.length || "standard"), ...spec };
-  if (pk) picker.set(pk);
+  ts.spec = { ...testDefaults(levelId, spec.length || "standard"), ...spec, title: spec.title || "" };
   ts.doc = null;
+  if (pk) {
+    // A topic plan already carries its topic in Step 1, so the assistant's note isn't a second topic.
+    if (pk.kind === "topic" && ts.spec.topic && pk.topic) ts.spec.topic = "";
+    if (pk.kind === "current" && filledWords().length < 3) pk = { kind: "unit", bookId: state.cpp.bookId || "CPP1", units: [state.cpp.unit || 1] };
+    ts.sourceKey = "";
+    picker.set(pk);
+  }
   savePrefs();
   renderAll();
 }
 export function generateTestNow() { return generate($("tsGenerate")); }
+
+/** Show a saved test, with Step 1 set back to the unit, words or topic it was written from. */
+function openDoc(d) {
+  ts.doc = d;
+  ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)), grammarOwn: "" };
+  ts.levelTouched = true;
+  ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;
+  const src = d.spec?.source || {};
+  let pk = null;
+  if (src.kind === "unit" && CPP_BOOKS[src.bookId]) {
+    const picked = (d.focusWords || []).map((w) => String(w.english || "").toLowerCase()).filter(Boolean);
+    pk = { kind: "unit", bookId: src.bookId, units: src.units?.length ? src.units : [1], sections: src.sections?.length ? src.sections : ["BQ", "A", "B"], focusMode: picked.length ? "pick" : "key", picked };
+  } else if (src.kind === "topic") {
+    pk = { kind: "topic", topic: d.spec.topic || "" };
+    ts.spec.topic = "";
+  } else if (src.kind === "words" && filledWords().length >= 3) pk = { kind: "current" };
+  if (pk) { ts.sourceKey = ""; picker.set(pk); }
+  savePrefs();
+}
 
 /** Open a saved test (from the Home screen). */
 export function openSavedTest(id) {
   if (!built) build();
   const d = recentDocs("test").find((x) => x.id === id);
   if (!d) return false;
-  ts.doc = d; ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)) }; ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;
+  openDoc(d);
   return true;
 }
