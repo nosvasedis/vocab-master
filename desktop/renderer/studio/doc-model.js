@@ -102,6 +102,21 @@ export function letterHint(word, mode) {
 }
 
 /**
+ * Word-family help, made from the answer and the base word in CAPITALS at the end of the prompt: "root" prints the
+ * base word inside the answer's letter boxes (SUN → "s u n _ _"; HAPPY → "_ _ h a p p y"), else the first letter;
+ * "count" gives the letter count.
+ */
+export function familyHint(prompt, answer, mode) {
+  const w = String(answer || "").trim();
+  if (!w || !mode || mode === "none") return "";
+  if (mode === "count") return letterHint(w, "count");
+  const base = (String(prompt || "").match(/\(\s*([A-Z][A-Z' -]*?)\s*\)\s*[.?!]?\s*$/) || [])[1];
+  const at = base ? w.toLowerCase().indexOf(base.toLowerCase()) : -1;
+  if (at < 0 || base.length >= w.length) return letterHint(w, "first");
+  return w.split("").map((ch, i) => (i >= at && i < at + base.length) || !/[A-Za-z]/.test(ch) ? ch.toLowerCase() : "_").join(" ");
+}
+
+/**
  * "Put the events in order": the example is event 1 and the items come in text order, so the app numbers them
  * 2, 3, 4… and mixes them up (never left in order). Items that already carry a full set of numbers (an edited part)
  * keep them. Each item gets a letter for the paper.
@@ -221,6 +236,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
   // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
   if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
+  if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => { const h = familyHint(it.prompt, it.answer, opts.family); if (h) it.hint = h; else delete it.hint; });
   if (["V-DEF", "V-PIC"].includes(plan.task)) {
     const mode = opts.hint;
     [example, ...items].filter(Boolean).forEach((it) => { const h = letterHint(it.answer, mode); if (h) it.hint = h; else delete it.hint; });

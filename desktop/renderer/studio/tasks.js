@@ -110,10 +110,10 @@ export const TASKS = {
     blurb: "Which word goes with it: make, do, take or have? Fixed phrases with the unit words, where Greek learners often choose the wrong partner.",
     sample: { q: "Can you ________ the table for dinner?", o: ["make", "set", "do"], a: 1 },
     rubric: "Choose the word that goes with the others.", el: "Διάλεξε τη λέξη που πάει μαζί με τις άλλες.", ai: "Each item tests a fixed phrase (collocation) with a unit word: prompt = a short sentence with the partner word gapped (\"Can you ________ the table for dinner?\"); options = 3 partner words of the same class that learners mix up (make / do / take / have / go / get / play / set…); only one sounds natural." },
-  "V-FORM": { skill: "vocabulary", label: "Word families", answer: "word", kind: "recall", fit: [3, 4], knobs: [], trains: ["Prefixes and suffixes", "Word class"],
-    blurb: "A gap and a word in capitals; children change it to fit (SUN → sunny, CARE → careless). The B1 word-building skill, with the unit's words.",
-    sample: { q: "It was a very ________ day. (SUN)", a: "sunny" },
-    rubric: "Use the word in capitals to make a word that fits the gap.", el: "Χρησιμοποίησε τη λέξη με κεφαλαία για να φτιάξεις λέξη που ταιριάζει στο κενό.", ai: "Sentences with one gap ________ and the base word in CAPITALS in brackets at the end (\"It was a very ________ day. (SUN)\"); answer = the right form (sunny). Use unit words and their families: nouns, adjectives, adverbs and opposites with un- / dis- / -less / -ful." },
+  "V-FORM": { skill: "vocabulary", label: "Word families", answer: "word", kind: "recall", fit: [0, 4], knobs: ["family"], trains: ["Word building", "Word class"],
+    blurb: "A gap and a word in capitals; children change it to fit. Young classes add an easy ending to a word they know (SUN → sunny, TEACH → teacher), older ones build words with prefixes and suffixes (CARE → careless). The app can print the word inside the answer (s u n _ _) to help.",
+    sample: { q: "It is a ________ day. (SUN)", hint: "s u n _ _", a: "sunny" },
+    rubric: "Use the word in capitals to make a word that fits the gap.", el: "Χρησιμοποίησε τη λέξη με κεφαλαία για να φτιάξεις λέξη που ταιριάζει στο κενό.", ai: "Sentences with one gap ________ and the base word in CAPITALS in brackets at the end (\"It is a ________ day. (SUN)\"); answer = the right form (sunny). The base word is a unit word or a word the class knows; the answer is a word of its family. Follow the CLASS LADDER below for which changes to use." },
   // Grammar
   "G-MC": { skill: "grammar", label: "Choose the right form", answer: "choice", options: 3, kind: "recognise", fit: [0, 4], knobs: ["options"], trains: ["The grammar focus"],
     blurb: "A sentence with a gap and three forms; one is right. Every wrong option is a real mistake Greek learners make, so the item teaches as it tests.",
@@ -216,6 +216,7 @@ export const KNOBS = {
   plays: { label: "Plays", values: [[2, "Twice"], [1, "Once"]] },
   options: { label: "Choices", values: [[3, "a · b · c"], [4, "a · b · c · d"]] },
   hint: { label: "Letter help", values: [["first", "First letter"], ["count", "Letter count"], ["none", "None"]] },
+  family: { label: "Word help", values: [["root", "Word inside"], ["count", "Letter count"], ["none", "None"]] },
   support: { label: "Support", values: [["full", "Lots"], ["some", "Some"], ["none", "None"]] },
 };
 
@@ -230,6 +231,7 @@ export function knobDefault(key, levelId) {
     text: "", genre: "any", audio: "any", length: "medium", plays: 2, options: 3,
     hint: i <= 1 ? "first" : i === 2 ? "count" : "none",
     support: i <= 1 ? "full" : "some",
+    family: i <= 2 ? "root" : i === 3 ? "count" : "none",
   }[key];
 }
 

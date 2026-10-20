@@ -5,7 +5,7 @@ import { buildStudioDocx } from "../desktop/renderer/app.js";
 import { TASKS, KINDS, KNOBS, SKILLS, taskFit, partOpts, knobDefault, tasksFor, defaultTask, secondTask } from "../desktop/renderer/studio/tasks.js";
 import { READING_TEXTS, readingText, textsFor, textUnitWords, wordCount } from "../desktop/renderer/studio/reading-texts.js";
 import { testDefaults, makePart, testPrompt, buildTestDoc, presetParts, suggestText, textWords, levelGuide, reviseSection } from "../desktop/renderer/studio/test-builder.js";
-import { normalizeSection, scramble, letterHint, answerKeyRows, makeVersionB } from "../desktop/renderer/studio/doc-model.js";
+import { normalizeSection, scramble, letterHint, familyHint, answerKeyRows, makeVersionB } from "../desktop/renderer/studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../desktop/renderer/studio/doc-render.js";
 import { LEVEL_IDS } from "../desktop/renderer/studio/levels.js";
 
@@ -32,7 +32,8 @@ test("every task explains itself: kind, class fit, blurb, preview, rubric and AI
 });
 
 test("class fit labels and the library order put the class's exercises first", () => {
-  assert.equal(taskFit("V-FORM", "A_SENIOR").fit, "stretch");
+  assert.equal(taskFit("W-OPINION", "A_SENIOR").fit, "stretch");
+  assert.equal(taskFit("V-FORM", "A_SENIOR").fit, "great", "word families start in A Senior");
   assert.equal(taskFit("V-SPELL", "E_SENIOR").fit, "easy");
   assert.match(taskFit("R-TF", "C_SENIOR").label, /Great for C Senior/);
   const order = tasksFor("vocabulary", "A_SENIOR").map((t) => taskFit(t.id, "A_SENIOR").fit);
@@ -166,4 +167,21 @@ test("each class's preset test uses exercises made for it", () => {
   for (const lvl of LEVEL_IDS) for (const len of ["quiz", "standard", "full"]) {
     for (const p of presetParts(len, lvl)) assert.equal(taskFit(p.task, lvl).fit, "great", `${lvl} ${len} ${p.task}`);
   }
+});
+
+test("word families work from A Senior: a class ladder in the prompt and the word printed inside the answer", () => {
+  assert.equal(familyHint("It is a ________ day. (SUN)", "sunny", "root"), "s u n _ _");
+  assert.equal(familyHint("She is very ________. (HAPPY)", "unhappy", "root"), "_ _ h a p p y");
+  assert.equal(familyHint("He made a ________. (DECIDE)", "decision", "root"), "d _ _ _ _ _ _ _", "no exact root: first letter");
+  assert.match(familyHint("x (SUN)", "sunny", "count"), /\(5 letters\)/);
+  assert.equal(familyHint("x (SUN)", "sunny", "none"), "");
+  assert.equal(knobDefault("family", "A_SENIOR"), "root");
+  assert.equal(knobDefault("family", "E_SENIOR"), "none");
+  const sec = normalizeSection({ id: "f", task: "V-FORM", items: 1 }, { example: { prompt: "My dad is a ________. (FARM)", answer: "farmer" }, items: [{ prompt: "It is a ________ day. (RAIN)", answer: "rainy" }] }, { levelId: "A_SENIOR" });
+  assert.equal(sec.example.hint, "f a r m _ _");
+  assert.equal(sec.items[0].hint, "r a i n _");
+  assert.ok(renderStudentPaper({ meta: {}, sections: [sec] }).includes("r a i n _"));
+  const prompt = (lvl) => testPrompt({ ...testDefaults(lvl), parts: [{ ...makePart("vocabulary", "V-FORM", lvl), id: "f" }], source: { kind: "unit" } }, {}).user;
+  assert.match(prompt("A_SENIOR"), /CLASS LADDER — A Senior: ONE easy/);
+  assert.match(prompt("E_SENIOR"), /CLASS LADDER — E Senior: B1 word formation/);
 });
