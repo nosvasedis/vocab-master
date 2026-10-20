@@ -15,7 +15,7 @@ import {
   bookTitle, unitNumber, pageRange, isCpp, LEVEL_COLORS, BOOK_COLORS, coursebookQuery, pickFromQuery,
 } from "./state.js";
 import { actions } from "./actions.js";
-import { registerMaker, deleteMade, reconcile, makerActsHtml, SAVES_KEY, DOCS_KEY } from "./made.js";
+import { registerMaker, closeMade, deleteMade, reconcile, makerActsHtml, SAVES_KEY, DOCS_KEY } from "./made.js";
 import { initSetup, loadPoolWords, validateSetup, renderSetup, highlightSetupGap } from "./views/setup.js";
 import { initWords, renderWords } from "./views/words.js";
 import { initExercises, enterExercises, runGenerate } from "./views/exercises.js";
@@ -147,7 +147,7 @@ function renderWorksheetsTop(view) {
       const done = i !== idx && stepDone(st.view);
       return `${i ? `<i class="mk-sep" aria-hidden="true"></i>` : ""}<button type="button" class="mk-pill${i === idx ? " active" : ""}${done ? " done" : ""}" data-goto="${st.view}"${i === idx ? ` aria-current="step"` : ""}${locked ? ` disabled title="Generate the worksheets first"` : ""}><span class="mk-pill-n"><span>${i + 1}</span>${icon("check", "i-xs")}</span><span class="mk-pill-t"><b>${st.label}</b><small>${st.sub}</small></span></button>`;
     }).join("")}</nav>
-    <div class="mk-acts">${makerActsHtml("unit", { open: !!(state.data && state.sessionId), newLabel: "New unit", always: true })}</div>`;
+    <div class="mk-acts">${makerActsHtml("unit", { open: !!(state.data && state.sessionId), draft: !state.data && (filledWords().length > 0 || !!state.freeform.trim()) })}</div>`;
   $$("[data-ws-top]").forEach((el) => { if (el.closest(".view")?.dataset.view === view) el.innerHTML = html; else el.innerHTML = ""; });
 }
 
@@ -174,15 +174,6 @@ function renderChrome() {
   const p = CLASS_PROFILES[state.profileId];
   document.querySelector('.sb-item[data-action="open-projector"]').disabled = !state.data;
 
-  // Context chips
-  const chips = [];
-  if (p) chips.push(`<button type="button" class="ctx-chip" data-goto="setup"><span class="ctx-ico" style="background:${LEVEL_COLORS[p.id]}">${esc(p.label[0])}</span><span>${esc(p.label)} · ${esc(p.cefr)}</span></button>`);
-  if (bookTitle()) {
-    const color = isCpp() ? BOOK_COLORS[state.cpp.bookId] : "var(--text-3)";
-    chips.push(`<button type="button" class="ctx-chip shrink" data-goto="setup" title="${esc(bookTitle())}"><span class="ctx-ico" style="background:${color}">${icon("book")}</span><span>${esc(bookTitle())} · Unit ${esc(unitNumber())}${pageRange() ? ` · p. ${esc(pageRange())}` : ""}</span></button>`);
-  }
-  if (state.inputMode === "structured") chips.push(`<button type="button" class="ctx-chip" data-goto="words"><span class="ctx-ico" style="background:var(--brand)">${icon("list")}</span><span>${plural(filledWords().length, "word")}</span></button>`);
-  $("ctxChips").innerHTML = chips.join("");
 
   // Flow bar
   const idx = FLOW.indexOf(view);
@@ -215,7 +206,7 @@ function flowNext() {
   if (view === "setup") go("words");
   else if (view === "words") go("exercises");
   else if (view === "exercises") { if (state.data) go("preview"); else runGenerate("full"); }
-  else if (view === "preview") openGames();
+  else if (view === "preview") worksheetGames();
 }
 
 function flowBack() {
@@ -293,24 +284,30 @@ function registerWorksheets() {
   });
 }
 
+/** Ctrl+N, the header's Close / Start over, Home's "New unit": an open unit is closed (it stays in the
+ *  Library); a word list that isn't worksheets yet is cleared after asking. Then Step 1. */
 async function newUnit() {
   if (state.busy) { toast("Please wait for the AI to finish first.", "warn"); return; }
-  const unsaved = !state.data && filledWords().length > 0;
-  if (unsaved) {
+  if (state.data && state.sessionId) {
+    closeMade("unit");
+    go("setup", { force: true });
+    return;
+  }
+  if (filledWords().length > 0 || state.freeform.trim()) {
     const ok = await confirmDialog({
-      title: "Start a new unit?",
-      body: "Your current word list hasn't been turned into worksheets yet, so it isn't in the library.",
-      okLabel: "Start new unit",
+      title: "Start over?",
+      body: "This word list hasn't been turned into worksheets yet, so it isn't in your library. Clear it?",
+      okLabel: "Clear and start over",
       tone: "brand",
-      iconName: "plus",
+      iconName: "refresh",
     });
     if (!ok) return;
+    toast("Word list cleared.", "info", { ms: 2400 });
   }
   // A new unit starts with no words: they load only when the teacher picks them (Step 1 or "Load unit words").
   resetState();
   emit("setup", "words", "data", "level", "library");
   go("setup", { force: true });
-  toast("Fresh unit started — everything you generated is in your library.", "info", { ms: 3000 });
 }
 
 function deckContext() {
@@ -348,19 +345,25 @@ function picture(text, keepText = false) {
 }
 
 const savePlayPrefs = ({ sfx, tts }) => { prefs.sfx = sfx; prefs.tts = tts; savePrefs(); };
+/** Lingo Arcade on its own (sidebar, Home): its own remembered words, chosen inside the arcade. */
 function openGames() {
+  openDeck([], "Choose your words", { standalone: true });
+}
+
+/** "Play games" on a worksheet unit: that unit's words. */
+function worksheetGames() {
   const ctx = deckContext();
   if (!ctx) {
-    toast("Add at least 3 words first — pick a coursebook unit or type your words.", "info", { actions: [{ label: "Choose a unit", run: () => go("setup") }] });
+    toast("This worksheet unit needs at least 3 words first.", "info", { actions: [{ label: "Add words", run: () => go("words") }] });
     return;
   }
   openDeck(ctx.deck, ctx.title);
 }
 
-function openDeck(deck, title) {
+function openDeck(deck, title, { standalone = false } = {}) {
   // "Choose your words" in the arcade picks coursebook rows; they get the same trusted pictures as a worksheet's words.
   const buildDeck = (rows) => buildArcadeDeck(rows.map((row) => ({ ...row, emojis: engine.trustedBankEmoji(row) })));
-  openArcade({ deck, title, prefs: { sfx: prefs.sfx, tts: prefs.tts }, picture, onPrefs: savePlayPrefs, buildDeck });
+  openArcade({ deck, title, prefs: { sfx: prefs.sfx, tts: prefs.tts }, picture, onPrefs: savePlayPrefs, buildDeck, standalone });
 }
 
 /** Teach a curated lesson in the full-screen player. */
@@ -387,12 +390,13 @@ function wire() {
   document.addEventListener("click", (e) => {
     const a = e.target.closest("[data-action]");
     if (a?.dataset.action === "open-arcade") openGames();
+    if (a?.dataset.action === "ws-games") worksheetGames();
     if (a?.dataset.action === "open-projector") openProjector();
     const g = e.target.closest("[data-goto]");
     if (g) go(g.dataset.goto);
   });
   document.addEventListener("click", (e) => {
-    if (e.target.closest("[data-ws-top] [data-mk-new]")) newUnit();
+    if (e.target.closest("[data-ws-top] [data-mk-close]")) newUnit();
     if (e.target.closest("[data-ws-top] [data-mk-del]") && state.sessionId) deleteMade("unit", state.sessionId);
   });
   initSidebar();
@@ -486,7 +490,7 @@ async function boot() {
     initLibrary();
     initLessons({ teach: teachLesson, games: lessonGames });
     initStudio();
-    initHome({ newUnit, openGames });
+    initHome({ newUnit, openGames, worksheetGames });
     initInterfaceSounds();
     wire();
     // The pages started: tell the main process (a broken update is rolled back), and greet an update.
@@ -516,7 +520,7 @@ async function boot() {
   }
   // Hooks for the desktop smoke test.
   window.__LINGO_ENGINE__ = engine;
-  window.__VM__ = { state, go, emit, openUnit, openGames, openProjector, teachLesson, actions };
+  window.__VM__ = { state, go, emit, openUnit, openGames, worksheetGames, openProjector, teachLesson, actions };
 }
 
 boot();

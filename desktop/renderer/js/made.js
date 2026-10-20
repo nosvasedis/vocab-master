@@ -113,11 +113,14 @@ export async function openMade(kind, id, { view = HOME_VIEW[kind], quiet = false
   return true;
 }
 
-/** Put away what a maker has open (it stays in the Library) — "New test", "New dictation", "New unit". */
+/** Close what a maker has open (the header's Close): it stays in the Library, and the maker starts again. */
 export function closeMade(kind) {
-  if (!openId(kind) || busyNow(kind)) return false;
-  makers[kind].close("new");
+  const id = openId(kind);
+  if (!id || busyNow(kind)) return false;
+  const title = madeTitle(kind, findMade(kind, id));
+  makers[kind].close("closed");
   emit("library");
+  toast(`Closed “${title}” — it is in your Library.`, "info", { ms: 4200, actions: [{ label: "Open again", run: () => openMade(kind, id, { quiet: true }) }] });
   return true;
 }
 
@@ -172,14 +175,19 @@ export function reconcile({ remote = false } = {}) {
 }
 
 /**
- * The right end of a maker's header, the same in all three makers: "Saved" (it is in the Library and
- * updates as the teacher edits), Delete, and New (puts it away and starts again).
- * always: show New even when nothing is open (Worksheets: a word list can be in progress).
+ * The right end of a maker's header, the same in all three makers.
+ * Something open: "Saved" (it is in the Library; every change is kept), Delete, and Close (puts it away —
+ * it stays in the Library — and the maker starts again from Step 1).
+ * Nothing open but work in progress (draft: a Worksheets word list not yet made into sheets): Start over.
+ * The tips open downwards: above, the top bar would cover them.
  */
-export function makerActsHtml(kind, { open, newLabel, always = false }) {
+export function makerActsHtml(kind, { open, draft = false }) {
   const what = KIND_NAME[kind];
-  if (!open && !always) return "";
-  return `${open ? `<span class="mk-saved" data-tip="Saved in your Library — every change is kept">${icon("check", "i-xs")}<span>Saved</span></span>
-    <button type="button" class="icon-btn sm danger mk-del" data-mk-del data-tip="Delete this ${what}" aria-label="Delete this ${what}">${icon("trash", "i-sm")}</button>` : ""}
-    <button type="button" class="btn btn-ghost btn-sm mk-new" data-mk-new data-tip="${open ? `Put this ${what} away (it stays in your Library) and start a new one` : `Start a new ${what}`}">${icon("plus", "i-sm")}<span>${esc(newLabel)}</span></button>`;
+  if (open) {
+    return `<span class="mk-saved" data-tip="Saved in your Library — every change is kept" data-tip-pos="bottom">${icon("check", "i-xs")}<span>Saved</span></span>
+    <button type="button" class="icon-btn sm danger mk-del" data-mk-del data-tip="Delete this ${what}" data-tip-pos="bottom" aria-label="Delete this ${what}">${icon("trash", "i-sm")}</button>
+    <button type="button" class="btn btn-secondary btn-sm mk-close" data-mk-close data-tip="Close this ${what} — it stays in your Library" data-tip-pos="bottom-end">${icon("x", "i-sm")}<span>Close</span></button>`;
+  }
+  if (draft) return `<button type="button" class="btn btn-ghost btn-sm mk-close" data-mk-close data-tip="Clear this word list and start again (Ctrl+N)" data-tip-pos="bottom-end">${icon("refresh", "i-sm")}<span>Start over</span></button>`;
+  return "";
 }

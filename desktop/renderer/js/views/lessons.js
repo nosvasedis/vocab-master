@@ -1,7 +1,8 @@
 /* Lessons — the curated lesson library: pick a book, a unit, a lesson; teach it or play its words. */
 import { CPP_BOOKS } from "../../app.js";
 import { $, esc, icon, toast } from "../ui.js";
-import { state, BOOK_COLORS } from "../state.js";
+import { BOOK_COLORS } from "../state.js";
+import { readJSON, writeJSON } from "../bridge.js";
 import { loadCatalog, loadArt } from "../../lesson/lesson.js";
 import { onePicture } from "../../lesson/wordmatch.js";
 import { lingoBadge } from "../../lesson/lingo-art.js";
@@ -10,6 +11,8 @@ import { picUrl } from "../pics.js";
 
 const SECTION_NAMES = { BQ: "Big Question", A: "Part A", B: "Part B" };
 const SECTION_ICONS = { BQ: "❓", A: "📗", B: "📘" };
+/** The book tab is this screen's own choice, remembered (never taken from Worksheets). */
+const BOOK_KEY = "vm_lessons_book_v1";
 let book = null;
 let handlers = { teach: () => {}, games: () => {} };
 
@@ -27,7 +30,7 @@ export function initLessons({ teach, games }) {
       return;
     }
     const tab = e.target.closest("[data-book]");
-    if (tab) { book = tab.dataset.book; renderLessons(); return; }
+    if (tab) { book = tab.dataset.book; writeJSON(BOOK_KEY, book); renderLessons(); return; }
     const act = e.target.closest("[data-lesson-act]");
     if (!act) return;
     const id = act.closest("[data-lesson]")?.dataset.lesson;
@@ -42,7 +45,7 @@ export async function renderLessons() {
   const cat = await loadCatalog();
   const art = await loadArt();
   const lessons = cat.lessons || [];
-  book = book || (CPP_BOOKS[state.cpp?.bookId] ? state.cpp.bookId : "CPP1");
+  if (!CPP_BOOKS[book]) { const saved = readJSON(BOOK_KEY, ""); book = CPP_BOOKS[saved] ? saved : "CPP1"; }
   const bookDef = CPP_BOOKS[book];
   const units = Object.keys(bookDef.units).map(Number).filter((u) => u >= 1).sort((a, b) => a - b);
   const total = lessons.length;

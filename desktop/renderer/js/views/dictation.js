@@ -44,7 +44,7 @@ const connectedStyle = () => dc.spec.style === "dictogloss" || dc.spec.style ===
 
 export function initDictation() {
   const saved = readJSON(PREFS_KEY, null);
-  dc.spec = saved?.levelId ? { ...dictationDefaults(saved.levelId), ...saved } : dictationDefaults(state.profileId || "B_SENIOR");
+  dc.spec = saved?.levelId ? { ...dictationDefaults(saved.levelId), ...saved } : dictationDefaults("B_SENIOR");
   // Opening, closing and deleting go through js/made.js (the Library, Home and this screen's own list alike).
   registerMaker("dictation", {
     // Before the screen is first shown, the dictation left open last time counts as open.
@@ -101,7 +101,7 @@ function build() {
     </header>
     <div class="mk-body">
       <section class="mk-page">
-        ${head("Which words?", "The sentences are built around these words: a coursebook unit, or the list you made in Worksheets.")}
+        ${head("Which words?", "The sentences are built around these words: a coursebook unit, plus any words of your own.")}
         <div class="mk-card"><div id="dcSource"></div></div>
         <div class="mk-recent hidden" id="dcRecentWrap"><h4>${icon("clock", "i-sm")}Or open one of your dictations</h4><div id="dcRecent" class="tb-recent-grid"></div></div>
       </section>
@@ -151,7 +151,7 @@ function build() {
     </footer>
   </div>`;
   wiz = createWizard(host.querySelector(".mk"), { onShow: () => { renderFoot(); if (wiz?.index === RESULT) fitPaper($("dcStage"), $("dcPaper")); } });
-  picker = createSourcePicker({ multiUnit: false, onChange: () => { renderShape(); }, review: true, level: () => dc.spec.levelId });
+  picker = createSourcePicker({ multiUnit: false, onChange: () => { renderShape(); }, review: true, level: () => dc.spec.levelId, storeKey: "vm_dictation_source_v1" });
   picker.mount($("dcSource"));
   paper = createPaper($("dcPaper"));
   dc.sheetSeg = segmented(host.querySelector('[data-seg="dcSheet"]'), { value: dc.sheet, onChange: (v) => { dc.sheet = v; renderPaper(); } });
@@ -210,7 +210,6 @@ function build() {
   $("dcOutline").addEventListener("click", (e) => {
     const again = e.target.closest("[data-again]");
     if (again) { generate(again); return; }
-    if (e.target.closest("[data-new]")) closeMade("dictation");
   });
   $("dcVoices").addEventListener("click", (e) => { if (pickVoice(e)) { if (dc.player) toggleRead(); renderVoices(); } });
   $("dcRead").addEventListener("click", toggleRead);
@@ -224,7 +223,7 @@ function build() {
     else openMade("dictation", row.dataset.doc);
   });
   $("dcActs").addEventListener("click", (e) => {
-    if (e.target.closest("[data-mk-new]")) closeMade("dictation");
+    if (e.target.closest("[data-mk-close]")) closeMade("dictation");
     if (e.target.closest("[data-mk-del]") && dc.doc) deleteMade("dictation", dc.doc.id);
   });
   built = true;
@@ -369,7 +368,6 @@ function renderOutline() {
     <div class="mk-outline-acts">
       <button type="button" class="btn btn-secondary btn-sm" data-again>${icon("refresh", "i-sm")}Make it again</button>
       <button type="button" class="btn btn-ghost btn-sm" data-mk-go="1">${icon("layers", "i-sm")}Another style</button>
-      <button type="button" class="btn btn-ghost btn-sm" data-new data-tip="Start again (this one is saved in your recent dictations)">${icon("plus", "i-sm")}New dictation</button>
     </div>`;
 }
 
@@ -399,7 +397,7 @@ function renderFoot() {
   if ((sel?.focus || []).length >= 3) done.push(0);
   if (dc.doc) done.push(3);
   wiz.mark({ done, locked: dc.doc || dc.writing ? [] : [RESULT] });
-  $("dcActs").innerHTML = makerActsHtml("dictation", { open: !!dc.doc && !dc.writing, newLabel: "New dictation" });
+  $("dcActs").innerHTML = makerActsHtml("dictation", { open: !!dc.doc && !dc.writing });
 }
 
 function renderRecent() {

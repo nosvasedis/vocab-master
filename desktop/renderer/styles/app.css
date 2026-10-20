@@ -117,21 +117,8 @@
 .tb-title { min-width: 0; flex: 0 1 auto; }
 .tb-title h1 { font-size: 19px; font-weight: 800; white-space: nowrap; }
 .tb-title p { font-size: 12.5px; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.tb-context { flex: 1; display: flex; justify-content: flex-end; gap: 6px; min-width: 0; overflow: hidden; }
-.ctx-chip {
-  display: inline-flex; align-items: center; gap: 7px;
-  height: 30px; padding: 0 12px 0 6px; max-width: 280px;
-  font-size: 12.5px; font-weight: 600; color: var(--text-2);
-  background: var(--surface); border: 1px solid var(--border); border-radius: 99px;
-  white-space: nowrap; overflow: hidden; flex: none;
-  transition: border-color var(--dur-fast), color var(--dur-fast);
-}
-.ctx-chip.shrink { flex: 0 1 auto; min-width: 90px; }
-.ctx-chip:hover { border-color: var(--border-strong); color: var(--text); }
-.ctx-chip span:last-child { overflow: hidden; text-overflow: ellipsis; }
-.ctx-chip .ctx-ico { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; flex: none; font-size: 10.5px; font-weight: 800; color: #fff; }
-.ctx-chip .ctx-ico .i { width: 12px; height: 12px; }
-.tb-actions { display: flex; gap: 8px; flex: none; }
+/* (The top bar has no class / book / words chips: each maker shows its own choice in its own header.) */
+.tb-actions { display: flex; gap: 8px; flex: none; margin-left: auto; }
 
 .scroller { flex: 1; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; }
 .view { display: none; padding: 26px 28px 40px; }
@@ -770,7 +757,6 @@
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 1280px) {
   .preview-layout { grid-template-columns: minmax(0, 1fr) 300px; }
-  .tb-context { display: none; }
   .unit-grid { grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; }
   .unit-tile small { font-size: 9.5px; }
 }
@@ -912,7 +898,6 @@
 .tb-ico[data-view="lessons"] { background: linear-gradient(135deg, #8b5cf6, #ec4899); box-shadow: 0 6px 14px rgba(139, 92, 246, 0.26); }
 .tb-title h1 { font: 800 18px/1.2 var(--font-display); letter-spacing: -0.02em; }
 .tb-title p { max-width: 64ch; margin-top: 1px; font-size: 12px; }
-.ctx-chip { height: 32px; background: color-mix(in srgb, var(--surface) 78%, transparent); }
 .tb-ask { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 15px 0 12px; border: 1px solid color-mix(in srgb, var(--brand) 32%, var(--border)); border-radius: 99px; background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 11%, var(--surface)), var(--surface)); color: var(--brand-ink); font: 700 13px/1 var(--font-ui); white-space: nowrap; cursor: pointer; transition: transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast); }
 .tb-ask .i { color: var(--brand); }
 .tb-ask:hover { transform: translateY(-1px); box-shadow: 0 6px 16px color-mix(in srgb, var(--brand) 22%, transparent); }

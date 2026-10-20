@@ -131,7 +131,7 @@ export function parseRequest(text, context = {}) {
     plan.source = { kind: "unit", bookId: book, units: units.length ? units : context.unit ? [context.unit] : [] };
     // The book the teacher named stays: a B class may still be on Primary Path 1 (never guessed from the class).
     if (bookId) plan.bookNamed = true;
-  } else if (/this unit|current unit|my words|my word list|αυτή την ενότητα/.test(t) && context.bookId) {
+  } else if (/this unit|current unit|same unit|αυτή την ενότητα/.test(t) && context.bookId) {
     plan.source = { kind: "unit", bookId: context.bookId, units: [context.unit] };
   } else if (grammar.length || /\babout\b|\bon\b|topic|θέμα/.test(t)) {
     const topic = text.replace(/\b(make|create|write|give me|i need|please|a|an|the|test|quiz|worksheet|dictation|for|class|senior|level|[a-e] class)\b/gi, " ").replace(/\s+/g, " ").trim();
@@ -208,7 +208,7 @@ export function completePlan(partial = {}, context = {}) {
     if (kept.length) { plan.skills = kept; if (plan.length !== "quiz") plan.length = "custom"; }
   }
   // Which of the unit's words: the key words for tests and dictations; for worksheets, as many as suit the class.
-  if (plan.source?.kind === "unit" || plan.source?.kind === "current") {
+  if (plan.source?.kind === "unit") {
     plan.vocab = normalizeChoice(plan.vocab || {}, { fallback: plan.kind === "worksheet" ? "smart" : "key", classCount: CLASS_WORDS[plan.levelId] || 15 });
   }
   return plan;
@@ -226,7 +226,7 @@ export function clarifyingQuestions(plan, context = {}) {
   const src = plan.source;
   if (!src || (src.kind === "unit" && (!src.bookId || !src.units?.length))) {
     const opts = [];
-    if (context.bookId && context.unit) opts.push({ label: `📘 The unit I’m working on (Primary Path ${context.bookId.slice(-1)}, Unit ${context.unit})`, value: { kind: "unit", bookId: context.bookId, units: [context.unit] } });
+    if (context.bookId && context.unit) opts.push({ label: `📘 The unit you used last time (Primary Path ${context.bookId.slice(-1)}, Unit ${context.unit})`, value: { kind: "unit", bookId: context.bookId, units: [context.unit] } });
     if (src?.kind === "unit" && src.bookId && !src.units?.length) for (let u = 1; u <= 9; u++) opts.push({ label: `Unit ${u}`, value: { kind: "unit", bookId: src.bookId, units: [u] } });
     else Object.keys(CPP_BOOKS).forEach((b) => opts.push({ label: `📗 Primary Path ${b.slice(-1)}…`, value: { kind: "unit", bookId: b, units: [] } }));
     if (plan.kind !== "dictation") opts.push({ label: "💡 A grammar point or topic", value: { kind: "topic", topic: "" } });
@@ -252,7 +252,7 @@ export function planSummary(plan) {
   const who = plan.levelId ? `${plan.levelId[0]} Senior` : "your class";
   const src = plan.source?.kind === "unit" && plan.source.bookId
     ? `Primary Path ${plan.source.bookId.slice(-1)}${plan.source.units?.length ? `, ${plan.source.units.length > 1 ? "Units" : "Unit"} ${plan.source.units.join(" & ")}` : ""}`
-    : plan.source?.kind === "topic" ? `“${plan.source.topic || "a topic"}”` : plan.source?.kind === "current" ? "your current word list" : "";
+    : plan.source?.kind === "topic" ? `“${plan.source.topic || "a topic"}”` : "";
   const bits = [];
   const skillList = (skills) => [...new Set(skills)].map((s) => { const n = skills.filter((x) => x === s).length; return `${n > 1 ? `${n}× ` : ""}${SKILLS[s].label.toLowerCase()}`; }).join(", ");
   if (plan.kind === "test" || plan.kind === "quiz") bits.push(plan.skills?.length ? skillList(plan.skills) : plan.length === "full" ? "all four skills" : plan.length === "quiz" ? "vocabulary, grammar and reading" : "listening, reading, vocabulary, grammar and writing");
@@ -283,7 +283,7 @@ Read the teacher's request (English or Greek) and return ONLY JSON:
   "note": "anything else the teacher asked for, short", "reply": "one friendly sentence to the teacher (in the teacher's language)" }
 "vocab" is about which of the unit's words to use: key = the lessons' key words; all = every word of the chosen parts (BQ = Big Question, A/B = lessons, WB = Workbook); some = a number of words; mix = key words plus others; pick = only the words in "only". "count" = sentences of a dictation; "items" = questions in each test part. "review" = true when the teacher wants to revise or recycle words the class studied before (the app adds them from its class memory).
 Books: CPP1 = Cambridge Primary Path 1, CPP2 = Primary Path 2, CPP3 = Primary Path 3 (usually A, B and C Senior — but any class may use any book: a B class may still be on Primary Path 1). NEVER work out the book from the class or the class from the book: bookId only when the teacher names the book, levelId only when the teacher names the class. Leave a field empty when the teacher didn't say it.`;
-  const user = `Open in the app now: ${context.bookId ? `${context.bookId} Unit ${context.unit}` : "no unit"}, class ${context.level || "not chosen"}.
+  const user = `Last used in the assistant: ${context.bookId ? `${context.bookId} Unit ${context.unit}` : "no unit"}, class ${context.level || "not chosen"}.
 Plan so far: ${JSON.stringify(plan)}
 Teacher: ${text}`;
   return { system, user };

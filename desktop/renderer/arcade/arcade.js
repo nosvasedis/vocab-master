@@ -52,7 +52,12 @@ const currentClass = () => session.classes.find((c) => c.id === session.classId)
  * Open the arcade.
  * @param {{ deck: object[], title: string, prefs: {sfx:boolean, tts:boolean}, onPrefs?: Function }} opts
  */
-export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDeck } = {}) {
+/**
+ * standalone: opened on its own (sidebar, Home) — the arcade's own remembered words ("Choose your words"),
+ * and the word chooser at once when there are none. Otherwise (a worksheet's "Play games", a lesson) it opens
+ * with exactly the words it was given.
+ */
+export function openArcade({ deck = [], title = "", prefs = {}, onPrefs, picture, buildDeck, standalone = false } = {}) {
   if (session) return;
   configureAudio(prefs);
   const classes = loadClasses();
@@ -85,7 +90,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDec
     intro: null,             // a game's title screen while it is showing
   };
   if (!currentClass()) session.classId = classes[0]?.id || null;
-  restorePick();
+  if (standalone) restorePick();
   buildPlay();
 
   const root = document.createElement("div");
@@ -140,6 +145,7 @@ export function openArcade({ deck, title, prefs = {}, onPrefs, picture, buildDec
   window.addEventListener("keydown", onKey, true);
   showHub();
   sfx.enter();
+  if (standalone && session.deck.length < 3) openPicker();
 }
 
 export function closeArcade() {

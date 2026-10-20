@@ -1,8 +1,8 @@
 /* Teacher assistant — the teacher says what they need; the assistant asks at most two questions (as chips),
  * shows an editable plan card, then builds it with the Test Maker, Dictation or worksheet makers. */
 import { CPP_BOOKS, CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";
-import { state, emit, isCpp, LEVEL_COLORS, targetText, makeWord, coursebookEntryToWord, filledWords, SMART_PICK } from "../state.js";
-import { isAiReady } from "../bridge.js";
+import { state, emit, LEVEL_COLORS, targetText, makeWord, coursebookEntryToWord, SMART_PICK } from "../state.js";
+import { isAiReady, readJSON, writeJSON } from "../bridge.js";
 import { actions } from "../actions.js";
 import { segmented } from "../ui.js";
 import { $, esc, icon, plural, toast, askAi, aiErrorToast, segHtml, switchHtml, stepperHtml, owl, owlHead, loadLessonJson, pageTag, askClassMemory, classMemoryFor } from "./studio-common.js";
@@ -28,11 +28,16 @@ const as = { messages: [], plan: null, questions: [], thinking: false, keyWords:
 
 export function initAssistant() {}
 
-const context = () => ({
-  bookId: isCpp() ? state.cpp.bookId : "",
-  unit: isCpp() ? state.cpp.unit : 0,
-  level: state.profileId || "",
-});
+/** The assistant's own memory: the class, book and unit of the last plan it made (never another screen's choice). */
+const LAST_KEY = "vm_assistant_last_v1";
+const context = () => {
+  const last = readJSON(LAST_KEY, null) || {};
+  return { bookId: CPP_BOOKS[last.bookId] ? last.bookId : "", unit: Number(last.unit) || 0, level: CLASS_PROFILES[last.level] ? last.level : "" };
+};
+function rememberPlan(p) {
+  const src = p.source?.kind === "unit" ? p.source : null;
+  writeJSON(LAST_KEY, { level: p.levelId || "", bookId: src?.bookId || context().bookId, unit: src?.units?.[0] || context().unit });
+}
 
 /** Starter ideas: [what the teacher would type, kind, short title]. */
 function suggestions() {
@@ -201,7 +206,6 @@ function renderPlan() {
       <div class="kind-chips">
         <button type="button" class="chip${src.kind === "unit" ? " active" : ""}" data-src="unit">${icon("book", "i-xs")}A coursebook unit</button>
         ${p.kind !== "dictation" ? `<button type="button" class="chip${src.kind === "topic" ? " active" : ""}" data-src="topic">${icon("bulb", "i-xs")}A grammar point or topic</button>` : ""}
-        <button type="button" class="chip${src.kind === "current" ? " active" : ""}" data-src="current">${icon("list", "i-xs")}My word list (Step 2)</button>
       </div>
       ${src.kind === "unit" ? `<div class="kind-chips">${Object.keys(CPP_BOOKS).map((b) => `<button type="button" class="chip${src.bookId === b ? " active" : ""}" data-book="${b}">Primary Path ${b.slice(-1)}</button>`).join("")}</div>
         <div class="kind-chips units">${Array.from({ length: 9 }, (_, i) => i + 1).map((u) => `<button type="button" class="chip${src.units?.includes(u) ? " active" : ""}" data-unit="${u}" title="${esc(CPP_BOOKS[src.bookId]?.units?.[u]?.title || "")}">${u}</button>`).join("")}</div>
@@ -284,12 +288,6 @@ function wordsBlock(p) {
     return `<div class="as-sec"><div class="as-sec-head"><span class="st-lbl">Words to use <small>(optional)</small></span>${p.words?.length ? `<span class="as-count">${plural(p.words.length, "word")}</span>` : ""}</div>
       ${ownBox("Add words: crater, ash cloud, volcano - ηφαίστειο", "Leave it empty and Lingo chooses words the class knows.")}</div>`;
   }
-  if (src.kind === "current") {
-    const list = filledWords();
-    return `<div class="as-sec"><div class="as-sec-head"><span class="st-lbl">Which words?</span><span class="as-count">${plural(list.length + (p.words?.length || 0), "word")}</span></div>
-      <div class="as-wlist">${list.slice(0, 40).map((w) => `<span class="as-wchip">${esc(w.english)}</span>`).join("")}${list.length > 40 ? `<small>+${list.length - 40}</small>` : ""}</div>
-      ${ownBox("Add more words…", "Words that aren’t in your list, mixed in with it.")}</div>`;
-  }
   const res = resolveWords(p);
   if (!res) return "";
   const c = res.choice;
@@ -350,7 +348,7 @@ function onPlanClick(e) {
   if (!b) return;
   if (b.dataset.kind) p.kind = b.dataset.kind;
   if (b.dataset.level) { p.levelId = b.dataset.level; p.greek = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(p.levelId); }
-  if (b.dataset.src) p.source = b.dataset.src === "unit" ? { kind: "unit", bookId: p.source?.bookId || context().bookId || "CPP1", units: p.source?.units?.length ? p.source.units : [context().unit || 1] } : b.dataset.src === "topic" ? { kind: "topic", topic: p.grammar?.join(", ") || "" } : { kind: "current" };
+  if (b.dataset.src) p.source = b.dataset.src === "unit" ? { kind: "unit", bookId: p.source?.bookId || context().bookId || "CPP1", units: p.source?.units?.length ? p.source.units : [context().unit || 1] } : { kind: "topic", topic: p.grammar?.join(", ") || "" };
   if (b.dataset.book) p.source = { ...p.source, bookId: b.dataset.book };
   if (b.dataset.unit) {
     const u = Number(b.dataset.unit);
@@ -428,7 +426,8 @@ function pickerState(p) {
     };
   }
   if (src.kind === "topic") return { kind: "topic", topic: src.topic || p.grammar?.join(", ") || "", own };
-  return { kind: "current", own };
+  // No unit or topic in the plan: the maker keeps its own choice (only the named words join it).
+  return own.length ? { keep: true, own } : null;
 }
 
 /** Worksheets: the teacher's named words join the Step 2 list (with the coursebook's details when a book has them). */
@@ -465,6 +464,7 @@ export function planToTestSpec(p) {
 /** "… and revise earlier words": the words this class met before and is due to review join as the teacher's own (class memory, asked once). */
 async function withReview(p, pk) {
   if (!p.review || !(await askClassMemory())) return pk;
+  pk = pk || { keep: true, own: [] };
   const mem = classMemoryFor(p.levelId);
   const have = [...(pk.own || []), ...(pk.picked || []).map((english) => ({ english }))];
   const add = reviewWords(mem, { exclude: have, n: p.kind === "dictation" ? 4 : 6 });
@@ -479,6 +479,7 @@ async function make(generate) {
   if (!p.levelId) { toast("Which class is it for? Choose it in the plan.", "warn"); return; }
   if (p.source?.kind === "unit" && (!p.source.bookId || !p.source.units?.length)) { toast("Choose the book and the unit in the plan.", "warn"); return; }
   if (p.source?.kind === "topic" && !String(p.source.topic || "").trim()) { toast("Type the topic or grammar point.", "warn"); return; }
+  rememberPlan(p);
   try {
     if (p.kind === "test" || p.kind === "quiz") {
       applyTestPreset({ spec: planToTestSpec(p), picker: await withReview(p, pickerState(p)) });
@@ -516,7 +517,7 @@ async function makeWorksheets(p, generate) {
     toast(`The unit’s words are ready${added ? `, with your ${added === 1 ? "word" : `${added} words`} added` : ""}. Have a quick look, then press Continue to choose the exercises.`, "info", { ms: 5000 });
     return;
   }
-  if (p.source?.kind === "current" && p.words?.length) {
+  if (!p.source?.kind && p.words?.length) {
     const added = addPlanWords(p);
     emit("setup", "words", "level");
     actions.go("words");

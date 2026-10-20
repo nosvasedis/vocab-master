@@ -2,8 +2,8 @@
  * items, points). One AI request writes the test from the whole unit (words by section, Big Question, readings,
  * lesson stories); any part can be rewritten alone. Version B, a teacher's pack, listening read by the app's
  * voices, click-to-edit items, and print / PDF / Word. */
-import { CLASS_PROFILES, CPP_BOOKS, downloadBlob } from "../../app.js";
-import { state, prefs, isCpp, filledWords, LEVEL_COLORS, on } from "../state.js";
+import { CLASS_PROFILES, CPP_BOOKS, downloadBlob, resolveCoursebookId } from "../../app.js";
+import { state, prefs, LEVEL_COLORS, on } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy } from "../ui.js";
 import {
@@ -16,7 +16,7 @@ import { TASKS, SKILLS, KNOBS, tfLabels, partOpts } from "../../studio/tasks.js"
 import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, suggestText } from "../../studio/test-builder.js";
+import { testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, suggestText } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
@@ -40,7 +40,8 @@ export function initTests() {
   const saved = readJSON(PREFS_KEY, null);
   // A part whose task no longer exists is dropped (older settings).
   if (Array.isArray(saved?.parts)) saved.parts = saved.parts.filter((p) => TASKS[p?.task]);
-  ts.spec = saved?.levelId && Array.isArray(saved.parts) ? { ...testDefaults(saved.levelId), ...saved } : testDefaults(state.profileId || "B_SENIOR");
+  // Settings saved before templates name only the length: its classic template.
+  ts.spec = saved?.levelId && Array.isArray(saved.parts) ? { ...testDefaults(saved.levelId), ...saved, template: templateFor(saved.template, saved.length).id } : testDefaults("B_SENIOR");
   // Opening, closing and deleting go through js/made.js (the Library, Home and this screen's own list alike).
   registerMaker("test", {
     // Before the screen is first shown, the test left open last time counts as open.
@@ -101,7 +102,7 @@ function build() {
     </header>
     <div class="mk-body">
       <section class="mk-page">
-        ${head("What does the test cover?", "Start from a coursebook unit, the words you prepared in Worksheets, or a grammar point or topic.")}
+        ${head("What does the test cover?", "Start from a coursebook unit or a grammar point or topic — and add any words of your own.")}
         <div class="mk-card"><div id="tsSource"></div></div>
         <div id="tsFocus" class="mk-focus"></div>
         <div class="mk-recent hidden" id="tsRecentWrap"><h4>${icon("clock", "i-sm")}Or open one of your tests</h4><div id="tsRecent" class="tb-recent-grid"></div></div>
@@ -151,7 +152,7 @@ function build() {
     </footer>
   </div>`;
   wiz = createWizard(host.querySelector(".mk"), { onShow: () => { renderFoot(); if (wiz?.index === RESULT) fitPaper($("tsStage"), $("tsPaper")); } });
-  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange, review: true, level: () => ts.spec.levelId });
+  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange, review: true, level: () => ts.spec.levelId, storeKey: "vm_tests_source_v1" });
   picker.mount($("tsSource"));
   paper = createPaper($("tsPaper"));
   new ResizeObserver(() => fitPaper($("tsStage"), $("tsPaper"))).observe($("tsStage"));
@@ -161,13 +162,20 @@ function build() {
   $("tsShape").addEventListener("click", (e) => {
     const lvl = e.target.closest("[data-level]");
     if (lvl) { ts.levelTouched = true; setLevel(lvl.dataset.level); ts.spec.levelChosen = true; savePrefs(); return; }
-    const len = e.target.closest("[data-length]");
-    if (len) {
-      ts.spec.length = len.dataset.length;
-      ts.spec.parts = presetParts(ts.spec.length, ts.spec.levelId, { pictures: ts.spec.pictures });
+    const tp = e.target.closest("[data-template]");
+    if (tp) {
+      const t = templateFor(tp.dataset.template);
+      if (t.id === ts.spec.template) return;
+      ts.spec.template = t.id;
+      ts.spec.length = t.length;
+      ts.spec.parts = templateParts(t.id, ts.spec.levelId, { pictures: ts.spec.pictures });
+      ts.openPart = null;
       fitParts({ quiet: true });
+      // An open test keeps its paper until its parts are written again.
+      if (ts.doc) ts.spec.parts.forEach((p) => markStale(p.id));
       savePrefs();
       renderShape(); renderParts();
+      toast(`“${t.label}”: ${plural(ts.spec.parts.length, "part")} are ready in Step 3 — change any of them there.`, "ok", { ms: 2600 });
     }
   });
   $("tsFocus").addEventListener("click", (e) => {
@@ -240,7 +248,6 @@ function build() {
     if (fx) { fixPart(fx.dataset.fix, fx); return; }
     const rw = e.target.closest("[data-rewrite]");
     if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
-    if (e.target.closest("[data-new]")) closeMade("test");
   });
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
@@ -260,7 +267,7 @@ function build() {
     if (b) rewritePart(b.dataset.rewrite, b);
   });
   $("tsActs").addEventListener("click", (e) => {
-    if (e.target.closest("[data-mk-new]")) closeMade("test");
+    if (e.target.closest("[data-mk-close]")) closeMade("test");
     if (e.target.closest("[data-mk-del]") && ts.doc) deleteMade("test", ts.doc.id);
   });
   $("tsRecent").addEventListener("click", (e) => {
@@ -300,7 +307,7 @@ function setLevel(levelId, { quiet = false } = {}) {
   const old = ts.spec;
   // A new class brings its own parts and item counts; what the teacher chose about the content stays.
   ts.spec = {
-    ...testDefaults(levelId, old.length),
+    ...testDefaults(levelId, old.length, old.template),
     topic: old.topic, title: old.title, grammar: old.grammar || [], grammarOwn: old.grammarOwn || "",
     versions: old.versions, difficulty: old.difficulty || "level", pictures: old.pictures !== false, studentHeader: old.studentHeader !== false,
     levelChosen: !!old.levelChosen,
@@ -319,15 +326,13 @@ function sourceInfo(sel = picker.value()) {
   const all = [...sel.focus, ...(sel.words || [])];
   const picFor = makePicFor(all);
   const pictureWords = [...new Set(all.filter((w) => picFor(w.english)).map((w) => w.english.toLowerCase()))];
-  // "My word list" from the coursebook still gets that unit's stories and Big Question (contextFor).
-  const hasUnit = sel.kind === "unit" || (sel.kind === "words" && isCpp());
+  const hasUnit = sel.kind === "unit";
   return { sel, pictureWords, hasUnit, src: { kind: sel.kind, hasUnit, pictureWords: pictureWords.length, units: sel.units, unit: sel.meta?.unit } };
 }
 
 /** The unit(s) the texts are about: "Unit 4 · How do volcanoes change the land?" */
 function unitThemes(sel) {
   if (sel.kind === "unit") return sel.units.map((u) => `Unit ${u} · ${CPP_BOOKS[sel.bookId]?.units?.[u]?.title || ""}`);
-  if (sel.kind === "words" && isCpp()) return [`Unit ${state.cpp.unit} · ${CPP_BOOKS[state.cpp.bookId]?.units?.[state.cpp.unit]?.title || ""}`];
   return [];
 }
 
@@ -364,11 +369,10 @@ function fitParts({ quiet = false } = {}) {
   if (!quiet) toast(changed.map((c) => `Part ${ts.spec.parts.findIndex((p) => p.id === c.id) + 1} is now “${TASKS[c.to].label}” — “${TASKS[c.from].label}” ${c.reason}.`).join(" "), "info", { ms: 4200 });
 }
 
-/** The unit's own reading texts for the Step 1 choice (a coursebook unit, or Step 2 words from one). */
+/** The unit's own reading texts for the Step 1 choice (a coursebook unit). */
 function unitTexts(sel = picker?.value()) {
   if (!sel) return [];
   if (sel.kind === "unit") return textsFor(sel.bookId, sel.units);
-  if (sel.kind === "words" && isCpp()) return textsFor(state.cpp.bookId, [state.cpp.unit]);
   return [];
 }
 
@@ -430,7 +434,18 @@ function renderShape() {
   const p = CLASS_PROFILES[s.levelId];
   const d = TEST_DEFAULTS[s.levelId] || {};
   const lenIcon = { quiz: "zap", standard: "clipboard", full: "layers" };
-  const skillsOf = (k) => [...new Set(LENGTHS[k].skills)].map((x) => SKILLS[x].label).join(" · ");
+  const lenName = { quiz: ["Short", "about 20 minutes"], standard: ["A lesson", "about 40 minutes"], full: ["Long", "about 60 minutes"] };
+  // Each template as it would come out for this class: its parts (skill icons) and the minutes.
+  const tplCard = (t) => {
+    const parts = templateParts(t.id, s.levelId, { pictures: s.pictures });
+    const on = s.template === t.id;
+    return `<button type="button" class="tp-card${on ? " active" : ""}" data-template="${t.id}" aria-pressed="${on}">
+        <span class="tp-top"><b>${esc(t.label)}</b><span class="mk-tick">${icon("check", "i-xs")}</span></span>
+        <small>${esc(t.blurb)}</small>
+        <span class="tp-parts">${parts.map((p) => `<span class="tp-part" data-skill="${p.skill}" title="${esc(`${SKILLS[p.skill].label}: ${TASKS[p.task].label}`)}">${SKILLS[p.skill].icon}</span>`).join("")}</span>
+        <span class="tp-meta">${plural(parts.length, "part")} · ≈ ${estimateMinutes({ ...s, parts })} min</span>
+      </button>`;
+  };
   $("tsShape").innerHTML = `
     <div class="mk-card">
       <div class="mk-card-head"><span class="mk-card-ico">${icon("graduation")}</span><div><h3>Class</h3><p>Every question, text and instruction is written for this level.</p></div></div>
@@ -441,8 +456,11 @@ function renderShape() {
       <div class="level-detail"><span class="ld-item">${icon("graduation")}<span><strong>${esc(p.label)}</strong> · ages ${esc(p.ageRange)}</span></span><span class="ld-item">${icon("list")}<span><strong>${d.items || 5}</strong> questions a part</span></span><span class="ld-item">${icon("pencil")}<span>Writing: <strong>${(d.writingWords || []).join("–")} words</strong></span></span><span class="ld-item">${icon("check-circle")}<span>${tfLabels(s.levelId).join(" / ")} answers</span></span></div>
     </div>
     <div class="mk-card">
-      <div class="mk-card-head"><span class="mk-card-ico">${icon("timer")}</span><div><h3>How long</h3><p>A starting set of parts — you can change every part in the next step.</p></div></div>
-      <div class="mk-lengths">${Object.entries(LENGTHS).map(([k, l]) => `<button type="button" class="mk-length${s.length === k ? " active" : ""}" data-length="${k}" aria-pressed="${s.length === k}"><span class="mk-length-ico">${icon(lenIcon[k] || "clipboard")}</span><b>${esc(l.label)}</b><span class="mk-length-meta">≈ ${l.minutes} min · ${l.skills.length} parts</span><small>${esc(skillsOf(k))}</small></button>`).join("")}</div>
+      <div class="mk-card-head"><span class="mk-card-ico">${icon("timer")}</span><div><h3>How long, and what kind of test</h3><p>Each template gets the parts ready for Step 3, chosen for ${esc(p.label)} — you can change every part there.</p></div></div>
+      <div class="tp-groups">${Object.keys(LENGTHS).map((k) => `<div class="tp-group${s.length === k ? " current" : ""}">
+          <div class="tp-group-head"><span class="mk-length-ico">${icon(lenIcon[k] || "clipboard")}</span><div><b>${lenName[k][0]}</b><small>${lenName[k][1]}</small></div></div>
+          ${TEMPLATES.filter((t) => t.length === k).map(tplCard).join("")}
+        </div>`).join("")}</div>
       <div class="mk-row"><span class="mk-lbl">Difficulty</span>${segHtml("difficulty", Object.entries(DIFFICULTY).map(([k, v]) => [k, v.label.replace("Right for the class", "Just right")]), s.difficulty)}</div>
     </div>`;
   $("tsShape").querySelectorAll("[data-segmented]").forEach((root) => segmented(root, { value: s[root.dataset.seg], onChange: (v) => { s[root.dataset.seg] = v; savePrefs(); renderReady(); } }));
@@ -732,7 +750,6 @@ function renderOutline() {
   }).join("")}</ol>
     <div class="mk-outline-acts">
       <button type="button" class="btn btn-secondary btn-sm" data-mk-go="2">${icon("sliders", "i-sm")}Change the parts</button>
-      <button type="button" class="btn btn-ghost btn-sm" data-new data-tip="Start again (this one is saved in your recent tests)">${icon("plus", "i-sm")}New test</button>
     </div>`;
 }
 
@@ -759,7 +776,7 @@ function renderFoot() {
   if (spec.parts.length) done.push(2);
   if (ts.doc) done.push(3);
   wiz.mark({ done, locked: ts.doc || ts.writing ? [] : [RESULT] });
-  $("tsActs").innerHTML = makerActsHtml("test", { open: !!ts.doc && !ts.writing, newLabel: "New test" });
+  $("tsActs").innerHTML = makerActsHtml("test", { open: !!ts.doc && !ts.writing });
 }
 
 /* ── Generation ───────────────────────────────────────────────────── */
@@ -769,9 +786,7 @@ async function contextFor(sel) {
   // Nouns first: picture tasks ask for things you can draw.
   const nounFirst = (a, b) => Number(/^n/.test(b.type || "")) - Number(/^n/.test(a.type || ""));
   const pictureWords = [...new Set([...focus, ...(sel.words || [])].filter((w) => picFor(w.english)).sort(nounFirst).map((w) => w.english))].slice(0, 16);
-  let unitContext = await unitContextFor(sel);
-  // Step 2 words from a coursebook unit still get that unit's context.
-  if (!unitContext && sel.kind === "words" && isCpp()) unitContext = await buildUnitContext({ bookId: state.cpp.bookId, units: [state.cpp.unit] }, { loadLesson: loadLessonJson });
+  const unitContext = await unitContextFor(sel);
   return { focus, picFor, pictureWords, unitContext };
 }
 
@@ -789,7 +804,7 @@ function specForAi() {
   return { sel, spec };
 }
 
-/** The line under the test's title and in the header: the unit, the word list, or the topic and grammar. */
+/** The line under the test's title and in the header: the unit, or the topic and grammar. */
 const sourceLabel = (sel, spec = specForAi().spec) => (sel.kind === "topic" ? [spec.topic, ...spec.grammar, sel.focus.length ? plural(sel.focus.length, "word") : ""].filter(Boolean).join(" · ") || "A grammar point or topic" : sel.label);
 
 function renderPlanNote() {
@@ -1095,7 +1110,6 @@ export function applyTestPreset({ spec = {}, picker: pk = null } = {}) {
   if (pk) {
     // A topic plan already carries its topic in Step 1, so the assistant's note isn't a second topic.
     if (pk.kind === "topic" && ts.spec.topic && pk.topic) ts.spec.topic = "";
-    if (pk.kind === "current" && filledWords().length < 3) pk = { kind: "unit", bookId: state.cpp.bookId || "CPP1", units: [state.cpp.unit || 1] };
     ts.sourceKey = "";
     picker.set(pk);
   }
@@ -1113,7 +1127,14 @@ function openDoc(d) {
   ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)), grammarOwn: "" };
   ts.levelTouched = true;
   ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;
-  const src = d.spec?.source || {};
+  let src = d.spec?.source || {};
+  // A test written from the old "My word list" (Worksheets words): its book and unit when it had one,
+  // otherwise its words come back as the teacher's own words.
+  if (src.kind === "words") {
+    const bookId = resolveCoursebookId(d.meta?.bookTitle || "");
+    const unit = Number.parseInt(src.unit ?? d.meta?.unit, 10);
+    src = bookId && unit >= 1 && unit <= 9 ? { kind: "unit", bookId, units: [unit] } : { kind: "topic" };
+  }
   let pk = null;
   const words = (d.focusWords || []).filter((w) => w.english);
   const asOwn = (list) => list.map((w) => ({ english: w.english, greek: w.greek || "" }));
@@ -1128,7 +1149,7 @@ function openDoc(d) {
   } else if (src.kind === "topic") {
     pk = { kind: "topic", topic: d.spec.topic || "", own: asOwn(words) };
     ts.spec.topic = "";
-  } else if (src.kind === "words" && filledWords().length >= 3) pk = { kind: "current", own: asOwn(words.filter((w) => w.own)) };
+  }
   if (pk) { ts.sourceKey = ""; picker.set(pk); }
   savePrefs();
 }

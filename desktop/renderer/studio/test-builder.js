@@ -2,7 +2,7 @@
  * A test is a list of parts (skill + task + items + points) the teacher can change; one AI call writes
  * all parts (or one part again). The coursebook unit's whole context goes into the prompt in compact
  * form (studio/unit-context.js). Listening scripts are read by the app's voices (studio/tts.js). */
-import { TASKS, SKILLS, defaultTask, secondTask, tfLabels, partOpts, levelIndex } from "./tasks.js";
+import { TASKS, SKILLS, defaultTask, secondTask, tfLabels, partOpts, levelIndex, taskFit, tasksFor } from "./tasks.js";
 import { readingText } from "./reading-texts.js";
 import { TEST_DEFAULTS, DIFFICULTY } from "./levels.js";
 import { balancedPattern } from "./answer-balance.js";
@@ -98,24 +98,59 @@ export function fallbackTask(task, levelId) {
   return TASK_FALLBACK[task] || task;
 }
 
-/** Parts for a length preset at a level, skipping picture tasks when pictures are off or missing. */
-export function presetParts(length, levelId, { pictures = true } = {}) {
-  const skills = (LENGTHS[length] || LENGTHS.standard).skills;
+/**
+ * "How long" → a template: each length has several starting sets of parts for Step 3. A part is
+ * [skill, ...tasks it would like]: the first of those tasks that suits the class is used, otherwise the
+ * class's usual task for that skill (its second one when the skill comes again). A template with the
+ * length's own id (quiz, standard, full) is that length's classic set (LENGTHS).
+ */
+export const TEMPLATES = [
+  { id: "quiz", length: "quiz", label: "Quick quiz", blurb: "The unit's words, its grammar and a short reading.", parts: [["vocabulary"], ["vocabulary"], ["grammar"], ["reading"]] },
+  { id: "quiz-words", length: "quiz", label: "Word check", blurb: "Only the words: recognise them, write them, use them in a text, spell them.", parts: [["vocabulary", "V-PIC", "V-DEF", "V-MC"], ["vocabulary", "V-MATCH", "V-COLLOC"], ["vocabulary", "V-BANK"], ["vocabulary", "V-SPELL", "V-FORM"]] },
+  { id: "quiz-grammar", length: "quiz", label: "Grammar check", blurb: "The grammar point step by step: choose, build, write, then use the words.", parts: [["grammar", "G-MC"], ["grammar", "G-ORDER", "G-QUEST"], ["grammar", "G-FORM", "G-FIX", "G-CLOZE"], ["vocabulary", "V-BANK"]] },
+  { id: "standard", length: "standard", label: "Unit test", blurb: "A part for every skill except speaking.", parts: [["listening"], ["reading"], ["vocabulary"], ["grammar"], ["writing"]] },
+  { id: "std-rw", length: "standard", label: "Reading & writing", blurb: "Two readings, words and grammar in context, and a writing task.", parts: [["reading", "R-TF"], ["reading", "R-QA", "R-WHO", "R-MC"], ["vocabulary", "V-BANK"], ["grammar", "G-FORM", "G-MC"], ["writing", "W-GUIDED", "W-PICTURES", "W-SENT"]] },
+  { id: "std-ls", length: "standard", label: "Listening & speaking", blurb: "Two listenings, the words, and speaking cards to talk about.", parts: [["listening", "L-PIC", "L-MC"], ["listening", "L-GAP", "L-YN", "L-MATCH"], ["vocabulary", "V-MATCH"], ["speaking", "S-PICTURE", "S-QUESTIONS"], ["speaking", "S-ROLE", "S-STORY", "S-DISCUSS"]] },
+  { id: "full", length: "full", label: "All 4 skills", blurb: "Two parts of every skill and speaking cards: the full picture.", parts: [["listening"], ["listening"], ["reading"], ["reading"], ["vocabulary"], ["vocabulary"], ["grammar"], ["grammar"], ["writing"], ["speaking"]] },
+  { id: "full-term", length: "full", label: "End-of-term test", blurb: "A written exam: two parts of each skill except speaking.", parts: [["listening"], ["reading"], ["reading"], ["vocabulary"], ["vocabulary"], ["grammar"], ["grammar"], ["writing"]] },
+  { id: "full-exam", length: "full", label: "Exam practice", blurb: "Like a young learners' exam paper: pictures, names, gaps and a story.", parts: [["listening", "L-PIC", "L-MC"], ["listening", "L-MATCH", "L-GAP", "L-NOTES"], ["reading", "R-WHO", "R-MC"], ["reading", "R-GAP", "R-TF"], ["vocabulary", "V-DEF", "V-PIC"], ["grammar", "G-CLOZE", "G-MC"], ["writing", "W-STORY", "W-PICTURES", "W-SENT"], ["speaking", "S-STORY", "S-PICTURE"]] },
+];
+export const templateFor = (id, length) => TEMPLATES.find((t) => t.id === id) || TEMPLATES.find((t) => t.id === length) || TEMPLATES.find((t) => t.id === "standard");
+
+/** A template's parts for a class: tasks that suit the class, no task twice, no picture tasks when pictures are off. */
+export function templateParts(id, levelId, { pictures = true } = {}) {
+  const tpl = templateFor(id);
   const seen = {};
-  return skills.map((skill) => {
+  const used = new Set();
+  const usable = (task) => TASKS[task] && !used.has(task) && (pictures || !TASKS[task].needs?.includes("pictures"));
+  return tpl.parts.map(([skill, ...wish]) => {
     const n = (seen[skill] = (seen[skill] || 0) + 1);
-    let task = n === 1 ? defaultTask(skill, levelId) : secondTask(skill, levelId);
+    const usual = n === 1 ? defaultTask(skill, levelId) : secondTask(skill, levelId);
+    let task = wish.find((t) => usable(t) && taskFit(t, levelId).fit === "great")
+      || (usable(usual) ? usual : null)
+      || tasksFor(skill, levelId).map((t) => t.id).find((t) => usable(t) && taskFit(t, levelId).fit === "great")
+      // Nothing left that is just right: the nearest one (tasksFor ranks a stretch before an easy task).
+      || tasksFor(skill, levelId).map((t) => t.id).find(usable)
+      || usual;
     if (!pictures && TASKS[task]?.needs?.includes("pictures")) task = fallbackTask(task, levelId);
+    used.add(task);
     return makePart(skill, task, levelId);
   });
 }
 
+/** Parts for a length preset at a level (its classic template), skipping picture tasks when pictures are off or missing. */
+export function presetParts(length, levelId, { pictures = true } = {}) {
+  return templateParts(LENGTHS[length] ? length : "standard", levelId, { pictures });
+}
+
 /** Fresh settings for a test. */
-export function testDefaults(levelId = "B_SENIOR", length = "standard") {
+export function testDefaults(levelId = "B_SENIOR", length = "standard", template = "") {
+  const tpl = templateFor(template, length);
   return {
     levelId,
-    length,
-    parts: presetParts(length, levelId),
+    length: tpl.length,
+    template: tpl.id,
+    parts: templateParts(tpl.id, levelId),
     difficulty: "level",
     grammar: [],
     topic: "",
@@ -144,15 +179,15 @@ export const specPoints = (spec) => spec.parts.reduce((n, p) => n + partPoints(p
 
 /* ── What the Step 1 source allows ────────────────────────────────────
  * A coursebook unit brings words, pictures, a Big Question and its own grammar (from the book's example
- * sentences). "My word list" brings words (and the unit's context when the list came from the coursebook).
- * "A grammar point or topic" brings no word list at all: no picture tasks, no Big Question. */
+ * sentences). "A grammar point or topic" brings only the teacher's own words (if any): no picture tasks
+ * unless those words have pictures, no Big Question. */
 
 /** The task used instead of one the source can't support. */
 export const TASK_FALLBACK = { "L-PIC": "L-MC", "V-PIC": "V-BANK", "W-PICTURES": "W-GUIDED", "S-PICTURE": "S-QUESTIONS", "S-STORY": "S-QUESTIONS", "S-DISCUSS": "S-ROLE", "S-BQ": "S-QUESTIONS" };
 
 /**
  * Why a task can't be used with this source ("" when it can).
- * src: { kind: "unit" | "words" | "topic", hasUnit, pictureWords: n }
+ * src: { kind: "unit" | "topic", hasUnit, pictureWords: n } ("words": tests written from the old Worksheets list)
  */
 export function taskBlock(taskId, src = {}) {
   const t = TASKS[taskId];

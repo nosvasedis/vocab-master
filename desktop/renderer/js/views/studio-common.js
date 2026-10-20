@@ -5,7 +5,7 @@ import {
 } from "../../app.js";
 import { buildClassMemory, reviewWords, memoryBrief } from "../../studio/class-memory.js";
 import { $, esc, icon, plural, toast, confirmDialog } from "../ui.js";
-import { state, filledWords, prefs, isCpp, bookTitle, unitNumber, BOOK_COLORS } from "../state.js";
+import { prefs, BOOK_COLORS } from "../state.js";
 import { getApiKey, isAiReady, desktop, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 import { picForWord } from "../pics.js";
@@ -192,14 +192,16 @@ export const safeName = (s) => String(s).replace(/[\\/:*?"<>|]+/g, "-").replace(
 const BOOK_IDS = Object.keys(CPP_BOOKS);
 
 /**
- * Where the words come from: the Step 2 list, coursebook units (book → units → sections → words), or a free topic.
+ * Where the words come from: coursebook units (book → units → sections → words) or a free topic, plus the
+ * teacher's own words. Each maker has its own picker and its own choice (storeKey: remembered on this
+ * computer) — nothing is taken from another screen.
  * mount(host) renders it; value() returns { kind, bookId, units, sections, words, focus, label, meta }.
  */
-export function createSourcePicker({ multiUnit = false, allowTopic = false, topicPlaceholder = "e.g. Present Simple vs Present Continuous, daily routines", onChange, review = false, level = () => state.profileId } = {}) {
+export function createSourcePicker({ multiUnit = false, allowTopic = false, topicPlaceholder = "e.g. Present Simple vs Present Continuous, daily routines", onChange, review = false, level = () => "B_SENIOR", storeKey = "" } = {}) {
   const st = {
     kind: "unit",
-    bookId: (isCpp() && state.cpp.bookId) || "CPP1",
-    units: [isCpp() ? state.cpp.unit : 1],
+    bookId: "CPP1",
+    units: [1],
     sections: ["BQ", "A", "B"],
     focusMode: "key", // key | all | pick
     picked: new Set(),
@@ -208,7 +210,25 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     several: false, // tests: taps add units instead of switching
     own: [], // the teacher's own words, mixed in: [{ english, greek }]
   };
-  if (filledWords().length >= 3) st.kind = "current";
+  /** The choice is remembered per maker: book, units, parts, which words, the topic and the own words. */
+  function load(saved) {
+    if (!saved || typeof saved !== "object") return;
+    if (saved.kind === "unit" || (saved.kind === "topic" && allowTopic)) st.kind = saved.kind;
+    if (CPP_BOOKS[saved.bookId]) st.bookId = saved.bookId;
+    const units = (Array.isArray(saved.units) ? saved.units : []).map(Number).filter((u) => u >= 1 && u <= 9);
+    if (units.length) st.units = multiUnit ? units : [units[0]];
+    const secs = (Array.isArray(saved.sections) ? saved.sections : []).filter((s) => SECTION_LABEL[s]);
+    if (secs.length) st.sections = secs;
+    if (["key", "all", "pick"].includes(saved.focusMode)) st.focusMode = saved.focusMode;
+    if (Array.isArray(saved.picked)) st.picked = new Set(saved.picked.map(String));
+    if (typeof saved.topic === "string") st.topic = saved.topic;
+    if (Array.isArray(saved.own)) st.own = saved.own.filter((w) => w?.english).map((w) => ({ english: String(w.english), greek: String(w.greek || "") }));
+    st.several = multiUnit && st.units.length > 1;
+  }
+  const save = () => {
+    if (storeKey) writeJSON(storeKey, { kind: st.kind, bookId: st.bookId, units: st.units, sections: st.sections, focusMode: st.focusMode, picked: [...st.picked], topic: st.topic, own: st.own });
+  };
+  if (storeKey) load(readJSON(storeKey, null));
   let host = null;
 
   const all = () => (st.kind === "unit" ? st.units.flatMap((u) => unitWords(st.bookId, u, st.sections)) : []);
@@ -223,7 +243,6 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
   }
   /** The words chosen from the source (before the own words). */
   function baseFocus() {
-    if (st.kind === "current") return filledWords().map((w) => ({ english: w.english.trim(), type: w.type, greek: w.greek, example: "", collocation: w.collocation }));
     if (st.kind === "topic") return [];
     const words = all();
     if (st.focusMode === "all") return words;
@@ -232,7 +251,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     return keyed.length >= 5 ? keyed : selectSmartCoursebookWords(words, 15);
   }
   /** Book and unit an own word is looked up in first (its type, Greek and example). */
-  const ownCtx = () => (st.kind === "unit" ? { bookId: st.bookId, unit: st.units[0] } : isCpp() ? { bookId: state.cpp.bookId, unit: state.cpp.unit } : {});
+  const ownCtx = () => (st.kind === "unit" ? { bookId: st.bookId, unit: st.units[0] } : {});
   /** The words to test or dictate: the source's words, then the teacher's own words (no repeats). */
   const focus = () => mergeOwnWords(baseFocus(), st.own, ownCtx());
   function value() {
@@ -241,10 +260,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     const ownCount = f.filter((w) => w.own).length;
     const plusOwn = ownCount ? ` + ${plural(ownCount, "own word")}` : "";
     const own = st.own.map((w) => ({ ...w }));
-    if (st.kind === "current") {
-      return { kind: "words", words: f, focus: f, own, label: `${bookTitle() || "My word list"}${unitNumber() ? ` · Unit ${unitNumber()}` : ""} · ${plural(f.length - ownCount, "word")}${plusOwn}`, meta: { bookTitle: bookTitle(), unit: unitNumber() }, level: state.profileId };
-    }
-    if (st.kind === "topic") return { kind: "topic", words: f, focus: f, own, topic: st.topic, label: `${st.topic || "A topic"}${ownCount ? ` · ${plural(ownCount, "word")}` : ""}`, meta: {}, level: state.profileId };
+    if (st.kind === "topic") return { kind: "topic", words: f, focus: f, own, topic: st.topic, label: `${st.topic || "A topic"}${ownCount ? ` · ${plural(ownCount, "word")}` : ""}`, meta: {}, level: level() };
     return {
       kind: "unit", bookId: st.bookId, units: [...st.units], sections: [...st.sections], words: all(), focus: f, own,
       label: `Primary Path ${st.bookId.slice(-1)} · ${st.units.length === 1 ? `Unit ${st.units[0]}` : `Units ${st.units.join(", ")}`}${plusOwn}`,
@@ -261,17 +277,11 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     const words = st.kind === "unit" ? all() : [];
     const f = focus();
     const keyCount = words.filter((w) => st.keyWords.includes(w.english.toLowerCase())).length;
-    const noList = filledWords().length < 3;
-    const modes = [
+    // A coursebook unit, or (tests) a grammar point or topic; own words can be added to either.
+    const modes = allowTopic ? [
       ["unit", "book-open", "A coursebook unit", "Primary Path 1–3: its words, stories and Big Question"],
-      ["current", "list", "My word list", noList ? "Add 3+ words in Worksheets → Step 2 first" : `The ${plural(filledWords().length, "word")} in Worksheets → Step 2`],
-      ...(allowTopic ? [["topic", "bulb", "A grammar point or topic", "No word list: Lingo uses words the class knows"]] : []),
-    ];
-    // Read-only chips (the Worksheets list); long lists fold to 40 with "Show all".
-    const chips = (list, max = 40) => {
-      const fold = !st.wordsOpen && list.length > max + 6;
-      return `${(fold ? list.slice(0, max) : list).map((w) => `<span class="word-chip on static"><span>${esc(w.english)}</span></span>`).join("")}${fold ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-down", "i-xs")}Show all ${list.length} words</button>` : st.wordsOpen && list.length > max + 6 ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-up", "i-xs")}Show fewer</button>` : ""}`;
-    };
+      ["topic", "bulb", "A grammar point or topic", "Your own words, or Lingo uses words the class knows"],
+    ] : [];
     const unitTitle = (u) => book.units[u]?.title || "";
     const base = baseFocus();
     const ownN = f.length - base.length;
@@ -280,7 +290,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     const ownBlock = (title, sub) => `<div class="mk-own">
         <div class="mk-own-head"><span class="mk-lbl">${icon("plus", "i-xs")}${title}</span><small>${sub}</small></div>
         <div class="mk-own-row"><input class="input" data-sp-own placeholder="e.g. crater, ash cloud, volcano - ηφαίστειο" aria-label="${esc(title)}" autocomplete="off" /><button type="button" class="btn btn-secondary" data-sp-own-add>${icon("plus", "i-sm")}Add</button></div>
-        ${st.own.length ? `<div class="mk-words mk-own-list">${st.own.map((w, i) => `<span class="word-chip own${baseKeys.has(w.english.toLowerCase()) ? " dup" : ""}"${baseKeys.has(w.english.toLowerCase()) ? ` title="Already among the ${st.kind === "unit" ? "unit’s" : "list’s"} words — it counts once"` : ""}><span>${esc(w.english)}</span>${w.greek ? `<small>${esc(w.greek)}</small>` : ""}<button type="button" class="mk-own-x" data-sp-own-del="${i}" aria-label="Remove ${esc(w.english)}">${icon("x", "i-xs")}</button></span>`).join("")}${st.own.length > 1 ? `<button type="button" class="pk-clear" data-sp-own-clear>Remove all</button>` : ""}</div>` : ""}
+        ${st.own.length ? `<div class="mk-words mk-own-list">${st.own.map((w, i) => `<span class="word-chip own${baseKeys.has(w.english.toLowerCase()) ? " dup" : ""}"${baseKeys.has(w.english.toLowerCase()) ? ` title="Already among the unit’s words — it counts once"` : ""}><span>${esc(w.english)}</span>${w.greek ? `<small>${esc(w.greek)}</small>` : ""}<button type="button" class="mk-own-x" data-sp-own-del="${i}" aria-label="Remove ${esc(w.english)}">${icon("x", "i-xs")}</button></span>`).join("")}${st.own.length > 1 ? `<button type="button" class="pk-clear" data-sp-own-clear>Remove all</button>` : ""}</div>` : ""}
       </div>`;
     // Review earlier words: what this class met before and is due again (class memory, when turned on).
     const reviewBlock = () => {
@@ -300,14 +310,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     };
     const countLine = (verb) => `<p class="mk-count">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> ${verb}${ownN ? ` · ${plural(ownN, "of your own", "of your own")}` : ""}</p>`;
     host.innerHTML = `
-      <div class="mk-choices" style="--n:${modes.length}" role="radiogroup" aria-label="What the words come from">${modes.map(([k, ico, title, sub]) => `<button type="button" role="radio" aria-checked="${st.kind === k}" class="mk-choice${st.kind === k ? " active" : ""}" data-sp-kind="${k}"${k === "current" && noList ? " disabled" : ""}><span class="mk-choice-ico">${icon(ico)}</span><span class="mk-choice-t"><b>${title}</b><small>${esc(sub)}</small></span><span class="mk-tick">${icon("check", "i-xs")}</span></button>`).join("")}</div>
-      ${st.kind === "current" ? `<div class="mk-panel">
-        <div class="mk-panel-head"><div><h4>${plural(f.length, "word")} from your list</h4><p>${esc(bookTitle() || "Your own words")}${unitNumber() ? ` · Unit ${esc(unitNumber())}` : ""}</p></div>
-          <button type="button" class="btn btn-ghost btn-sm" data-sp-edit>${icon("pencil", "i-sm")}Change the list</button></div>
-        <div class="mk-words">${chips(base)}</div>
-        ${ownBlock("Add more words", "Words that aren't in your list — mixed in with it.")}
-        ${reviewBlock()}
-        ${countLine("chosen")}</div>` : ""}
+      ${modes.length ? `<div class="mk-choices" style="--n:${modes.length}" role="radiogroup" aria-label="What the test is built on">${modes.map(([k, ico, title, sub]) => `<button type="button" role="radio" aria-checked="${st.kind === k}" class="mk-choice${st.kind === k ? " active" : ""}" data-sp-kind="${k}"><span class="mk-choice-ico">${icon(ico)}</span><span class="mk-choice-t"><b>${title}</b><small>${esc(sub)}</small></span><span class="mk-tick">${icon("check", "i-xs")}</span></button>`).join("")}</div>` : ""}
       ${st.kind === "topic" ? `<div class="mk-panel"><label class="mk-h" for="spTopic">What should the test be about?</label>
         <input class="input lg" id="spTopic" data-sp-topic placeholder="${esc(topicPlaceholder)}" value="${esc(st.topic)}" />
         ${ownBlock("Words to use (optional)", "Lingo builds the test around them — or leave it empty and Lingo chooses words the class knows.")}
@@ -357,7 +360,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     return `<div class="mk-words${picking ? " picking" : ""}${st.wordsOpen ? " open" : ""}">${shown.map(chip).join("")}${more}</div>`;
   }
 
-  const changed = (byUser = true) => { render(); onChange?.(value(), { byUser }); };
+  const changed = (byUser = true) => { save(); render(); onChange?.(value(), { byUser }); };
   /** Add typed or pasted own words; false (with a hint) when nothing new was added. */
   function addOwn(text) {
     const before = st.own.length;
@@ -373,7 +376,6 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     host.addEventListener("click", async (e) => {
       const b = e.target.closest("button");
       if (!b || b.disabled) return;
-      if (b.dataset.spEdit !== undefined) { actions.go("words"); return; }
       if (b.dataset.spOwnAdd !== undefined) { if (!addOwn(host.querySelector("[data-sp-own]")?.value)) return; }
       if (b.dataset.spOwnDel !== undefined) st.own = st.own.filter((_, i) => i !== Number(b.dataset.spOwnDel));
       if (b.dataset.spOwnClear !== undefined) st.own = [];
@@ -440,17 +442,22 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       if (!st.several && st.units.length > 1) { st.units = [st.units[0]]; st.picked.clear(); await refreshKeyWords(); }
       changed();
     });
-    host.addEventListener("input", (e) => { if (e.target.dataset.spTopic !== undefined) { st.topic = e.target.value; onChange?.(value(), { byUser: true }); } });
+    host.addEventListener("input", (e) => { if (e.target.dataset.spTopic !== undefined) { st.topic = e.target.value; save(); onChange?.(value(), { byUser: true }); } });
     refreshKeyWords().then(() => changed(false));
     render();
   }
   return {
     mount, value, render,
+    /** A saved test, or the assistant's plan: { kind: "unit"|"topic", … }. { keep: true, own } keeps the
+     *  choice and only mixes in those own words. */
     set(next = {}) {
-      Object.assign(st, next);
-      st.own = (next.own || []).map((w) => ({ english: w.english, greek: w.greek || "" }));
-      if (next.picked) st.picked = new Set(next.picked);
-      st.several = st.units.length > 1;
+      if (next.keep) {
+        const have = new Set(st.own.map((w) => w.english.toLowerCase()));
+        st.own = [...st.own, ...(next.own || []).filter((w) => w?.english && !have.has(w.english.toLowerCase())).map((w) => ({ english: w.english, greek: w.greek || "" }))];
+      } else {
+        load({ ...next, kind: next.kind === "topic" && !allowTopic ? "unit" : next.kind, own: next.own || [], picked: next.picked || [] });
+        if (!next.picked) st.picked = new Set();
+      }
       refreshKeyWords().then(() => changed(false));
     },
   };

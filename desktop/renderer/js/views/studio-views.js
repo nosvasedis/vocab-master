@@ -6,7 +6,7 @@ import { initAssistant, renderAssistantView } from "./assistant.js";
 
 export const STUDIO_VIEWS = {
   assistant: { title: "Teacher assistant", sub: "Tell it what you need — a test, a dictation, a worksheet on any grammar point.", render: () => renderAssistantView() },
-  tests: { title: "Test Maker", sub: "Pick a unit, a word list or a grammar point, choose the skills and parts, and get a printable test with its answer key.", render: () => renderTestsView() },
+  tests: { title: "Test Maker", sub: "Pick a unit or a grammar point (and any words of your own), choose the skills and parts, and get a printable test with its answer key.", render: () => renderTestsView() },
   dictation: { title: "Read-aloud dictation", sub: "You (or the app) read it aloud, the class writes it down: classic, gapped, running, dictogloss or picture. The vocabulary Dictation sheet is in Worksheets → Step 3.", render: () => renderDictationView() },
 };
 

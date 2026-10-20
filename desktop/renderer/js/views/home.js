@@ -11,7 +11,7 @@ import { askAssistant } from "./assistant.js";
 import { openMade, isOpen } from "../made.js";
 
 let built = false;
-let hooks = { newUnit: () => {}, openGames: () => {} };
+let hooks = { newUnit: () => {}, openGames: () => {}, worksheetGames: () => {} };
 
 export function initHome(h) {
   hooks = { ...hooks, ...h };
@@ -35,14 +35,12 @@ function currentUnit() {
   return { unit, title };
 }
 
+/** Example requests for "Ask Lingo" (examples only: they name their own class and unit). */
 function ideas() {
-  const { unit } = currentUnit();
-  const u = isCpp() ? `Unit ${state.cpp.unit}` : "Unit 4";
-  const cls = CLASS_PROFILES[state.profileId]?.label || "B Senior";
   return [
-    `A test for ${unit || u}`,
-    `A read-aloud dictation for ${u}, 8 sentences`,
-    `A quick vocabulary quiz for ${cls}`,
+    "A test for B Senior, Primary Path 2 Unit 4",
+    "A read-aloud dictation for A Senior, Primary Path 1 Unit 3, 8 sentences",
+    "A Present Simple vs Present Continuous quiz for D Senior",
   ];
 }
 
@@ -69,6 +67,7 @@ function build() {
     if (act === "go") actions.go(arg);
     if (act === "new-unit") hooks.newUnit();
     if (act === "games") hooks.openGames();
+    if (act === "ws-games") hooks.worksheetGames();
     if (act === "projector") actions.openProjector();
     if (act === "settings") actions.openSettings();
     if (act === "test" || act === "dictation" || act === "unit") openMade(act, arg);
@@ -116,7 +115,7 @@ function continueCard() {
         <span>${plural(words, "word")}</span>
         <span class="spacer"></span>
         <button type="button" class="btn btn-ghost btn-sm" data-hm="new-unit">${icon("plus", "i-sm")}New unit</button>
-        ${state.data ? `<button type="button" class="btn btn-accent btn-sm" data-hm="games">${icon("gamepad", "i-sm")}Play games</button>` : ""}
+        ${state.data ? `<button type="button" class="btn btn-accent btn-sm" data-hm="ws-games">${icon("gamepad", "i-sm")}Play games</button>` : ""}
         <button type="button" class="btn btn-primary btn-sm" data-hm="go:${next[0]}">${esc(next[1])}${icon("arrow-right", "i-sm")}</button>
       </div>
     </div>`;
@@ -146,9 +145,8 @@ function recentList() {
 }
 
 function classCards() {
-  const { unit } = currentUnit();
   return `
-    <button type="button" class="hm-class" data-hm="go:lessons" data-tone="lesson"><span>${icon("graduation")}</span><b>Teach a lesson</b><small>${unit ? `Animated lessons for ${esc(unit)}` : "Curated, animated and voiced units"}</small></button>
+    <button type="button" class="hm-class" data-hm="go:lessons" data-tone="lesson"><span>${icon("graduation")}</span><b>Teach a lesson</b><small>Curated, animated and voiced units</small></button>
     <button type="button" class="hm-class" data-hm="games" data-tone="games"><span>${icon("gamepad")}</span><b>Lingo Arcade</b><small>Smartboard games with your words</small></button>
     <button type="button" class="hm-class" data-hm="projector" data-tone="proj" ${state.data ? "" : "disabled"}><span>${icon("monitor")}</span><b>Projector mode</b><small>${state.data ? "Reveal the answers live" : "Needs a finished worksheet unit"}</small></button>
     <button type="button" class="hm-class" data-hm="go:library" data-tone="lib"><span>${icon("library")}</span><b>Library</b><small>${plural((getAllSavedSessions() || []).length + recentDocs().length, "thing", "things")} you made · backups</small></button>`;
@@ -158,7 +156,6 @@ export function renderHome() {
   if (!built) build();
   const [hello, el] = greeting();
   const today = new Date().toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long" });
-  const { unit, title } = currentUnit();
   const tests = recentDocs("test").length;
   const dicts = recentDocs("dictation").length;
   const units = (getAllSavedSessions() || []).length;
@@ -168,7 +165,7 @@ export function renderHome() {
     <div class="hm-hero-text">
       <span class="hm-date">${icon("clock", "i-xs")}${esc(today)}</span>
       <h2>${esc(hello)}! <span class="hm-el" lang="el">${esc(el)}</span></h2>
-      <p>${unit ? `You’re on <b>${esc(unit)}</b>${title ? ` — <i>${esc(title)}</i>` : ""}. What do you need for it?` : "What are we making for your class today?"}</p>
+      <p>What are we making for your class today?</p>
       <form class="hm-ask" id="hmAsk">
         <span class="hm-ask-ico">${icon("sparkles")}</span>
         <input id="hmAskText" autocomplete="off" aria-label="Ask Lingo" placeholder="Ask Lingo… “a test for Unit 4, a bit easier”" />
