@@ -5,7 +5,8 @@ import { state, emit, isCpp, LEVEL_COLORS, targetText, makeWord, coursebookEntry
 import { isAiReady } from "../bridge.js";
 import { actions } from "../actions.js";
 import { segmented } from "../ui.js";
-import { $, esc, icon, plural, toast, askAi, aiErrorToast, segHtml, switchHtml, stepperHtml, owl, owlHead, loadLessonJson } from "./studio-common.js";
+import { $, esc, icon, plural, toast, askAi, aiErrorToast, segHtml, switchHtml, stepperHtml, owl, owlHead, loadLessonJson, askClassMemory, classMemoryFor } from "./studio-common.js";
+import { reviewWords } from "../../studio/class-memory.js";
 import { unitWords, SECTION_LABEL } from "../../studio/unit-context.js";
 import { chooseUnitWords, normalizeChoice, WORD_MODES, SECTION_KEYS } from "../../studio/word-choice.js";
 import { addOwnWords } from "../../studio/own-words.js";
@@ -461,6 +462,17 @@ export function planToTestSpec(p) {
   return { ...spec, difficulty: p.difficulty || "level", grammar: p.grammar || [], versions: p.versions || 1, greek: p.greek !== false, topic: p.note || "", title: p.title || "", pictures: p.pictures !== false };
 }
 
+/** "… and revise earlier words": the words this class met before and is due to review join as the teacher's own (class memory, asked once). */
+async function withReview(p, pk) {
+  if (!p.review || !(await askClassMemory())) return pk;
+  const mem = classMemoryFor(p.levelId);
+  const have = [...(pk.own || []), ...(pk.picked || []).map((english) => ({ english }))];
+  const add = reviewWords(mem, { exclude: have, n: p.kind === "dictation" ? 4 : 6 });
+  if (!add.length) { toast(mem.items ? "No earlier words are due for review yet for this class." : "Nothing saved for this class yet, so there are no earlier words to review.", "info", { ms: 3200 }); return pk; }
+  toast(`Review words added: ${add.map((w) => w.english).join(", ")}.`, "ok", { ms: 3200 });
+  return { ...pk, own: [...(pk.own || []), ...add.map((w) => ({ english: w.english, greek: w.greek || "" }))] };
+}
+
 async function make(generate) {
   const p = as.plan;
   if (!p?.kind) { toast("Tell me what to make first — a test, a quiz, a read-aloud dictation or worksheets (Lingo Launcher + Dictation).", "warn"); return; }
@@ -469,13 +481,13 @@ async function make(generate) {
   if (p.source?.kind === "topic" && !String(p.source.topic || "").trim()) { toast("Type the topic or grammar point.", "warn"); return; }
   try {
     if (p.kind === "test" || p.kind === "quiz") {
-      applyTestPreset({ spec: planToTestSpec(p), picker: pickerState(p) });
+      applyTestPreset({ spec: planToTestSpec(p), picker: await withReview(p, pickerState(p)) });
       actions.go("tests");
       if (generate) await generateTestNow();
     } else if (p.kind === "dictation") {
       const d = dictationDefaults(p.levelId);
       renderDictationView();
-      applyDictationPreset({ levelId: p.levelId, spec: { ...d, style: p.style || d.style, count: p.count || d.count, grammar: p.grammar || [], difficulty: p.difficulty || "level", greek: p.greek !== false, topic: p.note || "", source: p.writer || d.source, pictures: p.pictures !== false }, picker: pickerState(p) });
+      applyDictationPreset({ levelId: p.levelId, spec: { ...d, style: p.style || d.style, count: p.count || d.count, grammar: p.grammar || [], difficulty: p.difficulty || "level", greek: p.greek !== false, topic: p.note || "", source: p.writer || d.source, pictures: p.pictures !== false }, picker: await withReview(p, pickerState(p)) });
       actions.go("dictation");
       if (generate) await generateDictationNow();
     } else {

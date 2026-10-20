@@ -95,12 +95,32 @@ function pictureCardsHtml(section, layout, showAnswers) {
 function openTaskHtml(section, layout) {
   const words = section.words ? `<span class="st-words">${esc(section.words[0])}–${esc(section.words[1])} words</span>` : "";
   const pics = layout.pictures && section.pictures.length ? `<div class="st-story-pics">${section.pictures.map((p, i) => `<div class="st-story-pic">${pic(p.pic)}<small>${i + 1}</small></div>`).join("")}</div>` : "";
-  if (section.skill === "speaking") {
-    return `${pics}<p class="st-note">Your teacher will talk with you. ${section.prompts.length ? `${section.prompts.length} questions.` : ""}</p>`;
-  }
+  if (section.skill === "speaking") return `${pics}${speakingCardsHtml(section)}`;
   const frame = section.frame.length ? `<ul class="st-frame">${section.frame.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>` : "";
   const n = Math.max(5, Math.round(((section.words?.[1] || 40) / 8)));
   return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)} ${words}</p>` : words ? `<p class="st-task">${words}</p>` : ""}${pics}${frame}<div class="st-lines">${Array.from({ length: n }, () => line("full")).join("")}</div>`;
+}
+
+/** The speaking cards students hold: what to do and the words to use (role-plays: Student A / B). */
+function speakingCardsHtml(section) {
+  if (!section.cards?.length) return `<p class="st-note">Your teacher will talk with you.${section.prompts.length ? ` ${section.prompts.length} questions.` : ""}</p>`;
+  const role = section.task === "S-ROLE";
+  return `<div class="st-speak-grid">${section.cards.map((c, i) => `<div class="st-speak-card">
+      <div class="st-speak-head"><span class="st-speak-n">${role ? `Student ${i % 2 ? "B" : "A"}` : `Card ${i + 1}`}</span><b>${esc(c.title)}</b></div>
+      ${c.student ? `<p>${esc(c.student)}</p>` : ""}
+      ${c.keyWords.length ? `<div class="st-speak-words">${c.keyWords.map((w) => `<span>${esc(w)}</span>`).join("")}</div>` : ""}
+    </div>`).join("")}</div>`;
+}
+
+/** The teacher's speaking script: warm-up, each card's questions and follow-ups, a model answer. */
+function speakingScriptHtml(s) {
+  const role = s.task === "S-ROLE";
+  let h = s.warmup?.length ? `<div class="st-speak-t"><b>Warm-up</b><ol>${s.warmup.map((q) => `<li>${esc(q)}</li>`).join("")}</ol></div>` : "";
+  h += s.cards.map((c, i) => `<div class="st-speak-t"><b>${role ? `Student ${i % 2 ? "B" : "A"}` : `Card ${i + 1}`} · ${esc(c.title)}</b>${c.student ? ` <span class="st-teacher-note">— ${esc(c.student)}</span>` : ""}
+      ${c.questions.length ? `<ol>${c.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol>` : ""}
+      ${c.followUps.length ? `<p class="st-speak-follow"><i>Follow-up:</i> ${c.followUps.map(esc).join(" · ")}</p>` : ""}
+      ${c.model ? `<div class="st-sample"><b>${role ? "Model dialogue" : "Model answer"}</b><p>${esc(c.model)}</p></div>` : ""}</div>`).join("");
+  return h;
 }
 
 /* ── Dictation sections ──────────────────────────────────────────── */
@@ -146,7 +166,7 @@ export function renderStudentPaper(doc, options = {}) {
 }
 
 const WRITING_RUBRIC = [["Task", "All the points are there; the reader understands."], ["Vocabulary", "Uses unit words correctly."], ["Language", "Sentences, grammar, spelling and punctuation."]];
-const SPEAKING_RUBRIC = [["Interaction", "Understands and answers; keeps talking."], ["Vocabulary", "Uses unit words."], ["Pronunciation & fluency", "Clear, with few long pauses."]];
+const SPEAKING_RUBRIC = [["Vocabulary", "Uses the unit words and the words on the cards."], ["Grammar", "Sentences are mostly correct for the class level."], ["Fluency & pronunciation", "Speaks clearly, with few long pauses."], ["Interaction", "Understands the questions; answers fully and adds a little more."]];
 
 function rubricTable(rows, total) {
   const each = rows.map((_, i) => Math.floor(total / rows.length) + (i < total % rows.length ? 1 : 0));
@@ -169,7 +189,8 @@ export function renderTeacherPack(doc, options = {}) {
     }
     if (s.script?.length) h += `<div class="st-script"><b>Script (track ${i + 1})</b>${s.script.map((l) => `<p><b>${esc(l.speaker)}:</b> ${esc(l.text)}</p>`).join("")}</div>`;
     if (s.answerType === "open") {
-      if (s.prompts.length) h += `<ol class="st-prompts">${s.prompts.map((p) => `<li>${esc(p)}</li>`).join("")}</ol>`;
+      if (s.skill === "speaking" && s.cards?.length) h += speakingScriptHtml(s);
+      else if (s.prompts.length) h += `<ol class="st-prompts">${s.prompts.map((p) => `<li>${esc(p)}</li>`).join("")}</ol>`;
       if (s.sample) h += `<div class="st-sample"><b>${s.skill === "speaking" ? "Model answers" : "Model answer"}</b>${s.sample.split("\n").map((p) => `<p>${esc(p)}</p>`).join("")}</div>`;
       h += rubricTable(s.skill === "speaking" ? SPEAKING_RUBRIC : WRITING_RUBRIC, s.points || 10);
     } else {
@@ -237,6 +258,17 @@ export const STUDIO_PRINT_CSS = `
 .st-sample { margin: 1mm 0 1.6mm; font-size: 9.4pt; }
 .st-sample p { margin: 0.6mm 0; font-style: italic; }
 .st-prompts { margin: 0 0 1.6mm; padding-left: 5mm; font-size: 9.6pt; }
+.st-speak-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3mm; margin: 1mm 0 2mm 9.8mm; }
+.st-speak-card { padding: 2.6mm 3.2mm 3mm; border: 0.8pt solid var(--ink); border-radius: 3mm; break-inside: avoid; }
+.st-speak-head { display: flex; align-items: center; gap: 2mm; margin-bottom: 1.2mm; }
+.st-speak-n { display: inline-flex; align-items: center; height: 5.6mm; padding: 0 2mm; border-radius: 99px; background: var(--ink); color: #fff; font: 800 7.6pt/1 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: .04em; white-space: nowrap; }
+.st-speak-head b { font: 800 10.6pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; }
+.st-speak-card p { margin: 0 0 1.6mm; font-size: 10pt; line-height: 1.45; }
+.st-speak-words { display: flex; flex-wrap: wrap; gap: 1.4mm; }
+.st-speak-words span { padding: 0.5mm 2.2mm; border: 0.6pt dashed var(--ink-3); border-radius: 99px; font-size: 9pt; }
+.st-speak-t { margin: 0 0 2.4mm; font-size: 9.6pt; }
+.st-speak-t ol { margin: 0.8mm 0 1mm; padding-left: 5mm; }
+.st-speak-follow { margin: 0 0 1mm; font-size: 9.2pt; color: var(--ink-2); }
 .st-teacher-note { font-size: 9pt; color: var(--ink-2); margin: 0 0 1.6mm; }
 .st-rubric, .st-scheme { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 1mm 0 2mm; }
 .st-rubric th, .st-rubric td, .st-scheme th, .st-scheme td { border: 0.6pt solid var(--rule); padding: 1mm 2mm; text-align: left; vertical-align: top; }

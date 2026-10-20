@@ -8,11 +8,13 @@ import { readJSON, writeJSON } from "../bridge.js";
 import { segmented, withBusy, openDialog } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, wizardNav, createWizard, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay,
+  makePicFor, wizardNav, createWizard, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
 } from "./studio-common.js";
+/** The class profile plus what the class has already met (class memory, when the teacher turned it on). */
+const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
 import { TASKS, SKILLS, tasksFor, defaultTask, tfLabels } from "../../studio/tasks.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS } from "../../studio/test-builder.js";
+import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes } from "../../studio/test-builder.js";
 import { makeVersionB, docProblems, docPoints, normalizeItem, balanceChoices, LETTERS } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
@@ -106,7 +108,7 @@ function build() {
     </footer>
   </div>`;
   wiz = createWizard(host.querySelector(".mk"), { onShow: () => { renderFoot(); if (wiz?.index === RESULT) fitPaper($("tsStage"), $("tsPaper")); } });
-  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange });
+  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange, review: true, level: () => ts.spec.levelId });
   picker.mount($("tsSource"));
   paper = createPaper($("tsPaper"));
   new ResizeObserver(() => fitPaper($("tsStage"), $("tsPaper"))).observe($("tsStage"));
@@ -145,6 +147,8 @@ function build() {
   });
   $("tsParts").addEventListener("click", onPartsClick);
   $("tsParts").addEventListener("change", (e) => {
+    // A new difficulty applies the next time the part is written.
+    if (e.target.closest("[data-part-level]")) { markStale(e.target.dataset.partLevel); renderParts(); return; }
     const sel = e.target.closest("[data-part-task]");
     if (!sel) return;
     const p = ts.spec.parts.find((x) => x.id === sel.dataset.partTask);
@@ -154,6 +158,17 @@ function build() {
     savePrefs(); renderParts();
   });
   $("tsParts").addEventListener("input", (e) => {
+    const lv = e.target.closest("[data-part-level]");
+    if (lv) {
+      const p = ts.spec.parts.find((x) => x.id === lv.dataset.partLevel);
+      p.level = Number(lv.value);
+      const box = lv.closest(".pc-level");
+      box.style.setProperty("--lv", `${(p.level - 1) * 25}%`);
+      box.querySelector(".pc-level-v").textContent = PART_LEVELS[p.level].label;
+      lv.setAttribute("aria-valuetext", PART_LEVELS[p.level].label);
+      savePrefs();
+      return;
+    }
     const n = e.target.closest("[data-part-note]");
     if (n) { const p = ts.spec.parts.find((x) => x.id === n.dataset.partNote); p.note = n.value; savePrefs(); }
   });
@@ -184,6 +199,8 @@ function build() {
   });
   $("tsReady").addEventListener("click", (e) => { const b = e.target.closest("#tsGenerate"); if (b) generate(b); });
   $("tsOutline").addEventListener("click", (e) => {
+    const fx = e.target.closest("[data-fix]");
+    if (fx) { fixPart(fx.dataset.fix, fx); return; }
     const rw = e.target.closest("[data-rewrite]");
     if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
     if (e.target.closest("[data-new]")) { stopPlayer(); ts.doc = null; ts.ctx = null; ts.stale.clear(); ts.spec.title = ""; savePrefs(); renderAll(); wiz.show(0); }
@@ -199,7 +216,12 @@ function build() {
     const wav = e.target.closest("[data-wav]");
     if (wav) saveTrack(wav.dataset.wav, wav);
   });
-  $("tsProblems").addEventListener("click", (e) => { const b = e.target.closest("[data-rewrite]"); if (b) rewritePart(b.dataset.rewrite, b); });
+  $("tsProblems").addEventListener("click", (e) => {
+    const fx = e.target.closest("[data-fix]");
+    if (fx) { fixPart(fx.dataset.fix, fx); return; }
+    const b = e.target.closest("[data-rewrite]");
+    if (b) rewritePart(b.dataset.rewrite, b);
+  });
   $("tsRecent").addEventListener("click", (e) => {
     const row = e.target.closest("[data-doc]");
     if (!row) return;
@@ -360,6 +382,11 @@ function renderParts() {
         ${p.skill === "writing" && p.words ? `<span class="part-ctl">${stepperHtml(`words:${p.id}`, p.words[1], 15, 150)}<small>words max</small></span>` : ""}
         <span class="pc-pts">${partPoints(p)}<small>pts</small></span>
       </div>
+      ${t.answer === "choice" || t.answer === "word" ? `<div class="pc-level" style="--lv:${(partLevel(p) - 1) * 25}%">
+        <span class="pc-level-l">Difficulty</span>
+        <input type="range" min="1" max="5" step="1" value="${partLevel(p)}" data-part-level="${p.id}" aria-label="Difficulty of part ${i + 1}" aria-valuetext="${PART_LEVELS[partLevel(p)].label}" />
+        <b class="pc-level-v">${PART_LEVELS[partLevel(p)].label}</b>
+      </div>` : ""}
       <input class="input sm part-note" data-part-note="${p.id}" placeholder="Any wish for this part? (optional) e.g. “about a school trip”" value="${esc(p.note || "")}" />
       ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${stale ? "Write this part" : "Write it again"}</button>` : ""}
     </div>`;
@@ -472,7 +499,12 @@ function renderOutline() {
     </div>
     <ol class="mk-outline-parts">${d.sections.map((sec, i) => {
     const stale = ts.stale.has(sec.id);
-    return `<li data-skill="${sec.skill}" class="${stale ? "stale" : ""}${sec.problems?.length ? " warn" : ""}"><span class="mk-op-ico">${SKILLS[sec.skill]?.icon || ""}</span><span class="mk-op-t"><small>Part ${i + 1} · ${esc(SKILLS[sec.skill]?.label || "")}${stale ? " · changed" : ""}</small><b>${esc(TASKS[sec.task]?.label || "")}</b></span><button type="button" class="icon-btn sm" data-rewrite="${sec.id}" data-tip="${stale ? "Write this part again with its new settings" : "Write it again"}" aria-label="Write part ${i + 1} again">${icon("refresh", "i-sm")}</button></li>`;
+    const probs = sec.problems || [];
+    return `<li data-skill="${sec.skill}" class="${stale ? "stale" : ""}${probs.length ? " warn" : ""}">
+      <div class="mk-op-row"><span class="mk-op-ico">${SKILLS[sec.skill]?.icon || ""}</span><span class="mk-op-t"><small>Part ${i + 1} · ${esc(SKILLS[sec.skill]?.label || "")}${stale ? " · changed" : ""}</small><b>${esc(TASKS[sec.task]?.label || "")}</b></span>
+        <button type="button" class="icon-btn sm" data-rewrite="${sec.id}" data-tip="${stale ? "Write this part again with its new settings" : "Write the whole part again"}" aria-label="Write part ${i + 1} again">${icon("refresh", "i-sm")}</button></div>
+      ${probs.length ? `<div class="mk-op-probs">${icon("alert", "i-xs")}<div><ul>${probs.map((pr) => `<li>${esc(friendlyProblem(pr))}</li>`).join("")}</ul>${fixButton(sec)}</div></div>` : ""}
+    </li>`;
   }).join("")}</ol>
     <div class="mk-outline-acts">
       <button type="button" class="btn btn-secondary btn-sm" data-mk-go="2">${icon("sliders", "i-sm")}Change the parts</button>
@@ -558,7 +590,7 @@ async function generate(btn) {
   await withBusy(btn, async () => {
     try {
       const ctx = await contextFor(sel);
-      const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: profileBlock(spec.levelId) });
+      const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus) });
       const reply = await askAi(system, user);
       const meta = { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.ctx = { ...ctx, meta };
@@ -585,13 +617,55 @@ async function checkKeys(doc, parts = null) {
   try { return applyKeyCheck(doc, await askAi(p.system, p.user)); } catch { return 0; }
 }
 
+/** A part's problem as a teacher reads it. */
+function friendlyProblem(p) {
+  return String(p)
+    .replace(/^item (\d+): /, "Question $1: ")
+    .replace(/^items? /, (m) => (m.startsWith("items") ? "Questions " : "Question "))
+    .replace(/answer was not among the options/, "the right answer wasn’t one of the options")
+    .replace(/needs at least two options/, "needs at least two options to choose from")
+    .replace(/is not one of the tested words/, "isn’t one of the words you chose to test")
+    .replace(/^has (\d+) of (\d+) items/, "only $1 of $2 questions were written")
+    .replace(/^the answer key was corrected for (items?) /, (m, w) => `the answer key was corrected for ${w === "items" ? "questions" : "question"} `);
+}
+
+/** "Fix it" (just the questions in trouble) when the problems name them; else "Write it again". */
+function fixButton(sec) {
+  const t = problemTargets(sec);
+  if (t.whole) return `<button type="button" class="btn btn-secondary btn-sm" data-rewrite="${sec.id}">${icon("refresh", "i-sm")}Write it again</button>`;
+  return `<button type="button" class="btn btn-primary btn-sm" data-fix="${sec.id}" data-tip="Lingo rewrites only these questions — the rest of the part stays">${icon("wand", "i-sm")}Fix ${t.items.length === 1 ? `question ${t.items[0]}` : `questions ${t.items.join(", ")}`}</button>`;
+}
+
+/** Rewrite only the questions a part's problems name (a small AI call); a broken part is written again whole. */
+async function fixPart(partId, btn) {
+  if (!ts.doc) return;
+  const sec = ts.doc.sections.find((x) => x.id === partId);
+  if (!sec) return;
+  const t = problemTargets(sec);
+  if (t.whole) { rewritePart(partId, btn); return; }
+  const { sel, spec } = specForAi();
+  await withBusy(btn, async () => {
+    try {
+      const ctx = ts.ctx?.focus ? ts.ctx : await contextFor(sel);
+      const { system, user } = fixItemsPrompt(spec, sec, t.items, { profileBlock: withMemory(spec.levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords });
+      const reply = await askAi(system, user);
+      const changed = applyItemFixes(ts.doc, spec, partId, reply, t.items, { picFor: ctx.picFor, focusWords: ctx.focus });
+      if (!changed.length) { toast("Lingo couldn’t fix those questions — try “Write it again”.", "warn"); return; }
+      await checkKeys(ts.doc, [partId]);
+      refreshDoc();
+      const left = ts.doc.sections.find((x) => x.id === partId)?.problems?.length || 0;
+      toast(`Fixed ${changed.length === 1 ? `question ${changed[0]}` : `questions ${changed.join(", ")}`}${left ? " — one more thing to look at" : ""}.`, left ? "warn" : "ok", { ms: 2600 });
+    } catch (e) { aiErrorToast(e); }
+  });
+}
+
 async function rewritePart(partId, btn) {
   if (!ts.doc) return;
   const { sel, spec } = specForAi();
   await withBusy(btn, async () => {
     try {
       const ctx = ts.ctx?.focus ? ts.ctx : await contextFor(sel);
-      const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: profileBlock(spec.levelId) }, [partId]);
+      const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus) }, [partId]);
       const reply = await askAi(system, user);
       const meta = ts.ctx?.meta || { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.doc = buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }, ts.doc);
@@ -650,7 +724,7 @@ function renderPaper() {
   paper.render(sheetHtml());
   fitPaper($("tsStage"), $("tsPaper"));
   const byPart = ts.doc.sections.filter((s) => s.problems?.length);
-  $("tsProblems").innerHTML = byPart.length ? `<div class="callout warning st-problems">${icon("alert")}<div><b>Worth a quick look before printing</b>${byPart.map((s) => `<div class="prob-row"><span>Part ${ts.doc.sections.indexOf(s) + 1} · ${esc(TASKS[s.task]?.label || "")}: ${esc(s.problems.slice(0, 2).join("; "))}</span><button type="button" class="btn btn-ghost btn-sm" data-rewrite="${s.id}">${icon("refresh", "i-sm")}Write it again</button></div>`).join("")}</div></div>` : "";
+  $("tsProblems").innerHTML = byPart.length ? `<div class="callout warning st-problems">${icon("alert")}<div><b>Worth a quick look before printing</b>${byPart.map((s) => `<div class="prob-row"><span>Part ${ts.doc.sections.indexOf(s) + 1} · ${esc(TASKS[s.task]?.label || "")}: ${esc(s.problems.slice(0, 2).map(friendlyProblem).join("; "))}</span>${fixButton(s)}</div>`).join("")}</div></div>` : "";
   renderListen();
 }
 

@@ -23,23 +23,55 @@ export async function initUpdates() {
   if (!u) return;
   try {
     const note = await u.alive();
-    if (note?.sha) toast(`Vocab Master was updated${note.message ? ` — ${note.message}` : ""}.`, "ok", { ms: 6000 });
+    if (note?.sha) showCard({ kind: "done", title: "Vocab Master is up to date", text: note.message ? `What’s new: ${whatsNew(note.message)}` : "The latest improvements are in." });
   } catch { /* an older app without updates */ }
   u.onChange((info) => { last = info; announce(info); listeners.forEach((fn) => fn(info)); });
   last = await u.status().catch(() => null);
 }
 
 /** Toasts for news, each said once. */
+/** A commit subject as a teacher reads it: "feat: the assistant understands…" → "The assistant understands…". */
+export function whatsNew(message) {
+  const t = String(message || "").replace(/^(?:feat|fix|perf|style|refactor|docs|chore|release|checkpoint)(?:\([^)]*\))?!?:\s*/i, "").trim();
+  return t ? t[0].toUpperCase() + t.slice(1) : "";
+}
+
+/* The update card: bottom right, stays until the teacher answers (a toast is too easy to miss). */
+function showCard({ kind, title, text, primary, secondary = "Later", onPrimary, onLater }) {
+  document.getElementById("updPop")?.remove();
+  const pop = document.createElement("div");
+  pop.id = "updPop";
+  pop.className = `upd-pop ${kind}`;
+  pop.setAttribute("role", kind === "done" ? "status" : "alertdialog");
+  pop.setAttribute("aria-live", "polite");
+  pop.innerHTML = `<span class="upd-pop-ico">${icon(kind === "done" ? "check-circle" : kind === "exe" ? "download" : "sparkles")}</span>
+    <div class="upd-pop-text"><b>${esc(title)}</b>${text ? `<small>${esc(text)}</small>` : ""}
+      ${primary ? `<div class="upd-pop-acts"><button type="button" class="btn btn-primary btn-sm" data-upd-go>${esc(primary)}</button><button type="button" class="btn btn-ghost btn-sm" data-upd-later>${esc(secondary)}</button></div>` : ""}</div>
+    <button type="button" class="icon-btn sm upd-pop-x" data-upd-later aria-label="Close">${icon("x", "i-sm")}</button>`;
+  document.body.appendChild(pop);
+  const close = () => { pop.classList.add("out"); setTimeout(() => pop.remove(), 260); };
+  pop.addEventListener("click", async (e) => {
+    if (e.target.closest("[data-upd-later]")) { close(); onLater?.(); return; }
+    const go = e.target.closest("[data-upd-go]");
+    if (!go) return;
+    go.disabled = true;
+    go.innerHTML = `${icon("refresh", "i-sm upd-spin")}${kind === "exe" ? "Restarting…" : "Updating…"}`;
+    await onPrimary?.();
+  });
+  if (kind === "done") setTimeout(() => { if (pop.isConnected) close(); }, 7000);
+}
+
+/** News from the main process: a card for an update that is ready (once per update), toasts for the rest. */
 function announce(info) {
   if (info.exe?.state === "ready" && toldExe !== `ready${info.exe.version}`) {
     toldExe = `ready${info.exe.version}`;
-    toast(`Version ${info.exe.version} of Vocab Master is ready.`, "ok", { ms: 12000, actions: [{ label: "Restart to install", run: restart }] });
+    showCard({ kind: "exe", title: `Vocab Master ${info.exe.version} is ready`, text: "A new version of the app is downloaded. Restart to install it — your work stays.", primary: "Restart to update", onPrimary: restart });
   } else if (info.exe?.state === "available" && toldExe !== `avail${info.exe.version}`) {
     toldExe = `avail${info.exe.version}`;
-    toast(`Version ${info.exe.version} of Vocab Master is available.`, "info", { ms: 12000, actions: [{ label: "Download", run: () => desktop()?.updates?.download() }] });
+    showCard({ kind: "exe", title: `Vocab Master ${info.exe.version} is available`, text: "This portable copy can’t update itself: download the new version and run it instead.", primary: "Download", secondary: "Not now", onPrimary: () => desktop()?.updates?.download() });
   } else if (info.state === "ready" && info.pending && toldReady !== info.pending.sha) {
     toldReady = info.pending.sha;
-    toast(`An update is ready${info.pending.message ? `: ${info.pending.message}` : ""}. It’s used from the next start.`, "ok", { ms: 10000, actions: [{ label: "Restart now", run: restart }] });
+    showCard({ kind: "live", title: "An update for Vocab Master is ready", text: info.pending.message ? `What’s new: ${whatsNew(info.pending.message)}` : "Improvements are ready to use.", primary: "Update now", onPrimary: restart });
   } else if (info.announce) {
     // From Help → Check for updates.
     if (info.state === "current" && !["ready", "available", "downloading"].includes(info.exe?.state)) toast("Vocab Master is up to date.", "ok", { ms: 3000 });
@@ -54,7 +86,7 @@ function describe(info) {
   const exe = info.exe || {};
   if (exe.state === "ready") return { tone: "ready", head: `Version ${exe.version} is ready to install`, sub: "Restart and the new version opens — your work stays.", action: "restart", label: "Restart to install" };
   if (exe.state === "available") return { tone: "ready", head: `Version ${exe.version} is available`, sub: "This portable copy can’t update itself: download the new version from the release page.", action: "download", label: "Download" };
-  if (info.state === "ready") return { tone: "ready", head: "An update is ready", sub: info.pending?.message ? `What’s new: ${info.pending.message}` : "It’s used from the next start.", action: "restart", label: "Restart now" };
+  if (info.state === "ready") return { tone: "ready", head: "An update is ready", sub: info.pending?.message ? `What’s new: ${whatsNew(info.pending.message)}` : "It takes a second — your work stays.", action: "restart", label: "Update now" };
   if (info.state === "downloading") {
     const files = (info.message || "").match(/\((\d+ changed files?)\)/)?.[1];
     return { tone: "busy", head: `Getting the update… ${info.progress || 0}%`, sub: `${files ? `${files} · ` : ""}used from the next start` };
@@ -103,7 +135,7 @@ export function wireUpdatesSection(root) {
     const b = e.target.closest("[data-upd]");
     if (!b) return;
     const act = b.dataset.upd;
-    if (act === "restart") return restart();
+    if (act === "restart") { b.disabled = true; b.textContent = "Updating…"; return restart(); }
     if (act === "download") return desktop().updates.download();
     b.disabled = true;
     render({ ...(last || {}), state: "checking" });

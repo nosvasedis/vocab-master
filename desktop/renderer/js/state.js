@@ -211,7 +211,7 @@ export function worksheetFreshness() {
   return { unitChanged, wordsChanged, stale: unitChanged || wordsChanged, label: [meta.bookTitle, meta.unit ? `Unit ${meta.unit}` : ""].filter(Boolean).join(" · ") };
 }
 
-/** Put away the open worksheets (they stay in Saved units) so nothing of the old unit reaches the new one. */
+/** Put away the open worksheets (they stay in the Library) so nothing of the old unit reaches the new one. */
 export function detachWorksheet() {
   if (!state.data) return false;
   state.data = null;

@@ -52,9 +52,18 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       }
       if (s.script?.length) children.push(box(s.script.map((l) => para([run(`${l.speaker}: `, { bold: true, size: 20 }), run(l.text, { size: 20 })]))));
       if (s.answerType === "open") {
-        s.prompts.forEach((p, k) => children.push(item(k + 1, [run(p)])));
+        if (s.skill === "speaking" && s.cards?.length) {
+          const role = s.task === "S-ROLE";
+          if (s.warmup?.length) { children.push(para([run("Warm-up", { bold: true, size: 19 })])); s.warmup.forEach((q, k) => children.push(item(k + 1, [run(q)]))); }
+          s.cards.forEach((c, k) => {
+            children.push(para([run(`${role ? `Student ${k % 2 ? "B" : "A"}` : `Card ${k + 1}`} · ${c.title}`, { bold: true, size: 20 }), ...(c.student ? [run(`  — ${c.student}`, { italics: true, size: 18, color: "555555" })] : [])], { spacing: { before: 1.6 * MM } }));
+            c.questions.forEach((q, j) => children.push(item(j + 1, [run(q)])));
+            if (c.followUps.length) children.push(para([run("Follow-up: ", { italics: true, size: 18 }), run(c.followUps.join(" · "), { size: 18 })]));
+            if (c.model) children.push(para([run(role ? "Model dialogue: " : "Model answer: ", { bold: true, size: 18 }), run(c.model, { italics: true, size: 18 })]));
+          });
+        } else s.prompts.forEach((p, k) => children.push(item(k + 1, [run(p)])));
         if (s.sample) children.push(para([run("Model: ", { bold: true, size: 19 }), run(s.sample, { italics: true, size: 19 })]));
-        children.push(para([run(`Marking: ${s.points} points — ${s.skill === "speaking" ? "interaction, vocabulary, pronunciation & fluency" : "task, vocabulary, language"}.`, { size: 18, color: "555555" })]));
+        children.push(para([run(`Marking: ${s.points} points — ${s.skill === "speaking" ? "vocabulary, grammar, fluency & pronunciation, interaction" : "task, vocabulary, language"}.`, { size: 18, color: "555555" })]));
       } else answerKeyRows(s).forEach((r) => children.push(item(r.n, [run(r.text, { bold: true })])));
       return;
     }
@@ -77,7 +86,16 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       if (s.task_prompt) children.push(para([run(s.task_prompt, { bold: true }), ...(s.words ? [run(`  (${s.words[0]}–${s.words[1]} words)`, { size: 18, color: "666666" })] : [])]));
       const storyPics = s.pictures.map((p) => pic(p.pic, 90)).filter(Boolean);
       if (storyPics.length) children.push(para(storyPics.flatMap((p, k) => [p, run(`  ${k + 1}     `)])));
-      if (s.skill === "speaking") { children.push(para([run("Your teacher will talk with you.", { italics: true })])); return; }
+      if (s.skill === "speaking") {
+        if (!s.cards?.length) { children.push(para([run("Your teacher will talk with you.", { italics: true })])); return; }
+        const role = s.task === "S-ROLE";
+        s.cards.forEach((c, k) => children.push(box([
+          para([run(`${role ? `Student ${k % 2 ? "B" : "A"}` : `Card ${k + 1}`}   `, { bold: true, size: 18, color: "555555" }), run(c.title, { bold: true, size: 22 })]),
+          ...(c.student ? [para([run(c.student, { size: 21 })])] : []),
+          ...(c.keyWords.length ? [para([run(c.keyWords.join("   •   "), { size: 19, color: "444444" })])] : []),
+        ])));
+        return;
+      }
       s.frame.forEach((f) => children.push(para([run(`• ${f}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
       return;

@@ -106,6 +106,9 @@ export function findOwnWords(text) {
   return words.length ? { words, rest: src.replace(consumed, " ").replace(/\s+/g, " ").trim() } : { words: [], rest: src };
 }
 
+/** Asking to bring back words the class met before (class memory). */
+export const REVIEW = /\b(?:revis(?:e|ion|ing)|review(?:ing)?|recycl\w*|spiral)\b.*\b(?:words?|vocabulary|studied|learn[te]d?|before|earlier|previous|last|units?|lessons?|test|quiz)\b|\b(?:words?|vocabulary)\b.*\b(?:studied|learn[te]d?|met|did|covered)\s+(?:before|earlier|already|last)|\b(?:earlier|previous|older|past|old)\s+(?:units?\s+)?(?:words?|vocabulary)\b|\bwhat\s+(?:they|we|the class|the kids|the students)\s+(?:ha(?:ve|s)\s+)?(?:studied|learn[te]d?|did|covered)|επανάληψ|λέξεις που (?:έχουν )?(?:μάθει|κάνει)/;
+
 export function parseRequest(text, context = {}) {
   // Which of the unit's words ("all the words", "15 words", "only lava and ash", "except crater") — read first, so
   // a word list isn't taken for a topic; then the teacher's own extra words ("plus the words …").
@@ -171,6 +174,8 @@ export function parseRequest(text, context = {}) {
   if (style) { plan.style = style; plan.kind = "dictation"; delete plan.dictationChoice; }
   if (own.words.length) plan.words = own.words;
   if (choice.choice) plan.vocab = choice.choice;
+  // "… and revise what they studied before", "recycle earlier words", «με επανάληψη»: words from class memory.
+  if (REVIEW.test(t)) plan.review = true;
   return plan;
 }
 
@@ -259,6 +264,7 @@ export function planSummary(plan) {
   if (plan.title) bits.push(`titled “${plan.title}”`);
   if (plan.versions > 1) bits.push("versions A and B");
   if (plan.words?.length) bits.push(`also your words: ${plan.words.map((w) => w.english).join(", ")}`);
+  if (plan.review) bits.push("plus words the class met before and is due to review");
   return `${kind} for ${who}${src ? ` on ${src}` : ""}${bits.length ? ` — ${bits.join("; ")}` : ""}.`;
 }
 
@@ -270,8 +276,9 @@ Read the teacher's request (English or Greek) and return ONLY JSON:
 { "kind": "test|quiz|dictation|worksheet", "levelId": "A_SENIOR|B_SENIOR|C_SENIOR|D_SENIOR|E_SENIOR|", "source": { "kind": "unit|topic", "bookId": "CPP1|CPP2|CPP3|", "units": [n], "topic": "" }, "skills": ["listening|reading|vocabulary|grammar|writing|speaking"], "grammar": ["..."], "length": "quiz|standard|full|", "difficulty": "easier|level|harder", "versions": 1, "style": "classic|gapped|running|dictogloss|picture|", "count": 0, "items": 0, "pictures": true, "title": "", "writer": "ai|book|",
   "vocab": { "mode": "key|all|some|mix|pick|", "count": 0, "sections": ["BQ","A","B","WB"], "only": ["unit words to use, when the teacher names exactly which"], "except": ["unit words to leave out"] },
   "addWords": ["extra words the teacher wants added that may not be in the unit"],
+  "review": false,
   "note": "anything else the teacher asked for, short", "reply": "one friendly sentence to the teacher (in the teacher's language)" }
-"vocab" is about which of the unit's words to use: key = the lessons' key words; all = every word of the chosen parts (BQ = Big Question, A/B = lessons, WB = Workbook); some = a number of words; mix = key words plus others; pick = only the words in "only". "count" = sentences of a dictation; "items" = questions in each test part.
+"vocab" is about which of the unit's words to use: key = the lessons' key words; all = every word of the chosen parts (BQ = Big Question, A/B = lessons, WB = Workbook); some = a number of words; mix = key words plus others; pick = only the words in "only". "count" = sentences of a dictation; "items" = questions in each test part. "review" = true when the teacher wants to revise or recycle words the class studied before (the app adds them from its class memory).
 Books: CPP1 = Cambridge Primary Path 1 (A Senior), CPP2 = Primary Path 2 (B Senior), CPP3 = Primary Path 3 (C Senior). Leave a field empty when the teacher didn't say it.`;
   const user = `Open in the app now: ${context.bookId ? `${context.bookId} Unit ${context.unit}` : "no unit"}, class ${context.level || "not chosen"}.
 Plan so far: ${JSON.stringify(plan)}
@@ -309,6 +316,7 @@ export function mergeAiPlan(plan, ai = {}) {
     p.vocab = v;
   }
   if (Array.isArray(ai.addWords) && ai.addWords.length) p.words = parseOwnWords([...(p.words || []).map((w) => w.english), ...ai.addWords.map(String)].join(", ")).slice(0, 40);
+  if (ai.review === true) p.review = true;
   if (ai.note) p.note = String(ai.note).slice(0, 200);
   return p;
 }

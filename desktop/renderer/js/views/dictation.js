@@ -7,7 +7,7 @@ import { readJSON, writeJSON } from "../bridge.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
   makePicFor, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
-  wizardNav, createWizard,
+  wizardNav, createWizard, classMemoryBrief,
 } from "./studio-common.js";
 import { segmented, withBusy } from "../ui.js";
 import { dictationDefaults, dictationPrompt, bookSentences, buildDictationDoc, readAloudLines } from "../../studio/dictation.js";
@@ -107,7 +107,7 @@ function build() {
     </footer>
   </div>`;
   wiz = createWizard(host.querySelector(".mk"), { onShow: () => { renderFoot(); if (wiz?.index === RESULT) fitPaper($("dcStage"), $("dcPaper")); } });
-  picker = createSourcePicker({ multiUnit: false, onChange: () => { renderShape(); } });
+  picker = createSourcePicker({ multiUnit: false, onChange: () => { renderShape(); }, review: true, level: () => dc.spec.levelId });
   picker.mount($("dcSource"));
   paper = createPaper($("dcPaper"));
   dc.sheetSeg = segmented(host.querySelector('[data-seg="dcSheet"]'), { value: dc.sheet, onChange: (v) => { dc.sheet = v; renderPaper(); } });
@@ -391,7 +391,7 @@ async function generate(btn) {
         if (!raw.sentences.length) { toast("These words have no book sentences — try AI-written sentences.", "warn"); return; }
         if (s.style === "dictogloss" || s.style === "running") raw.text = raw.sentences.map((x) => x.text).join(" ");
       } else {
-        const { system, user } = dictationPrompt(spec, words, { profileBlock: profileBlock(s.levelId), pictureWords });
+        const { system, user } = dictationPrompt(spec, words, { profileBlock: [profileBlock(s.levelId), classMemoryBrief(s.levelId, words)].filter(Boolean).join("\n"), pictureWords });
         raw = await askAi(system, user);
         let doc = buildDictationDoc(spec, raw, words, ctx);
         const bad = doc.sections[0].problems;
@@ -491,6 +491,20 @@ export function renderDictationView(preset = null) {
   if (!built) build();
   if (preset) applyPreset(preset);
   renderAll();
+  // A dictation opened from the Library shows its paper.
+  if (dc.showResult) { dc.showResult = false; wiz.show(RESULT, { scroll: false }); }
+}
+
+/** Open a saved dictation (from the Library or Home). */
+export function openSavedDictation(id) {
+  if (!built) build();
+  const d = recentDocs("dictation").find((x) => x.id === id);
+  if (!d) return false;
+  dc.doc = d;
+  dc.spec = { ...dc.spec, ...d.spec };
+  dc.sheet = d.sections?.[0]?.style === "running" ? "strips" : "student";
+  dc.showResult = true;
+  return true;
 }
 
 /** Settings handed over by the assistant: { levelId, style, count, grammar, topic, source: picker state }. */

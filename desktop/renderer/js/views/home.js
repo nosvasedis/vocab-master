@@ -149,7 +149,7 @@ function classCards() {
     <button type="button" class="hm-class" data-hm="go:lessons" data-tone="lesson"><span>${icon("graduation")}</span><b>Teach a lesson</b><small>${unit ? `Animated lessons for ${esc(unit)}` : "Curated, animated and voiced units"}</small></button>
     <button type="button" class="hm-class" data-hm="games" data-tone="games"><span>${icon("gamepad")}</span><b>Lingo Arcade</b><small>Smartboard games with your words</small></button>
     <button type="button" class="hm-class" data-hm="projector" data-tone="proj" ${state.data ? "" : "disabled"}><span>${icon("monitor")}</span><b>Projector mode</b><small>${state.data ? "Reveal the answers live" : "Needs a finished worksheet unit"}</small></button>
-    <button type="button" class="hm-class" data-hm="go:library" data-tone="lib"><span>${icon("library")}</span><b>Saved units</b><small>${plural((getAllSavedSessions() || []).length, "unit")} · history &amp; backups</small></button>`;
+    <button type="button" class="hm-class" data-hm="go:library" data-tone="lib"><span>${icon("library")}</span><b>Library</b><small>${plural((getAllSavedSessions() || []).length + recentDocs().length, "thing", "things")} you made · backups</small></button>`;
 }
 
 export function renderHome() {

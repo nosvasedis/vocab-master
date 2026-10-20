@@ -852,3 +852,30 @@
 .upd-text small { font-size: 12px; line-height: 1.4; color: var(--text-3); }
 .upd-bar { display: block; height: 5px; margin-top: 5px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
 .upd-bar i { display: block; height: 100%; border-radius: inherit; background: var(--brand-grad); transition: width 300ms var(--ease); }
+
+/* The update card (js/updates.js) */
+.upd-pop { position: fixed; right: 22px; bottom: 22px; z-index: 900; display: flex; align-items: flex-start; gap: 13px; width: min(390px, calc(100vw - 32px)); padding: 16px 16px 16px 16px; border-radius: 20px; background: var(--surface); border: 1px solid color-mix(in srgb, var(--brand) 22%, var(--border)); box-shadow: var(--shadow-lg), 0 0 0 4px color-mix(in srgb, var(--brand) 7%, transparent); animation: upd-pop-in 420ms var(--spring, cubic-bezier(.34, 1.56, .64, 1)) both; }
+.upd-pop.out { animation: upd-pop-out 240ms ease both; }
+@keyframes upd-pop-in { from { opacity: 0; transform: translateY(16px) scale(.96); } }
+@keyframes upd-pop-out { to { opacity: 0; transform: translateY(10px); } }
+.upd-pop-ico { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 13px; color: #fff; background: var(--brand-grad); box-shadow: 0 6px 16px color-mix(in srgb, var(--brand) 35%, transparent); }
+.upd-pop.done .upd-pop-ico { background: linear-gradient(135deg, #10b981, #0ea5e9); box-shadow: 0 6px 16px rgba(16, 185, 129, .3); }
+.upd-pop.exe .upd-pop-ico { background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+.upd-pop-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; padding-right: 18px; }
+.upd-pop-text b { font: 800 14.5px/1.3 var(--font-display); color: var(--text); }
+.upd-pop-text small { font-size: 12.5px; line-height: 1.45; color: var(--text-2); }
+.upd-pop-acts { display: flex; gap: 6px; margin-top: 10px; }
+.upd-pop-x { position: absolute; top: 8px; right: 8px; }
+.upd-spin { animation: upd-spin 1s linear infinite; margin-right: 6px; }
+@media (prefers-reduced-motion: reduce) { .upd-pop, .upd-pop.out, .upd-spin { animation: none; } }
+
+/* Library tabs and kind chips */
+.lib-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.lib-tab { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 99px; background: var(--surface); font: 650 13px/1 var(--font-ui); color: var(--text-2); cursor: pointer; transition: all var(--dur-fast) var(--ease); }
+.lib-tab small { padding: 2px 7px; border-radius: 99px; font-size: 11px; font-weight: 800; color: var(--text-3); background: var(--surface-3); }
+.lib-tab:hover { border-color: var(--border-strong); color: var(--text); }
+.lib-tab.active { border-color: var(--brand); color: var(--brand-ink); background: var(--brand-soft); }
+.lib-tab.active small { color: var(--brand-ink); background: var(--surface); }
+.lib-kind { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 99px; font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--text-2); background: var(--surface-3); }
+.lib-kind.test { color: var(--info-ink); background: var(--info-soft); }
+.lib-kind.dictation { color: var(--success-ink); background: var(--success-soft); }

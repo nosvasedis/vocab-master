@@ -42,7 +42,7 @@ const VIEW_META = {
   words: { title: "Vocabulary", sub: "Review the words — AI adds phrases, emojis and word families." },
   exercises: { title: "Exercises", sub: "Plan the exercise mix and let AI write the worksheets." },
   preview: { title: "Preview & export", sub: "Click any line to edit. Export, print or take it to class." },
-  library: { title: "Saved units", sub: "Everything you've made — open, edit, duplicate or back up." },
+  library: { title: "Library", sub: "Every worksheet, unit test and dictation you make — open, search or back up." },
   lessons: { title: "Lessons", sub: "Curated, animated and voiced lessons for every unit. Teach them on the projector." },
   ...Object.fromEntries(Object.entries(STUDIO_VIEWS).map(([k, v]) => [k, { title: v.title, sub: v.sub }])),
 };
@@ -63,7 +63,7 @@ function go(view, { force = false, silent = false } = {}) {
     }
   }
   if (!force && view === "preview" && !state.data) {
-    if (!silent) toast("Generate the worksheets first — or open a unit from Saved units.", "info");
+    if (!silent) toast("Generate the worksheets first — or open a unit from the Library.", "info");
     view = "exercises";
   }
   const from = state.view;

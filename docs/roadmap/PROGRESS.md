@@ -2,7 +2,20 @@
 
 **Branch:** `main` (feature/lessons-experience merged and deleted 2026-10-17; new phases: branch off main) · **Plan:** `PLAN.md` · **How to resume:** `RESUME.md` · **Spend:** `BUDGET.md`
 
-**Next:** nothing queued. **Since 3.5.0 (2026-10-20) the desktop app updates itself:** a push to `main` that changes `desktop/renderer/**` reaches installed apps on its own (keep `main` green); a new exe is needed only for shell changes, via `npm run release` — see CLAUDE.md → Shipping and RESUME.md → "Shipping changes to teachers". Latest release: **v3.5.0** (assistant word choices + automatic updates; section below). Teachers on 3.4.0 or older must install 3.5.0 once by hand.
+**Next:** nothing queued. **Since 3.5.0 (2026-10-20) the desktop app updates itself:** a push to `main` that changes `desktop/renderer/**` reaches installed apps on its own (keep `main` green); a new exe is needed only for shell changes, via `npm run release` — see CLAUDE.md → Shipping and RESUME.md → "Shipping changes to teachers". Latest release: **v3.5.1** (class memory, Library of everything, fix-one-question, restart fix; section below). Teachers on 3.4.0 or older must install 3.5.0 once by hand.
+
+## 3.5.1 — class memory, a Library of everything, smarter tests (2026-10-20, from the user)
+- **Updates:** "Restart now" relaunches (portable copies restart from their real exe; a `--relaunch` copy waits for the single-instance lock). Page updates apply in place (`applyPending` + reload, no restart). A floating card announces ready updates ("Update now" / "Restart to update" / "Download") and "Vocab Master is up to date" after one.
+- **Busy popup** rebuilt (`busy-*` classes; the old `.sb-step` clashed with the sidebar badge): owl, step checklist, progress bar.
+- **Speaking parts:** warm-up + speaking cards (title, student instruction, key words) for students; questions, follow-ups and a model answer for the teacher; new S-ROLE role-play (Student A/B); 4-row rubric. In the paper, the pack and Word.
+- **Outline problems** are spelled out per part, with "Fix question N": the AI rewrites only those items (`problemTargets`, `fixItemsPrompt`, `applyItemFixes` in test-builder.js); a part missing its text/script/cards is written again whole.
+- **Distractors:** `DISTRACTOR_RULE` (same word class, real Greek-learner errors, never mix grammar points) and a per-part **difficulty slider** (1–5, `PART_LEVELS`) for choice and word parts.
+- **Word lists** fold at 40 ("Show all N words"); × on a chip removes it (switches to Selected words), tapping re-adds.
+- **Library** (renamed from "Saved units") lists worksheets, unit tests and read-aloud dictations, with tabs, search, class filter, open/delete; backups include tests and dictations; up to 300 docs kept (synced item by item).
+- **Save dialog** titles and file types per kind ("Save listening track", WAV, in Music; Word/PDF in Documents).
+- **Class memory** (`studio/class-memory.js`, opt-in, `vm_class_memory_v1`, synced): per class, every word met in saved worksheets, dictations and tests; Leitner-style review (gaps 7/14/28/56 days, never-tested first). Test and dictation Step 1 show "Review earlier words" chips; the assistant understands "revise earlier words / επανάληψη" (`plan.review`) and asks consent once; prompts get a CLASS MEMORY brief.
+- **Listening audio** stays a per-computer cache (IndexedDB `vm-voices`): natural voices remake for free; the saved test keeps the script, so nothing is lost. Not synced across computers (would need cloud file storage).
+- Tests: `tests/studio-smarts.test.mjs` (9). 477 green, smoke green.
 
 ## 3.5.0 — a smarter assistant (which words), and the app updates itself (2026-10-20, from the user)
 - **Assistant: which words.** It used to take each unit's key words whatever the teacher said, and the plan didn't show the words at all.

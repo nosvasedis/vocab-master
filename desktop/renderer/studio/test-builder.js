@@ -15,6 +15,29 @@ export const LENGTHS = {
   full: { label: "All 4 skills", minutes: 60, skills: ["listening", "listening", "reading", "reading", "vocabulary", "vocabulary", "grammar", "grammar", "writing", "speaking"] },
 };
 
+/**
+ * How hard one part is (a slider on each part; 3 = right for the class). Mostly about the wrong options:
+ * how close they come to the right one.
+ */
+export const PART_LEVELS = [
+  null,
+  { label: "Easier", guide: "short, simple sentences; the wrong options are from the same topic and word class but a careful learner rules them out quickly" },
+  { label: "A bit easier", guide: "simple sentences; one wrong option is a near miss, the other is clearly wrong" },
+  { label: "For the class", guide: "every wrong option is a real temptation for this class: a common learner mistake or a close word" },
+  { label: "A bit harder", guide: "all the options are plausible; one detail of form or meaning decides; slightly longer sentences" },
+  { label: "Challenging", guide: "all the options are very close — one grammar rule, collocation or detail in the text decides; learners must read the whole sentence" },
+];
+export const partLevel = (p) => Math.max(1, Math.min(5, Math.round(Number(p?.level) || 3)));
+
+/**
+ * Wrong options that teach (distractor design for young learners, after Cambridge YLE / A2 Key item writing):
+ * each wrong option is wrong for one reason a learner could really get wrong, never filler.
+ */
+export const DISTRACTOR_RULE = "Wrong options (distractors) must tempt: the same word class and form as the right answer, from the same topic or the same grammar point, each wrong for ONE clear reason a learner could really miss — typical mistakes of Greek learners: wrong tense or person (he go / he goes), a / an / some / any with countable and uncountable nouns, a missing -s, can + to, a near-synonym that doesn't fit the phrase (do / make), a word that fits the meaning but not the grammar, or a detail the text gets wrong. Never mix grammar points inside one item: an item about can / can't offers only forms of can (can, can't, cans, can to) — never 'some'. No silly or impossible options, and no second option that is also right. Spread the right option across a, b and c.";
+
+/** Speaking cards per part, by class. */
+const SPEAKING_CARDS = { A_SENIOR: 2, B_SENIOR: 2, C_SENIOR: 3, D_SENIOR: 3, E_SENIOR: 3 };
+
 /** Second choice of task for a skill that appears twice. */
 const SECOND = { listening: ["L-YN", "L-GAP"], reading: ["R-GAP", "R-MC"], vocabulary: ["V-MATCH", "V-MC"], grammar: ["G-ORDER", "G-FORM"], writing: ["W-MESSAGE"], speaking: ["S-BQ"] };
 
@@ -177,6 +200,11 @@ function partBrief(p, i, spec, pictureWords) {
     lines.push(`  Each item (and the example) also has "evidence": the exact words of the ${src} that decide its answer.`);
   }
   if (p.skill === "writing" && p.words) lines.push(`  Students write ${p.words[0]}–${p.words[1]} words.`);
+  if (p.skill === "speaking") {
+    const n = SPEAKING_CARDS[spec.levelId] || 3;
+    lines.push(`  Speaking: "warmup" = 2 easy opening questions; "cards" = exactly ${n} cards, easy to harder. Each card: "title" (2–4 words), "student" (one short instruction the student reads, e.g. "Talk about your favourite place."), "keyWords" (3–5 unit words to use), "questions" (3–4 questions the teacher asks, in order, easy to harder), "followUps" (1–2 "Why?"-type questions for stronger students), "model" (a short model answer at class level using the key words).`);
+  }
+  if (t.answer === "choice" || t.answer === "word") lines.push(`  Difficulty of this part: ${PART_LEVELS[partLevel(p)].label} — ${PART_LEVELS[partLevel(p)].guide}.`);
   if (t.needs?.includes("pictures") && pictureWords.length) lines.push(`  Picture words (ONLY these can be pictures): ${pictureWords.join(", ")}`);
   if (p.note) lines.push(`  Teacher's note for this part: ${p.note}`);
   return lines.join("\n");
@@ -194,7 +222,7 @@ export function testPrompt(spec, ctx = {}, onlyParts = null) {
 Return ONLY valid JSON. No markdown.
 ${ctx.profileBlock || ""}
 
-JSON: { "title": "short test title", "sections": [ { "id": "<part id>", "passageTitle": "", "passage": "", "script": [ { "speaker": "Name", "text": "line" } ], "bank": [], "example": { "prompt": "", "options": [], "answer": "" }, "items": [ { "prompt": "", "options": [], "answer": "" } ], "prompt": "", "frame": [], "pictures": [], "prompts": [], "sample": "" } ] }
+JSON: { "title": "short test title", "sections": [ { "id": "<part id>", "passageTitle": "", "passage": "", "script": [ { "speaker": "Name", "text": "line" } ], "bank": [], "example": { "prompt": "", "options": [], "answer": "" }, "items": [ { "prompt": "", "options": [], "answer": "" } ], "prompt": "", "frame": [], "pictures": [], "prompts": [], "sample": "", "warmup": [], "cards": [ { "title": "", "student": "", "keyWords": [], "questions": [], "followUps": [], "model": "" } ] } ] }
 Only include the fields a part needs. One object per part, same ids, same order.`;
   const hasUnit = !topicMode && !!ctx.unitContext;
   const topic = String(spec.topic || "").trim();
@@ -220,7 +248,8 @@ Only include the fields a part needs. One object per part, same ids, same order.
     "Every correct answer must be clearly right and every wrong option clearly wrong. No trick questions. No Greek anywhere.",
     "Every part has its own sentences: never reuse a sentence or item from another part, even with a different task.",
     "Facts in texts and scripts must be true (lava is hot, ash is grey); only the \"no\" statements may be wrong.",
-    "Spread the right option across a, b and c.",
+    DISTRACTOR_RULE,
+    "When a part tests two grammar points, each item tests ONE of them and the items alternate between them.",
   ].filter(Boolean);
   const user = `${topicMode ? "" : `UNIT CONTEXT\n${unitContextPrompt(ctx.unitContext)}\n\n`}RULES\n${rules.map((r) => `- ${r}`).join("\n")}\n\nLOCKED TEST PLAN (${parts.length} part${parts.length === 1 ? "" : "s"})\n${parts.map((p) => partBrief(p, spec.parts.indexOf(p), spec, ctx.pictureWords || [])).join("\n")}`;
   return { system, user };
@@ -265,6 +294,95 @@ export function applyKeyCheck(doc, reply) {
     }
   }
   return changed;
+}
+
+/* ── Fixing only what is wrong ─────────────────────────────────────
+ * A part's problems name its items ("item 3: …", "items 2, 4 should be \"no\""). Those items are rewritten alone,
+ * with the part's text and the other items as context; a part whose text, script or items are missing is
+ * written again whole. */
+
+/** Which items a part's problems are about: { items: [n…], whole } — whole when the part itself must be rewritten. */
+export function problemTargets(section) {
+  const items = new Set();
+  let whole = false;
+  for (const p of section?.problems || []) {
+    if (/missing the|did not write this part|has \d+ of \d+ items/.test(p)) { whole = true; continue; }
+    const m = String(p).match(/\bitems?\s+(\d+(?:\s*(?:,|and)\s*\d+)*)/i);
+    if (m) m[1].split(/\D+/).filter(Boolean).forEach((n) => items.add(Number(n)));
+    else whole = true;
+  }
+  const list = [...items].filter((n) => n >= 1 && n <= (section?.items?.length || 0)).sort((a, b) => a - b);
+  return { items: list, whole: whole || (!list.length && !!section?.problems?.length) };
+}
+
+/** Answers the problems ask for: { n: "no" } from "items 2, 4 should be \"no\"". */
+function requiredAnswers(section) {
+  const out = {};
+  for (const p of section?.problems || []) {
+    const m = String(p).match(/items?\s+([\d,\s]+(?:and\s+\d+)?)\s+should be "([^"]+)"/i);
+    if (m) m[1].split(/\D+/).filter(Boolean).forEach((n) => { out[Number(n)] = m[2]; });
+  }
+  return out;
+}
+
+/** A small prompt that rewrites only some items of a part. ctx: { profileBlock, focusWords, pictureWords } */
+export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
+  const plan = spec.parts.find((x) => x.id === section.id) || { id: section.id, task: section.task, skill: section.skill, items: section.items.length };
+  const idx = Math.max(0, spec.parts.indexOf(plan));
+  const t = TASKS[section.task] || {};
+  const src = section.script?.length ? "script" : section.passage ? "text" : "";
+  const must = requiredAnswers(section);
+  const show = (it) => `${it.n}. ${it.prompt || ""}${it.options?.length ? ` [${it.options.join(" | ")}]` : ""} → ${it.answer || ""}`;
+  const system = `You fix single questions in an English test for Greek learners in a language school. Return ONLY valid JSON: { "items": [ { "n": 3, "prompt": "", "options": [], "answer": ""${t.answer === "tf" ? ', "evidence": "the exact words of the ' + (src || "text") + ' that decide it"' : ""} } ] } — only the items asked for, with their numbers.
+${ctx.profileBlock || ""}`;
+  const focus = (ctx.focusWords || []).map((w) => w.english).filter(Boolean);
+  const user = [
+    partBrief(plan, idx, spec, ctx.pictureWords || []),
+    section.script?.length ? `SCRIPT:\n${section.script.map((l) => `${l.speaker}: ${l.text}`).join("\n")}` : "",
+    section.passage ? `TEXT${section.passageTitle ? ` "${section.passageTitle}"` : ""}:\n${section.passage}` : "",
+    section.bank?.length && section.answerType !== "match" ? `WORD BOX: ${section.bank.join(", ")}` : "",
+    `THE ITEMS NOW:\n${section.items.map(show).join("\n")}`,
+    `PROBLEMS:\n${(section.problems || []).map((p) => `- ${p}`).join("\n")}`,
+    `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${src ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ""}`,
+    Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.` : "",
+    t.answer === "choice" ? DISTRACTOR_RULE : "",
+  ].filter(Boolean).join("\n\n");
+  return { system, user };
+}
+
+/** A section back into the AI's shape (to normalize it again after some items change). */
+function sectionToRaw(s) {
+  const item = (it) => (it ? { prompt: it.prompt, options: it.options, answer: it.answer, evidence: it.evidence } : null);
+  return {
+    items: (s.items || []).map(item), example: item(s.example), passage: s.passage, passageTitle: s.passageTitle, script: s.script,
+    frame: s.frame, prompts: s.prompts, sample: s.sample, prompt: s.task_prompt, pictures: (s.pictures || []).map((p) => p.word),
+    bank: s.answerType === "match" ? [] : s.bank, rubric: s.rubric, warmup: s.warmup, cards: s.cards,
+  };
+}
+
+/**
+ * Put the AI's rewritten items into a doc's part and check the part again. Returns the item numbers changed.
+ * ctx: { picFor, focusWords }
+ */
+export function applyItemFixes(doc, spec, sectionId, reply, itemNs, ctx = {}) {
+  const s = doc?.sections?.find((x) => x.id === sectionId);
+  if (!s) return [];
+  const raw = sectionToRaw(s);
+  const want = new Set(itemNs.map(Number));
+  const changed = [];
+  for (const it of Array.isArray(reply?.items) ? reply.items : []) {
+    const n = Number(it?.n);
+    if (!want.has(n) || !raw.items[n - 1]) continue;
+    raw.items[n - 1] = { prompt: it.prompt ?? it.question ?? "", options: it.options, answer: it.answer, evidence: it.evidence };
+    changed.push(n);
+  }
+  if (!changed.length) return [];
+  const plan = spec.parts.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
+  const fresh = normalizeSection({ ...plan, items: s.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec.levelId, picFor: spec.pictures !== false ? ctx.picFor : null });
+  fresh.problems.push(...scopeProblems(fresh, ctx.focusWords));
+  Object.assign(s, fresh);
+  doc.meta.points = docPoints(doc);
+  return changed.sort((a, b) => a - b);
 }
 
 /** Answers outside the tested words, per part (vocabulary, reading gaps and listening gaps). */

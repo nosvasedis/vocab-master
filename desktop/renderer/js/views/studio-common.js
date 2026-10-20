@@ -1,9 +1,10 @@
 /* Shared pieces of the Dictation, Unit test and Assistant screens: the word source picker, the A4 paper
  * preview, print / PDF / Word export, the AI call wrapper and the list of recent documents. */
 import {
-  CPP_BOOKS, CLASS_PROFILES, selectSmartCoursebookWords, getProfilePromptBlock, callAi, WORKSHEET_PRINT_CSS, downloadBlob,
+  CPP_BOOKS, CLASS_PROFILES, selectSmartCoursebookWords, getProfilePromptBlock, callAi, WORKSHEET_PRINT_CSS, downloadBlob, getAllSavedSessions,
 } from "../../app.js";
-import { $, esc, icon, plural, toast } from "../ui.js";
+import { buildClassMemory, reviewWords, memoryBrief } from "../../studio/class-memory.js";
+import { $, esc, icon, plural, toast, confirmDialog } from "../ui.js";
 import { state, filledWords, prefs, isCpp, bookTitle, unitNumber, BOOK_COLORS } from "../state.js";
 import { getApiKey, isAiReady, desktop, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
@@ -22,25 +23,35 @@ export const owl = (cls = "") => lingoSVG({ className: `studio-owl ${cls}` });
 export const owlHead = (cls = "") => lingoBadge(`lingo-badge studio-owl-head ${cls}`);
 
 /**
- * Cover the paper with Lingo and a few reassuring steps while the AI writes. Returns stop().
- * steps: [[seconds, "text"], …]
+ * Cover the paper with Lingo and a short checklist while the AI writes. Returns stop().
+ * steps: [[seconds, "text"], …] — each step is ticked off as the next one starts; the last one stays until done.
+ * (Its classes are "busy-*": "sb-*" belongs to the sidebar.)
  */
 export function busyOverlay(stage, { title, steps = [], note = "" }) {
   stage.querySelector(".studio-busy")?.remove();
   const box = document.createElement("div");
   box.className = "studio-busy";
-  box.innerHTML = `<div class="sb-card">${owl("sb-owl")}<h3>${esc(title)}</h3><p class="sb-step"></p><div class="sb-bar"><i></i></div><small>${esc(note)}</small></div>`;
+  box.setAttribute("role", "status");
+  box.setAttribute("aria-live", "polite");
+  box.innerHTML = `<div class="busy-card">
+      <div class="busy-owl">${owl("busy-owl-art")}</div>
+      <h3>${esc(title)}</h3>
+      <ol class="busy-steps">${steps.map(([, text], i) => `<li data-i="${i}"><span class="busy-dot" aria-hidden="true">${icon("check", "i-xs")}</span><span>${esc(text)}</span></li>`).join("")}</ol>
+      <div class="busy-bar" aria-hidden="true"><i></i></div>
+      ${note ? `<small>${esc(note)}</small>` : ""}
+    </div>`;
   stage.appendChild(box);
+  const items = [...box.querySelectorAll(".busy-steps li")];
   const started = Date.now();
   const tick = () => {
-    const s = (Date.now() - started) / 1000;
-    const step = [...steps].reverse().find(([t]) => s >= t)?.[1] || "";
-    const p = box.querySelector(".sb-step");
-    if (p.textContent !== step) p.textContent = step;
-    box.querySelector(".sb-bar i").style.width = `${Math.round(95 * (1 - Math.exp(-s / 25)))}%`;
+    const sec = (Date.now() - started) / 1000;
+    let cur = 0;
+    steps.forEach(([t], i) => { if (sec >= t) cur = i; });
+    items.forEach((li, i) => { li.classList.toggle("done", i < cur); li.classList.toggle("now", i === cur); });
+    box.querySelector(".busy-bar i").style.width = `${Math.round(95 * (1 - Math.exp(-sec / 25)))}%`;
   };
   tick();
-  const timer = setInterval(tick, 500);
+  const timer = setInterval(tick, 400);
   return () => { clearInterval(timer); box.classList.add("out"); setTimeout(() => box.remove(), 250); };
 }
 
@@ -89,10 +100,37 @@ export function recentDocs(kind) {
 export function saveDoc(doc) {
   const all = (readJSON(DOCS_KEY, []) || []).filter((d) => d.id !== doc.id);
   all.unshift({ ...doc, savedAt: new Date().toISOString() });
-  writeJSON(DOCS_KEY, all.slice(0, 40));
+  // Everything made is kept (the Library lists it); only the very oldest go past 300.
+  writeJSON(DOCS_KEY, all.slice(0, 300));
 }
 export function deleteDoc(id) {
   writeJSON(DOCS_KEY, (readJSON(DOCS_KEY, []) || []).filter((d) => d.id !== id));
+}
+
+/* ── Class memory (the teacher turns it on) ─────────────────────────
+ * What a class already met, read from the Library: review words for a new test or dictation, and a short brief
+ * for the AI. Off until the teacher says yes. */
+const MEMORY_KEY = "vm_class_memory_v1";
+export const classMemoryOn = () => !!readJSON(MEMORY_KEY, null)?.on;
+export function setClassMemory(on) { writeJSON(MEMORY_KEY, { on: !!on, at: new Date().toISOString() }); }
+/** Ask once; true when class memory is (now) on. */
+export async function askClassMemory() {
+  if (classMemoryOn()) return true;
+  const ok = await confirmDialog({
+    title: "Let Lingo remember what each class studied?",
+    body: "Lingo will read the worksheets, dictations and tests you saved in your Library for this class — which words they met, when, and which were tested — to suggest words that are due for review and to reuse known words in new tests. It reads only your own saved work and you can turn it off any time.",
+    okLabel: "Turn on", cancelLabel: "Not now", tone: "brand", iconName: "sparkles",
+  });
+  if (ok) setClassMemory(true);
+  return ok;
+}
+export const classMemoryFor = (levelId) => buildClassMemory({ units: getAllSavedSessions() || [], docs: recentDocs(), levelId });
+/** The AI brief for a class (empty when class memory is off or nothing is saved). */
+export function classMemoryBrief(levelId, focus = []) {
+  if (!classMemoryOn() || !levelId) return "";
+  const mem = classMemoryFor(levelId);
+  const review = mem.words.size ? reviewWords(mem, { n: 30 }).filter((r) => focus.some((w) => String(w.english).toLowerCase() === r.english.toLowerCase())) : [];
+  return memoryBrief(mem, review);
 }
 
 /* ── Paper preview ────────────────────────────────────────────────── */
@@ -165,7 +203,7 @@ const BOOK_IDS = Object.keys(CPP_BOOKS);
  * Where the words come from: the Step 2 list, coursebook units (book → units → sections → words), or a free topic.
  * mount(host) renders it; value() returns { kind, bookId, units, sections, words, focus, label, meta }.
  */
-export function createSourcePicker({ multiUnit = false, allowTopic = false, topicPlaceholder = "e.g. Present Simple vs Present Continuous, daily routines", onChange } = {}) {
+export function createSourcePicker({ multiUnit = false, allowTopic = false, topicPlaceholder = "e.g. Present Simple vs Present Continuous, daily routines", onChange, review = false, level = () => state.profileId } = {}) {
   const st = {
     kind: "unit",
     bookId: (isCpp() && state.cpp.bookId) || "CPP1",
@@ -237,7 +275,11 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       ["current", "list", "My word list", noList ? "Add 3+ words in Worksheets → Step 2 first" : `The ${plural(filledWords().length, "word")} in Worksheets → Step 2`],
       ...(allowTopic ? [["topic", "bulb", "A grammar point or topic", "No word list: Lingo uses words the class knows"]] : []),
     ];
-    const chips = (list, max = 60) => `${list.slice(0, max).map((w) => `<span class="word-chip on static"><span>${esc(w.english)}</span></span>`).join("")}${list.length > max ? `<span class="mk-more">+${list.length - max} more</span>` : ""}`;
+    // Read-only chips (the Worksheets list); long lists fold to 40 with "Show all".
+    const chips = (list, max = 40) => {
+      const fold = !st.wordsOpen && list.length > max + 6;
+      return `${(fold ? list.slice(0, max) : list).map((w) => `<span class="word-chip on static"><span>${esc(w.english)}</span></span>`).join("")}${fold ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-down", "i-xs")}Show all ${list.length} words</button>` : st.wordsOpen && list.length > max + 6 ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-up", "i-xs")}Show fewer</button>` : ""}`;
+    };
     const unitTitle = (u) => book.units[u]?.title || "";
     const base = baseFocus();
     const ownN = f.length - base.length;
@@ -248,6 +290,22 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
         <div class="mk-own-row"><input class="input" data-sp-own placeholder="e.g. crater, ash cloud, volcano - ηφαίστειο" aria-label="${esc(title)}" autocomplete="off" /><button type="button" class="btn btn-secondary" data-sp-own-add>${icon("plus", "i-sm")}Add</button></div>
         ${st.own.length ? `<div class="mk-words mk-own-list">${st.own.map((w, i) => `<span class="word-chip own${baseKeys.has(w.english.toLowerCase()) ? " dup" : ""}"${baseKeys.has(w.english.toLowerCase()) ? ` title="Already among the ${st.kind === "unit" ? "unit’s" : "list’s"} words — it counts once"` : ""}><span>${esc(w.english)}</span>${w.greek ? `<small>${esc(w.greek)}</small>` : ""}<button type="button" class="mk-own-x" data-sp-own-del="${i}" aria-label="Remove ${esc(w.english)}">${icon("x", "i-xs")}</button></span>`).join("")}${st.own.length > 1 ? `<button type="button" class="pk-clear" data-sp-own-clear>Remove all</button>` : ""}</div>` : ""}
       </div>`;
+    // Review earlier words: what this class met before and is due again (class memory, when turned on).
+    const reviewBlock = () => {
+      if (!review) return "";
+      const lv = level();
+      const name = CLASS_PROFILES[lv]?.label || "this class";
+      if (!classMemoryOn()) return `<div class="mk-review off"><div class="mk-review-head"><span class="mk-lbl">${icon("clock", "i-xs")}Review earlier words</span><small>Lingo can look at what ${esc(name)} already studied — your saved worksheets, dictations and tests — and suggest words that are due again.</small></div><button type="button" class="btn btn-secondary btn-sm" data-sp-mem-on>${icon("sparkles", "i-sm")}Turn on</button></div>`;
+      const mem = classMemoryFor(lv);
+      const ownKeys = new Set(st.own.map((w) => w.english.toLowerCase()));
+      const sugg = reviewWords(mem, { exclude: f, n: 10 });
+      const body = !mem.items
+        ? `<p class="mk-review-empty">Nothing saved for ${esc(name)} yet. The worksheets, dictations and tests you make for this class are remembered here.</p>`
+        : !sugg.length
+          ? `<p class="mk-review-empty">${plural(mem.words.size, "word")} remembered for ${esc(name)} — none is due for review yet.</p>`
+          : `<div class="mk-words">${sugg.map((w) => `<button type="button" class="word-chip off review" data-sp-review="${esc(w.english)}" data-tip="${esc(w.why)}">${icon("plus", "i-xs")}<span>${esc(w.english)}</span></button>`).join("")}${sugg.length > 1 ? `<button type="button" class="mk-more-btn" data-sp-review-all>${icon("plus", "i-xs")}Add all ${sugg.length}</button>` : ""}</div>`;
+      return `<div class="mk-review"><div class="mk-review-head"><span class="mk-lbl">${icon("clock", "i-xs")}Review earlier words</span><small>${mem.items ? `Words ${esc(name)} met before and should see again — tap to mix them in.` : ""}</small><button type="button" class="pk-clear" data-sp-mem-off>Turn off</button></div>${body}</div>`;
+    };
     const countLine = (verb) => `<p class="mk-count">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> ${verb}${ownN ? ` · ${plural(ownN, "of your own", "of your own")}` : ""}</p>`;
     host.innerHTML = `
       <div class="mk-choices" style="--n:${modes.length}" role="radiogroup" aria-label="What the words come from">${modes.map(([k, ico, title, sub]) => `<button type="button" role="radio" aria-checked="${st.kind === k}" class="mk-choice${st.kind === k ? " active" : ""}" data-sp-kind="${k}"${k === "current" && noList ? " disabled" : ""}><span class="mk-choice-ico">${icon(ico)}</span><span class="mk-choice-t"><b>${title}</b><small>${esc(sub)}</small></span><span class="mk-tick">${icon("check", "i-xs")}</span></button>`).join("")}</div>
@@ -256,10 +314,12 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
           <button type="button" class="btn btn-ghost btn-sm" data-sp-edit>${icon("pencil", "i-sm")}Change the list</button></div>
         <div class="mk-words">${chips(base)}</div>
         ${ownBlock("Add more words", "Words that aren't in your list — mixed in with it.")}
+        ${reviewBlock()}
         ${countLine("chosen")}</div>` : ""}
       ${st.kind === "topic" ? `<div class="mk-panel"><label class="mk-h" for="spTopic">What should the test be about?</label>
         <input class="input lg" id="spTopic" data-sp-topic placeholder="${esc(topicPlaceholder)}" value="${esc(st.topic)}" />
         ${ownBlock("Words to use (optional)", "Lingo builds the test around them — or leave it empty and Lingo chooses words the class knows.")}
+        ${reviewBlock()}
         ${st.own.length ? countLine("chosen") : ""}</div>` : ""}
       ${st.kind === "unit" ? `
         <div class="mk-block"><h4 class="mk-h">Book</h4>
@@ -276,14 +336,35 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
           <div class="mk-field"><span class="mk-lbl">Words to test</span><div class="mk-chips">
             <button type="button" class="chip${st.focusMode === "key" ? " active" : ""}" data-sp-focus="key">★ Lesson key words${keyCount ? ` <small>${keyCount}</small>` : ""}</button>
             <button type="button" class="chip${st.focusMode === "all" ? " active" : ""}" data-sp-focus="all">All <small>${words.length}</small></button>
-            <button type="button" class="chip${st.focusMode === "pick" ? " active" : ""}" data-sp-focus="pick">${icon("pencil", "i-xs")}Let me choose</button></div></div>
-          <div class="mk-words${st.focusMode === "pick" ? " picking" : ""}">${st.focusMode === "pick"
-    ? words.map((w) => `<button type="button" class="word-chip${st.picked.has(w.english.toLowerCase()) ? " on" : ""}" data-sp-word="${esc(w.english.toLowerCase())}"><span>${esc(w.english)}</span></button>`).join("")
-    : chips(base)}</div>
+            <button type="button" class="chip${st.focusMode === "pick" ? " active" : ""}" data-sp-focus="pick">${icon("pencil", "i-xs")}Selected words${st.focusMode === "pick" ? ` <small>${base.length}</small>` : ""}</button></div></div>
+          ${unitWordList(words, base)}
           ${ownBlock("Add your own words", `Any words — from another unit, another book, or your own — mixed in with the unit's.`)}
+          ${reviewBlock()}
           ${countLine(st.focusMode === "pick" && !ownN ? "chosen — tap words to add or remove them" : "chosen")}
         </div>` : ""}`;
   }
+  /**
+   * The unit's words in the panel. Chosen words have a small × (taking one out switches to "Selected words");
+   * in "Selected words" the words left out are dashed and come back with a tap. Long lists fold to 40.
+   */
+  function unitWordList(words, base) {
+    const picking = st.focusMode === "pick";
+    const list = picking ? words : base;
+    const LIMIT = 40;
+    const shown = st.wordsOpen || list.length <= LIMIT + 6 ? list : list.slice(0, LIMIT);
+    const chip = (w) => {
+      const k = w.english.toLowerCase();
+      const on = !picking || st.picked.has(k);
+      return on
+        ? `<span class="word-chip on removable"><span>${esc(w.english)}</span><button type="button" class="wc-x" data-sp-out="${esc(k)}" aria-label="Leave out ${esc(w.english)}" title="Leave it out">${icon("x", "i-xs")}</button></span>`
+        : `<button type="button" class="word-chip off" data-sp-word="${esc(k)}" title="Put it back"><span>${esc(w.english)}</span>${icon("plus", "i-xs")}</button>`;
+    };
+    const more = list.length > shown.length
+      ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-down", "i-xs")}Show all ${list.length} words</button>`
+      : st.wordsOpen && list.length > LIMIT + 6 ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-up", "i-xs")}Show fewer</button>` : "";
+    return `<div class="mk-words${picking ? " picking" : ""}${st.wordsOpen ? " open" : ""}">${shown.map(chip).join("")}${more}</div>`;
+  }
+
   const changed = (byUser = true) => { render(); onChange?.(value(), { byUser }); };
   /** Add typed or pasted own words; false (with a hint) when nothing new was added. */
   function addOwn(text) {
@@ -304,6 +385,13 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       if (b.dataset.spOwnAdd !== undefined) { if (!addOwn(host.querySelector("[data-sp-own]")?.value)) return; }
       if (b.dataset.spOwnDel !== undefined) st.own = st.own.filter((_, i) => i !== Number(b.dataset.spOwnDel));
       if (b.dataset.spOwnClear !== undefined) st.own = [];
+      if (b.dataset.spMemOn !== undefined) { if (!(await askClassMemory())) return; }
+      if (b.dataset.spMemOff !== undefined) setClassMemory(false);
+      if (b.dataset.spReview || b.dataset.spReviewAll !== undefined) {
+        const mem = classMemoryFor(level());
+        const pick = reviewWords(mem, { exclude: focus(), n: 10 }).filter((w) => b.dataset.spReviewAll !== undefined || w.english === b.dataset.spReview);
+        st.own = [...st.own, ...pick.map((w) => ({ english: w.english, greek: w.greek || "" }))];
+      }
       if (b.dataset.spKind) st.kind = b.dataset.spKind;
       if (b.dataset.spBook) { st.bookId = b.dataset.spBook; st.picked.clear(); await refreshKeyWords(); }
       if (b.dataset.spUnit) {
@@ -326,6 +414,13 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
         st.focusMode = b.dataset.spFocus;
         // Picking starts from the key words, so the teacher only adds or removes a few.
         if (st.focusMode === "pick" && !st.picked.size) all().filter((w) => st.keyWords.includes(w.english.toLowerCase())).forEach((w) => st.picked.add(w.english.toLowerCase()));
+      }
+      if (b.dataset.spMore !== undefined) { st.wordsOpen = !st.wordsOpen; render(); return; }
+      if (b.dataset.spOut) {
+        // From "Key words" / "All": the words chosen now become the selection, minus this one.
+        if (st.focusMode !== "pick") st.picked = new Set(baseFocus().map((w) => w.english.toLowerCase()));
+        st.focusMode = "pick";
+        st.picked.delete(b.dataset.spOut);
       }
       if (b.dataset.spWord) {
         const k = b.dataset.spWord;

@@ -110,13 +110,32 @@ function scheduleUpdateChecks() {
   setTimeout(run, 20_000);
   updateTimer = setInterval(run, 3 * 60 * 60 * 1000);
 }
-/** The live pages must say "I started" soon after loading; otherwise they are set aside and the app restarts. */
+/**
+ * Start the app again. The portable exe runs from a temporary copy that is deleted when it quits, so it is
+ * started from the portable file itself; "--relaunch" lets the new copy wait for this one to let go of the
+ * single-instance lock instead of quitting.
+ */
+function relaunchApp() {
+  const portable = process.env.PORTABLE_EXECUTABLE_FILE;
+  const args = [...process.argv.slice(1).filter((a) => a !== "--relaunch" && !a.startsWith("--smoke")), "--relaunch"];
+  app.relaunch(portable ? { execPath: portable, args: ["--relaunch"] } : { args });
+  app.exit(0);
+}
+
+/** Reload the window onto the pages now in use (after an update is applied, or a broken one set aside). */
+function reloadPages() {
+  enginePromise = null; // the Word engine follows the pages
+  clearTimeout(aliveTimer);
+  aliveTimer = null;
+  if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.reloadIgnoringCache();
+}
+
+/** The live pages must say "I started" soon after loading; otherwise they are set aside and the window reloads. */
 let aliveTimer = null;
 function relaunchWithoutLive(reason) {
   if (!live.active) return;
   live.revert(reason);
-  app.relaunch();
-  app.exit(0);
+  reloadPages();
 }
 
 function chatgptRuntime() {
@@ -404,13 +423,14 @@ function createWindow() {
     mainWindow.show();
     scheduleUpdateChecks();
   });
-  if (live.active) {
-    mainWindow.webContents.once("did-finish-load", () => {
-      aliveTimer = setTimeout(() => relaunchWithoutLive("the pages did not start"), 45_000);
-    });
-    mainWindow.webContents.on("did-fail-load", (_e, code, _desc, url, isMainFrame) => { if (isMainFrame && code !== -3) relaunchWithoutLive(`load failed ${code} ${url}`); });
-    mainWindow.webContents.on("render-process-gone", (_e, d) => { if (d?.reason !== "clean-exit") relaunchWithoutLive(`renderer ${d?.reason}`); });
-  }
+  // Live pages are watched every time they load (also after an in-place update): no "I started" in 45 s,
+  // a failed load or a crash sets them aside and the window reloads onto the last good pages.
+  mainWindow.webContents.on("did-finish-load", () => {
+    clearTimeout(aliveTimer);
+    aliveTimer = live.active ? setTimeout(() => relaunchWithoutLive("the pages did not start"), 45_000) : null;
+  });
+  mainWindow.webContents.on("did-fail-load", (_e, code, _desc, url, isMainFrame) => { if (isMainFrame && code !== -3 && live.active) relaunchWithoutLive(`load failed ${code} ${url}`); });
+  mainWindow.webContents.on("render-process-gone", (_e, d) => { if (d?.reason !== "clean-exit" && live.active) { relaunchWithoutLive(`renderer ${d?.reason}`); } });
 
   mainWindow.on("resize", saveBounds);
   mainWindow.on("move", saveBounds);
@@ -447,16 +467,30 @@ function createWindow() {
 }
 
 /* Route anchor-triggered downloads (DOCX) to a native Save As dialog — once. */
+/** The Save dialog's title and file types for what is being saved. */
+const SAVE_KINDS = {
+  wav: { title: "Save listening track", folder: "music", filter: { name: "Audio (WAV)", extensions: ["wav"] } },
+  mp3: { title: "Save listening track", folder: "music", filter: { name: "Audio (MP3)", extensions: ["mp3"] } },
+  json: { title: "Save Vocab Master backup", folder: "documents", filter: { name: "Vocab Master backup", extensions: ["json"] } },
+  docx: { title: "Save Word document", folder: "documents", filter: { name: "Word document", extensions: ["docx"] } },
+  pdf: { title: "Save PDF", folder: "documents", filter: { name: "PDF", extensions: ["pdf"] } },
+  png: { title: "Save picture", folder: "pictures", filter: { name: "Picture", extensions: ["png"] } },
+  txt: { title: "Save text", folder: "documents", filter: { name: "Text", extensions: ["txt"] } },
+};
+function saveDialogFor(name) {
+  const ext = path.extname(name).slice(1).toLowerCase();
+  const k = SAVE_KINDS[ext] || { title: "Save file", folder: "downloads", filter: { name: "All files", extensions: ["*"] } };
+  let dir;
+  try { dir = app.getPath(k.folder); } catch { dir = app.getPath("downloads"); }
+  return { title: k.title, defaultPath: path.join(dir, name), filters: [k.filter, { name: "All files", extensions: ["*"] }] };
+}
+
 function registerDownloadHandler() {
   session.defaultSession.on("will-download", async (event, item) => {
     event.preventDefault();
     const win = BrowserWindow.fromWebContents(item.getWebContents()) || mainWindow;
     const suggested = item.getFilename() || "worksheet.docx";
-    const { canceled, filePath } = await dialog.showSaveDialog(win, {
-      title: "Save worksheet",
-      defaultPath: path.join(app.getPath("downloads"), suggested),
-      filters: suggested.endsWith(".json") ? [{ name: "Vocab Master backup", extensions: ["json"] }] : [{ name: "Documents", extensions: ["docx", "pdf", "txt"] }],
-    });
+    const { canceled, filePath } = await dialog.showSaveDialog(win, saveDialogFor(suggested));
     if (canceled || !filePath) return;
     item.setSavePath(filePath);
     item.resume();
@@ -964,11 +998,12 @@ function registerIpc() {
   ipcMain.handle("updates:status", () => updatesInfo());
   ipcMain.handle("updates:check", async () => { await Promise.all([live.check({ manual: true }), exe.check()]); return updatesInfo(); });
   ipcMain.handle("updates:setAuto", (_e, on) => { live.setAuto(!!on); return updatesInfo(); });
+  // "Update now": a new exe installs and reopens; new pages are swapped in and the window reloads (no restart).
   ipcMain.handle("updates:restart", () => {
-    if (exe.install()) return true;
-    app.relaunch();
-    app.exit(0);
-    return true;
+    if (exe.install()) return "installing";
+    if (live.applyPending()) { setTimeout(reloadPages, 150); return "reloading"; }
+    setTimeout(relaunchApp, 150);
+    return "restarting";
   });
   ipcMain.handle("updates:download", () => {
     const url = exe.status.url || `https://github.com/${REPO}/releases/latest`;
@@ -986,7 +1021,15 @@ function registerIpc() {
 
 /* ── App lifecycle ────────────────────────────────────────────────────────── */
 
-const gotLock = app.requestSingleInstanceLock();
+// A relaunched copy may start while the old one is still closing: it waits a little for the lock.
+let gotLock = app.requestSingleInstanceLock();
+if (!gotLock && process.argv.includes("--relaunch")) {
+  const until = Date.now() + 8000;
+  while (!gotLock && Date.now() < until) {
+    Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 250);
+    gotLock = app.requestSingleInstanceLock();
+  }
+}
 app.on("before-quit", () => chatgpt?.close());
 if (!gotLock) {
   app.quit();

@@ -87,7 +87,7 @@ export function initExercises() {
 }
 
 /** A different book or unit was chosen: the open worksheets belong to the old unit. Put them away
- *  (they are safe in Saved units) so nothing of the old word list reaches the new generation. */
+ *  (they are safe in the Library) so nothing of the old word list reaches the new generation. */
 function detachIfUnitChanged() {
   const fr = worksheetFreshness();
   if (!fr?.unitChanged || state.busy) return;
@@ -95,7 +95,7 @@ function detachIfUnitChanged() {
   emit("data");
   toast(`${fr.label || "The previous unit"}: worksheets are saved in your library. The new unit starts fresh.`, "info", {
     ms: 4200,
-    actions: [{ label: "Saved units", run: () => actions.go("library") }],
+    actions: [{ label: "Library", run: () => actions.go("library") }],
   });
 }
 

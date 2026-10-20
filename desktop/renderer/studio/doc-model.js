@@ -141,6 +141,15 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     prompts: (Array.isArray(raw.prompts) ? raw.prompts : []).map(clean).filter(Boolean),
     sample: Array.isArray(raw.sample) ? raw.sample.map(clean).join("\n") : String(raw.sample || "").trim(),
     task_prompt: clean(raw.prompt || raw.task),
+    // Speaking: opening questions and the cards students hold (questions, follow-ups and a model answer for the teacher).
+    warmup: (Array.isArray(raw.warmup) ? raw.warmup : []).map(clean).filter(Boolean).slice(0, 4),
+    cards: (Array.isArray(raw.cards) ? raw.cards : []).map((c) => ({
+      title: clean(c?.title), student: clean(c?.student),
+      keyWords: (Array.isArray(c?.keyWords) ? c.keyWords : []).map(clean).filter(Boolean).slice(0, 6),
+      questions: (Array.isArray(c?.questions) ? c.questions : []).map(clean).filter(Boolean).slice(0, 6),
+      followUps: (Array.isArray(c?.followUps) ? c.followUps : []).map(clean).filter(Boolean).slice(0, 3),
+      model: Array.isArray(c?.model) ? c.model.map(clean).join(" ") : clean(c?.model),
+    })).filter((c) => c.title || c.student || c.questions.length).slice(0, 6),
     pictures: [],
     bank: [],
     plays: 2,
@@ -169,6 +178,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
 
   if (task.needs?.includes("script") && !section.script.length) problems.push("missing the listening script");
   if (task.needs?.includes("passage") && !section.passage) problems.push("missing the reading text");
+  if (task.skill === "speaking" && !section.cards.length && !section.prompts.length) problems.push("missing the speaking cards");
   if (task.answer === "tf") {
     const report = binaryBalance("TF", items.map((it) => ({ answer: it.tf === 0 ? "T" : it.tf === 1 ? "F" : "" })));
     if (!report.ok) problems.push(`the answers need a mix of ${tfLabels(ctx.levelId).join(" and ")} (items ${report.flip.map((i) => i + 1).join(", ")} should be "${tfLabels(ctx.levelId)[report.flipTo === "T" ? 0 : 1]}")`);

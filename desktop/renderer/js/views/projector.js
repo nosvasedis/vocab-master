@@ -23,7 +23,7 @@ let open = null;
 
 export function openProjector() {
   if (!state.data) {
-    toast("Generate a unit first (or open one from Saved units) to use Projector mode.", "warn");
+    toast("Generate a unit first (or open one from the Library) to use Projector mode.", "warn");
     return;
   }
   if (open) return;

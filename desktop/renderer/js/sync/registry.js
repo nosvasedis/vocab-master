@@ -15,6 +15,7 @@ export const SYNCED = {
   vm_ai_provider: { kind: "value", label: "AI service" },
   vm_dictation_prefs_v1: { kind: "value", label: "Dictation settings" },
   vm_tests_prefs_v1: { kind: "value", label: "Test settings" },
+  vm_class_memory_v1: { kind: "value", label: "Class memory" },
   vm_dp_filters: { kind: "value", label: "Game settings" },
   vm_arcade_mode: { kind: "value", label: "Game settings" },
   vm_arcade_class: { kind: "value", label: "Game settings" },

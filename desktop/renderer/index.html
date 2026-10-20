@@ -242,7 +242,7 @@
         <div class="sb-label">Library</div>
         <button type="button" class="sb-item" data-nav="library">
           <span class="sb-ico"><svg class="i"><use href="#i-library"/></svg></span>
-          <span class="sb-item-text"><span>Saved units</span><small>History &amp; backups</small></span>
+          <span class="sb-item-text"><span>Library</span><small>Everything you made</small></span>
           <span class="sb-count hidden" id="libraryCount">0</span>
         </button>
       </nav>
@@ -712,10 +712,11 @@
         <!-- ══ Library ══ -->
         <section class="view" data-view="library">
           <div class="view-inner">
+            <div class="lib-tabs" id="libTabs" role="group" aria-label="What to show"></div>
             <div class="library-bar">
               <div class="input-group lib-search">
                 <svg class="i i-sm"><use href="#i-search"/></svg>
-                <input class="input" id="libSearch" type="search" placeholder="Search book, unit or pages…" autocomplete="off" />
+                <input class="input" id="libSearch" type="search" placeholder="Search titles, units or words…" autocomplete="off" />
               </div>
               <select class="select lib-filter" id="libLevel"><option value="">All levels</option></select>
               <span class="spacer"></span>

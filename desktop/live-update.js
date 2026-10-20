@@ -108,6 +108,22 @@ export function createLiveUpdater({ rendererDir, liveRoot, io, log = () => {}, r
     return active;
   }
 
+  /** Use the pages fetched in the background now (the window then reloads): no restart needed. */
+  function applyPending() {
+    if (!state.pending || !usable(state.pending)) return false;
+    state.fallback = state.active || null;
+    state.active = state.pending;
+    state.pending = null;
+    state.justUpdated = { sha: state.active.sha, message: state.active.message || "", date: state.active.date || "" };
+    state.trial = { sha: state.active.sha, starts: 1 };
+    save();
+    cleanup();
+    const m = manifestOf(state.active.dir);
+    active = { ...state.active, deleted: new Set(m?.deleted || []) };
+    set({ state: "current", message: "" });
+    return true;
+  }
+
   /** The live pages fail to start: back to the last good pages (or the installed ones), and never this commit again. */
   function revert(reason = "") {
     const bad = state.active?.sha || state.trial?.sha;
@@ -117,6 +133,9 @@ export function createLiveUpdater({ rendererDir, liveRoot, io, log = () => {}, r
     state.fallback = null;
     state.trial = null;
     save();
+    // The pages served from now on (the window reloads onto them).
+    const m = state.active ? manifestOf(state.active.dir) : null;
+    active = state.active ? { ...state.active, deleted: new Set(m?.deleted || []) } : null;
   }
 
   /** The pages started fine: keep them. Returns the "just updated" note once (for the "Updated" toast). */
@@ -239,7 +258,7 @@ export function createLiveUpdater({ rendererDir, liveRoot, io, log = () => {}, r
   }
 
   return {
-    startup, check, revert, alive, resolve, info,
+    startup, check, applyPending, revert, alive, resolve, info,
     get active() { return active; },
     setAuto(on) { state.auto = !!on; save(); set({}); return info(); },
     onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
