@@ -15,6 +15,8 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createChatGPT, CHATGPT_USAGE_URL, chatgptError } from "./chatgpt.js";
 import { createGoogleLoopback } from "./google-signin.js";
+import { createLiveUpdater, SHELL_API, REPO, BRANCH } from "./live-update.js";
+import { createExeUpdater } from "./exe-update.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RENDERER_DIR = path.join(__dirname, "renderer");
@@ -57,6 +59,62 @@ if (process.argv.includes("--smoke")) {
 let mainWindow = null;
 let enginePromise = null;
 let chatgpt = null;
+
+/* ── Updates: live pages from GitHub (live-update.js) and the exe itself (exe-update.js) ── */
+const SMOKE = process.argv.includes("--smoke");
+/** HTTPS GET with redirects; GitHub's API wants a User-Agent. */
+function httpsGet(url, { json = false, redirects = 4, timeout = 30_000 } = {}) {
+  return new Promise((resolve, reject) => {
+    const req = https.get(url, { headers: { "User-Agent": "VocabMaster-Updater", ...(json ? { Accept: "application/vnd.github+json" } : {}) }, timeout }, (res) => {
+      if ([301, 302, 303, 307, 308].includes(res.statusCode) && res.headers.location && redirects > 0) {
+        res.resume();
+        resolve(httpsGet(new URL(res.headers.location, url).href, { json, redirects: redirects - 1, timeout }));
+        return;
+      }
+      const chunks = [];
+      res.on("data", (c) => chunks.push(c));
+      res.on("end", () => {
+        const buf = Buffer.concat(chunks);
+        if (res.statusCode !== 200) { reject(new Error(res.statusCode === 403 || res.statusCode === 429 ? "GitHub is busy — the app will try again later." : `HTTP ${res.statusCode}`)); return; }
+        try { resolve(json ? JSON.parse(buf.toString("utf8")) : buf); } catch (e) { reject(e); }
+      });
+      res.on("error", reject);
+    });
+    req.on("timeout", () => req.destroy(new Error("the request timed out")));
+    req.on("error", reject);
+  });
+}
+const updateIo = { fetchJson: (url) => httpsGet(url, { json: true }), fetchBuffer: (url) => httpsGet(url) };
+// The installed app updates itself; a development copy only when asked (VM_LIVE=1, e.g. to test with VM_LIVE_BRANCH).
+const live = createLiveUpdater({
+  rendererDir: RENDERER_DIR,
+  liveRoot: path.join(app.getPath("userData"), "live"),
+  io: updateIo,
+  log: (...a) => console.log(...a),
+  repo: process.env.VM_LIVE_REPO || REPO,
+  branch: process.env.VM_LIVE_BRANCH || BRANCH,
+  enabled: !SMOKE && (app.isPackaged || process.env.VM_LIVE === "1"),
+});
+const exe = createExeUpdater({ app, io: updateIo, log: (...a) => console.log(...a) });
+const updatesInfo = () => ({ version: app.getVersion(), shell: SHELL_API, ...live.info(), exe: exe.status });
+function sendUpdates() { if (mainWindow && !mainWindow.isDestroyed()) mainWindow.webContents.send("updates:changed", updatesInfo()); }
+live.onChange(sendUpdates);
+exe.onChange(sendUpdates);
+let updateTimer = null;
+function scheduleUpdateChecks() {
+  if (SMOKE || updateTimer) return;
+  const run = () => { live.check().catch(() => {}); exe.check().catch(() => {}); };
+  setTimeout(run, 20_000);
+  updateTimer = setInterval(run, 3 * 60 * 60 * 1000);
+}
+/** The live pages must say "I started" soon after loading; otherwise they are set aside and the app restarts. */
+let aliveTimer = null;
+function relaunchWithoutLive(reason) {
+  if (!live.active) return;
+  live.revert(reason);
+  app.relaunch();
+  app.exit(0);
+}
 
 function chatgptRuntime() {
   if (chatgpt) return chatgpt;
@@ -166,7 +224,9 @@ function keychainSet(value, name) {
 
 function loadEngine() {
   if (!enginePromise) {
-    const engineUrl = pathToFileURL(path.join(RENDERER_DIR, "app.js")).href;
+    // The same pages the window uses: the live copy when there is one.
+    const liveApp = live.active ? path.join(live.active.dir, "app.js") : "";
+    const engineUrl = pathToFileURL(liveApp && fs.existsSync(liveApp) ? liveApp : path.join(RENDERER_DIR, "app.js")).href;
     enginePromise = import(engineUrl).catch((err) => {
       enginePromise = null;
       throw err;
@@ -261,10 +321,13 @@ function registerAppProtocol() {
     }
     if (pathname === "/" || pathname === "") pathname = "/index.html";
     const rel = pathname.replace(/^[/\\]+/, "");
-    const filePath = path.resolve(RENDERER_DIR, rel);
-    if (!filePath.startsWith(RENDERER_DIR + path.sep)) {
+    const bundled = path.resolve(RENDERER_DIR, rel);
+    if (!bundled.startsWith(RENDERER_DIR + path.sep)) {
       return new Response("Forbidden", { status: 403 });
     }
+    // The live copy of a page when there is one (live-update.js), else the installed one.
+    const filePath = live.resolve(path.relative(RENDERER_DIR, bundled));
+    if (!filePath) return new Response("Not found", { status: 404 });
     try {
       const stat = await fs.promises.stat(filePath);
       if (!stat.isFile()) return new Response("Not found", { status: 404 });
@@ -336,7 +399,15 @@ function createWindow() {
   mainWindow.once("ready-to-show", () => {
     if (saved?.maximized) mainWindow.maximize();
     mainWindow.show();
+    scheduleUpdateChecks();
   });
+  if (live.active) {
+    mainWindow.webContents.once("did-finish-load", () => {
+      aliveTimer = setTimeout(() => relaunchWithoutLive("the pages did not start"), 45_000);
+    });
+    mainWindow.webContents.on("did-fail-load", (_e, code, _desc, url, isMainFrame) => { if (isMainFrame && code !== -3) relaunchWithoutLive(`load failed ${code} ${url}`); });
+    mainWindow.webContents.on("render-process-gone", (_e, d) => { if (d?.reason !== "clean-exit") relaunchWithoutLive(`renderer ${d?.reason}`); });
+  }
 
   mainWindow.on("resize", saveBounds);
   mainWindow.on("move", saveBounds);
@@ -620,8 +691,15 @@ function buildMenu() {
               type: "info",
               title: "About",
               message: "Vocab Master",
-              detail: `AI vocabulary worksheets for Greek ESL teachers (A–E Senior).\n\nVersion ${app.getVersion()} · Electron ${process.versions.electron}\n\nData is stored locally on this computer.`,
+              detail: `AI vocabulary worksheets for Greek ESL teachers (A–E Senior).\n\nVersion ${app.getVersion()}${live.info().live ? ` · pages updated (${live.info().live.sha})` : live.info().build ? ` · pages ${live.info().build.sha}` : ""} · Electron ${process.versions.electron}\n\nData is stored locally on this computer.`,
             });
+          },
+        },
+        {
+          label: "Check for updates",
+          click: async () => {
+            const info = await Promise.all([live.check({ manual: true }), exe.check()]).then(() => updatesInfo());
+            mainWindow?.webContents.send("updates:changed", { ...info, announce: true });
           },
         },
         {
@@ -867,6 +945,22 @@ function registerIpc() {
   }));
 
   ipcMain.handle("shell:openDataFolder", () => shell.openPath(app.getPath("userData")));
+  // Updates (live pages + the exe). "alive" = the pages started: keep them; returns "just updated" once.
+  ipcMain.handle("updates:alive", () => { clearTimeout(aliveTimer); aliveTimer = null; return live.alive(); });
+  ipcMain.handle("updates:status", () => updatesInfo());
+  ipcMain.handle("updates:check", async () => { await Promise.all([live.check({ manual: true }), exe.check()]); return updatesInfo(); });
+  ipcMain.handle("updates:setAuto", (_e, on) => { live.setAuto(!!on); return updatesInfo(); });
+  ipcMain.handle("updates:restart", () => {
+    if (exe.install()) return true;
+    app.relaunch();
+    app.exit(0);
+    return true;
+  });
+  ipcMain.handle("updates:download", () => {
+    const url = exe.status.url || `https://github.com/${REPO}/releases/latest`;
+    if (/^https:\/\/github\.com\//.test(url)) shell.openExternal(url);
+    return true;
+  });
   // Google sign-in for account sync: system browser → one-time 127.0.0.1 callback (google-signin.js).
   const google = createGoogleLoopback({
     openExternal: (url) => shell.openExternal(url),
@@ -891,6 +985,7 @@ if (!gotLock) {
   });
 
   app.whenReady().then(() => {
+    try { live.startup(); } catch (e) { console.error("live: startup failed", e); }
     registerAppProtocol();
     registerIpc();
     registerDownloadHandler();

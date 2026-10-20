@@ -53,6 +53,18 @@ contextBridge.exposeInMainWorld("desktop", {
   info: () => ipcRenderer.invoke("app:info"),
   openDataFolder: () => ipcRenderer.invoke("shell:openDataFolder"),
 
+  /** Updates: live pages from GitHub and new versions of the app (live-update.js, exe-update.js). */
+  updates: {
+    /** The pages started: keep them. Returns { sha, message, date } once after an update, else null. */
+    alive: () => ipcRenderer.invoke("updates:alive"),
+    status: () => ipcRenderer.invoke("updates:status"),
+    check: () => ipcRenderer.invoke("updates:check"),
+    setAuto: (on) => ipcRenderer.invoke("updates:setAuto", !!on),
+    restart: () => ipcRenderer.invoke("updates:restart"),
+    download: () => ipcRenderer.invoke("updates:download"),
+    onChange: (callback) => { ipcRenderer.on("updates:changed", (_e, info) => callback(info)); },
+  },
+
   /** Menu events from the main process. */
   onMenu: (callback) => {
     ipcRenderer.on("menu:new", () => callback("new"));

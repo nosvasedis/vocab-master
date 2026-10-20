@@ -7,6 +7,7 @@ import { configureAudio, play } from "../arcade/audio.js";
 import { PICTURE_STYLES } from "./pictures.js";
 import { actions } from "./actions.js";
 import { accountSectionHtml, mountAccount } from "./sync/account-ui.js";
+import { updatesSectionHtml, wireUpdatesSection } from "./updates.js";
 import { ENGINES } from "../studio/voice-cast.js";
 import { chosenEngine, setEngine, activeEngine, studioAvailable, naturalSupported, naturalDownloaded, prepareNatural, playSample, NATURAL_DOWNLOAD_MB } from "./voices/listening.js";
 
@@ -156,6 +157,7 @@ export function openSettings({ focusKey = true } = {}) {
           </div>
         </div>
       </section>
+      ${updatesSectionHtml()}
       <section class="settings-section">
         <h4>Your data</h4>
         <p class="hint" id="setDataInfo">${desktop() ? "Units, settings and backups are saved on this computer." : "Units are saved in this browser's storage."}</p>
@@ -167,6 +169,7 @@ export function openSettings({ focusKey = true } = {}) {
       <button type="button" class="btn btn-primary" id="setSave">Save</button>`,
     onMount(root, close) {
       const q = (s) => root.querySelector(s);
+      wireUpdatesSection(root);
       const input = q("#setKey");
       const status = q("#setKeyStatus");
       const show = (cls, text) => {

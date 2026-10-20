@@ -11,13 +11,15 @@
     "start": "electron .",
     "smoke": "electron . --smoke",
     "icon": "node scripts/make-icon.js",
-    "dist": "electron-builder --win nsis portable --config electron-builder.config.cjs",
+    "dist": "electron-builder --win nsis portable --config electron-builder.config.cjs --publish never",
     "dist:setup": "electron-builder --win nsis",
     "dist:portable": "electron-builder --win portable",
-    "dist:dir": "electron-builder --win dir"
+    "dist:dir": "electron-builder --win dir",
+    "predist": "node scripts/live-base.cjs"
   },
   "dependencies": {
-    "docx": "^8.5.0"
+    "docx": "^8.5.0",
+    "electron-updater": "^6.8.9"
   },
   "devDependencies": {
     "electron": "^33.2.0",
@@ -34,6 +36,8 @@
       "chatgpt.js",
       "google-signin.js",
       "preload.cjs",
+      "live-update.js",
+      "exe-update.js",
       "smoke-fixture.json",
       "renderer/**/*",
       "package.json"
@@ -74,6 +78,14 @@
       "artifactName": "Vocab-Master-Portable-${version}.exe"
     },
     "afterPack": "./scripts/after-pack.cjs",
-    "npmRebuild": false
+    "npmRebuild": false,
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "nosvasedis",
+        "repo": "vocab-master",
+        "releaseType": "release"
+      }
+    ]
   }
 }

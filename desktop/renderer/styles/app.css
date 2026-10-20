@@ -836,3 +836,19 @@
 }
 .insp-for { font: 600 12px var(--font-ui); color: var(--text-3); }
 .insp-note a { cursor: pointer; }
+
+/* Settings → Updates */
+.upd-card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; margin-bottom: 10px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface-2); }
+.upd-ico { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 11px; color: var(--text-2); background: var(--surface-3); }
+.upd-card.ok .upd-ico { color: var(--success-ink); background: var(--success-soft); }
+.upd-card.ready { border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); background: color-mix(in srgb, var(--brand) 6%, var(--surface)); }
+.upd-card.ready .upd-ico { color: #fff; background: var(--brand); }
+.upd-card.warn .upd-ico { color: var(--warning-ink); background: var(--warning-soft); }
+.upd-card.busy .upd-ico .i { animation: upd-spin 1.2s linear infinite; }
+@keyframes upd-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .upd-card.busy .upd-ico .i { animation: none; } }
+.upd-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.upd-text b { font-size: 13.5px; }
+.upd-text small { font-size: 12px; line-height: 1.4; color: var(--text-3); }
+.upd-bar { display: block; height: 5px; margin-top: 5px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.upd-bar i { display: block; height: 100%; border-radius: inherit; background: var(--brand-grad); transition: width 300ms var(--ease); }

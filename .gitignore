@@ -46,3 +46,6 @@ art-brief/pictures/sheets-done/
 art-brief/pictures/sheets-flagged.json
 art-brief/pictures/PROGRESS.md
 work/studio/
+
+# Written before each build (desktop/scripts/live-base.cjs)
+desktop/renderer/live-base.json

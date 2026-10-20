@@ -33,6 +33,7 @@ import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
 import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, bookLabel } from "../lesson/lesson.js";
 import { STUDIO_VIEWS, initStudio } from "./views/studio-views.js";
 import { initHome, renderHome } from "./views/home.js";
+import { initUpdates } from "./updates.js";
 
 const FLOW = ["setup", "words", "exercises", "preview"];
 const VIEW_META = {
@@ -385,6 +386,8 @@ async function boot() {
     initHome({ newUnit, openGames });
     initInterfaceSounds();
     wire();
+    // The pages started: tell the main process (a broken update is rolled back), and greet an update.
+    initUpdates();
 
     const d = desktop();
     if (d) {
