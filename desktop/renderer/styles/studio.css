@@ -932,6 +932,9 @@
 .pe-now { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); color: var(--text-2); font-size: 13.5px; line-height: 1.45; }
 .pe-wishes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: -2px; }
 .pe-wishes .chip.active { border-color: var(--brand); color: var(--brand-ink); background: var(--brand-soft); }
+.pe-wishes .chip.used:not(.active) { opacity: 0.6; }
+.pa-mode { margin: 0 0 12px; }
+.pa-mode .chip { height: 34px; padding: 0 14px; font-weight: 700; }
 .pe-pairs { display: flex; flex-direction: column; gap: 6px; }
 .pe-pair { display: grid; grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1.6fr); gap: 8px; align-items: center; }
 .pe-n { font: 800 12px/1 var(--font-ui); color: var(--text-3); text-align: right; }

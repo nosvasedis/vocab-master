@@ -4,7 +4,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { TASKS } from "../desktop/renderer/studio/tasks.js";
-import { testDefaults, makePart, testPrompt, buildTestDoc, reviseSection, partTextWords, textWords, scriptLines, planNotes } from "../desktop/renderer/studio/test-builder.js";
+import { testDefaults, makePart, testPrompt, buildTestDoc, reviseSection, partTextWords, textWords, scriptLines, planNotes, fixItemsPrompt, applyItemFixes } from "../desktop/renderer/studio/test-builder.js";
 import { relabelDoc, docPoints } from "../desktop/renderer/studio/doc-model.js";
 import { renderStudentPaper } from "../desktop/renderer/studio/doc-render.js";
 import { READING_TEXTS } from "../desktop/renderer/studio/reading-texts.js";
@@ -103,4 +103,45 @@ test("new exercises: Look and tick or cross gets its pictures and is never re-ch
   const signs = specWith("R-SIGNS", 3, "C_SENIOR");
   const sdoc = buildTestDoc(signs, { sections: [{ id: "p1", items: Array.from({ length: 3 }, (_, i) => ({ prompt: `POOL CLOSED ON MONDAY ${i}`, options: ["You can't swim on Monday.", "It opens at 9.", "Clean the pool."], answer: "You can't swim on Monday." })) }] }, { levelId: "C_SENIOR", meta: {} });
   assert.match(renderStudentPaper(sdoc), /class="st-notice">POOL CLOSED/);
+});
+
+test("adding a question at any place renumbers the part, re-letters a matching list and adds its points", () => {
+  const spec = specWith("V-MATCH", 4);
+  const doc = buildTestDoc(spec, { sections: [{ id: "p1", example: { prompt: "sun", answer: "hot star" }, items: Array.from({ length: 4 }, (_, i) => ({ prompt: `w${i}`, answer: `m${i}` })) }] }, { levelId: "B_SENIOR", meta: {} });
+  assert.ok(reviseSection(doc, spec, "p1", (raw) => { raw.items.splice(1, 0, { prompt: "lake", answer: "water with land around it" }); }));
+  const s = doc.sections[0];
+  assert.deepEqual(s.items.map((it) => it.prompt), ["w0", "lake", "w1", "w2", "w3"]);
+  assert.deepEqual(s.items.map((it) => it.n), [1, 2, 3, 4, 5]);
+  assert.ok(s.items.every((it) => s.bank.find((b) => b.letter === it.letter)?.text === it.answer));
+  assert.equal(doc.meta.points, 5);
+  // A yes/no part takes the new statement with its answer in the class's words.
+  const tf = specWith("R-TF", 3, "A_SENIOR");
+  const tdoc = buildTestDoc(tf, { sections: [{ id: "p1", passage: "Tom has a dog.", items: [{ prompt: "Tom has a dog.", answer: "yes" }, { prompt: "Tom has a cat.", answer: "no" }, { prompt: "The dog is Tom's.", answer: "yes" }] }] }, { levelId: "A_SENIOR", meta: {} });
+  reviseSection(tdoc, tf, "p1", (raw) => { raw.items.push({ prompt: "Tom has two dogs.", answer: "no" }); });
+  assert.equal(tdoc.sections[0].items.at(-1).answer, "no");
+  assert.equal(tdoc.meta.points, 4);
+});
+
+test("Lingo adding questions: placeholders hold the places, the reply fills exactly them, the part is checked again", () => {
+  const spec = specWith("V-MC", 3, "C_SENIOR");
+  const doc = buildTestDoc(spec, { sections: [{ id: "p1", items: [0, 1, 2].map((i) => ({ prompt: `The ________ is hot ${i}.`, options: ["lava", "snow", "ice"], answer: "lava" })) }] }, { levelId: "C_SENIOR", meta: {} });
+  // Two new questions after question 1 (what addWithLingo does).
+  reviseSection(doc, spec, "p1", (raw) => { raw.items.splice(1, 0, ...[0, 1].map(() => ({ prompt: "(a new question)", answer: "", options: ["?", "?"] }))); });
+  spec.parts[0].items = 5;
+  const { user } = fixItemsPrompt(spec, doc.sections[0], [2, 3], { focusWords: [], instruction: "These are NEW questions added to the part." });
+  assert.match(user, /REWRITE ONLY items 2, 3/);
+  assert.match(user, /These are NEW questions/);
+  const reply = { items: [
+    { n: 2, prompt: "A ________ is a mountain that erupts.", options: ["volcano", "island", "cave"], answer: "volcano" },
+    { n: 3, prompt: "Hot ________ comes out of it.", options: ["ash", "rain", "snow"], answer: "ash" },
+  ] };
+  const changed = applyItemFixes(doc, spec, "p1", reply, [2, 3], {});
+  assert.deepEqual(changed, [2, 3]);
+  const s = doc.sections[0];
+  assert.deepEqual(s.items.map((it) => it.n), [1, 2, 3, 4, 5]);
+  assert.equal(s.items[1].answer, "volcano");
+  assert.equal(s.items[2].answer, "ash");
+  assert.ok(!s.items.some((it) => it.prompt === "(a new question)"));
+  assert.ok(!s.problems.some((p) => /^item [23]:/.test(p)), s.problems.join(" | "));
+  assert.equal(doc.meta.points, 5);
 });

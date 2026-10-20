@@ -25,9 +25,15 @@ const CSS = `
 .pe-bar button.magic:hover { filter: brightness(1.08); }
 .pe-bar button.danger { color: #c2410c; }
 .pe-bar button.danger:hover { background: #fff1e8; }
+.pe-add { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin: 2mm 0 1mm; padding: 1.6mm; border: 1.5px dashed #b7aefc; border-radius: 8px; background: transparent; color: #4b3fd6; font: 650 12.5px/1 "Segoe UI", system-ui, sans-serif; cursor: pointer; opacity: .55; transition: opacity 140ms, background 140ms; }
+.st-sec:hover .pe-add, .pe-add:focus-visible { opacity: 1; }
+.pe-add:hover { background: #f3f1ff; }
+.pe-add.pe-busy { pointer-events: none; opacity: 1; background: #f3f1ff; }
 `;
 
 const lines = (v) => String(v || "").split("\n").map((x) => x.trim()).filter(Boolean);
+/** A value safe inside a CSS attribute selector ("…"). */
+const CSS_ESC = (s) => String(s).replace(/["\\]/g, (c) => `\\${c}`);
 const WISHES = [["Another word", "build it on another word, not the same one"], ["Easier", "make it easier for this class"], ["Harder", "make it a bit harder"], ["Better wrong options", "write better wrong options"], ["Shorter", "make the sentence shorter"]];
 
 /**
@@ -78,6 +84,7 @@ export function mountTestEditing(host) {
         if (s.items[k]) mark(el, { kind: "item", id, ref: s.items[k], remake: true });
       });
       secEl.querySelectorAll(".st-task, .st-frame, .st-story-pics").forEach((el) => mark(el, { kind: "writing", id }));
+      if (host.sheet() !== "B" && canAdd(s)) secEl.insertAdjacentHTML("beforeend", `<button type="button" class="pe-add" data-pe-add="${esc(id)}">＋ Add a question</button>`);
       secEl.querySelectorAll(".st-speak-card").forEach((el, k) => mark(el, { kind: "speaking", id, card: k }));
     });
   }
@@ -91,7 +98,7 @@ export function mountTestEditing(host) {
     if (!d || busy.has(el)) { bar = null; return; }
     bar = document.createElement("div");
     bar.className = "pe-bar";
-    bar.innerHTML = `<button type="button" data-pe-act="edit">✎ Edit</button>${d.remake ? `<button type="button" class="magic" data-pe-act="remake" title="Lingo writes this question again">✨ Remake</button>` : ""}${d.rewrite ? `<button type="button" class="magic" data-pe-act="rewrite" title="Lingo writes this whole part again">✨ Rewrite part</button>` : ""}${d.kind === "item" ? `<button type="button" class="danger" data-pe-act="delete" title="Delete this question — the part renumbers and its points change">🗑 Delete</button>` : ""}`;
+    bar.innerHTML = `<button type="button" data-pe-act="edit">✎ Edit</button>${d.remake ? `<button type="button" class="magic" data-pe-act="remake" title="Lingo writes this question again">✨ Remake</button>` : ""}${d.rewrite ? `<button type="button" class="magic" data-pe-act="rewrite" title="Lingo writes this whole part again">✨ Rewrite part</button>` : ""}${d.kind === "item" && canAdd(A(d.id)) ? `<button type="button" data-pe-act="add" title="Add a new question after this one">＋ Add after</button>` : ""}${d.kind === "item" ? `<button type="button" class="danger" data-pe-act="delete" title="Delete this question — the part renumbers and its points change">🗑 Delete</button>` : ""}`;
     el.appendChild(bar);
   }
   host.root.addEventListener("mouseover", (e) => {
@@ -101,10 +108,13 @@ export function mountTestEditing(host) {
   host.root.addEventListener("mouseleave", () => { bar?.remove(); bar = null; barFor = null; }, true);
   host.root.addEventListener("click", (e) => {
     const path = e.composedPath();
+    const addBtn = path.find((n) => n.dataset?.peAdd);
+    if (addBtn) { addDialog(addBtn.dataset.peAdd); return; }
     const el = path.find((n) => n.classList?.contains("pe-t"));
     if (!el || busy.has(el)) return;
     const d = targets.get(el);
     const act = path.find((n) => n.dataset?.peAct)?.dataset.peAct || "edit";
+    if (act === "add") { const s = A(d.id); if (s) addDialog(s.id, itemIndex(s, d.ref) + 1); return; }
     if (act === "remake") remakeDialog(d, el);
     else if (act === "rewrite") rewriteDialog(d);
     else if (act === "delete") deleteItem(d);
@@ -163,6 +173,167 @@ export function mountTestEditing(host) {
       host.commit();
       toast("Question put back.", "info", { ms: 1600 });
     } }] });
+  }
+
+  /* ── Add questions: Lingo writes them (how many, where, which words, how hard, a wish) or the teacher does ── */
+  const MAX_ITEMS = 12;
+  function canAdd(s) { return !!s && TASKS[s.task]?.answer !== "open" && s.skill !== "dictation" && s.items.length < MAX_ITEMS; }
+
+  async function addDialog(id, at = null) {
+    const s = A(id);
+    if (!canAdd(s)) { toast(`A part can have up to ${MAX_ITEMS} questions.`, "info"); return; }
+    const pos = at == null ? s.items.length : Math.max(0, Math.min(s.items.length, at));
+    const room = MAX_ITEMS - s.items.length;
+    const ctx = await host.ctx().catch(() => ({}));
+    const lc = (x) => String(x || "").trim().toLowerCase();
+    const inPart = (w) => s.items.some((it) => lc(it.answer).includes(lc(w)) || lc(it.prompt).includes(lc(w)));
+    // The unit words this part hasn't used yet come first.
+    const words = [...(ctx.focus || [])].filter((w) => w?.english).sort((a, b) => Number(inPart(a.english)) - Number(inPart(b.english))).slice(0, 24);
+    const choice = s.answerType === "choice";
+    const tf = s.answerType === "tf";
+    const match = s.answerType === "match";
+    const where = `<div class="field"><label class="label" for="pa_pos">Where</label><select class="select" id="pa_pos">${Array.from({ length: s.items.length + 1 }, (_, k) => `<option value="${k}"${k === pos ? " selected" : ""}>${k === s.items.length ? "At the end" : k === 0 ? "At the start (before question 1)" : `After question ${k}`}</option>`).join("")}</select></div>`;
+    const ansField = tf
+      ? `<div class="field"><label class="label" for="pa_ans">Right answer</label><select class="select" id="pa_ans">${tfLabels(host.doc().meta.classProfile).map((l) => `<option>${esc(l)}</option>`).join("")}</select></div>`
+      : field("pa_ans", match ? "Meaning" : "Right answer", "");
+    openDialog({
+      title: "Add a question", subtitle: label(s), iconName: "plus", tone: "brand", sheet: true,
+      body: `<div class="pe-wishes pa-mode" role="tablist"><button type="button" class="chip active" data-pa-mode="ai">✨ Lingo writes it</button><button type="button" class="chip" data-pa-mode="me">✎ I'll write it</button></div>
+        ${where}
+        <div data-pa-panel="ai">
+          <div class="field"><span class="label">How many</span><span class="stepper" id="pa_n"><button type="button" class="icon-btn sm" data-pa-step="-1" aria-label="Fewer">${icon("minus", "i-sm")}</button><b>1</b><button type="button" class="icon-btn sm" data-pa-step="1" aria-label="More">${icon("plus", "i-sm")}</button></span> <small class="st-hint">up to ${Math.min(5, room)}</small></div>
+          ${words.length ? `<div class="field"><span class="label">Use these words <span class="opt">optional — or Lingo picks words this part hasn't used</span></span><div class="pe-wishes">${words.map((w) => `<button type="button" class="chip${inPart(w.english) ? " used" : ""}" data-pa-word="${esc(w.english)}" title="${inPart(w.english) ? "Already in this part" : "Not in this part yet"}">${esc(w.english)}</button>`).join("")}</div></div>` : ""}
+          <div class="field"><span class="label">How hard</span><div class="pe-wishes" data-pa-level><button type="button" class="chip" data-pa-lv="easier">Easier</button><button type="button" class="chip active" data-pa-lv="same">Like the others</button><button type="button" class="chip" data-pa-lv="harder">Harder</button></div></div>
+          <div class="field"><label class="label" for="pa_wish">Anything else? <span class="opt">optional</span></label><textarea class="textarea" id="pa_wish" rows="2" placeholder="e.g. about the picnic, a question with “Where”, a funny sentence"></textarea></div>
+          ${s.script?.length || s.passage ? `<p class="st-hint">${icon("info", "i-xs")} New questions ask about details of the ${s.script?.length ? "recording" : "text"} that no other question asks about.</p>` : ""}
+        </div>
+        <div data-pa-panel="me" hidden>
+          ${field("pa_prompt", match ? "Word" : "Question / sentence", "", { rows: 2, hint: match ? "" : "write the gap as ________" })}
+          ${choice ? field("pa_opts", "Options", "", { rows: 4, hint: "one per line — the right answer must be one of them" }) : ""}
+          ${ansField}
+        </div>`,
+      foot: `<span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-magic" data-pa-go>${icon("sparkles", "i-sm")}<span>Add 1 question</span></button>`,
+      onMount(root, close) {
+        let mode = "ai";
+        let n = 1;
+        const go = root.querySelector("[data-pa-go]");
+        const sync = () => {
+          root.querySelector("#pa_n b").textContent = n;
+          go.className = `btn ${mode === "ai" ? "btn-magic" : "btn-primary"}`;
+          go.innerHTML = `${icon(mode === "ai" ? "sparkles" : "check", "i-sm")}<span>${mode === "ai" ? `Add ${n} question${n === 1 ? "" : "s"}` : "Add the question"}</span>`;
+        };
+        root.querySelectorAll("[data-pa-mode]").forEach((b) => b.addEventListener("click", () => {
+          mode = b.dataset.paMode;
+          root.querySelectorAll("[data-pa-mode]").forEach((x) => x.classList.toggle("active", x === b));
+          root.querySelectorAll("[data-pa-panel]").forEach((p) => { p.hidden = p.dataset.paPanel !== mode; });
+          sync();
+        }));
+        root.querySelectorAll("[data-pa-step]").forEach((b) => b.addEventListener("click", () => { n = Math.max(1, Math.min(Math.min(5, room), n + Number(b.dataset.paStep))); sync(); }));
+        root.querySelectorAll("[data-pa-word]").forEach((b) => b.addEventListener("click", () => b.classList.toggle("active")));
+        root.querySelectorAll("[data-pa-lv]").forEach((b) => b.addEventListener("click", () => root.querySelectorAll("[data-pa-lv]").forEach((x) => x.classList.toggle("active", x === b))));
+        go.addEventListener("click", () => {
+          const at2 = Number(root.querySelector("#pa_pos").value);
+          if (mode === "me") {
+            const v = (k) => root.querySelector(`#${k}`)?.value?.trim() ?? "";
+            const item = { prompt: v("pa_prompt"), answer: v("pa_ans"), options: choice ? lines(v("pa_opts")) : undefined };
+            if (!item.prompt && !match) { toast("Write the question.", "warn"); return; }
+            if (!item.answer) { toast("Add the right answer.", "warn"); return; }
+            if (choice && !item.options.some((o) => lc(o) === lc(item.answer))) { toast("The right answer must be one of the options.", "warn"); return; }
+            close();
+            addOwn(id, at2, item);
+            return;
+          }
+          const picked = [...root.querySelectorAll("[data-pa-word].active")].map((b) => b.dataset.paWord);
+          const lv = root.querySelector("[data-pa-lv].active")?.dataset.paLv || "same";
+          close();
+          addWithLingo(id, at2, n, { words: picked, level: lv, wish: root.querySelector("#pa_wish").value.trim() });
+        });
+        sync();
+      },
+    });
+  }
+
+  /** Insert items at a position (and keep Step 3's count in step); returns the doc snapshot taken before. */
+  function insertItems(id, at, items, ctx) {
+    const doc = host.doc();
+    const before = snapshot();
+    const ok = reviseSection(doc, host.spec(), id, (raw) => { raw.items.splice(at, 0, ...items); }, { picFor: ctx.picFor, focusWords: ctx.focus });
+    if (!ok) return null;
+    host.itemsChanged?.(id);
+    return before;
+  }
+  function addedToast(doc, id, before, message, first) {
+    host.commit();
+    flash(id, first);
+    toast(message, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
+      if (host.doc() !== doc) return;
+      Object.assign(doc, JSON.parse(before));
+      host.itemsChanged?.(id);
+      host.commit();
+      toast("Taken out again.", "info", { ms: 1600 });
+    } }] });
+  }
+
+  async function addOwn(id, at, item) {
+    const ctx = await host.ctx().catch(() => ({}));
+    const doc = host.doc();
+    const before = insertItems(id, at, [item], ctx);
+    if (!before) return;
+    addedToast(doc, id, before, `Question ${at + 1} added.`, at + 1);
+  }
+
+  async function addWithLingo(id, at, count, { words = [], level = "same", wish = "" } = {}) {
+    const s = A(id);
+    if (!s) return;
+    const doc = host.doc();
+    const btn = host.root.querySelector(`[data-pe-add="${CSS_ESC(id)}"]`);
+    btn?.classList.add("pe-busy");
+    if (btn) btn.textContent = `Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`;
+    const stop = toast(`Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`, "info", { ms: 60000 });
+    let before = null;
+    try {
+      const ctx = await host.ctx();
+      if (host.doc() !== doc) return;
+      // Placeholders hold the places; Lingo writes exactly those items, then the part is checked again.
+      before = insertItems(id, at, Array.from({ length: count }, () => ({ prompt: "(a new question)", answer: "", options: s.answerType === "choice" ? ["?", "?"] : undefined })), ctx);
+      if (!before) return;
+      const ns = Array.from({ length: count }, (_, k) => at + k + 1);
+      const others = A(id).items.filter((_, k) => !ns.includes(k + 1));
+      const instruction = [
+        `These are NEW questions added to the part. Each one is different from every other question (another word or another detail) — never a copy or a rewording of one of them.`,
+        A(id).script?.length || A(id).passage ? `Each asks about a detail of the ${A(id).script?.length ? "script" : "text"} that no other question asks about.` : "",
+        words.length ? `Build them on these words, one each where possible: ${words.join(", ")}.` : "Use words this part hasn't tested yet where you can.",
+        level === "easier" ? "Make them a little easier than the others." : level === "harder" ? "Make them a little harder than the others." : "Make them as hard as the others.",
+        s.answerType === "tf" ? "Mix the answers: about half one way, half the other, as in the rest of the part." : "",
+        wish ? `The teacher's wish: ${wish}` : "",
+        `The other questions (do not repeat): ${others.map((it) => it.prompt || it.answer).filter(Boolean).slice(0, 14).join(" | ")}`,
+      ].filter(Boolean).join("\n");
+      let missing = ns;
+      for (let attempt = 0; attempt < 2 && missing.length; attempt++) {
+        const { system, user } = fixItemsPrompt(host.spec(), A(id), missing, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction });
+        const reply = await host.ask(system, user, attempt ? `Write items ${missing.join(", ")} — real new questions with a right answer${s.answerType === "choice" ? " among the options" : ""}.` : "");
+        if (host.doc() !== doc) return;
+        applyItemFixes(doc, host.spec(), id, reply, missing, { picFor: ctx.picFor, focusWords: ctx.focus });
+        const sec = A(id);
+        missing = ns.filter((n) => { const it = sec.items[n - 1]; return !it || it.prompt === "(a new question)" || !it.answer || it.answer === "?"; });
+      }
+      if (missing.length) {
+        Object.assign(doc, JSON.parse(before));
+        host.itemsChanged?.(id);
+        host.commit();
+        toast("Lingo couldn’t write the new questions this time. Try again, or write one yourself (✎ I'll write it).", "warn", { ms: 7000 });
+        return;
+      }
+      await host.checkKeys([id]);
+      if (host.doc() !== doc) return;
+      addedToast(doc, id, before, count === 1 ? `Question ${at + 1} is new.` : `Questions ${at + 1}–${at + count} are new.`, at + 1);
+    } catch (e) {
+      if (before && host.doc() === doc) { Object.assign(doc, JSON.parse(before)); host.itemsChanged?.(id); host.commit(); }
+      toast(e?.message || "Lingo couldn’t add the questions.", "error");
+    } finally {
+      stop?.();
+      btn?.classList.remove("pe-busy");
+    }
   }
 
   /** The A-version item a paper item stands for (version B shuffles questions). */

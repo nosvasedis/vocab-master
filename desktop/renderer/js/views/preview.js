@@ -86,7 +86,7 @@ export function initPreview() {
     const item = e.composedPath().find((n) => n.classList?.contains("editable") && n.classList.contains("ex-item"));
     if (!item || item.querySelector(".pe-bar") || item.classList.contains("pe-busy")) return;
     shadow.querySelectorAll(".pe-bar").forEach((b) => b.remove());
-    item.insertAdjacentHTML("beforeend", `<div class="pe-bar"><button type="button" data-pe-act="edit">✎ Edit</button><button type="button" class="magic" data-pe-act="remake" title="Lingo writes this line again">✨ Remake</button><button type="button" class="danger" data-pe-act="delete" title="Delete this line — the exercise renumbers">🗑 Delete</button></div>`);
+    item.insertAdjacentHTML("beforeend", `<div class="pe-bar"><button type="button" data-pe-act="edit">✎ Edit</button><button type="button" class="magic" data-pe-act="remake" title="Lingo writes this line again">✨ Remake</button><button type="button" data-pe-act="add" title="Add a new line after this one">＋ Add after</button><button type="button" class="danger" data-pe-act="delete" title="Delete this line — the exercise renumbers">🗑 Delete</button></div>`);
   });
   shadow.addEventListener("mouseleave", () => shadow.querySelectorAll(".pe-bar").forEach((b) => b.remove()), true);
   shadow.addEventListener("keydown", (e) => {
@@ -215,6 +215,7 @@ function onPaperActivate(e) {
   e.preventDefault();
   if (path.some((n) => n.dataset?.peAct === "remake")) { remakeDialog(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item)); return; }
   if (path.some((n) => n.dataset?.peAct === "delete")) { deleteLine(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item)); return; }
+  if (path.some((n) => n.dataset?.peAct === "add")) { addLineDialog(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item)); return; }
   openItemEditor(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item));
 }
 
@@ -240,6 +241,119 @@ function deleteLine(sheet, exIndex, itemIndex) {
   persistSession();
   renderPreview();
   toast(`Line ${item.number} deleted — ${plural(ex.items.length, "line")} left in exercise ${ex.number}.`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); } }] });
+}
+
+/* ── Add lines after a line: Lingo writes new ones (how many, words, a wish), or a copy to edit ── */
+const MAX_LINES = 12;
+function addLineDialog(sheet, exIndex, itemIndex) {
+  const ex = getExercise(sheet, exIndex);
+  const item = ex?.items?.[itemIndex];
+  if (!ex || !item) return;
+  const room = MAX_LINES - ex.items.length;
+  if (room <= 0) { toast(`An exercise can have up to ${MAX_LINES} lines.`, "info"); return; }
+  const lc = (x) => String(x || "").trim().toLowerCase();
+  const used = (w) => ex.items.some((it) => lc(it.answer).includes(lc(w)) || lc(it.prompt).includes(lc(w)));
+  const words = (state.data?.lingoLauncher?.vocabulary || []).map((v) => v.english).filter(Boolean).sort((a, b) => Number(used(a)) - Number(used(b))).slice(0, 24);
+  openDialog({
+    title: `Add after line ${item.number}`, subtitle: `${SHEET_NAME[sheet]} · Exercise ${ex.number} · ${EXERCISE_LABELS[ex.typeId] || ex.typeId}`, iconName: "plus", tone: "brand", size: "sm",
+    body: `<div class="pe-wishes pa-mode" role="tablist"><button type="button" class="chip active" data-pa-mode="ai">✨ Lingo writes it</button><button type="button" class="chip" data-pa-mode="copy">⧉ A copy to edit</button></div>
+      <div data-pa-panel="ai">
+        <div class="field"><span class="label">How many</span><span class="stepper" id="pa_n"><button type="button" class="icon-btn sm" data-pa-step="-1" aria-label="Fewer">${icon("minus", "i-sm")}</button><b>1</b><button type="button" class="icon-btn sm" data-pa-step="1" aria-label="More">${icon("plus", "i-sm")}</button></span> <small class="st-hint">up to ${Math.min(3, room)}</small></div>
+        ${words.length ? `<div class="field"><span class="label">Use these words <span class="opt">optional — or Lingo picks words this exercise hasn't used</span></span><div class="pe-wishes">${words.map((w) => `<button type="button" class="chip${used(w) ? " used" : ""}" data-pa-word="${esc(w)}">${esc(w)}</button>`).join("")}</div></div>` : ""}
+        <div class="field"><label class="label" for="pa_wish">Anything else? <span class="opt">optional</span></label><textarea class="textarea" id="pa_wish" rows="2" placeholder="e.g. about school, easier, a funny sentence"></textarea></div>
+      </div>
+      <div data-pa-panel="copy" hidden><p class="st-hint">${icon("info", "i-xs")} Line ${item.number} is copied right after it and opens for editing — change the word and the sentence.</p></div>`,
+    foot: `<span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-magic" data-pa-go>${icon("sparkles", "i-sm")}<span>Add 1 line</span></button>`,
+    onMount(root, close) {
+      let mode = "ai";
+      let n = 1;
+      const go = root.querySelector("[data-pa-go]");
+      const sync = () => {
+        root.querySelector("#pa_n").querySelector("b").textContent = n;
+        go.className = `btn ${mode === "ai" ? "btn-magic" : "btn-primary"}`;
+        go.innerHTML = `${icon(mode === "ai" ? "sparkles" : "copy", "i-sm")}<span>${mode === "ai" ? `Add ${n} line${n === 1 ? "" : "s"}` : "Copy and edit"}</span>`;
+      };
+      root.querySelectorAll("[data-pa-mode]").forEach((b) => b.addEventListener("click", () => {
+        mode = b.dataset.paMode;
+        root.querySelectorAll("[data-pa-mode]").forEach((x) => x.classList.toggle("active", x === b));
+        root.querySelectorAll("[data-pa-panel]").forEach((p) => { p.hidden = p.dataset.paPanel !== mode; });
+        sync();
+      }));
+      root.querySelectorAll("[data-pa-step]").forEach((b) => b.addEventListener("click", () => { n = Math.max(1, Math.min(Math.min(3, room), n + Number(b.dataset.paStep))); sync(); }));
+      root.querySelectorAll("[data-pa-word]").forEach((b) => b.addEventListener("click", () => b.classList.toggle("active")));
+      go.addEventListener("click", () => {
+        const picked = [...root.querySelectorAll("[data-pa-word].active")].map((b) => b.dataset.paWord);
+        const wish = root.querySelector("#pa_wish")?.value.trim() || "";
+        close();
+        if (mode === "copy") { copyLine(sheet, exIndex, itemIndex); return; }
+        addLines(sheet, exIndex, itemIndex, n, { words: picked, wish });
+      });
+      sync();
+    },
+  });
+}
+
+/** Put a copy of a line right after it and renumber the exercise; returns the new line's index. */
+function insertCopy(sheet, exIndex, itemIndex) {
+  const ex = getExercise(sheet, exIndex);
+  ex.items.splice(itemIndex + 1, 0, JSON.parse(JSON.stringify(ex.items[itemIndex])));
+  ex.items.forEach((it, i) => { it.number = i + 1; });
+  return itemIndex + 1;
+}
+
+function copyLine(sheet, exIndex, itemIndex) {
+  const before = JSON.stringify(state.data);
+  const at = insertCopy(sheet, exIndex, itemIndex);
+  persistSession();
+  renderPreview();
+  toast(`Line ${at + 1} is a copy — change it now.`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); } }] });
+  openItemEditor(sheet, exIndex, at);
+}
+
+/** Lingo writes new lines: each starts as a copy of the line before and is remade as a NEW line. */
+async function addLines(sheet, exIndex, itemIndex, count, { words = [], wish = "" } = {}) {
+  if (!isAiReady()) { actions.openSettings(); return; }
+  const before = JSON.stringify(state.data);
+  const ex = getExercise(sheet, exIndex);
+  actions.setAiState("busy");
+  const stop = toast(`Lingo is writing ${count === 1 ? "a new line" : `${count} new lines`}…`, "info", { ms: 60000 });
+  let made = 0;
+  try {
+    for (let k = 0; k < count; k++) {
+      const at = insertCopy(sheet, exIndex, itemIndex + k);
+      const word = words[k] || "";
+      const line = getExercise(sheet, exIndex).items[at];
+      const ask = [
+        "This is a NEW line added to the exercise: write a completely new line of the same kind, different from every other line in the exercise.",
+        word ? `Build it on the word "${word}".` : "Build it on a unit word this exercise hasn't used yet.",
+        wish,
+      ].filter(Boolean).join(" ");
+      const res = await remakeWorksheetItem(buildForm(), getApiKey(), state.data, { sheet, exercise: ex.number, item: line.number, wish: ask });
+      if (!res.changed) { getExercise(sheet, exIndex).items.splice(at, 1); getExercise(sheet, exIndex).items.forEach((it, i) => { it.number = i + 1; }); break; }
+      state.data = res.data;
+      // The new answer belongs in the exercise's word box / word list too.
+      const exNow = getExercise(sheet, exIndex);
+      const ans = String(exNow.items[at]?.answer || "").trim();
+      for (const key of ["wordBank", "wordList"]) {
+        const box = exNow[key];
+        if (ans && Array.isArray(box) && box.length && box.every((w) => typeof w === "string") && !box.some((w) => w.trim().toLowerCase() === ans.toLowerCase())) box.push(ans);
+      }
+      made++;
+    }
+    actions.setAiState("on");
+    if (!made) { state.data = JSON.parse(before); toast("Lingo couldn’t write a new line this time. Try again, or use “A copy to edit”.", "warn", { ms: 6000 }); return; }
+    state.data = normalizeWorksheetExercises(state.data);
+    persistSession();
+    renderPreview();
+    flashNode(`.ex-item[data-ex="${exIndex}"][data-item="${itemIndex + 1}"]`);
+    toast(`${made === 1 ? `Line ${itemIndex + 2} is new` : `${made} new lines`}${made < count ? ` (${count - made} couldn’t be written)` : ""}.`, made < count ? "warn" : "ok", { ms: 6000, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); } }] });
+  } catch (err) {
+    state.data = JSON.parse(before);
+    actions.setAiState("error", err.message);
+    toast(err.message || String(err), "error");
+  } finally {
+    stop?.();
+  }
 }
 
 /* ── ✨ Remake one line ── */
