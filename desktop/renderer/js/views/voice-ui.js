@@ -1,4 +1,4 @@
-/* Vocab Master — the "which voices?" picker and status lines shared by the Unit test and Read-aloud
+/* Vocab Master — the "which voices?" picker and status lines shared by the Test Maker and Read-aloud
  * dictation screens (and Settings). The engines themselves live in js/voices/listening.js. */
 import { esc, icon, toast } from "../ui.js";
 import { actions } from "../actions.js";

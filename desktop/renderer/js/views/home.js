@@ -16,7 +16,7 @@ let hooks = { newUnit: () => {}, openGames: () => {} };
 
 export function initHome(h) { hooks = { ...hooks, ...h }; }
 
-const FLOW = [["setup", "Unit setup"], ["words", "Vocabulary"], ["exercises", "Exercises"], ["preview", "Preview & export"]];
+const FLOW = [["setup", "Class & unit"], ["words", "Words"], ["exercises", "Exercises"], ["preview", "Your sheets"]];
 
 function greeting(d = new Date()) {
   const h = d.getHours();
@@ -77,7 +77,7 @@ function build() {
 function makeCards() {
   const cards = [
     ["worksheets", "file", "Worksheets", "A full vocabulary unit: Lingo Launcher + Dictation sheets, from the coursebook words.", "4 calm steps", "ws"],
-    ["tests", "clipboard", "Unit test", "Listening, reading, vocabulary, grammar and writing, with version B and a teacher’s pack.", "≈ 1 minute", "test"],
+    ["tests", "clipboard", "Test Maker", "Listening, reading, vocabulary, grammar and writing, with version B and a teacher’s pack.", "≈ 1 minute", "test"],
     ["dictation", "mic", "Read-aloud dictation", "Classic, gapped, running, dictogloss or picture — read by you or by natural voices.", "5 styles", "dict"],
     ["assistant", "wand", "Teacher assistant", "Just say what you need, in English or Greek. Lingo plans it, you approve it.", "Ask anything", "ai"],
   ];
@@ -176,7 +176,7 @@ export function renderHome() {
     </div>
     <div class="hm-hero-art" aria-hidden="true">
       <div class="hm-owl">${owl()}</div>
-      <span class="hm-float f1">${icon("clipboard", "i-sm")}Unit test</span>
+      <span class="hm-float f1">${icon("clipboard", "i-sm")}Test Maker</span>
       <span class="hm-float f2">${icon("mic", "i-sm")}Dictation</span>
       <span class="hm-float f3">${icon("gamepad", "i-sm")}Games</span>
     </div>

@@ -4098,6 +4098,33 @@ async function fixWorksheetValidationIssues(form, apiKey, existingData, validati
   };
 }
 
+/**
+ * Write one line of a worksheet exercise again (the teacher's ✨ Remake on the paper), with an optional wish
+ * ("easier", "use the word island"). Only that line changes. Returns { data, validation, changed }.
+ */
+async function remakeWorksheetItem(form, apiKey, existingData, { sheet, exercise, item, wish = "" }) {
+  const ex = getWorksheetExercise(existingData, sheet, exercise);
+  const current = getWorksheetItem(existingData, sheet, exercise, item);
+  if (!ex || !current) throw new Error("That line is no longer on the sheet.");
+  const reason = wish
+    ? `The teacher wants this line changed: ${wish}. Keep the same exercise type and format.`
+    : "The teacher wants a NEW, different line for this exercise type — not a rewording of the current one. Keep the format; use a unit word this exercise does not already test when possible.";
+  const targets = [{ sheet, exercise, item, typeId: ex.typeId, reason }];
+  const profileId = form.classProfile || existingData.meta?.classProfile;
+  const vocab = existingData.lingoLauncher?.vocabulary || [];
+  const others = (ex.items || []).filter((i) => i.number !== item).map((i) => i.prompt);
+  const userPrompt = `${buildFixItemsUserPrompt(existingData, targets, vocab)}
+
+The other lines of this exercise (never repeat one of them): ${JSON.stringify(others)}`;
+  const aiResult = await callDeepSeek(apiKey, buildFixItemsSystemPrompt(profileId, targets), userPrompt, "");
+  const data = mergeItemFixes(existingData, aiResult, targets);
+  normalizeWorksheetExercises(data);
+  const validation = validateWorksheet(data);
+  data.coverageReport = validation.coverage;
+  const after = getWorksheetItem(data, sheet, exercise, item);
+  return { data, validation, changed: !!after && (after.prompt !== current.prompt || after.answer !== current.answer) };
+}
+
 function mergeDictationItemUpdates(data, updates) {
   const merged = cloneWorksheetData(data);
   for (const u of updates || []) {
@@ -5445,6 +5472,7 @@ export {
   regenerateDictationOnly,
   regenerateLingoPracticeOnly,
   fixWorksheetValidationIssues,
+  remakeWorksheetItem,
   countFixableValidationIssues,
   buildValidationReport,
   applyQuickWorksheetFixes,

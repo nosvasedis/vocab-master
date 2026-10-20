@@ -180,7 +180,7 @@ export function openDeckPicker(o) {
         </div>
       </header>
       <div class="dp-words">${shown.map((w) => `<button type="button" class="dp-word${st.picked.has(w.id) ? " on" : ""}${key.some((k) => k.id === w.id) ? " key" : ""}${recent.has(w.english.toLowerCase()) ? " recent" : ""}" data-word="${w.id}" title="${esc(`${w.greek || ""} · p. ${w.page}${recent.has(w.english.toLowerCase()) ? " · played this week" : ""}`)}">
-        <span class="dp-wp">${o.pic(w)}</span><span class="dp-we">${esc(w.english)}</span><small>${esc(w.type || "")}</small></button>`).join("") || `<p class="dp-none">No words match these filters.</p>`}</div>
+        <span class="dp-wp">${o.pic(w)}</span><span class="dp-we">${esc(w.english)}</span><small>${esc(w.type || "")}</small>${w.page ? `<span class="dp-pg">p${esc(w.page)}</span>` : ""}</button>`).join("") || `<p class="dp-none">No words match these filters.</p>`}</div>
     </article>`;
   }
 

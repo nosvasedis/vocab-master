@@ -252,7 +252,7 @@ test("the assistant understands clear requests without AI", () => {
   assert.equal(parseRequest("running dictation for B senior", ctx).style, "running");
   assert.equal(needsAi("test for Unit 4", parseRequest("test for Unit 4", ctx)), false);
   assert.equal(needsAi("I want something nice for my D class tomorrow", parseRequest("I want something nice for my D class tomorrow", ctx)), true);
-  assert.match(planSummary(a), /Unit test for B Senior on Primary Path 2, Unit 4/);
+  assert.match(planSummary(a), /^Test for B Senior on Primary Path 2, Unit 4/);
 });
 
 test("the assistant asks at most two questions, answered by chips", () => {

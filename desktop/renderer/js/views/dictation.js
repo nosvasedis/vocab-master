@@ -1,4 +1,4 @@
-/* Read-aloud dictation — a step-by-step maker (like the Unit test, in its own green): the words, the style, the
+/* Read-aloud dictation — a step-by-step maker (like the Test Maker, in its own green): the words, the style, the
  * class and the sentences, then who writes them and how they are read; the last step is the paper with the
  * read-aloud player, print / PDF / Word for the student sheet, the teacher copy and the wall strips. */
 import { CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";

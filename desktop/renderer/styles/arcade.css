@@ -1237,3 +1237,5 @@ button.fd-slot:has(.fd-hint) { gap: 18px; }
   .ts-lobby.leaving, .ts-emoji .av, .ts-emoji .crest, .arc-team.active, .arc-hub > section, .game-card.featured::after { animation: none !important; }
   .mm-back::after { display: none; }
 }
+
+.dp-pg { align-self: flex-start; margin-top: 4px; font: 700 9.5px/1 var(--font-ui); opacity: .55; font-variant-numeric: tabular-nums; }

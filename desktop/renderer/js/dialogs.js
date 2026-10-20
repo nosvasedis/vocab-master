@@ -148,7 +148,7 @@ export function openSettings({ focusKey = true } = {}) {
           </select>
         </div>
         <div class="field">
-          <label class="label" for="setVoices">Listening voices <span class="opt">unit tests and read-aloud dictations</span></label>
+          <label class="label" for="setVoices">Listening voices <span class="opt">tests and read-aloud dictations</span></label>
           <select class="select" id="setVoices">${Object.entries(ENGINES).map(([id, e]) => `<option value="${id}" ${chosenEngine() === id ? "selected" : ""}>${esc(e.label)} — ${esc(e.note)}</option>`).join("")}</select>
           <p class="hint" id="setVoicesHint"></p>
           <div class="voices-actions">
@@ -304,10 +304,10 @@ export function openHelp() {
     size: "wide",
     body: `
       <div class="help-grid">
-        ${card("book-open", "1 · Unit setup", "Pick the class level (A–E Senior) and a Cambridge Primary Path unit — the official words load instantly. Any other coursebook works too.")}
-        ${card("list", "2 · Vocabulary", "Review the words. <strong>Fill everything with AI</strong> adds phrases, emojis and word families. Paste a list, drag to reorder, or describe the unit instead.")}
+        ${card("book-open", "1 · Class & unit", "Pick the class level (A–E Senior) and a Cambridge Primary Path unit — the official words load instantly. Any other coursebook works too.")}
+        ${card("list", "2 · Words", "Review the words. Each word shows its coursebook page. <strong>Fill everything with AI</strong> adds phrases, emojis and word families. Paste a list, drag to reorder, or describe the unit instead.")}
         ${card("layers", "3 · Exercises", "Use the smart mix or hand-pick formats. AI writes a Lingo Launcher study sheet, a Dictation test and an answer key.")}
-        ${card("file", "4 · Preview & export", "Click any line on the sheet to edit it. Export Word + PDF, print, project it, or open the Lingo Arcade games.")}
+        ${card("file", "4 · Your sheets", "Click any line on the sheet to edit it, or hover it for ✨ Remake to have Lingo write just that line again. Export Word + PDF, print, project it, or open the Lingo Arcade games.")}
       </div>
       <div class="settings-section">
         <h4>Keyboard shortcuts</h4>

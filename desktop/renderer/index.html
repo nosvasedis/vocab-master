@@ -189,36 +189,14 @@
           <span class="sb-item-text"><span>Teacher assistant</span><small>Ask for any test or sheet</small></span>
         </button>
         <div class="sb-group" id="sbWorksheets">
-        <button type="button" class="sb-item sb-group-head" data-nav="worksheets" aria-expanded="false" aria-controls="sbWorksheetSteps">
+        <button type="button" class="sb-item sb-group-head" data-nav="worksheets">
           <span class="sb-ico worksheets"><svg class="i"><use href="#i-file"/></svg></span>
           <span class="sb-item-text"><span>Worksheets</span><small id="navSub-worksheets">Lingo Launcher + Dictation</small></span>
-          <svg class="i i-sm sb-chev"><use href="#i-chevron-down"/></svg>
         </button>
-        <div class="sb-sub" id="sbWorksheetSteps">
-        <button type="button" class="sb-subnew" id="btnNew" data-tip="Start a fresh unit (Ctrl+N)">
-          <svg class="i i-xs"><use href="#i-plus"/></svg><span>New unit</span>
-        </button>
-        <button type="button" class="sb-item" data-nav="setup">
-          <span class="sb-step" data-step-dot="1">1</span>
-          <span class="sb-item-text"><span>Unit setup</span><small id="navSub-setup">Level &amp; coursebook</small></span>
-        </button>
-        <button type="button" class="sb-item" data-nav="words">
-          <span class="sb-step" data-step-dot="2">2</span>
-          <span class="sb-item-text"><span>Vocabulary</span><small id="navSub-words">0 words</small></span>
-        </button>
-        <button type="button" class="sb-item" data-nav="exercises">
-          <span class="sb-step" data-step-dot="3">3</span>
-          <span class="sb-item-text"><span>Exercises</span><small id="navSub-exercises">Plan &amp; generate</small></span>
-        </button>
-        <button type="button" class="sb-item" data-nav="preview">
-          <span class="sb-step" data-step-dot="4">4</span>
-          <span class="sb-item-text"><span>Preview &amp; export</span><small id="navSub-preview">Not generated yet</small></span>
-        </button>
-        </div>
         </div>
         <button type="button" class="sb-item" data-nav="tests">
           <span class="sb-ico tests"><svg class="i"><use href="#i-clipboard"/></svg></span>
-          <span class="sb-item-text"><span>Unit test</span><small>4 skills · answer key</small></span>
+          <span class="sb-item-text"><span>Test Maker</span><small>4 skills · answer key</small></span>
         </button>
         <button type="button" class="sb-item" data-nav="dictation">
           <span class="sb-ico dictation"><svg class="i"><use href="#i-mic"/></svg></span>
@@ -284,8 +262,12 @@
 
       <div class="scroller" id="scroller">
         <!-- ══ 1 · Setup ══ -->
-        <section class="view" data-view="setup">
+        <section class="view view-wide ws-view" data-view="setup">
+          <div class="mk mk-sheets">
+          <header class="mk-top" data-ws-top></header>
+          <div class="mk-body ws-body">
           <div class="view-inner">
+            <header class="mk-page-head"><div><h2>Who is it for, and which unit?</h2><p>The class sets the sentence length and the exercise types; the unit brings its official word list — tap words in or out.</p></div></header>
             <div class="welcome card hidden" id="welcomeCard">
               <div class="welcome-art" aria-hidden="true">
                 <span class="w-blob b1"></span><span class="w-blob b2"></span><span class="w-blob b3"></span>
@@ -415,11 +397,17 @@
               </div>
             </div>
           </div>
+        </div>
+          </div>
         </section>
 
         <!-- ══ 2 · Words ══ -->
-        <section class="view" data-view="words">
+        <section class="view view-wide ws-view" data-view="words">
+          <div class="mk mk-sheets">
+          <header class="mk-top" data-ws-top></header>
+          <div class="mk-body ws-body">
           <div class="view-inner">
+            <header class="mk-page-head"><div><h2>The words on the sheets</h2><p>Check the list. Lingo can fill in the Greek, a phrase, emojis and word families — or type and paste your own.</p></div></header>
             <div class="linked-banner hidden" id="linkedBanner"></div>
 
             <div class="words-top">
@@ -470,11 +458,17 @@
               </div>
             </div>
           </div>
+        </div>
+          </div>
         </section>
 
         <!-- ══ 3 · Exercises ══ -->
-        <section class="view" data-view="exercises">
+        <section class="view view-wide ws-view" data-view="exercises">
+          <div class="mk mk-sheets">
+          <header class="mk-top" data-ws-top></header>
+          <div class="mk-body ws-body">
           <div class="view-inner">
+            <header class="mk-page-head"><div><h2>Which exercises?</h2><p>A smart mix that suits the class, or choose each exercise yourself and fine-tune it. Then Lingo writes both sheets.</p></div></header>
             <div class="card card-pad">
               <div class="card-head">
                 <div>
@@ -606,10 +600,15 @@
               <div class="gen-error hidden" id="genError"></div>
             </div>
           </div>
+        </div>
+          </div>
         </section>
 
         <!-- ══ 4 · Preview ══ -->
-        <section class="view view-wide" data-view="preview">
+        <section class="view view-wide ws-view" data-view="preview">
+          <div class="mk mk-sheets mk-sheets-preview">
+          <header class="mk-top" data-ws-top></header>
+          <div class="mk-body ws-body">
           <div class="preview-layout">
             <div class="paper-col">
               <div class="paper-toolbar">
@@ -626,7 +625,7 @@
                   <button type="button" class="icon-btn sm" id="zoomIn" aria-label="Zoom in"><svg class="i i-sm"><use href="#i-zoom-in"/></svg></button>
                 </div>
               </div>
-              <div class="edit-hint" id="editHint"><svg class="i i-sm"><use href="#i-pencil"/></svg>Click any word box or exercise line to edit it. Changes save automatically.</div>
+              <div class="edit-hint" id="editHint"><svg class="i i-sm"><use href="#i-pencil"/></svg>Click any word box or line to edit it. Hover a line for ✨ Remake — Lingo writes just that line again.</div>
               <div class="paper-stage" id="paperStage">
                 <div class="paper" id="paper"></div>
               </div>
@@ -685,6 +684,8 @@
                 <button type="button" class="btn btn-ghost btn-sm btn-block" id="btnDuplicate"><svg class="i i-sm"><use href="#i-copy"/></svg>Duplicate for another class</button>
               </div>
             </aside>
+          </div>
+        </div>
           </div>
         </section>
 

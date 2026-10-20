@@ -4,7 +4,7 @@
 
 /* ── Sidebar: Home + the four worksheet steps folded under "Worksheets" ── */
 .sb-ico.home { color: #fff; background: linear-gradient(135deg, #f59e0b, #f43f5e); }
-.sb-ico.worksheets { color: #fff; background: linear-gradient(135deg, #38bdf8, #6366f1); }
+.sb-ico.worksheets { color: #fff; background: linear-gradient(135deg, #f26b3a, #f7a531); }
 .sb-home { margin-bottom: 4px; }
 .sb-group { display: flex; flex-direction: column; }
 .sb-chev { flex: none; color: var(--text-3); transition: transform var(--dur) var(--ease); }

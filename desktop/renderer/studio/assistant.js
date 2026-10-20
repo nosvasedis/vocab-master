@@ -11,7 +11,7 @@ import { findWordChoice, normalizeChoice, describeChoice, cutList, WORD_MODES, S
 import { LENGTHS } from "./test-builder.js";
 
 export const KINDS = {
-  test: { label: "Unit test", icon: "🧾" },
+  test: { label: "Test", icon: "🧾" },
   quiz: { label: "Quick quiz", icon: "⚡" },
   dictation: { label: "Read-aloud dictation", icon: "🗣️" },
   worksheet: { label: "Worksheets (Lingo Launcher + Dictation)", icon: "📄" },

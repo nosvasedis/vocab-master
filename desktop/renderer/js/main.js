@@ -38,11 +38,11 @@ import { initUpdates } from "./updates.js";
 const FLOW = ["setup", "words", "exercises", "preview"];
 const VIEW_META = {
   home: { title: "Home", sub: "Your teaching studio: make something, pick up where you left off, or take it to class." },
-  setup: { title: "Unit setup", sub: "Choose the class level and the coursebook unit." },
-  words: { title: "Vocabulary", sub: "Review the words — AI adds phrases, emojis and word families." },
-  exercises: { title: "Exercises", sub: "Plan the exercise mix and let AI write the worksheets." },
-  preview: { title: "Preview & export", sub: "Click any line to edit. Export, print or take it to class." },
-  library: { title: "Library", sub: "Every worksheet, unit test and dictation you make — open, search or back up." },
+  setup: { title: "Worksheets", sub: "A Lingo Launcher and a Dictation sheet for one unit — step 1: the class and the unit." },
+  words: { title: "Worksheets", sub: "Step 2: the words — check them, and let Lingo add the Greek, phrases and word families." },
+  exercises: { title: "Worksheets", sub: "Step 3: the exercises — a smart mix or your own choice, then Lingo writes the sheets." },
+  preview: { title: "Worksheets", sub: "Step 4: your sheets — click any line to edit it, then print, export or take it to class." },
+  library: { title: "Library", sub: "Every worksheet, test and dictation you make — open, search or back up." },
   lessons: { title: "Lessons", sub: "Curated, animated and voiced lessons for every unit. Teach them on the projector." },
   ...Object.fromEntries(Object.entries(STUDIO_VIEWS).map(([k, v]) => [k, { title: v.title, sub: v.sub }])),
 };
@@ -88,6 +88,32 @@ function go(view, { force = false, silent = false } = {}) {
 }
 
 /* ── Chrome: sidebar, top bar, flow bar ──────────────────────────── */
+/** The Worksheets maker's steps (its header pills, like the Test Maker's). */
+const WS_STEPS = [
+  { view: "setup", label: "Class & unit", sub: "Level, book, words" },
+  { view: "words", label: "Words", sub: "Check & enrich" },
+  { view: "exercises", label: "Exercises", sub: "Plan & write" },
+  { view: "preview", label: "Your sheets", sub: "Edit, print, play" },
+];
+
+function wsSummary() {
+  const p = CLASS_PROFILES[state.profileId];
+  return [p?.label, bookTitle() ? `${isCpp() ? `Primary Path ${state.cpp.bookId.slice(-1)}` : bookTitle()}${unitNumber() ? ` · Unit ${unitNumber()}` : ""}` : "", state.inputMode === "freeform" ? "a description" : filledWords().length ? plural(filledWords().length, "word") : ""].filter(Boolean).join(" · ") || "Lingo Launcher + Dictation";
+}
+
+/** The Worksheets header: brand, what the unit is, the four steps, New unit. */
+function renderWorksheetsTop(view) {
+  const idx = FLOW.indexOf(view);
+  const html = `<div class="mk-brand"><span class="mk-badge">${icon("file")}</span><div><b>Worksheets</b><span>${esc(wsSummary())}</span></div></div>
+    <nav class="mk-steps" aria-label="Steps">${WS_STEPS.map((st, i) => {
+      const locked = st.view === "preview" && !state.data;
+      const done = i !== idx && stepDone(st.view);
+      return `${i ? `<i class="mk-sep" aria-hidden="true"></i>` : ""}<button type="button" class="mk-pill${i === idx ? " active" : ""}${done ? " done" : ""}" data-goto="${st.view}"${i === idx ? ` aria-current="step"` : ""}${locked ? ` disabled title="Generate the worksheets first"` : ""}><span class="mk-pill-n"><span>${i + 1}</span>${icon("check", "i-xs")}</span><span class="mk-pill-t"><b>${st.label}</b><small>${st.sub}</small></span></button>`;
+    }).join("")}</nav>
+    <button type="button" class="btn btn-ghost btn-sm mk-new" data-ws-new data-tip="Start a fresh unit (Ctrl+N)">${icon("plus", "i-sm")}<span>New unit</span></button>`;
+  $$("[data-ws-top]").forEach((el) => { if (el.closest(".view")?.dataset.view === view) el.innerHTML = html; else el.innerHTML = ""; });
+}
+
 function stepDone(step) {
   if (step === "setup") return !validateSetup();
   if (step === "words") return state.inputMode === "freeform" ? state.freeform.trim().length > 10 : filledWords().length > 0;
@@ -101,20 +127,11 @@ function renderChrome() {
   $("pageTitle").textContent = meta.title;
   $("pageSub").textContent = meta.sub;
 
-  $$(".sb-item[data-nav]").forEach((b) => b.classList.toggle("active", b.dataset.nav === view));
   const inFlow = FLOW.includes(view);
-  $("sbWorksheets").classList.toggle("open", inFlow);
-  document.querySelector(".sb-group-head").setAttribute("aria-expanded", String(inFlow));
+  $$(".sb-item[data-nav]").forEach((b) => b.classList.toggle("active", b.dataset.nav === view || (inFlow && b.dataset.nav === "worksheets")));
+  if (inFlow) renderWorksheetsTop(view);
   $("navSub-worksheets").textContent = state.data ? `${bookTitle() || "Your unit"}${unitNumber() ? ` · Unit ${unitNumber()}` : ""} · ready` : filledWords().length ? `${plural(filledWords().length, "word")} · in progress` : "Lingo Launcher + Dictation";
-  FLOW.forEach((step, i) => {
-    const dot = document.querySelector(`[data-step-dot="${i + 1}"]`);
-    if (dot) dot.classList.toggle("done", step !== view && stepDone(step));
-  });
   const p = CLASS_PROFILES[state.profileId];
-  $("navSub-setup").textContent = p ? `${p.label} · ${isCpp() ? `PP${state.cpp.bookId.slice(-1)} ` : ""}Unit ${unitNumber()}` : "Level & coursebook";
-  $("navSub-words").textContent = state.inputMode === "freeform" ? "Freeform brief" : plural(filledWords().length, "word");
-  $("navSub-exercises").textContent = state.plan ? `${state.plan.dictationExerciseCount} Dictation · ${state.plan.lingoPracticeCount} Lingo` : "Plan & generate";
-  $("navSub-preview").textContent = state.data ? "Ready to export" : "Not generated yet";
   document.querySelector('.sb-item[data-action="open-projector"]').disabled = !state.data;
 
   // Context chips
@@ -131,9 +148,15 @@ function renderChrome() {
   const idx = FLOW.indexOf(view);
   $("flowbar").classList.toggle("hidden", idx < 0);
   if (idx >= 0) {
-    $("flowDots").innerHTML = FLOW.map((s, i) => `<span class="${i === idx ? "active" : i < idx || stepDone(s) ? "done" : ""}"></span>`).join("");
+    const facts = [
+      p ? p.label : "",
+      state.inputMode === "freeform" ? "described unit" : filledWords().length ? plural(filledWords().length, "word") : "",
+      state.plan?.dictationExerciseCount ? `${state.plan.dictationExerciseCount} + ${state.plan.lingoPracticeCount} exercises` : "",
+      state.data ? "sheets ready" : "",
+    ].filter(Boolean);
+    $("flowDots").innerHTML = `<span class="ws-dots">${FLOW.map((s, i) => `<span class="${i === idx ? "active" : i < idx || stepDone(s) ? "done" : ""}"></span>`).join("")}</span><span class="ws-foot-t"><b>Step ${idx + 1} of ${FLOW.length}</b>${facts.length ? ` · ${esc(facts.join(" · "))}` : ""}</span>`;
     $("flowBack").style.visibility = idx === 0 ? "hidden" : "visible";
-    $("flowBack").querySelector("span").textContent = idx > 0 ? VIEW_META[FLOW[idx - 1]].title : "";
+    $("flowBack").querySelector("span").textContent = idx > 0 ? WS_STEPS[idx - 1].label : "";
     const next = $("flowNext");
     const label = {
       setup: "Continue to vocabulary",
@@ -299,7 +322,7 @@ function wire() {
     const g = e.target.closest("[data-goto]");
     if (g) go(g.dataset.goto);
   });
-  $("btnNew").addEventListener("click", newUnit);
+  document.addEventListener("click", (e) => { if (e.target.closest("[data-ws-new]")) newUnit(); });
   $("btnPlayTop").addEventListener("click", openGames);
   $("btnSettings").addEventListener("click", () => openSettings());
   $("aiStatusCard").addEventListener("click", () => openSettings());

@@ -1,11 +1,11 @@
-/* Unit test builder — choose book & unit(s) (or a topic), the class, the length, and edit the parts (skill, task,
+/* Test Maker — choose book & unit(s) (or a topic), the class, the length, and edit the parts (skill, task,
  * items, points). One AI request writes the test from the whole unit (words by section, Big Question, readings,
  * lesson stories); any part can be rewritten alone. Version B, a teacher's pack, listening read by the app's
  * voices, click-to-edit items, and print / PDF / Word. */
 import { CLASS_PROFILES, CPP_BOOKS, downloadBlob } from "../../app.js";
 import { state, prefs, isCpp, filledWords, LEVEL_COLORS } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
-import { segmented, withBusy, openDialog } from "../ui.js";
+import { segmented, withBusy } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
   makePicFor, wizardNav, createWizard, printHtml, exportPdf, exportWord, recentDocs, saveDoc, deleteDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
@@ -15,17 +15,19 @@ const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(
 import { TASKS, SKILLS, tasksFor, defaultTask, tfLabels } from "../../studio/tasks.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
 import { testDefaults, presetParts, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, taskBlock, taskForSource, fitPartsToSource, defaultTitle, LENGTHS, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes } from "../../studio/test-builder.js";
-import { makeVersionB, docProblems, docPoints, normalizeItem, balanceChoices, LETTERS } from "../../studio/doc-model.js";
+import { makeVersionB, docProblems, docPoints } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
 import { audioFileName } from "../../studio/audio-track.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { loadLessonJson } from "./studio-common.js";
+import { mountTestEditing } from "./test-edit.js";
 
 const PREFS_KEY = "vm_tests_prefs_v1";
 let picker;
 let paper;
+let editor = null;
 let built = false;
 const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true };
 
@@ -33,6 +35,8 @@ const savePrefs = () => writeJSON(PREFS_KEY, ts.spec);
 
 export function initTests() {
   const saved = readJSON(PREFS_KEY, null);
+  // A part whose task no longer exists is dropped (older settings).
+  if (Array.isArray(saved?.parts)) saved.parts = saved.parts.filter((p) => TASKS[p?.task]);
   ts.spec = saved?.levelId && Array.isArray(saved.parts) ? { ...testDefaults(saved.levelId), ...saved } : testDefaults(state.profileId || "B_SENIOR");
 }
 
@@ -52,7 +56,7 @@ function build() {
   host.innerHTML = `
   <div class="mk mk-test">
     <header class="mk-top">
-      <div class="mk-brand"><span class="mk-badge">${icon("clipboard")}</span><div><b>Unit test</b><span id="tsSummary"></span></div></div>
+      <div class="mk-brand"><span class="mk-badge">${icon("clipboard")}</span><div><b>Test Maker</b><span id="tsSummary"></span></div></div>
       ${wizardNav(STEPS)}
     </header>
     <div class="mk-body">
@@ -89,7 +93,7 @@ function build() {
           </div>
           <div id="tsListen"></div>
           <div id="tsProblems"></div>
-          <p class="edit-hint hidden" id="tsEditHint">${icon("pencil", "i-sm")}Tip: click any question on the paper to change it.</p>
+          <p class="edit-hint hidden" id="tsEditHint"></p>
           <div class="paper-stage tb-stage" id="tsStage"><div class="paper hidden" id="tsPaper"></div>
             <div class="mk-empty" id="tsEmpty">
               <div class="empty-owl">${owl()}</div>
@@ -229,7 +233,24 @@ function build() {
     const d = recentDocs("test").find((x) => x.id === row.dataset.doc);
     if (d) { openDoc(d); renderAll(); wiz.show(RESULT); toast("Opened a saved test.", "ok", { ms: 2000 }); }
   });
-  paperEditing();
+  editor = mountTestEditing({
+    root: paper.root,
+    doc: () => ts.doc,
+    view: () => sheetDoc(),
+    sheet: () => ts.sheet,
+    spec: () => specForAi().spec,
+    async ctx() {
+      if (ts.ctx?.picFor && ts.ctx?.focus) return ts.ctx;
+      const c = await contextFor(specForAi().sel);
+      ts.ctx = { ...(ts.ctx || {}), ...c };
+      return ts.ctx;
+    },
+    profile: (levelId, focus) => withMemory(levelId, focus),
+    ask: (system, user) => askAi(system, user),
+    checkKeys: (ids) => checkKeys(ts.doc, ids),
+    commit: () => refreshDoc(),
+    rewritePart: (id, wish) => rewritePart(id, null, wish),
+  });
   built = true;
   wiz.show(0, { scroll: false });
 }
@@ -659,10 +680,11 @@ async function fixPart(partId, btn) {
   });
 }
 
-async function rewritePart(partId, btn) {
-  if (!ts.doc) return;
+async function rewritePart(partId, btn, wish = "") {
+  if (!ts.doc) return false;
   const { sel, spec } = specForAi();
-  await withBusy(btn, async () => {
+  if (wish) spec.parts.forEach((p) => { if (p.id === partId) p.note = [p.note, wish].filter(Boolean).join("; "); });
+  return withBusy(btn, async () => {
     try {
       const ctx = ts.ctx?.focus ? ts.ctx : await contextFor(sel);
       const { system, user } = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus) }, [partId]);
@@ -673,8 +695,9 @@ async function rewritePart(partId, btn) {
       ts.stale.delete(partId);
       refreshDoc();
       renderParts();
-      toast("Done — that part is new.", "ok", { ms: 2000 });
-    } catch (e) { aiErrorToast(e); }
+      if (btn) toast("Done — that part is new.", "ok", { ms: 2000 });
+      return true;
+    } catch (e) { aiErrorToast(e); return false; }
   });
 }
 
@@ -714,7 +737,10 @@ function renderPaper() {
   const has = !!ts.doc;
   $("tsPaper").classList.toggle("hidden", !has);
   $("tsEmpty").classList.toggle("hidden", has);
-  $("tsEditHint").classList.toggle("hidden", !has || ts.sheet === "teacher");
+  $("tsEditHint").classList.toggle("hidden", !has);
+  $("tsEditHint").innerHTML = ts.sheet === "teacher"
+    ? `${icon("pencil", "i-sm")}<span>Click a listening script, a speaking script or a model answer to change it.</span>`
+    : `${icon("pencil", "i-sm")}<span>Click anything on the paper to change it. Hover a question for <b>✨ Remake</b> — Lingo writes just that one again.</span>`;
   $("tsSheetSeg").classList.toggle("hidden", !has);
   $("testsView").classList.toggle("has-doc", has);
   ["tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
@@ -722,6 +748,7 @@ function renderPaper() {
   renderFoot();
   if (!has) { paper.clear(); $("tsProblems").innerHTML = ""; $("tsListen").innerHTML = ""; return; }
   paper.render(sheetHtml());
+  editor?.decorate();
   fitPaper($("tsStage"), $("tsPaper"));
   const byPart = ts.doc.sections.filter((s) => s.problems?.length);
   $("tsProblems").innerHTML = byPart.length ? `<div class="callout warning st-problems">${icon("alert")}<div><b>Worth a quick look before printing</b>${byPart.map((s) => `<div class="prob-row"><span>Part ${ts.doc.sections.indexOf(s) + 1} · ${esc(TASKS[s.task]?.label || "")}: ${esc(s.problems.slice(0, 2).map(friendlyProblem).join("; "))}</span>${fixButton(s)}</div>`).join("")}</div></div>` : "";
@@ -804,52 +831,6 @@ async function warmListening() {
   ts.naturalReady = await naturalDownloaded();
   renderListen();
   if (ts.doc) warmScripts(listeningParts().map(({ s }) => s.script), ts.doc.meta.classProfile);
-}
-
-/* Click a question on the paper to edit it (prompt, options, answer). */
-function paperEditing() {
-  paper.root.addEventListener("click", (e) => {
-    if (ts.sheet === "teacher") return;
-    const itemEl = e.composedPath().find((n) => n.classList?.contains("st-item") || n.classList?.contains("pic-card"));
-    if (!itemEl) return;
-    const secEl = itemEl.closest("section.st-sec");
-    const secs = [...paper.root.querySelectorAll("section.st-sec")];
-    const doc = sheetDoc();
-    const section = doc.sections[secs.indexOf(secEl)];
-    if (!section || section.answerType === "open" || section.skill === "dictation") return;
-    const items = [...secEl.querySelectorAll(".st-item:not(.st-example), .pic-card:not(.st-example)")];
-    const item = section.items[items.indexOf(itemEl)];
-    if (item) openItemEditor(section, item);
-  });
-}
-
-function openItemEditor(section, item) {
-  const choice = section.answerType === "choice";
-  openDialog({
-    title: `Edit question ${item.n}`,
-    subtitle: `${SKILLS[section.skill]?.label} · ${TASKS[section.task]?.label}`,
-    iconName: "pencil",
-    sheet: true,
-    body: `<div class="field"><label class="label" for="te_prompt">Question / sentence</label><textarea class="textarea" id="te_prompt" rows="3">${esc(item.prompt || "")}</textarea></div>
-      ${choice ? `<div class="field"><label class="label" for="te_opts">Options <span class="opt">one per line</span></label><textarea class="textarea" id="te_opts" rows="4">${esc(item.options.join("\n"))}</textarea></div>` : ""}
-      <div class="field"><label class="label" for="te_ans">Right answer</label><input class="input" id="te_ans" value="${esc(item.answer || "")}" autocomplete="off" /></div>`,
-    foot: `<span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-primary" data-save>Save</button>`,
-    onMount(root, close) {
-      root.querySelector("[data-save]").addEventListener("click", () => {
-        const raw = { prompt: root.querySelector("#te_prompt").value, answer: root.querySelector("#te_ans").value, options: choice ? root.querySelector("#te_opts").value.split("\n") : undefined };
-        const { item: fixed, problems } = normalizeItem(raw, section.task, { levelId: ts.doc.meta.classProfile, picFor: ts.ctx?.picFor });
-        if (problems.length) { toast(problems.join(" · "), "warn"); return; }
-        // Edits go to both versions: the same question keeps its place in A; B is rebuilt.
-        const target = ts.doc.sections.find((s) => s.id === section.id);
-        const it = target.items.find((x) => x.prompt === item.prompt && x.answer === item.answer) || target.items[item.n - 1];
-        Object.assign(it, fixed, { n: it.n });
-        if (choice) balanceChoices([it]);
-        close();
-        refreshDoc();
-        toast("Question saved.", "ok", { ms: 1800 });
-      });
-    },
-  });
 }
 
 function renderRecent() {

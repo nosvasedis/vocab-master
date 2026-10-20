@@ -342,7 +342,8 @@ ${ctx.profileBlock || ""}`;
     section.passage ? `TEXT${section.passageTitle ? ` "${section.passageTitle}"` : ""}:\n${section.passage}` : "",
     section.bank?.length && section.answerType !== "match" ? `WORD BOX: ${section.bank.join(", ")}` : "",
     `THE ITEMS NOW:\n${section.items.map(show).join("\n")}`,
-    `PROBLEMS:\n${(section.problems || []).map((p) => `- ${p}`).join("\n")}`,
+    section.problems?.length ? `PROBLEMS:\n${section.problems.map((p) => `- ${p}`).join("\n")}` : "",
+    ctx.instruction ? `THE TEACHER WANTS for items ${itemNs.join(", ")}: ${ctx.instruction}` : ctx.fresh ? `Write a NEW, different question for items ${itemNs.join(", ")} — not a rewording of the one there now.` : "",
     `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${src ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ""}`,
     Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.` : "",
     t.answer === "choice" ? DISTRACTOR_RULE : "",
@@ -365,24 +366,48 @@ function sectionToRaw(s) {
  * ctx: { picFor, focusWords }
  */
 export function applyItemFixes(doc, spec, sectionId, reply, itemNs, ctx = {}) {
-  const s = doc?.sections?.find((x) => x.id === sectionId);
-  if (!s) return [];
-  const raw = sectionToRaw(s);
   const want = new Set(itemNs.map(Number));
   const changed = [];
-  for (const it of Array.isArray(reply?.items) ? reply.items : []) {
-    const n = Number(it?.n);
-    if (!want.has(n) || !raw.items[n - 1]) continue;
-    raw.items[n - 1] = { prompt: it.prompt ?? it.question ?? "", options: it.options, answer: it.answer, evidence: it.evidence };
-    changed.push(n);
-  }
-  if (!changed.length) return [];
-  const plan = spec.parts.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
-  const fresh = normalizeSection({ ...plan, items: s.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec.levelId, picFor: spec.pictures !== false ? ctx.picFor : null });
+  const ok = reviseSection(doc, spec, sectionId, (raw) => {
+    for (const it of Array.isArray(reply?.items) ? reply.items : []) {
+      const n = Number(it?.n);
+      if (!want.has(n) || !raw.items[n - 1] || changed.includes(n)) continue;
+      raw.items[n - 1] = { prompt: it.prompt ?? it.question ?? "", options: it.options, answer: it.answer, evidence: it.evidence };
+      changed.push(n);
+    }
+    return changed.length > 0;
+  }, ctx);
+  return ok ? changed.sort((a, b) => a - b) : [];
+}
+
+/**
+ * Change a part of a doc and check it again (the teacher's edits on the paper, and the AI's single-question fixes).
+ * edit(raw) changes the part in the AI's shape and returns false to cancel. The part's pictures stay when no picFor is
+ * given. Returns true when the part changed. ctx: { picFor, focusWords }
+ */
+export function reviseSection(doc, spec, sectionId, edit, ctx = {}) {
+  const s = doc?.sections?.find((x) => x.id === sectionId);
+  if (!s) return false;
+  const raw = sectionToRaw(s);
+  if (edit(raw) === false) return false;
+  const plan = spec?.parts?.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
+  const picFor = spec?.pictures !== false ? ctx.picFor || keepPics(s) : null;
+  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor });
   fresh.problems.push(...scopeProblems(fresh, ctx.focusWords));
+  fresh.plays = s.plays || fresh.plays;
+  fresh.rubricEl = s.rubricEl || fresh.rubricEl;
   Object.assign(s, fresh);
   doc.meta.points = docPoints(doc);
-  return changed.sort((a, b) => a - b);
+  return true;
+}
+
+/** A picFor that only knows the pictures a part already has (so an edit keeps them). */
+function keepPics(s) {
+  const map = new Map();
+  const add = (word, pic) => { if (word && pic) map.set(String(word).trim().toLowerCase(), pic); };
+  [s.example, ...(s.items || [])].filter(Boolean).forEach((it) => { add(it.answer, it.pic); (it.options || []).forEach((o, i) => add(o, it.optionPics?.[i])); });
+  (s.pictures || []).forEach((p) => add(p.word, p.pic));
+  return map.size ? (w) => map.get(String(w || "").trim().toLowerCase()) || null : null;
 }
 
 /** Answers outside the tested words, per part (vocabulary, reading gaps and listening gaps). */

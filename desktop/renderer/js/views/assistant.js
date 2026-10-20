@@ -1,11 +1,11 @@
 /* Teacher assistant — the teacher says what they need; the assistant asks at most two questions (as chips),
- * shows an editable plan card, then builds it with the Unit test, Dictation or worksheet makers. */
+ * shows an editable plan card, then builds it with the Test Maker, Dictation or worksheet makers. */
 import { CPP_BOOKS, CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";
 import { state, emit, isCpp, LEVEL_COLORS, targetText, makeWord, coursebookEntryToWord, filledWords, SMART_PICK } from "../state.js";
 import { isAiReady } from "../bridge.js";
 import { actions } from "../actions.js";
 import { segmented } from "../ui.js";
-import { $, esc, icon, plural, toast, askAi, aiErrorToast, segHtml, switchHtml, stepperHtml, owl, owlHead, loadLessonJson, askClassMemory, classMemoryFor } from "./studio-common.js";
+import { $, esc, icon, plural, toast, askAi, aiErrorToast, segHtml, switchHtml, stepperHtml, owl, owlHead, loadLessonJson, pageTag, askClassMemory, classMemoryFor } from "./studio-common.js";
 import { reviewWords } from "../../studio/class-memory.js";
 import { unitWords, SECTION_LABEL } from "../../studio/unit-context.js";
 import { chooseUnitWords, normalizeChoice, WORD_MODES, SECTION_KEYS } from "../../studio/word-choice.js";
@@ -40,7 +40,7 @@ function suggestions() {
   const unit = c.bookId ? `Unit ${c.unit}` : "Unit 4";
   const book = c.bookId ? `Primary Path ${c.bookId.slice(-1)} ` : "";
   return [
-    [`A test for ${book}${unit}`, "test", "Unit test"],
+    [`A test for ${book}${unit}`, "test", "Test Maker"],
     [`A read-aloud dictation for ${unit}, 8 sentences`, "dictation", "Dictation"],
     ["A Present Simple vs Present Continuous test for E class", "test", "Grammar test"],
     [`A quick vocabulary quiz on ${unit}`, "quiz", "Quick quiz"],
@@ -166,7 +166,7 @@ function renderMessages() {
         <div class="as-hero-owl">${owl()}</div>
         <span class="as-hero-kicker">${icon("wand", "i-xs")}Teacher assistant</span>
         <h2>${greeting()}! <span class="as-grad">What shall we make today?</span></h2>
-        <p>Ask Lingo for a <b>unit test</b>, a <b>dictation</b>, a <b>quick quiz</b> or <b>worksheets</b> — for any Primary Path unit or grammar point. If something is missing it asks, then shows you a plan to change before anything is written.</p>
+        <p>Ask Lingo for a <b>test</b>, a <b>dictation</b>, a <b>quick quiz</b> or <b>worksheets</b> — for any Primary Path unit or grammar point. If something is missing it asks, then shows you a plan to change before anything is written.</p>
         <div class="as-starters">${suggestions().map(([text, kind, title], i) => `<button type="button" class="as-starter" data-suggest="${esc(text)}" data-kind="${kind}" style="--i:${i}"><span class="as-starter-ico">${icon(KIND_ICON[kind], "i-sm")}</span><span class="as-starter-text"><small>${esc(title)}</small>${esc(text)}</span>${icon("arrow-right", "i-sm as-starter-go")}</button>`).join("")}</div>
         <p class="as-hero-el" lang="el">Γράψτε μου στα αγγλικά ή στα ελληνικά.</p>
       </div>`
@@ -319,8 +319,8 @@ function wordsBlock(p) {
     const on = chosen.has(w.english.toLowerCase());
     const isKey = res.keys.has(w.english.toLowerCase());
     return picking
-      ? `<button type="button" class="as-wchip${on ? " on" : ""}${isKey ? " key" : ""}" data-wtoggle="${esc(w.english)}">${esc(w.english)}</button>`
-      : `<span class="as-wchip${isKey ? " key" : ""}">${esc(w.english)}<button type="button" data-wout="${esc(w.english)}" aria-label="Leave out ${esc(w.english)}" title="Leave it out">${icon("x", "i-xs")}</button></span>`;
+      ? `<button type="button" class="as-wchip${on ? " on" : ""}${isKey ? " key" : ""}" data-wtoggle="${esc(w.english)}">${esc(w.english)}${pageTag(w)}</button>`
+      : `<span class="as-wchip${isKey ? " key" : ""}">${esc(w.english)}${pageTag(w)}<button type="button" data-wout="${esc(w.english)}" aria-label="Leave out ${esc(w.english)}" title="Leave it out">${icon("x", "i-xs")}</button></span>`;
   }).join("") || `<small class="st-hint">${loadingKeys ? "Loading the unit’s key words…" : "No words — choose another option or more parts of the unit."}</small>`}</div>
       ${c.except.length ? `<div class="as-wout">Left out: ${c.except.map((w) => `<button type="button" class="chip" data-win="${esc(w)}" title="Put it back">${esc(w)} ${icon("undo", "i-xs")}</button>`).join("")}</div>` : ""}
       ${res.missing.length ? `<p class="st-hint">${icon("info", "i-xs")} Not in this unit, added as your own: ${esc(res.missing.join(", "))}</p>` : ""}

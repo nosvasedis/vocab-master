@@ -6,6 +6,8 @@ import { testDefaults, makePart, testPrompt, buildTestDoc, PART_LEVELS, partLeve
 import { normalizeSection } from "../desktop/renderer/studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../desktop/renderer/studio/doc-render.js";
 import { parseRequest, mergeAiPlan, planSummary, REVIEW } from "../desktop/renderer/studio/assistant.js";
+import { reviseSection } from "../desktop/renderer/studio/test-builder.js";
+import { unitWords } from "../desktop/renderer/studio/unit-context.js";
 
 const DAY = 86400000;
 const NOW = Date.UTC(2026, 9, 20);
@@ -149,4 +151,46 @@ test("speaking parts have cards for the students and a script for the teacher", 
   assert.match(teacher, /Warm-up/);
   assert.match(teacher, /Model dialogue/);
   assert.match(teacher, /Interaction/);
+});
+
+/* ── Editing the paper and remaking one question ─────────────────── */
+
+test("a teacher's wish (or a fresh question) goes into the remake prompt", () => {
+  const { spec, doc } = readingDoc();
+  const wish = fixItemsPrompt(spec, doc.sections[0], [3], { instruction: "use the word park" }).user;
+  assert.match(wish, /THE TEACHER WANTS for items 3: use the word park/);
+  const fresh = fixItemsPrompt(spec, doc.sections[0], [3], { fresh: true }).user;
+  assert.match(fresh, /Write a NEW, different question for items 3/);
+  const clean = { ...doc.sections[0], problems: [] };
+  assert.ok(!fixItemsPrompt(spec, clean, [1], { fresh: true }).user.includes("PROBLEMS:"), "no empty problems list");
+});
+
+test("editing a part on the paper checks it again and keeps what the teacher wrote", () => {
+  const { spec, doc } = readingDoc();
+  const s = doc.sections[0];
+  s.rubricEl = "Διάβασε προσεκτικά.";
+  assert.equal(reviseSection(doc, spec, "r1", (raw) => { raw.items[1] = { prompt: "Where does it like to go?", options: ["the park", "the zoo", "school"], answer: "the park" }; }), true);
+  assert.ok(!s.problems.some((p) => p.startsWith("item 2:")));
+  assert.equal(s.rubricEl, "Διάβασε προσεκτικά.");
+  assert.equal(reviseSection(doc, spec, "r1", () => false), false, "an editor can cancel");
+  reviseSection(doc, spec, "r1", (raw) => { raw.passage = ""; });
+  assert.ok(s.problems.includes("missing the reading text"));
+});
+
+test("pictures stay when a picture part is edited without the word bank's pictures", () => {
+  const plan = { ...makePart("vocabulary", "V-PIC", "B_SENIOR"), id: "p1", items: 2 };
+  const spec = { ...testDefaults("B_SENIOR"), parts: [plan], pictures: true };
+  const picFor = (w) => ({ lion: "@w-lion", zebra: "@w-zebra" })[String(w).toLowerCase()] || null;
+  const doc = buildTestDoc(spec, { sections: [{ id: "p1", items: [{ prompt: "It can roar.", answer: "lion" }, { prompt: "Black and white.", answer: "zebra" }] }] }, { levelId: "B_SENIOR", picFor, meta: {} });
+  assert.equal(doc.sections[0].items[0].pic, "@w-lion");
+  reviseSection(doc, spec, "p1", (raw) => { raw.items[0].prompt = "The king of animals."; });
+  assert.equal(doc.sections[0].items[0].prompt, "The king of animals.");
+  assert.equal(doc.sections[0].items[0].pic, "@w-lion");
+  assert.ok(!doc.sections[0].problems.some((p) => /no picture/.test(p)));
+});
+
+test("unit words carry their coursebook page (for the small page tag on word chips)", () => {
+  const words = unitWords("CPP2", 4, ["A"]);
+  assert.ok(words.length > 0);
+  assert.ok(words.every((w) => Number(w.page) > 0), "every word has a page");
 });

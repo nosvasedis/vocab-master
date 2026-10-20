@@ -28,7 +28,7 @@ export function unitWords(bookId, unit, sections = SECTIONS) {
     const key = String(e.english || "").trim().toLowerCase();
     if (!key || seen.has(key)) continue;
     seen.add(key);
-    out.push({ english: e.english, type: e.type || "", greek: e.greek || "", example: e.example || "", section: sec, unit: e.unit, bookId, id: e.id });
+    out.push({ english: e.english, type: e.type || "", greek: e.greek || "", example: e.example || "", section: sec, unit: e.unit, bookId, id: e.id, page: e.page || 0 });
   }
   return out;
 }

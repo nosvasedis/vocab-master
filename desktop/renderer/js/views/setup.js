@@ -353,6 +353,7 @@ function renderPool() {
         <span class="wc-box">${icon(on ? "check" : "plus")}</span>
         <span>${esc(w.english)}</span>
         <span class="wc-gr">${esc(w.greek || "")}</span>
+        ${w.sbPage || w.wbPage || w.page ? `<span class="wc-pg" aria-label="${esc(page)}">${w.source === "wb" ? "WB " : ""}${esc(w.source === "wb" ? w.wbPage || w.page : w.sbPage || w.page)}</span>` : ""}
         <span class="wc-src"></span>
       </button>`;
     }).join("");

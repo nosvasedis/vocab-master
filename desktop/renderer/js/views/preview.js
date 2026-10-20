@@ -3,7 +3,7 @@ import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
   renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
   saveWorksheetSession, applyQuickWorksheetFixes, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
-  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName, getSavedSession,
+  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName, getSavedSession, remakeWorksheetItem,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
 import { state, emit, on, buildForm, makeWord, prefs, worksheetFreshness } from "../state.js";
@@ -38,6 +38,14 @@ td.editable-vocab { border-radius: 0; }
 td.editable-vocab:hover { box-shadow: inset 0 0 0 2px #b7aefc; }
 .flash { animation: flash 1.2s ease-out; }
 @keyframes flash { 0% { background: #d6f5e8; } 100% { background: transparent; } }
+.ex-item.editable { position: relative; }
+.pe-bar { position: absolute; top: -13px; right: 4px; z-index: 6; display: flex; gap: 3px; padding: 3px; border-radius: 10px; background: #fff; box-shadow: 0 6px 18px rgba(40, 30, 120, .18), 0 0 0 1px #e3defd; font: 650 12.5px/1 "Segoe UI", system-ui, sans-serif; white-space: nowrap; }
+.pe-bar button { display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border: 0; border-radius: 7px; background: transparent; color: #3b2fc9; font: inherit; cursor: pointer; }
+.pe-bar button:hover { background: #efedff; }
+.pe-bar button.magic { color: #fff; background: linear-gradient(135deg, #6d5df6, #a855f7); }
+.ex-item.pe-busy { pointer-events: none; background: #f3f1ff; }
+.ex-item.pe-busy > * { opacity: .35; }
+.ex-item.pe-busy::after { content: "Lingo is rewriting…"; position: absolute; inset: 0; display: grid; place-items: center; font: 700 12px/1 "Segoe UI", sans-serif; color: #4b3fd6; }
 `;
 
 export function initPreview() {
@@ -71,6 +79,14 @@ export function initPreview() {
   new ResizeObserver(() => applyZoom()).observe($("paperStage"));
 
   shadow.addEventListener("click", onPaperActivate);
+  // Hovering a line shows Edit and ✨ Remake (Lingo writes just that line again).
+  shadow.addEventListener("mouseover", (e) => {
+    const item = e.composedPath().find((n) => n.classList?.contains("editable") && n.classList.contains("ex-item"));
+    if (!item || item.querySelector(".pe-bar") || item.classList.contains("pe-busy")) return;
+    shadow.querySelectorAll(".pe-bar").forEach((b) => b.remove());
+    item.insertAdjacentHTML("beforeend", `<div class="pe-bar"><button type="button" data-pe-act="edit">✎ Edit</button><button type="button" class="magic" data-pe-act="remake" title="Lingo writes this line again">✨ Remake</button></div>`);
+  });
+  shadow.addEventListener("mouseleave", () => shadow.querySelectorAll(".pe-bar").forEach((b) => b.remove()), true);
   shadow.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") onPaperActivate(e);
   });
@@ -193,7 +209,66 @@ function onPaperActivate(e) {
   const cell = path.find((n) => n.classList?.contains("editable-vocab"));
   if (cell) { e.preventDefault(); openVocabEditor(Number(cell.dataset.vocabNum) - 1); return; }
   const item = path.find((n) => n.classList?.contains("editable"));
-  if (item) { e.preventDefault(); openItemEditor(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item)); }
+  if (!item || item.classList.contains("pe-busy")) return;
+  e.preventDefault();
+  if (path.some((n) => n.dataset?.peAct === "remake")) { remakeDialog(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item)); return; }
+  openItemEditor(state.preview.sheet, Number(item.dataset.ex), Number(item.dataset.item));
+}
+
+/* ── ✨ Remake one line ── */
+const LINE_WISHES = [["Easier", "make it easier for this class"], ["Harder", "make it a bit harder"], ["Another word", "use a different unit word"], ["Shorter", "make the sentence shorter"], ["New context", "put the word in a new everyday situation"]];
+function remakeDialog(sheet, exIndex, itemIndex) {
+  const ex = getExercise(sheet, exIndex);
+  const item = ex?.items?.[itemIndex];
+  if (!ex || !item) return;
+  if (!isAiReady()) { actions.openSettings(); return; }
+  openDialog({
+    title: `Remake line ${item.number}`, subtitle: `${SHEET_NAME[sheet]} · Exercise ${ex.number} · ${EXERCISE_LABELS[ex.typeId] || ex.typeId}`, iconName: "sparkles", tone: "brand", size: "sm",
+    body: `<p class="pe-now">${esc(item.prompt || "")}${item.answer ? ` <b>→ ${esc(item.answer)}</b>` : ""}</p>
+      <div class="field"><label class="label" for="pe_wish">What should change? <span class="opt">optional</span></label>
+        <textarea class="textarea" id="pe_wish" rows="2" placeholder="e.g. use the word “island”, about school, a funnier sentence"></textarea></div>
+      <div class="pe-wishes">${LINE_WISHES.map(([l, w]) => `<button type="button" class="chip" data-wish="${esc(w)}">${esc(l)}</button>`).join("")}</div>`,
+    foot: `<button type="button" class="btn btn-ghost" data-fresh>${icon("shuffle", "i-sm")}Surprise me</button><span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-magic" data-go>${icon("sparkles", "i-sm")}Remake</button>`,
+    onMount(root, close) {
+      const box = root.querySelector("#pe_wish");
+      root.querySelectorAll("[data-wish]").forEach((b) => b.addEventListener("click", () => {
+        b.classList.toggle("active");
+        const picked = [...root.querySelectorAll("[data-wish].active")].map((x) => x.dataset.wish);
+        const typed = box.value.split(";").map((x) => x.trim()).filter((x) => x && !LINE_WISHES.some(([, w]) => w === x));
+        box.value = [...typed, ...picked].join("; ");
+      }));
+      root.querySelector("[data-fresh]").addEventListener("click", () => { close(); remakeLine(sheet, exIndex, itemIndex, ""); });
+      root.querySelector("[data-go]").addEventListener("click", () => { close(); remakeLine(sheet, exIndex, itemIndex, box.value.trim()); });
+      box.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); root.querySelector("[data-go]").click(); } });
+    },
+  });
+}
+
+async function remakeLine(sheet, exIndex, itemIndex, wish) {
+  const ex = getExercise(sheet, exIndex);
+  const item = ex?.items?.[itemIndex];
+  if (!ex || !item) return;
+  const sel = `.ex-item[data-ex="${exIndex}"][data-item="${itemIndex}"]`;
+  const node = shadow.querySelector(sel);
+  node?.querySelector(".pe-bar")?.remove();
+  node?.classList.add("pe-busy");
+  const before = JSON.stringify(state.data);
+  actions.setAiState("busy");
+  try {
+    const res = await remakeWorksheetItem(buildForm(), getApiKey(), state.data, { sheet, exercise: ex.number, item: item.number, wish });
+    actions.setAiState("on");
+    if (!res.changed) { toast("Lingo couldn’t write that line — try again, or edit it yourself.", "warn"); return; }
+    state.data = res.data;
+    persistSession();
+    renderPreview();
+    flashNode(sel);
+    toast(`Line ${item.number} is new.`, "ok", { ms: 5000, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); flashNode(sel); } }] });
+  } catch (err) {
+    actions.setAiState("error", err.message);
+    toast(err.message || String(err), "error");
+  } finally {
+    shadow.querySelector(sel)?.classList.remove("pe-busy");
+  }
 }
 
 function fitZoom() {

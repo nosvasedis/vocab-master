@@ -148,10 +148,15 @@
   backdrop-filter: blur(18px) saturate(1.3);
 }
 .flowbar #flowNext { margin-left: auto; min-width: 150px; }
-.flow-dots { flex: 1; display: flex; justify-content: center; gap: 6px; }
-.flow-dots span { width: 28px; height: 5px; border-radius: 5px; background: var(--border-strong); transition: all var(--dur-slow) var(--ease-out); }
-.flow-dots span.done { background: var(--success); }
-.flow-dots span.active { width: 44px; background: var(--brand); }
+.flow-dots { flex: 1; display: flex; align-items: center; justify-content: center; gap: 14px; min-width: 0; }
+.ws-dots { display: flex; gap: 6px; flex: none; }
+.ws-foot-t { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12.5px; color: var(--text-3); }
+.ws-foot-t b { color: var(--text-2); }
+.ws-dots span { width: 28px; height: 5px; border-radius: 5px; background: var(--border-strong); transition: all var(--dur-slow) var(--ease-out); }
+.ws-dots span.done { background: var(--success); }
+.ws-dots span.active { width: 44px; background: linear-gradient(90deg, #f26b3a, #f7a531); }
+#flowNext.btn-primary { color: #fff; border-color: transparent; background: linear-gradient(135deg, #f26b3a, color-mix(in srgb, #f26b3a 55%, #f7a531)); box-shadow: 0 6px 16px rgba(242, 107, 58, 0.3); }
+#flowNext.btn-primary:hover:not(:disabled) { filter: brightness(1.06); }
 
 .spacer { flex: 1; }
 .sub-label { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-3); margin: 4px 0 10px; }
@@ -531,7 +536,7 @@
 .exc-need { font-size: 11.5px; font-weight: 600; color: var(--warning-ink); display: flex; align-items: center; gap: 5px; }
 .exc-need .i { width: 13px; height: 13px; }
 
-.plan { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.plan { margin-top: 16px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
 .plan-col { padding: 14px; border-radius: 13px; background: var(--surface-2); border: 1px solid var(--divider); }
 .plan-col h4 { font-size: 13.5px; font-weight: 750; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .plan-col h4 .badge { margin-left: auto; }
@@ -596,7 +601,7 @@
 .view-wide.active { display: block; }
 .preview-layout { display: grid; grid-template-columns: minmax(0, 1fr) 330px; min-height: 100%; }
 .paper-col { min-width: 0; padding: 18px 26px 40px; display: flex; flex-direction: column; gap: 12px; }
-.paper-toolbar { display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 3; padding: 6px 0; }
+.paper-toolbar { display: flex; align-items: center; gap: 10px; position: sticky; top: var(--mk-top-h, 0px); z-index: 3; padding: 6px 0; }
 .zoom-ctl { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); }
 .zoom-ctl span { min-width: 46px; text-align: center; font-size: 12px; font-weight: 700; color: var(--text-2); }
 .edit-hint { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-3); }
@@ -618,8 +623,8 @@
   background: var(--glass);
   padding: 18px 16px 40px;
   display: flex; flex-direction: column; gap: 12px;
-  position: sticky; top: 0; align-self: start;
-  max-height: calc(100vh - var(--topbar-h) - 66px); overflow-y: auto;
+  position: sticky; top: var(--mk-top-h, 0px); align-self: start;
+  max-height: calc(100vh - var(--topbar-h) - 66px - var(--mk-top-h, 0px)); overflow-y: auto;
 }
 .insp-card { display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-xs); }
 .insp-title { display: flex; align-items: center; gap: 8px; font: 750 13px/1 var(--font-display); color: var(--text); }
@@ -879,3 +884,7 @@
 .lib-kind { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 99px; font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--text-2); background: var(--surface-3); }
 .lib-kind.test { color: var(--info-ink); background: var(--info-soft); }
 .lib-kind.dictation { color: var(--success-ink); background: var(--success-soft); }
+
+/* Page number on word chips: tiny, quiet, never wraps the chip */
+.wc-pg { flex: none; align-self: flex-start; margin: 3px -3px 0 -2px; padding: 0 3px; border-radius: 4px; font: 700 9px/13px var(--font-ui); letter-spacing: .02em; color: var(--text-3); background: var(--surface-3); opacity: .85; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.word-chip.on .wc-pg { color: inherit; background: color-mix(in srgb, currentColor 10%, transparent); }

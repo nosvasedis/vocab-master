@@ -17,7 +17,7 @@ const DOCS_KEY = "vm_studio_docs_v1";
 const KINDS = [
   ["all", "Everything", "library"],
   ["unit", "Worksheets", "file"],
-  ["test", "Unit tests", "clipboard"],
+  ["test", "Tests", "clipboard"],
   ["dictation", "Read-aloud dictations", "mic"],
 ];
 let kind = "all";
@@ -103,7 +103,7 @@ export function openSession(id, view = "preview") {
 function cardHtml(it, i) {
   const p = CLASS_PROFILES[it.level];
   const base = `class="lib-card" data-id="${esc(it.id)}" data-type="${it.type}" style="--lvl:${LEVEL_COLORS[it.level] || "var(--brand)"};animation-delay:${Math.min(i, 12) * 35}ms"`;
-  const kindChip = { unit: [icon("file", "i-xs"), "Worksheets"], test: [icon("clipboard", "i-xs"), "Unit test"], dictation: [icon("mic", "i-xs"), "Dictation"] }[it.type];
+  const kindChip = { unit: [icon("file", "i-xs"), "Worksheets"], test: [icon("clipboard", "i-xs"), "Test"], dictation: [icon("mic", "i-xs"), "Dictation"] }[it.type];
   const top = `<div class="lib-top">
       <span class="lc-letter">${esc((p?.label || "?").charAt(0))}</span>
       <div class="lib-title"><strong title="${esc(it.title)}">${esc(it.title)}</strong><span>${esc(it.sub)}</span></div>
@@ -147,7 +147,7 @@ export function renderLibrary() {
     grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
       <div class="empty-art">${icon("library")}</div>
       <h3>Your library is empty</h3>
-      <p>Every worksheet unit, unit test and read-aloud dictation you make is saved here automatically.</p>
+      <p>Every worksheet unit, test and read-aloud dictation you make is saved here automatically.</p>
       <button type="button" class="btn btn-primary" data-lib-new>${icon("plus", "i-sm")}Create your first unit</button>
     </div>`;
     grid.querySelector("[data-lib-new]").addEventListener("click", () => actions.go("setup"));

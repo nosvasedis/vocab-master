@@ -1,4 +1,4 @@
-/* Shared pieces of the Dictation, Unit test and Assistant screens: the word source picker, the A4 paper
+/* Shared pieces of the Dictation, Test Maker and Assistant screens: the word source picker, the A4 paper
  * preview, print / PDF / Word export, the AI call wrapper and the list of recent documents. */
 import {
   CPP_BOOKS, CLASS_PROFILES, selectSmartCoursebookWords, getProfilePromptBlock, callAi, WORKSHEET_PRINT_CSS, downloadBlob, getAllSavedSessions,
@@ -132,6 +132,9 @@ export function classMemoryBrief(levelId, focus = []) {
   const review = mem.words.size ? reviewWords(mem, { n: 30 }).filter((r) => focus.some((w) => String(w.english).toLowerCase() === r.english.toLowerCase())) : [];
   return memoryBrief(mem, review);
 }
+
+/** A very small page number on a word chip (Student's Book, or WB for the Workbook). */
+export const pageTag = (w) => (w?.page ? `<span class="wc-pg" title="${w.section === "WB" ? "Workbook" : "Student’s Book"} page ${esc(w.page)}">${w.section === "WB" ? "WB " : ""}${esc(w.page)}</span>` : "");
 
 /* ── Paper preview ────────────────────────────────────────────────── */
 const PAPER_EXTRA = `:host { all: initial; display: block; color: #000; } .worksheet { max-width: none; }
@@ -356,8 +359,8 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       const k = w.english.toLowerCase();
       const on = !picking || st.picked.has(k);
       return on
-        ? `<span class="word-chip on removable"><span>${esc(w.english)}</span><button type="button" class="wc-x" data-sp-out="${esc(k)}" aria-label="Leave out ${esc(w.english)}" title="Leave it out">${icon("x", "i-xs")}</button></span>`
-        : `<button type="button" class="word-chip off" data-sp-word="${esc(k)}" title="Put it back"><span>${esc(w.english)}</span>${icon("plus", "i-xs")}</button>`;
+        ? `<span class="word-chip on removable"><span>${esc(w.english)}</span>${pageTag(w)}<button type="button" class="wc-x" data-sp-out="${esc(k)}" aria-label="Leave out ${esc(w.english)}" title="Leave it out">${icon("x", "i-xs")}</button></span>`
+        : `<button type="button" class="word-chip off" data-sp-word="${esc(k)}" title="Put it back"><span>${esc(w.english)}</span>${pageTag(w)}${icon("plus", "i-xs")}</button>`;
     };
     const more = list.length > shown.length
       ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-down", "i-xs")}Show all ${list.length} words</button>`
@@ -472,7 +475,7 @@ export const stepperHtml = (name, value, min, max) => `<span class="stepper" dat
 export { $, esc, icon, plural, toast };
 
 
-/* ── Maker wizard (Unit test, Read-aloud dictation) ───────────────────
+/* ── Maker wizard (Test Maker, Read-aloud dictation) ───────────────────
  * A full-width page per step under a tinted header with step pills, and a sticky bar with Back / Next.
  * steps: [{ label, sub }]. The last step is the result (the paper). */
 export const wizardNav = (steps) => `<nav class="mk-steps" aria-label="Steps">${steps.map((s, i) => `${i ? `<i class="mk-sep" aria-hidden="true"></i>` : ""}<button type="button" class="mk-pill" data-mk-go="${i}"><span class="mk-pill-n"><span>${i + 1}</span>${icon("check", "i-xs")}</span><span class="mk-pill-t"><b>${s.label}</b><small>${s.sub}</small></span></button>`).join("")}</nav>`;

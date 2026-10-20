@@ -741,3 +741,35 @@
 @media (max-width: 640px) { .mk-review.off { flex-direction: column; align-items: stretch; } }
 
 .mk-op-probs ul:has(> li:only-child) { padding-left: 0; list-style: none; }
+
+/* Test Maker, Step 5: the paper editors (js/views/test-edit.js) */
+.pe-now { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); color: var(--text-2); font-size: 13.5px; line-height: 1.45; }
+.pe-wishes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: -2px; }
+.pe-wishes .chip.active { border-color: var(--brand); color: var(--brand-ink); background: var(--brand-soft); }
+.pe-pairs { display: flex; flex-direction: column; gap: 6px; }
+.pe-pair { display: grid; grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1.6fr); gap: 8px; align-items: center; }
+.pe-n { font: 800 12px/1 var(--font-ui); color: var(--text-3); text-align: right; }
+.pe-card { margin: 4px 0 12px; padding: 10px 14px 4px; border: 1.5px solid var(--border); border-radius: 12px; }
+.pe-card legend { padding: 0 6px; font: 800 12px/1 var(--font-ui); letter-spacing: .04em; text-transform: uppercase; color: var(--brand-ink); }
+
+/* ── Worksheets: the same stepped maker as Test Maker and Read-aloud dictation, in warm "paper" colours ── */
+.mk-sheets { --mk: #f26b3a; --mk-2: #f7a531; min-height: calc(100vh - var(--topbar-h) - 66px); }
+.mk-sheets .mk-top::after { background: repeating-linear-gradient(180deg, transparent 0 11px, color-mix(in srgb, var(--mk) 34%, transparent) 11px 12px); }
+.mk-sheets .mk-top::before { background: linear-gradient(100deg, color-mix(in srgb, var(--mk) 13%, transparent), transparent 46%); }
+.mk-sheets .mk-steps { margin-left: auto; }
+.mk-new { flex: none; margin-left: 4px; }
+.ws-body { max-width: 1120px; }
+.ws-body > .view-inner { max-width: none; }
+.mk-sheets-preview .ws-body { max-width: none; padding: 0; }
+.mk-sheets .card { border-radius: 18px; }
+.mk-sheets .card-title { font: 750 15.5px/1.25 var(--font-display); }
+.mk-sheets .card-title .num, .mk-sheets .card-title > .i { display: inline-grid; place-items: center; width: 28px; height: 28px; padding: 0; border-radius: 9px; color: #fff; background: linear-gradient(135deg, var(--mk), var(--mk-2)); box-shadow: 0 4px 10px color-mix(in srgb, var(--mk) 28%, transparent); }
+.mk-sheets .card-title > .i { padding: 6px; }
+.mk-sheets .segmented .seg-thumb { background: var(--surface); }
+.mk-sheets .chip.active { color: var(--mk-ink); background: var(--mk-soft); border-color: color-mix(in srgb, var(--mk) 45%, transparent); }
+.mk-sheets .generate-card { border-color: color-mix(in srgb, var(--mk) 28%, var(--border)); }
+.mk-sheets .gen-glow { background: radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--mk) 22%, transparent), transparent 60%), radial-gradient(circle at 90% 100%, color-mix(in srgb, var(--mk-2) 20%, transparent), transparent 55%); }
+.mk-sheets .add-word:hover { border-color: var(--mk); color: var(--mk-ink); }
+.mk-sheets .paper-col { padding-top: 14px; }
+@media (max-width: 1180px) { .mk-sheets .mk-pill-t small { display: none; } }
+@media (max-width: 980px) { .mk-sheets .mk-pill-t { display: none; } .mk-new span { display: none; } }
