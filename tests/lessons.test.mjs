@@ -43,3 +43,10 @@ test("normText is stable", () => {
   assert.equal(normText("  “Hello,  World!” "), "hello, world");
   assert.equal(normText("My ____ is tall."), "my blank is tall");
 });
+
+test("lesson.css keeps its .greek rules inside the lesson player (Step 2's Greek field stays visible)", () => {
+  const css = fs.readFileSync(new URL("../desktop/renderer/styles/lesson.css", import.meta.url), "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
+  const selectors = [...css.matchAll(/([^{}]+)\{/g)].flatMap((m) => m[1].split(",")).map((x) => x.trim()).filter((x) => /\.greek\b/.test(x));
+  assert.ok(selectors.length);
+  for (const sel of selectors) assert.match(sel, /^\.lesson[\s.]/, `unscoped selector: ${sel}`);
+});

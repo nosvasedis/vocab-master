@@ -153,10 +153,11 @@
 .ls-btn:hover { transform: translateY(-3px) scale(1.02); }
 .ls-btn.primary { background: linear-gradient(135deg, #ff8a4c, #ff5e7a); }
 .ls-btn.ghost { background: rgba(255, 255, 255, 0.92); color: #1d1640; }
-.greek { display: none; font-family: var(--font-display); color: #5b3df5; }
-.show-greek .greek { display: block; animation: rise-in 300ms var(--ease-out) both; }
-.rv-tile .greek { display: none; }
-.show-greek .rv-tile .greek { display: block; }
+/* Scoped to the lesson player: a bare .greek also hid the Greek field in Step 2 of Worksheets (.wr-f.greek). */
+.lesson .greek { display: none; font-family: var(--font-display); color: #5b3df5; }
+.lesson.show-greek .greek, .lesson .show-greek .greek { display: block; animation: rise-in 300ms var(--ease-out) both; }
+.lesson .rv-tile .greek { display: none; }
+.lesson.show-greek .rv-tile .greek, .lesson .show-greek .rv-tile .greek { display: block; }
 
 /* Shared card look */
 .hk-title, .hk-question, .rv-card, .rv-wall, .ck, .pr-card, .sp, .rc-badge, .rc-exit, .ls-finish, .st-caption {
@@ -198,7 +199,7 @@
 .rv-tile-pic { font-size: 110px; line-height: 1; }
 
 .rv-tile b { font: 700 42px var(--font-play); color: #1d1640; }
-.rv-tile .greek { font-size: 30px; }
+.lesson .rv-tile .greek { font-size: 30px; }
 .rv-hint { margin-top: 20px; font: 600 30px var(--font-play); color: #9f9cc8; }
 
 /* Story */

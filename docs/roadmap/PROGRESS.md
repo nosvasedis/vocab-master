@@ -4,6 +4,10 @@
 
 **Next:** nothing queued. **Since 3.5.0 (2026-10-20) the desktop app updates itself:** a push to `main` that changes `desktop/renderer/**` reaches installed apps on its own (keep `main` green); a new exe is needed only for shell changes, via `npm run release` — see CLAUDE.md → Shipping and RESUME.md → "Shipping changes to teachers". Current version: **v3.5.3** (Save window, Remake that obeys, any class with any book, rail sidebar; before it v3.5.2: ChatGPT exercise remake fix; section below). Teachers on 3.4.0 or older must install 3.5.0 once by hand.
 
+## Fix: the Greek field shows in Step 2 of Worksheets (2026-10-21, from the user)
+- With the Greek switch on, the Greek cell of every word row was drawn but invisible: `styles/lesson.css` (loaded for the whole app) had a bare `.greek { display: none }` for the lesson player, and the row's cell is `.wr-f.greek`. The lesson rules are now scoped to `.lesson` (same behaviour inside lessons).
+- Tests: 525 green (`tests/lessons.test.mjs` +1: no unscoped `.greek` selector in lesson.css).
+
 ## Fix: a unit test's book and unit print once (2026-10-21, from the user)
 - The header of a unit test showed “Primary Path 2 · Unit 4” under the title and again on the right (book, unit). The test builder had copied the unit label into the subtitle. Now a unit test keeps that label in `meta.label` (the library still shows it) and its subtitle is empty unless the teacher writes one; a topic test is unchanged.
 - Saved unit tests are fixed when they open (`relabelDoc`): a subtitle that starts “Primary Path N · Unit …” moves to the label; any other subtitle, including one the teacher wrote, stays.
