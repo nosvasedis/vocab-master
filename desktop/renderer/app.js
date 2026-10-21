@@ -13,6 +13,7 @@ import {
 import { sanitizeVocabField, rejectionNote } from "./vocab-quality.js";
 import { IRREGULAR_FORMS, wordFormPattern, findOutsideAnswers, worksheetMatchesForm, wordsKey, unitIdentity, allowedTerms } from "./studio/word-scope.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "./studio/remake.js";
+import { wordCoverage, dictationRoom, sentenceLimit, NOT_SENTENCE_TYPES, friendlyReason, lineLabel } from "./studio/quality-check.js";
 import { BINARY_TYPES, binaryBalance, balancedPattern, repairABItems, choicesPredictable, rebalanceChoiceItems } from "./studio/answer-balance.js";
 import {
   buildArcadeDeck,
@@ -1209,6 +1210,11 @@ function isAnswerKeyIssue(issue) {
   return /the key needs a mix of|is not a word from this unit's list/.test(issue);
 }
 
+/** Line issues the line fixer repairs after generation (answer keys, a sentence too long to dictate, a line copied across sheets). */
+function isLineRepairIssue(issue) {
+  return isAnswerKeyIssue(issue) || /item \d+: (sentence is \d+ words|same sentence as Dictation)/.test(issue);
+}
+
 function normalizeWorksheetPrompts(data) {
   if (!data) return data;
   stripItemNumberPrefixes(data);
@@ -1320,22 +1326,6 @@ function normalizeWorksheetExercises(data) {
   return data;
 }
 
-function wordInAnswer(target, answer, vocab) {
-  const t = normalizeWord(target);
-  const a = normalizeWord(answer);
-  if (!t || !a) return false;
-  if (a.includes(t) || t.includes(a)) return true;
-  const item = vocab.find((v) => normalizeWord(v.english) === t);
-  if (!item) return a.includes(t.split(" ")[0]);
-  for (const d of normalizeDerivativesList(item.derivatives)) {
-    const text = typeof d === "string" ? d : d?.text;
-    if (text && a.includes(normalizeWord(text))) return true;
-  }
-  const parts = t.split(/\s+/);
-  if (parts.length > 1 && parts.some((p) => a.includes(p) && p.length > 3)) return true;
-  return false;
-}
-
 function collectTestTargets(vocabulary) {
   const targets = [];
   const seen = new Set();
@@ -1358,71 +1348,25 @@ function collectTestTargets(vocabulary) {
   return targets;
 }
 
-function targetTestedInItem(target, item, vocabulary) {
-  const answers = [...(item.testsWords || []), item.answer].filter(Boolean);
-  return answers.some((ans) => {
-    if (target.kind === "headword") return wordInAnswer(target.label, ans, vocabulary);
-    if (answerMatches(target.label, ans)) return true;
-    if (target.parent && wordInAnswer(target.parent, ans, vocabulary)) return true;
-    return false;
-  });
-}
-
+/**
+ * Which headwords the Dictation tests (studio/quality-check.js: the word or a listed derivative as the answer,
+ * or shown and declared in testsWords; whole words only, so "room" never counts for "bedroom"). Synonyms and
+ * opposites belong to their headword's family, so a missing word is listed once, not once per related form.
+ */
 function computeDictationCoverage(vocabulary, dictation) {
-  const targets = collectTestTargets(vocabulary);
+  const cov = wordCoverage({ lingoLauncher: { vocabulary }, dictation });
   const wordMap = {};
-  targets.forEach((t) => { wordMap[t.key] = []; });
-
-  dictation?.exercises?.forEach((ex) => {
-    ex.items?.forEach((item) => {
-      targets.forEach((target) => {
-        if (targetTestedInItem(target, item, vocabulary)) {
-          if (!wordMap[target.key].includes(ex.typeId)) wordMap[target.key].push(ex.typeId);
-        }
-      });
-    });
-  });
-
-  const missing = targets.filter((t) => !wordMap[t.key]?.length);
-  const headwordMap = {};
-  vocabulary?.forEach((v) => {
-    const key = `headword:${normalizeWord(v.english)}`;
-    headwordMap[v.english] = wordMap[key] || [];
-  });
-
-  return {
-    targets,
-    wordMap: headwordMap,
-    targetMap: wordMap,
-    missing,
-    allCovered: missing.length === 0,
-    ok: missing.length === 0,
-  };
+  cov.words.forEach((w) => { wordMap[w.head] = [...new Set(w.dictation.map((at) => at.typeId))]; });
+  const missing = cov.words.filter((w) => !w.dictation.length)
+    .map((w) => ({ key: `headword:${normalizeWord(w.head)}`, label: w.head, kind: "headword", related: w.related }));
+  return { targets: collectTestTargets(vocabulary), words: cov.words, wordMap, missing, allCovered: missing.length === 0, ok: missing.length === 0 };
 }
 
 function computeLingoCoverage(vocabulary, practice) {
-  const targets = collectTestTargets(vocabulary);
+  const cov = wordCoverage({ lingoLauncher: { vocabulary, practice } });
   const wordMap = {};
-  vocabulary?.forEach((v) => { wordMap[v.english] = []; });
-
-  practice?.forEach((ex) => {
-    ex.items?.forEach((item) => {
-      targets.forEach((target) => {
-        if (targetTestedInItem(target, item, vocabulary)) {
-          if (target.kind === "headword" && !wordMap[target.label]?.includes(ex.typeId)) {
-            wordMap[target.label].push(ex.typeId);
-          }
-        }
-      });
-    });
-  });
-
-  const tested = Object.values(wordMap).filter((h) => h.length > 0).length;
-  return {
-    wordMap,
-    testedCount: tested,
-    totalHeadwords: vocabulary?.length || 0,
-  };
+  cov.words.forEach((w) => { wordMap[w.head] = [...new Set(w.lingo.map((at) => at.typeId))]; });
+  return { wordMap, testedCount: cov.words.filter((w) => w.lingo.length).length, totalHeadwords: cov.words.length };
 }
 
 /** @deprecated use computeDictationCoverage — kept for callers expecting shape */
@@ -1918,11 +1862,10 @@ ${lines.length ? `${lines.join("\n")}\n` : ""}- Two-answer exercises are NEVER a
 - In bracket choices "(a / b / c)" put the correct option in a different place on different lines (first, middle, last)`;
 }
 
+/** Words a student hears in a line: a gap or a set of bracket choices (anywhere in the line) is one word. */
 function countDictationPromptWords(prompt, typeId) {
-  if (SLASH_CHOICE_TYPES.has(typeId) || typeId === "D12") {
-    return countWords(splitPromptBodyAndChoices(prompt).body);
-  }
-  return countWords(prompt);
+  const body = typeId === "D12" ? splitPromptBodyAndChoices(prompt).body : String(prompt || ""); // a riddle's choices aren't read out
+  return countWords(body.replace(/\([^)]*\/[^)]*\)/g, " X ").replace(/_{2,}/g, " X "));
 }
 
 const RIDDLE_GIVEAWAY_HINTS = [
@@ -2320,8 +2263,9 @@ function validateWorksheet(data) {
       if (hasGreek(item.prompt) || hasGreek(item.instruction)) {
         issues.push(`Greek found in dictation prompt (item ${item.number})`);
       }
-      if (profile && countDictationPromptWords(item.prompt, ex.typeId) > profile.maxSentenceWords + 5) {
-        issues.push(`Sentence too long in dictation (max ~${profile.maxSentenceWords} words)`);
+      const words = countDictationPromptWords(item.prompt, ex.typeId);
+      if (profile && !NOT_SENTENCE_TYPES.has(ex.typeId) && words > sentenceLimit(profile.maxSentenceWords)) {
+        issues.push(`Dictation ex ${ex.number} (${ex.typeId}) item ${item.number}: sentence is ${words} words — keep it to about ${profile.maxSentenceWords} for ${profile.label}`);
       }
       if ((item.prompt || "").includes("<u>")) issues.push("Forbidden <u> tag in dictation");
       if (ex.typeId === "D12") {
@@ -2559,7 +2503,10 @@ function validateWorksheet(data) {
   validateAnswerKeys(data).forEach((i) => issues.push(i));
 
   findCrossWorksheetDuplicatePrompts(data).forEach((dup) => {
-    issues.push(`Duplicate sentence across worksheets: ${dup.message}`);
+    // The Lingo line is the one to rewrite (the Dictation keeps its coverage).
+    const { lingo, dictation } = dup;
+    if (lingo && dictation) issues.push(`Lingo ex ${lingo.exercise} (${lingo.typeId}) item ${lingo.item}: same sentence as Dictation ${dictation.exercise} line ${dictation.item} — write a new sentence for this line`);
+    else issues.push(`Duplicate sentence across worksheets: ${dup.message}`);
   });
 
   findLingoCollocationDuplicates(data).forEach((msg) => {
@@ -2578,6 +2525,7 @@ function validateWorksheet(data) {
   const lingoCoverage = computeLingoCoverage(vocab, data.lingoLauncher?.practice || []);
   const coverage = {
     dictation: dictCoverage,
+    room: dictationRoom(data, { words: dictCoverage.words, missing: dictCoverage.missing.map((m) => m.label) }, (profile?.itemsPerExercise || 5) + 1),
     lingo: lingoCoverage,
     wordMap: dictCoverage.wordMap,
     missing: dictCoverage.missing.map((m) => m.label),
@@ -3065,14 +3013,19 @@ function renderAnswerKey(data, options = {}) {
 function renderCoverageHeatmap(coverage, vocabulary) {
   if (!vocabulary?.length) return "";
   const lingo = coverage.lingo?.wordMap || {};
+  const where = new Map((coverage.dictation?.words || []).map((w) => [w.head, w]));
+  const places = (sheet, list) => list.map((at) => `${sheet} ${at.exercise}·${at.item}`);
   return vocabulary.map((v) => {
     const inDict = (coverage.dictation?.wordMap?.[v.english] || []).length > 0;
     const inLingo = (lingo[v.english] || []).length > 0;
     let cls = "cov-bad";
     if (inDict) cls = "cov-good";
     else if (inLingo) cls = "cov-warn";
-    const tags = [inDict ? "dictation ✓" : null, inLingo ? "lingo ✓" : null].filter(Boolean).join(" · ");
-    return `<span class="cov-chip ${cls}" title="${tags || "not covered"}">${escapeHtml(v.english)}</span>`;
+    const w = where.get(String(v.english).trim());
+    const lines = w ? [...places("Dictation", w.dictation), ...places("Lingo", w.lingo)] : [];
+    const via = w ? [...new Set([...w.dictation, ...w.lingo].map((at) => at.via).filter((x) => normalizeWord(x) !== normalizeWord(w.head)))] : [];
+    const tip = lines.length ? `Tested in ${lines.join(", ")}${via.length ? ` (as ${via.join(", ")})` : ""}` : "Not tested on either sheet";
+    return `<span class="cov-chip ${cls}" title="${escapeHtml(tip)}">${escapeHtml(v.english)}</span>`;
   }).join(" ");
 }
 
@@ -3619,10 +3572,10 @@ async function callDeepSeekWithValidation({ apiKey, systemPrompt, userPrompt, pr
     lastValidation = validateWorksheet(data);
     data.coverageReport = lastValidation.coverage;
     if (lastValidation.valid) break;
-    // A lopsided key or a stray answer is a few lines to rewrite, not a reason to write everything again.
-    if (lastValidation.issues.every(isAnswerKeyIssue)) break;
+    // A lopsided key, a stray answer or a long sentence is a few lines to rewrite, not a reason to write everything again.
+    if (lastValidation.issues.every(isLineRepairIssue)) break;
   }
-  const keyIssues = (lastValidation?.issues || []).filter(isAnswerKeyIssue);
+  const keyIssues = (lastValidation?.issues || []).filter(isLineRepairIssue);
   if (keyIssues.length && data?.meta?.classProfile) {
     try {
       const fixed = await fixWorksheetValidationIssues({}, apiKey, data, { ...lastValidation, issues: keyIssues }, { maxAttempts: 2 });
@@ -3911,15 +3864,47 @@ function buildValidationReport(validation, data) {
     return { valid: true, intro: "Everything looks good — ready to print or export." };
   }
   const categories = categorizeValidationIssues(validation?.issues || [], data);
+  // Item issues say where they are and what is wrong in the teacher's words; a long sentence is a nice-to-fix.
+  categories.items.forEach((i) => {
+    i.where = lineLabel(i.target);
+    i.friendly = friendlyReason(i.target.reason);
+    i.minor = /^sentence is \d+ words/i.test(i.target.reason);
+  });
   const missing = validation?.coverage?.dictation?.missing || [];
+  const lingoMap = validation?.coverage?.lingo?.wordMap || {};
+  const room = validation?.coverage?.room || null;
+  const coverageChips = missing.map((m) => ({ word: m.label, inLingo: (lingoMap[m.label] || []).length > 0, related: m.related || [] }));
+  const mustFix = categories.items.filter((i) => !i.minor).length + categories.manual.length;
+  const s = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+  const intro = mustFix
+    ? `${s(mustFix, "thing", "things")} to fix before you print — most can be fixed below without starting over.`
+    : "Ready to print. These would make it better:";
+  let roomNote = "";
+  if (missing.length && room) {
+    const add = room.addable.reduce((n, a) => n + a.free, 0);
+    if (room.short > 0) {
+      roomNote = room.room
+        ? `The Dictation has ${s(room.lines, "line", "lines")}: Lingo can fit about ${room.room} more word${room.room === 1 ? "" : "s"}, so ${room.short} won't fit. For all of them, add a dictation exercise or more lines per exercise in Step 3.`
+        : `The Dictation has ${s(room.lines, "line", "lines")} and every one already tests a different word, so these don't fit. Add a dictation exercise or more lines per exercise in Step 3.`;
+    } else {
+      const parts = [];
+      if (room.spare.length) parts.push(`${s(room.spare.length, "line repeats a word", "lines repeat words")} tested elsewhere`);
+      if (add) parts.push(`the exercises can take ${s(add, "more line", "more lines")}`);
+      roomNote = `There's room for them: ${parts.join(" and ")}.`;
+    }
+  }
   return {
     valid: false,
-    intro: "A few small tweaks will make this worksheet-ready. You can fix most of these below without starting over.",
+    intro,
+    mustFix,
     categories,
     quickCount: categories.quick.length,
     itemCount: categories.items.length,
-    coverageWords: missing.map((m) => (m.kind === "headword" ? m.label : `${m.label} (${m.kind})`)),
+    coverageWords: missing.map((m) => m.label),
+    coverageChips,
     coverageCount: missing.length,
+    coverageFixable: room ? Math.min(missing.length, room.room) : missing.length,
+    roomNote,
     manualCount: categories.manual.length,
   };
 }
@@ -4196,6 +4181,12 @@ async function fixDictationCoverageGaps(form, apiKey, existingData, validation, 
   const labels = missing.map((m) => (m.kind === "headword" ? m.label : `${m.label} (${m.kind})`));
   const vocab = existingData.lingoLauncher?.vocabulary || [];
   const maxAttempts = options.maxAttempts ?? 3;
+  // Where the new words can go without dropping a word the Dictation already tests.
+  const room = (validation?.coverage?.room) || validateWorksheet(existingData).coverage.room;
+  const roomLines = [
+    ...room.spare.map((r) => `- Exercise ${r.exercise} item ${r.item} (${r.typeId}) may be rewritten: ${r.repeats.length ? `it only repeats ${r.repeats.join(", ")}, tested in another line` : "it tests no unit word"}`),
+    ...room.addable.map((a) => `- Exercise ${a.exercise} (${a.typeId}) may get up to ${a.free} new item${a.free === 1 ? "" : "s"} (numbered after its last item)`),
+  ];
 
   const systemPrompt = `You are an ESL dictation worksheet editor for Greek learners (${profile?.label || profileId}).
 Return ONLY valid JSON — no markdown.
@@ -4211,13 +4202,17 @@ Schema: {
 
 Rules:
 - Edit dictation ONLY — keep the same number of exercises and the same typeId per exercise
-- Every missing target below must be tested at least once (use testsWords and/or answer)
-- Prefer editing existing items over adding new ones; ~${profile?.itemsPerExercise || 5} items per exercise max
+- Every missing target below must be tested at least once: it is the item's answer (in the form that fits), or for matching / odd-one-out it is printed in the line AND listed in testsWords
+- Change ONLY the items the user message says may be rewritten or added — every other item tests a word nothing else tests and must stay exactly as it is
+- Keep each exercise's format (gaps, bracket choices, word bank) and the class's sentence length (max ~${profile?.maxSentenceWords || 10} words); never print the answer in its own line
 - Do not change lingoLauncher vocabulary or practice
 - Do not reuse sentences from lingoLauncher practice`;
 
   const userPrompt = `Missing dictation coverage — each word MUST be tested at least once:
 ${labels.join(", ")}
+
+Where they can go (one missing word per item; if there are more words than places, cover as many as fit):
+${roomLines.join("\n") || "- No free places: rewrite nothing and return empty itemUpdates"}
 
 Current dictation (keep structure; update content only as needed):
 ${JSON.stringify(existingData.dictation, null, 2)}
@@ -4228,37 +4223,54 @@ ${JSON.stringify(vocab, null, 2)}`;
   let data = cloneWorksheetData(existingData);
   let lastValidation = validation || validateWorksheet(data);
   let stillMissing = lastValidation.coverage?.dictation?.missing?.length ?? missing.length;
+  if (!room.room) {
+    return {
+      data: existingData,
+      validation: lastValidation,
+      fixedCount: 0,
+      message: "The Dictation has no free lines for more words — add a dictation exercise or more lines per exercise in Step 3.",
+    };
+  }
+  // Other problems the sheet already has; a reply that adds new ones (a revealed answer, a broken format) is not kept.
+  const otherIssues = (v) => v.issues.filter((i) => !isCoverageIssue(i)).length;
+  const baseOther = otherIssues(lastValidation);
 
   for (let attempt = 0; attempt < maxAttempts && stillMissing > 0; attempt++) {
     const hint = attempt > 0
-      ? `Still not covered: ${(lastValidation.coverage?.dictation?.missing || []).map((m) => m.label).join(", ")}`
+      ? `Still not covered: ${(lastValidation.coverage?.dictation?.missing || []).map((m) => m.label).join(", ")}. Every changed item must keep its exercise's format and test its word as the answer.`
       : "";
     const aiResult = await callDeepSeek(apiKey, systemPrompt, userPrompt, hint);
-    data = mergeDictationItemUpdates(data, aiResult.itemUpdates);
+    let candidate = mergeDictationItemUpdates(data, aiResult.itemUpdates);
     if (aiResult.exerciseUpdates?.length) {
       aiResult.exerciseUpdates.forEach((eu) => {
-        const ex = getWorksheetExercise(data, "dictation", eu.exercise);
+        const ex = getWorksheetExercise(candidate, "dictation", eu.exercise);
         if (!ex) return;
         if (eu.wordBank) ex.wordBank = eu.wordBank;
         if (eu.items) ex.items = eu.items;
       });
     }
-    normalizeWorksheetExercises(data);
-    lastValidation = validateWorksheet(data);
-    data.coverageReport = lastValidation.coverage;
-    stillMissing = lastValidation.coverage?.dictation?.missing?.length || 0;
+    normalizeWorksheetExercises(candidate);
+    const v = validateWorksheet(candidate);
+    const left = v.coverage?.dictation?.missing?.length || 0;
+    if (left < stillMissing && otherIssues(v) <= baseOther) {
+      data = candidate;
+      lastValidation = v;
+      data.coverageReport = v.coverage;
+      stillMissing = left;
+    }
   }
 
   const fixed = stillMissing === 0;
+  const covered = Math.max(0, missing.length - stillMissing);
   return {
     data,
     validation: lastValidation,
-    fixedCount: fixed ? missing.length : Math.max(0, missing.length - stillMissing),
+    fixedCount: covered,
     message: fixed
-      ? `Dictation now covers all ${missing.length} missing word${missing.length === 1 ? "" : "s"}.`
-      : stillMissing < missing.length
-        ? `Improved coverage — ${stillMissing} word${stillMissing === 1 ? "" : "s"} still missing. Try again or regenerate dictation.`
-        : `Could not fill dictation gaps automatically — try Regenerate Dictation.`,
+      ? `The Dictation now tests all ${missing.length} missing word${missing.length === 1 ? "" : "s"}.`
+      : covered
+        ? `Added ${covered} word${covered === 1 ? "" : "s"} to the Dictation — ${stillMissing} still missing${room.short ? " (no room left: add lines in Step 3)" : ""}.`
+        : "Couldn't add the missing words without breaking other lines — nothing was changed.",
   };
 }
 
@@ -4285,18 +4297,20 @@ async function fixAllWorksheetIssues(form, apiKey, existingData, validation) {
   }
 
   const missing = val.coverage?.dictation?.missing?.length || 0;
-  if (missing > 0) {
+  if (missing > 0 && val.coverage?.room?.room) {
     const covResult = await fixDictationCoverageGaps(form, apiKey, data, val);
     data = covResult.data;
     val = covResult.validation;
     parts.push("coverage");
   }
 
+  const before = (validation || validateWorksheet(existingData)).issues.length;
+  const after = val.issues.length;
   const message = val.valid
-    ? "All issues addressed — worksheet is ready."
-    : parts.length
-      ? `Applied ${parts.join(" → ")} fixes. Some notes may remain — see below.`
-      : "Nothing could be auto-fixed — try regenerate.";
+    ? "Everything is fixed — the worksheet is ready."
+    : after < before
+      ? `Fixed ${before - after} of ${before} — ${after} left (see the check).`
+      : "Nothing could be fixed automatically — edit the lines on the sheet or write the exercise again in Step 3.";
 
   return { data, validation: val, steps: parts, message };
 }

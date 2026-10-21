@@ -112,6 +112,8 @@ export function initPreview() {
   $("qualityPanel").addEventListener("click", (e) => {
     const b = e.target.closest("[data-fix]");
     if (b) runFix(b.dataset.fix, b);
+    const j = e.target.closest("[data-jump]");
+    if (j) { const [sheet, ex, item] = j.dataset.jump.split(":"); jumpToLine(sheet, Number(ex), Number(item)); }
   });
   if (!desktop()) $("packNote").textContent = "Downloads all three sheets as Word documents.";
 
@@ -475,31 +477,57 @@ function renderQuality() {
   if (report.valid) {
     $("qualityPanel").innerHTML = stale + `<div class="quality-ok">${icon("check-circle")}<span>All checks passed — ready to print.</span></div>`;
   } else {
-    const group = (title, items, iconName) => items.length
-      ? `<div class="q-group warn"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5><ul>${items.slice(0, 6).map((i) => `<li>${esc(i.friendly)}</li>`).join("")}${items.length > 6 ? `<li>…and ${items.length - 6} more</li>` : ""}</ul></div>`
+    const list = (items, row) => `<ul>${items.slice(0, 6).map(row).join("")}${items.length > 6 ? `<li>…and ${items.length - 6} more</li>` : ""}</ul>`;
+    const group = (title, items, iconName, tone = "warn", note = "") => items.length
+      ? `<div class="q-group ${tone}"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5>${list(items, (i) => `<li>${esc(i.friendly)}</li>`)}${note}</div>`
       : "";
+    // Each line problem says where it is; a click shows that line on the sheet.
+    const lineGroup = (title, items, iconName, tone) => items.length
+      ? `<div class="q-group ${tone}"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5>${list(items, (i) => `<li><button type="button" class="q-line" data-jump="${i.target.sheet}:${i.target.exercise}:${i.target.item}" title="Show this line on the sheet"><b>${esc(i.where)}</b> ${esc(i.friendly)}</button></li>`)}</div>`
+      : "";
+    const items = report.categories.items;
     const btns = [];
     if (report.quickCount) btns.push(`<button type="button" class="btn btn-secondary btn-sm btn-block" data-fix="quick">${icon("zap", "i-sm")}Apply ${plural(report.quickCount, "quick fix", "quick fixes")}</button>`);
     if (report.itemCount) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="items">${icon("sparkles", "i-sm")}Rewrite ${plural(report.itemCount, "line")} with AI</button>`);
-    if (report.coverageCount) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="coverage">${icon("target", "i-sm")}Add missing words with AI</button>`);
-    const total = report.quickCount + report.itemCount + report.coverageCount;
-    if (total > 1 && btns.length > 1) btns.unshift(`<button type="button" class="btn btn-primary btn-sm btn-block" data-fix="all">${icon("wand", "i-sm")}Fix everything (${total})</button>`);
+    if (report.coverageFixable) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="coverage">${icon("target", "i-sm")}${report.coverageFixable < report.coverageCount ? `Add ${report.coverageFixable} of the missing words with AI` : `Add the missing ${plural(report.coverageCount, "word")} with AI`}</button>`);
+    const total = report.quickCount + report.itemCount + (report.coverageFixable ? 1 : 0);
+    if (total > 1 && btns.length > 1) btns.unshift(`<button type="button" class="btn btn-primary btn-sm btn-block" data-fix="all">${icon("wand", "i-sm")}Fix everything</button>`);
+    const chips = report.coverageChips.map((c) => `<span class="cov-chip ${c.inLingo ? "cov-warn" : "cov-bad"}" title="${esc(c.inLingo ? "Practised in Lingo, not in the Dictation" : "Not tested on either sheet")}${c.related.length ? esc(` · also listed: ${c.related.join(", ")}`) : ""}">${esc(c.word)}</span>`).join("");
     $("qualityPanel").innerHTML = `${stale}
       <p class="q-summary">${esc(report.intro)}</p>
       <div class="quality-list">
-        ${group("Quick fixes", report.categories.quick, "zap")}
-        ${group("Lines to rewrite", report.categories.items, "pencil")}
-        ${report.coverageCount ? `<div class="q-group warn"><h5>${icon("target", "i-xs")}Not in the Dictation yet</h5><div class="cov-chips">${report.coverageWords.map((w) => `<span class="cov-chip cov-bad">${esc(w)}</span>`).join("")}</div></div>` : ""}
-        ${group("May need a full rewrite", report.categories.manual, "alert")}
+        ${lineGroup("Lines to fix", items.filter((i) => !i.minor), "pencil", "bad")}
+        ${group("Whole exercise", report.categories.manual, "alert", "bad", `<p class="q-note">Write it again in Step 3, or edit it on the sheet.</p>`)}
+        ${report.coverageCount ? `<div class="q-group warn"><h5>${icon("target", "i-xs")}Not in the Dictation yet (${report.coverageCount})</h5><div class="cov-chips">${chips}</div>${report.roomNote ? `<p class="q-note">${esc(report.roomNote)}</p>` : ""}</div>` : ""}
+        ${lineGroup("Too long to dictate", items.filter((i) => i.minor), "pencil", "warn")}
+        ${group("Quick tidy-ups", report.categories.quick, "zap")}
       </div>
-      ${btns.length ? `<div class="q-actions">${btns.join("")}</div>` : `<p class="insp-note">Click a line on the sheet to edit it, or regenerate in Step 3.</p>`}`;
+      ${btns.length ? `<div class="q-actions">${btns.join("")}</div>` : `<p class="insp-note">Click a line on the sheet to edit it, or write the exercises again in Step 3.</p>`}`;
   }
   const lingoTested = val.coverage?.lingo?.testedCount ?? 0;
-  const lingoTotal = val.coverage?.lingo?.totalHeadwords ?? state.data.lingoLauncher.vocabulary.length;
+  const words = val.coverage?.dictation?.words || [];
+  const inDict = words.filter((w) => w.dictation.length).length;
+  const nowhere = words.filter((w) => !w.dictation.length && !w.lingo.length).length;
   $("coveragePanel").innerHTML = `
     <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
     <div class="cov-legend"><span><i style="background:var(--success)"></i>In Dictation</span><span><i style="background:var(--warning)"></i>Lingo only</span><span><i style="background:var(--danger)"></i>Not tested</span></div>
-    <p class="insp-note">Lingo practice tests ${lingoTested} of ${lingoTotal} words — partial coverage there is fine.</p>`;
+    <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Hover a word to see where it's tested.</p>`;
+}
+
+/** Show a line from the check on its sheet (switches sheet, scrolls to it and flashes it). */
+function jumpToLine(sheet, exerciseNum, itemNum) {
+  const list = sheet === "lingo" ? state.data?.lingoLauncher?.practice : state.data?.dictation?.exercises;
+  const exIdx = (list || []).findIndex((ex) => ex.number === exerciseNum);
+  const itemIdx = exIdx < 0 ? -1 : (list[exIdx].items || []).findIndex((it) => it.number === itemNum);
+  if (itemIdx < 0) return;
+  if (state.preview.sheet !== sheet) {
+    state.preview.sheet = sheet;
+    sheetSeg.set(sheet);
+    emit("preview");
+    renderLayoutControls();
+    renderPaper();
+  }
+  flashNode(`.ex-item[data-ex="${exIdx}"][data-item="${itemIdx}"]`);
 }
 
 async function runFix(kind, btn) {
