@@ -126,9 +126,9 @@ function build() {
           <div class="paper-toolbar tb-toolbar">
             <div id="dcSheetSeg">${segHtml("dcSheet", [["student", "Student sheet"], ["teacher", "Teacher copy"], ["strips", "Wall strips"]], dc.sheet)}</div>
             <span class="dc-actions">
-              <button type="button" class="btn btn-sm" id="dcRead" disabled data-tip="Each sentence is read, then read again slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
+              <button type="button" class="btn btn-sm" id="dcRead" disabled data-tip-pos="bottom" data-tip="Each sentence is read, then read again slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
               <span class="export-pills tb-exports">
-                <button type="button" class="btn btn-primary btn-sm" id="dcPack" disabled data-tip="The student sheet and the teacher copy (and the wall strips) as Word + PDF, and the reading as audio, in one folder">${icon("package", "i-sm")}<span>Export dictation pack</span></button>
+                <button type="button" class="btn btn-primary btn-sm" id="dcPack" disabled data-tip-pos="bottom" data-tip="The student sheet and the teacher copy (and the wall strips) as Word + PDF, and the reading as audio, in one folder">${icon("package", "i-sm")}<span>Export dictation pack</span></button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcPrint" disabled>${icon("printer", "i-sm")}Print</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcWord" disabled>${icon("word", "i-sm")}Word</button>

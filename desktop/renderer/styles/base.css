@@ -537,7 +537,9 @@ kbd {
   padding: 6px 9px;
   font: 500 12px/1.35 var(--font-ui); letter-spacing: 0; text-transform: none;
   color: #fff; background: #1b1e30;
-  border-radius: 7px; white-space: nowrap;
+  border-radius: 7px;
+  /* Short tips stay on one line; long ones wrap instead of running off the screen. */
+  width: max-content; max-width: min(300px, 70vw); white-space: normal; text-align: left;
   box-shadow: var(--shadow);
   opacity: 0; pointer-events: none;
   transition: opacity var(--dur-fast), transform var(--dur-fast);

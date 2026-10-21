@@ -129,7 +129,7 @@ function build() {
             <p class="edit-hint tb-hint hidden" id="tsEditHint"></p>
             <label class="switch sm"><input type="checkbox" id="tsAnswers" /><span class="track"></span><span class="sw-text">Show answers</span></label>
             <span class="export-pills tb-exports">
-              <button type="button" class="btn btn-primary btn-sm" id="tsPack" disabled data-tip="Every sheet as Word + PDF (version B and the teacher’s pack too) and the listening tracks as audio, in one folder">${icon("package", "i-sm")}<span>Export test pack</span></button>
+              <button type="button" class="btn btn-primary btn-sm" id="tsPack" disabled data-tip-pos="bottom" data-tip="Every sheet as Word + PDF (version B and the teacher’s pack too) and the listening tracks as audio, in one folder">${icon("package", "i-sm")}<span>Export test pack</span></button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsPrint" disabled>${icon("printer", "i-sm")}Print</button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsWord" disabled>${icon("word", "i-sm")}Word</button>

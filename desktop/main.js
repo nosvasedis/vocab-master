@@ -246,6 +246,8 @@ function keychainSet(value, name) {
 
 function loadEngine() {
   if (!enginePromise) {
+    // Where the pages find the app's own packages (docx) when they run from a live copy (renderer app.js loadDocxLibs).
+    globalThis.__vmAppDir = __dirname;
     // The same pages the window uses: the live copy when there is one.
     const liveApp = live.active ? path.join(live.active.dir, "app.js") : "";
     // Node reads app.js as an ES module only under a package.json with "type": "module" (renderer/package.json);
@@ -703,6 +705,20 @@ async function runSmokeTest() {
       });
     }
     results.packOk = !!results.pack.ok && results.pack.files?.length === 4 && results.pack.checked.every(Boolean);
+    // Word files from a live-updated copy of the pages: a folder outside the app (no node_modules beside it), as
+    // AppData\…\live\<sha> is. Both 3.5.x export bugs ("Cannot use import statement", "Cannot find package 'docx'")
+    // only happened there.
+    try {
+      const liveCopy = path.join(app.getPath("userData"), "live-check");
+      fs.cpSync(RENDERER_DIR, liveCopy, { recursive: true, filter: (src) => !src.includes(`${path.sep}assets${path.sep}audio`) });
+      const E = await import(pathToFileURL(path.join(liveCopy, "app.js")).href);
+      const fixture = JSON.parse(fs.readFileSync(path.join(__dirname, "smoke-fixture.json"), "utf8"));
+      const blob = await E.buildLingoDocx(fixture.data || fixture);
+      results.liveDocx = Buffer.from(await blob.arrayBuffer()).subarray(0, 2).toString("latin1") === "PK";
+    } catch (err) {
+      results.liveDocx = false;
+      results.liveDocxError = String(err.message || err).split("\n")[0];
+    }
     // Opt-in (`--smoke --voices`, needs the internet once): download the natural voices and speak one sentence.
     if (process.argv.includes("--voices")) {
       results.voicesFull = JSON.parse(await mainWindow.webContents.executeJavaScript(`
@@ -726,7 +742,7 @@ async function runSmokeTest() {
       results.voicesOk = results.voicesOk && !results.voicesFull.error && results.voicesFull.seconds > 1;
     }
     console.log("SMOKE_RESULTS " + JSON.stringify(results));
-    app.exit(results.protocolOk && results.engineOk && results.editorOk && results.voicesOk && results.packOk ? 0 : 1);
+    app.exit(results.protocolOk && results.engineOk && results.editorOk && results.voicesOk && results.packOk && results.liveDocx ? 0 : 1);
   } catch (err) {
     console.error("SMOKE_ERROR", err);
     app.exit(1);

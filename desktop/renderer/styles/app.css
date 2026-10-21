@@ -678,7 +678,14 @@
   animation: rise-in 360ms var(--ease-out) both;
 }
 .lib-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--lvl); }
-.lib-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--border-strong); }
+/* Two colours, two jobs: the class on the top stripe and the letter; the kind of item (the sidebar's colour for its
+ * maker — Worksheets orange, Tests blue, Dictations green) on the left edge, a light wash and the solid chip. */
+.lib-card { --kind: var(--text-3); background: linear-gradient(155deg, color-mix(in srgb, var(--kind) 13%, var(--surface)) 0%, var(--surface) 62%); }
+.lib-card[data-type="unit"] { --kind: #f26b3a; }
+.lib-card[data-type="test"] { --kind: var(--info); }
+.lib-card[data-type="dictation"] { --kind: var(--success); }
+.lib-card::after { content: ""; position: absolute; left: 0; top: 4px; bottom: 0; width: 5px; background: var(--kind); }
+.lib-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: color-mix(in srgb, var(--kind) 45%, var(--border)); }
 .lib-top { display: flex; gap: 12px; align-items: flex-start; }
 .lib-top .lc-letter { width: 40px; height: 40px; font-size: 18px; border-radius: 12px; flex: none; }
 .lib-title { flex: 1; min-width: 0; }
@@ -870,8 +877,10 @@
 .lib-tab.active { border-color: var(--brand); color: var(--brand-ink); background: var(--brand-soft); }
 .lib-tab.active small { color: var(--brand-ink); background: var(--surface); }
 .lib-kind { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 99px; font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--text-2); background: var(--surface-3); }
-.lib-kind.test { color: var(--info-ink); background: var(--info-soft); }
-.lib-kind.dictation { color: var(--success-ink); background: var(--success-soft); }
+.lib-card .lib-kind { color: #fff; background: var(--kind); box-shadow: 0 3px 10px color-mix(in srgb, var(--kind) 35%, transparent); }
+.lib-tab[data-lib-kind="unit"] .i { color: #f26b3a; }
+.lib-tab[data-lib-kind="test"] .i { color: var(--info); }
+.lib-tab[data-lib-kind="dictation"] .i { color: var(--success); }
 
 /* Page number on word chips: tiny, quiet, never wraps the chip */
 .wc-pg { flex: none; align-self: flex-start; margin: 3px -3px 0 -2px; padding: 0 3px; border-radius: 4px; font: 700 9px/13px var(--font-ui); letter-spacing: .02em; color: var(--text-3); background: var(--surface-3); opacity: .85; white-space: nowrap; font-variant-numeric: tabular-nums; }

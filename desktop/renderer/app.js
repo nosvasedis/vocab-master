@@ -4535,7 +4535,26 @@ function openWorksheetPrint(data, sheet, options = {}) {
 /* ─── DOCX export ─── */
 async function loadDocxLibs() {
   if (typeof process !== "undefined" && process.versions?.node) {
-    return import("docx");
+    try {
+      return await import("docx");
+    } catch (err) {
+      // A live-updated copy of the pages (AppData\…\live\<sha>\app.js) has no node_modules beside it: load docx
+      // from the installed app instead (resources\app.asar in the exe; the shell's folder or desktop/ in development).
+      const { createRequire } = await import("node:module");
+      const path = await import("node:path");
+      const res = process.resourcesPath || "";
+      const bases = [
+        globalThis.__vmAppDir && path.join(globalThis.__vmAppDir, "package.json"),
+        res && path.join(res, "app.asar", "package.json"),
+        res && path.join(res, "app", "package.json"),
+        path.join(process.cwd(), "package.json"),
+        path.join(process.cwd(), "desktop", "package.json"),
+      ].filter(Boolean);
+      for (const base of bases) {
+        try { return createRequire(base)("docx"); } catch { /* try the next place */ }
+      }
+      throw err;
+    }
   }
   return import("https://esm.sh/docx@8.5.0?bundle");
 }
