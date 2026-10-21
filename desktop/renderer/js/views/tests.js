@@ -155,7 +155,7 @@ function build() {
     </footer>
   </div>`;
   wiz = createWizard(host.querySelector(".mk"), { onShow: () => { renderFoot(); if (wiz?.index === RESULT) fitPaper($("tsStage"), $("tsPaper")); } });
-  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange, review: true, level: () => ts.spec.levelId, storeKey: "vm_tests_source_v1" });
+  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange, review: true, level: () => ts.spec.levelId, levelHint: () => (ts.spec.levelChosen || ts.levelTouched ? "" : "The class was set from the book’s usual class — choose your class in Step 2 if it’s different, and the review follows it."), storeKey: "vm_tests_source_v1" });
   picker.mount($("tsSource"));
   paper = createPaper($("tsPaper"));
   new ResizeObserver(() => fitPaper($("tsStage"), $("tsPaper"))).observe($("tsStage"));
@@ -327,6 +327,7 @@ function setLevel(levelId, { quiet = false } = {}) {
   fitParts({ quiet: true });
   savePrefs();
   renderShape(); renderFocus(); renderParts(); renderOptions();
+  picker?.render(); // the review words belong to the class
   if (!quiet) toast(`${levelLabel(levelId)}: ${plural(ts.spec.parts.length, "part")}, about ${estimateMinutes(ts.spec)} minutes.`, "info", { ms: 2400 });
 }
 

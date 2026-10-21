@@ -27,7 +27,7 @@ const docs = [
 ];
 
 test("class memory counts each class's encounters with a word, and when it was tested", () => {
-  const mem = buildClassMemory({ units, docs, levelId: "B_SENIOR" });
+  const mem = buildClassMemory({ units, docs, levelId: "B_SENIOR", now: NOW });
   assert.equal(mem.items, 4);
   assert.equal(mem.words.has("planet"), false, "another class's words stay out");
   const lion = mem.words.get("lion");
@@ -39,7 +39,7 @@ test("class memory counts each class's encounters with a word, and when it was t
 
 test("review words follow spaced repetition: due words, never-tested first, current words left out", () => {
   assert.deepEqual([1, 2, 3, 4, 9].map(reviewGap), [7, 14, 28, 56, 56]);
-  const mem = buildClassMemory({ units, docs, levelId: "B_SENIOR" });
+  const mem = buildClassMemory({ units, docs, levelId: "B_SENIOR", now: NOW });
   const r = reviewWords(mem, { now: NOW });
   const names = r.map((w) => w.english);
   assert.ok(!names.includes("bread"), "met 3 days ago: not due");
@@ -48,11 +48,11 @@ test("review words follow spaced repetition: due words, never-tested first, curr
   assert.ok(names.includes("zebra"));
   assert.match(r[0].why, /once.*4 weeks ago.*not tested yet/);
   assert.deepEqual(reviewWords(mem, { now: NOW, exclude: [{ english: "Giraffe" }] }).map((w) => w.english), ["zebra"]);
-  assert.deepEqual(reviewWords(buildClassMemory({ levelId: "E_SENIOR", units, docs }), { now: NOW }), []);
+  assert.deepEqual(reviewWords(buildClassMemory({ levelId: "E_SENIOR", units, docs, now: NOW }), { now: NOW }), []);
 });
 
 test("the AI brief names the words met recently and the review words", () => {
-  const mem = buildClassMemory({ units, docs, levelId: "B_SENIOR" });
+  const mem = buildClassMemory({ units, docs, levelId: "B_SENIOR", now: NOW });
   const brief = memoryBrief(mem, reviewWords(mem, { now: NOW }), { now: NOW });
   assert.match(brief, /CLASS MEMORY/);
   assert.match(brief, /last two weeks: bread, cheese/);

@@ -3,7 +3,7 @@
 import {
   CPP_BOOKS, CLASS_PROFILES, selectSmartCoursebookWords, getProfilePromptBlock, callAi, WORKSHEET_PRINT_CSS, downloadBlob, getAllSavedSessions,
 } from "../../app.js";
-import { buildClassMemory, reviewWords, memoryBrief } from "../../studio/class-memory.js";
+import { buildClassMemory, reviewWords, reviewPlan, memorySummary, memoryBrief } from "../../studio/class-memory.js";
 import { $, esc, icon, plural, toast, confirmDialog } from "../ui.js";
 import { prefs, BOOK_COLORS } from "../state.js";
 import { getApiKey, isAiReady, desktop, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
@@ -116,6 +116,18 @@ export async function askClassMemory() {
   return ok;
 }
 export const classMemoryFor = (levelId) => buildClassMemory({ units: getAllSavedSessions() || [], docs: recentDocs(), levelId });
+/** Other classes with saved worksheet units of this book this school year: [{ label, n }] (memories are kept per class). */
+function otherClassesOnBook(levelId, bookId) {
+  if (!bookId) return [];
+  const counts = new Map();
+  for (const lv of Object.keys(CLASS_PROFILES)) {
+    if (lv === levelId) continue;
+    const n = classMemoryFor(lv).encounters.filter((e) => e.type === "unit" && e.bookId === bookId).length;
+    if (n) counts.set(lv, n);
+  }
+  return [...counts].map(([lv, n]) => ({ label: CLASS_PROFILES[lv]?.label || lv, n }));
+}
+const dueDate = (t) => new Date(t).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 /** The AI brief for a class (empty when class memory is off or nothing is saved). */
 export function classMemoryBrief(levelId, focus = []) {
   if (!classMemoryOn() || !levelId) return "";
@@ -206,7 +218,7 @@ const BOOK_IDS = Object.keys(CPP_BOOKS);
  * computer) — nothing is taken from another screen.
  * mount(host) renders it; value() returns { kind, bookId, units, sections, words, focus, label, meta }.
  */
-export function createSourcePicker({ multiUnit = false, allowTopic = false, topicPlaceholder = "e.g. Present Simple vs Present Continuous, daily routines", onChange, review = false, level = () => "B_SENIOR", storeKey = "" } = {}) {
+export function createSourcePicker({ multiUnit = false, allowTopic = false, topicPlaceholder = "e.g. Present Simple vs Present Continuous, daily routines", onChange, review = false, level = () => "B_SENIOR", levelHint = () => "", storeKey = "" } = {}) {
   const st = {
     kind: "unit",
     bookId: "CPP1",
@@ -261,6 +273,8 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
   }
   /** Book and unit an own word is looked up in first (its type, Greek and example). */
   const ownCtx = () => (st.kind === "unit" ? { bookId: st.bookId, unit: st.units[0] } : {});
+  /** The unit being made now: review words come only from before it (earlier units of this book, other books). */
+  const currentUnit = () => (st.kind === "unit" ? { bookId: st.bookId, unit: Math.min(...st.units) } : null);
   /** The words to test or dictate: the source's words, then the teacher's own words (no repeats). */
   const focus = () => mergeOwnWords(baseFocus(), st.own, ownCtx());
   function value() {
@@ -306,16 +320,34 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       if (!review) return "";
       const lv = level();
       const name = CLASS_PROFILES[lv]?.label || "this class";
-      if (!classMemoryOn()) return `<div class="mk-review off"><div class="mk-review-head"><span class="mk-lbl">${icon("clock", "i-xs")}Review earlier words</span><small>Lingo can look at what ${esc(name)} already studied — your saved worksheets, dictations and tests — and suggest words that are due again.</small></div><button type="button" class="btn btn-secondary btn-sm" data-sp-mem-on>${icon("sparkles", "i-sm")}Turn on</button></div>`;
+      const head = (sub, extra = "") => `<div class="mk-review-head"><span class="mk-lbl">${icon("clock", "i-xs")}Review earlier words · ${esc(name)}</span><small>${sub}</small>${extra}</div>`;
+      if (!classMemoryOn()) return `<div class="mk-review off">${head(`Lingo can look at what ${esc(name)} already studied this school year — your saved worksheets, dictations and tests — and suggest words that are due again.`)}<button type="button" class="btn btn-secondary btn-sm" data-sp-mem-on>${icon("sparkles", "i-sm")}Turn on</button></div>`;
       const mem = classMemoryFor(lv);
-      const ownKeys = new Set(st.own.map((w) => w.english.toLowerCase()));
-      const sugg = reviewWords(mem, { exclude: f, n: 10 });
-      const body = !mem.items
-        ? `<p class="mk-review-empty">Nothing saved for ${esc(name)} yet. The worksheets, dictations and tests you make for this class are remembered here.</p>`
-        : !sugg.length
-          ? `<p class="mk-review-empty">${plural(mem.words.size, "word")} remembered for ${esc(name)} — none is due for review yet.</p>`
-          : `<div class="mk-words">${sugg.map((w) => `<button type="button" class="word-chip off review" data-sp-review="${esc(w.english)}" data-tip="${esc(w.why)}">${icon("plus", "i-xs")}<span>${esc(w.english)}</span></button>`).join("")}${sugg.length > 1 ? `<button type="button" class="mk-more-btn" data-sp-review-all>${icon("plus", "i-xs")}Add all ${sugg.length}</button>` : ""}</div>`;
-      return `<div class="mk-review"><div class="mk-review-head"><span class="mk-lbl">${icon("clock", "i-xs")}Review earlier words</span><small>${mem.items ? `Words ${esc(name)} met before and should see again — tap to mix them in.` : ""}</small><button type="button" class="pk-clear" data-sp-mem-off>Turn off</button></div>${body}</div>`;
+      const plan = reviewPlan(mem, { exclude: f, n: 10, current: currentUnit() });
+      const off = `<button type="button" class="pk-clear" data-sp-mem-off>Turn off</button>`;
+      // Two classes on the same book is where a class set from the book can mislead: say so only then.
+      const others = otherClassesOnBook(lv, st.kind === "unit" ? st.bookId : "");
+      const hint = others.length ? levelHint() : "";
+      const notes = [];
+      if (hint) notes.push(esc(hint));
+      if (plan.ahead) notes.push(`${plural(plan.ahead, "word")} from this unit or later units of the book aren’t counted yet.`);
+      if (mem.older) notes.push(`Work saved before September (last school year) isn’t counted.`);
+      const noteHtml = notes.length ? `<p class="mk-review-note">${notes.join(" ")}</p>` : "";
+      const chip = (w, early) => `<button type="button" class="word-chip off review${early ? " early" : ""}" data-sp-review="${esc(w.english)}" data-tip="${esc(early ? `${w.why} · due ${dueDate(w.dueAt)}` : w.why)}">${icon("plus", "i-xs")}<span>${esc(w.english)}</span></button>`;
+      if (!mem.items) {
+        const other = others.length ? ` ${others.map((o) => `${esc(o.label)} has ${plural(o.n, "saved unit")} of this book`).join("; ")} — each class keeps its own memory.` : "";
+        return `<div class="mk-review">${head("", off)}<p class="mk-review-empty">Nothing saved for ${esc(name)} this school year yet. The worksheets, dictations and tests you make for ${esc(name)} are remembered here.${other}</p>${noteHtml}</div>`;
+      }
+      const from = `<p class="mk-review-src">From your saved work for ${esc(name)}: ${esc(memorySummary(mem))}.</p>`;
+      let body;
+      if (plan.due.length) {
+        body = `<div class="mk-words">${plan.due.map((w) => chip(w, false)).join("")}${plan.due.length > 1 ? `<button type="button" class="mk-more-btn" data-sp-review-all>${icon("plus", "i-xs")}Add all ${plan.due.length}</button>` : ""}</div>`;
+      } else if (plan.upcoming.length) {
+        body = `<p class="mk-review-empty">None is due yet — a word comes back 1, 2, 4 and then 8 weeks after the class last met it. Next: ${esc(dueDate(plan.upcoming[0].dueAt))}. You can mix some in early:</p><div class="mk-words">${plan.upcoming.slice(0, 8).map((w) => chip(w, true)).join("")}</div>`;
+      } else {
+        body = `<p class="mk-review-empty">${plan.earlier ? "The earlier words are all in this test already." : `No earlier words yet — ${esc(name)}’s saved work is all from this unit or later ones.`}</p>`;
+      }
+      return `<div class="mk-review">${head(plan.due.length ? `Words ${esc(name)} met before and should see again — tap to mix them in.` : "", off)}${from}${body}${noteHtml}</div>`;
     };
     const countLine = (verb) => `<p class="mk-count">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> ${verb}${ownN ? ` · ${plural(ownN, "of your own", "of your own")}` : ""}</p>`;
     host.innerHTML = `
@@ -391,8 +423,8 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       if (b.dataset.spMemOn !== undefined) { if (!(await askClassMemory())) return; }
       if (b.dataset.spMemOff !== undefined) setClassMemory(false);
       if (b.dataset.spReview || b.dataset.spReviewAll !== undefined) {
-        const mem = classMemoryFor(level());
-        const pick = reviewWords(mem, { exclude: focus(), n: 10 }).filter((w) => b.dataset.spReviewAll !== undefined || w.english === b.dataset.spReview);
+        const plan = reviewPlan(classMemoryFor(level()), { exclude: focus(), n: 10, current: currentUnit() });
+        const pick = b.dataset.spReviewAll !== undefined ? plan.due : [...plan.due, ...plan.upcoming].filter((w) => w.english === b.dataset.spReview).slice(0, 1);
         st.own = [...st.own, ...pick.map((w) => ({ english: w.english, greek: w.greek || "" }))];
       }
       if (b.dataset.spKind) st.kind = b.dataset.spKind;

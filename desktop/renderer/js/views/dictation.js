@@ -244,6 +244,7 @@ function setLevel(levelId) {
   dc.spec = { ...dictationDefaults(levelId), ...keep };
   savePrefs();
   renderAll();
+  picker?.render(); // the review words belong to the class
   toast(`${levelLabel(levelId)} defaults: ${dc.spec.count} sentences of ${sentenceRange(levelId).join("–")} words.`, "info", { ms: 2600 });
 }
 
