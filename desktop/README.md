@@ -1,16 +1,16 @@
 # Vocab Master — Desktop App (`desktop/`)
 
-Native Windows desktop application for **Vocab Master (Teacher Studio 3.5.5)** built with Electron.
+Native Windows desktop application for **Vocab Master (Teacher Studio 3.5.6)** built with Electron.
 
 ## Distributables (`desktop/release/`)
 
 Running `npm run dist` inside `desktop/` produces two ready-to-share Windows executables:
 
-1. **`Vocab-Master-Setup-3.5.5.exe`** — Full Windows NSIS Installer:
+1. **`Vocab-Master-Setup-3.5.6.exe`** — Full Windows NSIS Installer:
    - Lets the user choose the installation directory
    - Creates Desktop and Start Menu shortcuts
    - Registers a standard Windows Uninstaller in *Apps & Features*
-2. **`Vocab-Master-Portable-3.5.5.exe`** — Standalone Portable Executable:
+2. **`Vocab-Master-Portable-3.5.6.exe`** — Standalone Portable Executable:
    - Runs directly without installation (ideal for USB sticks or restricted school PCs)
 
 ## Architecture
