@@ -2215,17 +2215,31 @@ function hasGreek(text) {
   return /[\u0370-\u03FF\u1F00-\u1FFF]/.test(text || "");
 }
 
+/**
+ * Checks a worksheet. `issues` are real problems a student would trip over (a wrong or lopsided key, an answer
+ * printed in its own line, a broken format, a word list that gives the answers away) — they make the sheet
+ * "not valid" and the AI fixers work on them. `notes` are the class guidelines the AI was asked to follow
+ * (lines per exercise, how many exercises, which types suit the class, extra words in a list): a teacher may
+ * want it otherwise, so they never block, never trigger a rewrite and are said as information.
+ */
 function validateWorksheet(data) {
   const issues = [];
+  const notes = [];
   const profile = tunedProfile(data.meta?.classProfile, data.generationPlan?.tune);
   const vocab = data.lingoLauncher?.vocabulary || [];
   if (!profile) issues.push("Invalid class profile");
+  // Lines per exercise is a target, not a limit: only a big overshoot is worth a word.
+  const sizeNote = (sheet, ex, count) => {
+    if (profile && count > profile.itemsPerExercise + 2) {
+      notes.push(`${sheet} ${ex.number} has ${count} lines — the class setting is about ${profile.itemsPerExercise}. Fine if you want it longer; Step 3 → “Lines per exercise” changes it for next time.`);
+    }
+  };
 
   const teacherOwned = !!data.meta?.vocabFromTeacher;
   vocab.forEach((v, i) => {
     if (!teacherOwned && !v.greek?.trim()) issues.push(`Vocab #${i + 1}: missing Greek translation`);
     if (!teacherOwned && profile?.minEmojis > 0 && !(v.emojis || "").trim()) {
-      issues.push(`Vocab "${v.english}": needs at least one emoji for ${profile.label}`);
+      notes.push(`“${v.english}” has no emoji picture in the word table.`);
     }
     normalizeDerivativesList(v.derivatives).forEach((d) => {
       const text = typeof d === "string" ? d : d?.text;
@@ -2243,22 +2257,18 @@ function validateWorksheet(data) {
 
   const plan = data.generationPlan;
   const exCount = data.dictation?.exercises?.length || 0;
+  // A generation that dropped or added exercises is retried (planMismatch); on the sheet it is only a note.
+  let planMismatch = false;
   if (plan && exCount !== plan.dictationExerciseCount) {
-    issues.push(`Dictation has ${exCount} exercises; expected ${plan.dictationExerciseCount}`);
+    planMismatch = true;
+    notes.push(`The Dictation has ${exCount} exercise${exCount === 1 ? "" : "s"}; ${plan.dictationExerciseCount} were planned in Step 3.`);
   }
 
   data.dictation?.exercises?.forEach((ex) => {
-    if (!profile?.allowDictation?.includes(ex.typeId)) {
-      issues.push(`Exercise type ${ex.typeId} not allowed for ${profile?.label}`);
+    if (profile && !profile.allowDictation?.includes(ex.typeId)) {
+      notes.push(`Dictation ${ex.number} (${EXERCISE_LABELS[ex.typeId] || ex.typeId}) isn't one of the usual exercises for ${profile.label} — check it suits the class.`);
     }
-    const maxItems = (profile?.itemsPerExercise || 5) + 1;
-    const itemCount = ex.items?.length || 0;
-    if (profile && itemCount > maxItems) {
-      issues.push(`Dictation exercise ${ex.number} (${ex.typeId}): ${itemCount} items — max ~${profile.itemsPerExercise} per exercise; split words across other dictation exercises`);
-    }
-    if (ex.typeId === "D01" && profile && itemCount > profile.itemsPerExercise + 1) {
-      issues.push(`Dictation exercise ${ex.number} (D01): ${itemCount} gap items — use ~${profile.itemsPerExercise} definitions here; test remaining words in other dictation exercises`);
-    }
+    sizeNote("Dictation", ex, ex.items?.length || 0);
     ex.items?.forEach((item) => {
       if (hasGreek(item.prompt) || hasGreek(item.instruction)) {
         issues.push(`Greek found in dictation prompt (item ${item.number})`);
@@ -2286,16 +2296,14 @@ function validateWorksheet(data) {
 
   const practiceCount = data.lingoLauncher?.practice?.length || 0;
   if (plan && practiceCount !== plan.lingoPracticeCount) {
-    issues.push(`Lingo practice: expected ${plan.lingoPracticeCount}, got ${practiceCount}`);
+    planMismatch = true;
+    notes.push(`The Lingo sheet has ${practiceCount} practice exercise${practiceCount === 1 ? "" : "s"}; ${plan.lingoPracticeCount} were planned in Step 3.`);
   }
 
   data.lingoLauncher?.practice?.forEach((ex) => {
     const vocab = data.lingoLauncher?.vocabulary || [];
     const lingoItemCount = ex.items?.length || 0;
-    const lingoMax = (profile?.itemsPerExercise || 5) + 1;
-    if (profile && lingoItemCount > lingoMax) {
-      issues.push(`Lingo exercise ${ex.number} (${ex.typeId}): ${lingoItemCount} items — max ~${profile.itemsPerExercise}; test a subset only, not the whole unit`);
-    }
+    sizeNote("Lingo", ex, lingoItemCount);
     if (["L01", "L05"].includes(ex.typeId) && ex.wordList?.length >= 2) {
       if (wordListMatchesAnswerOrder(ex.wordList, ex.items)) {
         issues.push(`Lingo exercise ${ex.number}: word list is in answer order — must be shuffled`);
@@ -2317,8 +2325,10 @@ function validateWorksheet(data) {
       issues.push(`Lingo exercise ${ex.number} (L04): no vocabulary words have antonyms listed`);
     }
     if (ex.typeId === "L05") {
-      if (ex.wordList?.length > lingoItemCount + 2) {
-        issues.push(`Lingo exercise ${ex.number} (L05): word list has ${ex.wordList.length} words — include only headwords used in this exercise (~${profile?.itemsPerExercise || 5}), not every unit word`);
+      // Extra words make the choice harder, which is fine; only a list far longer than asked for is mentioned.
+      const extras = normalizeTune(data.generationPlan?.tune).extras || 0;
+      if (ex.wordList?.length > lingoItemCount + extras + 3) {
+        notes.push(`Lingo ${ex.number}'s word list has ${ex.wordList.length} words for ${lingoItemCount} gaps — more to choose from than usual.`);
       }
       ex.items?.forEach((item) => {
         const gapErr = validateLingoGapItem(item.prompt, item.answer, vocab);
@@ -2525,7 +2535,7 @@ function validateWorksheet(data) {
   const lingoCoverage = computeLingoCoverage(vocab, data.lingoLauncher?.practice || []);
   const coverage = {
     dictation: dictCoverage,
-    room: dictationRoom(data, { words: dictCoverage.words, missing: dictCoverage.missing.map((m) => m.label) }, (profile?.itemsPerExercise || 5) + 1),
+    room: dictationRoom(data, { words: dictCoverage.words, missing: dictCoverage.missing.map((m) => m.label) }, (profile?.itemsPerExercise || 5) + 2), // the same leeway as the size note
     lingo: lingoCoverage,
     wordMap: dictCoverage.wordMap,
     missing: dictCoverage.missing.map((m) => m.label),
@@ -2533,7 +2543,7 @@ function validateWorksheet(data) {
     ok: dictCoverage.ok,
   };
 
-  return { issues, coverage, valid: issues.length === 0 };
+  return { issues, notes, planMismatch, coverage, valid: issues.length === 0 };
 }
 
 function subtitleLine(meta) {
@@ -3527,10 +3537,11 @@ function friendlyApiError(status, bodyText) {
 }
 
 function buildValidationRetryHint(lastValidation) {
-  if (!lastValidation?.issues?.length) return "";
+  if (!lastValidation?.issues?.length && !lastValidation?.planMismatch) return "";
   const missing = lastValidation.coverage?.dictation?.missing || [];
   const gapLabels = missing.map((m) => m.label || m).join(", ") || "none";
-  let hint = `Validation failed — fix ALL issues below:\n${lastValidation.issues.join("\n")}\nDictation coverage gaps: ${gapLabels}`;
+  const planned = lastValidation.planMismatch ? (lastValidation.notes || []).filter((n) => /were planned in Step 3/.test(n)) : [];
+  let hint = `Validation failed — fix ALL issues below:\n${[...planned.map((n) => `${n} Return exactly the planned exercises.`), ...lastValidation.issues].join("\n")}\nDictation coverage gaps: ${gapLabels}`;
   const l09Issues = lastValidation.issues.filter((i) => i.includes("(L09)"));
   if (l09Issues.length) {
     hint += `\n\nL09 ODD ONE OUT — rebuild each failed item:
@@ -3571,9 +3582,10 @@ async function callDeepSeekWithValidation({ apiKey, systemPrompt, userPrompt, pr
     normalizeWorksheetExercises(data);
     lastValidation = validateWorksheet(data);
     data.coverageReport = lastValidation.coverage;
-    if (lastValidation.valid) break;
+    // A missing planned exercise is worth another try; the other notes are guidelines, never a reason to rewrite.
+    if (lastValidation.valid && !lastValidation.planMismatch) break;
     // A lopsided key, a stray answer or a long sentence is a few lines to rewrite, not a reason to write everything again.
-    if (lastValidation.issues.every(isLineRepairIssue)) break;
+    if (!lastValidation.planMismatch && lastValidation.issues.every(isLineRepairIssue)) break;
   }
   const keyIssues = (lastValidation?.issues || []).filter(isLineRepairIssue);
   if (keyIssues.length && data?.meta?.classProfile) {
@@ -3860,15 +3872,16 @@ function categorizeValidationIssues(issues, data) {
 }
 
 function buildValidationReport(validation, data) {
+  const notes = validation?.notes || [];
   if (validation?.valid) {
-    return { valid: true, intro: "Everything looks good — ready to print or export." };
+    return { valid: true, intro: "All checks passed — ready to print.", notes };
   }
   const categories = categorizeValidationIssues(validation?.issues || [], data);
   // Item issues say where they are and what is wrong in the teacher's words; a long sentence is a nice-to-fix.
   categories.items.forEach((i) => {
     i.where = lineLabel(i.target);
     i.friendly = friendlyReason(i.target.reason);
-    i.minor = /^sentence is \d+ words/i.test(i.target.reason);
+    i.minor = /^(sentence is \d+ words|same sentence as Dictation)/i.test(i.target.reason);
   });
   const missing = validation?.coverage?.dictation?.missing || [];
   const lingoMap = validation?.coverage?.lingo?.wordMap || {};
@@ -3884,8 +3897,8 @@ function buildValidationReport(validation, data) {
     const add = room.addable.reduce((n, a) => n + a.free, 0);
     if (room.short > 0) {
       roomNote = room.room
-        ? `The Dictation has ${s(room.lines, "line", "lines")}: Lingo can fit about ${room.room} more word${room.room === 1 ? "" : "s"}, so ${room.short} won't fit. For all of them, add a dictation exercise or more lines per exercise in Step 3.`
-        : `The Dictation has ${s(room.lines, "line", "lines")} and every one already tests a different word, so these don't fit. Add a dictation exercise or more lines per exercise in Step 3.`;
+        ? `Lingo can add about ${room.room} of them without making the exercises much longer. For the rest, add lines on the sheet (＋ Add after), or raise “Lines per exercise” / add an exercise in Step 3 — or leave them for Lingo practice.`
+        : `Every Dictation line already tests a different word. To include these, add lines on the sheet (＋ Add after), or raise “Lines per exercise” / add an exercise in Step 3 — or leave them for Lingo practice.`;
     } else {
       const parts = [];
       if (room.spare.length) parts.push(`${s(room.spare.length, "line repeats a word", "lines repeat words")} tested elsewhere`);
@@ -3896,6 +3909,7 @@ function buildValidationReport(validation, data) {
   return {
     valid: false,
     intro,
+    notes,
     mustFix,
     categories,
     quickCount: categories.quick.length,

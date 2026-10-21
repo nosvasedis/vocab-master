@@ -117,3 +117,26 @@ test("teacher wording for the common reasons", () => {
   assert.equal(friendlyReason('prompt reveals answer "garden"'), "the answer “garden” is already printed in the line");
   assert.match(friendlyReason('rewrite this statement so the answer is "False" — the key needs a mix of True and False'), /mix of True and False/);
 });
+
+test("lines per exercise is a guideline: 7 lines for A Senior is fine, a big overshoot is only a note", () => {
+  const words = ["kitchen", "garden", "bedroom", "movie", "glue", "print", "meet", "invite", "fold"].map((w) => [w]);
+  const gaps = (n) => words.slice(0, n).map(([w], i) => line(i + 1, `I can see the ________ now.`, w));
+  const at = (n) => validateWorksheet(sheet(words, [{ number: 1, typeId: "D04", wordBank: [], items: gaps(n) }]));
+  const seven = at(7);
+  assert.equal(seven.issues.some((i) => /items|lines/.test(i)), false, "never a problem");
+  assert.equal(seven.notes.length, 0, "7 lines (setting ~5) isn't even worth a note");
+  const nine = at(9);
+  assert.ok(nine.notes.some((n) => /Dictation 1 has 9 lines/.test(n)));
+  const report = buildValidationReport(nine, sheet(words, []));
+  assert.equal(report.mustFix ?? 0, 0, "a note is never a thing to fix");
+});
+
+test("exercise counts and class types are notes on the sheet, but a dropped exercise still retries generation", () => {
+  const data = sheet([["kitchen"]], [{ number: 1, typeId: "D20", wordBank: [], items: [line(1, "We cook in the kichen.", "kitchen")] }]);
+  data.generationPlan = { dictationExerciseCount: 2, lingoPracticeCount: 0, dictationTypes: ["D04", "D20"], lingoTypes: [] };
+  const v = validateWorksheet(data);
+  assert.equal(v.issues.some((i) => /expected|not allowed/.test(i)), false);
+  assert.ok(v.notes.some((n) => /1 exercise; 2 were planned/.test(n)));
+  assert.ok(v.notes.some((n) => /isn't one of the usual exercises for A Senior/.test(n)));
+  assert.equal(v.planMismatch, true);
+});

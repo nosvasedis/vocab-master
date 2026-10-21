@@ -474,8 +474,12 @@ function renderQuality() {
   const stale = worksheetFreshness()?.wordsChanged
     ? `<div class="callout info stale-note">${icon("info")}<span>These sheets were written for an earlier word list. <a data-goto="exercises">Generate again</a> to use your current words.</span></div>`
     : "";
+  // Class guidelines the sheet departs from (lines per exercise, planned exercises…): information, never a problem.
+  const notes = report.notes?.length
+    ? `<div class="q-group info"><h5>${icon("info", "i-xs")}Good to know</h5><ul>${report.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>`
+    : "";
   if (report.valid) {
-    $("qualityPanel").innerHTML = stale + `<div class="quality-ok">${icon("check-circle")}<span>All checks passed — ready to print.</span></div>`;
+    $("qualityPanel").innerHTML = stale + `<div class="quality-ok">${icon("check-circle")}<span>${esc(report.intro)}</span></div>${notes ? `<div class="quality-list q-after">${notes}</div>` : ""}`;
   } else {
     const list = (items, row) => `<ul>${items.slice(0, 6).map(row).join("")}${items.length > 6 ? `<li>…and ${items.length - 6} more</li>` : ""}</ul>`;
     const group = (title, items, iconName, tone = "warn", note = "") => items.length
@@ -499,8 +503,9 @@ function renderQuality() {
         ${lineGroup("Lines to fix", items.filter((i) => !i.minor), "pencil", "bad")}
         ${group("Whole exercise", report.categories.manual, "alert", "bad", `<p class="q-note">Write it again in Step 3, or edit it on the sheet.</p>`)}
         ${report.coverageCount ? `<div class="q-group warn"><h5>${icon("target", "i-xs")}Not in the Dictation yet (${report.coverageCount})</h5><div class="cov-chips">${chips}</div>${report.roomNote ? `<p class="q-note">${esc(report.roomNote)}</p>` : ""}</div>` : ""}
-        ${lineGroup("Too long to dictate", items.filter((i) => i.minor), "pencil", "warn")}
+        ${lineGroup("Worth improving", items.filter((i) => i.minor), "pencil", "warn")}
         ${group("Quick tidy-ups", report.categories.quick, "zap")}
+        ${notes}
       </div>
       ${btns.length ? `<div class="q-actions">${btns.join("")}</div>` : `<p class="insp-note">Click a line on the sheet to edit it, or write the exercises again in Step 3.</p>`}`;
   }

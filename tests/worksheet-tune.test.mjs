@@ -57,8 +57,9 @@ test("validation follows the tuned item count", () => {
     lingoLauncher: { vocabulary: [], practice: [] },
     dictation: { exercises: [{ number: 1, typeId: "D04", instruction: "", wordBank: [], items: items(8) }] },
   });
-  const tooMany = (v) => v.issues.some((i) => /items — max/.test(i));
-  assert.equal(tooMany(validateWorksheet(sheet(null))), true, "8 items is too many for the B Senior default (5)");
+  // Lines per exercise is a guideline: a big overshoot is a note, never a problem that blocks the sheet.
+  const tooMany = (v) => v.notes.some((n) => /has 8 lines/.test(n)) && !v.issues.some((i) => /lines|items —/.test(i));
+  assert.equal(tooMany(validateWorksheet(sheet(null))), true, "8 items is a lot for the B Senior default (5)");
   assert.equal(tooMany(validateWorksheet(sheet({ items: 8 }))), false, "the teacher asked for 8");
 });
 
