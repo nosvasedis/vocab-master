@@ -14,10 +14,10 @@ const SECTION_ICONS = { BQ: "❓", A: "📗", B: "📘" };
 /** The book tab is this screen's own choice, remembered (never taken from Worksheets). */
 const BOOK_KEY = "vm_lessons_book_v1";
 let book = null;
-let handlers = { teach: () => {}, games: () => {} };
+let handlers = { teach: () => {}, games: () => {}, live: () => {} };
 
-export function initLessons({ teach, games }) {
-  handlers = { teach, games };
+export function initLessons({ teach, games, live }) {
+  handlers = { teach, games, live: live || (() => {}) };
   $("lessonsView").addEventListener("click", async (e) => {
     const off = e.target.closest("[data-offline]");
     if (off) {
@@ -37,6 +37,7 @@ export function initLessons({ teach, games }) {
     if (!id) return;
     if (act.dataset.lessonAct === "teach") handlers.teach(id);
     if (act.dataset.lessonAct === "games") handlers.games(id);
+    if (act.dataset.lessonAct === "live") handlers.live(id);
   });
 }
 
@@ -89,6 +90,7 @@ export async function renderLessons() {
               return `<div class="lsn-row" data-lesson="${esc(l.id)}">
                 <span class="lsn-ico">${SECTION_ICONS[s]}</span>
                 <span class="lsn-name"><b>${esc(l.title)}</b><small>${SECTION_NAMES[s]} · ${l.focusCount} words · ${l.durationMin} min${l.status !== "approved" ? ` · <em class="lsn-badge ${esc(l.status)}">${esc(l.status)}</em>` : ""}</small></span>
+                <button type="button" class="btn btn-ghost btn-sm lsn-live" data-lesson-act="live" title="Live quiz: this lesson's questions in Lingo Live — on phones or with answer cards">🎯</button>
                 <button type="button" class="btn btn-ghost btn-sm" data-lesson-act="games" title="Play arcade games with these words">${icon("gamepad", "i-sm")}</button>
                 <button type="button" class="btn btn-primary btn-sm" data-lesson-act="teach">${icon("play", "i-sm")}Teach</button>
               </div>`;

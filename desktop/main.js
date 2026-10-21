@@ -484,6 +484,7 @@ const SAVE_KINDS = {
   pdf: { title: "Save PDF", folder: "documents", filter: { name: "PDF", extensions: ["pdf"] } },
   png: { title: "Save picture", folder: "pictures", filter: { name: "Picture", extensions: ["png"] } },
   txt: { title: "Save text", folder: "documents", filter: { name: "Text", extensions: ["txt"] } },
+  csv: { title: "Save results", folder: "documents", filter: { name: "Spreadsheet (CSV)", extensions: ["csv"] } },
 };
 function saveDialogFor(name) {
   const ext = path.extname(name).slice(1).toLowerCase();

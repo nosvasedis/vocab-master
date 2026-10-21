@@ -31,7 +31,7 @@ import { initVoice } from "../arcade/voice.js";
 import { ensurePictureStyle, pictureSvg } from "./pictures.js";
 import { initPics, picImg } from "./pics.js";
 import { initLessons, renderLessons, lessonsToast } from "./views/lessons.js";
-import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, bookLabel } from "../lesson/lesson.js";
+import { openLesson, isLessonOpen, loadLesson, lessonWords, lessonDeck, lessonLiveChecks, bookLabel } from "../lesson/lesson.js";
 import { STUDIO_VIEWS, initStudio } from "./views/studio-views.js";
 import { initHome, renderHome } from "./views/home.js";
 import { initUpdates } from "./updates.js";
@@ -360,10 +360,10 @@ function worksheetGames() {
   openDeck(ctx.deck, ctx.title);
 }
 
-function openDeck(deck, title, { standalone = false } = {}) {
+function openDeck(deck, title, { standalone = false, checks = null, start = "" } = {}) {
   // "Choose your words" in the arcade picks coursebook rows; they get the same trusted pictures as a worksheet's words.
   const buildDeck = (rows) => buildArcadeDeck(rows.map((row) => ({ ...row, emojis: engine.trustedBankEmoji(row) })));
-  openArcade({ deck, title, prefs: { sfx: prefs.sfx, tts: prefs.tts }, picture, onPrefs: savePlayPrefs, buildDeck, standalone });
+  openArcade({ deck, title, prefs: { sfx: prefs.sfx, tts: prefs.tts }, picture, onPrefs: savePlayPrefs, buildDeck, standalone, checks, start });
 }
 
 /** Teach a curated lesson in the full-screen player. */
@@ -374,7 +374,17 @@ function teachLesson(id) {
     onPrefs: savePlayPrefs,
     calm: !!prefs.calmMotion,
     onPlayGames: (deck, title) => openDeck(deck, title),
+    onLiveQuiz: (deck, title, checks) => openDeck(deck, title, { checks, start: "live" }),
   }).catch(lessonsToast);
+}
+
+/** "Live quiz" on a lesson: Lingo Live with the lesson's check questions (phones or answer cards). */
+async function lessonLive(id) {
+  try {
+    const lesson = await loadLesson(id);
+    const words = lessonWords(lesson);
+    openDeck(lessonDeck(words), `${bookLabel(lesson)} · ${lesson.title}`, { checks: lessonLiveChecks(lesson, words), start: "live" });
+  } catch (e) { lessonsToast(e); }
 }
 
 async function lessonGames(id) {
@@ -488,7 +498,7 @@ async function boot() {
     initExercises();
     initPreview();
     initLibrary();
-    initLessons({ teach: teachLesson, games: lessonGames });
+    initLessons({ teach: teachLesson, games: lessonGames, live: lessonLive });
     initStudio();
     initHome({ newUnit, openGames, worksheetGames });
     initInterfaceSounds();

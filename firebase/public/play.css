@@ -78,3 +78,6 @@ input { font: inherit; }
 .s-final p b { color: var(--gold); font-size: 30px; }
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+
+/* Offline strip (Firebase reconnecting) */
+.net-strip { position: fixed; left: 0; right: 0; top: 0; z-index: 50; padding: 10px 14px; text-align: center; font: 600 16px "Fredoka", system-ui, sans-serif; color: #2a1474; background: #ffd23f; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25); }

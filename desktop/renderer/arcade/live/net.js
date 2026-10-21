@@ -58,6 +58,14 @@ export async function openRoom({ title, teams }) {
     /** Live answers for one question: { uid: { opt, at } } */
     onAnswers: (qkey, cb) => listen(`answers/${qkey}`, (v) => cb(v || {})),
     serverNow: () => Date.now() + serverOffset,
+    /** Is this computer connected to the room? cb(true|false) on every change (Firebase reconnects by itself). */
+    onConnection(cb) {
+      const r = ref(db, ".info/connected");
+      let first = true;
+      // .info/connected starts false for a moment while the socket opens; only a drop after that counts.
+      const stop = onValue(r, (s) => { const on = s.val() === true; if (first && !on) return; first = false; cb(on); });
+      return stop;
+    },
     setTeams: (map) => set(ref(db, `${base}/teamOf`), map),
     kick: (pid) => remove(ref(db, `${base}/players/${pid}`)),
     /** Open a question: phones show nOpts shapes until the host reveals. Resolves with the server start time. */

@@ -40,7 +40,7 @@ export const isPlayerOpen = () => !!P;
 
 /**
  * @param {{ lesson: object, words: Map, wordById: Function, deck: object[], picture: Function, bookLabel: string,
- *   prefs: object, onPrefs?: Function, onPlayGames?: Function, onClose?: Function, artUrl?: Function, calm?: boolean }} o
+ *   prefs: object, onPrefs?: Function, onPlayGames?: Function, onLiveQuiz?: Function, onClose?: Function, artUrl?: Function, calm?: boolean }} o
  */
 export function openPlayer(o) {
   if (P) return;
@@ -354,7 +354,8 @@ function finish() {
       <p>${ctx.words.size} new words · ${P.stars} ⭐ for the class</p>
       <div class="ls-finish-actions">
         <button type="button" class="ls-btn ghost" data-f="again">↺ Teach again</button>
-        ${o.onPlayGames ? `<button type="button" class="ls-btn primary" data-f="games">🎮 More games with these words</button>` : ""}
+        ${o.onLiveQuiz ? `<button type="button" class="ls-btn primary" data-f="live" title="The lesson's questions in Lingo Live: on phones or with answer cards, with results to save">🎯 Live quiz</button>` : ""}
+        ${o.onPlayGames ? `<button type="button" class="ls-btn ${o.onLiveQuiz ? "ghost" : "primary"}" data-f="games">🎮 More games with these words</button>` : ""}
         <button type="button" class="ls-btn ghost" data-f="close">Back to lessons</button>
       </div>
     </div>`;
@@ -365,6 +366,7 @@ function finish() {
   ctx.ui.querySelector('[data-f="again"]').addEventListener("click", () => { P.stars = 0; P.root.querySelector("#lsStars b").textContent = "0"; goTo(0, 0); });
   ctx.ui.querySelector('[data-f="close"]').addEventListener("click", closePlayer);
   ctx.ui.querySelector('[data-f="games"]')?.addEventListener("click", () => { const cb = o.onPlayGames; closePlayer(); setTimeout(() => cb(), 280); });
+  ctx.ui.querySelector('[data-f="live"]')?.addEventListener("click", () => { const cb = o.onLiveQuiz; closePlayer(); setTimeout(() => cb(), 280); });
   renderMap();
 }
 

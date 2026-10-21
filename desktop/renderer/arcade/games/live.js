@@ -11,6 +11,7 @@ import { playMusic, stopMusic, setTension, setBuildup, stings } from "../live/mu
 import { hasVoiceFor } from "../voice.js";
 import { avatarPic } from "../../js/pics.js";
 import { facePic } from "../avatars.js";
+import { newRecord, keepResults, listResults, saveResultsCsv, missedWords } from "../results.js";
 
 // A team's mascot: one of the four team pictures, or any avatar the class chose for its crest.
 const teamPic = (emoji) => facePic(emoji, { team: true });
@@ -24,7 +25,9 @@ const SHAPE_SVG = {
   sq: `<svg viewBox="0 0 100 100"><rect x="12" y="12" width="76" height="76" rx="8"/></svg>`,
 };
 const KEYS = ["A", "B", "C", "D"];
-const KIND_ICON = { pic2word: "🖼️", word2pic: "🔎", gap: "✏️", listen: "👂", greek: "🇬🇷", truefalse: "⚖️" };
+const KIND_ICON = { pic2word: "🖼️", word2pic: "🔎", gap: "✏️", listen: "👂", greek: "🇬🇷", truefalse: "⚖️", odd: "🧩" };
+// Firebase's free plan allows 100 connections at once (the host is one of them).
+const PLAYER_LIMIT = 90;
 
 export default {
   id: "live",
@@ -59,6 +62,15 @@ export default {
     let showNo = 0;
     let offAnswers = null;
     let kickArm = null;
+    let online = true;         // phones: the host's connection to Firebase
+    let offConn = null;
+    let known = {};            // uid → { name } for everyone who joined (kept when a phone drops, for the results)
+    // A lesson's own check questions (opened from a lesson) or questions made from the words.
+    const checks = ctx.checks?.length ? ctx.checks : null;
+    let source = checks ? "lesson" : "words";
+    let log = [];              // per question: { n, kind, prompt, answer, word, right, answered, of }
+    let lastShow = null;       // the finished (or stopped) show, kept on this computer
+    let pastOpen = false;
     const phones = () => !!net;
     const pids = () => Object.keys(players);
     const qkey = () => `s${showNo}q${qi}`;
@@ -118,10 +130,13 @@ export default {
             </section>
           </div>
           <div class="lv-settings">
-            <label>Questions <span class="arc-seg" data-set="count">${counts.map((n) => `<button type="button" data-v="${n}" class="${n === prefs.count ? "on" : ""}">${n}</button>`).join("")}</span></label>
+            ${checks ? `<label>Questions <span class="arc-seg" data-source>${[["lesson", `The lesson's ${checks.length}`], ["words", "From the words"]].map(([v, l]) => `<button type="button" data-src="${v}" class="${v === source ? "on" : ""}">${l}</button>`).join("")}</span></label>` : ""}
+            ${source === "words" ? `<label>${checks ? "How many" : "Questions"} <span class="arc-seg" data-set="count">${counts.map((n) => `<button type="button" data-v="${n}" class="${n === prefs.count ? "on" : ""}">${n}</button>`).join("")}</span></label>` : ""}
             <label>Time <span class="arc-seg" data-set="time">${[10, 20, 30].map((n) => `<button type="button" data-v="${n}" class="${n === prefs.time ? "on" : ""}">${n}s</button>`).join("")}</span></label>
           </div>
           <button type="button" class="lv-start" data-start ${prefs.mode === "phones" && !pids().length ? "disabled" : ""}>${svg("play")}Start the show <kbd>Space</kbd></button>
+          ${listResults().some((r) => r.game === "Lingo Live") ? `<button type="button" class="lv-past-btn" data-past>📄 Results of earlier shows</button>` : ""}
+          ${pastOpen ? pastHtml() : ""}
         </div>`, "is-lobby");
       if (prefs.mode === "phones") { drawQr(); if (!net && !netBusy && !netError) startPhones(); }
     }
@@ -146,7 +161,7 @@ export default {
       const ids = pids();
       if (!ids.length) return `<p class="lv-note big">Waiting for players… 📱</p>`;
       const chip = (uid) => `<button type="button" class="lv-player${kickArm === uid ? " arm" : ""}" data-kick="${uid}" title="Tap twice to remove">${avatarPic(players[uid].avatar)} ${esc(players[uid].name)}${kickArm === uid ? " ✕" : ""}</button>`;
-      const head = `<p class="lv-count-line"><b>${ids.length}</b> ${ids.length === 1 ? "player" : "players"}</p>`;
+      const head = `<p class="lv-count-line"><b>${ids.length}</b> ${ids.length === 1 ? "player" : "players"}${ids.length >= PLAYER_LIMIT ? ` · <span class="lv-warn">the free plan takes about ${PLAYER_LIMIT} phones: let students share in pairs</span>` : ""}</p>`;
       if (solo()) return head + `<div class="lv-chips">${ids.map(chip).join("")}</div>`;
       return head + `<div class="lv-team-cols">${T().map((t, i) => `<div class="lv-col" style="--team:${t.color}"><h4>${teamPic(t.emoji)} ${esc(t.name)}</h4>${ids.filter((u) => teamOf[u] === i).map(chip).join("")}</div>`).join("")}</div>`;
     }
@@ -168,7 +183,7 @@ export default {
         net = await openRoom({ title: ctx.title || "Lingo Live", teams: T() });
         net.onPlayers((v) => {
           players = {};
-          for (const [uid, pl] of Object.entries(v)) players[uid] = { name: String(pl.name || "?").slice(0, 16), avatar: String(pl.avatar || "🙂").slice(0, 16) };
+          for (const [uid, pl] of Object.entries(v)) { players[uid] = { name: String(pl.name || "?").slice(0, 16), avatar: String(pl.avatar || "🙂").slice(0, 16) }; known[uid] = { name: players[uid].name }; }
           if (!solo()) {
             const next = assignTeams(pids(), teamOf, T().length);
             if (JSON.stringify(next) !== JSON.stringify(teamOf)) { teamOf = next; net?.setTeams(teamOf).catch(() => {}); }
@@ -179,6 +194,7 @@ export default {
           if (start) start.disabled = !pids().length;
           if (phase === "lobby" && pids().length) sfx.pop();
         });
+        offConn = net.onConnection((on) => { online = on; showConnection(); });
       } catch (e) {
         net = null;
         netError = navigator.onLine === false ? "This computer is offline. Use cards & fingers, or connect to the internet." : "Couldn't open a room. Check the internet connection (some school networks block it), or use cards & fingers.";
@@ -187,9 +203,20 @@ export default {
       if (phase === "lobby") lobby();
     }
 
+    /** A banner on the projector while the room's connection is lost (Firebase reconnects by itself). */
+    function showConnection() {
+      canvas.querySelector(".lv-offline")?.remove();
+      if (online || !net) return;
+      canvas.insertAdjacentHTML("beforeend", `<div class="lv-offline" role="status">📶 Reconnecting to the phones… answers arrive when the internet is back.</div>`);
+    }
+
     function closePhones() {
       offAnswers?.();
       offAnswers = null;
+      offConn?.();
+      offConn = null;
+      online = true;
+      showConnection();
       if (!net) return;
       const n = net;
       net = null;
@@ -200,13 +227,16 @@ export default {
 
     /* ── 3-2-1 ─────────────────────────────────────────────────────── */
     function startShow() {
-      questions = buildLiveQuestions(ctx.fullDeck, { count: prefs.count, greek: ctx.greek() });
+      questions = source === "lesson" ? checks.map((q) => ({ ...q })) : buildLiveQuestions(ctx.fullDeck, { count: prefs.count, greek: ctx.greek() });
       if (!questions.length) { set(`<div class="lv-empty">Lingo Live needs at least 4 words.</div>`); return; }
       if (prefs.mode === "phones" && (!net || !pids().length)) return;
       show = { pts: T().map(() => 0), streak: T().map(() => 0), right: T().map(() => 0), prevOrder: T().map((_, i) => i), prevPlayers: [] };
       qi = 0;
       showNo++;
       pstats = {};
+      log = [];
+      lastShow = null;
+      pastOpen = false;
       if (net) { net.clearResults().catch(() => {}); net.setPhase("countdown").catch(() => {}); }
       stopMusic(0.4);
       phase = "countdown";
@@ -351,10 +381,11 @@ export default {
         const streaks = Object.fromEntries(pids().map((u) => [u, pstats[u]?.streak || 0]));
         round = scorePhoneRound({ answers: liveAnswers, players: pids(), teamOf, answer: q.answer, startedAt: startedAt || net.serverNow() - (performance.now() - shownAt), limitMs: limit, streaks, teamCount: solo() ? 0 : T().length, nOpts: q.options.length });
         for (const [u, r] of Object.entries(round.perPlayer)) {
-          const st = pstats[u] || (pstats[u] = { total: 0, streak: 0, right: 0 });
+          const st = pstats[u] || (pstats[u] = { total: 0, streak: 0, right: 0, answered: 0 });
           st.total += r.pts;
           st.streak = r.streak;
           if (r.correct) st.right++;
+          if (r.opt != null) st.answered++;
         }
         const ids = pids();
         const order = rankTeams(ids.map((u) => pstats[u].total));
@@ -389,9 +420,11 @@ export default {
       });
       screen.querySelector(".lv-reveal-btn")?.remove();
       screen.classList.add("revealed");
-      const w = q.word;
-      const ex = String(w.example || "");
-      const exHtml = ex ? esc(ex).replace(new RegExp(`\\b(${w.english.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\w*)`, "i"), "<mark>$1</mark>") : "";
+      logQuestion(q, results, round);
+      const w = q.word || { english: q.answerText || "", greek: "", emojis: "", example: "" };
+      // A lesson question explains its answer in the lesson's words; a word question shows the example.
+      const ex = String(q.explain || w.example || "");
+      const exHtml = ex && w.english ? esc(ex).replace(new RegExp(`\\b(${w.english.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\w*)`, "i"), "<mark>$1</mark>") : esc(ex);
       const panel = document.createElement("div");
       panel.className = "lv-result";
       panel.innerHTML = `
@@ -492,6 +525,7 @@ export default {
       stopMusic(0.2);
       ctx.setProgress(`Final results`);
       net?.setPhase("podium").catch(() => {});
+      keepShow();
       const ranked = rankTeams(show.pts);
       const total = questions.length;
       if (solo() && phones()) { playerPodium(total); return; }
@@ -562,7 +596,51 @@ export default {
 
     const finalButtons = (forceHidden = false) => `<div class="lv-final-actions${solo() && !forceHidden ? " show" : ""}">
       ${ctx.hub ? `<button type="button" class="lv-ghost" data-hub>${svg("grid", "i-sm")}All games</button>` : ""}
+      <button type="button" class="lv-ghost" data-save title="A spreadsheet (CSV) with every question, every player and the words to review">${svg("download", "i-sm")}Save results</button>
       <button type="button" class="lv-start sm" data-again>${svg("rotate", "i-sm")}Play again</button></div>`;
+
+    /* ── Results: every show is kept on this computer and can be saved as a CSV ─ */
+    function logQuestion(q, results, round) {
+      const answerText = q.answerText || q.options[q.answer]?.text || q.options[q.answer]?.word || "";
+      const base = { n: qi + 1, kind: q.kindLabel, prompt: q.kind === "listen" ? `(listen) ${q.sayPrompt || ""}` : q.prompt || "", answer: answerText, word: q.word?.english || answerText };
+      if (round) {
+        const per = Object.values(round.perPlayer);
+        log.push({ ...base, right: per.filter((r) => r.correct).length, answered: per.filter((r) => r.opt != null).length, of: per.length });
+      } else {
+        log.push({ ...base, right: results.filter((r) => r.correct).length, answered: solo() ? Math.min(1, answers.size) : answers.size, of: solo() ? 1 : T().length });
+      }
+    }
+
+    function keepShow({ stopped = false } = {}) {
+      if (!log.length) return;
+      const onPhones = Object.keys(pstats).length > 0;
+      const n = Object.keys(pstats).length;
+      const how = onPhones ? `Phones · ${n} ${n === 1 ? "player" : "players"}${solo() ? "" : ` in ${T().length} teams`}` : solo() ? "Answer cards · whole class" : `Answer cards · ${T().length} teams`;
+      lastShow = newRecord({
+        game: "Lingo Live",
+        title: `${source === "lesson" ? "Lesson check · " : ""}${ctx.meta?.title || ""}`,
+        className: ctx.meta?.className || "",
+        mode: `${how}${stopped ? ` · stopped after ${log.length} of ${questions.length} questions` : ""}`,
+        questions: log,
+        players: onPhones ? Object.entries(pstats).map(([u, st]) => ({ name: known[u]?.name || "?", team: solo() ? "" : T()[teamOf[u]]?.name || "", points: st.total, right: st.right, answered: st.answered })) : [],
+        teams: onPhones && solo() ? [] : T().map((t, i) => ({ name: solo() ? "Class" : t.name, points: show.pts[i], right: show.right[i] })),
+      });
+      keepResults(lastShow);
+    }
+
+    function pastHtml() {
+      const list = listResults().filter((r) => r.game === "Lingo Live").slice(0, 8);
+      const fmt = (iso) => { const d = new Date(iso); return `${d.toLocaleDateString(undefined, { day: "numeric", month: "short" })} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`; };
+      const rightPct = (r) => { const qs = r.questions || []; const a = qs.reduce((s, q) => s + q.of, 0); return a ? Math.round((qs.reduce((s, q) => s + q.right, 0) / a) * 100) : 0; };
+      return `<div class="lv-past" role="dialog" aria-label="Results of earlier shows">
+        <header><h3>Results of earlier shows</h3><button type="button" class="lv-ghost sm" data-past>Close</button></header>
+        <p class="lv-note">Kept on this computer (the last 40 games). Save one as a spreadsheet for your records.</p>
+        <ul>${list.map((r) => {
+          const miss = missedWords(r).slice(0, 4).map((m) => m.word);
+          return `<li><span class="lv-past-when">${esc(fmt(r.date))}</span><span class="lv-past-what"><b>${esc(r.className || "Class")}</b> · ${esc(r.title || "")}<small>${esc(r.mode || "")} · ${rightPct(r)}% right${miss.length ? ` · review: ${esc(miss.join(", "))}` : ""}</small></span><button type="button" class="lv-ghost sm" data-past-save="${esc(r.id)}">${svg("download", "i-sm")}CSV</button></li>`;
+        }).join("")}</ul>
+      </div>`;
+    }
 
     /* ── Input ─────────────────────────────────────────────────────── */
     stage.addEventListener("click", (e) => {
@@ -575,6 +653,12 @@ export default {
         sfx.tap();
         return;
       }
+      const src = e.target.closest("[data-src]");
+      if (src && phase === "lobby") { if (src.dataset.src !== source) { source = src.dataset.src; sfx.tap(); lobby(); } return; }
+      if (e.target.closest("[data-past]")) { pastOpen = !pastOpen; sfx.tap(); lobby(); return; }
+      const pastSave = e.target.closest("[data-past-save]");
+      if (pastSave) { const r = listResults().find((x) => x.id === pastSave.dataset.pastSave); if (r) saveResultsCsv(r); return; }
+      if (e.target.closest("[data-save]")) { if (lastShow) saveResultsCsv(lastShow); return; }
       const modeBtn = e.target.closest("[data-mode]");
       if (modeBtn && phase === "lobby") {
         const m = modeBtn.dataset.mode;
@@ -628,11 +712,11 @@ export default {
       },
       onGreek(on) {
         // Greek questions only while Greek is on: rebuild the questions still to come.
-        if (!questions.length || phase === "lobby" || phase === "podium") return;
+        if (!questions.length || phase === "lobby" || phase === "podium" || source === "lesson") return;
         const keep = questions.slice(0, phase === "intro" ? qi : qi + 1);
         questions = [...keep, ...buildLiveQuestions(ctx.fullDeck, { count: questions.length - keep.length, greek: on })];
       },
-      destroy() { clearTimers(); stopMusic(0.15); setTension(false); ro.disconnect(); closePhones(); },
+      destroy() { if (log.length && phase !== "podium" && phase !== "lobby") keepShow({ stopped: true }); clearTimers(); stopMusic(0.15); setTension(false); ro.disconnect(); closePhones(); },
     };
   },
 };

@@ -23,6 +23,7 @@ export default {
     let tick = null;
     let streak = 0;
     let correct = 0;
+    const log = []; // per question, for the saved results
     const lifelines = new Map(); // team index → used
     const timers = [];
 
@@ -97,6 +98,7 @@ export default {
       });
       const foot = stage.querySelector("#qzFoot");
       const w = item.target;
+      log.push({ n: q + 1, kind: item.kindLabel, prompt: item.speakOnly ? `(listen) ${item.answer}` : item.prompt || "", answer: item.answer, word: w.english, right: right ? 1 : 0, answered: choice == null ? 0 : 1, of: 1, team: teams.solo ? "" : teams.active()?.name || "" });
       if (right) {
         correct++;
         streak++;
@@ -124,7 +126,7 @@ export default {
       teams.nextTurn();
       q++;
       if (q >= questions.length) {
-        ctx.finish({ title: "Quiz complete!", stats: [{ value: `${correct}/${questions.length}`, label: "correct" }] });
+        ctx.finish({ title: "Quiz complete!", stats: [{ value: `${correct}/${questions.length}`, label: "correct" }], results: { questions: log } });
         return;
       }
       sfx.whoosh();

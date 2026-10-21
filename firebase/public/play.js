@@ -181,6 +181,23 @@ function ended() {
 }
 const ordinal = (n) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? "th" : ["th", "st", "nd", "rd"][n % 10] || "th"}`;
 
+/* ── Connection: a strip at the top while the phone is offline (Firebase reconnects by itself) ── */
+let wasOnline = false;
+onValue(ref(db, ".info/connected"), (s) => {
+  const on = s.val() === true;
+  if (on) wasOnline = true;
+  let strip = document.getElementById("netStrip");
+  if (on || !wasOnline) { strip?.remove(); return; }
+  if (!strip) {
+    strip = document.createElement("div");
+    strip.id = "netStrip";
+    strip.className = "net-strip";
+    strip.setAttribute("role", "status");
+    strip.textContent = "📶 Reconnecting… stay on this page";
+    document.body.appendChild(strip);
+  }
+});
+
 /* ── Start ──────────────────────────────────────────────────────────── */
 screen("s-wait", `<div class="center"><div class="spinner"></div><p>Connecting…</p></div>`);
 signInAnonymously(auth)

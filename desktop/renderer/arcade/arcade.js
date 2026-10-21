@@ -7,6 +7,7 @@ import { sfx, stopSpeaking, configureAudio, audioSettings } from "./audio.js";
 import { confetti, floatText } from "./fx.js";
 import { mountGame, esc, svg } from "./host.js";
 import { firstEmoji, buildArcadeDeck } from "./deck.js";
+import { newRecord, keepResults, saveResultsCsv } from "./results.js";
 import { openDeckPicker } from "./deck-picker.js";
 import { rowById, describeDeck, logPlayed } from "./deck-source.js";
 import { lookupCoursebookWord } from "../coursebook-data.js";
@@ -57,7 +58,7 @@ const currentClass = () => session.classes.find((c) => c.id === session.classId)
  * and the word chooser at once when there are none. Otherwise (a worksheet's "Play games", a lesson) it opens
  * with exactly the words it was given.
  */
-export function openArcade({ deck = [], title = "", prefs = {}, onPrefs, picture, buildDeck, standalone = false } = {}) {
+export function openArcade({ deck = [], title = "", prefs = {}, onPrefs, picture, buildDeck, standalone = false, checks = null, start = "" } = {}) {
   if (session) return;
   configureAudio(prefs);
   const classes = loadClasses();
@@ -68,6 +69,7 @@ export function openArcade({ deck = [], title = "", prefs = {}, onPrefs, picture
     title,
     baseDeck: deck,        // the words the arcade was opened with (worksheet or lesson)
     baseTitle: title,
+    checks: checks?.length ? checks : null, // a lesson's check questions (Lingo Live offers them while the lesson's words are in play)
     buildDeck,             // coursebook rows → a game deck (trusted pictures)
     source: "start",
     pickIds: null,         // coursebook word ids picked in "Choose your words" (remembered, see restorePick)
@@ -146,6 +148,7 @@ export function openArcade({ deck = [], title = "", prefs = {}, onPrefs, picture
   showHub();
   sfx.enter();
   if (standalone && session.deck.length < 3) openPicker();
+  else if (start && GAMES.some((g) => g.id === start)) startGame(start);
 }
 
 export function closeArcade() {
@@ -876,6 +879,9 @@ function startGame(id, { quick = false } = {}) {
       picture: session.picture,
       teams: teamApi(),
       greek: () => session.greek,
+      // The lesson's own questions only while its words are the deck; the class and words for saved results.
+      checks: session.deck === session.baseDeck ? session.checks : null,
+      meta: { className: currentClass()?.name || "", title: session.title || "" },
       setProgress(html) { const p = session.root.querySelector("#arcProgress"); if (p) p.innerHTML = html; },
       onFinish: (o) => showFinish(def, o),
       onRestart: () => startGame(id, { quick: true }),
@@ -893,7 +899,7 @@ function startGame(id, { quick = false } = {}) {
  * The end screen: a drumroll, the podium rising from last place to first, the winner's crown, fanfare and confetti.
  * Class mode: the class's points count up under the trophy.
  */
-function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extraAction = null } = {}) {
+function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extraAction = null, results = null } = {}) {
   session.game?.destroy?.();
   session.game = { destroy() {} };
   clearFx();
@@ -919,6 +925,16 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
   // Podium order on screen: 2nd, 1st, 3rd, 4th.
   const slot = (i) => (n >= 3 ? [1, 0, 2, 3][i] : i);
   const top = Math.max(1, winner?.score || 0);
+  // Games that report their questions (Quiz Show) are kept on this computer and can be saved as a CSV.
+  const rec = results?.questions?.length ? newRecord({
+    game: def.title,
+    title: session.title || "",
+    className: currentClass()?.name || "",
+    mode: solo ? "Whole class" : play.mode === "players" ? `${ranked.length} players` : `${ranked.length} teams`,
+    questions: results.questions,
+    ...(solo ? { teams: [{ name: "Class", points: winner?.score || 0 }] } : play.mode === "players" ? { players: ranked.map((p) => ({ name: p.name, points: p.score })) } : { teams: ranked.map((t) => ({ name: t.name, points: t.score })) }),
+  }) : null;
+  if (rec) keepResults(rec);
   main.innerHTML = `
     <div class="arc-finish fin2${solo ? " solo" : ""}" style="--g1:${INTRO[def.id]?.c || "#7b6bff"};--g2:${INTRO[def.id]?.c2 || "#c056f0"}">
       <div class="fin-rays" aria-hidden="true" style="--d:${winAt}ms"></div>
@@ -943,6 +959,7 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
       ${rest.length ? `<ol class="fin-rest" start="4" style="--d:${after + 150}ms">${rest.map((p) => `<li>${A.avatarDisc(p.emoji, p.color, { cls: "sm" })}<b>${esc(p.name)}</b><em>${p.score}</em></li>`).join("")}</ol>` : ""}
       <div class="fin-actions" style="--d:${after + 250}ms">
         ${extraAction ? `<button type="button" class="arc-btn ghost" data-extra>${esc(extraAction.label)}</button>` : ""}
+        ${rec ? `<button type="button" class="arc-btn ghost" data-save-results title="A spreadsheet (CSV) with every question and the words to review">${svg("download", "i-sm")}Save results</button>` : ""}
         <button type="button" class="arc-btn ghost" data-hub2>${svg("grid", "i-sm")}All games</button>
         <button type="button" class="arc-btn ${nextDef ? "ghost" : "primary"}" data-again>${svg("rotate", "i-sm")}Play again</button>
         ${nextDef ? `<button type="button" class="arc-btn primary xl" data-next-plan>Next: ${nextDef.emoji} ${esc(nextDef.title)}${svg("arrow-right", "i-sm")}</button>` : session.plan ? `<span class="fin-plan-done">🎓 Lesson complete!</span>` : ""}
@@ -966,6 +983,7 @@ function showFinish(def, { title = "Game over!", subtitle = "", stats = [], extr
   main.querySelector("[data-hub2]").addEventListener("click", () => showHub());
   main.querySelector("[data-next-plan]")?.addEventListener("click", () => { session.plan.i++; startGame(nextId); });
   main.querySelector("[data-extra]")?.addEventListener("click", () => extraAction.run());
+  main.querySelector("[data-save-results]")?.addEventListener("click", () => saveResultsCsv(rec));
 }
 
 function onKey(e) {

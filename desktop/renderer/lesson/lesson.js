@@ -1,6 +1,7 @@
 /* Lessons — loads the catalog and lesson JSON, joins focus words with the word bank, opens the player. */
 import { CPP_WORDBANK, CPP_BOOKS } from "../coursebook-data.js";
 import { buildArcadeDeck, firstEmoji } from "../arcade/deck.js";
+import { fromLessonChecks } from "../arcade/live/questions.js";
 import { openPlayer, isPlayerOpen, closePlayer } from "./player.js";
 import { onePicture } from "./wordmatch.js";
 import { picForWord, picForCharacter } from "../js/pics.js";
@@ -70,6 +71,18 @@ export function lessonDeck(words) {
   })));
 }
 
+/** A word-bank word that isn't a focus word (quiz distractors): the lesson's own picture, else an illustrated or trusted one. */
+function bankWord(lesson, id) {
+  const w = byId.get(id);
+  return w ? { ...w, emoji: picForWord(w.english, w.type, lesson.pictures?.[id] || trustedEmoji(w)) || lesson.pictures?.[id] || trustedEmoji(w) } : null;
+}
+
+/** The lesson's check items as Lingo Live questions (phones or answer cards). */
+export function lessonLiveChecks(lesson, words = lessonWords(lesson)) {
+  const items = (lesson.scenes || []).filter((s) => s.type === "check").flatMap((s) => s.items || []);
+  return fromLessonChecks(items, (id) => words.get(id) || bankWord(lesson, id));
+}
+
 export function bookLabel(lesson) {
   const b = CPP_BOOKS[lesson.bookId];
   return `${b ? b.title.replace("Cambridge Primary Paths", "Primary Path") : lesson.bookId} · Unit ${lesson.unit}`;
@@ -78,7 +91,8 @@ export function bookLabel(lesson) {
 /**
  * Open a lesson in the full-screen player.
  * @param {string|object} entryOrId catalog entry or lesson id
- * @param {{ picture: Function, prefs: object, onPrefs?: Function, onPlayGames?: (deck, title) => void, calm?: boolean }} opts
+ * @param {{ picture: Function, prefs: object, onPrefs?: Function, onPlayGames?: (deck, title) => void,
+ *   onLiveQuiz?: (deck, title, checks) => void, calm?: boolean }} opts
  */
 export async function openLesson(entryOrId, opts) {
   if (isPlayerOpen()) return;
@@ -94,7 +108,7 @@ export async function openLesson(entryOrId, opts) {
     lesson,
     words,
     // Non-focus words (quiz distractors): the lesson's own picture, else a trusted bank emoji.
-    wordById: (id) => { const w = byId.get(id); return w ? { ...w, emoji: picForWord(w.english, w.type, lesson.pictures?.[id] || trustedEmoji(w)) || lesson.pictures?.[id] || trustedEmoji(w) } : null; },
+    wordById: (id) => bankWord(lesson, id),
     deck,
     picture: opts.picture,
     bookLabel: label,
@@ -102,6 +116,7 @@ export async function openLesson(entryOrId, opts) {
     onPrefs: opts.onPrefs,
     calm: opts.calm,
     onPlayGames: opts.onPlayGames ? () => opts.onPlayGames(deck, `${label} · ${lesson.title}`) : null,
+    onLiveQuiz: opts.onLiveQuiz ? () => opts.onLiveQuiz(deck, `${label} · ${lesson.title}`, lessonLiveChecks(lesson, words)) : null,
   });
 }
 

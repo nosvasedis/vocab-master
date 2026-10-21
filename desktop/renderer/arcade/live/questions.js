@@ -101,6 +101,54 @@ export function buildLiveQuestions(deck = [], { count = 10, greek = false } = {}
   return out;
 }
 
+const CHECK_LABEL = { pickPicture: "Find the picture", listen: "Listen!", gap: "Fill the gap", trueFalse: "True or false?", oddOneOut: "Odd one out" };
+const CHECK_KIND = { pickPicture: "word2pic", listen: "listen", gap: "gap", trueFalse: "truefalse", oddOneOut: "odd" };
+
+/**
+ * A lesson's check items as Lingo Live questions, in the lesson's order, so the class can answer them on phones.
+ * @param {object[]} items check scene items (lesson JSON)
+ * @param {(id: string) => ({ english: string, greek?: string, emoji?: string, example?: string } | null)} wordOf
+ */
+export function fromLessonChecks(items = [], wordOf = () => null) {
+  const out = [];
+  for (const it of items) {
+    const opts = it.options || [];
+    if (!CHECK_KIND[it.kind] || opts.length < 2 || !Number.isInteger(it.answer) || it.answer >= opts.length) continue;
+    const isWord = it.kind === "pickPicture" || it.kind === "listen";
+    const words = isWord ? opts.map((o) => wordOf(o)) : [];
+    if (isWord && words.some((w) => !w)) continue;
+    const focus = (it.wordId && wordOf(it.wordId)) || (isWord ? words[it.answer] : null);
+    const word = focus ? { english: focus.english, greek: focus.greek || "", emojis: focus.emoji || focus.emojis || "", example: focus.example || "" } : null;
+    let kind = CHECK_KIND[it.kind];
+    let options;
+    if (it.kind === "pickPicture") {
+      const pics = words.map((w) => onePic(w.emoji || w.emojis));
+      // Pictures only when every option has its own; otherwise the words.
+      options = pics.every(Boolean) && new Set(pics).size === pics.length ? words.map((w, k) => ({ pic: pics[k], text: "", word: w.english })) : words.map((w) => ({ text: w.english }));
+    } else if (it.kind === "listen") options = words.map((w) => ({ text: w.english }));
+    else options = opts.map((o) => ({ text: String(o) }));
+    const prompt = it.kind === "listen" ? "Which word do you hear?" : String(it.prompt?.text || "").replace(/_{2,}/g, "_____");
+    const answerText = isWord ? words[it.answer].english : String(opts[it.answer]);
+    out.push({
+      id: `lc-${it.id || out.length + 1}`,
+      kind,
+      kindLabel: CHECK_LABEL[it.kind],
+      prompt,
+      picture: it.kind === "trueFalse" ? onePic(it.props?.[0]?.emoji) : "",
+      options,
+      answer: it.answer,
+      answerText,
+      word,
+      explain: String(it.explain?.text || ""),
+      sayAnswer: answerText,
+      ...(it.kind === "listen" ? { sayPrompt: answerText } : {}),
+      fromLesson: true,
+    });
+  }
+  return out;
+}
+const onePic = (e) => firstEmoji(String(e || "")) || "";
+
 function make(kind, w, deck, i) {
   const base = { id: `lq${i + 1}`, kind, kindLabel: KIND_LABEL[kind], word: w, sayAnswer: w.english };
   if (kind === "pic2word") return { ...base, prompt: "What's this?", picture: pic(w), ...wordOptions(w, deck) };

@@ -16,7 +16,7 @@ export const svg = (name, cls = "") => `<svg class="i ${cls}" aria-hidden="true"
  *   setProgress?: Function, onFinish: Function, onRestart: Function }} opts
  * @returns {{ onKey?: Function, destroy?: Function }}
  */
-export function mountGame(def, { stage, root, deck, picture = (t) => esc(t), teams, greek = () => false, setProgress = () => {}, onFinish, onRestart, onHub = null }) {
+export function mountGame(def, { stage, root, deck, picture = (t) => esc(t), teams, greek = () => false, setProgress = () => {}, onFinish, onRestart, onHub = null, checks = null, meta = {} }) {
   // Hosts without turns (a lesson's practice step) get the turn helpers newer games call.
   teams.badge = teams.badge || ((side, o = {}) => (side?.shape ? crestBadge(side, o) : avatarDisc(side?.emoji || "⭐", side?.color || "#ffd23f", o)));
   teams.passTo = teams.passTo || (() => {});
@@ -25,6 +25,10 @@ export function mountGame(def, { stage, root, deck, picture = (t) => esc(t), tea
   const ctx = {
     deck: shuffle(deck),
     fullDeck: deck,
+    /** A lesson's check questions in Lingo Live form (arcade/live/questions.js fromLessonChecks), or null. */
+    checks,
+    /** { className, title } — for saved results. */
+    meta,
     stage,
     root,
     sfx,
