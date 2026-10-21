@@ -87,3 +87,23 @@ test("header switches: every line can be turned off — on worksheets, tests and
   const without = await buildStudioDocx({ doc: { ...doc, meta: { ...doc.meta, layout: { header: { title: false, kind: false, points: false, version: false, minutes: false, name: false, classLine: false, date: false, score: false } } } }, which: "student" });
   assert.ok(without.size < withAll.size);
 });
+
+test("a unit test shows its book and unit once (on the right), and an old saved one is moved to match", async () => {
+  const { relabelDoc } = await import("../desktop/renderer/studio/doc-model.js");
+  const part = { ...makePart("vocabulary", "V-MC", "B_SENIOR"), id: "p1", items: 1 };
+  const spec = { ...testDefaults("B_SENIOR"), source: { kind: "unit", bookId: "CPP2", units: [4] }, parts: [part] };
+  const raw = { sections: [{ id: "p1", passage: "", example: null, items: [{ prompt: "The ____ is hot.", options: ["lava", "snow", "ice"], answer: "lava" }] }] };
+  const doc = buildTestDoc(spec, raw, { levelId: "B_SENIOR", meta: { label: "Primary Path 2 · Unit 4", bookTitle: "Cambridge Primary Path 2", unit: 4 } });
+  assert.equal(doc.meta.subtitle, "");
+  assert.equal(doc.meta.label, "Primary Path 2 · Unit 4");
+  const html = renderStudentPaper(doc);
+  assert.doesNotMatch(html, /ws-kind">Primary Path/, "not under the title");
+  assert.match(html, /class="ws-book">Cambridge Primary Path 2/);
+  const saved = JSON.parse(JSON.stringify({ ...doc, meta: { ...doc.meta, label: "", subtitle: "Primary Path 2 · Unit 4" } }));
+  relabelDoc(saved);
+  assert.equal(saved.meta.subtitle, "", "an old saved test: the line under the title goes");
+  assert.equal(saved.meta.label, "Primary Path 2 · Unit 4");
+  const own = JSON.parse(JSON.stringify({ ...doc, meta: { ...doc.meta, label: "", subtitle: "Spring test · Ms V." } }));
+  relabelDoc(own);
+  assert.equal(own.meta.subtitle, "Spring test · Ms V.", "a subtitle the teacher wrote stays");
+});

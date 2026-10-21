@@ -153,7 +153,13 @@ export function sectionRubric(section) {
  * Documents saved when the letters stopped at "h" have empty boxes after it; this fills them. Returns the doc.
  */
 export function relabelDoc(doc) {
+  const unitTest = doc?.spec?.source?.kind === "unit";
   for (const d of [doc, doc?.versionB].filter(Boolean)) {
+    // Unit tests saved with "Primary Path 2 · Unit 4" under the title: the header already shows the book and unit, so it becomes the label.
+    if (unitTest && d.meta && !d.meta.label && /^Primary Path \d · Units? /.test(d.meta.subtitle || "")) {
+      d.meta.label = d.meta.subtitle;
+      d.meta.subtitle = "";
+    }
     for (const s of d.sections || []) {
       // Instructions saved before they followed the options ("a, b or c" over four options).
       const r = sectionRubric(s);

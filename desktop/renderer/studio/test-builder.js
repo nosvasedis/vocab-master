@@ -630,7 +630,9 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
     focusWords: (ctx.focusWords || []).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "", ...(w.own ? { own: true } : {}) })),
     meta: {
       title,
-      subtitle: meta.label || (spec.source?.kind === "topic" ? [spec.topic, ...(spec.grammar || [])].filter(Boolean).join(" · ") : ""),
+      // A unit test's "Primary Path 2 · Unit 4" is its label: the book and unit already print on the right of the header.
+      subtitle: spec.source?.kind === "topic" ? meta.label || [spec.topic, ...(spec.grammar || [])].filter(Boolean).join(" · ") : "",
+      label: spec.source?.kind === "topic" ? "" : meta.label || "",
       bookTitle: meta.bookTitle || "",
       unit: meta.unit || "",
       classProfile: spec.levelId,
