@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./paper-header.js";
 
@@ -77,8 +77,9 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       } else answerKeyRows(s).forEach((r) => children.push(item(r.n, [run(r.text, { bold: true })])));
       return;
     }
-    children.push(para([run(s.rubric || "", { display: true, bold: true, size: 22 })], { keepNext: true }));
-    if (greek && s.rubricEl) children.push(para([run(s.rubricEl, { italics: true, size: 18, color: "666666" })], { keepNext: true }));
+    const rubric = sectionRubric(s);
+    children.push(para([run(rubric.en, { display: true, bold: true, size: 22 })], { keepNext: true }));
+    if (greek && s.rubricEl) children.push(para([run(rubric.el, { italics: true, size: 18, color: "666666" })], { keepNext: true }));
     if (s.skill === "listening") children.push(para([run(`Listen to track ${i + 1}. You will hear it ${s.plays === 1 ? "once" : "twice"}.`, { size: 18, color: "555555" })]));
     if (s.skill === "dictation") {
       if (s.style === "gapped") s.sentences.forEach((x) => children.push(item(x.n, [run(gapText(x.gapped))])));

@@ -126,12 +126,39 @@ export function familyHint(prompt, answer, mode) {
 }
 
 /**
+ * The letters named in an instruction follow the part's real options: "Choose the right answer: a, b or c."
+ * becomes "…a, b, c or d." when the questions have four options (English "or", Greek "ή"; any case, with or
+ * without a comma before or). Text without such a list is returned as it is.
+ */
+const LETTER_LIST = /\b([a-h])\s*,\s*([a-h])(?:\s*,\s*[a-h])*\s*,?\s*(or|ή|ή\s*το)\s+([a-h])\b/gi;
+const TWO_LETTERS = /\b(a)\s+(or|ή)\s+(b)\b/gi;
+export function fitChoiceLetters(text, n) {
+  const count = Math.max(2, Math.min(LETTERS.length, Number(n) || 0));
+  if (!text || !n) return text || "";
+  const list = (word) => (count === 2 ? `a ${word} b` : `${LETTERS.slice(0, count - 1).split("").join(", ")} ${word} ${LETTERS[count - 1]}`);
+  return String(text)
+    .replace(LETTER_LIST, (m, a, b, word) => (a.toLowerCase() === "a" ? list(word.toLowerCase().startsWith("ή") ? "ή" : "or") : m))
+    .replace(TWO_LETTERS, (m, a, word) => (count === 2 ? m : list(word.toLowerCase() === "ή" ? "ή" : "or")));
+}
+/** The number of options a choice part offers (the most any question has). */
+export const optionCount = (section) => (section?.answerType === "choice" ? Math.max(0, ...[section.example, ...(section.items || [])].filter(Boolean).map((it) => it.options?.length || 0)) : 0);
+/** A part's instruction (English and Greek) with the letters of its real options. */
+export function sectionRubric(section) {
+  const n = optionCount(section);
+  return n ? { en: fitChoiceLetters(section.rubric, n), el: fitChoiceLetters(section.rubricEl, n) } : { en: section?.rubric || "", el: section?.rubricEl || "" };
+}
+
+/**
  * Give every lettered thing its letter again (match meanings, order boxes, picture-dictation pictures).
  * Documents saved when the letters stopped at "h" have empty boxes after it; this fills them. Returns the doc.
  */
 export function relabelDoc(doc) {
   for (const d of [doc, doc?.versionB].filter(Boolean)) {
     for (const s of d.sections || []) {
+      // Instructions saved before they followed the options ("a, b or c" over four options).
+      const r = sectionRubric(s);
+      s.rubric = r.en;
+      s.rubricEl = r.el;
       if (s.answerType === "match" && Array.isArray(s.bank) && s.bank.length && typeof s.bank[0] === "object") {
         s.bank.forEach((b, i) => { b.letter = LETTERS[i]; });
         const byText = new Map(s.bank.map((b) => [String(b.text), b.letter]));
@@ -264,6 +291,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (task.answer === "choice") balanceChoices(items);
   if (plan.task === "G-ORDER") [example, ...items].filter(Boolean).forEach((it) => repairOrderItem(it));
   if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
+  if (task.answer === "choice") { const r = sectionRubric(section); section.rubric = r.en; section.rubricEl = r.el; }
   // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
   if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
   if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => { const h = familyHint(it.prompt, it.answer, opts.family); if (h) it.hint = h; else delete it.hint; });

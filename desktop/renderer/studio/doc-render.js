@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 
 const GAP = /_{3,}/g;
@@ -46,8 +46,8 @@ function partHead(section, index, layout) {
     <span class="ex-num">Part ${index + 1}</span>
     <div class="ex-title">
       <div class="st-skill">${esc(skill.label || "")}</div>
-      <h3 class="ex-heading ex-instruction ws-heading">${esc(section.rubric || "")}</h3>
-      ${layout.greek && section.rubricEl ? `<p class="ex-help-el" lang="el">${esc(section.rubricEl)}</p>` : ""}
+      <h3 class="ex-heading ex-instruction ws-heading">${esc(sectionRubric(section).en)}</h3>
+      ${layout.greek && section.rubricEl ? `<p class="ex-help-el" lang="el">${esc(sectionRubric(section).el)}</p>` : ""}
     </div>
     ${pts}
   </div>`;

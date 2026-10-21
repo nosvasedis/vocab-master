@@ -145,3 +145,36 @@ test("Lingo adding questions: placeholders hold the places, the reply fills exac
   assert.ok(!s.problems.some((p) => /^item [23]:/.test(p)), s.problems.join(" | "));
   assert.equal(doc.meta.points, 5);
 });
+
+test("an instruction names the letters of the real options — a, b, c or d — in English and Greek, everywhere", async () => {
+  const { fitChoiceLetters } = await import("../desktop/renderer/studio/doc-model.js");
+  const { renderStudentPaper } = await import("../desktop/renderer/studio/doc-render.js");
+  const { buildStudioDocx } = await import("../desktop/renderer/app.js");
+  assert.equal(fitChoiceLetters("Choose the right answer: a, b or c.", 4), "Choose the right answer: a, b, c or d.");
+  assert.equal(fitChoiceLetters("Διάλεξε τη σωστή απάντηση: a, b ή c.", 4), "Διάλεξε τη σωστή απάντηση: a, b, c ή d.");
+  assert.equal(fitChoiceLetters("Read and choose a, b, c or d.", 3), "Read and choose a, b or c.");
+  assert.equal(fitChoiceLetters("Listen and tick the picture.", 4), "Listen and tick the picture.");
+  // Every choice exercise with four options: built, rebuilt, drawn and in Word.
+  for (const [id, t] of Object.entries(TASKS)) {
+    if (t.answer !== "choice" || !/a, b or c/.test(t.rubric)) continue;
+    const spec = specWith(id, 3, "D_SENIOR", { options: 4 });
+    const items = [0, 1, 2].map((i) => ({ prompt: `(${i + 1}) The ________ ${i}.`, options: ["lava", "snow", "ice", "rain"], answer: "lava" }));
+    // The AI's own instruction says "a, b or c" too.
+    const doc = buildTestDoc(spec, { sections: [{ id: "p1", rubric: "Choose a, b or c.", passage: "A text.", script: [{ speaker: "A", text: "Hi." }], items, example: items[0] }] }, { levelId: "D_SENIOR", meta: {} });
+    doc.meta.greek = true;
+    const s = doc.sections[0];
+    assert.match(s.rubric, /a, b, c or d/, `${id}: ${s.rubric}`);
+    assert.match(s.rubricEl, /a, b, c ή d/, `${id}: ${s.rubricEl}`);
+    assert.doesNotMatch(renderStudentPaper(doc), /a, b or c|a, b ή c/, id);
+    reviseSection(doc, spec, "p1", (raw) => { raw.rubric = "Choose the right answer: a, b or c."; });
+    assert.match(doc.sections[0].rubric, /a, b, c or d/, `${id} after an edit`);
+  }
+  // An old saved test is repaired on render, and its Word paper too.
+  const spec = specWith("G-MC", 3, "D_SENIOR", { options: 4 });
+  const doc = buildTestDoc(spec, { sections: [{ id: "p1", items: [0, 1, 2].map((i) => ({ prompt: `We ________ ${i}.`, options: ["go", "went", "gone", "going"], answer: "went" })) }] }, { levelId: "D_SENIOR", meta: {} });
+  doc.sections[0].rubric = "Choose the right answer: a, b or c.";
+  doc.sections[0].rubricEl = "Διάλεξε τη σωστή απάντηση: a, b ή c.";
+  doc.meta.greek = true;
+  assert.match(renderStudentPaper(doc), /a, b, c or d[\s\S]*a, b, c ή d/);
+  assert.ok((await buildStudioDocx({ doc, which: "student" })).size > 1000);
+});
