@@ -1,13 +1,13 @@
 /* Read-aloud dictation — a step-by-step maker (like the Test Maker, in its own green): the words, the style, the
  * class and the sentences, then who writes them and how they are read; the last step is the paper with the
  * read-aloud player, print / PDF / Word for the student sheet, the teacher copy and the wall strips. */
-import { CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";
+import { CLASS_PROFILES, lookupCoursebookWord, downloadBlob } from "../../app.js";
 import { state, prefs, LEVEL_COLORS, on } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import { productFileName } from "../../studio/file-names.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, safePaperHtml, pageControlsHtml, wirePageControls, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
+  makePicFor, safePaperHtml, pageControlsHtml, wirePageControls, printHtml, exportPdf, exportWord, packPdf, packWord, packBytes, savePack, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
   wizardNav, createWizard, classMemoryBrief,
 } from "./studio-common.js";
 import { segmented, withBusy } from "../ui.js";
@@ -18,7 +18,7 @@ import { GRAMMAR_MENU, LEVEL_IDS, sentenceRange, DIFFICULTY, grammarLabel } from
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../../studio/doc-render.js";
 import { relabelDoc } from "../../studio/doc-model.js";
 import { openHeaderDialog } from "../header-dialog.js";
-import { readDictation } from "../voices/listening.js";
+import { readDictation, dictationWav } from "../voices/listening.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
 
@@ -128,6 +128,7 @@ function build() {
             <span class="dc-actions">
               <button type="button" class="btn btn-sm" id="dcRead" disabled data-tip="Each sentence is read, then read again slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
               <span class="export-pills tb-exports">
+                <button type="button" class="btn btn-primary btn-sm" id="dcPack" disabled data-tip="The student sheet and the teacher copy (and the wall strips) as Word + PDF, and the reading as audio, in one folder">${icon("package", "i-sm")}<span>Export dictation pack</span></button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcPrint" disabled>${icon("printer", "i-sm")}Print</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcWord" disabled>${icon("word", "i-sm")}Word</button>
@@ -215,7 +216,18 @@ function build() {
     const again = e.target.closest("[data-again]");
     if (again) { generate(again); return; }
   });
-  $("dcVoices").addEventListener("click", (e) => { if (pickVoice(e)) { if (dc.player) toggleRead(); renderVoices(); } });
+  $("dcVoices").addEventListener("click", (e) => {
+    if (pickVoice(e)) { if (dc.player) toggleRead(); renderVoices(); return; }
+    const wav = e.target.closest("[data-dc-wav]");
+    if (wav) saveReading(wav);
+  });
+  // Like the Test Maker's pack button: it says what it is doing (papers, audio, saving), so no spinner.
+  $("dcPack").addEventListener("click", async (e) => {
+    const btn = e.currentTarget;
+    if (btn.disabled) return;
+    btn.disabled = true;
+    try { await exportDictationPack(btn); } catch (err) { toast(err.message || String(err), "error"); } finally { btn.disabled = !dc.doc; }
+  });
   $("dcRead").addEventListener("click", toggleRead);
   $("dcPrint").addEventListener("click", () => printHtml(sheetHtml(), sheetTitle()));
   $("dcPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(), sheetTitle(), fileBase())));
@@ -507,12 +519,71 @@ async function generate(btn) {
 }
 
 /* ── Paper ────────────────────────────────────────────────────────── */
-function sheetHtml() {
+function sheetHtml(sheet = dc.sheet) {
   if (!dc.doc) return "";
   const layout = { layout: { schoolName: prefs.schoolName || "" } };
-  if (dc.sheet === "teacher") return renderTeacherPack(dc.doc, layout);
-  if (dc.sheet === "strips") return renderRunningStrips(dc.doc) || renderStudentPaper(dc.doc, layout);
+  if (sheet === "teacher") return renderTeacherPack(dc.doc, layout);
+  if (sheet === "strips") return renderRunningStrips(dc.doc) || renderStudentPaper(dc.doc, layout);
   return renderStudentPaper(dc.doc, layout);
+}
+
+/** The reading as a WAV, made with the chosen voice exactly as “Read it aloud” reads it. */
+const readingWav = () => dictationWav(readAloudLines(dc.doc), {
+  repeats: dc.spec.repeats, levelId: dc.doc.meta.classProfile, punctuation: !!dc.spec.punctuationAloud,
+  onStatus: (st) => { dc.status = st; renderVoices(); },
+});
+const audioName = () => `${productFileName("Dictation audio", dc.doc?.meta || {})}.wav`;
+
+/** ⤓ in the voice bar: the reading as one audio file (like a listening track in the Test Maker). */
+async function saveReading(btn) {
+  if (!dc.doc || btn.disabled) return;
+  if (dc.player) toggleRead();
+  btn.disabled = true;
+  try {
+    const { blob, seconds } = await readingWav();
+    downloadBlob(blob, audioName());
+    if (!window.desktop) toast(`The reading was saved as audio (${Math.round(seconds / 60) || 1} min).`, "ok", { ms: 2500 });
+  } catch (e) {
+    toast(e.message || "The audio file could not be made.", "error");
+  } finally {
+    btn.disabled = false;
+    dc.status = null;
+    renderVoices();
+  }
+}
+
+/**
+ * The whole dictation in one folder, like the worksheets' and tests' packs: the student sheet and the teacher copy as
+ * Word + PDF, the wall strips (running dictation) as PDF, and the reading as a WAV file.
+ */
+async function exportDictationPack(btn) {
+  if (!dc.doc) return;
+  if (dc.player) toggleRead();
+  const meta = dc.doc.meta || {};
+  const label = btn.querySelector("span");
+  const say = (t) => { if (label) label.textContent = t; };
+  const title = (sheet) => `${meta.title || "Read-aloud dictation"}${sheet === "teacher" ? " · Teacher" : sheet === "strips" ? " · Wall strips" : ""}`;
+  try {
+    say("Preparing the papers…");
+    const student = productFileName("Dictation", meta);
+    const teacher = productFileName("Dictation (teacher)", meta);
+    const files = [
+      await packWord(dc.doc, "student", student), await packPdf(sheetHtml("student"), title("student"), student),
+      await packWord(dc.doc, "teacher", teacher), await packPdf(sheetHtml("teacher"), title("teacher"), teacher),
+    ];
+    if (renderRunningStrips(dc.doc)) { const strips = productFileName("Dictation (wall strips)", meta); files.push(await packPdf(sheetHtml("strips"), title("strips"), strips)); }
+    if (readAloudLines(dc.doc).length) {
+      say("Making the audio…");
+      const { blob } = await readingWav();
+      files.push(packBytes(new Uint8Array(await blob.arrayBuffer()), audioName()));
+    }
+    say("Saving…");
+    await savePack({ folderName: productFileName("Dictation pack", meta), title: "Choose a folder for the dictation pack", files });
+  } finally {
+    say("Export dictation pack");
+    dc.status = null;
+    renderVoices();
+  }
 }
 const sheetTitle = () => `${dc.doc?.meta?.title || "Read-aloud dictation"}${dc.sheet === "teacher" ? " · Teacher" : dc.sheet === "strips" ? " · Wall strips" : ""}`;
 /** "Dictation, CPP1, Unit 5" · "Dictation (teacher), …" · "Dictation (wall strips), …" (studio/file-names.js). */
@@ -524,7 +595,7 @@ function renderPaper() {
   $("dcEmpty").classList.toggle("hidden", has);
   $("dcSheetSeg").classList.toggle("hidden", !has);
   $("dictationView").classList.toggle("has-doc", has);
-  ["dcRead", "dcPrint", "dcPdf", "dcWord"].forEach((id) => { $(id).disabled = !has; });
+  ["dcRead", "dcPack", "dcPrint", "dcPdf", "dcWord"].forEach((id) => { $(id).disabled = !has; });
   renderVoices();
   renderOutline();
   renderFoot();
@@ -578,7 +649,7 @@ function toggleRead() {
 /** Voices picker and the reader's status, above the paper. */
 function renderVoices() {
   if (!dc.doc) { $("dcVoices").innerHTML = ""; return; }
-  $("dcVoices").innerHTML = `<div class="listen-bar dc-voice-bar"><div class="lb-head">${icon("volume", "i-sm")}<b>Reading voice</b>${voicePickerHtml()}${statusPill(dc.status)}</div><small>${esc(voiceNote(readAloudLines(dc.doc).join(" ").length * Math.max(1, dc.spec.repeats || 2)))}</small></div>`;
+  $("dcVoices").innerHTML = `<div class="listen-bar dc-voice-bar"><div class="lb-head">${icon("volume", "i-sm")}<b>Reading voice</b>${voicePickerHtml()}<button type="button" class="icon-btn sm" data-dc-wav data-tip="Save the reading as an audio file (WAV) — read exactly like Read it aloud, for a speaker or the class page" aria-label="Save the reading as audio">${icon("download", "i-sm")}</button>${statusPill(dc.status)}</div><small>${esc(voiceNote(readAloudLines(dc.doc).join(" ").length * Math.max(1, dc.spec.repeats || 2)))}</small></div>`;
 }
 function setReadBtn(on) {
   $("dcRead").innerHTML = `${icon(on ? "pause" : "volume", "i-sm")}<span>${on ? "Stop reading" : "Read it aloud"}</span>`;

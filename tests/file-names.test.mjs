@@ -28,3 +28,14 @@ test("the pages are ES modules for the shell (renderer/package.json)", () => {
   const pkg = JSON.parse(fs.readFileSync(new URL("../desktop/renderer/package.json", import.meta.url), "utf8"));
   assert.equal(pkg.type, "module");
 });
+
+test("a dictation track is timed like the live reading", async () => {
+  const { dictationTrack, dictationPause, RATE } = await import("../desktop/renderer/studio/audio-track.js");
+  assert.equal(dictationPause({ text: "The cat is on the bed.", slow: false }), 1.2);
+  assert.equal(dictationPause({ text: "The cat is on the bed.", slow: true }), 0.9 + 6 * 0.65);
+  const clip = new Float32Array(RATE).fill(0.1); // 1 s
+  const segs = [{ text: "The cat sat.", slow: false }, { text: "The cat sat.", slow: true }];
+  const t = dictationTrack(segs, [clip, clip]);
+  assert.ok(Math.abs(t.seconds - (0.6 + 1 + 1.2 + 1 + 0.9 + 3 * 0.65)) < 1e-9);
+  assert.equal(t.samples.length, Math.ceil(t.seconds * RATE));
+});

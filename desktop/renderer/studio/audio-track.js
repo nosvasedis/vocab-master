@@ -132,5 +132,20 @@ export function renderTrack(lines, clips, opts = {}) {
   return { samples: out, rate, layout };
 }
 
+/**
+ * A read-aloud dictation as one track, timed like the live reading (js/voices/listening.js readDictation): each
+ * sentence, then again slowly; 1.2 s after a normal reading, and 0.9 s + 0.65 s a word after a slow one (time to write).
+ * segs: [{ text, slow }] in reading order; clips[i] = Float32Array at `rate`.
+ */
+export const dictationPause = (seg) => (seg.slow ? 0.9 + String(seg.text || "").split(/\s+/).filter(Boolean).length * 0.65 : 1.2);
+export function dictationTrack(segs, clips, { rate = RATE, lead = 0.6 } = {}) {
+  const leveled = clips.map((c) => level(c));
+  let t = lead;
+  const at = segs.map((s, i) => { const start = t; t += leveled[i].length / rate + dictationPause(s); return start; });
+  const out = new Float32Array(Math.ceil(t * rate));
+  leveled.forEach((c, i) => { const o = Math.round(at[i] * rate); out.set(c.subarray(0, out.length - o), o); });
+  return { samples: out, rate, seconds: t };
+}
+
 /** "Track 1 · Listen and tick the picture.wav" → a safe file name. */
 export const audioFileName = (title) => `${String(title || "Listening").replace(/[\\/:*?"<>|]+/g, " ").replace(/\s+/g, " ").trim().slice(0, 90)}.wav`;

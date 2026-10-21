@@ -8,7 +8,7 @@ import { prefs, savePrefs } from "../state.js";
 import { getApiKey } from "../bridge.js";
 import { castVoices, engineOf, naturalSpeed, spokenText, withPunctuation, clipKey, KOKORO_VOICES, GEMINI_VOICES } from "../../studio/voice-cast.js";
 import { dialogueRequests, singleRequest, replyAudio, studioError, STUDIO_USD_PER_SECOND } from "../../studio/gemini-voice.js";
-import { decodeWav, encodeWav, pcm16ToFloat, resample, trimSilence, level, pauseAfter, renderTrack, RATE } from "../../studio/audio-track.js";
+import { decodeWav, encodeWav, pcm16ToFloat, resample, trimSilence, level, pauseAfter, renderTrack, dictationTrack, dictationPause, RATE } from "../../studio/audio-track.js";
 import { playScript as playComputer, readDictation as readComputer, RATE as COMPUTER_RATE } from "../../studio/tts.js";
 
 const MODEL_URL = "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main/onnx/model_quantized.onnx";
@@ -353,8 +353,7 @@ export function readDictation(sentences, opts = {}) {
         onStatus?.({ engine, phase: "play" });
         onLine?.(segs[i].index);
         await playSamples(samples, ctl);
-        const words = segs[i].text.split(/\s+/).length;
-        if (!ctl.stopped) await pause(segs[i].slow ? 900 + words * 650 : 1200, ctl);
+        if (!ctl.stopped) await pause(dictationPause(segs[i]) * 1000, ctl); // the same timing as the audio file
       }
     } catch (e) {
       if (!ctl.stopped) await computer(`${e.message} The computer voices read it instead.`);
@@ -381,6 +380,21 @@ export async function scriptWav(lines, { plays = 2, levelId = "", onStatus } = {
   const clips = await Promise.all(segs.map((s) => segmentClip(s).then((c) => { onStatus?.({ engine, phase: "prepare", done: ++done, total: segs.length }); return c; })));
   const track = renderTrack(segs, clips, { plays });
   return { blob: new Blob([encodeWav(track.samples, track.rate)], { type: "audio/wav" }), seconds: track.layout.seconds, engine };
+}
+
+/**
+ * A read-aloud dictation as a WAV, read exactly as "Read it aloud" does (each sentence, then slowly, with time to
+ * write). Natural or studio voices (the computer voices can't be recorded). onStatus as in readDictation.
+ */
+export async function dictationWav(sentences, { repeats = 2, levelId = "", punctuation = false, onStatus } = {}) {
+  const engine = activeEngine() === "studio" ? "studio" : "natural";
+  if (engine === "natural") await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
+  const segs = dictationSegments(sentences, engine, { repeats, levelId, punctuation });
+  let done = 0;
+  onStatus?.({ engine, phase: "prepare", done, total: segs.length });
+  const clips = await Promise.all(segs.map((s) => segmentClip(s).then((c) => { onStatus?.({ engine, phase: "prepare", done: ++done, total: segs.length }); return c; })));
+  const track = dictationTrack(segs, clips);
+  return { blob: new Blob([encodeWav(track.samples, track.rate)], { type: "audio/wav" }), seconds: track.seconds, engine };
 }
 
 /** Make a script's clips in the background (natural voices only, and only once they are downloaded). */
