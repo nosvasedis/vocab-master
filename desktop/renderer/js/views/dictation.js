@@ -4,6 +4,7 @@
 import { CLASS_PROFILES, lookupCoursebookWord } from "../../app.js";
 import { state, prefs, LEVEL_COLORS, on } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
+import { productFileName } from "../../studio/file-names.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
   makePicFor, safePaperHtml, pageControlsHtml, wirePageControls, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, owl, busyOverlay,
@@ -513,7 +514,8 @@ function sheetHtml() {
   return renderStudentPaper(dc.doc, layout);
 }
 const sheetTitle = () => `${dc.doc?.meta?.title || "Read-aloud dictation"}${dc.sheet === "teacher" ? " · Teacher" : dc.sheet === "strips" ? " · Wall strips" : ""}`;
-const fileBase = () => `${sheetTitle()}, ${dc.doc?.meta?.label || ""}`;
+/** "Dictation, CPP1, Unit 5" · "Dictation (teacher), …" · "Dictation (wall strips), …" (studio/file-names.js). */
+const fileBase = () => productFileName(dc.sheet === "teacher" ? "Dictation (teacher)" : dc.sheet === "strips" ? "Dictation (wall strips)" : "Dictation", dc.doc?.meta || {});
 
 function renderPaper() {
   const has = !!dc.doc;

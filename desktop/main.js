@@ -248,6 +248,12 @@ function loadEngine() {
   if (!enginePromise) {
     // The same pages the window uses: the live copy when there is one.
     const liveApp = live.active ? path.join(live.active.dir, "app.js") : "";
+    // Node reads app.js as an ES module only under a package.json with "type": "module" (renderer/package.json);
+    // a live copy made before that file existed gets one, or every Word export fails with "Cannot use import statement".
+    if (liveApp && fs.existsSync(liveApp)) {
+      const pkg = path.join(live.active.dir, "package.json");
+      if (!fs.existsSync(pkg)) try { fs.writeFileSync(pkg, '{ "type": "module" }\n'); } catch { /* the import below reports it */ }
+    }
     const engineUrl = pathToFileURL(liveApp && fs.existsSync(liveApp) ? liveApp : path.join(RENDERER_DIR, "app.js")).href;
     enginePromise = import(engineUrl).catch((err) => {
       enginePromise = null;
@@ -900,7 +906,10 @@ function registerIpc() {
     }
   });
 
-  ipcMain.handle("pack:export", async (_event, { data, baseSlug, htmlPages, footers = {} }) => {
+  ipcMain.handle("pack:export", async (_event, { data, baseSlug, htmlPages, footers = {}, names = {}, folderName = "" }) => {
+    // The pages name the files ("Dictation, CPP1, Unit 5, pp. 40-41"); older pages send only baseSlug.
+    const clean = (s) => String(s || "").replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, " ").trim().replace(/[. ]+$/, "").slice(0, 150);
+    const fileFor = (key, suffix) => (clean(names[key]) ? `${clean(names[key])}${path.extname(suffix)}` : `${baseSlug}_${suffix}`);
     let pdfWin = null;
     try {
       const prefs = readJsonFile("prefs.json", {});
@@ -914,7 +923,7 @@ function registerIpc() {
       const chosenDir = filePaths[0];
       writeJsonFile("prefs.json", { ...prefs, lastSaveDir: chosenDir });
 
-      const packFolder = path.join(chosenDir, `${baseSlug || "Unit-Pack"}_Pack`);
+      const packFolder = path.join(chosenDir, clean(folderName) || `${baseSlug || "Unit-Pack"}_Pack`);
       fs.mkdirSync(packFolder, { recursive: true });
 
       const engine = await loadEngine();
@@ -930,7 +939,7 @@ function registerIpc() {
         if (typeof t.fn === "function") {
           const blob = await t.fn(data);
           const buf = Buffer.from(await blob.arrayBuffer());
-          const outPath = path.join(packFolder, `${baseSlug}_${t.suffix}`);
+          const outPath = path.join(packFolder, fileFor(t.key, t.suffix));
           fs.writeFileSync(outPath, buf);
           savedPaths.add(outPath);
           writtenFiles.push(path.basename(outPath));
@@ -952,7 +961,7 @@ function registerIpc() {
           if (!html) continue;
           await loadHtmlDocument(pdfWin, html);
           const pdfBuf = await pdfWin.webContents.printToPDF(pdfOptions(footers[pt.key]));
-          const outPath = path.join(packFolder, `${baseSlug}_${pt.suffix}`);
+          const outPath = path.join(packFolder, fileFor(pt.key, pt.suffix));
           fs.writeFileSync(outPath, pdfBuf);
           savedPaths.add(outPath);
           writtenFiles.push(path.basename(outPath));

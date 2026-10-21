@@ -5,6 +5,7 @@
 import { CLASS_PROFILES, CPP_BOOKS, downloadBlob, resolveCoursebookId } from "../../app.js";
 import { state, prefs, LEVEL_COLORS, on } from "../state.js";
 import { readJSON, writeJSON } from "../bridge.js";
+import { productFileName } from "../../studio/file-names.js";
 import { segmented, withBusy } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
@@ -253,8 +254,8 @@ function build() {
   });
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
-  $("tsPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(false), sheetTitle(), sheetTitle())));
-  $("tsWord").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportWord(sheetDoc(), ts.sheet === "teacher" ? "teacher" : "student", sheetTitle()).catch((err) => toast(err.message, "error"))));
+  $("tsPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(false), sheetTitle(), fileName())));
+  $("tsWord").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportWord(sheetDoc(), ts.sheet === "teacher" ? "teacher" : "student", fileName()).catch((err) => toast(err.message, "error"))));
   $("tsListen").addEventListener("click", (e) => {
     if (pickVoice(e)) { stopPlayer(); renderListen(); warmListening(); return; }
     const play = e.target.closest("[data-play]");
@@ -1015,6 +1016,8 @@ function sheetHtml(withAnswers = $("tsAnswers")?.checked) {
   }
   return renderStudentPaper(sheetDoc(), opts);
 }
+/** "Test, CPP2, Unit 4" · "Test B, …" · "Test (teacher's pack), …"; a topic test adds its title (studio/file-names.js). */
+const fileName = () => productFileName(ts.sheet === "teacher" ? "Test (teacher's pack)" : ts.doc?.versionB ? `Test ${ts.sheet}` : "Test", ts.doc?.meta || {});
 const sheetTitle = () => `${ts.doc?.meta?.title || "Test"}${ts.sheet === "teacher" ? " · Teacher's pack" : ts.doc?.versionB ? ` · Version ${ts.sheet}` : ""}`;
 
 function renderSheetSeg() {

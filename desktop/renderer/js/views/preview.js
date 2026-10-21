@@ -3,7 +3,7 @@ import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
   renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
   saveWorksheetSession, applyQuickWorksheetFixes, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
-  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, fileBaseName, getSavedSession, remakeWorksheetItem,
+  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, getSavedSession, remakeWorksheetItem,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
 import { state, emit, on, buildForm, makeWord, prefs, worksheetFreshness } from "../state.js";
@@ -15,6 +15,7 @@ import { actions } from "../actions.js";
 import { openHeaderDialog } from "../header-dialog.js";
 import { play } from "../../arcade/audio.js";
 import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
+import { productFileName, safeFileName } from "../../studio/file-names.js";
 
 let sheetSeg;
 let densitySeg;
@@ -749,7 +750,8 @@ function flashNode(selector) {
 }
 
 /* ── Exports ─────────────────────────────────────────────────────── */
-const safeName = (s) => String(s).replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, " ").trim();
+/** "Dictation, CPP1, Unit 5, pp. 40-41" (studio/file-names.js — the same pattern as tests and dictations). */
+const sheetFileName = (sheet) => safeFileName(productFileName(SHEET_NAME[sheet], state.data.meta));
 
 function savedToast(filePath, label) {
   const d = desktop();
@@ -796,7 +798,7 @@ async function wordData() {
 async function exportWord(sheet, btn) {
   if (!state.data) return;
   syncMeta();
-  const filename = safeName(`${SHEET_NAME[sheet]}, ${fileBaseName(state.data.meta)}.docx`);
+  const filename = `${sheetFileName(sheet)}.docx`;
   await withBusy(btn, async () => {
     try {
       const d = desktop();
@@ -820,7 +822,7 @@ async function exportPdf(sheet, btn) {
   if (!d?.exportPdf) { printSheet(sheet); toast("Choose “Save as PDF” in the print dialog.", "info"); return; }
   await withBusy(btn, async () => {
     try {
-      const res = await d.exportPdf({ html: await pdfHtml(sheet), footer: pdfFooter(sheet), filename: safeName(`${SHEET_NAME[sheet]}, ${fileBaseName(state.data.meta)}.pdf`) });
+      const res = await d.exportPdf({ html: await pdfHtml(sheet), footer: pdfFooter(sheet), filename: `${sheetFileName(sheet)}.pdf` });
       if (res.ok) savedToast(res.path);
       else if (!res.canceled) toast(res.error || "PDF export failed.", "error");
     } catch (e) {
@@ -844,12 +846,15 @@ async function exportPack(btn) {
   syncMeta();
   await withBusy(btn, async () => {
     try {
-      const base = safeName(fileBaseName(state.data.meta));
+      // "CPP1, Unit 5, pp. 40-41": shells before 3.5.4 name the files "<base>_Dictation.docx"; newer ones use `names`.
+      const base = safeFileName(productFileName("", state.data.meta)) || "Unit";
       const d = desktop();
       if (d?.exportPack) {
         const res = await d.exportPack({
           data: await wordData(),
           baseSlug: base,
+          folderName: safeFileName(productFileName("Unit pack", state.data.meta)),
+          names: { lingo: sheetFileName("lingo"), dictation: sheetFileName("dictation"), answer: sheetFileName("answer") },
           htmlPages: { lingo: await pdfHtml("lingo"), dictation: await pdfHtml("dictation"), answer: await pdfHtml("answer") },
           footers: { lingo: pdfFooter("lingo"), dictation: pdfFooter("dictation"), answer: pdfFooter("answer") },
         });
@@ -858,7 +863,7 @@ async function exportPack(btn) {
       } else {
         const data = await wordData();
         for (const sheet of ["lingo", "dictation", "answer"]) {
-          await exportDocx(sheet, data, safeName(`${SHEET_NAME[sheet]}, ${base}.docx`));
+          await exportDocx(sheet, data, `${sheetFileName(sheet)}.docx`);
         }
         toast("Downloaded Lingo Launcher, Dictation and Answer Key.", "ok");
       }
