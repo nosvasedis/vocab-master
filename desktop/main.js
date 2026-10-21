@@ -711,7 +711,18 @@ async function runSmokeTest() {
     // only happened there.
     try {
       const liveCopy = path.join(app.getPath("userData"), "live-check");
-      fs.cpSync(RENDERER_DIR, liveCopy, { recursive: true, filter: (src) => !src.includes(`${path.sep}assets${path.sep}audio`) });
+      // A plain copy: fs.cpSync uses opendir, which can't read inside app.asar (the packaged pages).
+      const copyDir = (from, to) => {
+        fs.mkdirSync(to, { recursive: true });
+        for (const e of fs.readdirSync(from, { withFileTypes: true })) {
+          const src = path.join(from, e.name);
+          if (src.includes(`${path.sep}assets${path.sep}audio`)) continue;
+          if (e.isDirectory()) copyDir(src, path.join(to, e.name));
+          else fs.writeFileSync(path.join(to, e.name), fs.readFileSync(src));
+        }
+      };
+      fs.rmSync(liveCopy, { recursive: true, force: true });
+      copyDir(RENDERER_DIR, liveCopy);
       const E = await import(pathToFileURL(path.join(liveCopy, "app.js")).href);
       const fixture = JSON.parse(fs.readFileSync(path.join(__dirname, "smoke-fixture.json"), "utf8"));
       const blob = await E.buildLingoDocx(fixture.data || fixture);
