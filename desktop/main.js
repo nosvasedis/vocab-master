@@ -673,6 +673,36 @@ async function runSmokeTest() {
       })()
     `));
     results.voicesOk = results.voices.isolated && results.voices.wasm && results.voices.worker;
+    // A test pack through the same page helpers the Test Maker uses: Word + PDF of a paper and a WAV track,
+    // written by pack:save into one folder; each file is checked by its first bytes.
+    results.pack = JSON.parse(await mainWindow.webContents.executeJavaScript(`
+      (async () => {
+        try {
+          const sc = await import("./js/views/studio-common.js");
+          const tb = await import("./studio/test-builder.js");
+          const dr = await import("./studio/doc-render.js");
+          const at = await import("./studio/audio-track.js");
+          const doc = tb.buildTestDoc(tb.testDefaults("B_SENIOR"), { title: "Smoke Test", sections: [] }, { meta: { bookTitle: "Cambridge Primary Path 2", unit: 4 } });
+          const tone = new Float32Array(2400).map((_, i) => Math.sin(i / 8) * 0.2);
+          const files = [
+            await sc.packWord(doc, "student", "Test, CPP2, Unit 4"),
+            await sc.packPdf(dr.renderStudentPaper(doc, {}), "Smoke Test", "Test, CPP2, Unit 4"),
+            await sc.packWord(doc, "teacher", "Test (teacher's pack), CPP2, Unit 4"),
+            sc.packBytes(at.encodeWav(tone), "Listening track 1, CPP2, Unit 4.wav"),
+          ];
+          const res = await window.desktop.savePack({ folderName: "Test pack, CPP2, Unit 4", files });
+          return JSON.stringify(res);
+        } catch (e) { return JSON.stringify({ ok: false, error: String(e.message || e) }); }
+      })()
+    `));
+    if (results.pack.ok) {
+      const magic = { ".docx": "PK", ".pdf": "%PDF", ".wav": "RIFF" };
+      results.pack.checked = results.pack.files.map((f) => {
+        const head = fs.readFileSync(path.join(results.pack.folder, f)).subarray(0, 4).toString("latin1");
+        return head.startsWith(magic[path.extname(f)] || "?");
+      });
+    }
+    results.packOk = !!results.pack.ok && results.pack.files?.length === 4 && results.pack.checked.every(Boolean);
     // Opt-in (`--smoke --voices`, needs the internet once): download the natural voices and speak one sentence.
     if (process.argv.includes("--voices")) {
       results.voicesFull = JSON.parse(await mainWindow.webContents.executeJavaScript(`
@@ -696,7 +726,7 @@ async function runSmokeTest() {
       results.voicesOk = results.voicesOk && !results.voicesFull.error && results.voicesFull.seconds > 1;
     }
     console.log("SMOKE_RESULTS " + JSON.stringify(results));
-    app.exit(results.protocolOk && results.engineOk && results.editorOk && results.voicesOk ? 0 : 1);
+    app.exit(results.protocolOk && results.engineOk && results.editorOk && results.voicesOk && results.packOk ? 0 : 1);
   } catch (err) {
     console.error("SMOKE_ERROR", err);
     app.exit(1);
@@ -972,6 +1002,57 @@ function registerIpc() {
       return { ok: true, folder: packFolder, files: writtenFiles };
     } catch (err) {
       console.error("Pack export error:", err);
+      return { ok: false, error: friendlyFsError(err) };
+    } finally {
+      if (pdfWin && !pdfWin.isDestroyed()) pdfWin.destroy();
+    }
+  });
+
+  /* Any pack (tests, and whatever comes next): one folder chosen once, then each file the pages describe —
+   * { name, docx: { type, data } } built by the engine, { name, pdf: { html, footer } } printed here,
+   * or { name, bytes } written as given (listening tracks). The pages name every file. */
+  ipcMain.handle("pack:save", async (_event, { folderName = "", title = "Choose a folder for the pack", files = [] } = {}) => {
+    let pdfWin = null;
+    try {
+      const clean = (s) => String(s || "").replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, " ").trim().replace(/[. ]+$/, "").slice(0, 150);
+      if (!Array.isArray(files) || !files.length) return { ok: false, error: "Nothing to save." };
+      const prefs = readJsonFile("prefs.json", {});
+      const startDir = prefs.lastSaveDir && fs.existsSync(prefs.lastSaveDir) ? prefs.lastSaveDir : app.getPath("downloads");
+      // The smoke test saves into its own temporary profile (no dialog to answer).
+      const { canceled, filePaths } = SMOKE
+        ? { canceled: false, filePaths: [path.join(app.getPath("userData"), "pack-check")] }
+        : await dialog.showOpenDialog(mainWindow, { title, defaultPath: startDir, properties: ["openDirectory", "createDirectory"] });
+      if (canceled || !filePaths?.[0]) return { ok: false, canceled: true };
+      if (!SMOKE) writeJsonFile("prefs.json", { ...prefs, lastSaveDir: filePaths[0] });
+      const folder = path.join(filePaths[0], clean(folderName) || "Pack");
+      fs.mkdirSync(folder, { recursive: true });
+      const written = [];
+      for (const f of files) {
+        const name = clean(f?.name);
+        if (!name) continue;
+        let buf = null;
+        if (f.docx) {
+          const engine = await loadEngine();
+          const build = { lingo: engine.buildLingoDocx, dictation: engine.buildDictationDocx, answer: engine.buildAnswerKeyDocx, studio: engine.buildStudioDocx }[f.docx.type];
+          if (!build) throw new Error("Invalid export type");
+          buf = Buffer.from(await (await build(f.docx.data)).arrayBuffer());
+        } else if (f.pdf?.html) {
+          pdfWin ||= new BrowserWindow({ show: false, webPreferences: { sandbox: true, javascript: false } });
+          await loadHtmlDocument(pdfWin, f.pdf.html);
+          buf = await pdfWin.webContents.printToPDF(pdfOptions(f.pdf.footer));
+        } else if (f.bytes) {
+          buf = Buffer.from(f.bytes instanceof ArrayBuffer ? new Uint8Array(f.bytes) : f.bytes);
+        }
+        if (!buf) continue;
+        const out = path.join(folder, name);
+        fs.writeFileSync(out, buf);
+        savedPaths.add(out);
+        written.push(name);
+      }
+      savedPaths.add(folder);
+      return { ok: true, folder, files: written };
+    } catch (err) {
+      console.error("Pack save error:", err);
       return { ok: false, error: friendlyFsError(err) };
     } finally {
       if (pdfWin && !pdfWin.isDestroyed()) pdfWin.destroy();

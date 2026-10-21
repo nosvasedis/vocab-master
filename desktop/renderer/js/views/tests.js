@@ -9,7 +9,7 @@ import { productFileName } from "../../studio/file-names.js";
 import { segmented, withBusy } from "../ui.js";
 import {
   $, esc, icon, plural, toast, createSourcePicker, createPaper, fitPaper, askAi, aiErrorToast, profileBlock, levelLabel,
-  makePicFor, wizardNav, createWizard, safePaperHtml, pageControlsHtml, wirePageControls, printHtml, exportPdf, exportWord, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
+  makePicFor, wizardNav, createWizard, safePaperHtml, pageControlsHtml, wirePageControls, printHtml, exportPdf, exportWord, packPdf, packWord, packBytes, savePack, recentDocs, saveDoc, segHtml, switchHtml, stepperHtml, unitContextFor, owl, busyOverlay, classMemoryBrief,
 } from "./studio-common.js";
 /** The class profile plus what the class has already met (class memory, when the teacher turned it on). */
 const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
@@ -129,6 +129,7 @@ function build() {
             <p class="edit-hint tb-hint hidden" id="tsEditHint"></p>
             <label class="switch sm"><input type="checkbox" id="tsAnswers" /><span class="track"></span><span class="sw-text">Show answers</span></label>
             <span class="export-pills tb-exports">
+              <button type="button" class="btn btn-primary btn-sm" id="tsPack" disabled data-tip="Every sheet as Word + PDF (version B and the teacher’s pack too) and the listening tracks as audio, in one folder">${icon("package", "i-sm")}<span>Export test pack</span></button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsPrint" disabled>${icon("printer", "i-sm")}Print</button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsWord" disabled>${icon("word", "i-sm")}Word</button>
@@ -254,6 +255,13 @@ function build() {
   });
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
+  // The button says what it is doing (papers, audio 1 of 2, saving), so it is disabled rather than a spinner.
+  $("tsPack").addEventListener("click", async (e) => {
+    const btn = e.currentTarget;
+    if (btn.disabled) return;
+    btn.disabled = true;
+    try { await exportTestPack(btn); } catch (err) { toast(err.message || String(err), "error"); } finally { btn.disabled = !ts.doc; }
+  });
   $("tsPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(false), sheetTitle(), fileName())));
   $("tsWord").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportWord(sheetDoc(), ts.sheet === "teacher" ? "teacher" : "student", fileName()).catch((err) => toast(err.message, "error"))));
   $("tsListen").addEventListener("click", (e) => {
@@ -1005,17 +1013,56 @@ function refreshDoc() {
 }
 
 /* ── Paper ────────────────────────────────────────────────────────── */
-function sheetDoc() {
-  if (ts.sheet === "B" && ts.doc?.versionB) return ts.doc.versionB;
+function sheetDoc(sheet = ts.sheet) {
+  if (sheet === "B" && ts.doc?.versionB) return ts.doc.versionB;
   return ts.doc;
 }
-function sheetHtml(withAnswers = $("tsAnswers")?.checked) {
+function sheetHtml(withAnswers = $("tsAnswers")?.checked, sheet = ts.sheet) {
   const opts = { layout: { schoolName: prefs.schoolName || "" }, showAnswers: withAnswers };
-  if (ts.sheet === "teacher") {
+  if (sheet === "teacher") {
     const a = renderTeacherPack(ts.doc, opts);
     return ts.doc.versionB ? a + renderTeacherPack(ts.doc.versionB, opts) : a;
   }
-  return renderStudentPaper(sheetDoc(), opts);
+  return renderStudentPaper(sheetDoc(sheet), opts);
+}
+
+/**
+ * The whole test in one folder, like the worksheets' unit pack: the children's paper (and version B), the teacher's
+ * pack — each as Word + PDF, built exactly like the single exports — and every listening track as a WAV file.
+ */
+async function exportTestPack(btn) {
+  if (!ts.doc) return;
+  stopPlayer();
+  const meta = ts.doc.meta || {};
+  const B = !!ts.doc.versionB;
+  const label = btn.querySelector("span");
+  const say = (t) => { if (label) label.textContent = t; };
+  const title = (sheet) => `${meta.title || "Test"}${sheet === "teacher" ? " · Teacher's pack" : B ? ` · Version ${sheet}` : ""}`;
+  try {
+    say("Preparing the papers…");
+    const files = [];
+    for (const sheet of ["A", ...(B ? ["B"] : [])]) {
+      const name = productFileName(B ? `Test ${sheet}` : "Test", meta);
+      files.push(await packWord(sheetDoc(sheet), "student", name), await packPdf(sheetHtml(false, sheet), title(sheet), name));
+    }
+    const teacher = productFileName("Test (teacher's pack)", meta);
+    files.push(await packWord(ts.doc, "teacher", B ? productFileName("Test A (teacher's pack)", meta) : teacher));
+    if (B) files.push(await packWord(ts.doc.versionB, "teacher", productFileName("Test B (teacher's pack)", meta)));
+    files.push(await packPdf(sheetHtml(false, "teacher"), title("teacher"), teacher));
+    // The listening tracks, made with the voices chosen in “Play the listening” (as the ⤓ buttons do).
+    const parts = listeningParts();
+    for (const [k, { s, i }] of parts.entries()) {
+      say(`Making audio ${k + 1} of ${parts.length}…`);
+      const { blob } = await scriptWav(s.script, { plays: s.plays, levelId: meta.classProfile, onStatus: (st) => setStatus(s.id, st) });
+      delete ts.status[s.id];
+      files.push(packBytes(new Uint8Array(await blob.arrayBuffer()), `${productFileName(`Listening track ${i + 1}`, meta)}.wav`));
+    }
+    if (parts.length) { ts.naturalReady = true; renderListen(); }
+    say("Saving…");
+    await savePack({ folderName: productFileName("Test pack", meta), title: "Choose a folder for the test pack", files });
+  } finally {
+    say("Export test pack");
+  }
 }
 /** "Test, CPP2, Unit 4" · "Test B, …" · "Test (teacher's pack), …"; a topic test adds its title (studio/file-names.js). */
 const fileName = () => productFileName(ts.sheet === "teacher" ? "Test (teacher's pack)" : ts.doc?.versionB ? `Test ${ts.sheet}` : "Test", ts.doc?.meta || {});
@@ -1038,7 +1085,7 @@ function renderPaper() {
     : `${icon("pencil", "i-xs")}<span>Click to edit · hover a question for ✨ Remake</span>`;
   $("tsSheetSeg").classList.toggle("hidden", !has);
   $("testsView").classList.toggle("has-doc", has);
-  ["tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
+  ["tsPack", "tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
   renderOutline();
   renderFoot();
   $("tsPageCtl").classList.toggle("hidden", !has);

@@ -29,6 +29,9 @@ contextBridge.exposeInMainWorld("desktop", {
   /** Export full unit pack (3 .docx + 3 .pdf files) into a folder. */
   exportPack: (payload) => ipcRenderer.invoke("pack:export", payload),
 
+  /** Any pack into one folder: { folderName, files: [{ name, docx | pdf | bytes }] } → { ok, folder, files }. */
+  savePack: (payload) => ipcRenderer.invoke("pack:save", payload),
+
   /** JSON file storage (replaces localStorage persistence). */
   storage: {
     getAll: () => ipcRenderer.invoke("storage:getAll"),

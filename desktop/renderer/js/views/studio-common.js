@@ -182,10 +182,52 @@ export async function printHtml(bodyHtml, title) {
   if (win.document.readyState === "complete") setTimeout(go, 200); else win.addEventListener("load", () => setTimeout(go, 200), { once: true });
 }
 
+/** The printable page of a test / dictation sheet (fonts and pictures inlined) — for PDF files. */
+const pdfPage = async (bodyHtml, title) => inlinePictures(studioPrintDocument(bodyHtml, title, await worksheetFontCss()));
+/** What the Word builder needs for a test / dictation: which = "student" | "teacher". */
+const wordData = async (doc, which) => ({ doc: { ...doc, meta: { ...doc.meta, picPng: await picPngMap(doc), schoolName: prefs.schoolName || "" } }, which });
+
+/** Pack entries, built exactly like the single Word / PDF exports. */
+export const packPdf = async (bodyHtml, title, filename) => ({ name: safeName(`${filename}.pdf`), pdf: { html: await pdfPage(bodyHtml, title), footer: title } });
+export const packWord = async (doc, which, filename) => ({ name: safeName(`${filename}.docx`), docx: { type: "studio", data: await wordData(doc, which) } });
+export const packBytes = (bytes, filename) => ({ name: safeName(filename), bytes });
+
+/**
+ * Save a pack into one folder the teacher chooses once (desktop app 3.5.5+). In a browser the Word and audio files
+ * download one by one (PDFs need the app). An older app is told to finish its update.
+ * files: from packPdf / packWord / packBytes. Returns true when saved.
+ */
+export async function savePack({ folderName, title, files }) {
+  const d = desktop();
+  if (d?.savePack) {
+    const res = await d.savePack({ folderName: safeName(folderName), title, files });
+    if (res.ok) {
+      toast(`Saved ${plural(res.files.length, "file")} in “${String(res.folder).split(/[\\/]/).pop()}”`, "ok", { ms: 6000, actions: d.openPath ? [{ label: "Open folder", run: () => d.openPath(res.folder) }] : [] });
+      return true;
+    }
+    if (!res.canceled) toast(`Pack export failed: ${res.error || "unknown error"}`, "error");
+    return false;
+  }
+  if (d) {
+    toast("Saving a whole pack needs Vocab Master 3.5.5 — it downloads by itself; restart the app to install it. Until then use Word, PDF and the track buttons.", "warn", { ms: 8000 });
+    return false;
+  }
+  let n = 0;
+  for (const f of files) {
+    if (f.docx) {
+      const res = await fetch("/export/docx", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f.docx) });
+      if (!res.ok) throw new Error((await res.text()) || `Export failed (${res.status})`);
+      downloadBlob(await res.blob(), f.name); n++;
+    } else if (f.bytes) { downloadBlob(new Blob([f.bytes]), f.name); n++; }
+  }
+  toast(`Downloaded ${plural(n, "file")} — PDFs are saved from the desktop app (or Print → Save as PDF).`, "ok", { ms: 6000 });
+  return n > 0;
+}
+
 export async function exportPdf(bodyHtml, title, filename) {
   const d = desktop();
   if (!d?.exportPdf) { await printHtml(bodyHtml, title); toast("Choose “Save as PDF” in the print dialog.", "info"); return; }
-  const html = await inlinePictures(studioPrintDocument(bodyHtml, title, await worksheetFontCss()));
+  const html = await pdfPage(bodyHtml, title);
   const res = await d.exportPdf({ html, footer: title, filename: safeName(`${filename}.pdf`) });
   if (res.ok) toast(`Saved ${String(res.path).split(/[\\/]/).pop()}`, "ok", { actions: d.openPath ? [{ label: "Open", run: () => d.openPath(res.path) }] : [] });
   else if (!res.canceled) toast(res.error || "PDF export failed.", "error");
@@ -193,7 +235,7 @@ export async function exportPdf(bodyHtml, title, filename) {
 
 /** Word file of a test / dictation: which = "student" | "teacher". */
 export async function exportWord(doc, which, filename) {
-  const data = { doc: { ...doc, meta: { ...doc.meta, picPng: await picPngMap(doc), schoolName: prefs.schoolName || "" } }, which };
+  const data = await wordData(doc, which);
   const name = safeName(`${filename}.docx`);
   const d = desktop();
   if (d?.saveDocx) {
