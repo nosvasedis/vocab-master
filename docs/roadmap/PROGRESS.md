@@ -4,6 +4,11 @@
 
 **Next:** nothing queued. **Since 3.5.0 (2026-10-20) the desktop app updates itself:** a push to `main` that changes `desktop/renderer/**` reaches installed apps on its own (keep `main` green); a new exe is needed only for shell changes, via `npm run release` — see CLAUDE.md → Shipping and RESUME.md → "Shipping changes to teachers". Current version: **v3.5.3** (Save window, Remake that obeys, any class with any book, rail sidebar; before it v3.5.2: ChatGPT exercise remake fix; section below). Teachers on 3.4.0 or older must install 3.5.0 once by hand.
 
+## Fix: a unit test's book and unit print once (2026-10-21, from the user)
+- The header of a unit test showed “Primary Path 2 · Unit 4” under the title and again on the right (book, unit). The test builder had copied the unit label into the subtitle. Now a unit test keeps that label in `meta.label` (the library still shows it) and its subtitle is empty unless the teacher writes one; a topic test is unchanged.
+- Saved unit tests are fixed when they open (`relabelDoc`): a subtitle that starts “Primary Path N · Unit …” moves to the label; any other subtitle, including one the teacher wrote, stays.
+- Tests: 524 green (`tests/paper-layout.test.mjs` +1).
+
 ## Fix: instructions name the real options (2026-10-21, from the user)
 - A grammar part with four options said “Choose the right answer: a, b or c.” (and «…a, b ή c.»): the instructions were fixed per task, and the AI's own instruction can say it too. `fitChoiceLetters` / `sectionRubric` (doc-model.js) rebuild the letter list from the part's real number of options (a, b or c · a, b, c or d · …; English “or”, Greek “ή”): when a part is built or rebuilt (`normalizeSection`, so edits too), when a saved test opens (`relabelDoc`), on the paper and in Word. Seven tasks named letters (L-MC, L-GIST, R-MC, R-REPLY, R-SIGNS, R-MCCLOZE, G-MC). The task names “Listen/Read and choose a, b or c” became “Listen/Read and choose the answer”.
 - Tests: 523 green, smoke green.
