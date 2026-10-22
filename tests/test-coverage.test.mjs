@@ -74,3 +74,25 @@ test("a remade question must have the word as its answer when asked; word forms 
   assert.equal(p.length, 1);
   assert.match(p[0], /not the right answer/);
 });
+
+test("new parts for many words: class-fit tasks, pictures first, no tiny last part, own words first", async () => {
+  const { planNewParts, newPartTasks, wordPriority, testCoverage: cover } = await import("../desktop/renderer/studio/test-coverage.js");
+  const { TASKS } = await import("../desktop/renderer/studio/tasks.js");
+  // A Senior (0): no V-MC / V-DEF (they start at B); E Senior (4): no spelling or picture writing.
+  assert.deepEqual(newPartTasks(0, { tasks: TASKS }), ["V-BANK", "V-MATCH", "V-SPELL", "V-PIC"]);
+  assert.deepEqual(newPartTasks(4, { tasks: TASKS }), ["V-BANK", "V-MC", "V-DEF", "V-MATCH"]);
+  const words = Array.from({ length: 52 }, (_, i) => ({ english: `word${i}`, type: i < 6 ? "n" : "v" }));
+  const plan = planNewParts(words, { levelIdx: 1, tasks: TASKS, perPart: 8, hasPicture: (w) => /^word[0-5]$/.test(w), used: ["V-MC"] });
+  assert.equal(plan[0].task, "V-PIC", "the six picture nouns make a Look and write part");
+  assert.equal(plan[0].words.length, 6);
+  assert.equal(plan.flatMap((p) => p.words).length, 52, "every word is in exactly one part");
+  assert.equal(new Set(plan.flatMap((p) => p.words)).size, 52);
+  assert.ok(plan.every((p) => p.words.length >= 3 && p.words.length <= 10), plan.map((p) => p.words.length).join(","));
+  assert.notEqual(plan[1].task, "V-MC", "a task the test already uses comes later");
+  assert.ok(plan.slice(1).every((p) => p.task !== "V-PIC"));
+  // 10 words, 8 a part: one part of 10, not 8 + 2.
+  assert.deepEqual(planNewParts(words.slice(6, 16), { levelIdx: 1, tasks: TASKS, perPart: 8 }).map((p) => p.words.length), [10]);
+  // Priority: own words, then not on the test, then only in a text, each in list order.
+  const d = { focusWords: [{ english: "volcano" }, { english: "ash" }, { english: "lava" }, { english: "rock", own: true }], sections: [{ skill: "reading", task: "R-TF", passage: "The volcano.", items: [{ n: 1, prompt: "x", answer: "lava" }] }] };
+  assert.deepEqual(wordPriority(cover(d)).map((w) => w.english), ["rock", "ash", "volcano", "lava"]);
+});

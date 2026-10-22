@@ -18,7 +18,7 @@ import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
 import { testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
-import { testCoverage, coverageWhere } from "../../studio/test-coverage.js";
+import { testCoverage, coverageWhere, wordPriority } from "../../studio/test-coverage.js";
 import { makeVersionB, docProblems, docPoints, relabelDoc } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
@@ -252,7 +252,7 @@ function build() {
     // A word (or all the untested ones): the teacher chooses the part and the question it goes in.
     const cw = e.target.closest("[data-cov-word]");
     if (cw) { const w = testCoverage(ts.doc).words.find((x) => x.english === cw.dataset.covWord); if (w) editor?.placeWords([w]); return; }
-    if (e.target.closest("[data-cov-place]")) { editor?.placeWords(testCoverage(ts.doc).words.filter((w) => w.status !== "tested")); return; }
+    if (e.target.closest("[data-cov-place]")) { editor?.placeWords(wordPriority(testCoverage(ts.doc)).filter((w) => w.status !== "tested")); return; }
     const cp = e.target.closest("[data-cov-show]");
     if (cp) { showPart(Number(cp.dataset.covShow)); return; }
     const fx = e.target.closest("[data-fix]");
@@ -323,6 +323,8 @@ function build() {
       renderParts();
     },
     rewritePart: (id, wish) => rewritePart(id, null, wish),
+    addWordParts: (plans) => addWordParts(plans),
+    undoPoint: () => undoPoint(),
   });
   built = true;
   // The test that was open when the app last closed comes back (unless it was deleted meanwhile).
@@ -808,8 +810,17 @@ function wordCheckHtml(d, cov) {
       <div class="cov-chips">${[...open, ...cov.words.filter((w) => w.status === "tested")].map(chip).join("")}</div>
       <div class="cov-legend"><span><i style="background:var(--success)"></i>Tested</span><span><i style="background:var(--warning)"></i>Only in a text</span><span><i style="background:var(--danger)"></i>Not on the test</span></div>
       <p class="insp-note">Hover a word to see where it is. Click it to choose where it goes: a new question, a question it replaces, or a part written again — in the part you pick.</p>
+      ${roomNote(d, open.length)}
       ${open.length > 1 ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-place>${icon("target", "i-sm")}Place the ${plural(open.length, "untested word")}…</button>` : ""}
     </div>`;
+}
+
+/** When the untested words are more than the vocabulary parts can take: say so, and what the next step offers. */
+function roomNote(d, n) {
+  if (n < 6) return "";
+  const room = d.sections.filter((s) => s.skill === "vocabulary" && TASKS[s.task]?.answer !== "open").reduce((k, s) => k + Math.max(0, 12 - s.items.length), 0);
+  if (n <= Math.min(room, 5)) return "";
+  return `<p class="q-note mk-wc-room">${icon("layers", "i-xs")}<span>${room ? `The vocabulary parts have room for ${plural(room, "more question")} — not enough for ${n} words without crowding them.` : `The vocabulary parts are full.`} The next step proposes new vocabulary parts and shows how long the test becomes${n > 20 ? ", with a suggestion for how many words one test can check well" : ""}.</span></p>`;
 }
 
 /** Show part i on the paper (the children's sheet), scrolled into view and flashed. */
@@ -1050,6 +1061,57 @@ async function rewritePart(partId, btn, wish = "") {
       return true;
     } catch (e) { aiErrorToast(e); return false; }
   });
+}
+
+/**
+ * New vocabulary parts, each on its own words (the word check's "New part"). The words are the part's note, so Step 3
+ * shows them and writing the part again keeps them. The parts go after the last vocabulary part (or before writing
+ * and speaking) and are written one by one; a part Lingo couldn't write is taken out again.
+ * plans: [{ task, words: [english] }]. Returns { added: [{ id, words }], failed: [plan] }.
+ */
+async function addWordParts(plans) {
+  if (!ts.doc) return null;
+  const docId = ts.doc.id;
+  const parts = ts.spec.parts;
+  const lastVocab = parts.map((p) => p.skill).lastIndexOf("vocabulary");
+  const firstOpen = parts.findIndex((p) => p.skill === "writing" || p.skill === "speaking");
+  let at = lastVocab >= 0 ? lastVocab + 1 : firstOpen >= 0 ? firstOpen : parts.length;
+  const added = [];
+  const failed = [];
+  for (const pl of plans) {
+    const p = makePart("vocabulary", pl.task, ts.spec.levelId);
+    p.items = pl.words.length;
+    p.note = `One question for each of these words, each word used once${TASKS[pl.task]?.answer === "match" ? "" : " as the right answer"}: ${pl.words.join(", ")}.`;
+    ts.spec.parts.splice(at, 0, p);
+    savePrefs();
+    const ok = await rewritePart(p.id, null, `A new part built on exactly these ${pl.words.length} words, one question each: ${pl.words.join(", ")}.`);
+    if (ts.doc?.id !== docId) return { added, failed };
+    if (ok && ts.doc.sections.some((x) => x.id === p.id)) { added.push({ id: p.id, words: pl.words }); at++; continue; }
+    // Not written: the part comes out of Step 3 and off the paper again.
+    ts.spec.parts = ts.spec.parts.filter((x) => x.id !== p.id);
+    ts.doc.sections = ts.doc.sections.filter((x) => x.id !== p.id);
+    savePrefs();
+    failed.push(pl);
+  }
+  refreshDoc();
+  renderShape(); renderParts();
+  return { added, failed };
+}
+
+/** Everything a word-check change can touch (the paper and Step 3's parts); the function puts it back. */
+function undoPoint() {
+  const docId = ts.doc?.id;
+  const doc = JSON.stringify(ts.doc);
+  const parts = JSON.stringify(ts.spec.parts);
+  return () => {
+    if (!ts.doc || ts.doc.id !== docId) return false;
+    ts.doc = JSON.parse(doc);
+    ts.spec.parts = JSON.parse(parts);
+    savePrefs();
+    refreshDoc();
+    renderShape(); renderParts();
+    return true;
+  };
 }
 
 function refreshDoc() {

@@ -52,7 +52,7 @@ export function testCoverage(doc) {
       if (inPart || containsForm(sectionTexts(s), w.english)) seen.push(i);
     });
     const status = tested.length ? "tested" : seen.length ? "seen" : "missing";
-    return { english: w.english, greek: w.greek || "", own: !!w.own, status, tested, seen };
+    return { english: w.english, greek: w.greek || "", type: w.type || "", own: !!w.own, status, tested, seen };
   });
   const count = (st) => words.filter((w) => w.status === st).length;
   return { words, parts, tested: count("tested"), seen: count("seen"), missing: count("missing"), total: words.length };
@@ -106,4 +106,50 @@ export function placementOptions(doc, words, { tasks = {}, maxItems = 12 } = {})
     });
     return { part: i, id: s.id, skill: s.skill, task: s.task, fit, note, canAdd: fit !== "rewrite" && (s.items || []).length < maxItems, canReplace: fit !== "rewrite" && items.length > 0, items };
   });
+}
+
+/* ── New parts for words the current parts can't hold ── */
+// Vocabulary tasks a new part can use, in the order they are offered, and what each needs from the words.
+const NEW_PART_TASKS = ["V-BANK", "V-MC", "V-DEF", "V-MATCH", "V-SPELL", "V-PIC"];
+/** The tasks a new vocabulary part can be for this class (its fit range), the picture task only when every word has a picture. */
+export function newPartTasks(levelIdx, { tasks = {}, pictures = true } = {}) {
+  return NEW_PART_TASKS.filter((t) => tasks[t] && levelIdx >= tasks[t].fit[0] && levelIdx <= tasks[t].fit[1] && (t !== "V-PIC" || pictures));
+}
+
+/**
+ * The order words go in when not all of them fit: the teacher's own words first, then words not on the test at all,
+ * then words that only appear in a text; within each, the order of the test's word list (the unit's order).
+ */
+export function wordPriority(cov) {
+  const rank = (w) => (w.own ? 0 : w.status === "missing" ? 1 : w.status === "seen" ? 2 : 3);
+  return cov.words.map((w, i) => ({ w, i })).sort((a, b) => rank(a.w) - rank(b.w) || a.i - b.i).map((x) => x.w);
+}
+
+/**
+ * New vocabulary parts for these words: one question per word, `perPart` words a part (the last part takes a short
+ * remainder rather than a part of 1–2 questions). Words with pictures fill a "Look and write" part first when the
+ * class suits it; the other parts take the class's word tasks in turn, preferring ones the test doesn't use yet.
+ * words: [{ english, type }]. Returns [{ task, words: [english] }].
+ */
+export function planNewParts(words, { levelIdx = 1, tasks = {}, perPart = 8, hasPicture = () => false, used = [] } = {}) {
+  const list = words.filter((w) => w?.english);
+  if (!list.length) return [];
+  const out = [];
+  let rest = list;
+  const canPic = newPartTasks(levelIdx, { tasks }).includes("V-PIC");
+  const pics = canPic ? list.filter((w) => /^n/i.test(w.type || "n") && hasPicture(w.english)) : [];
+  if (pics.length >= 4) {
+    const take = pics.slice(0, perPart);
+    out.push({ task: "V-PIC", words: take.map((w) => w.english) });
+    const taken = new Set(take.map((w) => w.english));
+    rest = list.filter((w) => !taken.has(w.english));
+  }
+  const choices = newPartTasks(levelIdx, { tasks, pictures: false });
+  const fresh = [...choices.filter((t) => !used.includes(t)), ...choices.filter((t) => used.includes(t))];
+  const chunks = [];
+  for (let k = 0; k < rest.length; k += perPart) chunks.push(rest.slice(k, k + perPart));
+  // A last part of one or two words joins the part before it (a part may have up to perPart + 2 questions).
+  if (chunks.length > 1 && chunks.at(-1).length <= 2) chunks.at(-2).push(...chunks.pop());
+  chunks.forEach((c, k) => out.push({ task: fresh[k % fresh.length] || "V-BANK", words: c.map((w) => w.english) }));
+  return out;
 }

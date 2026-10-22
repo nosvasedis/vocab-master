@@ -1097,3 +1097,29 @@
 .pw-hint.warn { color: var(--warning-ink); background: var(--warning-soft); }
 .pw-hint.warn .i { color: currentColor; }
 .mk-wordcheck .cov-chips { overflow-x: hidden; }
+.mk-wc-room { display: flex; gap: 6px; margin: 0; }
+.mk-wc-room .i { flex: none; margin-top: 2px; color: var(--mk); }
+
+/* New vocabulary parts in "Put words on the test" */
+.pw-part-new .pw-part-ico { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; color: #fff; background: var(--skill, var(--brand)); }
+.pw-part-new .pw-part-ico .i { width: 15px; height: 15px; stroke-width: 2.6; }
+.pw-part-new:not(.active) { border-style: dashed; }
+.pw-words.many { max-height: 168px; overflow-y: auto; padding: 2px; }
+.pw-words.many .pw-word { padding: 4px 9px; font-size: 12.5px; }
+.pw-lead b { color: var(--text); }
+.pw-lead .pk-clear { margin-left: 6px; }
+.pw-presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.pw-presets .chip { gap: 5px; }
+.pw-presets .chip small { opacity: .7; font-weight: 600; }
+.pw-size { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding: 10px 12px; border-radius: 11px; font-size: 12.5px; color: var(--text-2); background: var(--surface-2); }
+.pw-size b { color: var(--text); font-weight: 800; }
+.pw-size .warn b { color: var(--warning-ink); }
+.pw-size small { margin-left: auto; font-weight: 700; color: var(--text-3); }
+.pw-new-list { display: flex; flex-direction: column; gap: 6px; }
+.pw-new-part { position: relative; display: flex; flex-direction: column; gap: 7px; padding: 9px 12px 10px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.pw-new-part::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--skill, var(--brand)); }
+.pw-new-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pw-new-head .select { width: auto; max-width: 100%; }
+.pw-new-head small { font-size: 11.5px; color: var(--text-3); font-weight: 600; }
+.pw-new-words { display: flex; flex-wrap: wrap; gap: 4px; }
+.pw-new-words span { padding: 2px 8px; border-radius: 99px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-3); }
