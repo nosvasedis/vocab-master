@@ -18,6 +18,7 @@ import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
 import { testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
+import { testCoverage, coverageWhere } from "../../studio/test-coverage.js";
 import { makeVersionB, docProblems, docPoints, relabelDoc } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
@@ -248,6 +249,14 @@ function build() {
   });
   $("tsReady").addEventListener("click", (e) => { const b = e.target.closest("#tsGenerate"); if (b) generate(b); });
   $("tsOutline").addEventListener("click", (e) => {
+    const cp = e.target.closest("[data-cov-part]");
+    if (cp) { showPart(Number(cp.dataset.covPart)); return; }
+    const cf = e.target.closest("[data-cov-fix]");
+    if (cf) {
+      const words = testCoverage(ts.doc).words.filter((w) => w.status !== "tested").map((w) => w.english);
+      rewritePart(cf.dataset.covFix, cf, `Build the questions on these words, which no question of the test asks about yet: ${words.join(", ")}. Where there are more questions than these words, use other chosen words.`);
+      return;
+    }
     const fx = e.target.closest("[data-fix]");
     if (fx) { fixPart(fx.dataset.fix, fx); return; }
     const rw = e.target.closest("[data-rewrite]");
@@ -753,6 +762,7 @@ function renderReady() {
 function renderOutline() {
   const d = ts.doc;
   if (!d) { $("tsOutline").innerHTML = `<div class="mk-outline-card"><small>Nothing written yet</small><b>Your test</b><p class="mk-hint">Press <b>Write my test</b> in Final touches.</p></div>`; return; }
+  const cov = testCoverage(d);
   $("tsOutline").innerHTML = `
     <div class="mk-outline-card">
       <small>${esc(d.meta.classLabel || levelLabel(d.meta.classProfile))}${d.versionB ? " · A + B" : ""}</small>
@@ -766,12 +776,53 @@ function renderOutline() {
     return `<li data-skill="${sec.skill}" class="${stale ? "stale" : ""}${probs.length ? " warn" : ""}">
       <div class="mk-op-row"><span class="mk-op-ico">${SKILLS[sec.skill]?.icon || ""}</span><span class="mk-op-t"><small>Part ${i + 1} · ${esc(SKILLS[sec.skill]?.label || "")}${stale ? " · changed" : ""}</small><b>${esc(TASKS[sec.task]?.label || "")}</b></span>
         <button type="button" class="icon-btn sm" data-rewrite="${sec.id}" data-tip="${stale ? "Write this part again with its new settings" : "Write the whole part again"}" aria-label="Write part ${i + 1} again">${icon("refresh", "i-sm")}</button></div>
+      ${cov.parts[i]?.words.length ? `<p class="mk-op-words" title="${esc(cov.parts[i].words.join(", "))}">${icon("target", "i-xs")}<span><b>${plural(cov.parts[i].words.length, "word")}</b> · ${esc(cov.parts[i].words.join(", "))}</span></p>` : ""}
       ${probs.length ? `<div class="mk-op-probs">${icon("alert", "i-xs")}<div><ul>${probs.map((pr) => `<li>${esc(friendlyProblem(pr))}</li>`).join("")}</ul>${fixButton(sec)}</div></div>` : ""}
     </li>`;
   }).join("")}</ol>
+    ${wordCheckHtml(d, cov)}
     <div class="mk-outline-acts">
       <button type="button" class="btn btn-secondary btn-sm" data-mk-go="2">${icon("sliders", "i-sm")}Change the parts</button>
     </div>`;
+}
+
+/**
+ * The word check, like the worksheets' quality check: which of the chosen words the test asks about and where
+ * (hover a word; a click shows its part on the paper), the ones that only appear in a text, and the ones not on
+ * the test — with a button that writes a vocabulary part again around them.
+ */
+function wordCheckHtml(d, cov) {
+  if (!cov.total) return "";
+  const tone = { tested: "cov-good", seen: "cov-warn", missing: "cov-bad" };
+  const chip = (w) => `<button type="button" class="cov-chip ${tone[w.status]}" data-cov-part="${(w.tested[0]?.part ?? w.seen[0] ?? -1)}" data-tip="${esc(`${w.greek ? `${w.greek} · ` : ""}${coverageWhere(w)}`)}">${w.status === "tested" ? icon("check", "i-xs") : ""}${esc(w.english)}${w.tested.length ? `<small>${w.tested.map((x) => x.part + 1).join("·")}</small>` : ""}</button>`;
+  const pct = (n) => `${((n / cov.total) * 100).toFixed(1)}%`;
+  const open = cov.words.filter((w) => w.status !== "tested");
+  // The vocabulary part to write again around the words not tested: the one with the most questions.
+  const target = open.length ? d.sections.map((s, i) => ({ s, i })).filter(({ s }) => s.skill === "vocabulary" && TASKS[s.task]?.answer !== "open").sort((a, b) => b.s.items.length - a.s.items.length)[0] : null;
+  const summary = !open.length
+    ? `<div class="quality-ok">${icon("check-circle")}<span>All ${plural(cov.total, "word")} are tested.</span></div>`
+    : `<p class="q-summary">${cov.tested} of ${cov.total} words are tested${cov.seen ? ` · ${cov.seen} only appear in a text or an option` : ""}${cov.missing ? ` · ${cov.missing} not on the test` : ""}.</p>`;
+  return `<div class="mk-wordcheck">
+      <div class="mk-wc-head"><span class="mk-wc-ico">${icon("target")}</span><div><small>Word check</small><b>${cov.tested}<span>/${cov.total}</span> words tested</b></div></div>
+      <div class="mk-wc-bar" role="img" aria-label="${cov.tested} tested, ${cov.seen} only in a text, ${cov.missing} not on the test"><i class="good" style="width:${pct(cov.tested)}"></i><i class="warn" style="width:${pct(cov.seen)}"></i><i class="bad" style="width:${pct(cov.missing)}"></i></div>
+      ${summary}
+      <div class="cov-chips">${[...open, ...cov.words.filter((w) => w.status === "tested")].map(chip).join("")}</div>
+      <div class="cov-legend"><span><i style="background:var(--success)"></i>Tested</span><span><i style="background:var(--warning)"></i>Only in a text</span><span><i style="background:var(--danger)"></i>Not on the test</span></div>
+      <p class="insp-note">Hover a word to see the part and the questions; click it to show the part on the paper.</p>
+      ${target ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-fix="${target.s.id}" data-tip="Writes Part ${target.i + 1} again so its questions are built on these words">${icon("sparkles", "i-sm")}Use the ${plural(open.length, "untested word")} in Part ${target.i + 1}</button>` : ""}
+    </div>`;
+}
+
+/** Show part i on the paper (the children's sheet), scrolled into view and flashed. */
+function showPart(i) {
+  if (i < 0 || !ts.doc) return;
+  if (ts.sheet === "teacher") { ts.sheet = "A"; renderSheetSeg(); renderPaper(); }
+  const sec = paper.root.querySelectorAll(".st-sec")[i];
+  if (!sec) return;
+  sec.scrollIntoView({ block: "start", behavior: "smooth" });
+  sec.classList.remove("pe-flash-sec");
+  void sec.offsetWidth;
+  sec.classList.add("pe-flash-sec");
 }
 
 /** The sticky bar: Back, what to fix (or the size of the test), and Next / Write my test. */

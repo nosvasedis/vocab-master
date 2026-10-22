@@ -142,7 +142,9 @@ export const pageTag = (w) => (w?.page ? `<span class="wc-pg" title="${w.section
 /* ── Paper preview ────────────────────────────────────────────────── */
 const PAPER_EXTRA = `:host { all: initial; display: block; color: #000; } .worksheet { max-width: none; }
 .teacher-ans-pill { display: inline-flex; align-items: center; margin-left: 6px; padding: 0 8px; height: 20px; border-radius: 99px; font: 600 9pt/20px "Segoe UI", sans-serif; color: #057a55; background: #e6f8f1; vertical-align: 1px; }
-.st-playing { background: #fff6d6; border-radius: 6px; }`;
+.st-playing { background: #fff6d6; border-radius: 6px; }
+.pe-flash-sec { animation: pe-flash-sec 1.6s ease-out; border-radius: 6px; }
+@keyframes pe-flash-sec { 0% { background: #e0f2fe; box-shadow: 0 0 0 3px #38bdf8; } 100% { background: transparent; box-shadow: 0 0 0 3px transparent; } }`;
 export function createPaper(host) {
   const root = host.attachShadow({ mode: "open" });
   return {
@@ -271,6 +273,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
     topic: "",
     keyWords: [],
     several: false, // tests: taps add units instead of switching
+    query: "", // the search over the unit's words (not remembered)
     own: [], // the teacher's own words, mixed in: [{ english, greek }]
   };
   /** The choice is remembered per maker: book, units, parts, which words, the topic and the own words. */
@@ -410,7 +413,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
           <div class="unit-grid mk-units">${Array.from({ length: 9 }, (_, i) => i + 1).map((u) => `<button type="button" class="unit-tile${st.units.includes(u) ? " selected" : ""}" data-sp-unit="${u}" data-tip="${esc(unitTitle(u))}"><span>Unit</span><b>${u}</b><small>${esc(unitTitle(u))}</small></button>`).join("")}</div></div>
         <div class="mk-panel mk-unit">
           <div class="mk-panel-head"><div><h4>${st.units.map((u) => `Unit ${u} · ${esc(unitTitle(u))}`).join("<br>")}</h4><p>${multiUnit && st.several ? "Tap more units to add them to the test." : `Primary Path ${st.bookId.slice(-1)} · the words, stories and Big Question come from here.`}</p></div></div>
-          <div class="mk-field"><span class="mk-lbl">Parts of the unit</span><div class="mk-chips">${["BQ", "A", "B", "WB"].map((s) => `<button type="button" class="chip${st.sections.includes(s) ? " active" : ""}" data-sp-sec="${s}">${esc(SECTION_LABEL[s])}${counts ? ` <small>${counts[s]}</small>` : ""}</button>`).join("")}</div></div>
+          <div class="mk-field"><span class="mk-lbl">Parts of the unit</span><div class="mk-chips">${["BQ", "A", "B", "WB"].map((s) => `<button type="button" class="chip${st.sections.includes(s) ? " active" : ""}" data-sp-sec="${s}"><i class="sec-dot sec-${s.toLowerCase()}"></i>${esc(SECTION_LABEL[s])}${counts ? ` <small>${counts[s]}</small>` : ""}</button>`).join("")}</div></div>
           <div class="mk-field"><span class="mk-lbl">Words to test</span><div class="mk-chips">
             <button type="button" class="chip${st.focusMode === "key" ? " active" : ""}" data-sp-focus="key">★ Lesson key words${keyCount ? ` <small>${keyCount}</small>` : ""}</button>
             <button type="button" class="chip${st.focusMode === "all" ? " active" : ""}" data-sp-focus="all">All <small>${words.length}</small></button>
@@ -422,25 +425,43 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
         </div>` : ""}`;
   }
   /**
-   * The unit's words in the panel. Chosen words have a small × (taking one out switches to "Selected words");
-   * in "Selected words" the words left out are dashed and come back with a tap. Long lists fold to 40.
+   * The unit's words, all of them, like Worksheets → Word pool: a tick on the chosen ones, a + on the rest, the
+   * Greek, the page and a dot in its part's colour. A search filters by English or Greek; "Select all" / "Clear"
+   * act on what is shown. Any change makes the choice "Selected words".
    */
+  /** The unit's words the search lets through (all of them without a search). */
+  function shownWords() {
+    const q = (st.query || "").trim().toLowerCase();
+    const words = all();
+    return q ? words.filter((w) => w.english.toLowerCase().includes(q) || String(w.greek || "").toLowerCase().includes(q)) : words;
+  }
   function unitWordList(words, base) {
-    const picking = st.focusMode === "pick";
-    const list = picking ? words : base;
-    const LIMIT = 40;
-    const shown = st.wordsOpen || list.length <= LIMIT + 6 ? list : list.slice(0, LIMIT);
-    const chip = (w) => {
+    const chosen = new Set(base.map((w) => w.english.toLowerCase()));
+    const q = (st.query || "").trim().toLowerCase();
+    const list = shownWords();
+    const chip = (w, i) => {
       const k = w.english.toLowerCase();
-      const on = !picking || st.picked.has(k);
-      return on
-        ? `<span class="word-chip on removable"><span>${esc(w.english)}</span>${pageTag(w)}<button type="button" class="wc-x" data-sp-out="${esc(k)}" aria-label="Leave out ${esc(w.english)}" title="Leave it out">${icon("x", "i-xs")}</button></span>`
-        : `<button type="button" class="word-chip off" data-sp-word="${esc(k)}" title="Put it back"><span>${esc(w.english)}</span>${pageTag(w)}${icon("plus", "i-xs")}</button>`;
+      const on = chosen.has(k);
+      const tip = `${w.english}${w.type ? ` (${w.type})` : ""}${w.greek ? ` — ${w.greek}` : ""}\n${SECTION_LABEL[w.section] || ""}${w.page ? ` · ${w.section === "WB" ? "Workbook" : "Student’s Book"} p.${w.page}` : ""}\n${on ? "Tap to leave it out" : "Tap to add it"}`;
+      return `<button type="button" class="word-chip sec-${esc(String(w.section || "").toLowerCase())}${on ? " on" : ""}" data-sp-word="${esc(k)}" aria-pressed="${on}" title="${esc(tip)}" style="animation-delay:${Math.min(i, 30) * 10}ms"><span class="wc-box">${icon(on ? "check" : "plus")}</span><span>${esc(w.english)}</span>${w.greek ? `<span class="wc-gr">${esc(w.greek)}</span>` : ""}${pageTag(w)}<span class="wc-src"></span></button>`;
     };
-    const more = list.length > shown.length
-      ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-down", "i-xs")}Show all ${list.length} words</button>`
-      : st.wordsOpen && list.length > LIMIT + 6 ? `<button type="button" class="mk-more-btn" data-sp-more>${icon("chevron-up", "i-xs")}Show fewer</button>` : "";
-    return `<div class="mk-words${picking ? " picking" : ""}${st.wordsOpen ? " open" : ""}">${shown.map(chip).join("")}${more}</div>`;
+    const chips = !words.length
+      ? `<div class="mk-pool-empty">No words in the parts chosen above.</div>`
+      : !list.length
+        ? `<div class="mk-pool-empty">No word matches “${esc(st.query)}”.</div>`
+        : list.map(chip).join("");
+    const shownOn = list.filter((w) => chosen.has(w.english.toLowerCase())).length;
+    const secs = [...new Set(words.map((w) => w.section))];
+    return `<div class="mk-pool">
+      <div class="mk-pool-bar">
+        <div class="input-group pool-search mk-pool-search">${icon("search", "i-sm")}<input class="input sm" type="search" data-sp-search placeholder="Search words or Greek…" value="${esc(st.query || "")}" autocomplete="off" aria-label="Search the unit’s words" /></div>
+        <span class="pool-legend">${secs.map((s) => `<span><i class="sec-dot sec-${s.toLowerCase()}"></i>${esc(SECTION_LABEL[s] || s)}</span>`).join("")}</span>
+      </div>
+      <div class="pool-chips mk-pool-chips" data-sp-chips>${chips}</div>
+      <div class="pool-foot mk-pool-foot"><span><strong>${base.length}</strong> of ${words.length} unit words chosen${q ? ` · ${list.length} shown` : ""}</span><span class="spacer"></span>
+        <button type="button" class="btn btn-ghost btn-sm" data-sp-all ${!list.length || shownOn === list.length ? "disabled" : ""}>${q ? "Select these" : "Select all"}</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-sp-none ${!shownOn ? "disabled" : ""}>${q ? "Clear these" : "Clear"}</button></div>
+    </div>`;
   }
 
   const changed = (byUser = true) => { save(); render(); onChange?.(value(), { byUser }); };
@@ -470,6 +491,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
         st.own = [...st.own, ...pick.map((w) => ({ english: w.english, greek: w.greek || "" }))];
       }
       if (b.dataset.spKind) st.kind = b.dataset.spKind;
+      if (b.dataset.spBook || b.dataset.spUnit) st.query = "";
       if (b.dataset.spBook) { st.bookId = b.dataset.spBook; st.picked.clear(); await refreshKeyWords(); }
       if (b.dataset.spUnit) {
         const u = Number(b.dataset.spUnit);
@@ -492,16 +514,14 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
         // Picking starts from the key words, so the teacher only adds or removes a few.
         if (st.focusMode === "pick" && !st.picked.size) all().filter((w) => st.keyWords.includes(w.english.toLowerCase())).forEach((w) => st.picked.add(w.english.toLowerCase()));
       }
-      if (b.dataset.spMore !== undefined) { st.wordsOpen = !st.wordsOpen; render(); return; }
-      if (b.dataset.spOut) {
-        // From "Key words" / "All": the words chosen now become the selection, minus this one.
+      // A tap on a word, "Select all" or "Clear": from "Key words" / "All", the words chosen now become the
+      // selection, then the change is made to it (to the words shown, while searching).
+      if (b.dataset.spWord || b.dataset.spAll !== undefined || b.dataset.spNone !== undefined) {
         if (st.focusMode !== "pick") st.picked = new Set(baseFocus().map((w) => w.english.toLowerCase()));
         st.focusMode = "pick";
-        st.picked.delete(b.dataset.spOut);
-      }
-      if (b.dataset.spWord) {
         const k = b.dataset.spWord;
-        if (st.picked.has(k)) st.picked.delete(k); else st.picked.add(k);
+        if (k) { if (st.picked.has(k)) st.picked.delete(k); else st.picked.add(k); }
+        else shownWords().forEach((w) => st.picked[b.dataset.spAll !== undefined ? "add" : "delete"](w.english.toLowerCase()));
       }
       changed();
     });
@@ -524,6 +544,20 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       st.several = e.target.checked;
       if (!st.several && st.units.length > 1) { st.units = [st.units[0]]; st.picked.clear(); await refreshKeyWords(); }
       changed();
+    });
+    // The search filters the words in place (the field keeps its focus).
+    host.addEventListener("input", (e) => {
+      if (e.target.dataset.spSearch === undefined) return;
+      st.query = e.target.value;
+      const pool = host.querySelector(".mk-pool");
+      if (!pool) return;
+      const tmp = document.createElement("div");
+      tmp.innerHTML = unitWordList(all(), baseFocus());
+      pool.querySelector("[data-sp-chips]").replaceWith(tmp.querySelector("[data-sp-chips]"));
+      pool.querySelector(".mk-pool-foot").replaceWith(tmp.querySelector(".mk-pool-foot"));
+    });
+    host.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && e.target.dataset.spSearch !== undefined && e.target.value) { e.preventDefault(); e.target.value = ""; e.target.dispatchEvent(new Event("input", { bubbles: true })); }
     });
     host.addEventListener("input", (e) => { if (e.target.dataset.spTopic !== undefined) { st.topic = e.target.value; save(); onChange?.(value(), { byUser: true }); } });
     refreshKeyWords().then(() => changed(false));

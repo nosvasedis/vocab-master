@@ -318,6 +318,28 @@
 .pk-clear:hover { color: var(--text); background: var(--surface-3); }
 .mk-count { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 12.5px; color: var(--text-2); }
 .mk-count .i { color: var(--mk); }
+/* Step 1 word pool (Test Maker, Dictation): the Worksheets pool's chips, coloured by the part of the unit */
+.mk { --sec-bq: #8b5cf6; --sec-a: var(--src-sb); --sec-b: #f59e0b; --sec-wb: var(--src-wb); }
+.sec-dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--src, var(--mk)); }
+.sec-dot.sec-bq, .word-chip.sec-bq { --src: var(--sec-bq); }
+.sec-dot.sec-a, .word-chip.sec-a { --src: var(--sec-a); }
+.sec-dot.sec-b, .word-chip.sec-b { --src: var(--sec-b); }
+.sec-dot.sec-wb, .word-chip.sec-wb { --src: var(--sec-wb); }
+.mk-chips .chip .sec-dot { margin-right: 6px; }
+.mk-pool { display: flex; flex-direction: column; gap: 10px; }
+.mk-pool-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; }
+.mk-pool-bar .pool-legend { order: -1; margin-left: 0; flex-wrap: wrap; color: var(--text-3); }
+.mk-pool-bar .pool-legend i { width: 8px; height: 8px; }
+.mk-pool-search .input { background: var(--surface); }
+.mk-pool-chips { max-height: 300px; margin: 0; padding: 12px; background: color-mix(in srgb, var(--surface) 70%, transparent); }
+.mk-pool-chips .word-chip { height: 32px; font-size: 12.5px; }
+.mk-pool-chips .word-chip:not(.on) { color: var(--text-3); }
+.mk-pool-chips .word-chip.on { color: var(--text); background: color-mix(in srgb, var(--src) 9%, var(--surface)); border-color: color-mix(in srgb, var(--src) 50%, transparent); }
+.mk-pool-chips .word-chip.on .wc-box { background: var(--src); color: #fff; }
+.mk-pool-chips .word-chip:focus-visible { outline: none; box-shadow: var(--ring); }
+.mk-pool-empty { width: 100%; padding: 14px 6px; text-align: center; font-size: 13px; color: var(--text-3); }
+.mk-pool-foot { margin-top: 0; }
+.mk-pool-foot .btn[disabled] { opacity: .45; }
 
 /* Step 1 (tests): grammar and the texts */
 .mk-focus { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
@@ -996,3 +1018,30 @@
 .mk-review-note { margin: 0; font-size: 11.5px; line-height: 1.45; color: var(--text-3); }
 .word-chip.review.early { opacity: .78; border-style: dashed; }
 .word-chip.review.early:hover, .word-chip.review.early:focus-visible { opacity: 1; }
+
+/* Test Maker result: the word check (like the worksheets' quality check) and each part's tested words */
+.mk-op-words { display: flex; gap: 6px; margin: -2px 6px 0 30px; font-size: 11.5px; line-height: 1.4; color: var(--text-3); }
+.mk-op-words > span { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.mk-op-words b { color: var(--success-ink); font-weight: 700; }
+.mk-op-words .i { flex: none; margin-top: 2px; color: var(--success); }
+.mk-wordcheck { display: flex; flex-direction: column; gap: 10px; padding: 14px 14px 12px; border: 1px solid color-mix(in srgb, var(--mk) 20%, var(--border)); border-radius: 16px; background: radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--success) 9%, transparent), transparent 60%), var(--surface); }
+.mk-wc-head { display: flex; align-items: center; gap: 10px; }
+.mk-wc-head small { display: block; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--mk-ink); }
+.mk-wc-head b { font: 800 16px/1.2 var(--font-display); }
+.mk-wc-head b span { color: var(--text-3); font-weight: 700; }
+.mk-wc-ico { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 11px; color: #fff; background: linear-gradient(140deg, var(--success), color-mix(in srgb, var(--success) 60%, var(--mk))); box-shadow: 0 4px 12px color-mix(in srgb, var(--success) 30%, transparent); }
+.mk-wc-ico .i { width: 18px; height: 18px; }
+.mk-wc-bar { display: flex; height: 7px; border-radius: 99px; overflow: hidden; background: var(--surface-3); }
+.mk-wc-bar i { display: block; height: 100%; transition: width var(--dur) var(--ease); }
+.mk-wc-bar .good { background: var(--success); }
+.mk-wc-bar .warn { background: var(--warning); }
+.mk-wc-bar .bad { background: var(--danger); }
+.mk-wordcheck .q-summary { margin: 0; }
+.mk-wordcheck .cov-chips { max-height: 210px; overflow-y: auto; padding: 1px; }
+.mk-wordcheck .cov-chip { gap: 4px; border: 0; cursor: pointer; font-family: var(--font-ui); transition: transform var(--dur-fast), box-shadow var(--dur-fast); }
+.mk-wordcheck .cov-chip:hover, .mk-wordcheck .cov-chip:focus-visible { transform: translateY(-1px); box-shadow: 0 0 0 1.5px currentColor; outline: none; }
+.mk-wordcheck .cov-chip .i { width: 11px; height: 11px; stroke-width: 3; }
+.mk-wordcheck .cov-chip small { font-size: 10px; font-weight: 800; opacity: .7; }
+.mk-wordcheck .insp-note { margin: 0; }
+.mk-wordcheck .cov-legend { flex-wrap: wrap; gap: 4px 10px; }
+.mk-wordcheck .cov-legend span { white-space: nowrap; }
