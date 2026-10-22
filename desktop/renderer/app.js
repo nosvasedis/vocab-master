@@ -11,6 +11,8 @@ import {
   lookupCoursebookWord,
 } from "./coursebook-data.js";
 import { sanitizeVocabField, rejectionNote } from "./vocab-quality.js";
+import { useTwoColumns, isShortAnswer, printedLength, splitColumns } from "./studio/item-columns.js";
+import { fitWordBox, countExtraWords, repeatedAnswers, withExtraWords, extraWordsLine } from "./studio/word-box.js";
 import { IRREGULAR_FORMS, wordFormPattern, findOutsideAnswers, worksheetMatchesForm, wordsKey, unitIdentity, allowedTerms } from "./studio/word-scope.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "./studio/remake.js";
 import { wordCoverage, dictationRoom, sentenceLimit, NOT_SENTENCE_TYPES, friendlyReason, lineLabel } from "./studio/quality-check.js";
@@ -231,7 +233,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   L02: "Circle the best word in each sentence.",
   L03: "Choose the correct synonym from the options in brackets.",
   L04: "Choose the correct opposite from the options in brackets.",
-  L05: "Match each headword to the collocation gap. Use the word list — ~5–6 items only.",
+  L05: "Complete each phrase with the right word from the list.",
   L06: "Write the grammar category for each word (noun, verb, etc.).",
   L07: "Write the correct derivative form.",
   L08: "Put the words in the correct order to make a sentence.",
@@ -287,10 +289,18 @@ const EXERCISE_STUDENT_INSTRUCTIONS_EL = {
   L13: "Μόνο μία πρόταση είναι σωστή. Γράψε A ή B.",
 };
 
+/** The task line students read; for a word box with extra words it ends "There are two extra words you do not need." */
 function getStudentExerciseInstruction(ex) {
   const custom = String(ex?.instruction || "").trim();
-  if (custom) return custom;
-  return EXERCISE_STUDENT_INSTRUCTIONS[ex?.typeId] || EXERCISE_DESCRIPTIONS[ex?.typeId] || "";
+  const line = custom || EXERCISE_STUDENT_INSTRUCTIONS[ex?.typeId] || EXERCISE_DESCRIPTIONS[ex?.typeId] || "";
+  return GAP_BOX_TYPES.has(ex?.typeId) ? withExtraWords(line, exerciseExtraWords(ex), "en") : line;
+}
+
+/** The Greek help line (shown only under the app's own task line), with the same extra-words sentence. */
+function getStudentExerciseInstructionEl(ex) {
+  if (String(ex?.instruction || "").trim()) return "";
+  const line = EXERCISE_STUDENT_INSTRUCTIONS_EL[ex?.typeId] || "";
+  return line && GAP_BOX_TYPES.has(ex?.typeId) ? withExtraWords(line, exerciseExtraWords(ex), "el") : line;
 }
 
 const CLASS_PROFILES = {
@@ -442,6 +452,24 @@ function buildTuneBlock(profileId, tune) {
   return `
 TEACHER FINE-TUNING — mandatory (overrides the class profile where they differ):
 ${lines.join("\n")}`;
+}
+
+/**
+ * The word-box rule for D01 / L01 / L05 (always sent when the plan has one): one word per gap, or the answers plus
+ * exactly the extra words the teacher chose. The app checks and makes the box anyway (normalizeDictationWordBanks).
+ */
+function buildWordBoxBlock(plan) {
+  const types = [...(plan?.dictationTypes || []), ...(plan?.lingoTypes || [])].filter((t) => GAP_BOX_TYPES.has(t));
+  if (!types.length) return "";
+  const extras = normalizeTune(plan?.tune).extras;
+  return `
+
+WORD BOXES (${[...new Set(types)].join(", ")}) — mandatory:
+- Every gap in one exercise has a DIFFERENT answer: never the same word twice in one exercise
+- ${extras
+    ? `The box (D01 wordBank, L01/L05 wordList) = that exercise's answers, each once, in the form that fits its gap, PLUS EXACTLY ${extras} extra word${extras > 1 ? "s" : ""} that fit${extras > 1 ? "" : "s"} no gap (never a form of an answer) — ${extras} more words than gaps`
+    : "The box (D01 wordBank, L01/L05 wordList) = EXACTLY that exercise's answers, each once, in the form that fits its gap — NO extra words and NO other unit words, so gaps and words match one to one"}
+- Leave "instruction" empty for these exercises: the app writes the task line${extras ? " and says how many extra words there are" : ""}`;
 }
 
 function buildWorksheetMeta(form, profileId, aiMeta = {}) {
@@ -1236,40 +1264,77 @@ function normalizeWorksheetPrompts(data) {
   return data;
 }
 
+/** The answers an exercise's gaps need, in gap order (a gap answered "track, stadium" needs both). */
+function gapAnswers(ex) {
+  return (ex?.items || []).flatMap((item) => String(item?.answer ?? "").split(/,\s*/).map((w) => w.trim()).filter(Boolean));
+}
+
+/** Exercise types whose box holds the gaps' answers (D16's box holds the words to sort; D13's is a definitions list). */
+const GAP_BOX_TYPES = new Set(["D01", "L01", "L05"]);
+
+/** The box of a gap exercise (D01's word bank, L01 / L05's word list), or null. */
+function gapBoxKey(ex) {
+  if (!GAP_BOX_TYPES.has(ex?.typeId)) return null;
+  return ex.typeId === "D01" ? "wordBank" : "wordList";
+}
+
+/** A word box has each word once, so two lines of one exercise can't need the same word (one issue per later line). */
+function repeatedBoxAnswers(sheet, ex) {
+  const items = ex.items || [];
+  return repeatedAnswers(items.map((it) => it.answer)).map((r) => `${sheet} ex ${ex.number} (${ex.typeId}) item ${items[r.n - 1]?.number ?? r.n}: same answer as item ${items[r.first - 1]?.number ?? r.first} ("${r.answer}") — each gap needs a different word from the box`);
+}
+
+/** How many words of an exercise's box fit no gap (0 for exercises without a gap box). */
+export function exerciseExtraWords(ex) {
+  const key = gapBoxKey(ex);
+  return key && Array.isArray(ex[key]) && ex[key].length ? countExtraWords(ex[key], gapAnswers(ex)) : 0;
+}
+
+/**
+ * Word boxes: one word per gap — each answer once, nothing else — unless the teacher chose "Extra words in word
+ * banks" (then exactly that many words that fit no gap). The D01 prompt once let the AI print every unit word in the
+ * box (17 words for 7 gaps). A box the teacher typed (ex.boxByTeacher) keeps all its words once, and from then on the
+ * exercise keeps that many extra words (ex.extraCount). The extra words are remembered (ex.extraWords), so fixing
+ * one line doesn't change them.
+ */
 function normalizeDictationWordBanks(data) {
   if (!data) return data;
   const extras = normalizeTune(data.generationPlan?.tune).extras;
+  const spare = (data.lingoLauncher?.vocabulary || []).map((v) => v?.english).filter(Boolean);
+  const fit = (ex, key) => {
+    const asIs = !!ex.boxByTeacher;
+    const want = Number.isFinite(ex.extraCount) ? ex.extraCount : extras;
+    const box = fitWordBox({ bank: ex[key] || [], answers: gapAnswers(ex), extras: want, keep: ex.extraWords || [], spare, asIs });
+    ex[key] = box.words;
+    if (box.extraWords.length) ex.extraWords = box.extraWords;
+    else delete ex.extraWords;
+    if (asIs) { ex.extraCount = box.extraWords.length; delete ex.boxByTeacher; }
+  };
   data.dictation?.exercises?.forEach((ex) => {
     if (itemsHaveSlashChoices(ex)) {
       ex.wordBank = [];
     } else if (!DICTATION_WORD_BANK_TYPES.has(ex.typeId)) {
       ex.wordBank = [];
-    } else if (ex.typeId === "D01" && extras) {
-      ex.wordBank = fitTunedWordBank(ex.wordBank, ex.items, extras);
+    } else if (ex.typeId === "D01" && ex.items?.length) {
+      fit(ex, "wordBank");
+    } else if (ex.typeId === "D16" && ex.items?.length) {
+      // Category sort: the box is exactly the words to sort (an extra word would belong to no category).
+      const words = dedupeWords(flattenExerciseAnswers(ex));
+      if (words.length) ex.wordBank = fitWordBox({ bank: ex.wordBank || [], answers: words }).words;
     }
   });
-  if (extras) {
-    data.lingoLauncher?.practice?.forEach((ex) => {
-      if (LINGO_WORDLIST_TYPES.has(ex.typeId) && ex.wordList?.length) ex.wordList = fitTunedWordBank(ex.wordList, ex.items, extras);
-    });
-  }
+  data.lingoLauncher?.practice?.forEach((ex) => {
+    if (LINGO_WORDLIST_TYPES.has(ex.typeId) && ex.items?.length) fit(ex, "wordList");
+  });
   return data;
 }
 
 /**
- * Fine-tune "+N extra words": the bank is this exercise's answers plus exactly N words that aren't answers.
- * The D01 prompt lets the AI print every unit word in the bank, which with +2 gave 17 words for 7 gaps.
+ * Fine-tune "+N extra words": the bank is this exercise's answers plus exactly N words that aren't answers
+ * (N = 0: exactly the answers). Kept for callers of the old name.
  */
 export function fitTunedWordBank(bank, items, extras) {
-  const answers = dedupeWords((items || []).flatMap(flattenItemAnswers));
-  if (!answers.length) return bank || [];
-  const list = dedupeWords(bank || []);
-  const isAnswer = (w) => answers.some((a) => answerMatches(w, a));
-  const kept = list.filter(isAnswer);
-  answers.forEach((a) => { if (!kept.some((w) => answerMatches(w, a))) kept.push(a); });
-  // The AI adds its extra words after the unit words, so the last non-answers are the ones to keep.
-  const others = list.filter((w) => !isAnswer(w));
-  return shuffleListAwayFromAnswers([...kept, ...others.slice(-extras)], items);
+  return fitWordBox({ bank, answers: (items || []).flatMap(flattenItemAnswers), extras }).words;
 }
 
 /** Spread the right option's place across each exercise's bracket choices, and mix A/B keys (no AI). */
@@ -1817,7 +1882,7 @@ DICTATION COVERAGE DISTRIBUTION — mandatory:
 - Dictation exercises: ${dictCount}; ~${perEx} items EACH (never more than ${perEx + 1} per exercise)
 - Cover ALL ${targets.length} targets at least ONCE across the WHOLE dictation worksheet combined — NOT in every exercise, NOT all in one exercise
 - Split words across exercises: e.g. 14 words + 4 exercises → ~3–4 items per exercise, different words in each
-- D01: wordBank may list unit words, but only ~${perEx} gap items in that exercise — other words go in other exercise types
+- D01: ~${perEx} gap items in that exercise, and its wordBank holds ONLY those items' answers (see WORD BOXES) — other words go in other exercise types
 - Total dictation items should be roughly ${totalSlots} (±3), distributed evenly — never ${vocab.length} items in a single exercise`;
 }
 
@@ -2032,12 +2097,7 @@ function normalizeL05Items(ex, vocabulary) {
   ex.items?.forEach((item) => {
     normalizeLingoGapItem(item, vocabulary, "L05");
   });
-  const answers = dedupeWords((ex.items || []).map((i) => i.answer).filter(Boolean));
-  if (answers.length) {
-    const bank = (ex.wordList || []).filter((w) => answers.some((a) => answerMatches(w, a)));
-    const list = bank.length >= answers.length ? bank : answers;
-    ex.wordList = wordListMatchesAnswerOrder(list, ex.items) ? shuffleListAwayFromAnswers(list, ex.items) : list;
-  }
+  // Its word list (the answers, plus any extra words the teacher asked for) is made in normalizeDictationWordBanks.
 }
 
 function normalizeL05Exercises(data) {
@@ -2309,6 +2369,7 @@ function validateWorksheet(data) {
         issues.push(`Lingo exercise ${ex.number}: word list is in answer order — must be shuffled`);
       }
     }
+    if (GAP_BOX_TYPES.has(ex.typeId)) issues.push(...repeatedBoxAnswers("Lingo", ex));
     if (ex.typeId === "L03" && ex.wordList?.length) {
       issues.push(`Lingo exercise ${ex.number} (L03): remove wordList — bracket choices only, no word bank`);
     }
@@ -2396,6 +2457,7 @@ function validateWorksheet(data) {
     if (ex.wordBank?.length && itemsHaveSlashChoices(ex)) {
       issues.push(`Dictation exercise ${ex.number}: remove word bank — bracket choices already list options per item`);
     }
+    if (GAP_BOX_TYPES.has(ex.typeId)) issues.push(...repeatedBoxAnswers("Dictation", ex));
     if (ex.typeId === "D01" && ex.wordBank?.length >= 2) {
       if (wordListMatchesAnswerOrder(ex.wordBank, ex.items)) {
         issues.push(`Dictation exercise ${ex.number}: word bank is in answer order — must be shuffled`);
@@ -2803,7 +2865,7 @@ function exerciseHeadHtml(ex, layout) {
     <span class="ex-num">Exercise ${escapeHtml(ex.number)}</span>
     <div class="ex-title">
       ${instr ? `<h3 class="ex-heading ex-instruction ws-heading">${escapeHtml(instr)}</h3>` : ""}
-      ${layout.greekHelp && !String(ex.instruction || "").trim() && EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId] ? `<p class="ex-help-el" lang="el">${escapeHtml(EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId])}</p>` : ""}
+      ${layout.greekHelp && getStudentExerciseInstructionEl(ex) ? `<p class="ex-help-el" lang="el">${escapeHtml(getStudentExerciseInstructionEl(ex))}</p>` : ""}
     </div>
     ${layout.scoreBoxes && n ? `<span class="ex-score"><i></i>/ ${n}</span>` : ""}
   </div>`;
@@ -2937,9 +2999,8 @@ function renderLingoLauncher(data, options = {}) {
     if (ex.wordList?.length) {
       practiceHtml += `<div class="word-list">${ex.wordList.map((w) => `<span>${escapeHtml(w)}</span>`).join("")}</div>`;
     }
-    ex.items.forEach((item) => {
-      practiceHtml += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${textWithPictures(stripLeadingItemNumber(item.prompt), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
-    });
+    practiceHtml += columnsHtml(worksheetItemColumns(ex, options.textSize || meta.textSize), ex.items.map((item) =>
+      `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${textWithPictures(stripLeadingItemNumber(item.prompt), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`).join(""));
     practiceHtml += `</section>`;
   });
 
@@ -2968,6 +3029,20 @@ function renderMatchDefinitionsList(entries) {
   </div>`;
 }
 
+/**
+ * Ten or more lines with one-letter or one-word answers, each short enough for half the width: the exercise sits in
+ * two columns (the second half beside the first). Picture cards and category lines have their own layout.
+ */
+function worksheetItemColumns(ex, textSize) {
+  if (["D16", "D25"].includes(ex?.typeId)) return false;
+  const rows = (ex?.items || []).map((it) => ({
+    short: isShortAnswer(it.answer),
+    length: printedLength({ prompt: stripLeadingItemNumber(it.prompt || ""), extra: ex.typeId === "D02" && it.stem ? String(it.stem).length + 2 : 0 }),
+  }));
+  return useTwoColumns(rows, { textSize: textSizeKey(textSize) });
+}
+const columnsHtml = (on, html) => (on ? `<div class="ex-cols">${html}</div>` : html);
+
 function renderDictation(data, options = {}) {
   const meta = data.meta || {};
   const density = options.density || meta.density || "standard";
@@ -2983,9 +3058,8 @@ function renderDictation(data, options = {}) {
       body += `${renderPictureCards(ex, options)}</section>`;
       return;
     }
-    ex.items.forEach((item) => {
-      body += `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${picturesInHtml(formatDictationItemHtml(item, ex.typeId), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`;
-    });
+    body += columnsHtml(worksheetItemColumns(ex, options.textSize || meta.textSize), ex.items.map((item) =>
+      `<p class="ex-item" data-answer="${escapeHtml(item.answer || "")}"><span class="item-num">${escapeHtml(item.number)}</span><span class="item-text">${picturesInHtml(formatDictationItemHtml(item, ex.typeId), layout.pictureStyle)}${answerPill(item, options.showAnswers)}</span></p>`).join(""));
     body += `</section>`;
   });
 
@@ -3041,7 +3115,7 @@ function renderCoverageHeatmap(coverage, vocabulary) {
 
 const DICTATION_EXERCISE_FORMAT_RULES = `
 DICTATION FORMATS (never give away answers to students):
-- D01 Definition + word bank ONLY: shuffled wordBank at top (may include all unit words); only ~itemsPerExercise gap/definition items in THIS exercise — other words tested in OTHER dictation exercises. NEVER put every vocabulary word as a gap item in one D01 exercise
+- D01 Definition + word bank ONLY: shuffled wordBank at top holding ONLY this exercise's answers (see WORD BOXES — never the other unit words); only ~itemsPerExercise gap/definition items in THIS exercise — other words tested in OTHER dictation exercises. NEVER put every vocabulary word as a gap item in one D01 exercise
 - D02 Word formation (Cambridge style): NO "ROOT:" prefix. Each item = { "prompt": "sentence with ________________ gap", "stem": "WORD", "answer": "otherForm" }. "stem" = uppercase clue shown in bold at end — ANY other form from the same word family (headword, derivative, or root: JOURNAL, JOURNALIST, JOURNALISM, EMBARRASS, EMBARRASSMENT, EMBARRASSING…). VARY stems across items — do not use only bare roots. "answer" = the form that fits the gap — MUST differ from stem. FORBIDDEN: stem identical to answer. Use vocabulary derivatives when listed
 - D03 Bracketed choice: NO wordBank; gap plus (wrong / correct) with slashes; correct answer must NOT always be first — vary order
 - D04 Phrase completion: collocation with __________ gap ONLY — FORBIDDEN: "________ (regularly)" or any parenthesis hint; students recall the missing word from context
@@ -3079,7 +3153,7 @@ function buildSystemPrompt(profileId, plan) {
 
 Return ONLY valid json matching the schema below. No markdown fences.
 
-${getProfilePromptBlock(profileId, plan.tune)}${buildTuneBlock(profileId, plan.tune)}
+${getProfilePromptBlock(profileId, plan.tune)}${buildTuneBlock(profileId, plan.tune)}${buildWordBoxBlock(plan)}
 
 LOCKED GENERATION PLAN (do NOT change types or counts):
 - Dictation exercises: exactly ${plan.dictationExerciseCount} — types: ${typeDesc}
@@ -3118,7 +3192,7 @@ JSON SCHEMA:
 
 For D08 each item MUST use [wrongWord] in the prompt, answer = single correct vocabulary word, testsWords = [answer].
 For D02: stem = bold clue (any form from word family except the answer); answer = different form in gap. Vary stem forms across items.
-For D01 include wordBank row SHUFFLED (2–3 rows if many words) — never in answer order; only ~itemsPerExercise gap items in this exercise (not one gap per vocab word); NO bracket choices.
+For D01 include wordBank SHUFFLED — never in answer order; exactly this exercise's answers (see WORD BOXES); only ~itemsPerExercise gap items in this exercise (not one gap per vocab word); NO bracket choices.
 For D13 include wordBank as shuffled lettered definitions (A., B., C.…) — count MUST match items; items are words with __________ blank; answers are letters only.
 For D16 include wordBank with ALL category words SHUFFLED — never in the same order as gaps left-to-right across categories.
 For D03/D05/D06/D18 use bracket choices in each prompt only — wordBank must be empty [].
@@ -4435,6 +4509,8 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .stem-header { font-size: 9.4pt; color: var(--ink-2); margin: 0 0 2mm 9.8mm; }
 
 /* Word bank / word list */
+.ex-cols { columns: 2; column-gap: 8mm; }
+.ex-cols > .ex-item { break-inside: avoid; page-break-inside: avoid; }
 .word-bank, .word-list { display: flex; flex-wrap: wrap; gap: 1.6mm 2mm; margin: 0 0 2.6mm 9.8mm; padding: 2mm 2.6mm; border: 0.8pt solid var(--ink); border-radius: 2.4mm; }
 .word-bank span, .word-list span { display: inline-block; padding: 0.5mm 2.4mm; border-radius: 1.6mm; border: 0.6pt solid var(--rule); font: 700 9.6pt/1.3 ${WORKSHEET_FONTS.display}; }
 .match-defs { margin: 0 0 2.6mm 9.8mm; padding: 2mm 3mm; border: 0.8pt solid var(--ink); border-radius: 2.4mm; }
@@ -4688,7 +4764,7 @@ async function docxKit(meta, sheet) {
     // "Exercise N" in an outlined box, then its instruction as the heading.
     const head = [badge(`${label} ${ex.number}`, 19), ...(instr ? [new d.TextRun({ text: "\t" }), run(instr, { display: true, bold: true, size: 22 })] : [])];
     if (layout.scoreBoxes && n) head.push(new d.TextRun({ text: "\t" }), run(`____ / ${n}`, { display: true, bold: true, size: 18 }));
-    const greek = layout.greekHelp && !String(ex.instruction || "").trim() ? EXERCISE_STUDENT_INSTRUCTIONS_EL[ex.typeId] : "";
+    const greek = layout.greekHelp ? getStudentExerciseInstructionEl(ex) : "";
     return [para(head, {
       keepNext: true,
       spacing: { before: 3 * MM, after: greek ? 0 : 1.6 * MM },
@@ -4740,7 +4816,16 @@ async function docxKit(meta, sheet) {
     });
   }
 
-  return { d, run, textRuns, picRun, badge, para, header, section, exerciseHead, chipsBox, item, document, line, none, INK, GREY, RULE, TINT, layout };
+  // Two columns side by side (a table without borders): the first half of the lines left, the rest right.
+  const twoColumns = (paras) => {
+    const cell = (list) => new d.TableCell({ width: { size: 50, type: d.WidthType.PERCENTAGE }, margins: { right: 3 * MM }, borders: { top: none, bottom: none, left: none, right: none }, children: list.length ? list : [para([])] });
+    const [left, right] = splitColumns(paras);
+    return new d.Table({ width: { size: 100, type: d.WidthType.PERCENTAGE }, borders: { top: none, bottom: none, left: none, right: none, insideHorizontal: none, insideVertical: none }, rows: [new d.TableRow({ children: [cell(left), cell(right)] })] });
+  };
+  /** An exercise's lines, in two columns when worksheetItemColumns says so. */
+  const itemBlock = (ex, paras) => (worksheetItemColumns(ex, meta?.textSize) ? [twoColumns(paras)] : paras);
+
+  return { d, run, textRuns, picRun, badge, para, header, section, exerciseHead, chipsBox, item, itemBlock, document, line, none, INK, GREY, RULE, TINT, layout };
 }
 
 async function buildLingoDocx(data) {
@@ -4794,7 +4879,7 @@ async function buildLingoDocx(data) {
   data.lingoLauncher.practice.forEach((ex) => {
     children.push(...k.exerciseHead(ex));
     if (ex.wordList?.length) children.push(k.chipsBox(ex.wordList), para([], { spacing: { after: 1 * MM }, keepNext: true }));
-    ex.items.forEach((it) => children.push(k.item(it.number, textRuns(stripLeadingItemNumber(it.prompt), { pic: 20 }))));
+    children.push(...k.itemBlock(ex, ex.items.map((it) => k.item(it.number, textRuns(stripLeadingItemNumber(it.prompt), { pic: 20 })))));
   });
   return d.Packer.toBlob(k.document(children));
 }
@@ -4818,6 +4903,7 @@ async function buildDictationDocx(data) {
       }
     }
     if (ex.stemHeader) children.push(para([run(ex.stemHeader, { size: 19, color: "444444" })], { indent: { left: 8 * MM } }));
+    const lines = [];
     ex.items.forEach((it) => {
       let runs;
       if (ex.typeId === "D02" && it.stem) {
@@ -4830,8 +4916,9 @@ async function buildDictationDocx(data) {
       } else {
         runs = k.textRuns(formatDictationItemPlain(it, ex.typeId), { pic: 26 });
       }
-      children.push(k.item(it.number, runs));
+      lines.push(k.item(it.number, runs));
     });
+    children.push(...k.itemBlock(ex, lines));
   });
   return d.Packer.toBlob(k.document(children));
 }

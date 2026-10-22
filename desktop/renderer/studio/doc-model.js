@@ -6,6 +6,7 @@
 import { TASKS, SKILLS, tfLabels, rubricFor, partOpts } from "./tasks.js";
 import { readingText } from "./reading-texts.js";
 import { balancedPositions, binaryBalance } from "./answer-balance.js";
+import { fitWordBox, countExtraWords, repeatedAnswers, withExtraWords } from "./word-box.js";
 
 /** Letters for options, matching meanings and order boxes: enough for the longest part (12 questions + the example). */
 export const LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -142,10 +143,26 @@ export function fitChoiceLetters(text, n) {
 }
 /** The number of options a choice part offers (the most any question has). */
 export const optionCount = (section) => (section?.answerType === "choice" ? Math.max(0, ...[section.example, ...(section.items || [])].filter(Boolean).map((it) => it.options?.length || 0)) : 0);
-/** A part's instruction (English and Greek) with the letters of its real options. */
+/** True when a part has a box of words to choose from for its gaps (not a matching list, not a writing word box). */
+export const hasWordBox = (section) => !!TASKS[section?.task]?.bank && section.answerType !== "match" && Array.isArray(section.bank) && typeof section.bank[0] === "string";
+/** How many words of a part's box fit no gap (the example's word is neither). */
+export const boxExtras = (section) => (hasWordBox(section) ? countExtraWords(section.bank, (section.items || []).map((it) => it.answer), section.example?.answer ? [section.example.answer] : []) : 0);
+
+/**
+ * A part's instruction (English and Greek) with the letters of its real options, and — for a word box — the line
+ * saying how many extra words it has ("There are two extra words you do not need."), counted from the box itself.
+ */
 export function sectionRubric(section) {
   const n = optionCount(section);
-  return n ? { en: fitChoiceLetters(section.rubric, n), el: fitChoiceLetters(section.rubricEl, n) } : { en: section?.rubric || "", el: section?.rubricEl || "" };
+  let en = section?.rubric || "";
+  let el = section?.rubricEl || "";
+  if (n) { en = fitChoiceLetters(en, n); el = fitChoiceLetters(el, n); }
+  if (hasWordBox(section)) {
+    const k = boxExtras(section);
+    en = withExtraWords(en, k, "en");
+    if (el) el = withExtraWords(el, k, "el");
+  }
+  return { en, el };
 }
 
 /**
@@ -289,15 +306,22 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     // A word box for writing with lots of support.
     section.bank = [...new Set(raw.bank.map(clean).filter(Boolean))].slice(0, 10);
   } else if (task.bank) {
-    const words = [...new Set([...(raw.bank || []), ...items.map((it) => it.answer)].map(clean).filter(Boolean))];
-    let bank = shuffled(words);
-    for (let t = 0; t < 8 && bank.length > 2 && items.every((it, i) => lc(bank[i]) === lc(it.answer)); t++) bank = shuffled(words);
-    section.bank = bank;
+    // One word per gap, plus exactly the extra words the part asks for (Step 3 "Extra words in the box").
+    // raw.keepBank: the teacher typed this box on the paper — every word of it stays.
+    const answers = items.map((it) => it.answer);
+    const box = fitWordBox({
+      bank: Array.isArray(raw.bank) ? raw.bank : [], answers, extras: opts.extras, keep: raw.extraWords, spare: ctx.spareWords,
+      exclude: example?.answer ? [example.answer] : [], asIs: !!raw.keepBank,
+    });
+    section.bank = box.words;
+    section.extraWords = box.extraWords;
+    // Every word of the box is used once, so two gaps can't need the same word.
+    repeatedAnswers(answers).forEach((r) => problems.push(`item ${r.n}: same answer as item ${r.first} ("${r.answer}") — each gap needs a different word from the box`));
   }
   if (task.answer === "choice") balanceChoices(items);
   if (plan.task === "G-ORDER") [example, ...items].filter(Boolean).forEach((it) => repairOrderItem(it));
   if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
-  if (task.answer === "choice") { const r = sectionRubric(section); section.rubric = r.en; section.rubricEl = r.el; }
+  if (task.answer === "choice" || hasWordBox(section)) { const r = sectionRubric(section); section.rubric = r.en; section.rubricEl = r.el; }
   // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
   if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
   if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => { const h = familyHint(it.prompt, it.answer, opts.family); if (h) it.hint = h; else delete it.hint; });

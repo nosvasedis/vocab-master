@@ -73,10 +73,10 @@ export const TASKS = {
     blurb: "Children read a story or a how-to text and number the events in the right order. Great for stories and recipes; the app mixes the events up.",
     sample: { text: "First, cut the paper. Then fold it…", list: ["Fold the paper.", "Cut the paper.", "Paint it."], a: "2 · 1 · 3" },
     rubric: "Read the text. Put the sentences in order. Write the numbers.", el: "Διάβασε το κείμενο. Βάλε τις προτάσεις στη σωστή σειρά. Γράψε τους αριθμούς.", ai: "Use a story or a how-to text with a clear order. The example is the FIRST event. Items = the next events of the text, one short sentence each in your own words, given IN TEXT ORDER (the app numbers and mixes them up); answer = leave as \"\". Events must not overlap, and each one is clearly before or after the others." },
-  "R-GAP": { skill: "reading", label: "Read and complete the text", answer: "word", needs: ["passage"], bank: true, kind: "recall", fit: [1, 4], knobs: ["genre", "length"], trains: ["Words in context", "Text cohesion"],
-    blurb: "A connected text with numbered gaps and a word box with two extra words. Children use the whole text to choose — vocabulary and reading together.",
+  "R-GAP": { skill: "reading", label: "Read and complete the text", answer: "word", needs: ["passage"], bank: true, kind: "recall", fit: [1, 4], knobs: ["genre", "length", "extras"], trains: ["Words in context", "Text cohesion"],
+    blurb: "A connected text with numbered gaps and a word box — one word per gap, or with extra words that fit no gap (you choose). Children use the whole text to choose — vocabulary and reading together.",
     sample: { text: "The plates (1) ________ slowly and the ground (2) ________.", bank: ["shakes", "move", "melts"], q: "(1)", a: "move" },
-    rubric: "Read the text. Choose the right words from the box and write them on the lines.", el: "Διάβασε το κείμενο. Διάλεξε τις σωστές λέξεις από το κουτί και γράψ' τες στις γραμμές.", ai: "A short connected text with numbered gaps written (1) ________, (2) ________ … one per item. bank = the answers plus 2 extra unit words, shuffled. Each item: prompt = \"(n)\" and answer = the word for that gap — every answer MUST be one of the tested words." },
+    rubric: "Read the text. Choose the right words from the box and write them on the lines.", el: "Διάβασε το κείμενο. Διάλεξε τις σωστές λέξεις από το κουτί και γράψ' τες στις γραμμές.", ai: "A short connected text with numbered gaps written (1) ________, (2) ________ … one per item. bank = the word box (see WORD BOX below). Each item: prompt = \"(n)\" and answer = the word for that gap — every answer MUST be one of the tested words." },
   "R-WORDS": { skill: "reading", label: "Find the words in the text", answer: "word", needs: ["passage"], kind: "recall", fit: [2, 4], knobs: ["text", "genre", "length"], trains: ["Meaning from context", "Synonyms"],
     blurb: "Children find a word or phrase in the text for each meaning (“very big”, “the opposite of noisy”). Builds the habit of working out meaning from context.",
     sample: { text: "Some dinosaurs were enormous.", q: "very, very big", a: "enormous" },
@@ -114,10 +114,10 @@ export const TASKS = {
     blurb: "A clue and the word's letters mixed up; children write the word. Playful spelling practice for young classes — the app mixes the letters.",
     sample: { q: "It lives in a pond and jumps.  g · o · r · f", a: "frog" },
     rubric: "Read the clue. Put the letters in order and write the word.", el: "Διάβασε το στοιχείο. Βάλε τα γράμματα στη σωστή σειρά και γράψε τη λέξη.", ai: "prompt = a very short clue that shows which word it is (\"It lives in a pond and jumps.\") — never the word itself; answer = a unit word that is ONE word of 3–10 letters (no phrases). The app adds the mixed-up letters." },
-  "V-BANK": { skill: "vocabulary", label: "Complete with words from the box", answer: "word", bank: true, kind: "recall", fit: [0, 4], knobs: [], trains: ["Words in context", "Word forms"],
-    blurb: "Sentences in new situations with a word box (plus one or two extra words). Children choose and write the right form — the classic, fair vocabulary task.",
+  "V-BANK": { skill: "vocabulary", label: "Complete with words from the box", answer: "word", bank: true, kind: "recall", fit: [0, 4], knobs: ["extras"], trains: ["Words in context", "Word forms"],
+    blurb: "Sentences in new situations with a word box — one word per gap, or with extra words that fit no gap to make it harder (you choose). Children choose and write the right form — the classic, fair vocabulary task.",
     sample: { bank: ["erupt", "lava", "crack"], q: "Hot ________ flows down the mountain.", a: "lava" },
-    rubric: "Read and complete. Use the words in the box.", el: "Διάβασε και συμπλήρωσε με τις λέξεις από το κουτί.", ai: "Sentences in NEW contexts with one gap ________ each; bank = the answers (in the form needed) plus 1–2 extra unit words, shuffled." },
+    rubric: "Read and complete. Use the words in the box.", el: "Διάβασε και συμπλήρωσε με τις λέξεις από το κουτί.", ai: "Sentences in NEW contexts with one gap ________ each; bank = the word box (see WORD BOX below)." },
   "V-DEF": { skill: "vocabulary", label: "Read and write the word", answer: "word", kind: "recall", fit: [1, 4], knobs: ["hint"], trains: ["Meaning", "Spelling"],
     blurb: "A child-friendly description; children write the word, with the first letter or the number of letters to help (you choose). No word box — true recall.",
     sample: { q: "You wear these on your hands when it is cold.", hint: "g _ _ _ _ _", a: "gloves" },
@@ -238,6 +238,8 @@ export const KNOBS = {
   hint: { label: "Letter help", values: [["first", "First letter"], ["count", "Letter count"], ["none", "None"]] },
   family: { label: "Word help", values: [["root", "Word inside"], ["count", "Letter count"], ["none", "None"]] },
   support: { label: "Support", values: [["full", "Lots"], ["some", "Some"], ["none", "None"]] },
+  // Word boxes: one word per gap unless the teacher asks for words that fit no gap (the instruction then says how many).
+  extras: { label: "Extra words in the box", values: [[0, "None · one per gap"], [1, "+1"], [2, "+2"], [3, "+3"]] },
 };
 
 const LEVEL_INDEX = { A_SENIOR: 0, B_SENIOR: 1, C_SENIOR: 2, D_SENIOR: 3, E_SENIOR: 4 };
@@ -248,7 +250,7 @@ const LEVEL_LETTERS = "ABCDE";
 export function knobDefault(key, levelId) {
   const i = levelIndex(levelId);
   return {
-    text: "", genre: "any", audio: "any", length: "medium", plays: 2, options: 3,
+    text: "", genre: "any", audio: "any", length: "medium", plays: 2, options: 3, extras: 0,
     hint: i <= 1 ? "first" : i === 2 ? "count" : "none",
     support: i <= 1 ? "full" : "some",
     family: i <= 2 ? "root" : i === 3 ? "count" : "none",

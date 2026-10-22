@@ -17,9 +17,9 @@ import { TASKS, SKILLS, KNOBS, tfLabels, partOpts } from "../../studio/tasks.js"
 import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
+import { reviseSection, testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
 import { testCoverage, coverageWhere, wordPriority } from "../../studio/test-coverage.js";
-import { makeVersionB, docProblems, docPoints, relabelDoc } from "../../studio/doc-model.js";
+import { makeVersionB, docProblems, docPoints, relabelDoc, hasWordBox, boxExtras } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
@@ -319,6 +319,7 @@ function build() {
       const s = ts.doc?.sections.find((x) => x.id === id);
       if (!p || !s || TASKS[p.task]?.answer === "open") return;
       p.items = Math.max(1, s.items.length);
+      syncBoxSetting(p, s);
       savePrefs();
       renderParts();
     },
@@ -679,6 +680,8 @@ function onPartsClick(e) {
     if (k === "text" && v && ts.peek !== p.id) ts.peek = null;
     // How often the recording plays changes only the paper; everything else is written again.
     if (k === "plays" && ts.doc) { const sec = ts.doc.sections.find((x) => x.id === p.id); if (sec) { sec.plays = v; refreshDoc(); } }
+    // Extra words in a word box: the box changes on the paper at once (no AI), and its instruction follows.
+    else if (k === "extras" && ts.doc?.sections.some((x) => x.id === p.id)) refitWordBox(p.id, v);
     else markStale(p.id);
     savePrefs(); renderParts();
     return;
@@ -1114,6 +1117,19 @@ function undoPoint() {
   };
 }
 
+/** A part's word box made again for its "Extra words in the box" setting, from the test's own words. */
+function refitWordBox(id, want) {
+  const doc = ts.doc;
+  if (!reviseSection(doc, specForAi().spec, id, () => {}, { focusWords: doc.focusWords || [] })) return;
+  const s = doc.sections.find((x) => x.id === id);
+  const got = s?.extraWords?.length || 0;
+  refreshDoc();
+  if (got < want) {
+    markStale(id);
+    toast(`Only ${got ? plural(got, "extra word") : "no extra words"} could be found among the test's words — write the part again for Lingo to add ${want > 1 ? "them" : "it"}.`, "warn", { ms: 6000 });
+  } else toast(want ? `The word box now has ${plural(want, "extra word")}, and the instruction says so.` : "The word box now has one word per gap.", "ok", { ms: 3000 });
+}
+
 function refreshDoc() {
   if (!ts.doc) return;
   ts.doc.meta.points = docPoints(ts.doc);
@@ -1356,11 +1372,19 @@ export function applyTestPreset({ spec = {}, picker: pk = null } = {}) {
 export function generateTestNow() { return generate($("tsGenerate")); }
 
 /** Show a saved test, with Step 1 set back to the unit, words or topic it was written from. */
+/** Step 3's "Extra words in the box" says what the paper's box really has (a box the teacher typed, a test saved before the setting). */
+function syncBoxSetting(p, s) {
+  if (!TASKS[p?.task]?.knobs?.includes("extras") || !s || !hasWordBox(s)) return;
+  const max = Math.max(...KNOBS.extras.values.map(([v]) => v));
+  p.opts = { ...(p.opts || {}), extras: Math.min(max, boxExtras(s)) };
+}
+
 function openDoc(d) {
   // A part still being rewritten for the test that was open is dropped when its reply comes.
   if (ts.doc?.id !== d.id) { ts.epoch++; stopPlayer(); }
   setDoc(relabelDoc(d));
   ts.spec = { ...ts.spec, ...JSON.parse(JSON.stringify(d.spec)), grammarOwn: "" };
+  ts.spec.parts?.forEach((p) => syncBoxSetting(p, d.sections?.find((x) => x.id === p.id)));
   ts.levelTouched = true;
   ts.stale.clear(); ts.sheet = "A"; ts.ctx = null;
   let src = d.spec?.source || {};

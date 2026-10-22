@@ -6,6 +6,7 @@ import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
 import { LETTERS, answerKeyRows, docPoints, sectionRubric } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
+import { testPartColumns } from "./item-columns.js";
 
 const GAP = /_{3,}/g;
 const line = (cls = "") => `<span class="st-line ${cls}"></span>`;
@@ -170,8 +171,12 @@ export function renderStudentPaper(doc, options = {}) {
     else {
       // Picture-choice questions sit two to a row, so a part fits on one page.
       const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
-      const items = (section.example && (layout.examples !== false || section.task === "R-ORDER") ? itemHtml(section, section.example, layout, { example: true }) : "") + section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
-      body += picGrid ? `<div class="st-pic-items">${items}</div>` : items;
+      const example = section.example && (layout.examples !== false || section.task === "R-ORDER") ? itemHtml(section, section.example, layout, { example: true }) : "";
+      const questions = section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
+      // Ten or more short questions with one-letter or one-word answers: two columns, the second half beside the first
+      // (the example stays above them, so 10 questions sit five and five).
+      const cols = !picGrid && testPartColumns(section, { textSize: layout.textSize, withExample: !!example });
+      body += picGrid ? `<div class="st-pic-items">${example}${questions}</div>` : cols ? `${example}<div class="st-cols">${questions}</div>` : example + questions;
     }
     return `<section class="ex-block st-sec st-${esc(section.skill)}">${partHead(section, i, layout)}${body}</section>`;
   }).join("");
@@ -262,6 +267,8 @@ export const STUDIO_PRINT_CSS = `
 .st-opt { display: inline-flex; align-items: center; gap: 1.6mm; }
 .st-opt b { display: inline-flex; align-items: center; justify-content: center; width: 4.8mm; height: 4.8mm; border: 0.8pt solid var(--ink); border-radius: 50%; font: 700 7.6pt/1 "Manrope", sans-serif; }
 .st-opt.picked b { background: #111; color: #fff; }
+.st-cols { columns: 2; column-gap: 8mm; }
+.st-cols > .ex-item { break-inside: avoid; page-break-inside: avoid; }
 .st-pic-items { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm 6mm; }
 .st-pic-options { display: flex; gap: 3mm; margin-top: 1mm; }
 .st-pic-opt { display: flex; flex-direction: column; align-items: center; gap: 1mm; padding: 1.6mm; border: 0.8pt solid var(--rule); border-radius: 2mm; }
