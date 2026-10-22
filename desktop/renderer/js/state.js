@@ -129,11 +129,14 @@ export function pickFromQuery(query, limit = state.cpp.limit) {
 }
 
 export function coursebookEntryToWord(entry) {
+  // A word that brings its family, opposites or synonyms from the bank shows those columns (like a pasted list).
+  ["derivatives", "synonyms", "antonyms"].forEach((k) => { if (entry[k]) state.fields[k] = true; });
   return makeWord({
     english: entry.english, type: entry.type, greek: entry.greek,
     // The word bank reuses one emoji for dozens of unrelated words: only the specific ones are kept, AI picks the rest.
     emojis: trustedBankEmoji(entry),
     collocation: entry.collocation,
+    derivatives: entry.derivatives, synonyms: entry.synonyms, antonyms: entry.antonyms,
   });
 }
 

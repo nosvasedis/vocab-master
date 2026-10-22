@@ -51,3 +51,14 @@ The test's exercise picker became a library of 37 task types (6 skills). Each ta
 Part settings (text length, text type, recording, plays, options, hints, support, difficulty) live on each part and reach the AI brief; the class's defaults fill what the teacher leaves untouched.
 
 _Limits: most of the classroom evidence on spacing and involvement load comes from small studies or older learners; we use it as guidance, not proof._
+
+## Word families, opposites, synonyms (2026-10-22)
+
+| Addition | Why |
+|---|---|
+| **The words carry what the class learned with them** (word bank `derivatives`, `antonyms`, `synonyms`, `collocation`; CPP1 Unit 7 has the teacher's own, e.g. produce → production, useful ↔ useless, bug = insect). The Test Maker's prompt lists them, its family/opposite/synonym parts use them first, and the answer check and word check accept them. | Teaching derivatives together with their root is the advice from studies of how learners build word families (Schmitt & Zimmerman; Bauer & Nation's affix levels put the transparent, frequent endings first). A test should check the forms that were taught, not new ones the AI invents. |
+| **Choose the right word form** (V-FAMMC: three forms of one family, the sentence decides) before **Word families** (V-FORM: write the form) | Receptive before productive: recognising a form is an easier, earlier stage than producing it, so a family part for A–B Senior starts with a choice; V-FORM stays for recall. |
+| **Choose the opposite** (V-OPP) → **Write the opposite** (V-OPPW, letter help) | The same recognise → recall step for opposites. The word stands in a sentence because many words have more than one opposite (a LIGHT bag → heavy, a LIGHT room → dark; TeachingEnglish's note on antonyms of *rich* / *hard*). |
+| **Same meaning** (V-SYN), with the opposite as a wrong option | Synonym, antonym and association items are the standard probes of *depth* of word knowledge (word associates format; Read). Putting the opposite among the options makes a topic guess fail: the child must know the meaning. |
+
+Sources: Zhang & Koda (2017), *Assessing L2 vocabulary depth with word associates format tests*; Schoonen & Verhallen (2008), *The assessment of deep word knowledge in young first and second language learners*, Language Testing; Nation, *Word parts* resources (Victoria University of Wellington); British Council TeachingEnglish, *Antonym*. Formats vary a lot between studies and most evidence is from older learners — guidance, not proof.

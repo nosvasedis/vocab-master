@@ -16,6 +16,14 @@ export function sectionOf(entry) {
   return "EXTRA";
 }
 
+/** The family, opposites, synonyms and phrase a bank entry carries (only the ones it has). */
+export function wordExtras(e) {
+  const out = {};
+  for (const k of ["derivatives", "synonyms", "antonyms", "collocation"]) if (e?.[k]) out[k] = e[k];
+  if (e?.origin) out.origin = e.origin;
+  return out;
+}
+
 /** A unit's words, deduplicated, in book order, optionally limited to some sections. */
 export function unitWords(bookId, unit, sections = SECTIONS) {
   const want = new Set(sections);
@@ -28,7 +36,7 @@ export function unitWords(bookId, unit, sections = SECTIONS) {
     const key = String(e.english || "").trim().toLowerCase();
     if (!key || seen.has(key)) continue;
     seen.add(key);
-    out.push({ english: e.english, type: e.type || "", greek: e.greek || "", example: e.example || "", section: sec, unit: e.unit, bookId, id: e.id, page: e.page || 0 });
+    out.push({ english: e.english, type: e.type || "", greek: e.greek || "", example: e.example || "", section: sec, unit: e.unit, bookId, id: e.id, page: e.page || 0, ...wordExtras(e) });
   }
   return out;
 }

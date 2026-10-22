@@ -7,7 +7,7 @@ import { readingText, wordCount } from "./reading-texts.js";
 import { TEST_DEFAULTS, DIFFICULTY } from "./levels.js";
 import { balancedPattern } from "./answer-balance.js";
 import { normalizeSection, docPoints, newDocId, tfValue, hasWordBox, sectionRubric } from "./doc-model.js";
-import { allowedTerms, answerInScope } from "./word-scope.js";
+import { allowedTerms, answerInScope, relatedTerms } from "./word-scope.js";
 import { unitContextPrompt } from "./unit-context.js";
 
 export const LENGTHS = {
@@ -281,6 +281,34 @@ export function planProblems(spec, { pictureWords = [], focusWords = [], hasUnit
   return out;
 }
 
+/**
+ * What the class learned with the chosen words (from the word bank or the teacher's list): word families, opposites
+ * and synonyms, as [word, related] pairs.
+ */
+export function taughtRelations(focus = []) {
+  const out = { derivatives: [], antonyms: [], synonyms: [] };
+  for (const w of focus) for (const k of Object.keys(out)) for (const t of relatedTerms(w?.[k])) out[k].push([w.english, t]);
+  return out;
+}
+
+const FAMILY_TASKS = ["V-FORM", "V-FAMMC"];
+const OPPOSITE_TASKS = ["V-OPP", "V-OPPW"];
+
+/** The prompt line for a part that asks for families, opposites or synonyms: the taught ones first. */
+function relationLine(task, focus) {
+  const r = taughtRelations(focus);
+  if (FAMILY_TASKS.includes(task)) return r.derivatives.length
+    ? `  TAUGHT FAMILIES — use these first (base word → the form the class learned): ${r.derivatives.map(([a, b]) => `${a.toUpperCase()} → ${b}`).join(", ")}. They may go beyond the class ladder: the class learned them.`
+    : "";
+  if (OPPOSITE_TASKS.includes(task)) return r.antonyms.length
+    ? `  TAUGHT OPPOSITES — use these first: ${r.antonyms.map(([a, b]) => `${a} ↔ ${b}`).join(", ")}. Other items: unit words with a clear, common opposite the class knows (big ↔ small).`
+    : "  No opposites are listed for these words: choose unit words with a clear, common opposite the class knows (big ↔ small, push ↔ pull); skip words without one.";
+  if (task === "V-SYN") return r.synonyms.length
+    ? `  TAUGHT SYNONYMS — use these first: ${r.synonyms.map(([a, b]) => `${a} = ${b}`).join(", ")}. Other items: unit words with a common word of the same meaning the class knows.`
+    : "  No synonyms are listed for these words: choose unit words that have a common word of the same meaning the class knows (big = large); skip words without one.";
+  return "";
+}
+
 /** Soft notes (never block): word-answer parts asking for more answers than there are tested words. */
 export function planNotes(spec, { focusWords = [] } = {}) {
   const notes = [];
@@ -290,6 +318,11 @@ export function planNotes(spec, { focusWords = [] } = {}) {
       else if (ONE_WORD_EACH.includes(p.task) && p.items > focusWords.length) notes.push(`Part ${i + 1} has ${p.items} questions but only ${focusWords.length} word${focusWords.length === 1 ? " is" : "s are"} chosen, so some words will come twice.`);
     });
   }
+  const r = taughtRelations(focusWords);
+  spec.parts.forEach((p, i) => {
+    if (OPPOSITE_TASKS.includes(p.task) && !r.antonyms.length) notes.push(`Part ${i + 1}: none of the chosen words has an opposite in its list, so Lingo picks unit words with a common opposite (you can add opposites in Worksheets → Words).`);
+    if (p.task === "V-SYN" && !r.synonyms.length) notes.push(`Part ${i + 1}: none of the chosen words has a synonym in its list, so Lingo picks unit words with a common synonym.`);
+  });
   // A ready-made reading text is printed as it is: a short text can't carry very many questions.
   spec.parts.forEach((p, i) => {
     const text = TASKS[p.task]?.answer !== "open" && partOpts(p, spec.levelId).text ? readingText(partOpts(p, spec.levelId).text) : null;
@@ -316,7 +349,7 @@ const FAMILY_LADDER = [
   "E Senior: B1 word formation: any of the above, some with two changes (CARE → carelessly, HELP → unhelpful) or a spelling change (DECIDE → decision, FAME → famous); the sentence decides the word class.",
 ];
 
-function knobLines(p, spec) {
+function knobLines(p, spec, focus = []) {
   const t = TASKS[p.task];
   const o = partOpts(p, spec.levelId);
   const out = [];
@@ -332,7 +365,9 @@ function knobLines(p, spec) {
   if (o.audio && o.audio !== "any") out.push(`  The recording: ${AUDIO[o.audio]}.`);
   if (o.plays === 1) out.push("  It is played ONCE: every answer is said slowly and clearly, never in the middle of a long sentence.");
   if (o.support && SUPPORT[o.support]) out.push(`  ${SUPPORT[o.support]}`);
-  if (p.task === "V-FORM") out.push(`  CLASS LADDER — ${FAMILY_LADDER[levelIndex(spec.levelId)]}`);
+  if (FAMILY_TASKS.includes(p.task)) out.push(`  CLASS LADDER — ${FAMILY_LADDER[levelIndex(spec.levelId)]}`);
+  const rel = relationLine(p.task, focus);
+  if (rel) out.push(rel);
   return out;
 }
 
@@ -344,7 +379,7 @@ export function wordBoxRule(p, spec) {
   return `${head} The box = the ${p.items} answers (in the form that fits each gap) plus EXACTLY ${extras} extra word${extras > 1 ? "s" : ""} that fit${extras > 1 ? "" : "s"} NO gap — unit words of the same word class as the answers, never a form of an answer — ${p.items + extras} words in all. Don't mention the extra words in the rubric: the app writes that line.`;
 }
 
-function partBrief(p, i, spec, pictureWords) {
+function partBrief(p, i, spec, pictureWords, focus = []) {
   const t = TASKS[p.task];
   const lines = [`PART ${i + 1} — id "${p.id}" — ${SKILLS[p.skill].label}: ${t.label} [${p.task}]`, `  What to write: ${t.ai}`];
   if (t.answer !== "open") lines.push(`  Items: exactly ${p.items}, plus ONE extra "example" item (shown solved as item 0, not counted). Never fewer: if the text or script seems too short, make it longer.`);
@@ -357,7 +392,7 @@ function partBrief(p, i, spec, pictureWords) {
     if (t.needs?.includes("script") || t.needs?.includes("passage") || TASKS[p.task]?.knobs?.includes("text")) lines.push(`  Write the ${src} first, then one statement per item. A "${yes}" statement says what the ${src} says; a "${no}" statement changes one detail (who, what, where or when) so the ${src} clearly says otherwise. Every statement is about something the ${src} says. Never key "${no}" for something that is said.`);
     if (t.needs?.includes("script") || t.needs?.includes("passage") || TASKS[p.task]?.knobs?.includes("text")) lines.push(`  Each item (and the example) also has "evidence": the exact words of the ${src} that decide its answer.`);
   }
-  lines.push(...knobLines(p, spec));
+  lines.push(...knobLines(p, spec, focus));
   if (t.bank && t.answer !== "match") lines.push(`  ${wordBoxRule(p, spec)}`);
   if (p.skill === "writing" && p.words) lines.push(`  Students write ${p.words[0]}–${p.words[1]} words.`);
   if (p.skill === "speaking") {
@@ -392,7 +427,8 @@ Only include the fields a part needs. One object per part, same ids, same order.
       ? topic
         ? `Topic: ${topic} — choose vocabulary the class knows; every part is about this topic${grammar.length ? "" : " (if it names grammar, the grammar parts test that grammar)"}.`
         : `Topic: everyday situations this class knows (home, school, friends, free time) — choose vocabulary the class knows; ${grammar.length ? "the grammar focus below is what this test is about" : "the words below are what this test is about"}.`
-      : `TEST THESE WORDS (answers come only from this list; a word may be inflected to fit): ${focus.map((w) => `${w.english}${w.type ? ` (${w.type})` : ""}`).join(", ")}`,
+      : `TEST THESE WORDS (answers come only from this list; a word may be inflected to fit — in word-family, opposite and synonym parts the CAPITALS word is from this list and the answer is its form, opposite or synonym): ${focus.map((w) => `${w.english}${w.type ? ` (${w.type})` : ""}`).join(", ")}`,
+    relationsRule(focus),
     // A topic test can still have words the teacher wants: the vocabulary parts test exactly those.
     topicMode && focus.length ? `TEST THESE WORDS in the vocabulary parts (their answers come only from this list; a word may be inflected to fit); the other parts use them where they fit: ${focus.map((w) => `${w.english}${w.type ? ` (${w.type})` : ""}`).join(", ")}` : "",
     !topicMode && focus.some((w) => w.own) ? `The teacher added some words of their own (not from the unit): ${focus.filter((w) => w.own).map((w) => w.english).join(", ")} — test them like the others and use them naturally in the texts.` : "",
@@ -412,8 +448,19 @@ Only include the fields a part needs. One object per part, same ids, same order.
     "When a part tests two grammar points, each item tests ONE of them and the items alternate between them.",
   ].filter(Boolean);
   const rewrite = rewriteBlock(ctx.rewrite, parts);
-  const user = `${topicMode ? "" : `UNIT CONTEXT\n${unitContextPrompt(ctx.unitContext)}\n\n`}RULES\n${rules.map((r) => `- ${r}`).join("\n")}\n\nLOCKED TEST PLAN (${parts.length} part${parts.length === 1 ? "" : "s"})\n${parts.map((p) => partBrief(p, spec.parts.indexOf(p), spec, ctx.pictureWords || [])).join("\n")}${rewrite ? `\n\n${rewrite}` : ""}`;
+  const user = `${topicMode ? "" : `UNIT CONTEXT\n${unitContextPrompt(ctx.unitContext)}\n\n`}RULES\n${rules.map((r) => `- ${r}`).join("\n")}\n\nLOCKED TEST PLAN (${parts.length} part${parts.length === 1 ? "" : "s"})\n${parts.map((p) => partBrief(p, spec.parts.indexOf(p), spec, ctx.pictureWords || [], focus)).join("\n")}${rewrite ? `\n\n${rewrite}` : ""}`;
   return { system, user };
+}
+
+/** One rule listing what the class learned with the words; "" when nothing is listed. */
+function relationsRule(focus) {
+  const r = taughtRelations(focus);
+  const bits = [
+    ...r.derivatives.map(([a, b]) => `${a} → ${b}`),
+    ...r.antonyms.map(([a, b]) => `${a} ↔ ${b} (opposite)`),
+    ...r.synonyms.map(([a, b]) => `${a} = ${b} (same meaning)`),
+  ];
+  return bits.length ? `The class learned these word families, opposites and synonyms with the words — they count as the words, and word-family, opposite and synonym questions use them first: ${bits.join("; ")}` : "";
 }
 
 /** A part as it is now, in a few lines (so a rewrite can be told what to move away from). */
@@ -534,7 +581,7 @@ export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
 ${ctx.profileBlock || ""}`;
   const focus = (ctx.focusWords || []).map((w) => w.english).filter(Boolean);
   const user = [
-    partBrief(plan, idx, spec, ctx.pictureWords || []),
+    partBrief(plan, idx, spec, ctx.pictureWords || [], ctx.focusWords || []),
     section.script?.length ? `SCRIPT:\n${section.script.map((l) => `${l.speaker}: ${l.text}`).join("\n")}` : "",
     section.passage ? `TEXT${section.passageTitle ? ` "${section.passageTitle}"` : ""}:\n${section.passage}` : "",
     section.bank?.length && section.answerType !== "match" ? `WORD BOX: ${section.bank.join(", ")}` : "",
@@ -650,7 +697,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
     kind: "test",
     createdAt: previous?.createdAt || new Date().toISOString(),
     spec: JSON.parse(JSON.stringify(spec)),
-    focusWords: (ctx.focusWords || []).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "", ...(w.own ? { own: true } : {}) })),
+    focusWords: (ctx.focusWords || []).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "", ...(w.own ? { own: true } : {}), ...Object.fromEntries(["derivatives", "synonyms", "antonyms"].filter((k) => w[k]).map((k) => [k, w[k]])) })),
     meta: {
       title,
       // A unit test's "Primary Path 2 · Unit 4" is its label: the book and unit already print on the right of the header.

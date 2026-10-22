@@ -325,7 +325,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
   if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
   if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => { const h = familyHint(it.prompt, it.answer, opts.family); if (h) it.hint = h; else delete it.hint; });
-  if (["V-DEF", "V-PIC"].includes(plan.task)) {
+  if (["V-DEF", "V-PIC", "V-OPPW"].includes(plan.task)) {
     const mode = opts.hint;
     [example, ...items].filter(Boolean).forEach((it) => { const h = letterHint(it.answer, mode); if (h) it.hint = h; else delete it.hint; });
   }
