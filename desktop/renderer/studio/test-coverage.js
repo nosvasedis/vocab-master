@@ -1,6 +1,6 @@
 /* Which of a test's words the test really asks about, and where — the Test Maker's word check (like the
  * worksheets' coverage). Pure: works on a saved test doc ({ focusWords, sections }). */
-import { containsForm as looseForm } from "./word-scope.js";
+import { containsForm as looseForm, relatedTerms } from "./word-scope.js";
 
 /*
  * Word families: the shared matcher is lenient on purpose (an answer "baker" is in scope for the word "bake"). The
@@ -54,6 +54,9 @@ export function testCoverage(doc) {
     return true;
   });
   setFamily(focus.map((w) => w.english));
+  const chosen = new Set(focus.map((w) => String(w.english).trim().toLowerCase()));
+  // An answer that is a listed form of the word (production for produce) tests it, unless that form is a chosen word itself.
+  const formsOf = (w) => relatedTerms(w.derivatives).filter((x) => !chosen.has(x.toLowerCase()));
   const parts = sections.map((s, i) => ({ part: i, skill: s.skill, task: s.task, words: [] }));
   const words = focus.map((w) => {
     const tested = [];
@@ -65,7 +68,7 @@ export function testCoverage(doc) {
       for (const it of s.items || []) {
         const { answer, ask, other } = itemTexts(it);
         // A vocabulary question is about every word in it (matching, definitions); a wrong option is not tested.
-        if (containsForm(answer, w.english) || (vocab && containsForm(ask, w.english))) items.push(it.n);
+        if (containsForm(answer, w.english) || (vocab && containsForm(ask, w.english)) || (vocab && formsOf(w).some((d) => looseForm(answer, d)))) items.push(it.n);
         else if (containsForm(ask, w.english) || containsForm(other, w.english)) inPart = true;
       }
       if (items.length) { tested.push({ part: i, items }); parts[i].words.push(w.english); return; }

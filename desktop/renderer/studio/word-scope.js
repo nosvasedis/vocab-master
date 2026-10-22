@@ -59,6 +59,9 @@ export function containsForm(text, term) {
 const textOf = (x) => (typeof x === "string" ? x : x?.text || x?.english || "");
 const listOf = (v) => (Array.isArray(v) ? v.map(textOf) : String(v || "").split(/[,;]+/).map((s) => s.replace(/\([^)]*\)/g, "").split(/\s+-\s+/)[0]));
 
+/** The English words of a family, synonym or opposite field: "production (n.) - παραγωγή, product (n.)" → ["production", "product"]. */
+export const relatedTerms = (v) => listOf(v).map((s) => String(s || "").trim()).filter((s) => /[a-z]/i.test(s));
+
 /** Every word a worksheet may use as an answer: headwords plus the family, synonyms and opposites listed for them. */
 export function allowedTerms(vocab = []) {
   const out = new Set();

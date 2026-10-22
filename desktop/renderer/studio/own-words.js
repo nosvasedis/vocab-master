@@ -59,6 +59,8 @@ export function ownWordEntry(w, { bookId = "", unit = 0 } = {}) {
     example: hit?.example || "",
     own: true,
     inBook: !!hit,
+    // The family, opposites and synonyms the bank lists for it (the Test Maker uses them).
+    ...Object.fromEntries(["derivatives", "synonyms", "antonyms"].filter((k) => hit?.[k]).map((k) => [k, hit[k]])),
   };
 }
 
