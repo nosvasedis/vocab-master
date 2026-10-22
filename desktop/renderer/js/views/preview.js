@@ -643,8 +643,8 @@ function openItemEditor(sheet, exIndex, itemIndex) {
         ${showAnswer ? `<div class="field ${showStem ? "" : "wide"}"><label class="label" for="ie_answer">Answer</label><input class="input" id="ie_answer" value="${esc(item.answer || "")}" autocomplete="off" /></div>` : ""}
         ${showStem ? `<div class="field"><label class="label" for="ie_stem">Stem clue (bold)</label><input class="input" id="ie_stem" value="${esc(item.stem || "")}" autocomplete="off" /></div>` : ""}
         ${showTests ? `<div class="field wide"><label class="label" for="ie_tests">Tests these unit words <span class="opt">comma-separated</span></label><input class="input" id="ie_tests" value="${esc((item.testsWords || []).join(", "))}" autocomplete="off" /></div>` : ""}
-        ${showBank ? `<div class="field wide"><label class="label" for="ie_bank">Word bank <span class="opt">one per line · whole exercise</span></label><textarea class="textarea" id="ie_bank" rows="4">${esc(ex.wordBank.join("\n"))}</textarea></div>` : ""}
-        ${showList ? `<div class="field wide"><label class="label" for="ie_list">Word list <span class="opt">one per line · whole exercise</span></label><textarea class="textarea" id="ie_list" rows="4">${esc(ex.wordList.join("\n"))}</textarea></div>` : ""}
+        ${showBank ? `<div class="field wide"><label class="label" for="ie_bank">Word bank <span class="opt">one per line · whole exercise · words that fit no gap count as extra words</span></label><textarea class="textarea" id="ie_bank" rows="4">${esc(ex.wordBank.join("\n"))}</textarea></div>` : ""}
+        ${showList ? `<div class="field wide"><label class="label" for="ie_list">Word list <span class="opt">one per line · whole exercise · words that fit no gap count as extra words</span></label><textarea class="textarea" id="ie_list" rows="4">${esc(ex.wordList.join("\n"))}</textarea></div>` : ""}
       </div>
       <div class="validation-line ok" id="ie_val">${icon("check-circle")}<span>Checking…</span></div>`,
     foot: `
@@ -663,8 +663,10 @@ function openItemEditor(sheet, exIndex, itemIndex) {
         if (showAnswer) cItem.answer = q("#ie_answer").value.trim();
         if (showStem) cItem.stem = q("#ie_stem").value.trim();
         if (showTests) cItem.testsWords = q("#ie_tests").value.split(",").map((s) => s.trim()).filter(Boolean);
-        if (showBank) cEx.wordBank = q("#ie_bank").value.split("\n").map((s) => s.trim()).filter(Boolean);
-        if (showList) cEx.wordList = q("#ie_list").value.split("\n").map((s) => s.trim()).filter(Boolean);
+        // A box the teacher typed keeps all its words (the answers are always added); its extra words are then this exercise's own.
+        const typed = (sel) => q(sel).value.split("\n").map((s) => s.trim()).filter(Boolean);
+        if (showBank && typed("#ie_bank").join("\n") !== (cEx.wordBank || []).join("\n")) { cEx.wordBank = typed("#ie_bank"); cEx.boxByTeacher = true; }
+        if (showList && typed("#ie_list").join("\n") !== (cEx.wordList || []).join("\n")) { cEx.wordList = typed("#ie_list"); cEx.boxByTeacher = true; }
         return data;
       };
       let t;

@@ -416,8 +416,8 @@ export function mountTestEditing(host) {
     if (d.kind === "bank") {
       return form({
         title: "The word box", subtitle: sub,
-        body: field("pe_bank", "Words", s.bank.join("\n"), { rows: 8, hint: "one per line — the answers are always in it; extra words make it harder" }),
-        onSave: (v) => revise(s.id, (raw) => { raw.bank = lines(v("pe_bank")); }, "Word box saved."),
+        body: field("pe_bank", "Words", s.bank.join("\n"), { rows: 8, hint: "one per line — the answers are always in it; words that fit no gap are extra words, and the instruction says how many" }),
+        onSave: (v) => revise(s.id, (raw) => { raw.bank = lines(v("pe_bank")); raw.keepBank = true; }, "Word box saved.").then(() => host.itemsChanged?.(s.id)),
       });
     }
     if (d.kind === "pairs") {

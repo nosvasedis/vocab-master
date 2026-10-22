@@ -6,7 +6,7 @@ import { TASKS, SKILLS, defaultTask, secondTask, tfLabels, partOpts, levelIndex,
 import { readingText, wordCount } from "./reading-texts.js";
 import { TEST_DEFAULTS, DIFFICULTY } from "./levels.js";
 import { balancedPattern } from "./answer-balance.js";
-import { normalizeSection, docPoints, newDocId, tfValue } from "./doc-model.js";
+import { normalizeSection, docPoints, newDocId, tfValue, hasWordBox, sectionRubric } from "./doc-model.js";
 import { allowedTerms, answerInScope } from "./word-scope.js";
 import { unitContextPrompt } from "./unit-context.js";
 
@@ -286,7 +286,8 @@ export function planNotes(spec, { focusWords = [] } = {}) {
   const notes = [];
   if (spec.source?.kind !== "topic" && focusWords.length) {
     spec.parts.forEach((p, i) => {
-      if (ONE_WORD_EACH.includes(p.task) && p.items > focusWords.length) notes.push(`Part ${i + 1} has ${p.items} questions but only ${focusWords.length} word${focusWords.length === 1 ? " is" : "s are"} chosen, so some words will come twice.`);
+      if (TASKS[p.task]?.bank && TASKS[p.task]?.answer !== "match" && p.items > focusWords.length) notes.push(`Part ${i + 1} has ${p.items} questions but only ${focusWords.length} word${focusWords.length === 1 ? " is" : "s are"} chosen — a word box needs a different word for each gap: choose more words or fewer questions.`);
+      else if (ONE_WORD_EACH.includes(p.task) && p.items > focusWords.length) notes.push(`Part ${i + 1} has ${p.items} questions but only ${focusWords.length} word${focusWords.length === 1 ? " is" : "s are"} chosen, so some words will come twice.`);
     });
   }
   // A ready-made reading text is printed as it is: a short text can't carry very many questions.
@@ -335,6 +336,14 @@ function knobLines(p, spec) {
   return out;
 }
 
+/** What the word box of a gap-fill part must hold: one word per gap, or the answers plus exactly N extra words. */
+export function wordBoxRule(p, spec) {
+  const extras = partOpts(p, spec.levelId).extras || 0;
+  const head = `WORD BOX ("bank"): every item has a DIFFERENT answer (never the same word twice), and the example's answer is not in the box.`;
+  if (!extras) return `${head} The box = EXACTLY the ${p.items} answers, each once, in the form that fits its gap — NO extra words, so gaps and words match one to one.`;
+  return `${head} The box = the ${p.items} answers (in the form that fits each gap) plus EXACTLY ${extras} extra word${extras > 1 ? "s" : ""} that fit${extras > 1 ? "" : "s"} NO gap — unit words of the same word class as the answers, never a form of an answer — ${p.items + extras} words in all. Don't mention the extra words in the rubric: the app writes that line.`;
+}
+
 function partBrief(p, i, spec, pictureWords) {
   const t = TASKS[p.task];
   const lines = [`PART ${i + 1} — id "${p.id}" — ${SKILLS[p.skill].label}: ${t.label} [${p.task}]`, `  What to write: ${t.ai}`];
@@ -349,6 +358,7 @@ function partBrief(p, i, spec, pictureWords) {
     if (t.needs?.includes("script") || t.needs?.includes("passage") || TASKS[p.task]?.knobs?.includes("text")) lines.push(`  Each item (and the example) also has "evidence": the exact words of the ${src} that decide its answer.`);
   }
   lines.push(...knobLines(p, spec));
+  if (t.bank && t.answer !== "match") lines.push(`  ${wordBoxRule(p, spec)}`);
   if (p.skill === "writing" && p.words) lines.push(`  Students write ${p.words[0]}–${p.words[1]} words.`);
   if (p.skill === "speaking") {
     const n = SPEAKING_CARDS[spec.levelId] || 3;
@@ -532,7 +542,7 @@ ${ctx.profileBlock || ""}`;
     section.problems?.length ? `PROBLEMS:\n${section.problems.map((p) => `- ${p}`).join("\n")}` : "",
     ctx.instruction ? `FOR ITEM${itemNs.length > 1 ? "S" : ""} ${itemNs.join(", ")} (these rules come first):
 ${ctx.instruction}` : "",
-    `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${src ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? (SCOPED.includes(section.task) ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ` Use words the class knows (the unit words where they fit: ${focus.slice(0, 30).join(", ")}).`) : ""}`,
+    `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${t.bank && t.answer !== "match" ? " Each gap needs a different word: never the answer of another item (the app makes the word box from the answers again)." : ""}${src ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? (SCOPED.includes(section.task) ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ` Use words the class knows (the unit words where they fit: ${focus.slice(0, 30).join(", ")}).`) : ""}`,
     Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.` : "",
     t.answer === "choice" ? DISTRACTOR_RULE : "",
   ].filter(Boolean).join("\n\n");
@@ -545,7 +555,7 @@ function sectionToRaw(s) {
   return {
     items: (s.items || []).map(item), example: item(s.example), passage: s.passage, passageTitle: s.passageTitle, script: s.script,
     frame: s.frame, prompts: s.prompts, sample: s.sample, prompt: s.task_prompt, pictures: (s.pictures || []).map((p) => p.word),
-    bank: s.answerType === "match" ? [] : s.bank, rubric: s.rubric, warmup: s.warmup, cards: s.cards,
+    bank: s.answerType === "match" ? [] : s.bank, extraWords: s.extraWords, rubric: s.rubric, warmup: s.warmup, cards: s.cards,
   };
 }
 
@@ -580,13 +590,26 @@ export function reviseSection(doc, spec, sectionId, edit, ctx = {}) {
   if (edit(raw) === false) return false;
   const plan = spec?.parts?.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
   const picFor = spec?.pictures !== false ? ctx.picFor || keepPics(s) : null;
-  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor });
+  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor, spareWords: spareFirst(spareWords(ctx.focusWords, doc.focusWords), doc, sectionId) });
   fresh.problems.push(...scopeProblems(fresh, ctx.focusWords));
   fresh.plays = s.plays || fresh.plays;
   fresh.rubricEl = s.rubricEl || fresh.rubricEl;
   Object.assign(s, fresh);
+  // The kept Greek line says how many extra words the old box had: say it for the new box.
+  if (hasWordBox(s)) { const r = sectionRubric(s); s.rubric = r.en; s.rubricEl = r.el; }
   doc.meta.points = docPoints(doc);
   return true;
+}
+
+/** Words a word box may take its extra words from when the AI gave too few: the test's words. */
+function spareWords(...lists) {
+  return [...new Set(lists.flat().map((w) => String((typeof w === "string" ? w : w?.english) || "").trim()).filter(Boolean))];
+}
+
+/** Spare words that no other part has as an answer come first (an extra word shouldn't be another part's answer if it can help it). */
+function spareFirst(list, doc, sectionId) {
+  const used = new Set((doc?.sections || []).filter((x) => x.id !== sectionId).flatMap((x) => (x.items || []).map((it) => String(it.answer || "").trim().toLowerCase())));
+  return [...list.filter((w) => !used.has(w.toLowerCase())), ...list.filter((w) => used.has(w.toLowerCase()))];
 }
 
 /** A picFor that only knows the pictures a part already has (so an edit keeps them). */
@@ -615,7 +638,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
   const sections = spec.parts.map((p, i) => {
     const raw = byId.get(p.id) || (!previous && rawSections[i]);
     if (!raw && previous) return previous.sections.find((s) => s.id === p.id) || null;
-    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures ? ctx.picFor : null });
+    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures ? ctx.picFor : null, spareWords: spareWords(ctx.focusWords || []) });
     s.problems.push(...scopeProblems(s, ctx.focusWords));
     if (!raw) s.problems.push("the AI did not write this part");
     return s;
