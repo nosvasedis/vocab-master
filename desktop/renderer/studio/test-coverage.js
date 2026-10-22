@@ -186,3 +186,33 @@ export function hasWord(text, word, words = []) {
   setFamily(words);
   return containsForm(text, word);
 }
+
+// Exercises whose questions each have one word as the right answer (a new part can put one untested word in each).
+const WORD_ANSWER_TASKS = ["V-PIC", "V-MC", "V-SPELL", "V-BANK", "V-DEF", "V-MATCH", "V-TICK", "R-GAP"];
+
+/**
+ * A part added to a written test (Step 3) is built on the words the test doesn't test yet: the teacher's own words
+ * first, then words not on the test at all, then words that only appear in a text (wordPriority). As many as the part
+ * has questions (a writing or speaking part: up to 6); a picture task only takes words with a picture.
+ * skip: words other new parts take first (two new parts don't share words).
+ * part: { task, skill, items }. Returns { words: [english], instruction } — no words when everything is tested.
+ */
+export function newPartFocus(doc, part, { tasks = {}, hasPicture = () => true, skip = [] } = {}) {
+  const t = tasks[part?.task] || {};
+  const open = t.answer === "open";
+  const want = open ? 6 : Math.max(1, part?.items || 0);
+  const pics = t.needs?.includes("pictures");
+  const taken = new Set(skip.map((w) => String(w).toLowerCase()));
+  const words = wordPriority(testCoverage(doc)).filter((w) => w.status !== "tested" && !taken.has(w.english.toLowerCase()) && (!pics || hasPicture(w.english))).slice(0, want).map((w) => w.english);
+  if (!words.length) return { words, instruction: "" };
+  const list = words.map((w) => `"${w}"`).join(", ");
+  const head = "This is a NEW part of a test that is already written. The chosen words below are not tested anywhere on the test yet — build this part on them first";
+  let how;
+  if (WORD_ANSWER_TASKS.includes(part.task)) how = `one question for each word, in this order, the word itself as the right answer (in the form the sentence needs): ${list}.${words.length < want ? " The other questions: words the test asks about least." : ""}`;
+  else if (t.answer === "choice" || t.answer === "word" || t.answer === "tf") how = `one question built on each word where the exercise allows (the word in the sentence, or as an answer): ${list}.`;
+  else if (part.skill === "writing") how = `use them in the task, the help points and the model answer: ${list}.`;
+  else if (part.skill === "speaking") how = `put them on the cards as key words and in the questions: ${list}.`;
+  else how = `use them in the text and the questions: ${list}.`;
+  if ((t.needs?.includes("passage") || t.needs?.includes("script")) && !open) how += " Put each word in the text (or script) and ask about it where you can.";
+  return { words, instruction: `${head} — ${how}` };
+}

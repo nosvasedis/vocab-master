@@ -18,7 +18,7 @@ import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
 import { reviseSection, docWordList, testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
-import { testCoverage, coverageWhere, wordPriority } from "../../studio/test-coverage.js";
+import { testCoverage, coverageWhere, wordPriority, newPartFocus } from "../../studio/test-coverage.js";
 import { makeVersionB, docProblems, docPoints, relabelDoc, hasWordBox, boxExtras } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
@@ -632,7 +632,8 @@ function renderParts() {
           ${textPick}
           ${knobsHtml(p, texts)}
           <div class="pc-knob"><span class="pc-lbl">Your wish</span><input class="input sm part-note" data-part-note="${p.id}" placeholder="Optional, e.g. “about a school trip”" value="${esc(p.note || "")}" /></div>
-          ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${stale ? "Write this part with the new settings" : "Write this part again"}</button>` : ""}
+          ${ts.doc ? newPartNote(p) : ""}
+          ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${!ts.doc.sections.some((x) => x.id === p.id) ? "Write this new part" : stale ? "Write this part with the new settings" : "Write this part again"}</button>` : ""}
         </div>
       </div>
     </li>`;
@@ -649,6 +650,28 @@ function renderParts() {
   $("tsSum").textContent = sum;
   $("tsMeter").innerHTML = `<b>${specPoints(s)}</b><span>points</span><i></i><b>${s.parts.length}</b><span>${s.parts.length === 1 ? "part" : "parts"}</span><i></i><b>≈${estimateMinutes(s)}</b><span>min</span>`;
   renderPlanNote();
+}
+
+/**
+ * The untested words a part not on the paper yet is built on. Parts not written yet take them in Step 3’s order, so two
+ * new parts get different words.
+ */
+function pendingFocus(id, picFor = makePicFor(ts.doc?.focusWords || [])) {
+  const skip = [];
+  for (const p of ts.spec.parts) {
+    if (ts.doc.sections.some((x) => x.id === p.id)) continue;
+    const f = newPartFocus(ts.doc, p, { tasks: TASKS, hasPicture: (w) => !!picFor(w), skip });
+    if (p.id === id) return f;
+    skip.push(...f.words);
+  }
+  return { words: [], instruction: "" };
+}
+
+/** A part not on the paper yet: the untested words Lingo will build it on (the word check's order). */
+function newPartNote(p) {
+  if (!ts.doc || ts.doc.sections.some((x) => x.id === p.id)) return "";
+  const { words } = pendingFocus(p.id);
+  return `<p class="pc-new-words">${icon("target", "i-xs")}<span>${words.length ? `Built on the words the test doesn’t test yet: <b>${esc(words.join(", "))}</b>` : "Every chosen word is tested already — Lingo uses the words the test asks about least."}</span></p>`;
 }
 
 /** A part takes a new exercise (from the library): new item counts and settings, the same place in the test. */
@@ -1062,7 +1085,7 @@ async function fixPart(partId, btn) {
   });
 }
 
-async function rewritePart(partId, btn, wish = "") {
+async function rewritePart(partId, btn, wish = "", { ownWords = false } = {}) {
   if (!ts.doc) return false;
   const { sel, spec } = specForAi();
   const epoch = ts.epoch;
@@ -1070,6 +1093,10 @@ async function rewritePart(partId, btn, wish = "") {
   return withBusy(btn, async () => {
     try {
       const ctx = ts.ctx?.focus ? ts.ctx : await contextFor(sel);
+      // A part that isn't on the paper yet (added in Step 3 after the test was written) is built on the words the
+      // test doesn't test yet, before anything else.
+      const fresh = !old && !ownWords ? pendingFocus(partId, ctx.picFor || undefined) : { words: [], instruction: "" };
+      if (fresh.instruction) wish = [fresh.instruction, wish].filter(Boolean).join("\n");
       // The AI is told the teacher's wish first and what the old part looked like; a part that comes back
       // nearly the same goes back once more with that reason.
       const prompt = testPrompt(spec, { unitContext: ctx.unitContext, focusWords: ctx.focus, pictureWords: ctx.pictureWords, profileBlock: withMemory(spec.levelId, ctx.focus), rewrite: { wish, previous: old ? [old] : [] } }, [partId]);
@@ -1096,7 +1123,13 @@ async function rewritePart(partId, btn, wish = "") {
       ts.stale.delete(partId);
       refreshDoc();
       renderParts();
-      if (btn) toast("Done — that part is new.", "ok", { ms: 2000 });
+      if (fresh.words.length) {
+        // Which of those words the new part really tests now — from the word check itself.
+        const idx = ts.doc.sections.findIndex((x) => x.id === partId);
+        const c = testCoverage(ts.doc);
+        const got = fresh.words.filter((w) => c.words.find((x) => x.english === w)?.tested.some((t) => t.part === idx));
+        toast(`Part ${idx + 1} is written${got.length ? ` — it tests ${got.length} of the ${plural(fresh.words.length, "word")} the test didn’t test yet${got.length <= 6 ? ` (${got.map((w) => `“${w}”`).join(", ")})` : ""}` : ", but none of the untested words came out as answers — click one in the word check to place it"}.`, got.length ? "ok" : "warn", { ms: 6000 });
+      } else if (btn) toast("Done — that part is new.", "ok", { ms: 2000 });
       return true;
     } catch (e) { aiErrorToast(e); return false; }
   });
@@ -1120,10 +1153,13 @@ async function addWordParts(plans) {
   for (const pl of plans) {
     const p = makePart("vocabulary", pl.task, ts.spec.levelId);
     p.items = pl.words.length;
-    p.note = `One question for each of these words, each word used once${TASKS[pl.task]?.answer === "match" ? "" : " as the right answer"}: ${pl.words.join(", ")}.`;
+    if (pl.opts && Object.keys(pl.opts).length) p.opts = { ...pl.opts };
+    // Families, opposites and synonyms: the word is the one in CAPITALS (the answer is its form, opposite or match).
+    const rel = ["V-FORM", "V-FAMMC", "V-OPP", "V-OPPW", "V-SYN"].includes(pl.task);
+    p.note = `One question for each of these words, each word used once${rel ? " as the word in CAPITALS the question is built on" : TASKS[pl.task]?.answer === "match" ? "" : " as the right answer"}: ${pl.words.join(", ")}.`;
     ts.spec.parts.splice(at, 0, p);
     savePrefs();
-    const ok = await rewritePart(p.id, null, `A new part built on exactly these ${pl.words.length} words, one question each: ${pl.words.join(", ")}.`);
+    const ok = await rewritePart(p.id, null, `A new part built on exactly these ${pl.words.length} words, one question each: ${pl.words.join(", ")}.`, { ownWords: true });
     if (ts.doc?.id !== docId) return { added, failed };
     if (ok && ts.doc.sections.some((x) => x.id === p.id)) { added.push({ id: p.id, words: pl.words }); at++; continue; }
     // Not written: the part comes out of Step 3 and off the paper again.

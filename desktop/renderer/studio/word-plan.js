@@ -12,7 +12,7 @@ export function planFromProposal(proposal = []) {
   return { parts: proposal.map((p) => ({ key: newKey(), kind: "new", task: p.task, words: [...p.words] })), spare: [] };
 }
 
-const clone = (plan) => ({ parts: plan.parts.map((p) => ({ ...p, words: [...p.words] })), spare: [...plan.spare] });
+const clone = (plan) => ({ parts: plan.parts.map((p) => ({ ...p, words: [...p.words], ...(p.opts ? { opts: { ...p.opts } } : {}) })), spare: [...plan.spare] });
 const without = (plan, words) => {
   const drop = new Set(words);
   plan.parts.forEach((p) => { p.words = p.words.filter((w) => !drop.has(w)); });
@@ -84,11 +84,19 @@ export function removePart(plan, key) {
   return next;
 }
 
-/** Change a new part's exercise. */
+/** Change a new part's exercise (its settings start again from the class's defaults, as in Step 3). */
 export function setTask(plan, key, task) {
   const next = clone(plan);
   const p = next.parts.find((x) => x.key === key);
-  if (p && p.kind === "new") p.task = task;
+  if (p && p.kind === "new" && p.task !== task) { p.task = task; p.opts = {}; }
+  return next;
+}
+
+/** One setting of a new part (Step 3's knobs: letter help, choices, extra words …). */
+export function setOpt(plan, key, name, value) {
+  const next = clone(plan);
+  const p = next.parts.find((x) => x.key === key);
+  if (p && p.kind === "new") p.opts = { ...(p.opts || {}), [name]: value };
   return next;
 }
 
@@ -104,14 +112,14 @@ export function syncPlan(plan, chosen) {
 }
 
 /**
- * A new part's exercise must suit its words: the picture task only while every word has a picture. Returns the plan
+ * A new part's exercise must suit its words: a picture task only while every word has a picture. Returns the plan
  * with any such task changed (to `fallback(part)`) and the keys of the parts that changed.
  */
-export function fitTasks(plan, { hasPicture = () => true, fallback = () => "V-BANK" } = {}) {
+export function fitTasks(plan, { hasPicture = () => true, fallback = () => "V-BANK", needsPictures = (t) => t === "V-PIC" } = {}) {
   const next = clone(plan);
   const changed = [];
   next.parts.forEach((p) => {
-    if (p.kind === "new" && p.task === "V-PIC" && !p.words.every(hasPicture)) { p.task = fallback(p); changed.push(p.key); }
+    if (p.kind === "new" && needsPictures(p.task) && !p.words.every(hasPicture)) { p.task = fallback(p); p.opts = {}; changed.push(p.key); }
   });
   return { plan: next, changed };
 }

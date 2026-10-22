@@ -5,7 +5,7 @@
  * Lingo rewrites just that question, with the teacher's wish or fresh. A part's heading has ✨ Rewrite part.
  * Every change keeps the part checked (reviseSection) and can be undone from its toast. */
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
-import { SKILLS, TASKS, tfLabels, levelIndex, partOpts } from "../../studio/tasks.js";
+import { SKILLS, TASKS, KNOBS, tfLabels, levelIndex, partOpts, taskFit } from "../../studio/tasks.js";
 import { LETTER_HELP_TASKS } from "../../studio/doc-model.js";
 import { letterHelpField } from "./letter-help-ui.js";
 import { TEST_DEFAULTS } from "../../studio/levels.js";
@@ -13,7 +13,7 @@ import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, es
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
 import { containsForm } from "../../studio/word-scope.js";
 import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks, hasWord } from "../../studio/test-coverage.js";
-import { planFromProposal, moveWords, resizePart, removePart, addPart, setTask, syncPlan, fitTasks, placedWords } from "../../studio/word-plan.js";
+import { planFromProposal, moveWords, resizePart, removePart, addPart, setTask, setOpt, syncPlan, fitTasks, placedWords } from "../../studio/word-plan.js";
 
 const CSS = `
 .pe-t { position: relative; cursor: pointer; border-radius: 6px; transition: background 140ms, box-shadow 140ms; }
@@ -687,7 +687,28 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     const room = (o) => MAX_ITEMS - (A(o.id)?.items.length || 0);
     const used = () => host.doc().sections.map((s) => s.task);
     const tasksFor = (words) => newPartTasks(levelIdx, { tasks: TASKS, pictures: words.length > 0 && words.every(hasPicture) });
-    const fallbackTask = (p) => tasksFor(p.words).find((t) => t !== "V-PIC") || "V-BANK";
+    const needsPictures = (t) => !!TASKS[t]?.needs?.includes("pictures");
+    const fallbackTask = (p) => tasksFor(p.words).find((t) => !needsPictures(t)) || "V-BANK";
+    // Every vocabulary exercise of Step 3 (as its exercise library shows them): the ones made for this class first,
+    // then the ones for older or younger classes; a picture exercise only while every word of the part has a picture.
+    const VOCAB_TASKS = Object.keys(TASKS).filter((t) => TASKS[t].skill === "vocabulary");
+    const taskOptions = (p) => {
+      const pics = p.words.length > 0 && p.words.every(hasPicture);
+      const opt = (t) => {
+        const off = needsPictures(t) && !pics;
+        const fit = taskFit(t, spec.levelId);
+        return `<option value="${t}"${t === p.task ? " selected" : ""}${off ? " disabled" : ""}>${esc(TASKS[t].label)}${off ? " — needs a picture for every word" : fit.fit !== "great" ? ` — ${fit.fit === "stretch" ? "a stretch" : "easy"}` : ""}</option>`;
+      };
+      const great = VOCAB_TASKS.filter((t) => taskFit(t, spec.levelId).fit === "great");
+      const other = VOCAB_TASKS.filter((t) => !great.includes(t));
+      return `<optgroup label="Made for ${esc(host.doc().meta.classLabel || "this class")}">${great.map(opt).join("")}</optgroup>${other.length ? `<optgroup label="For older or younger classes">${other.map(opt).join("")}</optgroup>` : ""}`;
+    };
+    // Step 3’s settings for the exercise (letter help, how many choices, extra words in the box …).
+    const OPT_KNOBS = ["hint", "family", "options", "extras"];
+    const knobsFor = (p) => {
+      const o = partOpts({ task: p.task, opts: p.opts || {} }, spec.levelId);
+      return (TASKS[p.task]?.knobs || []).filter((k) => OPT_KNOBS.includes(k) && KNOBS[k]).map((k) => `<div class="pw-knob"><span>${esc(KNOBS[k].label)}</span><div class="pw-knob-chips" role="radiogroup" aria-label="${esc(KNOBS[k].label)}">${KNOBS[k].values.map(([v, label]) => `<button type="button" class="chip${String(o[k]) === String(v) ? " active" : ""}" data-pw-opt="${esc(p.key)}" data-k="${k}" data-v="${esc(String(v))}" role="radio" aria-checked="${String(o[k]) === String(v)}">${esc(label)}</button>`).join("")}</div></div>`).join("");
+    };
     /** The plan for the chosen words: Lingo's proposal, or the teacher's own (kept in step with the chosen words). */
     const newPlan = () => {
       const sig = chosen().join("|");
@@ -695,7 +716,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
         st.plan = planFromProposal(planNewParts(chosenWords(), { levelIdx, tasks: TASKS, perPart, hasPicture, used: used() }));
         st.sig = sig;
       } else if (st.custom) st.plan = syncPlan(st.plan, chosen());
-      st.plan = fitTasks(st.plan, { hasPicture, fallback: fallbackTask }).plan;
+      st.plan = fitTasks(st.plan, { hasPicture, fallback: fallbackTask, needsPictures }).plan;
       return st.plan;
     };
     /** A change the teacher makes to the plan: from now on it is theirs. */
@@ -756,7 +777,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
         const t = isNew ? p.task : A(p.id)?.task;
         const head = isNew
           ? `<span class="pw-n">${k + 1}</span><span class="pw-card-t">New part</span>
-            <select class="select sm" data-pw-task="${esc(p.key)}" aria-label="Kind of exercise for new part ${k + 1}">${tasksFor(p.words).map((x) => `<option value="${x}"${x === p.task ? " selected" : ""}>${esc(TASKS[x].label)}</option>`).join("")}</select>`
+            <select class="select sm" data-pw-task="${esc(p.key)}" aria-label="Kind of exercise for new part ${k + 1}">${taskOptions(p)}</select>`
           : `<span class="pw-n">${icon("plus", "i-xs")}</span><span class="pw-card-t">Add to Part ${p.part + 1} · ${esc(TASKS[t]?.label || "")}</span>`;
         const long = isNew && p.words.length > perPart + 2;
         return `<div class="pw-new-part${over ? " over" : ""}" data-skill="vocabulary" data-pw-drop="${esc(p.key)}">
@@ -768,10 +789,13 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
             </span>
             <button type="button" class="pw-x" data-pw-remove="${esc(p.key)}" aria-label="Remove this part" title="Remove (its words are left out for now)">${icon("x", "i-xs")}</button>
           </div>
+          ${isNew ? knobsFor(p) : ""}
           <div class="pw-new-words">${p.words.length ? p.words.map(chip).join("") : `<span class="pw-empty">Drag words here, or pick words and choose “Move to”.</span>`}</div>
           ${over ? `<p class="pw-hint warn">${icon("alert", "i-xs")}<span>Part ${p.part + 1} has room for ${plural(max, "more question")} — move ${p.words.length - max} of these words elsewhere.</span></p>`
             : long ? `<p class="pw-note">A long part — about ${perPart} questions is easier on the children.</p>`
-            : isNew && ANSWER_TASKS.has(t) ? `<p class="pw-note">Each word is the answer to its question.</p>` : ""}
+            : isNew && p.words.length && p.words.length < 3 ? `<p class="pw-note">A short part — Step 3 parts have at least 3 questions; add words or move these to another part.</p>`
+            : isNew && ANSWER_TASKS.has(t) ? `<p class="pw-note">Each word is the answer to its question.</p>`
+            : isNew && ["V-FORM", "V-FAMMC", "V-OPP", "V-OPPW", "V-SYN"].includes(t) ? `<p class="pw-note">Each word is the word in CAPITALS; the answer is its ${t === "V-SYN" ? "match" : t.startsWith("V-OPP") ? "opposite" : "other form"}.</p>` : ""}
         </div>`;
       };
       const spare = `<div class="pw-new-part pw-spare" data-pw-drop="spare">
@@ -860,7 +884,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     /** What the plan's Go does: the new parts, the additions to parts already on the test, and the words they place. */
     const planRun = () => {
       const plan = newPlan();
-      const parts = plan.parts.filter((p) => p.kind === "new" && p.words.length).map((p) => ({ task: p.task, words: p.words }));
+      const parts = plan.parts.filter((p) => p.kind === "new" && p.words.length).map((p) => ({ task: p.task, words: p.words, opts: { ...(p.opts || {}) } }));
       const extra = plan.parts.filter((p) => p.kind === "existing" && p.words.length).map((p) => ({ id: p.id, part: p.part, words: p.words, answer: ANSWER_TASKS.has(A(p.id)?.task) }));
       const over = plan.parts.some((p) => p.kind === "existing" && p.words.length > roomLeft(p));
       return { parts, extra, words: placedWords(plan), over };
@@ -932,6 +956,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
           if (b.dataset.pwReset !== undefined) { st.custom = false; st.plan = null; st.sel.clear(); }
           if (b.dataset.pwSize) edit(resizePart(newPlan(), b.dataset.pwSize, Number(b.dataset.d), { max: (() => { const p = newPlan().parts.find((x) => x.key === b.dataset.pwSize); return p?.kind === "existing" ? roomLeft(p) : MAX_ITEMS; })() }));
           if (b.dataset.pwRemove) edit(removePart(newPlan(), b.dataset.pwRemove));
+          if (b.dataset.pwOpt) { const k = b.dataset.k; const v = KNOBS[k]?.values.find(([x]) => String(x) === b.dataset.v)?.[0]; if (v !== undefined) edit(setOpt(newPlan(), b.dataset.pwOpt, k, v)); }
           // "Add a part" / a part already on the test: the picked words go there (an empty new part when none are picked).
           if (b.dataset.pwDrop && !b.dataset.pwChip) {
             if (st.sel.size) moveTo([...st.sel], b.dataset.pwDrop);

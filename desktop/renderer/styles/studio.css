@@ -1180,3 +1180,6 @@
 .lh-step:hover:not(:disabled) { border-color: var(--border-strong); color: var(--text); }
 .lh-step:disabled { opacity: .4; cursor: default; }
 .lh-note { font-size: 11.5px; color: var(--text-3); }
+.pc-new-words { display: flex; gap: 6px; margin: 0; padding: 8px 10px; border-radius: 10px; font-size: 12px; line-height: 1.45; color: var(--text-2); background: color-mix(in srgb, var(--skill, var(--brand)) 8%, var(--surface-2)); }
+.pc-new-words .i { flex: none; margin-top: 2px; color: var(--skill, var(--brand)); }
+.pc-new-words b { color: var(--text); font-weight: 700; }
