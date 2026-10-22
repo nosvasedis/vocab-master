@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 import { testPartColumns } from "./item-columns.js";
 
@@ -85,7 +85,25 @@ function bankHtml(section) {
     const twoCol = section.bank.length >= 6 && section.bank.every((b) => String(b.text).length <= 38);
     return `<div class="match-defs${twoCol ? " two-col" : ""}">${section.bank.map((b) => `<p class="match-def-line"><b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
   }
+  // The words to sort: the example's word is crossed out (it is already in the table). Not the editable word box.
+  if (section.task === "V-SORT") return `<div class="word-bank st-keywords st-sort-words">${section.bank.map((w) => `<span>${w === section.example?.prompt ? `<s>${esc(w)}</s>` : esc(w)}</span>`).join("")}</div>`;
   return `<div class="word-bank">${section.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`;
+}
+
+/** "Put the words in groups": a table with a column per group and the same number of lines in each; the example's word is written in. */
+function sortTableHtml(section, layout, showAnswers) {
+  const rows = sortRows(section);
+  const ex = layout.examples !== false ? section.example : null;
+  const col = (g) => {
+    const words = [ex, ...section.items].filter((it) => it && it.answer === g);
+    return Array.from({ length: rows }, (_, r) => {
+      const it = words[r];
+      if (it && it === ex) return `<span class="st-ex-ans">${esc(it.prompt)}</span>`;
+      return showAnswers && it ? `<span class="teacher-ans-pill">✓ ${esc(it.prompt)}</span>` : line("full");
+    });
+  };
+  const cols = section.groups.map(col);
+  return `<table class="st-sort"><thead><tr>${section.groups.map((g) => `<th>${esc(g)}</th>`).join("")}</tr></thead><tbody>${Array.from({ length: rows }, (_, r) => `<tr>${cols.map((c) => `<td>${c[r]}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }
 
 function itemHtml(section, it, layout, { example = false, showAnswers = false } = {}) {
@@ -106,7 +124,16 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
     return `<div class="${cls}">${num}<div class="item-text st-tf"><span>${withGaps(it.prompt)}</span><span class="st-tf-box">${example ? esc(it.answer) : ""}</span>${key}</div></div>`;
   }
   if (section.answerType === "match") {
+    // A conversation: the other person's line, then the replier with a box for the letter of the reply.
+    const letterBox = `<span class="st-order-box">${example ? esc(it.letter?.toUpperCase() || "") : ""}</span>`;
+    if (section.task === "R-CONV") return `<div class="${cls} st-conv">${num}<div class="item-text"><div>${esc(it.prompt)}</div><div class="st-conv-reply">${section.replier ? `<b>${esc(section.replier)}:</b>` : ""}${letterBox}${key}</div></div></div>`;
+    // Missing sentences: "(1) [ ]" side by side under the list (the gap number is the question number).
+    if (section.task === "R-SENT") return `<div class="${cls} st-sent"><div class="item-text"><b>${esc(it.prompt || `(${example ? 0 : it.n})`)}</b>${letterBox}${key}</div></div>`;
     return `<div class="${cls}">${num}<div class="item-text"><b>${esc(it.prompt)}</b> ${example ? exAns : line("short")}${key}</div></div>`;
+  }
+  // Own sentences: the word (and the idea) with a whole line to write on; the example shows a model written in.
+  if (section.task === "V-USE") {
+    return `<div class="${cls} st-use">${num}<div class="item-text"><b>${esc(it.prompt)}</b>${example ? `<div><span class="st-ex-ans">${esc(it.answer)}</span></div>` : line("full")}${key}</div></div>`;
   }
   if (section.task === "R-ORDER") {
     return `<div class="${cls} st-order"><span class="item-num">${example ? "✓" : esc((it.letter || "").toUpperCase())}</span><div class="item-text"><span class="st-order-box">${example ? esc(it.answer) : ""}</span><span>${esc(it.prompt)}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
@@ -194,6 +221,7 @@ export function renderStudentPaper(doc, options = {}) {
     body += bankHtml(section);
     if (section.answerType === "open") body += openTaskHtml(section, layout);
     else if (section.task === "V-PIC" || section.task === "V-TICK") body += pictureCardsHtml(section, layout, options.showAnswers);
+    else if (section.task === "V-SORT") body += sortTableHtml(section, layout, options.showAnswers);
     else {
       // Picture-choice questions sit two to a row, so a part fits on one page.
       const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
@@ -202,7 +230,7 @@ export function renderStudentPaper(doc, options = {}) {
       // Ten or more short questions with one-letter or one-word answers: two columns, the second half beside the first
       // (the example stays above them, so 10 questions sit five and five).
       const cols = !picGrid && testPartColumns(section, { textSize: layout.textSize, withExample: !!example });
-      body += picGrid ? `<div class="st-pic-items">${example}${questions}</div>` : cols ? `${example}<div class="st-cols">${questions}</div>` : example + questions;
+      body += picGrid ? `<div class="st-pic-items">${example}${questions}</div>` : section.task === "R-SENT" ? `<div class="st-sent-row">${example}${questions}</div>` : cols ? `${example}<div class="st-cols">${questions}</div>` : example + questions;
     }
     return `<section class="ex-block st-sec st-${esc(section.skill)}">${partHead(section, i, layout)}${body}</section>`;
   }).join("");
@@ -238,7 +266,9 @@ export function renderTeacherPack(doc, options = {}) {
       if (s.sample) h += `<div class="st-sample"><b>${s.skill === "speaking" ? "Model answers" : "Model answer"}</b>${s.sample.split("\n").map((p) => `<p>${esc(p)}</p>`).join("")}</div>`;
       h += rubricTable(s.skill === "speaking" ? SPEAKING_RUBRIC : WRITING_RUBRIC, s.points || 10);
     } else {
-      h += answerKeyRows(s).map((r) => `<p class="ex-item"><span class="item-num">${r.n}</span><span class="item-text"><strong>${esc(r.text)}</strong></span></p>`).join("");
+      if (s.task === "V-USE") h += `<p class="st-teacher-note">${esc(USE_MARKING(s))}</p>`;
+      // Groups: "Animals: bee, insect" (a group name doesn't fit a number circle).
+      h += answerKeyRows(s).map((r) => (s.task === "V-SORT" ? `<p class="ex-item"><span class="item-text"><b>${esc(r.n)}:</b> <strong>${esc(r.text)}</strong></span></p>` : `<p class="ex-item"><span class="item-num">${esc(r.n)}</span><span class="item-text"><strong>${esc(r.text)}</strong></span></p>`)).join("");
     }
     return `${h}</section>`;
   }).join("");
@@ -298,6 +328,17 @@ export const STUDIO_PRINT_CSS = `
 .st-order .item-text { display: flex; align-items: center; gap: 3mm; }
 .st-order-box { flex: none; width: 7mm; height: 7mm; border: 0.8pt solid var(--ink); border-radius: 1.4mm; text-align: center; font: 700 10pt/7mm "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }
 .st-starters { margin: 0 0 1mm 9.8mm; }
+.st-conv .st-conv-reply { display: flex; align-items: center; gap: 2mm; margin-top: 0.6mm; }
+.st-use .st-line.full { height: 7mm; }
+.st-sort-words s { color: var(--ink-3); }
+.st-sort { width: calc(100% - 9.8mm); margin: 0 0 2mm 9.8mm; border-collapse: collapse; table-layout: fixed; }
+.st-sort th { padding: 1.4mm 2mm; border: 0.8pt solid var(--ink); background: #f1f0eb; font: 800 10pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; text-align: left; }
+.st-sort td { padding: 0.6mm 2mm 1mm; border-left: 0.8pt solid var(--ink); border-right: 0.8pt solid var(--ink); vertical-align: bottom; height: 8mm; }
+.st-sort tr:last-child td { border-bottom: 0.8pt solid var(--ink); }
+.st-sort .st-line.full { height: 6mm; }
+.st-sent-row { display: flex; flex-wrap: wrap; gap: 1.6mm 7mm; margin: 0 0 1mm 9.8mm; }
+.st-sent-row .st-sent { margin: 0; padding: 0; }
+.st-sent .item-text { display: flex; align-items: center; gap: 1.6mm; }
 .st-starter { display: flex; align-items: flex-end; gap: 2mm; margin: 0 0 3.2mm; font-size: 10.4pt; }
 .st-starter .item-num { flex: none; }
 .st-item { align-items: flex-start; }

@@ -93,6 +93,15 @@ export const TASKS = {
     blurb: "A short text with gaps; for each gap children choose one of three words. The words look alike, so they must read the whole sentence — the multiple-choice cloze of Movers and A2 Key.",
     sample: { text: "Mia (1) ________ her bike to school every day.", q: "(1)", o: ["goes", "rides", "drives"], a: 1 },
     rubric: "Read the text. Choose the right word for each gap: a, b or c.", el: "Διάβασε το κείμενο. Διάλεξε τη σωστή λέξη για κάθε κενό: a, b ή c.", ai: "A short connected text with numbered gaps written (1) ________, (2) ________ …, one per item (the example's gap is (0)). Each item: prompt = \"(n)\", options = words of the SAME word class that all look possible; only one fits the meaning and the grammar of its sentence. Most gaps test unit words; one or two may test a grammar word (a preposition, a verb form)." },
+  // Whole-text reading with lettered sentences to put back (Flyers Reading & Writing Part 2, B1 Preliminary Reading Part 4).
+  "R-CONV": { skill: "reading", label: "Complete the conversation", answer: "match", kind: "recognise", fit: [1, 3], knobs: ["spare"], trains: ["Following a conversation", "Everyday English"],
+    blurb: "One person's lines are printed; the other person's replies are in a lettered list, with one or two that fit nowhere. Children read the whole conversation and write the letter of each reply — the Cambridge Flyers conversation task.",
+    sample: { pairs: [["Mum: Where are you going, Ben?", "To the park with Leo."], ["Mum: Have you got your coat?", "Yes, it's in my bag."], ["Mum: When will you be back?", "Before dinner, I promise."]] },
+    rubric: "Read the conversation and choose the best answer. Write a letter.", el: "Διάβασε τη συζήτηση και διάλεξε την καλύτερη απάντηση. Γράψε ένα γράμμα.", ai: "ONE connected conversation between two people about the unit topic, in order. \"replier\" = the first name of the person whose replies are missing (e.g. \"Ben\"). Each item (and the example, which comes first): prompt = what the OTHER person says, with their name (\"Mum: Where are you going, Ben?\"); answer = the replier's reply, WITHOUT the name — a full, natural sentence that only fits after THIS line (it answers it, or follows from it). \"extras\" = the extra replies (see SPARE below): they sound natural and fit the topic but answer none of the lines. Use unit words in the lines and the replies. No reply may fit two gaps. The app letters and shuffles the replies." },
+  "R-SENT": { skill: "reading", label: "Put the missing sentences back", answer: "match", needs: ["passage"], kind: "recognise", fit: [3, 4], knobs: ["genre", "length", "spare"], trains: ["How a text holds together", "Reading the whole text"],
+    blurb: "A text with whole sentences taken out, and a lettered list of sentences (some fit nowhere). Children choose the sentence for each gap from what comes before and after it — reading for how a text holds together, as in B1 Preliminary.",
+    sample: { text: "Bees live together in a hive. (1) ________ The queen lays all the eggs.", bank: ["A  Each hive has one queen.", "B  Bees cannot see red."], q: "(1)", a: "A" },
+    rubric: "Read the text. Choose the right sentence for each gap. Write a letter.", el: "Διάβασε το κείμενο. Διάλεξε τη σωστή πρόταση για κάθε κενό. Γράψε ένα γράμμα.", ai: "A connected text (story, article, email…) about the unit topic from which whole sentences have been taken out: in the passage write (0) ________ for the example's gap and (1) ________, (2) ________ … for the items, each gap where a WHOLE sentence was. Each item: prompt = \"(n)\"; answer = the missing sentence. The example: prompt = \"(0)\", answer = its sentence. Every missing sentence fits ONLY its gap: it links to the sentence before or after (a pronoun, \"But\", \"Then\", the same person or thing) — so the reader must use the text around the gap. \"extras\" = the extra sentences (see SPARE below): about the same topic, but each one breaks the link at every gap (wrong person, wrong time, contradicts the text). Use unit words in the text and the sentences." },
   // Vocabulary
   "V-PIC": { skill: "vocabulary", label: "Look and write (pictures)", answer: "word", needs: ["pictures"], kind: "recall", fit: [0, 2], knobs: ["hint"], trains: ["Spelling", "Naming things"],
     blurb: "The app's own illustrations with a short clue; children write the word. Recall with pictures — the strongest way for young learners to remember words.",
@@ -151,6 +160,32 @@ export const TASKS = {
     blurb: "A picture with a word under it: right or wrong? The very first Cambridge Starters task — quick, picture-led and confidence-building for the youngest classes.",
     sample: { pics: ["🍌"], q: "an apple", a: "no" },
     rubric: "Look and read. Write yes or no.", el: "Κοίτα και διάβασε. Γράψε yes ή no.", ai: "Each item (and the example): \"picture\" = ONE word copied from the picture words list (it is printed as a picture); \"prompt\" = a word or short phrase printed under it (a/an + noun, or a plural). Follow the given answer order: for a yes item the prompt names the picture; for a yes item \"prompt\" is the SAME word as \"picture\" (with a/an or as a plural); for a no item the prompt names a DIFFERENT thing from the picture words list, of the same kind (a fruit under a fruit). The prompt is always a THING you can see and draw (a noun) — never a verb, an adjective or a sentence. The app checks the key from the picture and the word." },
+  // Depth of word knowledge: meaning in use, word groups, own sentences and the Greek meaning (docs/research/exercise-design.md → "Eight more Test Maker exercises").
+  "V-PICREAD": { skill: "vocabulary", label: "Read and tick the picture", answer: "choice", options: 3, needs: ["pictures"], kind: "recognise", fit: [0, 1], knobs: [], trains: ["Meaning", "Reading short clues"],
+    blurb: "A short description and three of the app's pictures; children tick the one it describes. Reading for meaning with pictures — a gentle step before writing the word.",
+    sample: { q: "It is yellow and monkeys love it.", pics: ["🍎", "🍌", "🍇"], a: 1 },
+    rubric: "Read and tick (✓) the right picture.", el: "Διάβασε και βάλε ✓ στη σωστή εικόνα.", ai: "prompt = a short, child-friendly description of ONE picture word (\"It is yellow and monkeys love it.\") — never the word itself; options = EXACTLY 3 single words copied from the picture words list (they are printed as pictures); answer = the word described. The two wrong pictures are from the same topic, and the description rules them out." },
+  "V-RIGHT": { skill: "vocabulary", label: "Is the word used correctly?", answer: "tf", kind: "recognise", fit: [1, 4], knobs: [], trains: ["Meaning in use", "Depth of word knowledge"],
+    blurb: "Sentences with a unit word in capitals — some use it correctly, some don't make sense with it. Children decide; knowing what a word means in a sentence, not just its translation.",
+    sample: { q: "I put the milk in the FRIDGE to keep it cold.", a: "yes" },
+    rubric: "Is the word in CAPITALS used correctly? Write yes or no.", el: "Χρησιμοποιείται σωστά η λέξη με τα κεφαλαία; Γράψε yes ή no.", rubricOlder: "Is the word in CAPITALS used correctly? Write T (correct) or F (wrong).", elOlder: "Χρησιμοποιείται σωστά η λέξη με τα κεφαλαία; Γράψε T (σωστά) ή F (λάθος).",
+    ai: "prompt = a short sentence with ONE unit word in CAPITALS (\"I put the milk in the FRIDGE to keep it cold.\"). A yes item uses the word with its right meaning. A no item uses it in a sentence where its MEANING makes no sense (\"I wear a FRIDGE on my head when it is cold.\") — the grammar and spelling are always correct, and the sentence is clearly wrong to anyone who knows the word, never a matter of taste. A different unit word in each item. The app checks the key again." },
+  "V-FIX": { skill: "vocabulary", label: "Find the wrong word", answer: "word", kind: "recall", fit: [2, 4], knobs: ["hint"], trains: ["Meaning in context", "Words that are easily confused"],
+    blurb: "Each sentence has one wrong word in brackets — a real word that doesn't fit the meaning. Children write the unit word that does. They must understand the sentence and recall the word.",
+    sample: { q: "Bees make honey in their [nest].", a: "hive" },
+    rubric: "One word in each sentence is wrong. Write the right word.", el: "Μια λέξη σε κάθε πρόταση είναι λάθος. Γράψε τη σωστή λέξη.", ai: "prompt = a sentence with ONE wrong word in [square brackets] (\"Bees make honey in their [nest].\"); answer = the unit word that belongs there, in the form the sentence needs. The wrong word is a real, correctly spelt word of the same word class that a learner could confuse with the answer (same topic, similar meaning or similar look) — never a form of the answer, never a spelling mistake, and only ONE word fits the gap. The app adds the letter help." },
+  "V-SORT": { skill: "vocabulary", label: "Put the words in groups", answer: "word", kind: "recognise", fit: [0, 4], knobs: [], trains: ["Word groups", "Organising vocabulary"],
+    blurb: "A box of unit words and two or three group headings (animals / food / places, or living / not living); children write every word in its group. Sorting makes them think about what each word means.",
+    sample: { bank: ["camel", "hive", "bee", "nest"], q: "Animals:", a: "camel, bee" },
+    rubric: "Put the words in the right group. Write them in the table.", el: "Βάλε τις λέξεις στη σωστή ομάδα. Γράψ' τες στον πίνακα.", ai: "\"groups\" = 2 or 3 short group names (1–3 words each) that sort the unit words by MEANING (Animals / Food / Places; Things you wear / Things you eat; Living / Not living) — for D–E Senior also by word class (Nouns / Verbs / Adjectives). Each item (and the example): prompt = ONE unit word, answer = its group name EXACTLY as written in \"groups\". Every word belongs to ONE group only, clearly; every group gets at least two words. The app prints the words in a box and the table." },
+  "V-USE": { skill: "vocabulary", label: "Use the word in a sentence", answer: "word", kind: "create", fit: [1, 4], knobs: [], pointsEach: 2, trains: ["Using words", "Writing sentences"],
+    blurb: "A unit word (and an idea to write about); children write their own sentence that shows what the word means. Using a word yourself is what makes it stick — marked with a simple 2-point guide.",
+    sample: { q: "NOISY — your street", a: "My street is noisy because there are many cars." },
+    rubric: "Write a sentence with each word. Show what the word means.", el: "Γράψε μια πρόταση με κάθε λέξη. Δείξε τι σημαίνει η λέξη.", ai: "prompt = ONE unit word in CAPITALS, then \" — \" and a short idea to write about from the children's lives (\"NOISY — your street\"); answer = a model sentence at class level that uses the word (any form) in a way that SHOWS its meaning (\"My street is noisy because there are many cars.\", never \"It is noisy.\"). A different unit word in each item; choose words the class can use in a sentence." },
+  "V-GREEK": { skill: "vocabulary", label: "Write the English word (from Greek)", answer: "word", kind: "recall", fit: [0, 4], knobs: ["hint"], trains: ["Meaning", "Spelling"],
+    blurb: "The Greek meaning from the word list; children write the English word. The quickest check that they know each word's meaning and spelling — the Greek comes from the book's own list, never from the AI.",
+    sample: { q: "κυψέλη", hint: "h _ _ _", a: "hive" },
+    rubric: "Write the English word.", el: "Γράψε τη λέξη στα αγγλικά.", ai: "Each item (and the example): answer = ONE tested word EXACTLY as it is written in the list (its base form), prompt = \"\" — the app prints the word's Greek meaning from the word list. A different word in each item; choose words whose meaning is clear on its own (concrete nouns, verbs, adjectives)." },
   // Grammar
   "G-MC": { skill: "grammar", label: "Choose the right form", answer: "choice", options: 3, kind: "recognise", fit: [0, 4], knobs: ["options"], trains: ["The grammar focus"],
     blurb: "A sentence with a gap and three forms; one is right. Every wrong option is a real mistake Greek learners make, so the item teaches as it tests.",
@@ -257,6 +292,8 @@ export const KNOBS = {
   support: { label: "Support", values: [["full", "Lots"], ["some", "Some"], ["none", "None"]] },
   // Word boxes: one word per gap unless the teacher asks for words that fit no gap (the instruction then says how many).
   extras: { label: "Extra words in the box", values: [[0, "None · one per gap"], [1, "+1"], [2, "+2"], [3, "+3"]] },
+  // Lettered sentences to put back (conversation / text): extra ones that fit no gap, so the last answer isn't free.
+  spare: { label: "Extra sentences", values: [[0, "None"], [1, "+1"], [2, "+2"], [3, "+3"]] },
 };
 
 const LEVEL_INDEX = { A_SENIOR: 0, B_SENIOR: 1, C_SENIOR: 2, D_SENIOR: 3, E_SENIOR: 4 };
@@ -267,7 +304,7 @@ const LEVEL_LETTERS = "ABCDE";
 export function knobDefault(key, levelId) {
   const i = levelIndex(levelId);
   return {
-    text: "", genre: "any", audio: "any", length: "medium", plays: 2, options: 3, extras: 0,
+    text: "", genre: "any", audio: "any", length: "medium", plays: 2, options: 3, extras: 0, spare: 2,
     hint: i <= 1 ? "first" : i === 2 ? "count" : "none",
     support: i <= 1 ? "full" : "some",
     family: i <= 2 ? "root" : i === 3 ? "count" : "none",
@@ -275,7 +312,7 @@ export function knobDefault(key, levelId) {
 }
 
 /** Settings whose default differs for a task: unjumbling already gives every letter, so it starts with no letter boxes. */
-const TASK_KNOB_DEFAULTS = { "V-SPELL": { hint: "none" } };
+const TASK_KNOB_DEFAULTS = { "V-SPELL": { hint: "none" }, "V-FIX": { hint: "none" } };
 
 /** A part's settings with the class defaults filled in: { genre, length, … } for its task's knobs. */
 export function partOpts(part, levelId) {

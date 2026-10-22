@@ -109,7 +109,7 @@ export function dictationRoom(data, coverage, maxLines) {
 }
 
 /** Exercise types whose lines are not sentences (word groups, matching, categories, letter puzzles). */
-export const NOT_SENTENCE_TYPES = new Set(["D11", "D13", "D16", "D26", "D27"]);
+export const NOT_SENTENCE_TYPES = new Set(["D11", "D13", "D16", "D26", "D27", "D29"]);
 
 /** Longest a dictation sentence may be before the check flags it: the class limit with some leeway. */
 export function sentenceLimit(maxWords) {

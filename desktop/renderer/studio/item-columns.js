@@ -61,7 +61,7 @@ export function testItemRow(section, it) {
 /** Should this test part's questions sit in two columns? */
 export function testPartColumns(section, { textSize, withExample = true } = {}) {
   const items = section?.items || [];
-  if (!["choice", "tf", "match", "word"].includes(section?.answerType) || ["V-PIC", "V-TICK"].includes(section?.task)) return false;
+  if (!["choice", "tf", "match", "word"].includes(section?.answerType) || ["V-PIC", "V-TICK", "V-SORT", "V-USE", "R-CONV", "R-SENT"].includes(section?.task)) return false;
   const rows = [...(withExample && section.example ? [section.example] : []), ...items].map((it) => testItemRow(section, it));
   return useTwoColumns(rows, { count: items.length, textSize });
 }
