@@ -15,6 +15,14 @@ const pic = (token, cls = "ws-pic") => {
   return /^(?:w|c|ui)-[a-z0-9-]+$/.test(id) ? `<img class="${cls}" src="${esc(picUrl(id))}" alt="" draggable="false">` : "";
 };
 const withGaps = (text) => esc(text).replace(GAP, () => line("inline"));
+/** Letter help with blanks ("b _ _ _ _ _", "_ _ _ _ (4 letters)", "s u n _ _") is the writing space itself. */
+const writeIn = (it) => /_/.test(it?.hint || "");
+/** The letter-help box; in the example it shows the answer written in (and still says how many letters). */
+const hintBox = (it, example) => {
+  if (!example) return `<span class="st-hint st-hint-write">${esc(it.hint)}</span>`;
+  const count = (String(it.hint).match(/\(\d+ letters?\)/) || [])[0];
+  return `<span class="st-hint st-hint-done"><span class="st-ex-ans">${esc(it.answer)}</span>${count ? ` ${esc(count)}` : ""}</span>`;
+};
 
 /** Layout options with their defaults. */
 export function docLayout(doc, options = {}) {
@@ -94,13 +102,19 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
     return `<div class="${cls} st-order"><span class="item-num">${example ? "✓" : esc((it.letter || "").toUpperCase())}</span><div class="item-text"><span class="st-order-box">${example ? esc(it.answer) : ""}</span><span>${esc(it.prompt)}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
   }
   const hasGap = GAP.test(it.prompt); GAP.lastIndex = 0;
+  // Letter help with blanks ("b _ _ _ _ _") is where the child writes: it takes the sentence's gap, or the line's place.
+  if (writeIn(it)) {
+    const box = hintBox(it, example);
+    const text = hasGap ? esc(it.prompt).replace(/_{3,}/, () => box).replace(GAP, () => line("inline")) : `${withGaps(it.prompt)} ${box}`;
+    return `<div class="${cls}">${num}<div class="item-text">${text}${key}</div></div>`;
+  }
   const prompt = /^\(\d+\)$/.test(it.prompt) ? `<b>${esc(it.prompt)}</b>` : withGaps(it.prompt);
   const hint = it.hint ? ` <span class="st-hint">${esc(it.hint)}</span>` : "";
   return `<div class="${cls}">${num}<div class="item-text">${prompt}${hint}${example ? ` ${exAns}` : hasGap ? "" : ` ${line()}`}${key}</div></div>`;
 }
 
 function pictureCardsHtml(section, layout, showAnswers) {
-  const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}${it.hint ? `<div class="st-hint">${esc(it.hint)}</div>` : ""}<div class="pic-line">${section.answerType === "tf" ? `<span class="st-tf-box">${example ? esc(it.answer) : ""}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}` : example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
+  const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}${it.hint && !writeIn(it) ? `<div class="st-hint">${esc(it.hint)}</div>` : ""}<div class="pic-line${writeIn(it) ? " hinted" : ""}">${section.answerType === "tf" ? `<span class="st-tf-box">${example ? esc(it.answer) : ""}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}` : writeIn(it) ? `${hintBox(it, example)}${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}` : example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
   return `<div class="pic-grid">${section.example?.pic && layout.examples !== false ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
 }
 
@@ -256,6 +270,11 @@ export const STUDIO_PRINT_CSS = `
 .st-line.grow { flex: 1; min-width: 30mm; }
 .st-hint { display: inline-block; margin: 0 1.6mm; padding: 0.2mm 1.8mm; border: 0.6pt dashed var(--ink-3); border-radius: 1.4mm; font: 700 9.6pt/1.4 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.06em; color: var(--ink-2); white-space: nowrap; }
 .pic-card .st-hint { margin: 0.6mm 0 0; font-size: 8.6pt; }
+.pic-card .pic-line.hinted { height: auto; border-bottom: 0; flex-wrap: wrap; gap: 1mm; }
+.st-hint-write { padding: 0.5mm 2.4mm; font-size: 11.5pt; letter-spacing: 0.16em; line-height: 1.6; }
+.pic-card .st-hint-write { font-size: 10pt; }
+.st-hint-done { padding: 0.5mm 2.4mm; font-weight: 400; letter-spacing: 0; }
+.st-hint-done .st-ex-ans { border: 0; padding: 0; margin: 0; min-width: 0; }
 .st-notice { display: inline-block; max-width: 92%; margin: 0 0 1.2mm; padding: 1.6mm 3mm; border: 0.5mm solid #1f2430; border-radius: 1.6mm; font-weight: 700; letter-spacing: 0.01em; background: #fbfaf6; }
 .st-order .item-text { display: flex; align-items: center; gap: 3mm; }
 .st-order-box { flex: none; width: 7mm; height: 7mm; border: 0.8pt solid var(--ink); border-radius: 1.4mm; text-align: center; font: 700 10pt/7mm "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }
