@@ -339,6 +339,15 @@ const SUPPORT = {
   none: "Support: NONE — frame = only the points to cover, as short notes, no sentence starters.",
 };
 
+/** "Finish the sentences" always prints starters: support only changes how much each starter gives. */
+const SENTENCE_SUPPORT = {
+  "W-SENT": {
+    full: "Support: LOTS — frame = 5–6 long, guiding sentence starters, and \"bank\" = 6–8 useful words for a word box.",
+    some: "",
+    none: "Support: LITTLE — frame = 5–6 SHORT sentence starters (\"I like…\", \"On Saturdays, I…\"); still starters, never notes or questions.",
+  },
+};
+
 /** The knob settings of a part as prompt lines. */
 /** Word families, by class: which word-building changes each class meets (Pre-A1 endings → B1 word formation). */
 const FAMILY_LADDER = [
@@ -364,7 +373,7 @@ function knobLines(p, spec, focus = []) {
   }
   if (o.audio && o.audio !== "any") out.push(`  The recording: ${AUDIO[o.audio]}.`);
   if (o.plays === 1) out.push("  It is played ONCE: every answer is said slowly and clearly, never in the middle of a long sentence.");
-  if (o.support && SUPPORT[o.support]) out.push(`  ${SUPPORT[o.support]}`);
+  if (o.support && (SENTENCE_SUPPORT[p.task] || SUPPORT)[o.support]) out.push(`  ${(SENTENCE_SUPPORT[p.task] || SUPPORT)[o.support]}`);
   if (FAMILY_TASKS.includes(p.task)) out.push(`  CLASS LADDER — ${FAMILY_LADDER[levelIndex(spec.levelId)]}`);
   const rel = relationLine(p.task, focus);
   if (rel) out.push(rel);
@@ -685,7 +694,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
   const sections = spec.parts.map((p, i) => {
     const raw = byId.get(p.id) || (!previous && rawSections[i]);
     if (!raw && previous) return previous.sections.find((s) => s.id === p.id) || null;
-    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures ? ctx.picFor : null, spareWords: spareWords(ctx.focusWords || []) });
+    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures !== false ? ctx.picFor : null, spareWords: spareWords(ctx.focusWords || []) });
     s.problems.push(...scopeProblems(s, ctx.focusWords));
     if (!raw) s.problems.push("the AI did not write this part");
     return s;

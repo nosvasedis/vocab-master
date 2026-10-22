@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 import { testPartColumns } from "./item-columns.js";
 
@@ -109,8 +109,8 @@ function openTaskHtml(section, layout) {
   const pics = layout.pictures && section.pictures.length ? `<div class="st-story-pics">${section.pictures.map((p, i) => `<div class="st-story-pic">${pic(p.pic)}<small>${i + 1}</small></div>`).join("")}</div>` : "";
   if (section.skill === "speaking") return `${pics}${speakingCardsHtml(section)}`;
   // "Finish the sentences": each starter gets its own line to write on.
-  if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${esc(f)}</span>${line("grow")}</p>`).join("")}</div>`;
-  const frame = section.frame.length ? `<ul class="st-frame">${section.frame.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>` : "";
+  if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${withGaps(starterText(f))}</span>${line("grow")}</p>`).join("")}</div>`;
+  const frame = section.frame.length ? `<ul class="st-frame">${section.frame.map((f) => `<li>${withGaps(f)}</li>`).join("")}</ul>` : "";
   const n = Math.max(5, Math.round(((section.words?.[1] || 40) / 8)));
   return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)} ${words}</p>` : words ? `<p class="st-task">${words}</p>` : ""}${pics}${frame}<div class="st-lines">${Array.from({ length: n }, () => line("full")).join("")}</div>`;
 }

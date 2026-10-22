@@ -152,6 +152,18 @@ export const boxExtras = (section) => (hasWordBox(section) ? countExtraWords(sec
  * A part's instruction (English and Greek) with the letters of its real options, and — for a word box — the line
  * saying how many extra words it has ("There are two extra words you do not need."), counted from the box itself.
  */
+/**
+ * A sentence starter as printed before its writing line. The AI sometimes writes the gap itself ("I like ________
+ * about my town.", "My name is ____."): a gap at the end becomes the writing line (so the paper never shows two
+ * lines in a row), gaps inside stay as short gaps, and "..." is one ellipsis.
+ */
+export function starterText(starter) {
+  let s = clean(starter).replace(/\.{3,}/g, "…");
+  // Trailing gap (with any full stop, ellipsis or other punctuation after it) → the line after the starter.
+  s = s.replace(/\s*_{3,}[\s_.…!?,;:]*$/, "").trim();
+  return s.replace(/_{3,}/g, "________");
+}
+
 export function sectionRubric(section) {
   const n = optionCount(section);
   let en = section?.rubric || "";
@@ -233,6 +245,48 @@ export function balanceChoices(items, rand = Math.random) {
   });
 }
 
+/** How many pictures an open picture task prints (writing story pictures, speaking cards). */
+const PICTURES_NEEDED = { "W-PICTURES": 3, "S-PICTURE": 3, "S-STORY": 4, "S-DISCUSS": 5 };
+
+/** The picture of a word the AI wrote loosely ("Firefighters", "the hospital", { word: "park" }), or "". */
+function picForLoose(picFor, w) {
+  const word = clean(typeof w === "object" && w ? w.word || w.english || w.name : w).replace(/^(?:a|an|the)\s+/i, "").replace(/[.!?,;:]+$/, "");
+  if (!word) return { word: "", pic: "" };
+  const lc = word.toLowerCase();
+  for (const c of [word, lc, lc.replace(/ies$/, "y"), lc.replace(/(?:ch|sh|s|x|z)es$/, (m) => m.slice(0, -2)), lc.replace(/s$/, "")]) {
+    const pic = c ? picFor(c) : "";
+    if (pic) return { word: c === word || c === lc ? word : c, pic };
+  }
+  return { word, pic: "" };
+}
+
+/**
+ * The pictures of an open task. The AI's own choice first (read leniently); a picture task that came back with too
+ * few is topped up with words that have pictures — from its word box, then the words its story or cards mention,
+ * then the test's other words — so "Write about the pictures" is never printed without them.
+ */
+function openPictures(taskId, raw, ctx) {
+  const out = [];
+  const seen = new Set();
+  const add = (w) => {
+    const p = picForLoose(ctx.picFor, w);
+    if (p.pic && !seen.has(p.pic)) { seen.add(p.pic); out.push(p); }
+  };
+  (Array.isArray(raw.pictures) ? raw.pictures : typeof raw.pictures === "string" ? raw.pictures.split(/[,;]/) : []).forEach(add);
+  const need = PICTURES_NEEDED[taskId] || 0;
+  if (!need || out.length >= need) return out;
+  const said = squash([raw.prompt, raw.task, ...(Array.isArray(raw.frame) ? raw.frame : []), ...(Array.isArray(raw.sample) ? raw.sample : [raw.sample]),
+    ...(Array.isArray(raw.cards) ? raw.cards.flatMap((c) => [c?.title, ...(c?.keyWords || []), c?.model]) : [])].map((x) => String(x || "")).join(" "));
+  const mentioned = (w) => squash(w) && ` ${said} `.includes(` ${squash(w)} `);
+  const bank = (Array.isArray(raw.bank) ? raw.bank : []).map(clean).filter(Boolean);
+  const spare = (ctx.spareWords || []).map(clean).filter(Boolean);
+  for (const w of [...bank.filter(mentioned), ...spare.filter(mentioned), ...bank, ...spare]) {
+    if (out.length >= need) break;
+    add(w);
+  }
+  return out;
+}
+
 /**
  * A planned section filled with the AI's content.
  * plan: { id, task, items, pointsEach?, points? } · raw: the AI's object for that section.
@@ -294,7 +348,11 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     plays: opts.plays === 1 ? 1 : 2,
     words: plan.words || null,
   };
-  if (ctx.picFor) section.pictures = (Array.isArray(raw.pictures) ? raw.pictures : []).map((w) => ({ word: clean(w), pic: ctx.picFor(w) })).filter((p) => p.pic);
+  if (ctx.picFor) {
+    section.pictures = openPictures(plan.task, raw, ctx);
+    const need = PICTURES_NEEDED[plan.task] || 0;
+    if (need && section.pictures.length < need) problems.push(`needs ${need} pictures (has ${section.pictures.length}) — use words from the picture list`);
+  }
 
   // Word banks: shuffled, never in answer order. Matching: lettered definitions.
   if (task.answer === "match") {
@@ -337,6 +395,11 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (task.needs?.includes("script") && !section.script.length) problems.push("missing the listening script");
   if (task.needs?.includes("passage") && !section.passage) problems.push("missing the reading text");
   if (task.skill === "speaking" && !section.cards.length && !section.prompts.length) problems.push("missing the speaking cards");
+  // "Continue the story" needs the story's first lines on the paper — not an instruction ("Continue the story.").
+  if (plan.task === "W-STORY" && (!section.task_prompt || /^(?:continue|write|read|finish|now)\b/i.test(section.task_prompt))) {
+    if (section.passage) { section.task_prompt = section.passage.replace(/\s+/g, " ").trim(); section.passage = ""; }
+    else problems.push("missing the beginning of the story");
+  }
   if (task.answer === "tf") {
     const report = binaryBalance("TF", items.map((it) => ({ answer: it.tf === 0 ? "T" : it.tf === 1 ? "F" : "" })));
     if (!report.ok) problems.push(`the answers need a mix of ${tfLabels(ctx.levelId).join(" and ")} (items ${report.flip.map((i) => i + 1).join(", ")} should be "${tfLabels(ctx.levelId)[report.flipTo === "T" ? 0 : 1]}")`);

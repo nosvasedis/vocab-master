@@ -11,6 +11,7 @@ import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, es
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
 import { containsForm } from "../../studio/word-scope.js";
 import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks, hasWord } from "../../studio/test-coverage.js";
+import { planFromProposal, moveWords, resizePart, removePart, addPart, setTask, syncPlan, fitTasks, placedWords } from "../../studio/word-plan.js";
 
 const CSS = `
 .pe-t { position: relative; cursor: pointer; border-radius: 6px; transition: background 140ms, box-shadow 140ms; }
@@ -86,7 +87,7 @@ export function mountTestEditing(host) {
       [...secEl.querySelectorAll(".st-item:not(.st-example), .pic-card:not(.st-example)")].forEach((el, k) => {
         if (s.items[k]) mark(el, { kind: "item", id, ref: s.items[k], remake: true });
       });
-      secEl.querySelectorAll(".st-task, .st-frame, .st-story-pics").forEach((el) => mark(el, { kind: "writing", id }));
+      secEl.querySelectorAll(".st-task, .st-frame, .st-starters, .st-story-pics").forEach((el) => mark(el, { kind: "writing", id }));
       if (host.sheet() !== "B" && canAdd(s)) secEl.insertAdjacentHTML("beforeend", `<button type="button" class="pe-add" data-pe-add="${esc(id)}">＋ Add a question</button>`);
       secEl.querySelectorAll(".st-speak-card").forEach((el, k) => mark(el, { kind: "speaking", id, card: k }));
     });
@@ -429,10 +430,12 @@ export function mountTestEditing(host) {
     }
     if (d.kind === "item" || d.kind === "example") return itemEditor(s, d, el);
     if (d.kind === "writing") {
+      // Picture tasks: the teacher can choose the pictures too (words that have a picture in the app).
+      const pics = TASKS[s.task]?.needs?.includes("pictures");
       return form({
         title: "The writing task", subtitle: sub,
-        body: field("pe_task", "The task", s.task_prompt, { rows: 3 }) + field("pe_frame", "Help points", s.frame.join("\n"), { rows: 4, hint: "one per line" }) + field("pe_sample", "Model answer", s.sample, { rows: 5, hint: "teacher’s pack" }),
-        onSave: (v) => revise(s.id, (raw) => { raw.prompt = v("pe_task").trim(); raw.frame = lines(v("pe_frame")); raw.sample = v("pe_sample").trim(); }, "Writing task saved."),
+        body: field("pe_task", "The task", s.task_prompt, { rows: 3 }) + (pics ? field("pe_pics", "Pictures", (s.pictures || []).map((p) => p.word).join("\n"), { rows: 3, hint: "one word per line, in story order — words with a picture in the app" }) : "") + field("pe_frame", "Help points", s.frame.join("\n"), { rows: 4, hint: "one per line" }) + field("pe_sample", "Model answer", s.sample, { rows: 5, hint: "teacher’s pack" }),
+        onSave: (v) => revise(s.id, (raw) => { raw.prompt = v("pe_task").trim(); if (pics) raw.pictures = lines(v("pe_pics")); raw.frame = lines(v("pe_frame")); raw.sample = v("pe_sample").trim(); }, "Writing task saved."),
       });
     }
     if (d.kind === "sample") {
@@ -660,19 +663,31 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     // Many words: the dialog starts from what one test checks well (the first ones, in priority order); "All" is a tap.
     const comfortN = perPart * COMFORT_PARTS;
     const on = new Set(all.slice(0, all.length > comfortN ? comfortN : all.length).map((w) => w.english));
-    const st = { part, mode: "add", at: null, replace: [], wish: "", tasks: {} };
+    // plan: the new parts (and additions to parts already on the test) — Lingo's proposal until the teacher changes
+    // it (custom), then theirs. sel: words picked in the plan, to move together.
+    const st = { part, mode: "add", at: null, replace: [], wish: "", plan: null, sig: "", custom: false, sel: new Set() };
     const chosenWords = () => all.filter((w) => on.has(w.english));
     const chosen = () => chosenWords().map((w) => w.english);
     const options = () => placementOptions(host.doc(), chosen().length ? chosen() : all.map((w) => w.english), { tasks: TASKS, maxItems: MAX_ITEMS, hasPicture });
     const room = (o) => MAX_ITEMS - (A(o.id)?.items.length || 0);
     const used = () => host.doc().sections.map((s) => s.task);
-    /** The proposed new parts for the chosen words, with any task the teacher changed. */
-    const newPlan = () => planNewParts(chosenWords(), { levelIdx, tasks: TASKS, perPart, hasPicture, used: used() })
-      .map((p, k) => {
-        const t = st.tasks[k];
-        // A changed task keeps the words; the picture task only while every word of the part has a picture.
-        return t && (t !== "V-PIC" || p.words.every(hasPicture)) ? { ...p, task: t } : p;
-      });
+    const tasksFor = (words) => newPartTasks(levelIdx, { tasks: TASKS, pictures: words.length > 0 && words.every(hasPicture) });
+    const fallbackTask = (p) => tasksFor(p.words).find((t) => t !== "V-PIC") || "V-BANK";
+    /** The plan for the chosen words: Lingo's proposal, or the teacher's own (kept in step with the chosen words). */
+    const newPlan = () => {
+      const sig = chosen().join("|");
+      if (!st.custom && (!st.plan || st.sig !== sig)) {
+        st.plan = planFromProposal(planNewParts(chosenWords(), { levelIdx, tasks: TASKS, perPart, hasPicture, used: used() }));
+        st.sig = sig;
+      } else if (st.custom) st.plan = syncPlan(st.plan, chosen());
+      st.plan = fitTasks(st.plan, { hasPicture, fallback: fallbackTask }).plan;
+      return st.plan;
+    };
+    /** A change the teacher makes to the plan: from now on it is theirs. */
+    const edit = (next) => { st.plan = next; st.custom = true; st.sel.clear(); };
+    /** Parts already on the test that can take new questions for these words (vocabulary parts with room first). */
+    const roomyParts = () => options().filter((o) => o.canAdd && room(o) > 0 && (o.fit === "best" || o.fit === "ok"));
+    const roomLeft = (p) => { const o = options().find((x) => x.id === p.id); return o ? room(o) : 0; };
     // Is the new part the better answer? When the existing parts can't take the words without crowding.
     const newIsBest = (opts, n) => n > 5 || !opts.some((o) => o.fit === "best" && o.canAdd && room(o) >= n);
     const pick = () => {
@@ -704,9 +719,10 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     const tone = { tested: "cov-good", seen: "cov-warn", missing: "cov-bad" };
     /** What the test becomes with these new parts: parts, points, minutes now → then. */
     const sizeAfter = (plan) => {
-      const extra = plan.map((p) => ({ ...makePart("vocabulary", p.task, spec.levelId), items: p.words.length }));
+      const extra = plan.parts.filter((p) => p.kind === "new" && p.words.length).map((p) => ({ ...makePart("vocabulary", p.task, spec.levelId), items: p.words.length }));
+      const adds = new Map(plan.parts.filter((p) => p.kind === "existing").map((p) => [p.id, p.words.length]));
       const now = { parts: spec.parts.length, points: specPoints(spec), minutes: estimateMinutes(spec) };
-      const then = { ...spec, parts: [...spec.parts, ...extra] };
+      const then = { ...spec, parts: [...spec.parts.map((p) => (adds.has(p.id) ? { ...p, items: (p.items || 0) + adds.get(p.id) } : p)), ...extra] };
       return { now, then: { parts: then.parts.length, points: specPoints(then), minutes: estimateMinutes(then) } };
     };
 
@@ -714,24 +730,66 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
       const plan = newPlan();
       const size = sizeAfter(plan);
       const comfort = Math.min(all.length, comfortN);
-      const tasksFor = (p) => newPartTasks(levelIdx, { tasks: TASKS, pictures: p.words.every(hasPicture) });
-      const partsList = plan.map((p, k) => `<div class="pw-new-part" data-skill="vocabulary">
-          <div class="pw-new-head"><span class="pw-n">${size.now.parts + k + 1}</span>
-            <select class="select sm" data-pw-task="${k}" aria-label="Kind of exercise for new part ${k + 1}">${tasksFor(p).map((t) => `<option value="${t}"${t === p.task ? " selected" : ""}>${esc(TASKS[t].label)}</option>`).join("")}</select>
-            <small>${plural(p.words.length, "question")}${ANSWER_TASKS.has(p.task) ? " · each word is the answer" : ""}</small></div>
-          <div class="pw-new-words">${p.words.map((w) => `<span>${esc(w)}</span>`).join("")}</div>
-        </div>`).join("");
+      const roomy = roomyParts();
+      const newParts = plan.parts.filter((p) => p.kind === "new");
+      const chip = (w) => `<button type="button" class="pw-chip${st.sel.has(w) ? " on" : ""}" draggable="true" data-pw-chip="${esc(w)}" aria-pressed="${st.sel.has(w)}" title="Tap to pick · drag to move">${esc(w)}</button>`;
+      const partCard = (p) => {
+        const isNew = p.kind === "new";
+        const k = newParts.indexOf(p);
+        const max = isNew ? MAX_ITEMS : roomLeft(p);
+        const over = !isNew && p.words.length > max;
+        const t = isNew ? p.task : A(p.id)?.task;
+        const head = isNew
+          ? `<span class="pw-n">${k + 1}</span><span class="pw-card-t">New part</span>
+            <select class="select sm" data-pw-task="${esc(p.key)}" aria-label="Kind of exercise for new part ${k + 1}">${tasksFor(p.words).map((x) => `<option value="${x}"${x === p.task ? " selected" : ""}>${esc(TASKS[x].label)}</option>`).join("")}</select>`
+          : `<span class="pw-n">${icon("plus", "i-xs")}</span><span class="pw-card-t">Add to Part ${p.part + 1} · ${esc(TASKS[t]?.label || "")}</span>`;
+        const long = isNew && p.words.length > perPart + 2;
+        return `<div class="pw-new-part${over ? " over" : ""}" data-skill="vocabulary" data-pw-drop="${esc(p.key)}">
+          <div class="pw-new-head">${head}
+            <span class="pw-size-ctl" role="group" aria-label="Size">
+              <button type="button" class="pw-step" data-pw-size="${esc(p.key)}" data-d="-1" aria-label="One question fewer"${p.words.length ? "" : " disabled"}>−</button>
+              <b>${plural(p.words.length, "question")}</b>
+              <button type="button" class="pw-step" data-pw-size="${esc(p.key)}" data-d="1" aria-label="One question more"${p.words.length >= max ? " disabled" : ""}>+</button>
+            </span>
+            <button type="button" class="pw-x" data-pw-remove="${esc(p.key)}" aria-label="Remove this part" title="Remove (its words are left out for now)">${icon("x", "i-xs")}</button>
+          </div>
+          <div class="pw-new-words">${p.words.length ? p.words.map(chip).join("") : `<span class="pw-empty">Drag words here, or pick words and choose “Move to”.</span>`}</div>
+          ${over ? `<p class="pw-hint warn">${icon("alert", "i-xs")}<span>Part ${p.part + 1} has room for ${plural(max, "more question")} — move ${p.words.length - max} of these words elsewhere.</span></p>`
+            : long ? `<p class="pw-note">A long part — about ${perPart} questions is easier on the children.</p>`
+            : isNew && ANSWER_TASKS.has(t) ? `<p class="pw-note">Each word is the answer to its question.</p>` : ""}
+        </div>`;
+      };
+      const spare = `<div class="pw-new-part pw-spare" data-pw-drop="spare">
+          <div class="pw-new-head"><span class="pw-card-t">Left out for now</span><small>${plural(plan.spare.length, "word")} · not put on the test</small></div>
+          <div class="pw-new-words">${plan.spare.length ? plan.spare.map(chip).join("") : `<span class="pw-empty">Drag a word here to leave it out.</span>`}</div>
+        </div>`;
+      const targets = [
+        ...newParts.map((p, k) => `<option value="${esc(p.key)}">New part ${k + 1} · ${esc(TASKS[p.task]?.label || "")}</option>`),
+        `<option value="new">A new part</option>`,
+        ...roomy.map((o) => `<option value="part:${esc(o.id)}">Part ${o.part + 1} · ${esc(TASKS[o.task]?.label || "")} (room for ${room(o)})</option>`),
+        `<option value="spare">Leave out for now</option>`,
+      ].join("");
+      const bar = st.sel.size ? `<div class="pw-movebar"><b>${plural(st.sel.size, "word")} picked</b>
+          <select class="select sm" data-pw-move aria-label="Move the picked words to"><option value="">Move to…</option>${targets}</select>
+          <button type="button" class="pk-clear" data-pw-unpick>Clear</button></div>`
+        : `<p class="pw-note">Drag words between parts, or tap words to pick them and choose where they go. − / + makes a part smaller or bigger.</p>`;
+      const existingDrops = roomy.filter((o) => !plan.parts.some((p) => p.kind === "existing" && p.id === o.id));
+      const drops = existingDrops.length ? `<div class="pw-drops"><small>Or add to a part already on the test:</small>${existingDrops.map((o) => `<button type="button" class="pw-drop" data-pw-drop="part:${esc(o.id)}">Part ${o.part + 1} · ${esc(TASKS[o.task]?.label || "")} <small>room for ${room(o)}</small></button>`).join("")}</div>` : "";
+      const nNew = newParts.filter((p) => p.words.length).length;
+      const partsList = `${bar}<div class="pw-new-list">${plan.parts.map(partCard).join("")}
+          <button type="button" class="pw-add-part" data-pw-drop="new">${icon("plus", "i-xs")}${st.sel.size ? `A new part with the ${plural(st.sel.size, "picked word")}` : "Add a part"}</button>
+          ${plan.spare.length || st.custom ? spare : ""}</div>${drops}`;
       const many = all.length > comfort;
       const presets = many ? `<div class="pw-presets">
-          <button type="button" class="chip${n === comfort && chosen().every((w, i) => w === all[i].english) ? " active" : ""}" data-pw-first="${comfort}">${icon("star", "i-xs")}The first ${comfort} <small>${plural(Math.ceil(comfort / perPart), "part")}</small></button>
-          <button type="button" class="chip${n === all.length ? " active" : ""}" data-pw-first="${all.length}">All ${all.length} <small>${plural(planNewParts(all, { levelIdx, tasks: TASKS, perPart, hasPicture }).length, "part")}</small></button>
+          <button type="button" class="chip${!st.custom && n === comfort && chosen().every((w, i) => w === all[i].english) ? " active" : ""}" data-pw-first="${comfort}">${icon("star", "i-xs")}The first ${comfort} <small>${plural(Math.ceil(comfort / perPart), "part")}</small></button>
+          <button type="button" class="chip${!st.custom && n === all.length ? " active" : ""}" data-pw-first="${all.length}">All ${all.length} <small>${plural(planNewParts(all, { levelIdx, tasks: TASKS, perPart, hasPicture }).length, "part")}</small></button>
         </div>` : "";
       const advice = many ? `<p class="pw-hint">${icon("info", "i-xs")}<span><b>${all.length} words are more than one test checks well.</b> ${plural(Math.ceil(comfort / perPart), "new part")} with the first ${comfort} (your own words first, then the ones not on the test at all, in the unit’s order) keeps it a test. The rest can go in a second test or a dictation — or tap words above to choose others.</span></p>` : "";
       const long = size.then.minutes - size.now.minutes;
       return `${advice}${presets}
         <div class="pw-size"><span><b>${size.now.parts} → ${size.then.parts}</b> parts</span><span><b>${size.now.points} → ${size.then.points}</b> points</span><span class="${size.then.minutes > 60 ? "warn" : ""}"><b>≈${size.now.minutes} → ${size.then.minutes}</b> min</span>${long > 0 ? `<small>+${long} min</small>` : ""}</div>
-        ${n ? `<div class="pw-new-list">${partsList}</div>` : ""}
-        <p class="pw-hint">${icon("check", "i-xs")}<span>Nothing already on the test changes. The new ${plan.length > 1 ? "parts go" : "part goes"} after the vocabulary parts; Step 3 shows ${plan.length > 1 ? "their" : "its"} words, and every word is checked when Lingo has written ${plan.length > 1 ? "them" : "it"}.</span></p>`;
+        ${n ? `<div class="pw-plan-head"><span class="label">${st.custom ? "Your plan" : "Lingo’s plan"}</span>${st.custom ? `<button type="button" class="pk-clear" data-pw-reset>Back to Lingo’s plan</button>` : ""}</div>${partsList}` : ""}
+        <p class="pw-hint">${icon("check", "i-xs")}<span>${plan.parts.some((p) => p.kind === "existing" && p.words.length) ? "The questions already on the test stay as they are." : "Nothing already on the test changes."}${nNew ? ` The new ${nNew > 1 ? "parts go" : "part goes"} after the vocabulary parts; Step 3 shows ${nNew > 1 ? "their" : "its"} words.` : ""} Every word is checked when Lingo has written it.</span></p>`;
     }
 
     function body() {
@@ -784,19 +842,41 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
       return `${count}<div class="pw-words${all.length > 12 ? " many" : ""}">${wordsHtml}</div>
         <div class="field"><span class="label">Where?</span><div class="pw-parts">${newCard}${partsHtml}</div></div>${how}`;
     }
+    /** What the plan's Go does: the new parts, the additions to parts already on the test, and the words they place. */
+    const planRun = () => {
+      const plan = newPlan();
+      const parts = plan.parts.filter((p) => p.kind === "new" && p.words.length).map((p) => ({ task: p.task, words: p.words }));
+      const extra = plan.parts.filter((p) => p.kind === "existing" && p.words.length).map((p) => ({ id: p.id, part: p.part, words: p.words, answer: ANSWER_TASKS.has(A(p.id)?.task) }));
+      const over = plan.parts.some((p) => p.kind === "existing" && p.words.length > roomLeft(p));
+      return { parts, extra, words: placedWords(plan), over };
+    };
     const goLabel = () => {
       const { o, n } = pick();
       if (!n) return "Choose a word";
-      if (st.part === "new") { const k = newPlan().length; return k > 1 ? `Add ${k} new parts (${n} words)` : `Add a new part (${plural(n, "word")})`; }
+      if (st.part === "new") {
+        const r = planRun();
+        const k = r.parts.length;
+        const where = [k > 1 ? `${k} new parts` : k ? "a new part" : "", ...r.extra.map((x) => `Part ${x.part + 1}`)].filter(Boolean);
+        if (!r.words.length) return "Put a word in a part";
+        return k && !r.extra.length ? (k > 1 ? `Add ${k} new parts (${r.words.length} words)` : `Add a new part (${plural(r.words.length, "word")})`) : `Put ${plural(r.words.length, "word")} in ${where.join(" and ")}`;
+      }
       if (st.mode === "add") return n > 1 ? `Add ${n} questions to Part ${o.part + 1}` : `Add the question to Part ${o.part + 1}`;
       if (st.mode === "replace") return n > 1 ? `Replace questions ${st.replace.join(", ")}` : `Replace question ${st.replace[0] ?? ""}`;
       return `Write Part ${o.part + 1} again`;
     };
+    /** "spare", "new", a plan part's key, or "part:<id>" (a part already on the test) → a moveWords target. */
+    const target = (v) => {
+      if (!v || v === "spare" || v === "new") return v;
+      if (v.startsWith("part:")) { const o = options().find((x) => x.id === v.slice(5)); return o ? { id: o.id, part: o.part } : "spare"; }
+      return v;
+    };
+    const newTask = () => { const t = tasksFor([]); const fresh = t.filter((x) => !used().includes(x) && !newPlan().parts.some((p) => p.task === x)); return fresh[0] || t[0] || "V-BANK"; };
+    const moveTo = (words, v, at = null) => { if (words.length) edit(moveWords(newPlan(), words, target(v), { task: newTask(), at })); };
 
     openDialog({
       title: all.length > 1 ? `Put ${all.length} words on the test` : `Put “${all[0].english}” on the test`,
-      subtitle: "You choose where — Lingo writes it, then every word is checked", iconName: "target", tone: "brand", sheet: true,
-      body: `<div class="pw" data-pw></div>`,
+      subtitle: "You choose where — Lingo writes it, then every word is checked", iconName: "target", tone: "brand", sheet: true, size: "pw-sheet",
+      body: `<div class="pw-dialog" data-pw></div>`,
       foot: `<span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-magic" data-pw-go>${icon("sparkles", "i-sm")}<span></span></button>`,
       onMount(root, close) {
         const box = root.querySelector("[data-pw]");
@@ -806,7 +886,8 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
           box.innerHTML = body();
           go.querySelector("span").textContent = goLabel();
           const { n } = pick();
-          go.disabled = !n || (st.part !== "new" && st.mode === "replace" && st.replace.length !== n);
+          const r = st.part === "new" ? planRun() : null;
+          go.disabled = !n || (r ? !r.words.length || r.over : st.mode === "replace" && st.replace.length !== n);
           const scroller = box.closest(".dialog-body");
           if (scroller) scroller.scrollTop = y;
         };
@@ -817,9 +898,9 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
           if (b.dataset.pwWord) { if (on.has(b.dataset.pwWord)) on.delete(b.dataset.pwWord); else on.add(b.dataset.pwWord); }
           if (b.dataset.pwAll !== undefined) all.forEach((w) => on.add(w.english));
           if (b.dataset.pwNone !== undefined) on.clear();
-          if (b.dataset.pwFirst) { on.clear(); all.slice(0, Number(b.dataset.pwFirst)).forEach((w) => on.add(w.english)); }
-          // Other words make other parts: the changed kinds of exercise start again from the proposal.
-          if (words) { st.replace = []; st.picked = false; st.tasks = {}; }
+          // A preset starts again from Lingo's plan for those words.
+          if (b.dataset.pwFirst) { on.clear(); all.slice(0, Number(b.dataset.pwFirst)).forEach((w) => on.add(w.english)); st.custom = false; st.plan = null; st.sel.clear(); }
+          if (words) { st.replace = []; st.picked = false; }
           if (b.dataset.pwPart) { st.part = b.dataset.pwPart === "new" ? "new" : Number(b.dataset.pwPart); st.at = null; st.replace = []; st.picked = false; if (st.mode === "rewrite") st.mode = "add"; }
           if (b.dataset.pwMode) st.mode = b.dataset.pwMode;
           if (b.dataset.pwItem) {
@@ -830,22 +911,72 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
             if (st.replace.includes(k)) st.replace = st.replace.filter((x) => x !== k);
             else st.replace = (n === 1 ? [k] : [...st.replace, k].slice(-n)).sort((a, z) => a - z);
           }
+          // The teacher's plan: pick words, move them, size and remove parts.
+          if (b.dataset.pwChip) { const w = b.dataset.pwChip; if (st.sel.has(w)) st.sel.delete(w); else st.sel.add(w); }
+          if (b.dataset.pwUnpick !== undefined) st.sel.clear();
+          if (b.dataset.pwReset !== undefined) { st.custom = false; st.plan = null; st.sel.clear(); }
+          if (b.dataset.pwSize) edit(resizePart(newPlan(), b.dataset.pwSize, Number(b.dataset.d), { max: (() => { const p = newPlan().parts.find((x) => x.key === b.dataset.pwSize); return p?.kind === "existing" ? roomLeft(p) : MAX_ITEMS; })() }));
+          if (b.dataset.pwRemove) edit(removePart(newPlan(), b.dataset.pwRemove));
+          // "Add a part" / a part already on the test: the picked words go there (an empty new part when none are picked).
+          if (b.dataset.pwDrop && !b.dataset.pwChip) {
+            if (st.sel.size) moveTo([...st.sel], b.dataset.pwDrop);
+            else if (b.dataset.pwDrop === "new") edit(addPart(newPlan(), newTask()));
+            else if (b.dataset.pwDrop.startsWith("part:")) toast("Pick words first (tap them), or drag words onto the part.", "info", { ms: 2600 });
+          }
           draw();
         });
         box.addEventListener("change", (e) => {
           if (e.target.dataset.pwAt !== undefined) st.at = Number(e.target.value);
-          if (e.target.dataset.pwTask !== undefined) { st.tasks[Number(e.target.dataset.pwTask)] = e.target.value; draw(); }
+          if (e.target.dataset.pwTask !== undefined) { edit(setTask(newPlan(), e.target.dataset.pwTask, e.target.value)); draw(); }
+          if (e.target.dataset.pwMove !== undefined && e.target.value) { moveTo([...st.sel], e.target.value); draw(); }
         });
         box.addEventListener("input", (e) => { if (e.target.dataset.pwWish !== undefined) st.wish = e.target.value; });
+        // Drag a word (or all the picked words, when it is one of them) onto a part, a word in it, or "Left out".
+        let dragged = [];
+        box.addEventListener("dragstart", (e) => {
+          const c = e.target.closest?.("[data-pw-chip]");
+          if (!c) return;
+          const w = c.dataset.pwChip;
+          dragged = st.sel.has(w) ? [...st.sel] : [w];
+          e.dataTransfer.effectAllowed = "move";
+          e.dataTransfer.setData("text/plain", dragged.join(", "));
+          box.classList.add("pw-dragging");
+        });
+        box.addEventListener("dragend", () => { dragged = []; box.classList.remove("pw-dragging"); box.querySelectorAll(".pw-over").forEach((x) => x.classList.remove("pw-over")); });
+        box.addEventListener("dragover", (e) => {
+          const t = dragged.length && e.target.closest?.("[data-pw-drop]");
+          if (!t) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+          box.querySelectorAll(".pw-over").forEach((x) => x !== t && x.classList.remove("pw-over"));
+          t.classList.add("pw-over");
+        });
+        box.addEventListener("drop", (e) => {
+          const t = dragged.length && e.target.closest?.("[data-pw-drop]");
+          if (!t) return;
+          e.preventDefault();
+          // Dropped on a word: in front of it; else at the end.
+          const before = e.target.closest?.("[data-pw-chip]");
+          const part = newPlan().parts.find((p) => p.key === t.dataset.pwDrop);
+          const at = before && part ? part.words.filter((w) => !dragged.includes(w)).indexOf(before.dataset.pwChip) : null;
+          moveTo(dragged, t.dataset.pwDrop, at != null && at >= 0 ? at : null);
+          dragged = [];
+          box.classList.remove("pw-dragging");
+          draw();
+        });
         go.addEventListener("click", () => {
           const { o } = pick();
-          const list = chosen();
-          if (!list.length) return;
-          const plan = st.part === "new"
-            ? { mode: "new", parts: newPlan() }
-            : { id: o.id, part: o.part, mode: st.mode, at: st.at, replace: [...st.replace], wish: st.wish.trim(), answer: ANSWER_TASKS.has(o.task) };
+          if (!chosen().length) return;
+          if (st.part === "new") {
+            const r = planRun();
+            if (!r.words.length || r.over) return;
+            close();
+            runPlacement(r.words, { mode: "new", parts: r.parts, extra: r.extra });
+            return;
+          }
+          const plan = { id: o.id, part: o.part, mode: st.mode, at: st.at, replace: [...st.replace], wish: st.wish.trim(), answer: ANSWER_TASKS.has(o.task) };
           close();
-          runPlacement(list, plan);
+          runPlacement(chosen(), plan);
         });
         draw();
       },
@@ -860,12 +991,21 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     const before = snapshot();
     const n = words.length;
     const what = n > 1 ? `${n} words` : `“${words[0]}”`;
-    const stop = toast(plan.mode === "new" ? `Lingo is writing ${plan.parts.length > 1 ? `${plan.parts.length} new parts` : "a new part"} with ${what}…` : plan.mode === "rewrite" ? `Lingo is writing Part ${plan.part + 1} again with ${what}…` : `Lingo is writing ${n > 1 ? `${n} questions` : "the question"} with ${what} in Part ${plan.part + 1}…`, "info", { ms: 300000 });
+    const stop = toast(plan.mode === "new" ? `Lingo is writing ${[plan.parts.length > 1 ? `${plan.parts.length} new parts` : plan.parts.length ? "a new part" : "", ...(plan.extra || []).map((x) => `questions in Part ${x.part + 1}`)].filter(Boolean).join(" and ")} with ${what}…` : plan.mode === "rewrite" ? `Lingo is writing Part ${plan.part + 1} again with ${what}…` : `Lingo is writing ${n > 1 ? `${n} questions` : "the question"} with ${what} in Part ${plan.part + 1}…`, "info", { ms: 300000 });
     const failed = [];
     let newIds = [];
     try {
       if (plan.mode === "new") {
-        const res = await host.addWordParts(plan.parts);
+        // Words the teacher sent to parts already on the test: new questions at the end of the part, 5 a request.
+        for (const x of plan.extra || []) {
+          for (let k = 0; k < x.words.length; k += 5) {
+            const batch = x.words.slice(k, k + 5);
+            const res = await addWithLingo(x.id, A(x.id)?.items.length || 0, batch.length, { words: batch, strict: true, answer: x.answer, quiet: true });
+            if (!same()) return;
+            if (!res) failed.push(...batch); else failed.push(...res.failed);
+          }
+        }
+        const res = plan.parts.length ? await host.addWordParts(plan.parts) : { added: [], failed: [] };
         if (!res || !same()) return;
         res.failed.forEach((p) => failed.push(...p.words));
         newIds = res.added.map((a) => a.id);
@@ -928,19 +1068,22 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     host.commit();
     // The word check says where each word is now: that, not what Lingo was asked, is what the toast reports.
     const doc = host.doc();
-    const where = new Set(plan.mode === "new" ? newIds.map((id) => doc.sections.findIndex((s) => s.id === id)) : [plan.part]);
-    const label = plan.mode === "new" ? (newIds.length > 1 ? `The new parts (${[...where].map((i) => i + 1).join(", ")})` : `New Part ${[...where][0] + 1}`) : `Part ${plan.part + 1}`;
+    const extraIds = (plan.extra || []).map((x) => x.id);
+    const where = new Set(plan.mode === "new" ? [...newIds, ...extraIds].map((id) => doc.sections.findIndex((s) => s.id === id)).filter((i) => i >= 0) : [plan.part]);
+    const newAt = newIds.map((id) => doc.sections.findIndex((s) => s.id === id) + 1);
+    const label = plan.mode !== "new" ? `Part ${plan.part + 1}` : [newIds.length > 1 ? `The new parts (${newAt.join(", ")})` : newIds.length ? `New Part ${newAt[0]}` : "", ...extraIds.map((id) => `Part ${doc.sections.findIndex((s) => s.id === id) + 1}`)].filter(Boolean).join(" and ") || "The test";
+    const many = where.size > 1;
     const c = new Map(testCoverage(doc).words.map((w) => [w.english.toLowerCase(), w]));
     const tested = [];
     const only = [];
     for (const w of words) {
       if (failed.includes(w)) continue;
       const here = c.get(w.toLowerCase())?.tested.find((t) => where.has(t.part));
-      if (here) tested.push(plan.mode === "new" && n > 3 ? `“${w}”` : `“${w}” (${plan.mode === "new" && where.size > 1 ? `Part ${here.part + 1}, ` : ""}question${here.items.length > 1 ? "s" : ""} ${here.items.join(", ")})`);
+      if (here) tested.push(plan.mode === "new" && n > 3 ? `“${w}”` : `“${w}” (${plan.mode === "new" && many ? `Part ${here.part + 1}, ` : ""}question${here.items.length > 1 ? "s" : ""} ${here.items.join(", ")})`);
       else only.push(`“${w}”`);
     }
     const msg = [];
-    if (tested.length) msg.push(tested.length > 6 ? `${label} now test${newIds.length > 1 ? "" : "s"} ${tested.length} of the words.` : `${label} now test${newIds.length > 1 ? "" : "s"} ${tested.join(", ")}.`);
+    if (tested.length) msg.push(tested.length > 6 ? `${label} now test${many ? "" : "s"} ${tested.length} of the words.` : `${label} now test${many ? "" : "s"} ${tested.join(", ")}.`);
     if (only.length) msg.push(`${only.slice(0, 8).join(", ")}${only.length > 8 ? ` and ${only.length - 8} more` : ""} ${only.length > 1 ? "are" : "is"} there now, but no question has ${only.length > 1 ? "them" : "it"} as the answer.`);
     if (failed.length) msg.push(`Lingo couldn’t place ${failed.slice(0, 8).map((w) => `“${w}”`).join(", ")}${failed.length > 8 ? ` and ${failed.length - 8} more` : ""} — they stay red in the word check; click one to try again.`);
     const changed = snapshot() !== before || newIds.length > 0;

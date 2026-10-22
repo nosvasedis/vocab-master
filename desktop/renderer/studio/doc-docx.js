@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./paper-header.js";
@@ -116,8 +116,8 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         ])));
         return;
       }
-      if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [run(`${f}  `), run("______________________________", { color: "8A8A8A" })]))); return; }
-      s.frame.forEach((f) => children.push(para([run(`• ${f}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
+      if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [run(`${gapText(starterText(f))}  `), run("______________________________", { color: "8A8A8A" })]))); return; }
+      s.frame.forEach((f) => children.push(para([run(`• ${gapText(f)}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
       return;
     }
