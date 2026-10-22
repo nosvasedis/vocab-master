@@ -157,3 +157,22 @@ test("tick or cross: a test saved with a wrong key is put right when it opens", 
   relabelDoc(doc);
   assert.deepEqual(doc.sections[0].items.map((it) => [it.tf, it.answer.toLowerCase()]), [[1, "no"], [0, "yes"]]);
 });
+
+/* ── Unjumble the letters: letter boxes as help, the mixed-up letters always there ── */
+test("unjumble: no boxes by default; the part's help or a question's own letters add boxes after the letters", () => {
+  const raw = { example: { prompt: "It barks.", answer: "dog" }, items: [{ prompt: "It lives in a pond and jumps.", answer: "frog" }, { prompt: "It gives us milk.", answer: "cow" }] };
+  const plain = normalizeSection({ ...makePart("vocabulary", "V-SPELL", "A_SENIOR"), items: 2 }, raw, { levelId: "A_SENIOR" });
+  assert.ok(plain.items.every((it) => it.jumble && it.hint === undefined));
+  const one = rows(renderStudentPaper(doc(plain)))[1];
+  assert.ok(one.includes("st-jumble") && one.includes("st-line") && !one.includes("st-cells"));
+  const helped = normalizeSection({ ...makePart("vocabulary", "V-SPELL", "A_SENIOR"), items: 2, opts: { hint: "first" } },
+    { ...raw, items: [{ ...raw.items[0], jumble: plain.items[0].jumble }, { ...raw.items[1], reveal: [2] }] }, { levelId: "A_SENIOR" });
+  assert.equal(helped.items[0].jumble, plain.items[0].jumble, "the letters stay mixed the same way");
+  assert.deepEqual([helped.items[0].hint, helped.items[1].hint], ["f _ _ _", "_ _ w"]);
+  const [ex, h1] = rows(renderStudentPaper(doc(helped)));
+  assert.ok(h1.includes("st-jumble") && h1.includes("st-cells") && !h1.includes("st-line"));
+  assert.ok(ex.includes("st-cells done"));
+  // A jumble that isn't the answer's letters is mixed again.
+  const fixed = normalizeSection({ ...makePart("vocabulary", "V-SPELL", "A_SENIOR"), items: 1 }, { items: [{ prompt: "It barks.", answer: "dog", jumble: "c · a · t" }] }, { levelId: "A_SENIOR" });
+  assert.notEqual(fixed.items[0].jumble, "c · a · t");
+});

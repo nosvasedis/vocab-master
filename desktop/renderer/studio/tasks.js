@@ -110,8 +110,8 @@ export const TASKS = {
     blurb: "A sentence with a gap and three unit words of the same kind; only one fits. Children must understand the whole sentence, not just spot a word.",
     sample: { q: "The firefighter ________ the kitten from the tree.", o: ["rescued", "collected", "donated"], a: 0 },
     rubric: "Read and choose the right word.", el: "Διάβασε και διάλεξε τη σωστή λέξη.", ai: "Sentences with one gap ________; 3 options that are unit words of the same part of speech; only one fits." },
-  "V-SPELL": { skill: "vocabulary", label: "Unjumble the letters", answer: "word", kind: "recall", fit: [0, 2], knobs: [], trains: ["Spelling", "Word shape"],
-    blurb: "A clue and the word's letters mixed up; children write the word. Playful spelling practice for young classes — the app mixes the letters.",
+  "V-SPELL": { skill: "vocabulary", label: "Unjumble the letters", answer: "word", kind: "recall", fit: [0, 2], knobs: ["hint"], trains: ["Spelling", "Word shape"],
+    blurb: "A clue and the word's letters mixed up; children write the word. Playful spelling practice for young classes — the app mixes the letters, and can give letter boxes with the first letter or more to help.",
     sample: { q: "It lives in a pond and jumps.  g · o · r · f", a: "frog" },
     rubric: "Read the clue. Put the letters in order and write the word.", el: "Διάβασε το στοιχείο. Βάλε τα γράμματα στη σωστή σειρά και γράψε τη λέξη.", ai: "prompt = a very short clue that shows which word it is (\"It lives in a pond and jumps.\") — never the word itself; answer = a unit word that is ONE word of 3–10 letters (no phrases). The app adds the mixed-up letters." },
   "V-BANK": { skill: "vocabulary", label: "Complete with words from the box", answer: "word", bank: true, kind: "recall", fit: [0, 4], knobs: ["extras"], trains: ["Words in context", "Word forms"],
@@ -274,6 +274,9 @@ export function knobDefault(key, levelId) {
   }[key];
 }
 
+/** Settings whose default differs for a task: unjumbling already gives every letter, so it starts with no letter boxes. */
+const TASK_KNOB_DEFAULTS = { "V-SPELL": { hint: "none" } };
+
 /** A part's settings with the class defaults filled in: { genre, length, … } for its task's knobs. */
 export function partOpts(part, levelId) {
   const t = TASKS[part?.task];
@@ -281,7 +284,7 @@ export function partOpts(part, levelId) {
   for (const k of t?.knobs || []) {
     const v = part?.opts?.[k];
     const ok = k === "text" ? typeof v === "string" : KNOBS[k].values.some(([x]) => x === v);
-    out[k] = ok ? v : knobDefault(k, levelId);
+    out[k] = ok ? v : TASK_KNOB_DEFAULTS[part?.task]?.[k] ?? knobDefault(k, levelId);
   }
   return out;
 }

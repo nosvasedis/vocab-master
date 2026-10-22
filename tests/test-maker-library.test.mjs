@@ -124,7 +124,7 @@ test("the app makes the letter help: mixed-up letters, a first letter, a letter 
   // On paper the count is six empty letter boxes.
   assert.equal((renderStudentPaper({ meta: {}, sections: [sec] }).match(/class="st-cell"/g) || []).length, 6 + 4);
   const spell = normalizeSection({ id: "s", task: "V-SPELL", items: 1 }, { items: [{ prompt: "It jumps.", answer: "frog" }] }, { levelId: "A_SENIOR" });
-  assert.ok(spell.items[0].hint.includes(" · "));
+  assert.ok(spell.items[0].jumble.includes(" · ") && spell.items[0].hint === undefined, "mixed-up letters, no letter boxes by default");
 });
 
 test("put the events in order: the app numbers and mixes the events, and an edit keeps the key", () => {

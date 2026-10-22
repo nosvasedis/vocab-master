@@ -113,14 +113,16 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   }
   const hasGap = GAP.test(it.prompt); GAP.lastIndex = 0;
   // Letter help with blanks ("b _ _ _ _ _") is where the child writes: it takes the sentence's gap, or the line's place.
+  // Unjumble: the mixed-up letters come right after the clue.
+  const jumble = it.jumble ? ` <span class="st-hint st-jumble">${esc(it.jumble)}</span>` : "";
   if (writeIn(it)) {
     const box = hintBox(it, example);
-    const text = hasGap ? esc(it.prompt).replace(/_{3,}/, () => box).replace(GAP, () => line("inline")) : `${withGaps(it.prompt)} ${box}`;
+    const text = hasGap ? `${esc(it.prompt).replace(/_{3,}/, () => box).replace(GAP, () => line("inline"))}${jumble}` : `${withGaps(it.prompt)}${jumble} ${box}`;
     return `<div class="${cls}">${num}<div class="item-text">${text}${key}</div></div>`;
   }
   const prompt = /^\(\d+\)$/.test(it.prompt) ? `<b>${esc(it.prompt)}</b>` : withGaps(it.prompt);
   const hint = it.hint ? ` <span class="st-hint">${esc(it.hint)}</span>` : "";
-  return `<div class="${cls}">${num}<div class="item-text">${prompt}${hint}${example ? ` ${exAns}` : hasGap ? "" : ` ${line()}`}${key}</div></div>`;
+  return `<div class="${cls}">${num}<div class="item-text">${prompt}${jumble}${hint}${example ? ` ${exAns}` : hasGap ? "" : ` ${line()}`}${key}</div></div>`;
 }
 
 function pictureCardsHtml(section, layout, showAnswers) {

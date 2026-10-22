@@ -53,7 +53,7 @@ export function testItemRow(section, it) {
     GAP.lastIndex = 0;
     const gap = GAP.test(String(it.prompt || ""));
     GAP.lastIndex = 0;
-    return { short: isShortAnswer(it.answer), length: printedLength({ prompt: it.prompt, hint: it.hint, extra: gap ? 0 : 12 }) };
+    return { short: isShortAnswer(it.answer), length: printedLength({ prompt: it.prompt, hint: [it.jumble, it.hint].filter(Boolean).join("  "), extra: gap ? 0 : 12 }) };
   }
   return { short: false, length: Infinity };
 }

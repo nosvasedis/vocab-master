@@ -612,7 +612,7 @@ ${ctx.instruction}` : "",
 
 /** A section back into the AI's shape (to normalize it again after some items change). */
 function sectionToRaw(s) {
-  const item = (it) => (it ? { prompt: it.prompt, options: it.options, answer: it.answer, evidence: it.evidence, picture: it.picWord, reveal: it.reveal } : null);
+  const item = (it) => (it ? { prompt: it.prompt, options: it.options, answer: it.answer, evidence: it.evidence, picture: it.picWord, reveal: it.reveal, jumble: it.jumble } : null);
   return {
     items: (s.items || []).map(item), example: item(s.example), passage: s.passage, passageTitle: s.passageTitle, script: s.script,
     frame: s.frame, prompts: s.prompts, sample: s.sample, prompt: s.task_prompt, pictures: (s.pictures || []).map((p) => p.word),
@@ -633,7 +633,7 @@ export function applyItemFixes(doc, spec, sectionId, reply, itemNs, ctx = {}) {
       if (!want.has(n) || !raw.items[n - 1] || changed.includes(n)) continue;
       // The teacher’s letter help stays while the answer does.
       const old = raw.items[n - 1];
-      raw.items[n - 1] = { prompt: it.prompt ?? it.question ?? "", options: it.options, answer: it.answer, evidence: it.evidence, picture: it.picture ?? old.picture, ...(old.reveal !== undefined && String(it.answer || "").trim().toLowerCase() === String(old.answer || "").trim().toLowerCase() ? { reveal: old.reveal } : {}) };
+      raw.items[n - 1] = { prompt: it.prompt ?? it.question ?? "", options: it.options, answer: it.answer, evidence: it.evidence, picture: it.picture ?? old.picture, jumble: old.jumble, ...(old.reveal !== undefined && String(it.answer || "").trim().toLowerCase() === String(old.answer || "").trim().toLowerCase() ? { reveal: old.reveal } : {}) };
       changed.push(n);
     }
     return changed.length > 0;

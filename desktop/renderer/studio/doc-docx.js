@@ -151,8 +151,9 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         // It takes the sentence's gap, or the line's place; the example shows the answer written in.
         const box = ex ? [run(` ${it.answer} `, { italics: true })] : hintRun(it);
         const [first, ...rest] = String(it.prompt || "").split(/_{3,}/);
-        runs.push(run(first), ...(rest.length ? [...box, run(gapText(rest.join("____________")))] : [run("   "), ...box]));
-      } else runs.push(run(gapText(it.prompt)), ...(it.hint ? [run(`   [${it.hint}]`, { bold: true, size: 19, color: "555555" })] : []), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
+        const jumble = it.jumble ? [run(`   [${it.jumble}]`, { bold: true, size: 19, color: "555555" })] : [];
+        runs.push(run(first), ...(rest.length ? [...box, run(gapText(rest.join("____________"))), ...jumble] : [...jumble, run("   "), ...box]));
+      } else runs.push(run(gapText(it.prompt)), ...(it.jumble ? [run(`   [${it.jumble}]`, { bold: true, size: 19, color: "555555" })] : []), ...(it.hint ? [run(`   [${it.hint}]`, { bold: true, size: 19, color: "555555" })] : []), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
       out.push(item(ex ? (s.task === "R-ORDER" ? "✓" : "0") : s.task === "R-ORDER" ? (it.letter || "").toUpperCase() : it.n, runs));
     });
     if (cols && withExample) children.push(out[0], twoColumns(out.slice(1)));

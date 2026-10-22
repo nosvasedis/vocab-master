@@ -62,6 +62,7 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     item.answer = clean(raw?.answer ?? raw?.sample ?? "");
     if (!item.answer && t.answer !== "open" && task !== "R-ORDER") problems.push("missing answer");
   }
+  if (task === "V-SPELL" && raw?.jumble) item.jumble = clean(raw.jumble);
   // The teacher’s own letter help for this question (kept while it fits the answer).
   if (LETTER_HELP_TASKS.includes(task)) { const r = cleanReveal(raw?.reveal, item.answer); if (r !== undefined) item.reveal = r; }
   if (task === "V-PIC" && picFor) {
@@ -119,6 +120,12 @@ export function repairOrderItem(item, rand = Math.random) {
 }
 
 /** A word with its letters mixed up ("frog" → "g · o · r · f"), never in the right order. */
+/** Are the mixed-up letters exactly the answer's letters? ("o · g · d" for "dog") */
+export const sameLetters = (jumble, answer) => {
+  const bag = (s) => String(s || "").toLowerCase().replace(/[^a-z]/g, "").split("").sort().join("");
+  return !!jumble && bag(jumble) === bag(answer) && bag(answer).length > 0;
+};
+
 export function scramble(word, rand = Math.random) {
   const letters = String(word || "").toLowerCase().replace(/[^a-z]/g, "").split("");
   if (letters.length < 2) return letters.join("");
@@ -128,7 +135,7 @@ export function scramble(word, rand = Math.random) {
 }
 
 /** Tasks whose letter help the app makes (and the teacher can set per question). */
-export const LETTER_HELP_TASKS = ["V-DEF", "V-PIC", "V-OPPW", "V-FORM"];
+export const LETTER_HELP_TASKS = ["V-DEF", "V-PIC", "V-OPPW", "V-FORM", "V-SPELL"];
 
 /** A question’s letter help: its own choice when the teacher made one, else the part’s. */
 function setHint(it, partHint) {
@@ -498,7 +505,12 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
   if (task.answer === "choice" || hasWordBox(section)) { const r = sectionRubric(section); section.rubric = r.en; section.rubricEl = r.el; }
   // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
-  if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
+  // Unjumble: the mixed-up letters (kept while they are the answer's letters, so a re-check doesn't mix them again),
+  // and letter boxes when the part or the question asks for them.
+  if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => {
+    if (!sameLetters(it.jumble, it.answer)) it.jumble = scramble(it.answer);
+    setHint(it, letterHint(it.answer, opts.hint));
+  });
   if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => setHint(it, familyHint(it.prompt, it.answer, opts.family)));
   // Word families and opposites: the answer is never the word in capitals itself.
   if (plan.task === "V-FORM" || plan.task === "V-OPPW") items.forEach((it) => {
