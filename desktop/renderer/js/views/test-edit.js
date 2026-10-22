@@ -8,6 +8,8 @@ import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, tfLabels } from "../../studio/tasks.js";
 import { reviseSection, fixItemsPrompt, applyItemFixes } from "../../studio/test-builder.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
+import { containsForm } from "../../studio/word-scope.js";
+import { itemUses, placementOptions, testCoverage } from "../../studio/test-coverage.js";
 
 const CSS = `
 .pe-t { position: relative; cursor: pointer; border-radius: 6px; transition: background 140ms, box-shadow 140ms; }
@@ -282,14 +284,19 @@ export function mountTestEditing(host) {
     addedToast(doc, id, before, `Question ${at + 1} added.`, at + 1);
   }
 
-  async function addWithLingo(id, at, count, { words = [], level = "same", wish = "" } = {}) {
+  /**
+   * strict: one new question per word, in order, each built on its word (with `answer`, the word is the right
+   * answer); a question that doesn't use its word goes back to Lingo, and one that still doesn't is taken out again.
+   * quiet: no toasts — returns { placed: [word], failed: [word], before } for the caller to report.
+   */
+  async function addWithLingo(id, at, count, { words = [], level = "same", wish = "", strict = false, answer = false, quiet = false } = {}) {
     const s = A(id);
-    if (!s) return;
+    if (!s) return null;
     const doc = host.doc();
     const btn = host.root.querySelector(`[data-pe-add="${CSS_ESC(id)}"]`);
     btn?.classList.add("pe-busy");
     if (btn) btn.textContent = `Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`;
-    const stop = toast(`Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`, "info", { ms: 60000 });
+    const stop = quiet ? null : toast(`Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`, "info", { ms: 60000 });
     let before = null;
     try {
       const ctx = await host.ctx();
@@ -302,7 +309,8 @@ export function mountTestEditing(host) {
       const instruction = [
         `These are NEW questions added to the part. Each one is different from every other question (another word or another detail) — never a copy or a rewording of one of them.`,
         A(id).script?.length || A(id).passage ? `Each asks about a detail of the ${A(id).script?.length ? "script" : "text"} that no other question asks about.` : "",
-        words.length ? `Build them on these words, one each where possible: ${words.join(", ")}.` : "Use words this part hasn't tested yet where you can.",
+        strict ? ns.map((n, k) => `Question ${n} MUST be built on the word "${words[k]}"${answer ? " and its right answer MUST be that word (a form of it that fits the sentence is fine)" : ""}.`).join(" ")
+          : words.length ? `Build them on these words, one each where possible: ${words.join(", ")}.` : "Use words this part hasn't tested yet where you can.",
         level === "easier" ? "Make them a little easier than the others." : level === "harder" ? "Make them a little harder than the others." : "Make them as hard as the others.",
         s.answerType === "tf" ? "Mix the answers: about half one way, half the other, as in the rest of the part." : "",
         wish ? `The teacher's wish: ${wish}` : "",
@@ -311,24 +319,42 @@ export function mountTestEditing(host) {
       let missing = ns;
       for (let attempt = 0; attempt < 2 && missing.length; attempt++) {
         const { system, user } = fixItemsPrompt(host.spec(), A(id), missing, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction });
-        const reply = await host.ask(system, user, attempt ? `Write items ${missing.join(", ")} — real new questions with a right answer${s.answerType === "choice" ? " among the options" : ""}.` : "");
+        const why = strict ? missing.map((n) => `question ${n} must ${answer ? "have the answer" : "use the word"} "${words[ns.indexOf(n)]}"`).join("; ") : "";
+        const reply = await host.ask(system, user, attempt ? `Write items ${missing.join(", ")} — real new questions with a right answer${s.answerType === "choice" ? " among the options" : ""}${why ? `; ${why}` : ""}.` : "");
         if (host.doc() !== doc) return;
         applyItemFixes(doc, host.spec(), id, reply, missing, { picFor: ctx.picFor, focusWords: ctx.focus });
         const sec = A(id);
-        missing = ns.filter((n) => { const it = sec.items[n - 1]; return !it || it.prompt === "(a new question)" || !it.answer || it.answer === "?"; });
+        missing = ns.filter((n, k) => {
+          const it = sec.items[n - 1];
+          if (!it || it.prompt === "(a new question)" || !it.answer || it.answer === "?") return true;
+          return strict && (answer ? !containsForm(String(it.answer), words[k]) : !itemUses(it, words[k]));
+        });
+      }
+      // Strict: the questions that came out right stay; the others are taken out again (from the last, so the
+      // numbers of the earlier ones hold), and the caller says which words didn't make it.
+      if (strict && missing.length && missing.length < ns.length) {
+        const drop = [...missing].sort((a, b) => b - a);
+        reviseSection(doc, host.spec(), id, (raw) => { drop.forEach((n) => raw.items.splice(n - 1, 1)); }, { picFor: ctx.picFor, focusWords: ctx.focus });
+        host.itemsChanged?.(id);
+        await host.checkKeys([id]);
+        if (host.doc() !== doc) return null;
+        host.commit();
+        return { placed: words.filter((_, k) => !missing.includes(ns[k])), failed: words.filter((_, k) => missing.includes(ns[k])), before, first: at + 1 };
       }
       if (missing.length) {
         Object.assign(doc, JSON.parse(before));
         host.itemsChanged?.(id);
         host.commit();
-        toast("Lingo couldn’t write the new questions this time. Try again, or write one yourself (✎ I'll write it).", "warn", { ms: 7000 });
-        return;
+        if (!quiet) toast("Lingo couldn’t write the new questions this time. Try again, or write one yourself (✎ I'll write it).", "warn", { ms: 7000 });
+        return { placed: [], failed: words, before: null };
       }
       await host.checkKeys([id]);
-      if (host.doc() !== doc) return;
+      if (host.doc() !== doc) return null;
+      if (quiet) { host.commit(); flash(id, at + 1); return { placed: words, failed: [], before, first: at + 1 }; }
       addedToast(doc, id, before, count === 1 ? `Question ${at + 1} is new.` : `Questions ${at + 1}–${at + count} are new.`, at + 1);
     } catch (e) {
       if (before && host.doc() === doc) { Object.assign(doc, JSON.parse(before)); host.itemsChanged?.(id); host.commit(); }
+      if (quiet) throw e;
       toast(e?.message || "Lingo couldn’t add the questions.", "error");
     } finally {
       stop?.();
@@ -505,12 +531,13 @@ export function mountTestEditing(host) {
     });
   }
 
-  async function remake(id, idx, wish, el) {
+  /** opts: { quiet } (no toast; the caller reports), { answer } (the new question must have this word as its answer). */
+  async function remake(id, idx, wish, el, opts = {}) {
     const s = A(id);
     const n = idx + 1;
-    if (!s?.items[idx]) return;
-    busy.add(el);
-    el.classList.add("pe-busy");
+    if (!s?.items[idx]) return false;
+    el ||= itemEl(id, n);
+    if (el) { busy.add(el); el.classList.add("pe-busy"); }
     bar?.remove(); bar = null; barFor = null;
     const before = snapshot();
     const doc0 = host.doc();
@@ -522,12 +549,17 @@ export function mountTestEditing(host) {
       // ignores the wish (the same word again, the same sentence) goes back to Lingo with the reason, up to 3 tries.
       const original = JSON.parse(JSON.stringify(s.items[idx]));
       const plan = remakePlan({ wish, item: original, siblings: s.items.filter((_, k) => k !== idx), candidates: ctx.focus || [] });
+      if (opts.answer) {
+        plan.instruction += `
+The right answer MUST be "${opts.answer}" (a form of it that fits the sentence is fine): the question tests that word.`;
+        plan.checks.answer = opts.answer;
+      }
       let problems = [];
       for (let attempt = 0; attempt < 3; attempt++) {
         const sec = A(id);
         const { system, user } = fixItemsPrompt(spec, sec, [n], { profileBlock: host.profile(spec.levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction: plan.instruction });
         const reply = await host.ask(system, user, attempt ? remakeRetryHint(problems) : "");
-        if (host.doc() !== doc0) return; // the test was closed, deleted or rewritten meanwhile
+        if (host.doc() !== doc0) return false; // the test was closed, deleted or rewritten meanwhile
         const changed = applyItemFixes(host.doc(), spec, id, reply, [n], { picFor: ctx.picFor, focusWords: ctx.focus });
         const now = A(id)?.items[idx];
         problems = changed.length ? remakeProblems(original, now, plan.checks) : ["no new question came back"];
@@ -536,18 +568,30 @@ export function mountTestEditing(host) {
         if (!problems.length) break;
         restore();
       }
-      if (problems.length) { toast(`Lingo didn’t manage it (${problems[0]}). Try other words in the box, or edit the question yourself.`, "warn", { ms: 7000 }); return; }
+      if (problems.length) {
+        if (!opts.quiet) toast(`Lingo didn’t manage it (${problems[0]}). Try other words in the box, or edit the question yourself.`, "warn", { ms: 7000 });
+        return false;
+      }
       await host.checkKeys([id]);
-      if (host.doc() !== doc0) return;
-      done(before, `Question ${n} is new.`);
+      if (host.doc() !== doc0) return false;
+      if (!opts.quiet) done(before, `Question ${n} is new.`);
       flash(id, n);
+      return true;
     } catch (e) {
       restore();
-      toast(e?.message || "Lingo couldn’t remake that question.", "error");
+      if (!opts.quiet) toast(e?.message || "Lingo couldn’t remake that question.", "error");
+      else throw e;
+      return false;
     } finally {
-      busy.delete(el);
-      el.classList.remove("pe-busy");
+      if (el) { busy.delete(el); el.classList.remove("pe-busy"); }
     }
+  }
+
+  /** A question on the paper (A version), for the busy look while Lingo rewrites it. */
+  function itemEl(id, n) {
+    const i = host.view()?.sections.findIndex((x) => x.id === id);
+    const secEl = host.root.querySelectorAll("section.st-sec")[i];
+    return host.sheet() === "B" ? null : secEl?.querySelectorAll(".st-item:not(.st-example), .pic-card:not(.st-example)")[n - 1] || null;
   }
 
   /** Light up a question after a change (on the paper just redrawn). */
@@ -583,5 +627,204 @@ export function mountTestEditing(host) {
     });
   }
 
-  return { decorate };
+  /* ── Put words on the test, where the teacher decides (from the word check) ── */
+  // Vocabulary tasks whose answer is the word itself: a word put there must be the right answer.
+  const ANSWER_TASKS = new Set(["V-PIC", "V-MC", "V-SPELL", "V-BANK", "V-DEF"]);
+  const FIT_LABEL = { best: "Best fit", ok: "Fits", rewrite: "Only by writing the part again" };
+
+  /**
+   * The word(s), then a part (each says how well the words fit there and why), then how: a new question (and
+   * where), the question(s) it replaces (each says if it is the only test of a chosen word), or the part written
+   * again. Lingo writes it; each new question is checked for its word (and, where the word is the answer, for that),
+   * and one toast says where every word is now — from the word check itself — with Undo for all of it.
+   */
+  function placeWords(words, { part = null } = {}) {
+    const doc = host.doc();
+    if (!doc || !words?.length) return;
+    const all = words.map((w) => (typeof w === "string" ? { english: w } : w)).filter((w) => w.english);
+    const on = new Set(all.map((w) => w.english));
+    const st = { part, mode: "add", at: null, replace: [], wish: "" };
+    const chosen = () => all.filter((w) => on.has(w.english)).map((w) => w.english);
+    const options = () => placementOptions(host.doc(), chosen().length ? chosen() : all.map((w) => w.english), { tasks: TASKS, maxItems: MAX_ITEMS });
+    const room = (o) => MAX_ITEMS - (A(o.id)?.items.length || 0);
+    const pick = () => {
+      const opts = options();
+      const n = chosen().length;
+      if (st.part == null || !opts[st.part]) {
+        const ok = (o) => o.canAdd && room(o) >= n;
+        st.part = (opts.find((o) => o.fit === "best" && ok(o)) || opts.find((o) => o.fit !== "rewrite" && ok(o)) || opts.find((o) => o.fit !== "rewrite" && o.canReplace) || opts[0])?.part ?? 0;
+      }
+      const o = opts[st.part];
+      // The mode the part allows, the place at the end, and the questions safest to replace first.
+      if (o.fit === "rewrite") st.mode = "rewrite";
+      else if (st.mode === "add" && !(o.canAdd && room(o) >= n)) st.mode = o.canReplace ? "replace" : "rewrite";
+      else if (st.mode === "replace" && !o.canReplace) st.mode = o.canAdd ? "add" : "rewrite";
+      if (st.at == null || st.at > o.items.length) st.at = o.items.length;
+      st.replace = st.replace.filter((x) => o.items.some((it) => it.n === x)).slice(0, n);
+      if (st.mode === "replace" && !st.picked && st.replace.length < n) {
+        // Only questions that are no word's only test are picked for the teacher; the rest they pick themselves.
+        const order = o.items.filter((it) => !it.only.length).sort((a, b) => a.tests.length - b.tests.length);
+        for (const it of order) if (st.replace.length < n && !st.replace.includes(it.n)) st.replace.push(it.n);
+        st.replace.sort((a, b) => a - b);
+      }
+      return { opts, o, n };
+    };
+    const cov = () => new Map(testCoverage(host.doc()).words.map((w) => [w.english.toLowerCase(), w]));
+    const tone = { tested: "cov-good", seen: "cov-warn", missing: "cov-bad" };
+
+    function body() {
+      const { opts, o, n } = pick();
+      const c = cov();
+      const wordsHtml = all.map((w) => {
+        const x = c.get(w.english.toLowerCase());
+        const where = x ? (x.status === "tested" ? `tested in ${x.tested.map((t) => `Part ${t.part + 1}`).join(", ")}` : x.status === "seen" ? `only appears in ${x.seen.map((p) => `Part ${p + 1}`).join(", ")}` : "not on the test") : "";
+        return `<button type="button" class="pw-word ${tone[x?.status] || ""}${on.has(w.english) ? " on" : ""}" data-pw-word="${esc(w.english)}" aria-pressed="${on.has(w.english)}"${all.length === 1 ? " disabled" : ""}>${all.length > 1 ? `<span class="pw-box">${icon(on.has(w.english) ? "check" : "plus", "i-xs")}</span>` : ""}<b>${esc(w.english)}</b>${w.greek ? `<small>${esc(w.greek)}</small>` : ""}<em>${esc(where)}</em></button>`;
+      }).join("");
+      const partsHtml = opts.map((p) => {
+        const s = A(p.id);
+        return `<button type="button" class="pw-part fit-${p.fit}${p.part === st.part ? " active" : ""}" data-pw-part="${p.part}" data-skill="${esc(p.skill)}">
+          <span class="pw-part-ico">${SKILLS[p.skill]?.icon || ""}</span>
+          <span class="pw-part-t"><small>Part ${p.part + 1} · ${esc(SKILLS[p.skill]?.label || "")} · ${plural(s?.items.length || 0, "question")}</small><b>${esc(TASKS[p.task]?.label || "")}</b><span>${esc(p.note)}</span></span>
+          <span class="pw-fit">${esc(FIT_LABEL[p.fit])}</span></button>`;
+      }).join("");
+      const full = !(o.canAdd && room(o) >= n);
+      const modeBtn = (k, ico, text, ok, why) => `<button type="button" class="chip${st.mode === k ? " active" : ""}" data-pw-mode="${k}"${ok ? "" : ` disabled title="${esc(why)}"`}>${icon(ico, "i-xs")}${text}</button>`;
+      const modes = `<div class="pw-modes" role="radiogroup" aria-label="How">
+        ${modeBtn("add", "plus", n > 1 ? `Add ${n} new questions` : "Add a new question", o.fit !== "rewrite" && !full, o.fit === "rewrite" ? o.note : `This part has room for ${room(o)} more question${room(o) === 1 ? "" : "s"}.`)}
+        ${modeBtn("replace", "refresh", n > 1 ? `Replace ${n} questions` : "Replace a question", o.canReplace && o.items.length >= n, o.fit === "rewrite" ? o.note : "Not enough questions in this part.")}
+        ${modeBtn("rewrite", "sparkles", "Write the part again", true, "")}</div>`;
+      let how = "";
+      if (st.mode === "add") {
+        how = `<div class="field"><label class="label" for="pw_at">Where</label><select class="select" id="pw_at" data-pw-at>${Array.from({ length: o.items.length + 1 }, (_, k) => `<option value="${k}"${k === st.at ? " selected" : ""}>${k === o.items.length ? "At the end" : k === 0 ? "At the start (before question 1)" : `After question ${k}`}</option>`).join("")}</select></div>
+          <p class="pw-hint">${icon("info", "i-xs")}<span>${n > 1 ? `One new question for each word, in this order: ${esc(chosen().join(", "))} —` : "Lingo writes one new question"} ${ANSWER_TASKS.has(o.task) ? "with the word as the right answer" : "built on the word"}. The other questions stay as they are.</span></p>`;
+      } else if (st.mode === "replace") {
+        how = `<div class="field"><span class="label">${n > 1 ? `Which ${n} questions? <span class="opt">${st.replace.length} of ${n} picked — one word each, in order</span>` : "Which question?"}</span>
+          <div class="pw-items">${o.items.map((it) => {
+            const sel = st.replace.includes(it.n);
+            const tag = it.only.length ? `<span class="pw-tag warn">${icon("alert", "i-xs")}only question for ${esc(it.only.join(", "))}</span>` : it.tests.length ? `<span class="pw-tag">also tested elsewhere: ${esc(it.tests.join(", "))}</span>` : `<span class="pw-tag good">${icon("check", "i-xs")}safe to replace</span>`;
+            return `<button type="button" class="pw-item${sel ? " active" : ""}" data-pw-item="${it.n}" aria-pressed="${sel}"><span class="pw-n">${it.n}</span><span class="pw-item-t">${esc(it.text || "—")}</span>${tag}${sel && n > 1 ? `<span class="pw-gets">→ ${esc(chosen()[st.replace.indexOf(it.n)] || "")}</span>` : ""}</button>`;
+          }).join("")}</div></div>
+          ${st.replace.some((x) => o.items.find((it) => it.n === x)?.only.length) ? `<p class="pw-hint warn">${icon("alert", "i-xs")}<span>A question you picked is the only test of another chosen word — that word would no longer be tested.</span></p>` : ""}`;
+      } else {
+        how = `<p class="pw-hint">${icon("info", "i-xs")}<span>Lingo writes the whole of Part ${o.part + 1} again — new questions${A(o.id)?.passage ? " and a new text" : A(o.id)?.script?.length ? " and a new script" : ""} — with ${n > 1 ? "these words" : "the word"} in it. The words it tests now may change. You can undo it.</span></p>
+          <div class="field"><label class="label" for="pw_wish">Anything else? <span class="opt">optional</span></label><textarea class="textarea" id="pw_wish" rows="2" data-pw-wish placeholder="e.g. keep it about the school trip">${esc(st.wish)}</textarea></div>`;
+      }
+      return `${all.length > 1 ? `<p class="pw-lead">Tap a word to leave it out.</p>` : ""}<div class="pw-words">${wordsHtml}</div>
+        <div class="field"><span class="label">Which part?</span><div class="pw-parts">${partsHtml}</div></div>
+        <div class="field"><span class="label">How?</span>${modes}</div>${how}`;
+    }
+    const goLabel = () => {
+      const { o, n } = pick();
+      if (!n) return "Choose a word";
+      if (st.mode === "add") return n > 1 ? `Add ${n} questions to Part ${o.part + 1}` : `Add the question to Part ${o.part + 1}`;
+      if (st.mode === "replace") return n > 1 ? `Replace questions ${st.replace.join(", ")}` : `Replace question ${st.replace[0] ?? ""}`;
+      return `Write Part ${o.part + 1} again`;
+    };
+
+    openDialog({
+      title: all.length > 1 ? `Put ${all.length} words on the test` : `Put “${all[0].english}” on the test`,
+      subtitle: "You choose the part and the question — Lingo writes it, then checks it", iconName: "target", tone: "brand", sheet: true,
+      body: `<div class="pw" data-pw></div>`,
+      foot: `<span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-magic" data-pw-go>${icon("sparkles", "i-sm")}<span></span></button>`,
+      onMount(root, close) {
+        const box = root.querySelector("[data-pw]");
+        const go = root.querySelector("[data-pw-go]");
+        const draw = () => {
+          box.innerHTML = body();
+          go.querySelector("span").textContent = goLabel();
+          const { n } = pick();
+          go.disabled = !n || (st.mode === "replace" && st.replace.length !== n);
+        };
+        box.addEventListener("click", (e) => {
+          const b = e.target.closest("button");
+          if (!b || b.disabled) return;
+          if (b.dataset.pwWord) { if (on.has(b.dataset.pwWord)) on.delete(b.dataset.pwWord); else on.add(b.dataset.pwWord); st.replace = []; st.picked = false; }
+          if (b.dataset.pwPart) { st.part = Number(b.dataset.pwPart); st.at = null; st.replace = []; st.picked = false; if (st.mode === "rewrite") st.mode = "add"; }
+          if (b.dataset.pwMode) st.mode = b.dataset.pwMode;
+          if (b.dataset.pwItem) {
+            // Picked by hand: kept exactly (pick() only fills in a choice the teacher hasn't made).
+            const k = Number(b.dataset.pwItem);
+            const n = chosen().length;
+            st.picked = true;
+            if (st.replace.includes(k)) st.replace = st.replace.filter((x) => x !== k);
+            else st.replace = (n === 1 ? [k] : [...st.replace, k].slice(-n)).sort((a, z) => a - z);
+          }
+          draw();
+        });
+        box.addEventListener("change", (e) => { if (e.target.dataset.pwAt !== undefined) st.at = Number(e.target.value); });
+        box.addEventListener("input", (e) => { if (e.target.dataset.pwWish !== undefined) st.wish = e.target.value; });
+        go.addEventListener("click", () => {
+          const { o } = pick();
+          const list = chosen();
+          if (!list.length) return;
+          const plan = { id: o.id, part: o.part, mode: st.mode, at: st.at, replace: [...st.replace], wish: st.wish.trim(), answer: ANSWER_TASKS.has(o.task) };
+          close();
+          runPlacement(list, plan);
+        });
+        draw();
+      },
+    });
+  }
+
+  /** Do what the teacher chose, then report from the word check where each word really is now (one Undo for all). */
+  async function runPlacement(words, plan) {
+    const doc = host.doc();
+    const before = snapshot();
+    const n = words.length;
+    const what = n > 1 ? `${n} words` : `“${words[0]}”`;
+    const stop = toast(plan.mode === "rewrite" ? `Lingo is writing Part ${plan.part + 1} again with ${what}…` : `Lingo is writing ${n > 1 ? `${n} questions` : "the question"} with ${what} in Part ${plan.part + 1}…`, "info", { ms: 120000 });
+    const failed = [];
+    try {
+      if (plan.mode === "add") {
+        // Up to 5 new questions a request (as in "Add a question"), each batch after the questions placed so far.
+        let at = plan.at;
+        for (let k = 0; k < n; k += 5) {
+          const batch = words.slice(k, k + 5);
+          const res = await addWithLingo(plan.id, at, batch.length, { words: batch, strict: true, answer: plan.answer, quiet: true });
+          if (host.doc() !== doc) return;
+          if (!res) { failed.push(...batch); continue; }
+          failed.push(...res.failed);
+          at += res.placed.length;
+        }
+      } else if (plan.mode === "replace") {
+        for (let k = 0; k < n; k++) {
+          const wish = `use the word "${words[k]}"${plan.answer ? " as the right answer" : ""}`;
+          const ok = await remake(plan.id, plan.replace[k] - 1, wish, null, { quiet: true, answer: plan.answer ? words[k] : "" });
+          if (host.doc() !== doc) return;
+          if (!ok) failed.push(words[k]);
+        }
+      } else {
+        const s = A(plan.id);
+        const how = plan.answer || s?.skill === "vocabulary" ? "Each one must be the right answer to a question." : s?.passage || s?.script?.length ? "Put each one in the text, and ask a question whose answer is that word." : "";
+        const ok = await host.rewritePart(plan.id, [`Use these words in this part: ${words.join(", ")}.`, how, plan.wish].filter(Boolean).join(" "));
+        if (!ok) failed.push(...words);
+      }
+    } catch (e) {
+      if (host.doc() === doc) { Object.assign(doc, JSON.parse(before)); host.itemsChanged?.(plan.id); host.commit(); }
+      toast(e?.message || "Lingo couldn’t put the words on the test.", "error");
+      return;
+    } finally {
+      stop?.();
+    }
+    if (host.doc() !== doc) return;
+    host.commit();
+    // The word check says where each word is now: that, not what Lingo was asked, is what the toast reports.
+    const c = new Map(testCoverage(doc).words.map((w) => [w.english.toLowerCase(), w]));
+    const tested = [];
+    const only = [];
+    for (const w of words) {
+      if (failed.includes(w)) continue;
+      const here = c.get(w.toLowerCase())?.tested.find((t) => t.part === plan.part);
+      if (here) tested.push(`“${w}” (question${here.items.length > 1 ? "s" : ""} ${here.items.join(", ")})`);
+      else only.push(`“${w}”`);
+    }
+    const parts = [];
+    if (tested.length) parts.push(`Part ${plan.part + 1} now tests ${tested.join(", ")}.`);
+    if (only.length) parts.push(`${only.join(", ")} ${only.length > 1 ? "are" : "is"} in Part ${plan.part + 1} now, but no question has ${only.length > 1 ? "them" : "it"} as the answer.`);
+    if (failed.length) parts.push(`Lingo couldn’t place ${failed.map((w) => `“${w}”`).join(", ")} — try another part or question, or edit a question yourself.`);
+    const changed = snapshot() !== before;
+    toast(parts.join(" ") || "Nothing changed.", failed.length || only.length ? "warn" : "ok", { ms: 9000, actions: changed ? [{ label: "Undo", run: () => { if (host.doc() !== doc) return; Object.assign(doc, JSON.parse(before)); host.itemsChanged?.(plan.id); host.commit(); toast("Undone.", "info", { ms: 1600 }); } }] : [] });
+  }
+
+  return { decorate, placeWords };
 }

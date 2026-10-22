@@ -46,3 +46,31 @@ test("the tip says where", () => {
 test("no words, no sections", () => {
   assert.deepEqual(testCoverage({}), { words: [], parts: [], tested: 0, seen: 0, missing: 0, total: 0 });
 });
+
+test("where a word can go: vocabulary first, a text that lacks the word only by a rewrite, writing only by a rewrite", async () => {
+  const { placementOptions, itemUses } = await import("../desktop/renderer/studio/test-coverage.js");
+  const { TASKS } = await import("../desktop/renderer/studio/tasks.js");
+  const d = { ...doc, sections: [...doc.sections, { skill: "writing", task: "W-GUIDED", items: [{ n: 1, prompt: "Write about a volcano.", answer: "" }] }] };
+  const byPart = placementOptions(d, ["volcano"], { tasks: TASKS, maxItems: 3 });
+  assert.equal(byPart.length, 4);
+  assert.equal(byPart[0].fit, "best");
+  assert.equal(byPart[0].canAdd, false, "Part 1 is full (3 of 3)");
+  assert.equal(byPart[0].canReplace, true);
+  assert.equal(byPart[1].fit, "ok", "the reading text uses volcano");
+  assert.equal(byPart[3].fit, "rewrite", "writing has no questions");
+  assert.equal(byPart[3].canAdd, false);
+  assert.equal(placementOptions(d, ["ash"], { tasks: TASKS })[1].fit, "rewrite", "the text doesn't use ash");
+  // The question on lava and the one on cities are each the only test of their word; the one on rock tests none.
+  assert.deepEqual(byPart[0].items.map((it) => it.only), [["lava"], [], ["city"]]);
+  assert.equal(itemUses(doc.sections[0].items[0], "lava"), true);
+  assert.equal(itemUses(doc.sections[0].items[2], "city"), true, "cities");
+});
+
+test("a remade question must have the word as its answer when asked; word forms count", async () => {
+  const { remakeProblems } = await import("../desktop/renderer/studio/remake.js");
+  const before = { prompt: "I live in a big ____.", options: ["house", "toy", "farm"], answer: "house" };
+  assert.deepEqual(remakeProblems(before, { prompt: "There are many ____ in Greece.", options: ["cities", "toys"], answer: "cities" }, { use: "city", answer: "city" }), []);
+  const p = remakeProblems(before, { prompt: "The city is big. It has a ____.", options: ["park", "lava"], answer: "park" }, { use: "city", answer: "city" });
+  assert.equal(p.length, 1);
+  assert.match(p[0], /not the right answer/);
+});

@@ -66,3 +66,44 @@ export function coverageWhere(w) {
   if (s.length) return `Only appears in ${s.join(", ")} — no question asks about it`;
   return "Not on the test";
 }
+
+/** True when a question uses the word (its answer, its sentence or an option). */
+export function itemUses(it, word) {
+  const { answer, ask, other } = itemTexts(it);
+  return containsForm(answer, word) || containsForm(ask, word) || containsForm(other, word);
+}
+
+/**
+ * Where a word could go, part by part, for the teacher to decide. For each part:
+ *   fit: "best" (a vocabulary question tests the word itself) | "ok" (it can go in, see `note`) | "rewrite" (only by
+ *   writing the part again: a writing or speaking task, or a text that doesn't use the word),
+ *   canAdd (room for one more question), and its questions, each with the chosen words it is the only test of
+ *   (`only`) — a question with none is safe to replace.
+ * tasks: the TASKS table (answer type, needs). maxItems: the most questions a part can have.
+ */
+export function placementOptions(doc, words, { tasks = {}, maxItems = 12 } = {}) {
+  const list = (Array.isArray(words) ? words : [words]).map((w) => (typeof w === "string" ? w : w?.english)).filter(Boolean);
+  const cov = testCoverage(doc);
+  // How many questions test each word: a question that is a word's only test shouldn't be replaced lightly.
+  const testsOf = new Map(cov.words.map((w) => [w.english.toLowerCase(), w.tested.reduce((n, t) => n + t.items.length, 0)]));
+  return (doc?.sections || []).map((s, i) => {
+    const t = tasks[s.task] || {};
+    const open = t.answer === "open" || s.skill === "dictation";
+    const hasText = !!(s.passage || s.script?.length);
+    const inText = hasText && list.every((w) => containsForm(sectionTexts(s), w));
+    let fit = "ok";
+    let note = "";
+    if (open) { fit = "rewrite"; note = s.skill === "speaking" ? "Speaking cards have no questions — Lingo can write the part again with the word." : "A writing task has no questions — Lingo can write the part again with the word in it."; }
+    else if (s.skill === "vocabulary") { fit = "best"; note = "A question here tests the word itself."; }
+    else if (hasText && !inText) { fit = "rewrite"; note = `The ${s.script?.length ? "recording" : "text"} doesn’t use ${list.length === 1 ? "this word" : "all these words"}, so a question can’t ask about it — Lingo can write the part again with ${list.length === 1 ? "it" : "them"} in the ${s.script?.length ? "script" : "text"}.`; }
+    else if (hasText) note = `The word is in the ${s.script?.length ? "recording" : "text"}: a new question asks about it.`;
+    else if (s.skill === "grammar") note = "The word goes into the sentence. A grammar question tests the grammar, so the word may only “appear” unless it is the answer.";
+    else note = "The word goes into the question; it counts as tested when it is the answer.";
+    const items = (s.items || []).map((it) => {
+      const only = cov.words.filter((w) => w.tested.some((x) => x.part === i && x.items.includes(it.n)) && testsOf.get(w.english.toLowerCase()) === 1).map((w) => w.english);
+      const tests = cov.words.filter((w) => w.tested.some((x) => x.part === i && x.items.includes(it.n))).map((w) => w.english);
+      return { n: it.n, text: [it.prompt, it.options?.length ? `(${it.options.join(" / ")})` : "", it.answer && !it.options?.length ? `→ ${it.answer}` : ""].filter(Boolean).join(" ").trim(), tests, only };
+    });
+    return { part: i, id: s.id, skill: s.skill, task: s.task, fit, note, canAdd: fit !== "rewrite" && (s.items || []).length < maxItems, canReplace: fit !== "rewrite" && items.length > 0, items };
+  });
+}

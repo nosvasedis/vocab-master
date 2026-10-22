@@ -249,14 +249,12 @@ function build() {
   });
   $("tsReady").addEventListener("click", (e) => { const b = e.target.closest("#tsGenerate"); if (b) generate(b); });
   $("tsOutline").addEventListener("click", (e) => {
-    const cp = e.target.closest("[data-cov-part]");
-    if (cp) { showPart(Number(cp.dataset.covPart)); return; }
-    const cf = e.target.closest("[data-cov-fix]");
-    if (cf) {
-      const words = testCoverage(ts.doc).words.filter((w) => w.status !== "tested").map((w) => w.english);
-      rewritePart(cf.dataset.covFix, cf, `Build the questions on these words, which no question of the test asks about yet: ${words.join(", ")}. Where there are more questions than these words, use other chosen words.`);
-      return;
-    }
+    // A word (or all the untested ones): the teacher chooses the part and the question it goes in.
+    const cw = e.target.closest("[data-cov-word]");
+    if (cw) { const w = testCoverage(ts.doc).words.find((x) => x.english === cw.dataset.covWord); if (w) editor?.placeWords([w]); return; }
+    if (e.target.closest("[data-cov-place]")) { editor?.placeWords(testCoverage(ts.doc).words.filter((w) => w.status !== "tested")); return; }
+    const cp = e.target.closest("[data-cov-show]");
+    if (cp) { showPart(Number(cp.dataset.covShow)); return; }
     const fx = e.target.closest("[data-fix]");
     if (fx) { fixPart(fx.dataset.fix, fx); return; }
     const rw = e.target.closest("[data-rewrite]");
@@ -305,6 +303,9 @@ function build() {
     async ctx() {
       if (ts.ctx?.picFor && ts.ctx?.focus) return ts.ctx;
       const c = await contextFor(specForAi().sel);
+      // The test's own words count as chosen words too (Step 1 may have changed since it was written).
+      const have = new Set(c.focus.map((w) => String(w.english || "").toLowerCase()));
+      c.focus = [...c.focus, ...(ts.doc?.focusWords || []).filter((w) => w.english && !have.has(w.english.toLowerCase()))];
       ts.ctx = { ...(ts.ctx || {}), ...c };
       return ts.ctx;
     },
@@ -776,7 +777,7 @@ function renderOutline() {
     return `<li data-skill="${sec.skill}" class="${stale ? "stale" : ""}${probs.length ? " warn" : ""}">
       <div class="mk-op-row"><span class="mk-op-ico">${SKILLS[sec.skill]?.icon || ""}</span><span class="mk-op-t"><small>Part ${i + 1} · ${esc(SKILLS[sec.skill]?.label || "")}${stale ? " · changed" : ""}</small><b>${esc(TASKS[sec.task]?.label || "")}</b></span>
         <button type="button" class="icon-btn sm" data-rewrite="${sec.id}" data-tip="${stale ? "Write this part again with its new settings" : "Write the whole part again"}" aria-label="Write part ${i + 1} again">${icon("refresh", "i-sm")}</button></div>
-      ${cov.parts[i]?.words.length ? `<p class="mk-op-words" title="${esc(cov.parts[i].words.join(", "))}">${icon("target", "i-xs")}<span><b>${plural(cov.parts[i].words.length, "word")}</b> · ${esc(cov.parts[i].words.join(", "))}</span></p>` : ""}
+      ${cov.parts[i]?.words.length ? `<p class="mk-op-words" data-cov-show="${i}" title="${esc(cov.parts[i].words.join(", "))}">${icon("target", "i-xs")}<span><b>${plural(cov.parts[i].words.length, "word")}</b> · ${esc(cov.parts[i].words.join(", "))}</span></p>` : ""}
       ${probs.length ? `<div class="mk-op-probs">${icon("alert", "i-xs")}<div><ul>${probs.map((pr) => `<li>${esc(friendlyProblem(pr))}</li>`).join("")}</ul>${fixButton(sec)}</div></div>` : ""}
     </li>`;
   }).join("")}</ol>
@@ -794,11 +795,9 @@ function renderOutline() {
 function wordCheckHtml(d, cov) {
   if (!cov.total) return "";
   const tone = { tested: "cov-good", seen: "cov-warn", missing: "cov-bad" };
-  const chip = (w) => `<button type="button" class="cov-chip ${tone[w.status]}" data-cov-part="${(w.tested[0]?.part ?? w.seen[0] ?? -1)}" data-tip="${esc(`${w.greek ? `${w.greek} · ` : ""}${coverageWhere(w)}`)}">${w.status === "tested" ? icon("check", "i-xs") : ""}${esc(w.english)}${w.tested.length ? `<small>${w.tested.map((x) => x.part + 1).join("·")}</small>` : ""}</button>`;
+  const chip = (w) => `<button type="button" class="cov-chip ${tone[w.status]}" data-cov-word="${esc(w.english)}" data-tip="${esc(`${w.greek ? `${w.greek} · ` : ""}${coverageWhere(w)} — click to choose where it goes`)}">${w.status === "tested" ? icon("check", "i-xs") : ""}${esc(w.english)}${w.tested.length ? `<small>${w.tested.map((x) => x.part + 1).join("·")}</small>` : ""}</button>`;
   const pct = (n) => `${((n / cov.total) * 100).toFixed(1)}%`;
   const open = cov.words.filter((w) => w.status !== "tested");
-  // The vocabulary part to write again around the words not tested: the one with the most questions.
-  const target = open.length ? d.sections.map((s, i) => ({ s, i })).filter(({ s }) => s.skill === "vocabulary" && TASKS[s.task]?.answer !== "open").sort((a, b) => b.s.items.length - a.s.items.length)[0] : null;
   const summary = !open.length
     ? `<div class="quality-ok">${icon("check-circle")}<span>All ${plural(cov.total, "word")} are tested.</span></div>`
     : `<p class="q-summary">${cov.tested} of ${cov.total} words are tested${cov.seen ? ` · ${cov.seen} only appear in a text or an option` : ""}${cov.missing ? ` · ${cov.missing} not on the test` : ""}.</p>`;
@@ -808,8 +807,8 @@ function wordCheckHtml(d, cov) {
       ${summary}
       <div class="cov-chips">${[...open, ...cov.words.filter((w) => w.status === "tested")].map(chip).join("")}</div>
       <div class="cov-legend"><span><i style="background:var(--success)"></i>Tested</span><span><i style="background:var(--warning)"></i>Only in a text</span><span><i style="background:var(--danger)"></i>Not on the test</span></div>
-      <p class="insp-note">Hover a word to see the part and the questions; click it to show the part on the paper.</p>
-      ${target ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-fix="${target.s.id}" data-tip="Writes Part ${target.i + 1} again so its questions are built on these words">${icon("sparkles", "i-sm")}Use the ${plural(open.length, "untested word")} in Part ${target.i + 1}</button>` : ""}
+      <p class="insp-note">Hover a word to see where it is. Click it to choose where it goes: a new question, a question it replaces, or a part written again — in the part you pick.</p>
+      ${open.length > 1 ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-place>${icon("target", "i-sm")}Place the ${plural(open.length, "untested word")}…</button>` : ""}
     </div>`;
 }
 

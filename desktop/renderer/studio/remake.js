@@ -5,6 +5,7 @@
  * the reason (remakeProblems → retry hint), instead of being accepted.
  *
  * Works for test questions ({ prompt, options, answer }) and worksheet lines ({ prompt, answer, stem }). */
+import { containsForm } from "./word-scope.js";
 
 const STOP = new Set(`a an the some any much many few little lot lots of no not none every each all both either neither
 is are am was were be been being do does did done don't doesn't didn't isn't aren't wasn't weren't can can't cannot could couldn't
@@ -126,7 +127,9 @@ export function remakeProblems(before, after, checks = {}) {
   const all = words(`${after.prompt || ""} ${(after.options || []).join(" ")} ${after.answer || ""} ${after.stem || ""}`);
   const hit = (checks.banned || []).filter((b) => (b.includes(" ") ? all.join(" ").includes(b) : all.includes(b)));
   if (hit.length) out.push(`it still uses ${quote([...new Set(hit)])} — the teacher asked for a different word, so use none of them`);
-  if (checks.use && !all.join(" ").includes(checks.use.toLowerCase())) out.push(`it does not use the word "${checks.use}"`);
+  // Any form of the word counts (city → cities, live → lives); a phrase may be split ("pick it up").
+  if (checks.use && !all.join(" ").includes(checks.use.toLowerCase()) && !containsForm(all.join(" "), checks.use)) out.push(`it does not use the word "${checks.use}"`);
+  if (checks.answer && !containsForm(String(after.answer || ""), checks.answer)) out.push(`"${checks.answer}" is not the right answer — the question must test that word, so it must be the answer`);
   if (checks.shorter && words(after.prompt).length >= checks.shorter) out.push(`it is not shorter (it has ${words(after.prompt).length} words; it must have fewer than ${checks.shorter})`);
   if (checks.options && before?.options?.length) {
     const oldWrong = new Set(before.options.filter((o) => o !== before.answer).map((o) => o.toLowerCase()));
