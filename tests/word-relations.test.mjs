@@ -124,3 +124,22 @@ test("what the teacher adds reaches the prompt, the Step 3 notes, the saved test
   assert.ok(pairs.some((p) => p.english === "cave" && p.term === "house" && p.mine));
   assert.equal(pairs.filter((p) => p.term === "house").length, 1, "a teacher's pair is listed once");
 });
+
+test("Step 3 shows which families / opposites / synonyms a part will use (as many as it has questions)", async () => {
+  const { relationPreview } = await import("../desktop/renderer/studio/test-builder.js");
+  const focus = [{ english: "describe", derivatives: "description (n.)" }, { english: "amaze", derivatives: "amazing (adj.), amazed (adj.)" }, { english: "push", antonyms: "pull" }, { english: "bug", synonyms: "insect" }];
+  assert.deepEqual(relationPreview("V-FORM", focus, 2), { kind: "families", pairs: ["DESCRIBE → description", "AMAZE → amazing"], more: 1, total: 3 });
+  assert.deepEqual(relationPreview("V-OPPW", focus, 6).pairs, ["push ↔ pull"]);
+  assert.deepEqual(relationPreview("V-SYN", focus, 6).pairs, ["bug = insect"]);
+  assert.equal(relationPreview("V-OPP", [{ english: "cat" }], 5).total, 0);
+  assert.equal(relationPreview("V-MC", focus, 5), null);
+});
+
+test("taught pairs: a family goes from the root, and each pair is listed once", async () => {
+  const { taughtRelations } = await import("../desktop/renderer/studio/test-builder.js");
+  const r = taughtRelations([{ english: "creature", derivatives: "create (v.)" }, { english: "create", derivatives: "creature (n.), creation (n.)" },
+    { english: "bug", synonyms: "insect" }, { english: "insect", synonyms: "bug" }, { english: "push", antonyms: "pull" }, { english: "pull", antonyms: "push" }]);
+  assert.deepEqual(r.derivatives, [["create", "creature"], ["create", "creation"]]);
+  assert.deepEqual(r.synonyms, [["bug", "insect"]]);
+  assert.deepEqual(r.antonyms, [["push", "pull"]]);
+});

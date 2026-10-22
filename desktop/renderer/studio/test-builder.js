@@ -292,12 +292,39 @@ export function planProblems(spec, { pictureWords = [], focusWords = [], hasUnit
  */
 export function taughtRelations(focus = []) {
   const out = { derivatives: [], antonyms: [], synonyms: [] };
-  for (const w of focus) for (const k of Object.keys(out)) for (const t of relatedTerms(w?.[k])) out[k].push([w.english, t]);
+  const seen = new Set();
+  const low = (x) => String(x || "").trim().toLowerCase();
+  for (const w of focus) for (const k of Object.keys(out)) for (const t of relatedTerms(w?.[k])) {
+    let [a, b] = [w.english, t];
+    // A family goes from the root to the longer word (CREATE → creature, not CREATURE → create): the word in
+    // CAPITALS is always the root.
+    if (k === "derivatives" && b.length < a.length && low(a).startsWith(low(b).slice(0, Math.max(3, b.length - 2)))) [a, b] = [b, a];
+    // Each pair once: push ↔ pull and pull ↔ push, bug = insect and insect = bug are one pair.
+    const id = k === "derivatives" ? `${k}|${low(a)}|${low(b)}` : `${k}|${[low(a), low(b)].sort().join("|")}`;
+    if (seen.has(id)) continue;
+    seen.add(id);
+    out[k].push([a, b]);
+  }
   return out;
 }
 
 const FAMILY_TASKS = ["V-FORM", "V-FAMMC"];
 const OPPOSITE_TASKS = ["V-OPP", "V-OPPW"];
+
+/**
+ * What a families / opposites / same-meaning part will be built on, for Step 3 to show: the pairs the class learned
+ * with the chosen words (the word bank's and the ones the teacher added in Step 1), the first as many as the part has
+ * questions — these go to Lingo first. null for other tasks.
+ * Returns { kind: "families"|"opposites"|"synonyms", pairs: ["DESCRIBE → description", …], more, total }.
+ */
+export function relationPreview(task, focus = [], items = 0) {
+  const r = taughtRelations(focus);
+  const kind = FAMILY_TASKS.includes(task) ? "families" : OPPOSITE_TASKS.includes(task) ? "opposites" : task === "V-SYN" ? "synonyms" : "";
+  if (!kind) return null;
+  const list = kind === "families" ? r.derivatives.map(([a, b]) => `${a.toUpperCase()} → ${b}`) : kind === "opposites" ? r.antonyms.map(([a, b]) => `${a} ↔ ${b}`) : r.synonyms.map(([a, b]) => `${a} = ${b}`);
+  const n = Math.max(1, items || list.length);
+  return { kind, pairs: list.slice(0, n), more: Math.max(0, list.length - n), total: list.length };
+}
 
 /** The prompt line for a part that asks for families, opposites or synonyms: the taught ones first. */
 function relationLine(task, focus) {

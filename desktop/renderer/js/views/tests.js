@@ -17,7 +17,7 @@ import { TASKS, SKILLS, KNOBS, tfLabels, partOpts } from "../../studio/tasks.js"
 import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { reviseSection, docWordList, testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
+import { reviseSection, docWordList, relationPreview, testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
 import { testCoverage, coverageWhere, wordPriority, newPartFocus } from "../../studio/test-coverage.js";
 import { makeVersionB, docProblems, docPoints, relabelDoc, hasWordBox, boxExtras } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
@@ -391,9 +391,11 @@ function onSourceChange(sel, { byUser = true } = {}) {
   ts.sourceKey = key;
   // The open test follows Step 1: while Step 1 shows the test's own unit (or topic), its chosen words are Step 1's words.
   if (ts.doc) {
-    // Linked only when Step 1 shows exactly this test’s words (after opening it); never to a selection left from before.
-    if (!byUser && ts.linkOnOpen) { ts.linkOnOpen = false; ts.docKey = sameWords(sel.focus, ts.doc.focusWords) ? key : ""; }
+    // Linked once Step 1 shows the test’s own unit or topic (after opening it, or the test was just written from it);
+    // a test without a known source never is.
+    if (!byUser && ts.linkOnOpen) { ts.linkOnOpen = false; ts.docKey = key; ts.lastFocus = wordKeys(sel.focus); }
     else if (byUser && ts.docKey && key === ts.docKey) syncDocWords(sel);
+    else if (!byUser && ts.docKey && key === ts.docKey) ts.lastFocus = wordKeys(sel.focus);
   }
   // A saved test that was just opened keeps its parts as they were written.
   if (byUser || !ts.doc) fitParts({ quiet: !byUser });
@@ -406,13 +408,20 @@ function onSourceChange(sel, { byUser = true } = {}) {
  * Words added or taken out in Step 1 change the open test's word list at once: the word check, its counts, the parts'
  * words and "Put words on the test" all follow, and Lingo's next edit uses the new list. Saved with the test.
  */
-const wordSet = (list) => [...new Set((list || []).map((w) => String(w?.english || "").trim().toLowerCase()).filter(Boolean))].sort().join("|");
-const sameWords = (a, b) => wordSet(a) === wordSet(b);
+const wordKey = (w) => String(w?.english || "").trim().toLowerCase();
+const wordKeys = (list) => new Set((list || []).map(wordKey).filter(Boolean));
 
 function syncDocWords(sel) {
-  const next = docWordList(sel.focus);
-  if (JSON.stringify(next) === JSON.stringify(ts.doc.focusWords || [])) return;
-  ts.doc.focusWords = next;
+  // What the teacher just changed in Step 1 — the words taken out and the ones added — is done to the test’s list,
+  // so a word the test has that Step 1 didn’t show is never lost by it.
+  const now = wordKeys(sel.focus);
+  const before = ts.lastFocus || now;
+  ts.lastFocus = now;
+  const removed = new Set([...before].filter((k) => !now.has(k)));
+  const have = wordKeys(ts.doc.focusWords);
+  const added = docWordList((sel.focus || []).filter((w) => !before.has(wordKey(w)) && !have.has(wordKey(w))));
+  if (!removed.size && !added.length) return;
+  ts.doc.focusWords = [...(ts.doc.focusWords || []).filter((w) => !removed.has(wordKey(w))), ...added];
   // Lingo's word context is made again from the new list (the test's label stays).
   ts.ctx = ts.ctx?.meta ? { meta: ts.ctx.meta } : null;
   saveDoc(ts.doc);
@@ -553,6 +562,23 @@ function knobsHtml(p, texts) {
   return rows.join("");
 }
 
+const REL_NAME = { families: ["word family", "word families"], opposites: ["opposite", "opposites"], synonyms: ["same-meaning pair", "same-meaning pairs"] };
+
+/**
+ * A families / opposites / same-meaning part says which pairs it will be built on: the ones the class learned with the
+ * chosen words (word bank and Step 1), as many as it has questions; when there are fewer, what Lingo does with the rest.
+ */
+function relationNote(p) {
+  const rel = picker ? relationPreview(p.task, picker.value().focus, p.items) : null;
+  if (!rel) return "";
+  const [one, many] = REL_NAME[rel.kind];
+  const ladder = rel.kind === "families" ? "unit words with a word-family change your class knows" : `unit words with a common ${one}`;
+  const body = rel.total
+    ? `<b>The ${rel.pairs.length === 1 ? one : many} it will use:</b> ${rel.pairs.map((x) => `<span class="pc-rel">${esc(x)}</span>`).join(" ")}${rel.more ? ` <small>+${rel.more} more the class learned (${p.items} questions)</small>` : ""}${rel.total < p.items ? ` <small>· the other ${p.items - rel.total}: Lingo picks ${ladder}.</small>` : ""}`
+    : `<b>No ${many} are listed for the chosen words</b> — Lingo picks ${ladder}. Add the ones your class learned in Step 1 (Word families and opposites).`;
+  return `<p class="pc-new-words pc-rels">${icon("target", "i-xs")}<span>${body}</span></p>`;
+}
+
 /** The facts a closed part shows on one line: questions, difficulty, the chosen text and every setting. */
 function partFacts(p, texts) {
   const t = TASKS[p.task];
@@ -565,6 +591,8 @@ function partFacts(p, texts) {
     const chosen = texts.find((x) => x.id === o.text);
     facts.push(chosen ? `“${chosen.title}”` : "Lingo writes the text");
   }
+  const rel = picker ? relationPreview(p.task, picker.value().focus, p.items) : null;
+  if (rel) facts.push(rel.total ? `${plural(rel.total, REL_NAME[rel.kind][0], REL_NAME[rel.kind][1])} the class learned` : `Lingo picks the ${REL_NAME[rel.kind][1]}`);
   for (const k of t.knobs || []) {
     if (k === "text" || ((k === "genre" || k === "length") && o.text && texts.some((x) => x.id === o.text))) continue;
     const label = KNOBS[k].values.find(([v]) => String(v) === String(o[k]))?.[1];
@@ -632,6 +660,7 @@ function renderParts() {
             <b class="pc-level-v">${PART_LEVELS[lv].label}</b>
           </div>
           ${textPick}
+          ${relationNote(p)}
           ${knobsHtml(p, texts)}
           <div class="pc-knob"><span class="pc-lbl">Your wish</span><input class="input sm part-note" data-part-note="${p.id}" placeholder="Optional, e.g. “about a school trip”" value="${esc(p.note || "")}" /></div>
           ${ts.doc ? newPartNote(p) : ""}
@@ -983,6 +1012,7 @@ async function generate(btn) {
       ts.ctx = { ...ctx, meta };
       setDoc(buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }));
       ts.docKey = sourceKey(sel);
+      ts.lastFocus = wordKeys(sel.focus);
       ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), ...(ts.spec.page || {}) };
       await topUpShortParts(spec, ctx, meta);
       await checkKeys(ts.doc);
@@ -1208,7 +1238,10 @@ function refreshDoc() {
   if (!ts.doc) return;
   ts.doc.meta.points = docPoints(ts.doc);
   ts.doc.meta.minutes = estimateMinutes(ts.spec);
-  ts.doc.spec = JSON.parse(JSON.stringify(ts.spec));
+  // Step 3’s settings, with the test’s own source kept (book and units, or topic): Step 3 doesn’t hold it, and a test
+  // that lost it couldn’t take Step 1 back to its unit when opened, or follow Step 1’s words.
+  const keep = ts.doc.spec || {};
+  ts.doc.spec = { ...JSON.parse(JSON.stringify(ts.spec)), ...(keep.source ? { source: keep.source } : {}), ...(keep.source?.kind === "topic" ? { topic: keep.topic || "" } : {}) };
   ts.doc.versionB = ts.spec.versions > 1 ? makeVersionB(ts.doc) : null;
   saveDoc(ts.doc);
   renderPaper();
@@ -1464,10 +1497,12 @@ function openDoc(d) {
   let src = d.spec?.source || {};
   // A test written from the old "My word list" (Worksheets words): its book and unit when it had one,
   // otherwise its words come back as the teacher's own words.
-  if (src.kind === "words") {
+  // Tests from the old "My word list", and tests whose source was lost when saved: the book and unit printed on them.
+  if (src.kind === "words" || (!src.kind && d.meta?.bookTitle)) {
     const bookId = resolveCoursebookId(d.meta?.bookTitle || "");
     const unit = Number.parseInt(src.unit ?? d.meta?.unit, 10);
     src = bookId && unit >= 1 && unit <= 9 ? { kind: "unit", bookId, units: [unit] } : { kind: "topic" };
+    if (!d.spec?.source?.kind && src.kind === "unit") { ts.doc.spec = { ...(ts.doc.spec || {}), source: src }; saveDoc(ts.doc); }
   }
   let pk = null;
   const words = (d.focusWords || []).filter((w) => w.english);
