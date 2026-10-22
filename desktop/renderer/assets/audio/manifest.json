@@ -2221,10 +2221,6 @@
    "f": "39/39037cdf5ba71f0f.ogg",
    "d": 1.2
   },
-  "w:CPP3-U9-SB-1168": {
-   "f": "0a/0ad6933a568c721c.ogg",
-   "d": 1.08
-  },
   "w:CPP2-U8-WB-1073": {
    "f": "87/8721a157f3de2717.ogg",
    "d": 1.16
@@ -7277,10 +7273,6 @@
    "f": "48/48993758febc11d1.ogg",
    "d": 0.92
   },
-  "w:CPP2-U8-SB-997": {
-   "f": "ef/ef58c194f1c7cbc8.ogg",
-   "d": 1.16
-  },
   "w:CPP2-U8-SB-998": {
    "f": "4a/4a270505ff4d989b.ogg",
    "d": 1.2
@@ -7728,10 +7720,6 @@
   "w:CPP2-U9-SB-1151": {
    "f": "39/393789ad9852950d.ogg",
    "d": 1.12
-  },
-  "w:CPP2-U9-SB-1153": {
-   "f": "45/45a920c9795e865b.ogg",
-   "d": 1.32
   },
   "w:CPP2-U9-SB-1154": {
    "f": "06/06c6dad020900ccc.ogg",
@@ -14641,10 +14629,6 @@
    "f": "9a/9ac07555ac7eefc8.ogg",
    "d": 1.04
   },
-  "w:CPP2-U8-WB-1075": {
-   "f": "9a/9ac07555ac7eefc8.ogg",
-   "d": 1.04
-  },
   "w:CPP3-U6-SB-863": {
    "f": "9a/9ac07555ac7eefc8.ogg",
    "d": 1.04
@@ -14710,10 +14694,6 @@
    "d": 1.48
   },
   "w:CPP2-U9-SB-1160": {
-   "f": "84/843e155237a84ce0.ogg",
-   "d": 1.36
-  },
-  "w:CPP2-U9-SB-1169": {
    "f": "84/843e155237a84ce0.ogg",
    "d": 1.36
   },
@@ -35165,7 +35145,7 @@
   "ram": "w:CPP1-U4-SB-475",
   "calf": "w:CPP1-U4-SB-476",
   "chipmunk": "w:CPP1-U4-SB-477",
-  "horn": "w:CPP3-U9-SB-1168",
+  "horn": "w:CPP3-U9-SB-1154",
   "kind": "w:CPP2-U8-WB-1073",
   "horse": "w:CPP1-U4-SB-480",
   "furry": "w:CPP1-U4-SB-481",
@@ -36428,7 +36408,7 @@
   "powerful": "w:CPP3-U8-SB-1039",
   "ox-oxen": "w:CPP2-U8-SB-994",
   "load": "w:CPP2-U8-SB-995",
-  "plow": "w:CPP2-U8-SB-997",
+  "plow": "w:CPP2-U8-SB-996",
   "lonely": "w:CPP2-U8-SB-998",
   "affection": "w:CPP2-U8-SB-999",
   "direct": "w:CPP2-U8-SB-1000",
@@ -36541,7 +36521,7 @@
   "utensil": "w:CPP2-U9-SB-1147",
   "spoon": "w:CPP2-U9-SB-1149",
   "dislike": "w:CPP2-U9-SB-1151",
-  "spray": "w:CPP2-U9-SB-1153",
+  "spray": "w:CPP2-U9-SB-1152",
   "everything": "w:CPP2-U9-SB-1154",
   "slipper": "w:CPP2-U9-SB-1155",
   "unusual": "w:CPP3-U6-WB-905",
