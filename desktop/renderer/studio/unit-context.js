@@ -33,11 +33,9 @@ export function unitWords(bookId, unit, sections = SECTIONS) {
   return out;
 }
 
-/** Word counts per section for a unit (for the picker chips). */
+/** Word counts per section for a unit (for the picker chips); a word printed in two sections counts in both. */
 export function sectionCounts(bookId, unit) {
-  const counts = Object.fromEntries(SECTIONS.map((s) => [s, 0]));
-  unitWords(bookId, unit).forEach((w) => { counts[w.section]++; });
-  return counts;
+  return Object.fromEntries(SECTIONS.map((s) => [s, unitWords(bookId, unit, [s]).length]));
 }
 
 /** Caption and speech lines of a lesson's story scene ("Enitan: Look, a herd of elephants!"). */

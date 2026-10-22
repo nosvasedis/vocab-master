@@ -72,8 +72,8 @@ export function openDeckPicker(o) {
     naming: false,
     own: (o.own || []).map((w) => ({ english: w.english, greek: w.greek || "" })), // the teacher's own words
   };
-  /** Words in the deck: the picked book words plus the own words that aren't among them. */
-  const deckSize = () => st.picked.size + ownNotPicked(st.picked, st.own).length;
+  /** Words in the deck: the picked book words (a word picked in two units or sections counts once) plus the own words that aren't among them. */
+  const deckSize = () => new Set([...st.picked].map((id) => rowById.get(id)?.english.trim().toLowerCase())).size + ownNotPicked(st.picked, st.own).length;
   const recent = recentWords(read("vm_arcade_played", {}), { days: 7 });
   const el = document.createElement("div");
   el.className = "dp";
