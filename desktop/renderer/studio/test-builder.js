@@ -176,6 +176,11 @@ export function testDefaults(levelId = "B_SENIOR", length = "standard", template
   };
 }
 
+/** The chosen words as a test keeps them (Step 1's words, with what the word check and the families need). */
+export function docWordList(words = []) {
+  return (words || []).filter((w) => w?.english).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "", ...(w.own ? { own: true } : {}), ...Object.fromEntries(["derivatives", "synonyms", "antonyms"].filter((k) => w[k]).map((k) => [k, w[k]])) }));
+}
+
 /** Rough minutes a test takes (items × level pace + writing and listening time). */
 export function estimateMinutes(spec) {
   const d = TEST_DEFAULTS[spec.levelId] || TEST_DEFAULTS.B_SENIOR;
@@ -706,7 +711,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
     kind: "test",
     createdAt: previous?.createdAt || new Date().toISOString(),
     spec: JSON.parse(JSON.stringify(spec)),
-    focusWords: (ctx.focusWords || []).map((w) => ({ english: w.english, type: w.type || "", greek: w.greek || "", ...(w.own ? { own: true } : {}), ...Object.fromEntries(["derivatives", "synonyms", "antonyms"].filter((k) => w[k]).map((k) => [k, w[k]])) })),
+    focusWords: docWordList(ctx.focusWords),
     meta: {
       title,
       // A unit test's "Primary Path 2 · Unit 4" is its label: the book and unit already print on the right of the header.

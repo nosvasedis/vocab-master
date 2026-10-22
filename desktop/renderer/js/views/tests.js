@@ -17,7 +17,7 @@ import { TASKS, SKILLS, KNOBS, tfLabels, partOpts } from "../../studio/tasks.js"
 import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
-import { reviseSection, testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
+import { reviseSection, docWordList, testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
 import { testCoverage, coverageWhere, wordPriority } from "../../studio/test-coverage.js";
 import { makeVersionB, docProblems, docPoints, relabelDoc, hasWordBox, boxExtras } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
@@ -35,7 +35,7 @@ let picker;
 let paper;
 let editor = null;
 let built = false;
-const ts = { spec: null, doc: null, sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true, peek: null, epoch: 0 };
+const ts = { spec: null, doc: null, docKey: "", sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true, peek: null, epoch: 0 };
 
 const savePrefs = () => writeJSON(PREFS_KEY, ts.spec);
 
@@ -65,6 +65,8 @@ export function initTests() {
 
 /** The test on the paper (null = none); the open one is remembered for the next start. */
 function setDoc(d) {
+  // A new or other test: which Step 1 source it belongs to is known again once Step 1 shows it.
+  if (ts.doc?.id !== d?.id) { ts.docKey = ""; ts.linkOnOpen = false; }
   ts.doc = d || null;
   rememberOpen("test", ts.doc?.id);
 }
@@ -385,11 +387,34 @@ function onSourceChange(sel, { byUser = true } = {}) {
     if (ts.sourceKey && key !== ts.sourceKey && ts.spec.title) { ts.spec.title = ""; savePrefs(); }
   }
   ts.sourceKey = key;
+  // The open test follows Step 1: while Step 1 shows the test's own unit (or topic), its chosen words are Step 1's words.
+  if (ts.doc) {
+    // Linked only when Step 1 shows exactly this test’s words (after opening it); never to a selection left from before.
+    if (!byUser && ts.linkOnOpen) { ts.linkOnOpen = false; ts.docKey = sameWords(sel.focus, ts.doc.focusWords) ? key : ""; }
+    else if (byUser && ts.docKey && key === ts.docKey) syncDocWords(sel);
+  }
   // A saved test that was just opened keeps its parts as they were written.
   if (byUser || !ts.doc) fitParts({ quiet: !byUser });
   renderFocus();
   renderOptions();
   renderParts();
+}
+
+/**
+ * Words added or taken out in Step 1 change the open test's word list at once: the word check, its counts, the parts'
+ * words and "Put words on the test" all follow, and Lingo's next edit uses the new list. Saved with the test.
+ */
+const wordSet = (list) => [...new Set((list || []).map((w) => String(w?.english || "").trim().toLowerCase()).filter(Boolean))].sort().join("|");
+const sameWords = (a, b) => wordSet(a) === wordSet(b);
+
+function syncDocWords(sel) {
+  const next = docWordList(sel.focus);
+  if (JSON.stringify(next) === JSON.stringify(ts.doc.focusWords || [])) return;
+  ts.doc.focusWords = next;
+  // Lingo's word context is made again from the new list (the test's label stays).
+  ts.ctx = ts.ctx?.meta ? { meta: ts.ctx.meta } : null;
+  saveDoc(ts.doc);
+  renderOutline();
 }
 
 /** Swap parts the source can't support (picture tasks without picture words, the Big Question without a unit). */
@@ -922,6 +947,7 @@ async function generate(btn) {
       const meta = { ...sel.meta, label: sourceLabel(sel, spec), classLabel: levelLabel(spec.levelId) };
       ts.ctx = { ...ctx, meta };
       setDoc(buildTestDoc(spec, reply, { levelId: spec.levelId, picFor: ctx.picFor, focusWords: ctx.focus, meta }));
+      ts.docKey = sourceKey(sel);
       ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), ...(ts.spec.page || {}) };
       await topUpShortParts(spec, ctx, meta);
       await checkKeys(ts.doc);
@@ -1410,6 +1436,6 @@ function openDoc(d) {
     pk = { kind: "topic", topic: d.spec.topic || "", own: asOwn(words) };
     ts.spec.topic = "";
   }
-  if (pk) { ts.sourceKey = ""; picker.set(pk); }
+  if (pk) { ts.sourceKey = ""; ts.linkOnOpen = true; picker.set(pk); }
   savePrefs();
 }
