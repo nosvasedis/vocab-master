@@ -229,3 +229,41 @@ export async function withBusy(btn, fn) {
     btn.disabled = false;
   }
 }
+
+/* Floating tips (data-ftip): like data-tip, but drawn on the page itself, so a scrolling list or a narrow
+ * column never cuts them off; placed above the element (below when there's no room), kept inside the window. */
+(function floatTips() {
+  if (typeof document === "undefined") return;
+  let tip = null;
+  let owner = null;
+  let timer = 0;
+  const hide = () => { clearTimeout(timer); owner = null; tip?.classList.remove("show"); };
+  const show = (el) => {
+    tip ||= document.body.appendChild(Object.assign(document.createElement("div"), { className: "float-tip", role: "tooltip" }));
+    tip.textContent = el.dataset.ftip;
+    tip.style.left = "0px"; tip.style.top = "0px";
+    const r = el.getBoundingClientRect();
+    const t = tip.getBoundingClientRect();
+    const m = 8;
+    const left = Math.max(m, Math.min(window.innerWidth - t.width - m, r.left + r.width / 2 - t.width / 2));
+    const above = r.top - t.height - 8;
+    tip.style.left = `${left}px`;
+    tip.style.top = `${above >= m ? above : Math.min(window.innerHeight - t.height - m, r.bottom + 8)}px`;
+    tip.classList.add("show");
+  };
+  const enter = (e) => {
+    const el = e.target.closest?.("[data-ftip]");
+    if (!el || el === owner) return;
+    hide();
+    owner = el;
+    timer = setTimeout(() => { if (owner === el && el.isConnected) show(el); }, e.type === "focusin" ? 0 : 350);
+  };
+  const leave = (e) => { if (owner && !owner.contains(e.relatedTarget)) hide(); };
+  document.addEventListener("mouseover", enter);
+  document.addEventListener("focusin", enter);
+  document.addEventListener("mouseout", leave);
+  document.addEventListener("focusout", leave);
+  document.addEventListener("click", hide, true);
+  document.addEventListener("scroll", hide, true);
+  window.addEventListener("blur", hide);
+})();

@@ -1096,3 +1096,4 @@
 .pw-hint .i { flex: none; margin-top: 2px; color: var(--info, var(--brand)); }
 .pw-hint.warn { color: var(--warning-ink); background: var(--warning-soft); }
 .pw-hint.warn .i { color: currentColor; }
+.mk-wordcheck .cov-chips { overflow-x: hidden; }

@@ -795,7 +795,7 @@ function renderOutline() {
 function wordCheckHtml(d, cov) {
   if (!cov.total) return "";
   const tone = { tested: "cov-good", seen: "cov-warn", missing: "cov-bad" };
-  const chip = (w) => `<button type="button" class="cov-chip ${tone[w.status]}" data-cov-word="${esc(w.english)}" data-tip="${esc(`${w.greek ? `${w.greek} · ` : ""}${coverageWhere(w)} — click to choose where it goes`)}">${w.status === "tested" ? icon("check", "i-xs") : ""}${esc(w.english)}${w.tested.length ? `<small>${w.tested.map((x) => x.part + 1).join("·")}</small>` : ""}</button>`;
+  const chip = (w) => `<button type="button" class="cov-chip ${tone[w.status]}" data-cov-word="${esc(w.english)}" data-ftip="${esc(`${w.greek ? `${w.greek} · ` : ""}${coverageWhere(w)} — click to choose where it goes`)}">${w.status === "tested" ? icon("check", "i-xs") : ""}${esc(w.english)}${w.tested.length ? `<small>${w.tested.map((x) => x.part + 1).join("·")}</small>` : ""}</button>`;
   const pct = (n) => `${((n / cov.total) * 100).toFixed(1)}%`;
   const open = cov.words.filter((w) => w.status !== "tested");
   const summary = !open.length

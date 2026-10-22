@@ -693,3 +693,7 @@ img.vpic.vpic-off { visibility: hidden; }
 .vpic-emoji { display: inline-block; line-height: 1; } /* emoji shown when a picture can't load */
 .pf img.vpic { width: 1.1em; height: 1.1em; vertical-align: middle; }
 .rv-pic img.vpic, .rv-tile-pic img.vpic { width: 1.35em; height: 1.35em; } /* lesson word cards: fill the circle */
+
+/* Floating tips (data-ftip, js/ui.js): never cut off by a scrolling list */
+.float-tip { position: fixed; z-index: 1000; max-width: min(300px, calc(100vw - 16px)); padding: 6px 9px; border-radius: 7px; font: 500 12px/1.35 var(--font-ui); color: #fff; background: #1b1e30; box-shadow: var(--shadow); pointer-events: none; opacity: 0; transform: translateY(3px); transition: opacity var(--dur-fast), transform var(--dur-fast); }
+.float-tip.show { opacity: 1; transform: none; }
