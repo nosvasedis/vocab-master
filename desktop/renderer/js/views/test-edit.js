@@ -5,7 +5,9 @@
  * Lingo rewrites just that question, with the teacher's wish or fresh. A part's heading has ✨ Rewrite part.
  * Every change keeps the part checked (reviseSection) and can be undone from its toast. */
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
-import { SKILLS, TASKS, tfLabels, levelIndex } from "../../studio/tasks.js";
+import { SKILLS, TASKS, tfLabels, levelIndex, partOpts } from "../../studio/tasks.js";
+import { LETTER_HELP_TASKS } from "../../studio/doc-model.js";
+import { letterHelpField } from "./letter-help-ui.js";
 import { TEST_DEFAULTS } from "../../studio/levels.js";
 import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, estimateMinutes } from "../../studio/test-builder.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
@@ -470,15 +472,28 @@ export function mountTestEditing(host) {
     const choice = s.answerType === "choice";
     const tf = s.answerType === "tf";
     const ans = tf ? `<div class="field"><label class="label" for="pe_ans">Right answer</label><select class="select" id="pe_ans">${tfLabels(host.doc().meta.classProfile).map((l, i) => `<option${it.tf === i ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></div>` : field("pe_ans", s.answerType === "match" ? "Meaning" : "Right answer", it.answer);
+    // Letter help for this one question (the tasks whose letter boxes the app makes).
+    let help = null;
+    if (LETTER_HELP_TASKS.includes(s.task)) {
+      const plan = host.spec().parts.find((p) => p.id === s.id);
+      const o = partOpts(plan || { task: s.task }, host.spec().levelId);
+      let rootEl = null;
+      help = letterHelpField({
+        task: s.task, reveal: it.reveal, partMode: s.task === "V-FORM" ? o.family : o.hint,
+        answer: () => rootEl?.querySelector("#pe_ans")?.value ?? it.answer, prompt: () => rootEl?.querySelector("#pe_prompt")?.value ?? it.prompt,
+      });
+      const mount = help.mount;
+      help.mount = (root) => { rootEl = root; mount(root); };
+    }
     form({
       title: example ? "The example" : `Question ${it.n}`, subtitle: label(s),
       body: field("pe_prompt", s.answerType === "match" ? "Word" : "Question / sentence", it.prompt, { rows: 3, hint: /_{3,}/.test(it.prompt || "") ? "the gap is ________" : "" })
         + (choice ? field("pe_opts", "Options", it.options.join("\n"), { rows: 4, hint: "one per line — the right answer must be one of them" }) : "")
-        + ans,
+        + ans + (help?.html || ""),
       extraFoot: example ? "" : `<button type="button" class="btn btn-magic" data-pe-remake>${icon("sparkles", "i-sm")}Remake with Lingo</button>`,
-      onMount(root, close) { root.querySelector("[data-pe-remake]")?.addEventListener("click", () => { close(); remakeDialog(d, el); }); },
+      onMount(root, close) { help?.mount(root); root.querySelector("[data-pe-remake]")?.addEventListener("click", () => { close(); remakeDialog(d, el); }); },
       onSave: (v) => {
-        const item = { prompt: v("pe_prompt").trim(), answer: v("pe_ans").trim(), options: choice ? lines(v("pe_opts")) : undefined, evidence: it.evidence };
+        const item = { prompt: v("pe_prompt").trim(), answer: v("pe_ans").trim(), options: choice ? lines(v("pe_opts")) : undefined, evidence: it.evidence, ...(help ? { reveal: help.value() } : it.reveal !== undefined ? { reveal: it.reveal } : {}) };
         if (choice && !item.options.some((o) => o.toLowerCase() === item.answer.toLowerCase())) { toast("The right answer must be one of the options.", "warn"); return false; }
         if (!item.answer) { toast("Add the right answer.", "warn"); return false; }
         revise(s.id, (raw) => { if (example) raw.example = item; else raw.items[idx] = item; }, example ? "Example saved." : `Question ${it.n} saved.`);

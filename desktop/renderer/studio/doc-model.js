@@ -62,6 +62,8 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     item.answer = clean(raw?.answer ?? raw?.sample ?? "");
     if (!item.answer && t.answer !== "open" && task !== "R-ORDER") problems.push("missing answer");
   }
+  // The teacher’s own letter help for this question (kept while it fits the answer).
+  if (LETTER_HELP_TASKS.includes(task)) { const r = cleanReveal(raw?.reveal, item.answer); if (r !== undefined) item.reveal = r; }
   if (task === "V-PIC" && picFor) {
     const p = picFor(item.answer);
     if (p) item.pic = p;
@@ -101,14 +103,79 @@ export function scramble(word, rand = Math.random) {
   return out.join(" · ");
 }
 
-/** Letter help for a word: "first" → "g _ _ _ _ _", "count" → "_ _ _ _ _ _ (6 letters)", "none" → "". */
+/** Tasks whose letter help the app makes (and the teacher can set per question). */
+export const LETTER_HELP_TASKS = ["V-DEF", "V-PIC", "V-OPPW", "V-FORM"];
+
+/** A question’s letter help: its own choice when the teacher made one, else the part’s. */
+function setHint(it, partHint) {
+  const h = it.reveal === "none" ? "" : Array.isArray(it.reveal) ? revealHint(it.answer, it.reveal) : partHint;
+  if (h) it.hint = h; else delete it.hint;
+}
+
+/** Letter help for a word: "first" → "g _ _ _ _ _", "count" → "_ _ _ _ _ _ (6 letters)", "first2", "firstlast", "some" (see revealFor), "none" → "". */
 export function letterHint(word, mode) {
   const w = String(word || "").trim();
   if (!w || mode === "none" || !mode) return "";
   const n = w.replace(/[^A-Za-z]/g, "").length;
   const blanks = (s) => s.split(" ").map((part) => part.replace(/[A-Za-z]/g, "_").split("").join(" ")).join("   ");
   if (mode === "first") return `${w[0].toLowerCase()} ${blanks(w.slice(1)).trim()}`.trim();
-  return `${blanks(w)} (${n} letters)`;
+  if (mode === "count") return `${blanks(w)} (${n} letters)`;
+  const shown = revealFor(w, mode);
+  return shown ? revealHint(w, shown) : "";
+}
+
+/** The positions of the letters in an answer ("ice-cream" → 0,1,2,4,5,…): only letters ever get a box. */
+export const letterPositions = (answer) => [...String(answer || "")].map((c, i) => (/[A-Za-z]/.test(c) ? i : -1)).filter((i) => i >= 0);
+
+/**
+ * Which letters a kind of help shows, as positions in the answer (null: no letter help). Always leaves at least one
+ * letter to write. "first", "first2" (first two), "firstlast", "some" (about a third, spread out so no two shown
+ * letters touch, the first one included), "count" (boxes only), "root" (the word in CAPITALS inside the answer —
+ * needs the prompt; else the first letter).
+ */
+export function revealFor(answer, mode, prompt = "") {
+  const L = letterPositions(answer);
+  if (!L.length || !mode || mode === "none") return null;
+  let out;
+  if (mode === "count") out = [];
+  else if (mode === "first") out = L.slice(0, 1);
+  else if (mode === "first2") out = L.slice(0, 2);
+  else if (mode === "firstlast") out = L.length > 2 ? [L[0], L.at(-1)] : L.slice(0, 1);
+  else if (mode === "some") {
+    const k = Math.max(1, Math.round(L.length / 3));
+    out = [...new Set(Array.from({ length: k }, (_, j) => L[Math.round((j * (L.length - 1)) / Math.max(k, 2))]))];
+  } else if (mode === "root") {
+    const base = (String(prompt || "").match(/\(\s*([A-Z][A-Z' -]*?)\s*\)\s*[.?!]?\s*$/) || [])[1];
+    const span = base ? rootSpan(answer, base) : null;
+    out = span ? L.filter((i) => i >= span[0] && i < span[1]) : L.slice(0, 1);
+  } else return null;
+  return out.length >= L.length ? out.slice(0, L.length - 1) : out;
+}
+
+/** The letter help for the shown positions, in the boxes' shape: "c _ e _ _ _", words three spaces apart. */
+export function revealHint(answer, shown = []) {
+  const show = new Set(shown);
+  const chars = [...String(answer || "").trim()];
+  const words = [];
+  let cur = [];
+  chars.forEach((c, i) => {
+    if (/\s/.test(c)) { if (cur.length) words.push(cur); cur = []; return; }
+    cur.push(/[A-Za-z]/.test(c) ? (show.has(i) ? c : "_") : c);
+  });
+  if (cur.length) words.push(cur);
+  return words.map((w) => w.join(" ")).join("   ");
+}
+
+/**
+ * A question's own letter help, chosen by the teacher: "none", or the positions of the letters to show (any letters,
+ * not only the first ones; [] = empty boxes only). Kept only while it fits the answer — at least one letter to write.
+ */
+export function cleanReveal(reveal, answer) {
+  if (reveal === "none") return "none";
+  if (!Array.isArray(reveal)) return undefined;
+  const L = new Set(letterPositions(answer));
+  const out = [...new Set(reveal.map(Number).filter((i) => L.has(i)))].sort((a, b) => a - b);
+  return L.size && out.length < L.size ? out : undefined;
 }
 
 /**
@@ -120,6 +187,7 @@ export function familyHint(prompt, answer, mode) {
   const w = String(answer || "").trim();
   if (!w || !mode || mode === "none") return "";
   if (mode === "count") return letterHint(w, "count");
+  if (mode !== "root") return letterHint(w, mode);
   const base = (String(prompt || "").match(/\(\s*([A-Z][A-Z' -]*?)\s*\)\s*[.?!]?\s*$/) || [])[1];
   const span = base ? rootSpan(w, base) : null;
   if (!span) return letterHint(w, "first");
@@ -400,7 +468,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (task.answer === "choice" || hasWordBox(section)) { const r = sectionRubric(section); section.rubric = r.en; section.rubricEl = r.el; }
   // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
   if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
-  if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => { const h = familyHint(it.prompt, it.answer, opts.family); if (h) it.hint = h; else delete it.hint; });
+  if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => setHint(it, familyHint(it.prompt, it.answer, opts.family)));
   // Word families and opposites: the answer is never the word in capitals itself.
   if (plan.task === "V-FORM" || plan.task === "V-OPPW") items.forEach((it) => {
     const base = (String(it.prompt || "").match(/\(\s*([A-Z][A-Z' -]*?)\s*\)\s*[.?!]?\s*$/) || [])[1];
@@ -408,7 +476,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   });
   if (["V-DEF", "V-PIC", "V-OPPW"].includes(plan.task)) {
     const mode = opts.hint;
-    [example, ...items].filter(Boolean).forEach((it) => { const h = letterHint(it.answer, mode); if (h) it.hint = h; else delete it.hint; });
+    [example, ...items].filter(Boolean).forEach((it) => setHint(it, letterHint(it.answer, mode)));
   }
 
   // Points: one per item; open tasks carry their own total.

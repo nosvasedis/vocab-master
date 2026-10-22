@@ -67,3 +67,67 @@ test("Word export still builds with letter help", async () => {
   const f = part("V-FORM", "root", { items: [{ prompt: "It is a ________ day. (SUN)", answer: "sunny" }] });
   assert.ok((await buildStudioDocx({ doc: { meta: { title: "T" }, sections: [s, f] }, which: "student" })).size > 1000);
 });
+
+/* ── The teacher's choice: more help levels, and letters chosen per question ── */
+import { revealFor, revealHint, cleanReveal, letterHint } from "../desktop/renderer/studio/doc-model.js";
+import { buildTestDoc, reviseSection, applyItemFixes, testDefaults } from "../desktop/renderer/studio/test-builder.js";
+
+test("help levels: first two, first + last, some letters spread out — always a letter left to write", () => {
+  assert.equal(letterHint("basket", "first2"), "b a _ _ _ _");
+  assert.equal(letterHint("basket", "firstlast"), "b _ _ _ _ t");
+  assert.equal(letterHint("basket", "some"), "b _ _ k _ _");
+  assert.equal(letterHint("lay eggs", "firstlast"), "l _ _   _ _ _ s");
+  assert.equal(letterHint("ice-cream", "count"), "_ _ _ - _ _ _ _ _ (8 letters)");
+  // "some" never shows two letters side by side.
+  for (const w of ["production", "description", "insect", "go", "upside down"]) {
+    const s = revealFor(w, "some");
+    assert.ok(s.every((p, k) => k === 0 || p - s[k - 1] > 1), w);
+  }
+  // Short words keep one letter to write.
+  assert.deepEqual(revealFor("go", "firstlast"), [0]);
+  assert.deepEqual(revealFor("go", "first2"), [0]);
+});
+
+test("a question's own letters: any letters, kept only while they fit the answer", () => {
+  assert.equal(revealHint("creature", [0, 3, 6]), "c _ _ a _ _ r _");
+  assert.equal(revealHint("upside down", [0, 7]), "u _ _ _ _ _   d _ _ _");
+  assert.deepEqual(cleanReveal([6, 0, 3, 3, 99], "creature"), [0, 3, 6]);
+  assert.equal(cleanReveal([0, 1, 2], "cat"), undefined, "all letters shown is not help");
+  assert.equal(cleanReveal("none", "cat"), "none");
+  assert.equal(cleanReveal(undefined, "cat"), undefined);
+});
+
+const helpDoc = () => {
+  const spec = { ...testDefaults("B_SENIOR", "standard"), parts: [{ id: "p1", skill: "vocabulary", task: "V-DEF", items: 3, pointsEach: 1, opts: { hint: "first" } }] };
+  const reply = { sections: [{ id: "p1", example: { prompt: "You carry fruit in this.", answer: "basket" }, items: [
+    { prompt: "You go here to buy things.", answer: "shop" }, { prompt: "A small animal with six legs.", answer: "insect" }, { prompt: "You make something new.", answer: "create" }] }] };
+  return { spec, doc: buildTestDoc(spec, reply, { levelId: "B_SENIOR" }) };
+};
+
+test("one question's help beats the part's, and survives the part being checked again", () => {
+  const { spec, doc } = helpDoc();
+  reviseSection(doc, spec, "p1", (raw) => { raw.items[1].reveal = [0, 3]; raw.items[2].reveal = "none"; }, {});
+  let s = doc.sections[0];
+  assert.equal(s.items[0].hint, "s _ _ _");
+  assert.equal(s.items[1].hint, "i _ _ e _ _");
+  assert.equal(s.items[2].hint, undefined);
+  // The part's setting changes (Step 3): only questions without their own help follow.
+  spec.parts[0].opts.hint = "firstlast";
+  reviseSection(doc, spec, "p1", () => {}, {});
+  s = doc.sections[0];
+  assert.deepEqual([s.items[0].hint, s.items[1].hint, s.items[2].hint], ["s _ _ p", "i _ _ e _ _", undefined]);
+  // On paper: own letters in boxes, "none" → a plain line.
+  const rows = renderStudentPaper(doc).match(/<div class="ex-item st-item[^"]*">.*?<\/div><\/div>/g);
+  assert.equal(given(rows[2]), 2);
+  assert.ok(rows[3].includes("st-line") && !rows[3].includes("st-cells"));
+});
+
+test("Lingo rewriting a question keeps its help only while the answer stays", () => {
+  const { spec, doc } = helpDoc();
+  reviseSection(doc, spec, "p1", (raw) => { raw.items[0].reveal = [0, 2]; raw.items[1].reveal = [0, 3]; }, {});
+  applyItemFixes(doc, spec, "p1", { items: [{ n: 1, prompt: "You buy food here.", answer: "shop" }, { n: 2, prompt: "It buzzes.", answer: "bee" }] }, [1, 2], {});
+  const s = doc.sections[0];
+  assert.deepEqual(s.items[0].reveal, [0, 2]);
+  assert.equal(s.items[1].reveal, undefined);
+  assert.equal(s.items[1].hint, "b _ _");
+});

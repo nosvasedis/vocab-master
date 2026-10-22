@@ -417,6 +417,14 @@ function syncDocWords(sel) {
   renderOutline();
 }
 
+/** Draw a part's letter help again with its new setting (Step 3), without Lingo. */
+function refitLetterHelp(id) {
+  if (!reviseSection(ts.doc, specForAi().spec, id, () => {}, { focusWords: ts.doc.focusWords || [] })) return;
+  refreshDoc();
+  const own = (ts.doc.sections.find((x) => x.id === id)?.items || []).filter((it) => it.reveal !== undefined).length;
+  toast(own ? `Letter help changed on the paper — ${plural(own, "question")} with ${own > 1 ? "their" : "its"} own help ${own > 1 ? "keep" : "keeps"} it.` : "Letter help changed on the paper.", "ok", { ms: 2600 });
+}
+
 /** Swap parts the source can't support (picture tasks without picture words, the Big Question without a unit). */
 function fitParts({ quiet = false } = {}) {
   if (!picker) return;
@@ -538,7 +546,7 @@ function knobsHtml(p, texts) {
     // A ready-made text has its own type and length.
     if ((k === "genre" || k === "length") && o.text && texts.some((x) => x.id === o.text)) continue;
     const kn = KNOBS[k];
-    rows.push(`<div class="pc-knob"><span class="pc-lbl">${esc(kn.label)}</span><div class="pc-chips" role="radiogroup" aria-label="${esc(kn.label)}">${kn.values.map(([v, label]) => `<button type="button" class="pc-chip${String(o[k]) === String(v) ? " active" : ""}" data-knob="${k}" data-val="${esc(v)}" data-part-opt="${p.id}" role="radio" aria-checked="${String(o[k]) === String(v)}">${esc(label)}</button>`).join("")}</div></div>`);
+    rows.push(`<div class="pc-knob"><span class="pc-lbl">${esc(kn.label)}</span><div class="pc-chips" role="radiogroup" aria-label="${esc(kn.label)}">${kn.values.map(([v, label]) => `<button type="button" class="pc-chip${String(o[k]) === String(v) ? " active" : ""}" data-knob="${k}" data-val="${esc(v)}" data-part-opt="${p.id}" role="radio" aria-checked="${String(o[k]) === String(v)}">${esc(label)}</button>`).join("")}</div>${(k === "hint" || k === "family") ? `<small class="pc-knob-note">For the whole part — click a question on the paper to choose its own letters.</small>` : ""}</div>`);
   }
   return rows.join("");
 }
@@ -707,6 +715,8 @@ function onPartsClick(e) {
     if (k === "plays" && ts.doc) { const sec = ts.doc.sections.find((x) => x.id === p.id); if (sec) { sec.plays = v; refreshDoc(); } }
     // Extra words in a word box: the box changes on the paper at once (no AI), and its instruction follows.
     else if (k === "extras" && ts.doc?.sections.some((x) => x.id === p.id)) refitWordBox(p.id, v);
+    // Letter help is made by the app: the boxes change on the paper at once (no AI). A question with its own help keeps it.
+    else if ((k === "hint" || k === "family") && ts.doc?.sections.some((x) => x.id === p.id)) refitLetterHelp(p.id);
     else markStale(p.id);
     savePrefs(); renderParts();
     return;

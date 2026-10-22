@@ -252,8 +252,8 @@ export const KNOBS = {
   length: { label: "Text length", values: [["short", "Short"], ["medium", "Medium"], ["long", "Long"]] },
   plays: { label: "Plays", values: [[2, "Twice"], [1, "Once"]] },
   options: { label: "Choices", values: [[3, "a · b · c"], [4, "a · b · c · d"]] },
-  hint: { label: "Letter help", values: [["first", "First letter"], ["count", "Letter count"], ["none", "None"]] },
-  family: { label: "Word help", values: [["root", "Word inside"], ["count", "Letter count"], ["none", "None"]] },
+  hint: { label: "Letter help", values: [["first", "First letter"], ["first2", "First two"], ["firstlast", "First + last"], ["some", "Some letters"], ["count", "Letter count"], ["none", "None"]] },
+  family: { label: "Word help", values: [["root", "Word inside"], ["first", "First letter"], ["some", "Some letters"], ["count", "Letter count"], ["none", "None"]] },
   support: { label: "Support", values: [["full", "Lots"], ["some", "Some"], ["none", "None"]] },
   // Word boxes: one word per gap unless the teacher asks for words that fit no gap (the instruction then says how many).
   extras: { label: "Extra words in the box", values: [[0, "None · one per gap"], [1, "+1"], [2, "+2"], [3, "+3"]] },
