@@ -1123,3 +1123,5 @@
 .pw-new-head small { font-size: 11.5px; color: var(--text-3); font-weight: 600; }
 .pw-new-words { display: flex; flex-wrap: wrap; gap: 4px; }
 .pw-new-words span { padding: 2px 8px; border-radius: 99px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-3); }
+.pw-part[disabled] { opacity: .5; cursor: not-allowed; }
+.pw-part.fit-nopic .pw-fit { color: var(--text-3); }

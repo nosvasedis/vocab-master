@@ -96,3 +96,20 @@ test("new parts for many words: class-fit tasks, pictures first, no tiny last pa
   const d = { focusWords: [{ english: "volcano" }, { english: "ash" }, { english: "lava" }, { english: "rock", own: true }], sections: [{ skill: "reading", task: "R-TF", passage: "The volcano.", items: [{ n: 1, prompt: "x", answer: "lava" }] }] };
   assert.deepEqual(wordPriority(cover(d)).map((w) => w.english), ["rock", "ash", "volcano", "lava"]);
 });
+
+test("word families: baker doesn't test bake when both are chosen; picture parts need a picture for every word", async () => {
+  const { testCoverage: cover, placementOptions, hasWord } = await import("../desktop/renderer/studio/test-coverage.js");
+  const { TASKS } = await import("../desktop/renderer/studio/tasks.js");
+  const d = { focusWords: [{ english: "bake" }, { english: "baker" }, { english: "paint" }], sections: [{ skill: "vocabulary", task: "V-BANK", items: [{ n: 1, prompt: "The ____ sells bread.", answer: "baker" }, { n: 2, prompt: "I like to ____ pictures.", answer: "paint" }] }] };
+  const by = Object.fromEntries(cover(d).words.map((w) => [w.english, w.status]));
+  assert.deepEqual(by, { bake: "missing", baker: "tested", paint: "tested" });
+  assert.equal(hasWord("She baked a cake for the baker.", "bake", ["bake", "baker"]), true, "baked is bake's own form");
+  assert.equal(hasWord("The baker is here.", "bake", ["bake", "baker"]), false);
+  assert.equal(hasWord("The baker is here.", "bake", ["bake"]), true, "without baker chosen, the lenient match stays");
+  const pic = { focusWords: [{ english: "cat" }, { english: "idea" }], sections: [{ skill: "vocabulary", task: "V-PIC", items: [{ n: 1, prompt: "", answer: "cat" }] }] };
+  const [o] = placementOptions(pic, ["idea"], { tasks: TASKS, hasPicture: (w) => w === "cat" });
+  assert.equal(o.fit, "nopic");
+  assert.equal(o.canAdd, false);
+  assert.equal(o.canReplace, false);
+  assert.equal(placementOptions(pic, ["cat"], { tasks: TASKS, hasPicture: (w) => w === "cat" })[0].fit, "best");
+});

@@ -10,7 +10,7 @@ import { TEST_DEFAULTS } from "../../studio/levels.js";
 import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, estimateMinutes } from "../../studio/test-builder.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
 import { containsForm } from "../../studio/word-scope.js";
-import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks } from "../../studio/test-coverage.js";
+import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks, hasWord } from "../../studio/test-coverage.js";
 
 const CSS = `
 .pe-t { position: relative; cursor: pointer; border-radius: 6px; transition: background 140ms, box-shadow 140ms; }
@@ -328,7 +328,8 @@ export function mountTestEditing(host) {
         missing = ns.filter((n, k) => {
           const it = sec.items[n - 1];
           if (!it || it.prompt === "(a new question)" || !it.answer || it.answer === "?") return true;
-          return strict && (answer ? !containsForm(String(it.answer), words[k]) : !itemUses(it, words[k]));
+          const family = (host.doc()?.focusWords || []).map((w) => w.english);
+          return strict && (answer ? !hasWord(String(it.answer), words[k], family) : !itemUses(it, words[k], family));
         });
       }
       // Strict: the questions that came out right stay; the others are taken out again (from the last, so the
@@ -564,6 +565,8 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
         const changed = applyItemFixes(host.doc(), spec, id, reply, [n], { picFor: ctx.picFor, focusWords: ctx.focus });
         const now = A(id)?.items[idx];
         problems = changed.length ? remakeProblems(original, now, plan.checks) : ["no new question came back"];
+        // "baker" is not "bake": the answer must be the word itself when another chosen word is its longer form.
+        if (changed.length && opts.answer && !problems.length && !hasWord(String(now?.answer || ""), opts.answer, (host.doc()?.focusWords || []).map((w) => w.english))) problems.push(`the answer must be "${opts.answer}" itself, not another word of its family`);
         // A new question with its own fault (answer not among the options, a word outside the list) is not done either.
         if (changed.length) problems.push(...(A(id)?.problems || []).filter((p) => p.startsWith(`item ${n}:`)).map((p) => p.replace(/^item \d+: /, "")));
         if (!problems.length) break;
@@ -631,7 +634,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
   /* ── Put words on the test, where the teacher decides (from the word check) ── */
   // Vocabulary tasks whose answer is the word itself: a word put there must be the right answer.
   const ANSWER_TASKS = new Set(["V-PIC", "V-MC", "V-SPELL", "V-BANK", "V-DEF"]);
-  const FIT_LABEL = { best: "Best fit", ok: "Fits", rewrite: "Only by writing the part again", recommended: "Recommended", new: "New" };
+  const FIT_LABEL = { best: "Best fit", ok: "Fits", rewrite: "Only by writing the part again", nopic: "No picture", recommended: "Recommended", new: "New" };
   // How many words a new part takes: a little more than the class's usual part, never a crowded one.
   const perPartFor = (levelId) => Math.max(6, Math.min(10, (TEST_DEFAULTS[levelId]?.items || 5) + 3));
   // A test usually checks about this many words well; beyond it, a second test or a dictation serves better.
@@ -660,7 +663,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     const st = { part, mode: "add", at: null, replace: [], wish: "", tasks: {} };
     const chosenWords = () => all.filter((w) => on.has(w.english));
     const chosen = () => chosenWords().map((w) => w.english);
-    const options = () => placementOptions(host.doc(), chosen().length ? chosen() : all.map((w) => w.english), { tasks: TASKS, maxItems: MAX_ITEMS });
+    const options = () => placementOptions(host.doc(), chosen().length ? chosen() : all.map((w) => w.english), { tasks: TASKS, maxItems: MAX_ITEMS, hasPicture });
     const room = (o) => MAX_ITEMS - (A(o.id)?.items.length || 0);
     const used = () => host.doc().sections.map((s) => s.task);
     /** The proposed new parts for the chosen words, with any task the teacher changed. */
@@ -675,9 +678,9 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     const pick = () => {
       const opts = options();
       const n = chosen().length;
-      if (st.part == null || (st.part !== "new" && !opts[st.part])) {
+      if (st.part == null || (st.part !== "new" && (!opts[st.part] || opts[st.part].fit === "nopic"))) {
         const ok = (o) => o.canAdd && room(o) >= n;
-        st.part = newIsBest(opts, n) ? "new" : (opts.find((o) => o.fit === "best" && ok(o)) || opts.find((o) => o.fit !== "rewrite" && ok(o)) || opts.find((o) => o.fit !== "rewrite" && o.canReplace) || opts[0])?.part ?? "new";
+        st.part = newIsBest(opts, n) ? "new" : (opts.find((o) => o.fit === "best" && ok(o)) || opts.find((o) => o.fit !== "rewrite" && ok(o)) || opts.find((o) => o.fit !== "rewrite" && o.canReplace))?.part ?? "new";
       }
       if (st.part === "new") return { opts, o: null, n };
       const o = opts[st.part];
@@ -747,7 +750,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
       const partsHtml = opts.map((p) => {
         const s = A(p.id);
         const fitText = p.fit === "best" && !(p.canAdd && room(p) >= n) ? (p.canReplace ? "Only by replacing" : FIT_LABEL.rewrite) : FIT_LABEL[p.fit];
-        return `<button type="button" class="pw-part fit-${p.fit}${p.part === st.part ? " active" : ""}" data-pw-part="${p.part}" data-skill="${esc(p.skill)}">
+        return `<button type="button" class="pw-part fit-${p.fit}${p.part === st.part ? " active" : ""}" data-pw-part="${p.part}" data-skill="${esc(p.skill)}"${p.fit === "nopic" ? " disabled" : ""}>
           <span class="pw-part-ico">${SKILLS[p.skill]?.icon || ""}</span>
           <span class="pw-part-t"><small>Part ${p.part + 1} · ${esc(SKILLS[p.skill]?.label || "")} · ${plural(s?.items.length || 0, "question")}${p.canAdd && p.fit !== "rewrite" ? ` · room for ${room(p)} more` : ""}</small><b>${esc(TASKS[p.task]?.label || "")}</b><span>${esc(p.note)}</span></span>
           <span class="pw-fit">${esc(fitText)}</span></button>`;
@@ -870,12 +873,20 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
         // no chosen word (or a second question on the same word), with the word as the answer.
         for (const a of res.added) {
           const answer = ANSWER_TASKS.has(A(a.id)?.task);
-          for (const w of a.words) {
-            const x = testCoverage(host.doc()).words.find((y) => y.english === w);
-            if (x?.tested.some((t) => t.part === host.doc().sections.findIndex((s) => s.id === a.id))) continue;
-            const s = A(a.id);
-            const i = host.doc().sections.indexOf(s);
-            const opts = placementOptions(host.doc(), a.words, { tasks: TASKS, maxItems: MAX_ITEMS })[i];
+          const idx = () => host.doc().sections.findIndex((s) => s.id === a.id);
+          const missed = () => { const c = testCoverage(host.doc()); return a.words.filter((w) => !c.words.find((y) => y.english === w)?.tested.some((t) => t.part === idx())); };
+          let miss = missed();
+          // A part that came back short gets the missing questions added (checked word by word) …
+          const short = Math.max(0, a.words.length - (A(a.id)?.items.length || 0));
+          if (miss.length && short) {
+            const k = Math.min(short, miss.length, 5);
+            await addWithLingo(a.id, A(a.id).items.length, k, { words: miss.slice(0, k), strict: true, answer, quiet: true });
+            if (!same()) return;
+            miss = missed();
+          }
+          // … and a word still left out goes into a question that tests no chosen word (or repeats one), as the answer.
+          for (const w of miss) {
+            const opts = placementOptions(host.doc(), a.words, { tasks: TASKS, maxItems: MAX_ITEMS, hasPicture: () => true })[idx()];
             const spare = opts?.items.find((it) => !it.tests.some((t) => a.words.includes(t)) || (it.tests.length && !it.only.length && it.tests.every((t) => a.words.includes(t))));
             const ok = spare ? await remake(a.id, spare.n - 1, `use the word "${w}"${answer ? " as the right answer" : ""}`, null, { quiet: true, answer: answer ? w : "" }) : false;
             if (!same()) return;

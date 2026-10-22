@@ -1,6 +1,25 @@
 /* Which of a test's words the test really asks about, and where — the Test Maker's word check (like the
  * worksheets' coverage). Pure: works on a saved test doc ({ focusWords, sections }). */
-import { containsForm } from "./word-scope.js";
+import { containsForm as looseForm } from "./word-scope.js";
+
+/*
+ * Word families: the shared matcher is lenient on purpose (an answer "baker" is in scope for the word "bake"). The
+ * word check must not be: when another chosen word explains the match ("baker", "bakery" beside "bake"; "painter"
+ * beside "paint"), the shorter word counts only where it appears on its own. FAMILY holds, per word, the longer
+ * chosen words that are forms of it; containsForm below takes those out of the text before matching.
+ */
+let FAMILY = new Map();
+const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function setFamily(words) {
+  const list = [...new Set(words.map((w) => String(w || "").trim().toLowerCase()).filter(Boolean))];
+  FAMILY = new Map(list.map((w) => [w, list.filter((v) => v !== w && v.length > w.length && looseForm(v, w))]));
+}
+function containsForm(text, word) {
+  const longer = FAMILY.get(String(word || "").trim().toLowerCase()) || [];
+  let src = String(text || "");
+  for (const v of longer) src = src.replace(new RegExp(`(?<![A-Za-z])${v.split(/\s+/).map(esc).join("[\\s-]+")}(?![A-Za-z])`, "gi"), " ");
+  return looseForm(src, word);
+}
 
 /** Strings of a question: the answer, the question itself (sentence, picture word), and the wrong options. */
 function itemTexts(it) {
@@ -34,6 +53,7 @@ export function testCoverage(doc) {
     seenKeys.add(k);
     return true;
   });
+  setFamily(focus.map((w) => w.english));
   const parts = sections.map((s, i) => ({ part: i, skill: s.skill, task: s.task, words: [] }));
   const words = focus.map((w) => {
     const tested = [];
@@ -67,8 +87,9 @@ export function coverageWhere(w) {
   return "Not on the test";
 }
 
-/** True when a question uses the word (its answer, its sentence or an option). */
-export function itemUses(it, word) {
+/** True when a question uses the word (its answer, its sentence or an option); words: the test's words (families). */
+export function itemUses(it, word, words = null) {
+  if (words) setFamily(words);
   const { answer, ask, other } = itemTexts(it);
   return containsForm(answer, word) || containsForm(ask, word) || containsForm(other, word);
 }
@@ -76,12 +97,13 @@ export function itemUses(it, word) {
 /**
  * Where a word could go, part by part, for the teacher to decide. For each part:
  *   fit: "best" (a vocabulary question tests the word itself) | "ok" (it can go in, see `note`) | "rewrite" (only by
- *   writing the part again: a writing or speaking task, or a text that doesn't use the word),
+ *   writing the part again: a writing or speaking task, or a text that doesn't use the word) | "nopic" (a picture
+ *   task and a word without a picture: not possible),
  *   canAdd (room for one more question), and its questions, each with the chosen words it is the only test of
  *   (`only`) — a question with none is safe to replace.
  * tasks: the TASKS table (answer type, needs). maxItems: the most questions a part can have.
  */
-export function placementOptions(doc, words, { tasks = {}, maxItems = 12 } = {}) {
+export function placementOptions(doc, words, { tasks = {}, maxItems = 12, hasPicture = () => true } = {}) {
   const list = (Array.isArray(words) ? words : [words]).map((w) => (typeof w === "string" ? w : w?.english)).filter(Boolean);
   const cov = testCoverage(doc);
   // How many questions test each word: a question that is a word's only test shouldn't be replaced lightly.
@@ -93,7 +115,9 @@ export function placementOptions(doc, words, { tasks = {}, maxItems = 12 } = {})
     const inText = hasText && list.every((w) => containsForm(sectionTexts(s), w));
     let fit = "ok";
     let note = "";
-    if (open) { fit = "rewrite"; note = s.skill === "speaking" ? "Speaking cards have no questions — Lingo can write the part again with the word." : "A writing task has no questions — Lingo can write the part again with the word in it."; }
+    const noPic = !open && t.needs?.includes("pictures") ? list.filter((w) => !hasPicture(w)) : [];
+    if (noPic.length) { fit = "nopic"; note = `This part asks about pictures, and ${noPic.length === 1 ? `“${noPic[0]}” has` : `${noPic.slice(0, 3).map((w) => `“${w}”`).join(", ")}${noPic.length > 3 ? ` and ${noPic.length - 3} more have` : " have"}`} no picture in the app — choose another part.`; }
+    else if (open) { fit = "rewrite"; note = s.skill === "speaking" ? "Speaking cards have no questions — Lingo can write the part again with the word." : "A writing task has no questions — Lingo can write the part again with the word in it."; }
     else if (s.skill === "vocabulary") { fit = "best"; note = "A question here tests the word itself."; }
     else if (hasText && !inText) { fit = "rewrite"; note = `The ${s.script?.length ? "recording" : "text"} doesn’t use ${list.length === 1 ? "this word" : "all these words"}, so a question can’t ask about it — Lingo can write the part again with ${list.length === 1 ? "it" : "them"} in the ${s.script?.length ? "script" : "text"}.`; }
     else if (hasText) note = `The word is in the ${s.script?.length ? "recording" : "text"}: a new question asks about it.`;
@@ -104,7 +128,7 @@ export function placementOptions(doc, words, { tasks = {}, maxItems = 12 } = {})
       const tests = cov.words.filter((w) => w.tested.some((x) => x.part === i && x.items.includes(it.n))).map((w) => w.english);
       return { n: it.n, text: [it.prompt, it.options?.length ? `(${it.options.join(" / ")})` : "", it.answer && !it.options?.length ? `→ ${it.answer}` : ""].filter(Boolean).join(" ").trim(), tests, only };
     });
-    return { part: i, id: s.id, skill: s.skill, task: s.task, fit, note, canAdd: fit !== "rewrite" && (s.items || []).length < maxItems, canReplace: fit !== "rewrite" && items.length > 0, items };
+    return { part: i, id: s.id, skill: s.skill, task: s.task, fit, note, canAdd: fit !== "rewrite" && fit !== "nopic" && (s.items || []).length < maxItems, canReplace: fit !== "rewrite" && fit !== "nopic" && items.length > 0, items };
   });
 }
 
@@ -152,4 +176,10 @@ export function planNewParts(words, { levelIdx = 1, tasks = {}, perPart = 8, has
   if (chunks.length > 1 && chunks.at(-1).length <= 2) chunks.at(-2).push(...chunks.pop());
   chunks.forEach((c, k) => out.push({ task: fresh[k % fresh.length] || "V-BANK", words: c.map((w) => w.english) }));
   return out;
+}
+
+/** True when the text has the word itself, not only a longer chosen word of its family ("baker" for "bake"). */
+export function hasWord(text, word, words = []) {
+  setFamily(words);
+  return containsForm(text, word);
 }

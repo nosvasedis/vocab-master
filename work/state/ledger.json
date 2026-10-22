@@ -11029,6 +11029,96 @@
       "outTok": 121,
       "usd": 0.001089,
       "job": "studio voices route check (est)"
+    },
+    {
+      "t": "2026-10-22T12:40:48.753Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 3417,
+      "outTok": 1607,
+      "usd": 0.002953,
+      "job": "word-placement: test"
+    },
+    {
+      "t": "2026-10-22T12:40:51.096Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2702,
+      "outTok": 372,
+      "usd": 0.001257,
+      "job": "word-placement: new part V-BANK"
+    },
+    {
+      "t": "2026-10-22T12:40:59.292Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 1091,
+      "outTok": 78,
+      "usd": 0.000421,
+      "job": "word-placement: repair"
+    },
+    {
+      "t": "2026-10-22T12:41:05.231Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2719,
+      "outTok": 434,
+      "usd": 0.001337,
+      "job": "word-placement: new part V-MC"
+    },
+    {
+      "t": "2026-10-22T12:41:20.486Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 1027,
+      "outTok": 164,
+      "usd": 0.000505,
+      "job": "word-placement: add"
+    },
+    {
+      "t": "2026-10-22T12:44:06.530Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 3412,
+      "outTok": 1607,
+      "usd": 0.002952,
+      "job": "word-placement: test"
+    },
+    {
+      "t": "2026-10-22T12:44:09.411Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2703,
+      "outTok": 421,
+      "usd": 0.001316,
+      "job": "word-placement: new part V-BANK"
+    },
+    {
+      "t": "2026-10-22T12:44:17.537Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 2718,
+      "outTok": 445,
+      "usd": 0.001349,
+      "job": "word-placement: new part V-MC"
+    },
+    {
+      "t": "2026-10-22T12:44:29.410Z",
+      "provider": "deepseek",
+      "model": "deepseek-chat",
+      "mode": "standard",
+      "inTok": 1121,
+      "outTok": 188,
+      "usd": 0.000562,
+      "job": "word-placement: add"
     }
   ]
 }
