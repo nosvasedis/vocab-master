@@ -121,9 +121,27 @@ export function familyHint(prompt, answer, mode) {
   if (!w || !mode || mode === "none") return "";
   if (mode === "count") return letterHint(w, "count");
   const base = (String(prompt || "").match(/\(\s*([A-Z][A-Z' -]*?)\s*\)\s*[.?!]?\s*$/) || [])[1];
-  const at = base ? w.toLowerCase().indexOf(base.toLowerCase()) : -1;
-  if (at < 0 || base.length >= w.length) return letterHint(w, "first");
-  return w.split("").map((ch, i) => (i >= at && i < at + base.length) || !/[A-Za-z]/.test(ch) ? ch.toLowerCase() : "_").join(" ");
+  const span = base ? rootSpan(w, base) : null;
+  if (!span) return letterHint(w, "first");
+  const [from, to] = span;
+  return w.split("").map((ch, i) => (i >= from && i < to) || !/[A-Za-z]/.test(ch) ? ch.toLowerCase() : "_").join(" ");
+}
+
+/**
+ * Where the base word shows inside the answer, as [from, to): the whole base (SUN → sunny, HAPPY → unhappy), or its
+ * stem when the spelling changes at the end (PRODUCE → produc|tion, AMAZE → amaz|ing, HAPPY → happ|iness) — so every
+ * answer of a family gets the same kind of help. null when the base doesn't sit in the answer that way or would
+ * leave nothing to write (BREATHE → breath, CREATURE → create): then the first letter is given.
+ */
+export function rootSpan(answer, base) {
+  const w = String(answer || "").toLowerCase();
+  const b = String(base || "").toLowerCase().trim();
+  if (!w || !b) return null;
+  const at = w.indexOf(b);
+  if (at >= 0) return b.length < w.length ? [at, at + b.length] : null;
+  let k = 0;
+  while (k < b.length && k < w.length && b[k] === w[k]) k++;
+  return k >= 3 && k >= b.length - 2 && k <= w.length - 2 ? [0, k] : null;
 }
 
 /**
@@ -383,6 +401,11 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   // Letter help, made by the app from the answer (never left to the AI): mixed-up letters, a first letter or a letter count.
   if (plan.task === "V-SPELL") [example, ...items].filter(Boolean).forEach((it) => { it.hint = scramble(it.answer); });
   if (plan.task === "V-FORM") [example, ...items].filter(Boolean).forEach((it) => { const h = familyHint(it.prompt, it.answer, opts.family); if (h) it.hint = h; else delete it.hint; });
+  // Word families and opposites: the answer is never the word in capitals itself.
+  if (plan.task === "V-FORM" || plan.task === "V-OPPW") items.forEach((it) => {
+    const base = (String(it.prompt || "").match(/\(\s*([A-Z][A-Z' -]*?)\s*\)\s*[.?!]?\s*$/) || [])[1];
+    if (base && lc(base) === lc(it.answer)) problems.push(`item ${it.n}: the answer is the word in capitals itself ("${base}")`);
+  });
   if (["V-DEF", "V-PIC", "V-OPPW"].includes(plan.task)) {
     const mode = opts.hint;
     [example, ...items].filter(Boolean).forEach((it) => { const h = letterHint(it.answer, mode); if (h) it.hint = h; else delete it.hint; });

@@ -17,11 +17,21 @@ const pic = (token, cls = "ws-pic") => {
 const withGaps = (text) => esc(text).replace(GAP, () => line("inline"));
 /** Letter help with blanks ("b _ _ _ _ _", "_ _ _ _ (4 letters)", "s u n _ _") is the writing space itself. */
 const writeIn = (it) => /_/.test(it?.hint || "");
-/** The letter-help box; in the example it shows the answer written in (and still says how many letters). */
+/**
+ * Letter help drawn as letter boxes, one per letter: the letters the help gives are printed, the rest are empty for
+ * the child (words apart, a hyphen or apostrophe between boxes). In the example every box is filled in by hand.
+ * hint: "b _ _ _ _ _", "_ _ _ _ (4 letters)", "s u n _ _", "l _ _   _ _ _ _".
+ */
 const hintBox = (it, example) => {
-  if (!example) return `<span class="st-hint st-hint-write">${esc(it.hint)}</span>`;
-  const count = (String(it.hint).match(/\(\d+ letters?\)/) || [])[0];
-  return `<span class="st-hint st-hint-done"><span class="st-ex-ans">${esc(it.answer)}</span>${count ? ` ${esc(count)}` : ""}</span>`;
+  const words = String(it.hint).replace(/\s*\(\d+ letters?\)\s*$/, "").trim().split(/\s{2,}/).map((w) => w.split(" ").filter(Boolean));
+  const fill = String(it.answer || "").trim().split(/\s+/).map((w) => [...w]);
+  const cell = (t, i, j) => {
+    if (!/^[A-Za-z_]$/.test(t)) return `<span class="st-cpunct">${esc(t)}</span>`;
+    const given = t !== "_";
+    const ch = given ? t : example ? fill[i]?.[j] || "" : "";
+    return `<span class="st-cell${given ? " given" : ""}">${esc(ch)}</span>`;
+  };
+  return `<span class="st-cells${example ? " done" : ""}">${words.map((w, i) => `<span class="st-cword">${w.map((t, j) => cell(t, i, j)).join("")}</span>`).join("")}</span>`;
 };
 
 /** Layout options with their defaults. */
@@ -271,10 +281,17 @@ export const STUDIO_PRINT_CSS = `
 .st-hint { display: inline-block; margin: 0 1.6mm; padding: 0.2mm 1.8mm; border: 0.6pt dashed var(--ink-3); border-radius: 1.4mm; font: 700 9.6pt/1.4 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.06em; color: var(--ink-2); white-space: nowrap; }
 .pic-card .st-hint { margin: 0.6mm 0 0; font-size: 8.6pt; }
 .pic-card .pic-line.hinted { height: auto; border-bottom: 0; flex-wrap: wrap; gap: 1mm; }
-.st-hint-write { padding: 0.5mm 2.4mm; font-size: 11.5pt; letter-spacing: 0.16em; line-height: 1.6; }
-.pic-card .st-hint-write { font-size: 10pt; }
-.st-hint-done { padding: 0.5mm 2.4mm; font-weight: 400; letter-spacing: 0; }
-.st-hint-done .st-ex-ans { border: 0; padding: 0; margin: 0; min-width: 0; }
+.st-cells { display: inline-flex; flex-wrap: nowrap; gap: 2.2mm; margin: 0 1.2mm; vertical-align: -1.9mm; }
+.st-cword { display: inline-flex; align-items: stretch; }
+.st-cell { display: inline-grid; place-items: center; box-sizing: border-box; width: 5.2mm; height: 6.4mm; margin-left: -0.6pt; border: 0.6pt solid var(--ink-3); background: #fff; font: 700 11pt/1 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; color: var(--ink); }
+.st-cword > .st-cell:first-child { margin-left: 0; border-radius: 1.2mm 0 0 1.2mm; }
+.st-cword > .st-cell:last-child { border-radius: 0 1.2mm 1.2mm 0; }
+.st-cword > .st-cell:only-child { border-radius: 1.2mm; }
+.st-cell.given { background: #f1f0eb; color: var(--ink-2); }
+.st-cells.done .st-cell:not(.given) { font: 400 12pt/1 "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }
+.st-cpunct { align-self: flex-end; padding: 0 0.5mm; font-weight: 700; }
+.pic-card .pic-line.hinted .st-cells { flex-wrap: wrap; justify-content: center; row-gap: 1mm; margin: 0; }
+.pic-card .st-cell { width: 4.4mm; height: 5.4mm; font-size: 9.5pt; }
 .st-notice { display: inline-block; max-width: 92%; margin: 0 0 1.2mm; padding: 1.6mm 3mm; border: 0.5mm solid #1f2430; border-radius: 1.6mm; font-weight: 700; letter-spacing: 0.01em; background: #fbfaf6; }
 .st-order .item-text { display: flex; align-items: center; gap: 3mm; }
 .st-order-box { flex: none; width: 7mm; height: 7mm; border: 0.8pt solid var(--ink); border-radius: 1.4mm; text-align: center; font: 700 10pt/7mm "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }

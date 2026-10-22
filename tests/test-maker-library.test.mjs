@@ -121,7 +121,8 @@ test("the app makes the letter help: mixed-up letters, a first letter, a letter 
   assert.equal(letterHint("gloves", "none"), "");
   const sec = normalizeSection({ id: "v", task: "V-DEF", items: 2, opts: { hint: "count" } }, { items: [{ prompt: "On your hands.", answer: "gloves" }, { prompt: "Cold and white.", answer: "snow" }] }, { levelId: "E_SENIOR" });
   assert.equal(sec.items[0].hint, "_ _ _ _ _ _ (6 letters)");
-  assert.ok(renderStudentPaper({ meta: {}, sections: [sec] }).includes("(6 letters)"));
+  // On paper the count is six empty letter boxes.
+  assert.equal((renderStudentPaper({ meta: {}, sections: [sec] }).match(/class="st-cell"/g) || []).length, 6 + 4);
   const spell = normalizeSection({ id: "s", task: "V-SPELL", items: 1 }, { items: [{ prompt: "It jumps.", answer: "frog" }] }, { levelId: "A_SENIOR" });
   assert.ok(spell.items[0].hint.includes(" · "));
 });
@@ -172,7 +173,8 @@ test("each class's preset test uses exercises made for it", () => {
 test("word families work from A Senior: a class ladder in the prompt and the word printed inside the answer", () => {
   assert.equal(familyHint("It is a ________ day. (SUN)", "sunny", "root"), "s u n _ _");
   assert.equal(familyHint("She is very ________. (HAPPY)", "unhappy", "root"), "_ _ h a p p y");
-  assert.equal(familyHint("He made a ________. (DECIDE)", "decision", "root"), "d _ _ _ _ _ _ _", "no exact root: first letter");
+  assert.equal(familyHint("He made a ________. (DECIDE)", "decision", "root"), "d e c i _ _ _ _", "the stem when the spelling changes");
+  assert.equal(familyHint("Take a deep ________. (BREATHE)", "breath", "root"), "b _ _ _ _ _", "no room for the root: first letter");
   assert.match(familyHint("x (SUN)", "sunny", "count"), /\(5 letters\)/);
   assert.equal(familyHint("x (SUN)", "sunny", "none"), "");
   assert.equal(knobDefault("family", "A_SENIOR"), "root");
@@ -180,7 +182,7 @@ test("word families work from A Senior: a class ladder in the prompt and the wor
   const sec = normalizeSection({ id: "f", task: "V-FORM", items: 1 }, { example: { prompt: "My dad is a ________. (FARM)", answer: "farmer" }, items: [{ prompt: "It is a ________ day. (RAIN)", answer: "rainy" }] }, { levelId: "A_SENIOR" });
   assert.equal(sec.example.hint, "f a r m _ _");
   assert.equal(sec.items[0].hint, "r a i n _");
-  assert.ok(renderStudentPaper({ meta: {}, sections: [sec] }).includes("r a i n _"));
+  assert.ok(renderStudentPaper({ meta: {}, sections: [sec] }).includes(`<span class="st-cell given">r</span><span class="st-cell given">a</span><span class="st-cell given">i</span><span class="st-cell given">n</span><span class="st-cell"></span>`));
   const prompt = (lvl) => testPrompt({ ...testDefaults(lvl), parts: [{ ...makePart("vocabulary", "V-FORM", lvl), id: "f" }], source: { kind: "unit" } }, {}).user;
   assert.match(prompt("A_SENIOR"), /CLASS LADDER — A Senior: ONE easy/);
   assert.match(prompt("E_SENIOR"), /CLASS LADDER — E Senior: B1 word formation/);

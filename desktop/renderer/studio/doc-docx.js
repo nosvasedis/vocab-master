@@ -26,7 +26,11 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
   };
   const gapText = (s) => String(s || "").replace(/_{3,}/g, "____________");
   const writeIn = (it) => /_/.test(it?.hint || "");
-  const hintRun = (it) => run(` ${it.hint} `, { bold: true, size: 19, color: "555555" });
+  // Letter help as letter boxes, like the paper: the given letters in bold, a box for each letter to write.
+  const hintRun = (it) => {
+    const words = String(it.hint).replace(/\s*\(\d+ letters?\)\s*$/, "").trim().split(/\s{2,}/).map((w) => w.split(" ").filter(Boolean));
+    return words.flatMap((w, i) => [...(i ? [run("    ")] : [run(" ")]), ...w.map((t) => (t === "_" ? run("☐", { size: 30, color: "555555" }) : run(`${t} `, { bold: true, size: 24 })))]).concat(run(" "));
+  };
   const lines = (n) => Array.from({ length: n }, () => para([run("_".repeat(78), { color: "8A8A8A", size: 20 })], { spacing: { before: 2 * MM } }));
   const box = (children) => new d.Table({
     width: { size: 100, type: d.WidthType.PERCENTAGE },
@@ -132,7 +136,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       const runs = [];
       if (s.task === "V-TICK") { const img = pic(it.pic, 80); if (img) runs.push(img); runs.push(run(`   ${it.prompt}   `, { bold: true }), run(ex ? it.answer : "________", { italics: ex })); }
       // Letter help with blanks ("b _ _ _ _") is the writing space itself: no second line after it.
-      else if (s.task === "V-PIC") { const img = pic(it.pic, 80); if (img) runs.push(img); const wi = writeIn(it); runs.push(run(`   ${it.prompt ? `${it.prompt}  ` : ""}${it.hint && !wi ? `[${it.hint}]  ` : ""}`, { size: 19, color: "555555" }), wi && !ex ? hintRun(it) : run(ex ? it.answer : "______________________", { italics: ex })); }
+      else if (s.task === "V-PIC") { const img = pic(it.pic, 80); if (img) runs.push(img); const wi = writeIn(it); runs.push(run(`   ${it.prompt ? `${it.prompt}  ` : ""}${it.hint && !wi ? `[${it.hint}]  ` : ""}`, { size: 19, color: "555555" }), ...(wi && !ex ? hintRun(it) : [run(ex ? it.answer : "______________________", { italics: ex })])); }
       else if (s.task === "R-ORDER") runs.push(run(ex ? "[ 1 ]  " : "[    ]  ", { bold: true }), run(it.prompt));
       else if (s.answerType === "choice") {
         if (it.prompt) runs.push(run(gapText(it.prompt)), new d.TextRun({ break: 1 }));
@@ -145,9 +149,9 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? (it.letter || "").toUpperCase() : "_____"}`));
       else if (writeIn(it)) {
         // It takes the sentence's gap, or the line's place; the example shows the answer written in.
-        const box = ex ? run(it.answer, { italics: true }) : hintRun(it);
+        const box = ex ? [run(` ${it.answer} `, { italics: true })] : hintRun(it);
         const [first, ...rest] = String(it.prompt || "").split(/_{3,}/);
-        runs.push(run(first), ...(rest.length ? [box, run(gapText(rest.join("____________")))] : [run("   "), box]));
+        runs.push(run(first), ...(rest.length ? [...box, run(gapText(rest.join("____________")))] : [run("   "), ...box]));
       } else runs.push(run(gapText(it.prompt)), ...(it.hint ? [run(`   [${it.hint}]`, { bold: true, size: 19, color: "555555" })] : []), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
       out.push(item(ex ? (s.task === "R-ORDER" ? "✓" : "0") : s.task === "R-ORDER" ? (it.letter || "").toUpperCase() : it.n, runs));
     });
