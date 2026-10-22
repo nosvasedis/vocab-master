@@ -85,6 +85,7 @@ export function mountTestEditing(host) {
       mark(secEl.querySelector(".st-passage"), { kind: "passage", id });
       mark(secEl.querySelector(".word-bank:not(.st-keywords)"), { kind: "bank", id });
       mark(secEl.querySelector(".match-defs"), { kind: "pairs", id });
+      mark(secEl.querySelector(".st-sort"), { kind: "pairs", id });
       mark(secEl.querySelector(".st-example"), { kind: "example", id });
       [...secEl.querySelectorAll(".st-item:not(.st-example), .pic-card:not(.st-example)")].forEach((el, k) => {
         if (s.items[k]) mark(el, { kind: "item", id, ref: s.items[k], remake: true });
@@ -424,10 +425,19 @@ export function mountTestEditing(host) {
       });
     }
     if (d.kind === "pairs") {
+      // Matching, a conversation's replies, missing sentences, or words and their groups — each pair is a question.
+      const [title, left, right] = PAIR_LABELS[s.task] || PAIR_LABELS.default;
+      const extras = Array.isArray(s.extras);
       return form({
-        title: "Words and meanings", subtitle: sub,
-        body: `<div class="pe-pairs">${s.items.map((it, k) => `<div class="pe-pair"><span class="pe-n">${k + 1}</span><input class="input" id="pe_w${k}" value="${esc(it.prompt)}" aria-label="Word ${k + 1}" /><input class="input" id="pe_m${k}" value="${esc(it.answer)}" aria-label="Meaning ${k + 1}" /></div>`).join("")}</div>`,
-        onSave: (v) => revise(s.id, (raw) => { s.items.forEach((_, k) => { raw.items[k] = { ...raw.items[k], prompt: v(`pe_w${k}`).trim(), answer: v(`pe_m${k}`).trim() }; }); }, "Words and meanings saved."),
+        title, subtitle: sub,
+        body: (s.task === "V-SORT" ? field("pe_groups", "Groups", (s.groups || []).join("\n"), { rows: 3, hint: "one per line — each word’s group must be one of them" }) : "")
+          + `<div class="pe-pairs">${s.items.map((it, k) => `<div class="pe-pair"><span class="pe-n">${k + 1}</span><input class="input" id="pe_w${k}" value="${esc(it.prompt)}" aria-label="${left} ${k + 1}" /><input class="input" id="pe_m${k}" value="${esc(it.answer)}" aria-label="${right} ${k + 1}" /></div>`).join("")}</div>`
+          + (extras ? field("pe_extras", "Extra sentences", s.extras.join("\n"), { rows: 3, hint: "one per line — they fit no gap" }) : ""),
+        onSave: (v) => revise(s.id, (raw) => {
+          s.items.forEach((_, k) => { raw.items[k] = { ...raw.items[k], prompt: v(`pe_w${k}`).trim(), answer: v(`pe_m${k}`).trim() }; });
+          if (s.task === "V-SORT") raw.groups = lines(v("pe_groups"));
+          if (extras) raw.extras = lines(v("pe_extras"));
+        }, `${title} saved.`),
       });
     }
     if (d.kind === "item" || d.kind === "example") return itemEditor(s, d, el);
@@ -464,6 +474,14 @@ export function mountTestEditing(host) {
     if (d.kind === "speaking") return speakingEditor(s, d.card);
   }
 
+  /** What the pairs of a matching-like part are called: [editor title, left, right]. */
+  const PAIR_LABELS = {
+    default: ["Words and meanings", "Word", "Meaning"],
+    "R-CONV": ["The conversation", "Line", "Reply"],
+    "R-SENT": ["The missing sentences", "Gap", "Sentence"],
+    "V-SORT": ["Words and groups", "Word", "Group"],
+  };
+
   function itemEditor(s, d, el) {
     const example = d.kind === "example";
     const idx = example ? -1 : itemIndex(s, d.ref);
@@ -471,7 +489,7 @@ export function mountTestEditing(host) {
     if (!it) return;
     const choice = s.answerType === "choice";
     const tf = s.answerType === "tf";
-    const ans = tf ? `<div class="field"><label class="label" for="pe_ans">Right answer</label><select class="select" id="pe_ans">${tfLabels(host.doc().meta.classProfile).map((l, i) => `<option${it.tf === i ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></div>` : field("pe_ans", s.answerType === "match" ? "Meaning" : "Right answer", it.answer);
+    const ans = tf ? `<div class="field"><label class="label" for="pe_ans">Right answer</label><select class="select" id="pe_ans">${tfLabels(host.doc().meta.classProfile).map((l, i) => `<option${it.tf === i ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></div>` : field("pe_ans", s.answerType === "match" ? (PAIR_LABELS[s.task] || PAIR_LABELS.default)[2] : s.task === "V-USE" ? "Model sentence" : s.task === "V-SORT" ? "Group" : "Right answer", it.answer);
     // Letter help for this one question (the tasks whose letter boxes the app makes).
     let help = null;
     if (LETTER_HELP_TASKS.includes(s.task)) {
@@ -487,7 +505,7 @@ export function mountTestEditing(host) {
     }
     form({
       title: example ? "The example" : `Question ${it.n}`, subtitle: label(s),
-      body: field("pe_prompt", s.answerType === "match" ? "Word" : "Question / sentence", it.prompt, { rows: 3, hint: /_{3,}/.test(it.prompt || "") ? "the gap is ________" : "" })
+      body: field("pe_prompt", s.answerType === "match" ? (PAIR_LABELS[s.task] || PAIR_LABELS.default)[1] : s.task === "V-GREEK" ? "Greek meaning" : s.task === "V-SORT" ? "Word" : "Question / sentence", it.prompt, { rows: 3, hint: /_{3,}/.test(it.prompt || "") ? "the gap is ________" : "" })
         + (choice ? field("pe_opts", "Options", it.options.join("\n"), { rows: 4, hint: "one per line — the right answer must be one of them" }) : "")
         + ans + (help?.html || ""),
       extraFoot: example ? "" : `<button type="button" class="btn btn-magic" data-pe-remake>${icon("sparkles", "i-sm")}Remake with Lingo</button>`,
@@ -651,7 +669,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
 
   /* ── Put words on the test, where the teacher decides (from the word check) ── */
   // Vocabulary tasks whose answer is the word itself: a word put there must be the right answer.
-  const ANSWER_TASKS = new Set(["V-PIC", "V-MC", "V-SPELL", "V-BANK", "V-DEF"]);
+  const ANSWER_TASKS = new Set(["V-PIC", "V-MC", "V-SPELL", "V-BANK", "V-DEF", "V-FIX", "V-GREEK", "V-PICREAD"]);
   const FIT_LABEL = { best: "Best fit", ok: "Fits", rewrite: "Only by writing the part again", nopic: "No picture", recommended: "Recommended", new: "New" };
   // How many words a new part takes: a little more than the class's usual part, never a crowded one.
   const perPartFor = (levelId) => Math.max(6, Math.min(10, (TEST_DEFAULTS[levelId]?.items || 5) + 3));

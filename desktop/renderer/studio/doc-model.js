@@ -7,6 +7,7 @@ import { TASKS, SKILLS, tfLabels, rubricFor, partOpts } from "./tasks.js";
 import { readingText } from "./reading-texts.js";
 import { balancedPositions, binaryBalance } from "./answer-balance.js";
 import { fitWordBox, countExtraWords, repeatedAnswers, withExtraWords } from "./word-box.js";
+import { containsForm } from "./word-scope.js";
 
 /** Letters for options, matching meanings and order boxes: enough for the longest part (12 questions + the example). */
 export const LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -33,7 +34,7 @@ export function tfValue(answer) {
 }
 
 /** One item, cleaned for its task's answer type. Returns { item, problems[] }. */
-export function normalizeItem(raw, task, { levelId, picFor } = {}) {
+export function normalizeItem(raw, task, { levelId, picFor, greekFor } = {}) {
   const t = TASKS[task] || {};
   const problems = [];
   const item = { prompt: clean(raw?.prompt ?? raw?.question ?? raw?.text ?? "") };
@@ -51,6 +52,8 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     if (t.needs?.includes("pictures") && picFor) {
       const pics = options.map((o) => picFor(o));
       if (pics.every(Boolean)) item.optionPics = pics;
+      // "Read and tick the picture" is nothing without its pictures.
+      else if (task === "V-PICREAD") problems.push("every option must be a word from the picture list (it is printed as a picture)");
     }
   } else if (t.answer === "tf") {
     const v = tfValue(raw?.answer);
@@ -63,6 +66,24 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     if (!item.answer && t.answer !== "open" && task !== "R-ORDER") problems.push("missing answer");
   }
   if (task === "V-SPELL" && raw?.jumble) item.jumble = clean(raw.jumble);
+  // "Write the English word": the Greek meaning comes from the word list, never from the writer (who writes no Greek).
+  // Greek the teacher typed on the paper stays.
+  if (task === "V-GREEK") {
+    if (!GREEK.test(item.prompt)) item.prompt = greekFor ? greekFor(item.answer) || "" : "";
+    if (!item.prompt && item.answer) problems.push(`"${item.answer}" has no Greek meaning in the word list — use a tested word that has one`);
+  }
+  // "Find the wrong word": one real word in [brackets] that the answer replaces.
+  if (task === "V-FIX") {
+    const wrong = [...item.prompt.matchAll(/\[([^\]]+)\]/g)].map((m) => clean(m[1]));
+    if (wrong.length !== 1) problems.push("the sentence needs exactly one wrong word in [brackets]");
+    else if (item.answer && (lc(wrong[0]) === lc(item.answer) || containsForm(wrong[0], item.answer))) problems.push(`the word in brackets ("${wrong[0]}") is already the right word — it must be a wrong word the answer replaces`);
+  }
+  // "Use the word in a sentence": the model sentence uses the word in CAPITALS.
+  if (task === "V-USE") {
+    const word = useWord(item.prompt);
+    if (!word) problems.push("the prompt needs the word in CAPITALS");
+    else if (item.answer && !containsForm(item.answer, word.toLowerCase())) problems.push(`the model sentence doesn't use "${word.toLowerCase()}"`);
+  }
   // The teacher’s own letter help for this question (kept while it fits the answer).
   if (LETTER_HELP_TASKS.includes(task)) { const r = cleanReveal(raw?.reveal, item.answer); if (r !== undefined) item.reveal = r; }
   if (task === "V-PIC" && picFor) {
@@ -89,6 +110,11 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
   }
   return { item, problems };
 }
+
+const GREEK = /[\u0370-\u03ff\u1f00-\u1fff]/;
+
+/** The word of a "Use the word in a sentence" prompt: "NOISY — your street" → "NOISY" (the part before the idea). */
+export const useWord = (prompt) => clean(String(prompt || "").split(/\s+[—–-]\s+/)[0]).replace(/[.:]+$/, "");
 
 /** "cats" → "cat", "boxes" → "box", "berries" → "berry" (enough to compare a picture's word with a printed one). */
 const singular = (w) => {
@@ -135,7 +161,7 @@ export function scramble(word, rand = Math.random) {
 }
 
 /** Tasks whose letter help the app makes (and the teacher can set per question). */
-export const LETTER_HELP_TASKS = ["V-DEF", "V-PIC", "V-OPPW", "V-FORM", "V-SPELL"];
+export const LETTER_HELP_TASKS = ["V-DEF", "V-PIC", "V-OPPW", "V-FORM", "V-SPELL", "V-FIX", "V-GREEK"];
 
 /** A question’s letter help: its own choice when the teacher made one, else the part’s. */
 function setHint(it, partHint) {
@@ -425,7 +451,8 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   for (const r of rawItems) {
     if (items.length >= want) break;
     const { item, problems: p } = normalizeItem(r, plan.task, ctx);
-    if (task.answer !== "open" && !item.prompt && !item.options?.length && !item.pic) continue;
+    // (A Greek → English question whose word has no Greek stays, flagged, so the fixer replaces just that one.)
+    if (task.answer !== "open" && !item.prompt && !item.options?.length && !item.pic && !(plan.task === "V-GREEK" && item.answer)) continue;
     items.push(item);
     p.forEach((x) => problems.push(`item ${items.length}: ${x}`));
   }
@@ -480,8 +507,21 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
 
   // Word banks: shuffled, never in answer order. Matching: lettered definitions.
   if (task.answer === "match") {
+    // Conversations and missing sentences: the replier's name off the replies, and the extra sentences that fit no gap.
+    if (plan.task === "R-CONV") {
+      section.replier = clean(raw.replier).replace(/:$/, "");
+      const name = section.replier ? new RegExp(`^${section.replier.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*:\\s*`, "i") : null;
+      [example, ...items].filter(Boolean).forEach((it) => { if (name) it.answer = it.answer.replace(name, ""); });
+    }
+    if (opts.spare !== undefined) {
+      const taken = new Set([example, ...items].filter(Boolean).map((it) => lc(it.answer)));
+      section.extras = (Array.isArray(raw.extras) ? raw.extras : []).map(clean).filter((x) => x && !taken.has(lc(x)) && (taken.add(lc(x)), true)).slice(0, opts.spare);
+      if (section.extras.length < opts.spare) problems.push(`the list needs ${opts.spare} extra sentence${opts.spare > 1 ? "s" : ""} that fit no gap (has ${section.extras.length})`);
+      repeatedAnswers(items.map((it) => it.answer)).forEach((r) => problems.push(`item ${r.n}: same sentence as item ${r.first} — each gap needs its own sentence`));
+    }
+    if (plan.task === "R-SENT") items.forEach((it) => { if (!new RegExp(`\\(${it.n}\\)\\s*_{3,}`).test(section.passage)) problems.push(`the text is missing the gap (${it.n}) ________`); });
     // The example's meaning is in the list too, so item 0 shows its letter (Cambridge style).
-    const defs = shuffled([...new Set([...(example?.answer ? [example.answer] : []), ...items.map((it) => it.answer)])]);
+    const defs = shuffled([...new Set([...(example?.answer ? [example.answer] : []), ...items.map((it) => it.answer), ...(section.extras || [])])]);
     section.bank = defs.map((text, i) => ({ letter: LETTERS[i], text }));
     [example, ...items].filter(Boolean).forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)] || ""; it.prompt ||= ""; });
   } else if (task.answer === "open" && task.skill === "writing" && Array.isArray(raw.bank) && raw.bank.length) {
@@ -500,6 +540,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     // Every word of the box is used once, so two gaps can't need the same word.
     repeatedAnswers(answers).forEach((r) => problems.push(`item ${r.n}: same answer as item ${r.first} ("${r.answer}") — each gap needs a different word from the box`));
   }
+  if (plan.task === "V-SORT") sortGroups(section, raw, example, items, problems);
   if (task.answer === "choice") balanceChoices(items);
   if (plan.task === "G-ORDER") [example, ...items].filter(Boolean).forEach((it) => repairOrderItem(it));
   if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
@@ -517,7 +558,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     const base = (String(it.prompt || "").match(/\(\s*([A-Z][A-Z' -]*?)\s*\)\s*[.?!]?\s*$/) || [])[1];
     if (base && lc(base) === lc(it.answer)) problems.push(`item ${it.n}: the answer is the word in capitals itself ("${base}")`);
   });
-  if (["V-DEF", "V-PIC", "V-OPPW"].includes(plan.task)) {
+  if (["V-DEF", "V-PIC", "V-OPPW", "V-FIX", "V-GREEK"].includes(plan.task)) {
     const mode = opts.hint;
     [example, ...items].filter(Boolean).forEach((it) => setHint(it, letterHint(it.answer, mode)));
   }
@@ -546,6 +587,32 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   return section;
 }
 
+/**
+ * "Put the words in groups": the group names (the writer's, in its order, then any group an answer names that it
+ * didn't list), each answer written as its group is, and the box of words to sort (shuffled, the example's word too —
+ * it is crossed out on the paper, as in Cambridge tasks).
+ */
+function sortGroups(section, raw, example, items, problems) {
+  const groups = [];
+  const add = (g) => { const x = clean(g); if (x && !groups.some((y) => lc(y) === lc(x))) groups.push(x); };
+  (Array.isArray(raw.groups) ? raw.groups : []).forEach(add);
+  [example, ...items].filter(Boolean).forEach((it) => add(it.answer));
+  const all = [example, ...items].filter(Boolean);
+  all.forEach((it) => { const g = groups.find((y) => lc(y) === lc(it.answer)); if (g) it.answer = g; });
+  // Groups no word goes into are dropped (the table would have an empty column).
+  section.groups = groups.filter((g) => all.some((it) => it.answer === g));
+  if (section.groups.length < 2 || section.groups.length > 4) problems.push(`the words need 2 or 3 groups (there ${section.groups.length === 1 ? "is" : "are"} ${section.groups.length})`);
+  for (const g of section.groups) if (items.filter((it) => it.answer === g).length < 2 && items.length >= 4) problems.push(`the group "${g}" needs at least two words`);
+  repeatedAnswers(items.map((it) => it.prompt)).forEach((r) => problems.push(`item ${r.n}: "${r.answer}" is already item ${r.first} — every word once`));
+  section.bank = shuffled(all.map((it) => it.prompt).filter(Boolean));
+}
+
+/** The rows of a "Put the words in groups" table: as many as the biggest group (so the table gives nothing away). */
+export const sortRows = (section) => Math.max(1, ...(section?.groups || []).map((g) => [section.example, ...(section.items || [])].filter((it) => it?.answer === g).length));
+
+/** How own sentences are marked (teacher's pack, paper and Word). */
+export const USE_MARKING = (s) => `Any sentence that shows the word's meaning is right — the model is one example. ${s.pointsEach >= 2 ? `${s.pointsEach} points each: 1 for using the word with the right meaning, ${s.pointsEach - 1} for a correct sentence (grammar, spelling).` : "1 point for a correct sentence that shows the meaning."}`;
+
 /** Total points of a doc. */
 export function docPoints(doc) {
   return (doc?.sections || []).reduce((sum, s) => sum + (Number(s.points) || 0), 0);
@@ -553,7 +620,10 @@ export function docPoints(doc) {
 
 /** Answer key lines for a section: [{ n, text }]. */
 export function answerKeyRows(section) {
+  // Groups: one row per group with its words.
+  if (section.task === "V-SORT") return (section.groups || []).map((g) => ({ n: g, text: (section.items || []).filter((it) => it.answer === g).map((it) => it.prompt).join(", ") }));
   return (section.items || []).map((it) => {
+    if (section.task === "V-USE") return { n: it.n, text: `e.g. ${it.answer}` };
     if (section.answerType === "choice") return { n: it.n, text: `${LETTERS[it.answerIndex] ?? "?"}) ${it.answer}` };
     if (section.answerType === "match") return { n: it.n, text: `${it.letter} — ${it.answer}` };
     if (section.task === "R-ORDER") return { n: (it.letter || "").toUpperCase() || it.n, text: `${it.answer} — ${it.prompt}` };

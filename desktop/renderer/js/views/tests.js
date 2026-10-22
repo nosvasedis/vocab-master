@@ -711,7 +711,9 @@ function setTask(p, taskId) {
   if (!t || (p.task === taskId)) return;
   const fresh = makePart(t.skill, taskId, ts.spec.levelId);
   const keepItems = t.answer !== "open" && TASKS[p.task]?.answer !== "open";
-  Object.assign(p, { skill: t.skill, task: taskId, items: keepItems ? p.items : fresh.items, points: fresh.points, words: fresh.words, opts: {} });
+  // Points per question follow the exercise (own sentences are worth 2) unless the teacher changed them.
+  const pointsEach = (p.pointsEach || 1) === (TASKS[p.task]?.pointsEach || 1) ? fresh.pointsEach : p.pointsEach;
+  Object.assign(p, { skill: t.skill, task: taskId, items: keepItems ? p.items : fresh.items, pointsEach, points: fresh.points, words: fresh.words, opts: {} });
   fitTexts();
   markStale(p.id);
   savePrefs(); renderParts();

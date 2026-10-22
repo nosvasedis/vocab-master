@@ -98,7 +98,7 @@ export function makePart(skill, task, levelId) {
     skill,
     task,
     items: open ? 1 : d.items,
-    pointsEach: 1,
+    pointsEach: t?.pointsEach || 1,
     points: open ? (skill === "speaking" ? d.speakingPoints : d.writingPoints) : undefined,
     words: skill === "writing" ? [...d.writingWords] : undefined,
     opts: {},
@@ -202,7 +202,7 @@ export const specPoints = (spec) => spec.parts.reduce((n, p) => n + partPoints(p
  * unless those words have pictures, no Big Question. */
 
 /** The task used instead of one the source can't support. */
-export const TASK_FALLBACK = { "L-PIC": "L-MC", "V-PIC": "V-BANK", "V-TICK": "V-MC", "W-PICTURES": "W-GUIDED", "S-PICTURE": "S-QUESTIONS", "S-STORY": "S-QUESTIONS", "S-DISCUSS": "S-ROLE", "S-BQ": "S-QUESTIONS" };
+export const TASK_FALLBACK = { "L-PIC": "L-MC", "V-PIC": "V-BANK", "V-TICK": "V-MC", "V-PICREAD": "V-MC", "W-PICTURES": "W-GUIDED", "S-PICTURE": "S-QUESTIONS", "S-STORY": "S-QUESTIONS", "S-DISCUSS": "S-ROLE", "S-BQ": "S-QUESTIONS" };
 
 /**
  * Why a task can't be used with this source ("" when it can).
@@ -267,7 +267,7 @@ export function defaultTitle(src = {}) {
 }
 
 /** Word-answer tasks: every item needs its own tested word. */
-const ONE_WORD_EACH = ["V-PIC", "V-BANK", "V-MC", "V-MATCH", "V-DEF", "V-SPELL", "R-GAP"];
+const ONE_WORD_EACH = ["V-PIC", "V-BANK", "V-MC", "V-MATCH", "V-DEF", "V-SPELL", "R-GAP", "V-FIX", "V-GREEK", "V-PICREAD", "V-SORT", "V-USE", "V-RIGHT"];
 
 /** Problems with the plan before any AI call (each one blocks "Write my test"). */
 export function planProblems(spec, { pictureWords = [], focusWords = [], hasUnit } = {}) {
@@ -420,6 +420,21 @@ export function wordBoxRule(p, spec) {
   return `${head} The box = the ${p.items} answers (in the form that fits each gap) plus EXACTLY ${extras} extra word${extras > 1 ? "s" : ""} that fit${extras > 1 ? "" : "s"} NO gap — unit words of the same word class as the answers, never a form of an answer — ${p.items + extras} words in all. Don't mention the extra words in the rubric: the app writes that line.`;
 }
 
+/** The lettered list of a conversation / missing-sentences part: the answers and exactly N sentences that fit no gap. */
+export function spareRule(p, spec) {
+  const n = partOpts(p, spec.levelId).spare || 0;
+  return n
+    ? `SPARE: "extras" = EXACTLY ${n} extra sentence${n > 1 ? "s" : ""} that fit${n > 1 ? "" : "s"} NO gap (the list then has ${p.items + 1 + n} sentences with the example's). Never a copy or a near-copy of an answer.`
+    : `SPARE: "extras" = [] — the list holds only the answers.`;
+}
+
+/** Parts whose answers are not tested words (the general rule says answers come from the list): what the answer is instead. */
+const ANSWER_NOT_A_WORD = {
+  "V-SORT": "Here the tested words are the PROMPTS (one word each) and the answers are the group names.",
+  "V-USE": "Here the tested word is in the PROMPT (in CAPITALS) and the answer is a model sentence.",
+  "V-RIGHT": "Here the tested word is the word in CAPITALS in each sentence.",
+};
+
 function partBrief(p, i, spec, pictureWords, focus = []) {
   const t = TASKS[p.task];
   const lines = [`PART ${i + 1} — id "${p.id}" — ${SKILLS[p.skill].label}: ${t.label} [${p.task}]`, `  What to write: ${t.ai}`];
@@ -435,6 +450,8 @@ function partBrief(p, i, spec, pictureWords, focus = []) {
   }
   lines.push(...knobLines(p, spec, focus));
   if (t.bank && t.answer !== "match") lines.push(`  ${wordBoxRule(p, spec)}`);
+  if (t.knobs?.includes("spare")) lines.push(`  ${spareRule(p, spec)}`);
+  if (ANSWER_NOT_A_WORD[p.task]) lines.push(`  ${ANSWER_NOT_A_WORD[p.task]}`);
   if (p.skill === "writing" && p.words) lines.push(`  Students write ${p.words[0]}–${p.words[1]} words.`);
   if (p.skill === "speaking") {
     const n = SPEAKING_CARDS[spec.levelId] || 3;
@@ -458,7 +475,7 @@ export function testPrompt(spec, ctx = {}, onlyParts = null) {
 Return ONLY valid JSON. No markdown.
 ${ctx.profileBlock || ""}
 
-JSON: { "title": "short test title", "sections": [ { "id": "<part id>", "passageTitle": "", "passage": "", "script": [ { "speaker": "Name", "text": "line" } ], "bank": [], "example": { "prompt": "", "options": [], "answer": "" }, "items": [ { "prompt": "", "options": [], "answer": "" } ], "prompt": "", "frame": [], "pictures": [], "prompts": [], "sample": "", "warmup": [], "cards": [ { "title": "", "student": "", "keyWords": [], "questions": [], "followUps": [], "model": "" } ] } ] }
+JSON: { "title": "short test title", "sections": [ { "id": "<part id>", "passageTitle": "", "passage": "", "script": [ { "speaker": "Name", "text": "line" } ], "bank": [], "example": { "prompt": "", "options": [], "answer": "" }, "items": [ { "prompt": "", "options": [], "answer": "" } ], "prompt": "", "frame": [], "pictures": [], "prompts": [], "sample": "", "replier": "", "extras": [], "groups": [], "warmup": [], "cards": [ { "title": "", "student": "", "keyWords": [], "questions": [], "followUps": [], "model": "" } ] } ] }
 Only include the fields a part needs. One object per part, same ids, same order.`;
   const hasUnit = !topicMode && !!ctx.unitContext;
   const topic = String(spec.topic || "").trim();
@@ -542,12 +559,16 @@ export function partSimilarity(a, b) {
  * script said, so the key is checked by a reader who only sees the text. Returns null when there's nothing to check.
  */
 export function keyCheckPrompt(doc, onlyParts = null) {
-  // Only parts with a text or a script can be re-answered from it (a picture task has neither).
-  const parts = (doc?.sections || []).filter((s) => s.answerType === "tf" && s.items.length && (s.passage || s.script?.length) && (!onlyParts || onlyParts.includes(s.id)));
+  // Only parts with a text or a script can be re-answered from it (a picture task has neither) — and "Is the word used
+  // correctly?", whose sentences are judged on their own.
+  const parts = (doc?.sections || []).filter((s) => s.answerType === "tf" && s.items.length && (s.passage || s.script?.length || s.task === "V-RIGHT") && (!onlyParts || onlyParts.includes(s.id)));
   if (!parts.length) return null;
-  const system = `You check answer keys for an English test. Read each text and decide, for every statement, whether the text says it (yes) or clearly says otherwise (no). Judge only by the text.
+  const usage = parts.some((s) => s.task === "V-RIGHT");
+  const system = `You check answer keys for an English test. Read each text and decide, for every statement, whether the text says it (yes) or clearly says otherwise (no). Judge only by the text.${usage ? `
+A part marked USAGE has no text: for each sentence decide whether the word in CAPITALS is used with a meaning that makes sense in that sentence (yes) or not (no).` : ""}
 Return ONLY valid JSON: { "sections": [ { "id": "<part id>", "answers": ["yes" or "no", …] } ] } — one answer per statement, in order.`;
   const user = parts.map((s) => {
+    if (s.task === "V-RIGHT" && !s.passage && !s.script?.length) return `PART id "${s.id}" — USAGE\nSENTENCES:\n${s.items.map((it) => `${it.n}. ${it.prompt}`).join("\n")}`;
     const text = s.script.length ? s.script.map((l) => `${l.speaker}: ${l.text}`).join("\n") : s.passage;
     return `PART id "${s.id}"\nTEXT:\n${text}\nSTATEMENTS:\n${s.items.map((it) => `${it.n}. ${it.prompt}`).join("\n")}`;
   }).join("\n\n");
@@ -571,7 +592,7 @@ export function applyKeyCheck(doc, reply) {
       fixed.push(it.n);
     });
     if (fixed.length) {
-      s.problems = [...(s.problems || []), `the answer key was corrected for item${fixed.length > 1 ? "s" : ""} ${fixed.join(", ")} — please check against the ${s.script.length ? "script" : "text"}`];
+      s.problems = [...(s.problems || []), `the answer key was corrected for item${fixed.length > 1 ? "s" : ""} ${fixed.join(", ")} — please check ${s.script.length ? "against the script" : s.passage ? "against the text" : "the sentences"}`];
       changed += fixed.length;
     }
   }
@@ -608,7 +629,7 @@ function requiredAnswers(section) {
 }
 
 /** Parts whose answers must be the tested words (their answers are checked against them). */
-const SCOPED = ["V-PIC", "V-BANK", "V-MC", "V-DEF", "V-SPELL", "R-GAP", "L-GAP"];
+const SCOPED = ["V-PIC", "V-BANK", "V-MC", "V-DEF", "V-SPELL", "R-GAP", "L-GAP", "V-FIX", "V-GREEK", "V-PICREAD"];
 
 /** A small prompt that rewrites only some items of a part. ctx: { profileBlock, focusWords, pictureWords } */
 export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
@@ -644,6 +665,7 @@ function sectionToRaw(s) {
     items: (s.items || []).map(item), example: item(s.example), passage: s.passage, passageTitle: s.passageTitle, script: s.script,
     frame: s.frame, prompts: s.prompts, sample: s.sample, prompt: s.task_prompt, pictures: (s.pictures || []).map((p) => p.word),
     bank: s.answerType === "match" ? [] : s.bank, extraWords: s.extraWords, rubric: s.rubric, warmup: s.warmup, cards: s.cards,
+    replier: s.replier, extras: s.extras, groups: s.groups,
   };
 }
 
@@ -680,7 +702,7 @@ export function reviseSection(doc, spec, sectionId, edit, ctx = {}) {
   if (edit(raw) === false) return false;
   const plan = spec?.parts?.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
   const picFor = spec?.pictures !== false ? ctx.picFor || keepPics(s) : null;
-  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor, spareWords: spareFirst(spareWords(ctx.focusWords, doc.focusWords), doc, sectionId) });
+  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor, spareWords: spareFirst(spareWords(ctx.focusWords, doc.focusWords), doc, sectionId), greekFor: greekLookup(ctx.focusWords, doc.focusWords) });
   fresh.problems.push(...scopeProblems(fresh, ctx.focusWords));
   fresh.plays = s.plays || fresh.plays;
   fresh.rubricEl = s.rubricEl || fresh.rubricEl;
@@ -689,6 +711,21 @@ export function reviseSection(doc, spec, sectionId, edit, ctx = {}) {
   if (hasWordBox(s)) { const r = sectionRubric(s); s.rubric = r.en; s.rubricEl = r.el; }
   doc.meta.points = docPoints(doc);
   return true;
+}
+
+/**
+ * The Greek meaning of a tested word, from the word list (never from the AI): "Write the English word" prints it.
+ * Matches the word as listed, then without a/an/to and in the singular ("cities" → city).
+ */
+export function greekLookup(...lists) {
+  const map = new Map();
+  const key = (w) => String(w || "").trim().toLowerCase().replace(/^(?:an?|the|to)\s+/, "");
+  for (const w of lists.flat()) if (w?.english && String(w.greek || "").trim() && !map.has(key(w.english))) map.set(key(w.english), String(w.greek).trim());
+  if (!map.size) return null;
+  return (answer) => {
+    const k = key(answer);
+    return map.get(k) || map.get(k.replace(/ies$/, "y")) || map.get(k.replace(/(?:ch|sh|x|ss|z)es$/, (m) => m.slice(0, -2))) || map.get(k.replace(/s$/, "")) || "";
+  };
 }
 
 /** Words a word box may take its extra words from when the AI gave too few: the test's words. */
@@ -728,7 +765,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
   const sections = spec.parts.map((p, i) => {
     const raw = byId.get(p.id) || (!previous && rawSections[i]);
     if (!raw && previous) return previous.sections.find((s) => s.id === p.id) || null;
-    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures !== false ? ctx.picFor : null, spareWords: spareWords(ctx.focusWords || []) });
+    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures !== false ? ctx.picFor : null, spareWords: spareWords(ctx.focusWords || []), greekFor: greekLookup(ctx.focusWords) });
     s.problems.push(...scopeProblems(s, ctx.focusWords));
     if (!raw) s.problems.push("the AI did not write this part");
     return s;

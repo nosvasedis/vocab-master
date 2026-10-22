@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./paper-header.js";
@@ -89,7 +89,11 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         } else s.prompts.forEach((p, k) => children.push(item(k + 1, [run(p)])));
         if (s.sample) children.push(para([run("Model: ", { bold: true, size: 19 }), run(s.sample, { italics: true, size: 19 })]));
         children.push(para([run(`Marking: ${s.points} points — ${s.skill === "speaking" ? "vocabulary, grammar, fluency & pronunciation, interaction" : "task, vocabulary, language"}.`, { size: 18, color: "555555" })]));
-      } else answerKeyRows(s).forEach((r) => children.push(item(r.n, [run(r.text, { bold: true })])));
+      } else {
+        if (s.task === "V-USE") children.push(para([run(USE_MARKING(s), { size: 18, color: "555555" })]));
+        // Groups: "Animals: bee, insect" (a group name isn't a question number).
+        answerKeyRows(s).forEach((r) => children.push(s.task === "V-SORT" ? para([run(`${r.n}: `, { bold: true }), run(r.text)], { indent: { left: 8 * MM } }) : item(r.n, [run(r.text, { bold: true })])));
+      }
       return;
     }
     const rubric = sectionRubric(s);
@@ -106,7 +110,24 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     if (s.passage && (s.skill !== "writing" || s.task === "W-MESSAGE")) children.push(box([...(s.passageTitle ? [para([run(s.passageTitle, { bold: true })])] : []), ...s.passage.split(/\n+/).map((p) => para([run(gapText(p), { size: 21 })], { spacing: { after: 1 * MM } }))]));
     if (s.bank?.length) {
       if (s.answerType === "match") s.bank.forEach((b) => children.push(para([run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text, { size: 20 })], { indent: { left: 8 * MM } })));
+      // The words to sort: the example's word crossed out (it is already in the table).
+      else if (s.task === "V-SORT") children.push(box([para(s.bank.flatMap((w, k) => [...(k ? [run("     •     ", { bold: true })] : []), new d.TextRun({ text: w, font: FONT, size: scaledSize(22, textSize), bold: true, strike: w === s.example?.prompt, color: w === s.example?.prompt ? "8A8A8A" : undefined })]))]));
       else children.push(box([para([run(s.bank.join("     •     "), { bold: true })])]));
+    }
+    // "Put the words in groups": a column per group, the same number of lines in each; the example's word written in.
+    if (s.task === "V-SORT") {
+      const rows = sortRows(s);
+      const ex = meta.layout?.examples !== false ? s.example : null;
+      const cols = (s.groups || []).map((g) => [ex, ...s.items].filter((it) => it && it.answer === g));
+      const cell = (children, head) => new d.TableCell({ margins: { top: 1.4 * MM, bottom: 1.4 * MM, left: 2 * MM, right: 2 * MM }, shading: head ? { fill: "F1F0EB", type: d.ShadingType.CLEAR, color: "auto" } : undefined, children });
+      children.push(new d.Table({
+        width: { size: 100, type: d.WidthType.PERCENTAGE },
+        rows: [
+          new d.TableRow({ tableHeader: true, children: (s.groups || []).map((g) => cell([para([run(g, { bold: true })])], true)) }),
+          ...Array.from({ length: rows }, (_, r) => new d.TableRow({ children: cols.map((c) => cell([para([c[r] && c[r] === ex ? run(c[r].prompt, { italics: true, color: "555555" }) : run("________________", { color: "8A8A8A" })])])) })),
+        ],
+      }));
+      return;
     }
     if (s.answerType === "open") {
       if (s.task_prompt) children.push(para([run(s.task_prompt, { bold: true }), ...(s.words ? [run(`  (${s.words[0]}–${s.words[1]} words)`, { size: 18, color: "666666" })] : [])]));
@@ -146,7 +167,11 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
           else runs.push(run(`${ex && k === it.answerIndex ? "(" : ""}${LETTERS[k]}${ex && k === it.answerIndex ? ")" : ")"} `, { bold: true }), run(`${o}      `));
         });
       } else if (s.answerType === "tf") runs.push(run(gapText(it.prompt)), run(`      ${ex ? it.answer : "______"}`, { bold: true }));
+      // A conversation: the other person's line, then the replier and the letter of the reply.
+      else if (s.task === "R-CONV") runs.push(run(it.prompt), new d.TextRun({ break: 1 }), run(`${s.replier ? `${s.replier}:  ` : ""}`, { bold: true }), run(ex ? `[ ${(it.letter || "").toUpperCase()} ]` : "[      ]", { bold: true }));
       else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? (it.letter || "").toUpperCase() : "_____"}`));
+      // Own sentences: the word (and the idea), then a whole line; the example shows the model.
+      else if (s.task === "V-USE") runs.push(run(it.prompt, { bold: true }), new d.TextRun({ break: 1 }), run(ex ? it.answer : "_".repeat(70), { italics: ex, color: ex ? undefined : "8A8A8A" }));
       else if (writeIn(it)) {
         // It takes the sentence's gap, or the line's place; the example shows the answer written in.
         const box = ex ? [run(` ${it.answer} `, { italics: true })] : hintRun(it);

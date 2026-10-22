@@ -61,6 +61,7 @@ const EXERCISE_FAMILIES = {
   D17: "productive", D18: "recognition", D19: "recognition", D20: "productive",
   D21: "analysis", D22: "productive", D23: "analysis", D24: "recognition",
   D25: "recognition", D26: "productive", D27: "productive", D28: "analysis",
+  D29: "productive",
   L01: "productive", L02: "recognition", L03: "recognition", L04: "recognition",
   L05: "productive", L06: "analysis", L07: "productive", L08: "productive",
   L09: "analysis", L10: "productive", L11: "recognition", L12: "analysis", L13: "recognition",
@@ -76,6 +77,7 @@ const EXERCISE_LABELS = {
   D19: "Definition (advanced)", D20: "Error correction", D21: "Sequencing",
   D22: "Crossword clue", D23: "Analogy", D24: "Minimal pair", D25: "Picture cue",
   D26: "Jumbled letters", D27: "Missing letters", D28: "Spelling check",
+  D29: "Own sentence",
   L01: "Gap fill with list", L02: "Circle best word", L03: "Synonym match",
   L04: "Opposite pairs", L05: "Collocation match", L06: "Grammar labels",
   L07: "Derivative build", L08: "Sentence order", L09: "Odd one out (light)",
@@ -112,6 +114,7 @@ const EXERCISE_DESCRIPTIONS = {
   D26: "Unscramble the jumbled letters to make the unit word — a short clue in brackets helps.",
   D27: "Fill in the missing letters of the unit word (t _ a _ k) — a short clue helps.",
   D28: "One word in [brackets] is misspelt — students write it correctly.",
+  D29: "The unit word and an idea from the students' lives — they write their own sentence that shows what the word means (using a word yourself is what makes it stick).",
   L01: "Sentences with gaps — answers chosen from a shuffled word list.",
   L02: "Each sentence has (option A / option B) choices built in.",
   L03: "Match words to synonyms in brackets. Only for words with synonyms in vocab.",
@@ -156,6 +159,7 @@ const EXERCISE_EXAMPLES = {
   D26: 'ckrat (a path for running races) → track',
   D27: 't _ a _ k (a path for running races) → track',
   D28: 'The runners ran around the [trak]. → track',
+  D29: 'TRACK — your school → Our school has a track where we run every Friday.',
   L01: 'You need to run four times around the ________ to finish the mile. → track',
   L02: 'My teacher is a great (inspiration / track) to all her students.',
   L03: 'compete (race / rest / forget) → race',
@@ -229,6 +233,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D26: "Unscramble the letters to make a word from the unit. The clue in brackets will help you.",
   D27: "Write the missing letters to complete each word. The clue in brackets will help you.",
   D28: "One word in [brackets] is spelt wrongly. Write it correctly on your answer sheet.",
+  D29: "Write your own sentence with each word. Show what the word means.",
   L01: "Fill in the gaps with words from the list.",
   L02: "Circle the best word in each sentence.",
   L03: "Choose the correct synonym from the options in brackets.",
@@ -274,6 +279,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS_EL = {
   D26: "Βάλε τα γράμματα στη σωστή σειρά και γράψε τη λέξη.",
   D27: "Συμπλήρωσε τα γράμματα που λείπουν.",
   D28: "Η λέξη στις αγκύλες [ ] είναι ανορθόγραφη. Γράψε τη σωστά.",
+  D29: "Γράψε μια δική σου πρόταση με κάθε λέξη. Δείξε τι σημαίνει η λέξη.",
   L01: "Συμπλήρωσε τα κενά με λέξεις από τη λίστα.",
   L02: "Κύκλωσε τη σωστή λέξη.",
   L03: "Διάλεξε το συνώνυμο.",
@@ -321,7 +327,7 @@ const CLASS_PROFILES = {
     id: "B_SENIOR", label: "B Senior", greekGrades: "4η / 5η / 6η Δημοτικού",
     cefr: "A1", ageRange: "10–11", defaultVocab: 12, maxSentenceWords: 9,
     minEmojis: 2, maxDerivatives: 2, allowDefinitionsInDictation: false,
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25", "D26", "D27", "D28"],
+    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25", "D26", "D27", "D28", "D29"],
     allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11"],
     cognitiveMix: { recognition: 0.5, productive: 0.35, analysis: 0.15 },
     lingoPracticeWeights: [0.8, 0.2, 0],
@@ -334,7 +340,7 @@ const CLASS_PROFILES = {
     id: "C_SENIOR", label: "C Senior", greekGrades: "5η / 6η Δημοτικού · ίσως 1η Γυμνασίου",
     cefr: "A1–A2", ageRange: "11–12", defaultVocab: 16, maxSentenceWords: 11,
     minEmojis: 1, maxDerivatives: 3, allowDefinitionsInDictation: "simple",
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25", "D26", "D27", "D28"],
+    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25", "D26", "D27", "D28", "D29"],
     allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11", "L12"],
     cognitiveMix: { recognition: 0.45, productive: 0.4, analysis: 0.15 },
     lingoPracticeWeights: [0.5, 0.5, 0],
@@ -347,7 +353,7 @@ const CLASS_PROFILES = {
     id: "D_SENIOR", label: "D Senior", greekGrades: "6η Δημοτικού · 1η / 2α Γυμνασίου",
     cefr: "A2", ageRange: "12–13", defaultVocab: 18, maxSentenceWords: 13,
     minEmojis: 0, maxDerivatives: 4, allowDefinitionsInDictation: "short",
-    allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25","D26","D27","D28"],
+    allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25","D26","D27","D28","D29"],
     allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L11","L12","L13"],
     cognitiveMix: { recognition: 0.4, productive: 0.4, analysis: 0.2 },
     lingoPracticeWeights: [0.5, 0.5, 0],
@@ -360,7 +366,7 @@ const CLASS_PROFILES = {
     id: "E_SENIOR", label: "E Senior", greekGrades: "1η / 2α / 3η Γυμνασίου",
     cefr: "B1", ageRange: "13–14", defaultVocab: 20, maxSentenceWords: 16,
     minEmojis: 0, maxDerivatives: 99, allowDefinitionsInDictation: true,
-    allowDictation: Array.from({ length: 28 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
+    allowDictation: Array.from({ length: 29 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
     allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L10","L11","L12","L13"],
     cognitiveMix: { recognition: 0.35, productive: 0.4, analysis: 0.25 },
     lingoPracticeWeights: [0.3, 0.7, 0],
@@ -1970,6 +1976,8 @@ function formatDictationItemHtml(item, typeId) {
       return escapeHtml(words.join(" · "));
     }
   }
+  // Own sentence: the word (and the idea), then a whole line to write the sentence on.
+  if (typeId === "D29") return `<strong>${escapeHtml(stripLeadingItemNumber(item.prompt) || "")}</strong><span class="own-line"></span>`;
   return escapeHtml(stripLeadingItemNumber(item.prompt) || "");
 }
 
@@ -3131,6 +3139,7 @@ DICTATION FORMATS (never give away answers to students):
 - D25 Picture cue (Cambridge "look and write"): the app prints the word-bank PICTURE of each answer, so use NO emojis. prompt = a short clue in brackets that tells similar pictures apart, e.g. "(an oval path for runners)" — NEVER the answer word or a close form; answer = the unit word. Use only words from the "words with pictures" list when one is given
 - D26 Jumbled letters: prompt = "scrambledLetters (short clue)" e.g. "ckrat (a path for running races)"; the scramble MUST be the answer's letters in a different order (single word, lower case); the clue must NOT contain the answer or a close form; answer = the unit word
 - D27 Missing letters: prompt = "t _ a _ k (short clue)" — the answer's letters with 2–3 letters replaced by "_" separated by spaces (never the first letter); clue must NOT contain the answer; answer = the full unit word (single word)
+- D29 Own sentence: NO wordBank; prompt = ONE unit word in CAPITALS, then " — " and a short idea from the students' own lives to write about (e.g. "TRACK — your school"), never a sentence or a definition; answer = a model sentence at class level that uses the word (any form) so that it SHOWS its meaning ("Our school has a track where we run every Friday.", never "I like the track."); testsWords = [that unit word]; a different unit word on each line
 - D28 Spelling check: sentence with ONE misspelt unit word in [square brackets] (a realistic learner error, e.g. [competion]); answer = the correctly spelt word; the bracketed word must NOT be a real English word
 - GLOBAL: Parentheses with a single vocabulary word matching the answer are FORBIDDEN on D01/D02/D04/D14/D17 — this includes trailing hints like "(blend)" after a gap`;
 
@@ -4506,6 +4515,7 @@ html, body { margin: 0; padding: 0; background: #fff; color: #111; }
 .item-text { flex: 1; min-width: 0; }
 .stem-word { font-weight: 800; letter-spacing: 0.04em; }
 .d08-wrong { font-weight: 800; }
+.own-line { display: block; height: 7mm; border-bottom: 0.8pt solid var(--ink); }
 .stem-header { font-size: 9.4pt; color: var(--ink-2); margin: 0 0 2mm 9.8mm; }
 
 /* Word bank / word list */
@@ -4911,6 +4921,8 @@ async function buildDictationDocx(data) {
       } else if (ex.typeId === "D25" && it.pic && k.picRun(it.pic, 80)) {
         const clue = pictureClue(it.prompt);
         runs = [k.picRun(it.pic, 80), run(`   ${clue ? `${clue}  ` : ""}`, { size: 19, color: "444444" }), run("______________________")];
+      } else if (ex.typeId === "D29") {
+        runs = [run(stripLeadingItemNumber(it.prompt), { bold: true }), new d.TextRun({ break: 1 }), run("_".repeat(70), { color: "8A8A8A" })];
       } else if ((ex.typeId === "D08" || ex.typeId === "D28") && /\[[^\]]+\]/.test(it.prompt || "")) {
         runs = stripLeadingItemNumber(it.prompt).split(/(\[[^\]]+\])/).filter(Boolean).map((part) => run(part, { bold: /^\[[^\]]+\]$/.test(part) }));
       } else {

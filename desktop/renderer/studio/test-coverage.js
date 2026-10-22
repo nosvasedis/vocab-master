@@ -188,7 +188,7 @@ export function hasWord(text, word, words = []) {
 }
 
 // Exercises whose questions each have one word as the right answer (a new part can put one untested word in each).
-const WORD_ANSWER_TASKS = ["V-PIC", "V-MC", "V-SPELL", "V-BANK", "V-DEF", "V-MATCH", "V-TICK", "R-GAP"];
+const WORD_ANSWER_TASKS = ["V-PIC", "V-MC", "V-SPELL", "V-BANK", "V-DEF", "V-MATCH", "V-TICK", "R-GAP", "V-FIX", "V-GREEK", "V-PICREAD"];
 
 /**
  * A part added to a written test (Step 3) is built on the words the test doesn't test yet: the teacher's own words
