@@ -76,9 +76,33 @@ export function normalizeItem(raw, task, { levelId, picFor } = {}) {
     if (word) item.picWord = word;
     if (p) item.pic = p;
     else if (picFor) problems.push("no picture for this word");
+    // The key comes from the picture and the word, never from the writer: the same thing → yes, another → no
+    // (the writer is given a yes/no order and once keyed "yes" for "happen" under a beehive).
+    const shown = clean(item.prompt).replace(/^(an?|the|some)\s+/i, "");
+    if (word && shown) {
+      const v = sameThing(word, shown) ? 0 : 1;
+      if (v !== item.tf) { item.tf = v; item.answer = tfLabels(levelId)[v]; }
+      // The word under a picture names a thing children can see — a word with no picture ("happen") can't be one.
+      if (v === 1 && picFor && !picFor(shown) && !picFor(singular(shown))) problems.push(`the word under the picture ("${shown}") should name a thing the children can see, like the picture words`);
+    }
   }
   return { item, problems };
 }
+
+/** "cats" → "cat", "boxes" → "box", "berries" → "berry" (enough to compare a picture's word with a printed one). */
+const singular = (w) => {
+  const s = clean(w).toLowerCase();
+  if (/ies$/.test(s) && s.length > 4) return `${s.slice(0, -3)}y`;
+  if (/(?:ch|sh|x|ss|z)es$/.test(s)) return s.slice(0, -2);
+  if (/[^s]s$/.test(s) && s.length > 3) return s.slice(0, -1);
+  return s;
+};
+/** Is the printed word the picture's thing? ("a dog" / "dogs" under a dog: yes.) */
+export const sameThing = (picWord, printed) => {
+  const a = clean(picWord).toLowerCase().replace(/^(an?|the|some)\s+/, "");
+  const b = clean(printed).toLowerCase().replace(/^(an?|the|some)\s+/, "").replace(/[.!?]+$/, "");
+  return a === b || singular(a) === singular(b);
+};
 
 const orderWords = (s) => clean(s).replace(/[.!?]+$/, "").split(/\s*\/\s*|\s+/).filter(Boolean);
 const wordBag = (words) => words.map((w) => w.toLowerCase()).sort().join(" ");
@@ -280,6 +304,13 @@ export function relabelDoc(doc) {
       const r = sectionRubric(s);
       s.rubric = r.en;
       s.rubricEl = r.el;
+      // "Look and tick or cross" saved with a key the writer got wrong: yes only when the word is the picture's thing.
+      if (s.task === "V-TICK") [s.example, ...(s.items || [])].filter(Boolean).forEach((it) => {
+        const shown = clean(it.prompt).replace(/^(an?|the|some)\s+/i, "");
+        if (!it.picWord || !shown) return;
+        const v = sameThing(it.picWord, shown) ? 0 : 1;
+        if (v !== it.tf) { it.tf = v; it.answer = tfLabels(d.meta?.classProfile)[v]; }
+      });
       if (s.answerType === "match" && Array.isArray(s.bank) && s.bank.length && typeof s.bank[0] === "object") {
         s.bank.forEach((b, i) => { b.letter = LETTERS[i]; });
         const byText = new Map(s.bank.map((b) => [String(b.text), b.letter]));

@@ -131,3 +131,29 @@ test("Lingo rewriting a question keeps its help only while the answer stays", ()
   assert.equal(s.items[1].reveal, undefined);
   assert.equal(s.items[1].hint, "b _ _");
 });
+
+/* ── Look and tick or cross: the key comes from the picture and the word ── */
+import { sameThing } from "../desktop/renderer/studio/doc-model.js";
+
+test("tick or cross: yes only when the word is the picture's thing, whatever the writer keyed", () => {
+  assert.ok(sameThing("dog", "a dog") && sameThing("dog", "dogs") && sameThing("box", "boxes") && sameThing("berry", "berries"));
+  assert.ok(!sameThing("beehive", "happen") && !sameThing("cat", "a dog"));
+  const pics = { beehive: "@w-beehive", dog: "@w-dog", cat: "@w-cat" };
+  const picFor = (w) => pics[String(w).toLowerCase()] || "";
+  const s = normalizeSection({ ...makePart("vocabulary", "V-TICK", "A_SENIOR"), items: 3 }, { items: [
+    { picture: "beehive", prompt: "happen", answer: "yes" }, // keyed yes, but the word isn't the picture
+    { picture: "dog", prompt: "a dog", answer: "no" },        // keyed no, but it is the picture
+    { picture: "cat", prompt: "a dog", answer: "no" }] }, { levelId: "A_SENIOR", picFor });
+  assert.deepEqual(s.items.map((it) => it.answer.toLowerCase()), ["no", "yes", "no"]);
+  // "happen" can't be under a picture: flagged for Lingo to fix.
+  assert.ok(s.problems.some((p) => /item 1: .*"happen".*thing/.test(p)), s.problems.join(" | "));
+  assert.ok(!s.problems.some((p) => /item 3: .*thing/.test(p)));
+});
+
+test("tick or cross: a test saved with a wrong key is put right when it opens", async () => {
+  const { relabelDoc } = await import("../desktop/renderer/studio/doc-model.js");
+  const doc = { meta: { classProfile: "A_SENIOR" }, sections: [{ task: "V-TICK", answerType: "tf", items: [
+    { n: 1, prompt: "happen", picWord: "beehive", tf: 0, answer: "yes" }, { n: 2, prompt: "a dog", picWord: "dog", tf: 1, answer: "no" }] }] };
+  relabelDoc(doc);
+  assert.deepEqual(doc.sections[0].items.map((it) => [it.tf, it.answer.toLowerCase()]), [[1, "no"], [0, "yes"]]);
+});
