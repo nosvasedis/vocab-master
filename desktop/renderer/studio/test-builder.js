@@ -325,8 +325,8 @@ export function planNotes(spec, { focusWords = [] } = {}) {
   }
   const r = taughtRelations(focusWords);
   spec.parts.forEach((p, i) => {
-    if (OPPOSITE_TASKS.includes(p.task) && !r.antonyms.length) notes.push(`Part ${i + 1}: none of the chosen words has an opposite in its list, so Lingo picks unit words with a common opposite (you can add opposites in Worksheets → Words).`);
-    if (p.task === "V-SYN" && !r.synonyms.length) notes.push(`Part ${i + 1}: none of the chosen words has a synonym in its list, so Lingo picks unit words with a common synonym.`);
+    if (OPPOSITE_TASKS.includes(p.task) && !r.antonyms.length) notes.push(`Part ${i + 1}: none of the chosen words has an opposite in its list, so Lingo picks unit words with a common opposite (you can add the opposites the class learned in Step 1).`);
+    if (p.task === "V-SYN" && !r.synonyms.length) notes.push(`Part ${i + 1}: none of the chosen words has a synonym in its list, so Lingo picks unit words with a common synonym (you can add the ones the class learned in Step 1).`);
   });
   // A ready-made reading text is printed as it is: a short text can't carry very many questions.
   spec.parts.forEach((p, i) => {

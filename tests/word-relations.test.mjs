@@ -57,3 +57,70 @@ test("answers that are a taught form count: in the scope check, the saved test a
   assert.equal(by.creature, "tested", "creation is listed in creature's family");
   assert.equal(by.useful, "missing");
 });
+
+// The families, opposites and synonyms the teacher adds in Step 1 (studio/word-relations.js).
+import { parseRelationPair, relationTerms, addRelation, removeRelation, withRelations, relationsFromSaved, relationPairs, cleanRelations } from "../desktop/renderer/studio/word-relations.js";
+import { mergeOwnWords } from "../desktop/renderer/studio/own-words.js";
+import { docWordList } from "../desktop/renderer/studio/test-builder.js";
+
+test("the teacher types a pair with a sign, or one word at a time in the editor", () => {
+  assert.deepEqual(parseRelationPair("describe → description"), { english: "describe", kind: "derivatives", terms: ["description"] });
+  assert.deepEqual(parseRelationPair("amaze -> amazing / amazed"), { english: "amaze", kind: "derivatives", terms: ["amazing", "amazed"] });
+  assert.deepEqual(parseRelationPair("push ↔ pull"), { english: "push", kind: "antonyms", terms: ["pull"] });
+  assert.deepEqual(parseRelationPair("push <-> pull"), { english: "push", kind: "antonyms", terms: ["pull"] });
+  assert.deepEqual(parseRelationPair("bug = insect"), { english: "bug", kind: "synonyms", terms: ["insect"] });
+  assert.equal(parseRelationPair("ash = στάχτη"), null, "a word with its Greek is not a pair");
+  assert.equal(parseRelationPair("volcano"), null);
+  assert.deepEqual(relationTerms("description (n.) - περιγραφή, Describe, descriptive", "describe"), ["description", "descriptive"], "no Greek, no headword");
+
+  let map = addRelation({}, "Describe", "derivatives", "description");
+  map = addRelation(map, "describe", "derivatives", "description, descriptive");
+  assert.deepEqual(map, { describe: { derivatives: ["description", "descriptive"] } }, "no repeats");
+  // A word the book already lists is not added again.
+  const produce = u7.find((w) => w.english === "produce");
+  assert.equal(addRelation(map, "produce", "derivatives", "production", produce), map);
+  map = removeRelation(map, "describe", "derivatives", "descriptive");
+  assert.deepEqual(map, { describe: { derivatives: ["description"] } });
+  assert.deepEqual(removeRelation(map, "describe", "derivatives", "description"), {});
+  assert.deepEqual(cleanRelations({ " Push ": { antonyms: ["pull", "τραβώ", ""], other: ["x"] }, kid: {} }), { push: { antonyms: ["pull"] } }, "a saved map is made safe");
+});
+
+test("what the teacher adds reaches the prompt, the Step 3 notes, the saved test and the word check", () => {
+  // An own word with a family, a unit word (cave, nothing in the book) with an opposite.
+  let rel = addRelation({}, "decide", "derivatives", "decision");
+  rel = addRelation(rel, "cave", "antonyms", "house");
+  rel = addRelation(rel, "kid", "synonyms", "child");
+  const focus = withRelations(mergeOwnWords(pick("cave", "kid", "produce"), [{ english: "decide", greek: "" }], { bookId: "CPP1", unit: 7 }), rel);
+  const by = Object.fromEntries(focus.map((w) => [w.english, w]));
+  assert.match(by.produce.derivatives, /production/, "the book's family stays");
+  assert.equal(by.cave.antonyms, "house");
+  assert.ok(by.decide.own && by.decide.derivatives === "decision", "an own word gets its family");
+
+  const parts = ["V-OPP", "V-SYN", "V-FORM"].map((task, i) => ({ ...makePart("vocabulary", task, "A_SENIOR"), id: `p${i}` }));
+  const spec = { ...testDefaults("A_SENIOR"), parts, source: { kind: "unit" } };
+  const { user } = testPrompt(spec, { focusWords: focus });
+  assert.match(user, /TAUGHT OPPOSITES — use these first: cave ↔ house/);
+  assert.match(user, /TAUGHT SYNONYMS — use these first: kid = child/);
+  assert.match(user, /TAUGHT FAMILIES — use these first .*DECIDE → decision/);
+  // Step 3's soft note goes away once the teacher has added one.
+  const plain = pick("cave", "kid");
+  assert.ok(planNotes(spec, { focusWords: plain }).some((n) => /has an opposite/.test(n)));
+  const notes = planNotes(spec, { focusWords: withRelations(plain, rel) });
+  assert.ok(!notes.some((n) => /has an opposite|has a synonym/.test(n)), notes.join(" | "));
+
+  // The saved test keeps them; the word check counts "decision" as testing "decide".
+  const fspec = { ...testDefaults("B_SENIOR"), parts: [{ ...makePart("vocabulary", "V-FORM", "B_SENIOR"), id: "f", items: 1 }], source: { kind: "unit" } };
+  const doc = buildTestDoc(fspec, { sections: [{ id: "f", items: [{ prompt: "It was a hard ________. (DECIDE)", answer: "decision" }] }] }, { levelId: "B_SENIOR", focusWords: focus });
+  assert.equal(doc.focusWords.find((w) => w.english === "decide").derivatives, "decision");
+  assert.equal(testCoverage(doc).words.find((w) => w.english === "decide").status, "tested");
+
+  // Opening the test again: what isn't in the book's lists comes back as the teacher's.
+  const bank = new Map(u7.map((w) => [w.english, w]));
+  const back = relationsFromSaved(docWordList(focus), (e) => bank.get(e) || {});
+  assert.deepEqual(back, { cave: { antonyms: ["house"] }, kid: { synonyms: ["child"] }, decide: { derivatives: ["decision"] } });
+  // The editor shows the book's pairs and the teacher's apart.
+  const pairs = relationPairs(focus, rel);
+  assert.ok(pairs.some((p) => p.english === "produce" && p.term === "production" && !p.mine));
+  assert.ok(pairs.some((p) => p.english === "cave" && p.term === "house" && p.mine));
+  assert.equal(pairs.filter((p) => p.term === "house").length, 1, "a teacher's pair is listed once");
+});

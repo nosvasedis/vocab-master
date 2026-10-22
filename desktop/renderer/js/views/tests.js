@@ -22,6 +22,8 @@ import { testCoverage, coverageWhere, wordPriority, newPartFocus } from "../../s
 import { makeVersionB, docProblems, docPoints, relabelDoc, hasWordBox, boxExtras } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
+import { ownWordEntry } from "../../studio/own-words.js";
+import { relationsFromSaved } from "../../studio/word-relations.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
 import { audioFileName } from "../../studio/audio-track.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
@@ -159,7 +161,7 @@ function build() {
     </footer>
   </div>`;
   wiz = createWizard(host.querySelector(".mk"), { onShow: () => { renderFoot(); if (wiz?.index === RESULT) fitPaper($("tsStage"), $("tsPaper")); } });
-  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange, review: true, level: () => ts.spec.levelId, levelHint: () => (ts.spec.levelChosen || ts.levelTouched ? "" : "The class was set from the book’s usual class — choose your class in Step 2 if it’s different, and the review follows it."), storeKey: "vm_tests_source_v1" });
+  picker = createSourcePicker({ multiUnit: true, allowTopic: true, topicPlaceholder: "e.g. daily routines, my town, Present Simple vs Present Continuous", onChange: onSourceChange, review: true, level: () => ts.spec.levelId, levelHint: () => (ts.spec.levelChosen || ts.levelTouched ? "" : "The class was set from the book’s usual class — choose your class in Step 2 if it’s different, and the review follows it."), storeKey: "vm_tests_source_v1", relations: true });
   picker.mount($("tsSource"));
   paper = createPaper($("tsPaper"));
   new ResizeObserver(() => fitPaper($("tsStage"), $("tsPaper"))).observe($("tsStage"));
@@ -1474,12 +1476,15 @@ function openDoc(d) {
     const units = src.units?.length ? src.units : [1];
     const sections = src.sections?.length ? src.sections : ["BQ", "A", "B"];
     // The unit's words come back as picked words; the rest (own words, or words of tests saved before own words) as own words.
-    const inUnit = new Set(units.flatMap((u) => unitWords(src.bookId, u, sections)).map((w) => w.english.toLowerCase()));
+    const unitEntries = new Map(units.flatMap((u) => unitWords(src.bookId, u, sections)).map((w) => [w.english.toLowerCase(), w]));
+    const inUnit = new Set(unitEntries.keys());
     const picked = words.filter((w) => !w.own && inUnit.has(w.english.toLowerCase())).map((w) => w.english.toLowerCase());
     const own = asOwn(words.filter((w) => w.own || !inUnit.has(w.english.toLowerCase())));
-    pk = { kind: "unit", bookId: src.bookId, units, sections, focusMode: picked.length ? "pick" : "key", picked, own };
+    // The families and opposites the teacher added: what the saved words list beyond the book's own lists.
+    const rel = relationsFromSaved(words, (e) => unitEntries.get(e.toLowerCase()) || ownWordEntry({ english: e }, { bookId: src.bookId, unit: units[0] }));
+    pk = { kind: "unit", bookId: src.bookId, units, sections, focusMode: picked.length ? "pick" : "key", picked, own, rel };
   } else if (src.kind === "topic") {
-    pk = { kind: "topic", topic: d.spec.topic || "", own: asOwn(words) };
+    pk = { kind: "topic", topic: d.spec.topic || "", own: asOwn(words), rel: relationsFromSaved(words, (e) => ownWordEntry({ english: e })) };
     ts.spec.topic = "";
   }
   if (pk) { ts.sourceKey = ""; ts.linkOnOpen = true; picker.set(pk); }
