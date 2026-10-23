@@ -144,3 +144,21 @@ test("a picture word that is never said is missing", () => {
   assert.equal(answerHeard(s, s.items[0]), true);
   assert.equal(answerHeard(s, { ...s.items[0], answer: "apple" }), false);
 });
+
+test("new listening questions and their script come in one request", async () => {
+  const { fixItemsPrompt } = await import("../desktop/renderer/studio/test-builder.js");
+  const s = part("L-GAP", gapRaw());
+  const { system, user } = fixItemsPrompt(spec(s), s, [3], { withScript: true });
+  assert.match(system, /"script"/);
+  assert.match(user, /ALSO RETURN "script"/);
+  assert.doesNotMatch(user, /answerable from the script/);
+  assert.doesNotMatch(fixItemsPrompt(spec(s), s, [3], {}).system, /"script"/);
+});
+
+test("a new script that still doesn't say an answer keeps that question flagged", () => {
+  const s = part("L-GAP", gapRaw());
+  const d = doc(s);
+  reviseSection(d, spec(s), "p1", (raw) => { raw.items.push({ prompt: "Wear your ________.", answer: "hat" }); });
+  applyScript(d, spec(s), "p1", { script: [{ speaker: "Ms Park", text: "On Tuesday bring your flute." }, { speaker: "Ms Park", text: "It costs twelve euros; meet at the station." }] });
+  assert.deepEqual(recordingState(d.sections[0]).missing, [4]);
+});
