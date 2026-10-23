@@ -9,6 +9,7 @@ import { balancedPattern } from "./answer-balance.js";
 import { normalizeSection, docPoints, newDocId, tfValue, hasWordBox, sectionRubric } from "./doc-model.js";
 import { allowedTerms, answerInScope, relatedTerms } from "./word-scope.js";
 import { unitContextPrompt } from "./unit-context.js";
+import { scriptKeys, trustItems, answerHeard } from "./listening-sync.js";
 
 export const LENGTHS = {
   quiz: { label: "Quick quiz", minutes: 20, skills: ["vocabulary", "vocabulary", "grammar", "reading"] },
@@ -665,7 +666,7 @@ function sectionToRaw(s) {
     items: (s.items || []).map(item), example: item(s.example), passage: s.passage, passageTitle: s.passageTitle, script: s.script,
     frame: s.frame, prompts: s.prompts, sample: s.sample, prompt: s.task_prompt, pictures: (s.pictures || []).map((p) => p.word),
     bank: s.answerType === "match" ? [] : s.bank, extraWords: s.extraWords, rubric: s.rubric, warmup: s.warmup, cards: s.cards,
-    replier: s.replier, extras: s.extras, groups: s.groups,
+    replier: s.replier, extras: s.extras, groups: s.groups, scriptFor: s.scriptFor,
   };
 }
 
@@ -687,7 +688,64 @@ export function applyItemFixes(doc, spec, sectionId, reply, itemNs, ctx = {}) {
     }
     return changed.length > 0;
   }, ctx);
+  // A listening question Lingo wrote from the script fits the recording — unless its answer is never said in it.
+  const sec = ok && ctx.trust !== false ? doc.sections.find((x) => x.id === sectionId) : null;
+  if (sec?.skill === "listening") trustItems(sec, changed.filter((n) => answerHeard(sec, sec.items[n - 1]) !== false));
   return ok ? changed.sort((a, b) => a - b) : [];
+}
+
+/* ── The recording made again for the questions a listening part has now ──
+ * Questions added, changed or taken out on the paper (or in Step 3) leave a script written for other questions. Lingo
+ * writes the script again for exactly the questions on the paper, keeping the speakers, the situation and the lines that
+ * still work; the questions themselves never change. The app's voices read the new script, so the audio follows. */
+
+/** ctx: { profileBlock, focusWords, pictureWords, instruction } */
+export function scriptPrompt(spec, section, ctx = {}) {
+  const found = spec.parts.find((x) => x.id === section.id);
+  const plan = { ...(found || { id: section.id, task: section.task, skill: section.skill }), items: section.items.length };
+  const idx = Math.max(0, found ? spec.parts.indexOf(found) : 0);
+  const t = TASKS[section.task] || {};
+  const tf = section.answerType === "tf";
+  const gist = section.task === "L-GIST";
+  const show = (it, label) => `${label}. ${it.prompt || ""}${it.options?.length ? ` [${it.options.join(" | ")}]` : ""} → ${it.answer || ""}`;
+  const system = `You write the listening script of one part of an English test for Greek learners in a language school; the app's voices read it aloud. Return ONLY valid JSON: { "script": [ { "speaker": "Name", "text": "line" } ]${tf ? ', "evidence": [ { "n": 1, "evidence": "the exact words of the script that decide item 1" } ]' : ""} }
+${ctx.profileBlock || ""}`;
+  const user = [
+    // The part's brief without what it says about writing the questions (they stay as they are).
+    partBrief(plan, idx, spec, ctx.pictureWords || [], ctx.focusWords || []).split("\n").filter((l) => !/^\s+(?:Items:|Answer each|Write the (?:script|text) first|Each item)/.test(l)).join("\n"),
+    `THE SCRIPT NOW (written for other questions — some were added, changed or taken out since):\n${section.script.map((l) => `${l.speaker}: ${l.text}`).join("\n")}`,
+    `THE QUESTIONS ON THE PAPER (they stay exactly as they are; write the script for them):\n${[section.example ? show(section.example, "Example") : "", ...section.items.map((it) => show(it, it.n))].filter(Boolean).join("\n")}`,
+    [
+      "WRITE THE SCRIPT AGAIN:",
+      "- Keep the same speakers, names and situation, and keep the lines that still work; change or add only what the questions need.",
+      `- Every question's answer${section.example ? " (and the example's)" : ""} is said clearly, once, in its own place, in the order of the questions${section.example ? " (the example first)" : ""}.`,
+      t.answer === "choice" && !gist ? "- The right option is what the speakers say; the wrong options may be mentioned, but are clearly not the answer." : "",
+      tf ? "- A \"yes\" statement says what the script says; for a \"no\" statement the script clearly says something else (one detail is different). Also give, for each item (and the example as n 0), the exact words of the script that decide it." : "",
+      section.answerType === "match" ? "- Every pair is said clearly; one or two things go with nobody." : "",
+      section.answerType === "word" ? "- Each answer is said exactly as written (a name is also spelled letter by letter, e.g. \"T-O-M\")." : "",
+      gist ? "- One VERY short recording per question (2–4 lines): each starts with a line by the speaker \"Narrator\": \"Example.\", \"Number 1.\", \"Number 2.\" … — exactly one per question, in order. The right option is the main idea; the wrong ones use words that are heard but miss the point." : "",
+      "- Details that only questions no longer on the paper needed may go.",
+      `- At least ${scriptLines(plan)} lines. Only what the speakers say: no narrator saying "Listen and…"${gist ? " (only the numbered Narrator lines)" : ""}, no sound effects. Words the class knows; the unit words where they fit.`,
+    ].filter(Boolean).join("\n"),
+    ctx.instruction || "",
+  ].filter(Boolean).join("\n\n");
+  return { system, user };
+}
+
+/**
+ * Put a new script into a listening part (and the yes/no evidence) and check the part again; the recording then fits
+ * every question on the paper. Returns true when the part changed. ctx: { picFor, focusWords }
+ */
+export function applyScript(doc, spec, sectionId, reply, ctx = {}) {
+  const script = (Array.isArray(reply?.script) ? reply.script : []).filter((l) => l && String(l.text || "").trim()).map((l) => ({ speaker: String(l.speaker || "").trim(), text: String(l.text).trim() }));
+  if (script.length < 2) return false;
+  const evidence = new Map((Array.isArray(reply?.evidence) ? reply.evidence : []).map((e) => [Number(e?.n), String(e?.evidence || "").trim()]).filter(([n, e]) => Number.isFinite(n) && e));
+  return reviseSection(doc, spec, sectionId, (raw) => {
+    raw.script = script;
+    raw.scriptFor = undefined;
+    raw.items.forEach((it, k) => { if (evidence.has(k + 1)) it.evidence = evidence.get(k + 1); });
+    if (raw.example && evidence.has(0)) raw.example.evidence = evidence.get(0);
+  }, ctx);
 }
 
 /**
@@ -699,6 +757,8 @@ export function reviseSection(doc, spec, sectionId, edit, ctx = {}) {
   const s = doc?.sections?.find((x) => x.id === sectionId);
   if (!s) return false;
   const raw = sectionToRaw(s);
+  // A recording from before questions were tracked fits the questions it has now.
+  if (s.skill === "listening" && s.script?.length && !Array.isArray(raw.scriptFor)) raw.scriptFor = scriptKeys(s);
   if (edit(raw) === false) return false;
   const plan = spec?.parts?.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
   const picFor = spec?.pictures !== false ? ctx.picFor || keepPics(s) : null;
