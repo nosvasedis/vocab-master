@@ -486,7 +486,11 @@ function openPictures(taskId, raw, ctx) {
 export function normalizeSection(plan, raw = {}, ctx = {}) {
   const task = TASKS[plan.task] || {};
   const problems = [];
-  const rawItems = Array.isArray(raw.items) ? raw.items : [];
+  let rawItems = Array.isArray(raw.items) ? raw.items : [];
+  // The example sent as item 0 inside the items is the example, not question 1.
+  // (Items numbered from 0 next to their own example are questions.)
+  const zero = rawItems.find((r) => r && typeof r === "object" && String(r.n ?? "").trim() === "0");
+  if (zero && (!raw.example || (plan.items && rawItems.length > plan.items))) { rawItems = rawItems.filter((r) => r !== zero); if (!raw.example) raw = { ...raw, example: zero }; }
   const want = plan.items || rawItems.length;
   let items = [];
   for (const r of rawItems) {
@@ -499,7 +503,9 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   }
   if (task.answer !== "open" && items.length < want) problems.push(`has ${items.length} of ${want} items`);
   items.forEach((it, i) => { it.n = i + 1; });
-  const example = raw.example && task.answer !== "open" ? normalizeItem(raw.example, plan.task, ctx).item : null;
+  let example = raw.example && task.answer !== "open" ? normalizeItem(raw.example, plan.task, ctx).item : null;
+  // "Is the word used correctly?" never goes without its solved example: the task's own one stands in.
+  if (!example && plan.task === "V-RIGHT" && task.sample) example = normalizeItem({ prompt: task.sample.q, answer: task.sample.a }, plan.task, ctx).item;
   if (example) example.n = 0;
 
   const rubric = rubricFor(plan.task, ctx.levelId);

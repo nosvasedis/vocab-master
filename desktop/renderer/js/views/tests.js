@@ -260,6 +260,8 @@ function build() {
     if (e.target.closest("[data-cov-place]")) { editor?.placeWords(wordPriority(testCoverage(ts.doc)).filter((w) => w.status !== "tested")); return; }
     const cp = e.target.closest("[data-cov-show]");
     if (cp) { showPart(Number(cp.dataset.covShow)); return; }
+    const kp = e.target.closest("[data-keep]");
+    if (kp) { keepKeys(kp.dataset.keep); return; }
     const fx = e.target.closest("[data-fix]");
     if (fx) { fixPart(fx.dataset.fix, fx); return; }
     const rr = e.target.closest("[data-rerecord]");
@@ -288,6 +290,8 @@ function build() {
     if (rr) editor?.remakeRecording(rr.dataset.rerecord);
   });
   $("tsProblems").addEventListener("click", (e) => {
+    const kp = e.target.closest("[data-keep]");
+    if (kp) { keepKeys(kp.dataset.keep); return; }
     const fx = e.target.closest("[data-fix]");
     if (fx) { fixPart(fx.dataset.fix, fx); return; }
     const b = e.target.closest("[data-rewrite]");
@@ -1108,7 +1112,22 @@ function friendlyProblem(p) {
 function fixButton(sec) {
   const t = problemTargets(sec);
   if (t.whole) return `<button type="button" class="btn btn-secondary btn-sm" data-rewrite="${sec.id}">${icon("refresh", "i-sm")}Write it again</button>`;
-  return `<button type="button" class="btn btn-primary btn-sm" data-fix="${sec.id}" data-tip="Lingo rewrites only these questions — the rest of the part stays">${icon("wand", "i-sm")}Fix ${t.items.length === 1 ? `question ${t.items[0]}` : `questions ${t.items.join(", ")}`}</button>`;
+  const fix = `<button type="button" class="btn btn-primary btn-sm" data-fix="${sec.id}" data-tip="Lingo rewrites only these questions — the rest of the part stays">${icon("wand", "i-sm")}Fix ${t.items.length === 1 ? `question ${t.items[0]}` : `questions ${t.items.join(", ")}`}</button>`;
+  // A corrected key is already right if the check was: the teacher who agrees just says so.
+  if (!sec.problems.every((p) => KEY_NOTE.test(p))) return fix;
+  return `<span class="prob-acts">${fix}<button type="button" class="btn btn-ghost btn-sm" data-keep="${sec.id}" data-tip="The corrected answers are right — keep the questions as they are">${icon("check", "i-sm")}It’s right</button></span>`;
+}
+
+/** The note the second check leaves when it changed a yes/no key (the questions stay as they were). */
+const KEY_NOTE = /^the answer key was corrected for /;
+
+/** The teacher checked the corrected keys: the notes go, the questions stay. */
+function keepKeys(partId) {
+  const sec = ts.doc?.sections.find((x) => x.id === partId);
+  if (!sec) return;
+  sec.problems = (sec.problems || []).filter((p) => !KEY_NOTE.test(p));
+  refreshDoc();
+  toast("Kept — the note is gone.", "ok", { ms: 2000 });
 }
 
 /** Rewrite only the questions a part's problems name (a small AI call); a broken part is written again whole. */
@@ -1131,7 +1150,11 @@ async function fixPart(partId, btn) {
       await checkKeys(ts.doc, [partId]);
       if (epoch !== ts.epoch) return;
       refreshDoc();
-      const left = ts.doc.sections.find((x) => x.id === partId)?.problems?.length || 0;
+      const now = ts.doc.sections.find((x) => x.id === partId);
+      const left = now?.problems?.length || 0;
+      // The second check still disagrees with a rewritten question: say so, rather than seem to do nothing.
+      const again = changed.filter((n) => problemTargets(now).items.includes(n));
+      if (again.length) { toast(`Lingo rewrote ${again.length === 1 ? `question ${again[0]}` : `questions ${again.join(", ")}`}, but the second check still reads ${again.length === 1 ? "it" : "them"} differently — read the new ${again.length === 1 ? "question" : "questions"} and its answer, then ${now.problems.every((p) => KEY_NOTE.test(p)) ? "press “It’s right” if it is, or fix again" : "fix again or write the part again"}.`, "warn", { ms: 7000 }); return; }
       toast(`Fixed ${changed.length === 1 ? `question ${changed[0]}` : `questions ${changed.join(", ")}`}${left ? " — one more thing to look at" : ""}.`, left ? "warn" : "ok", { ms: 2600 });
     } catch (e) { aiErrorToast(e); }
   });

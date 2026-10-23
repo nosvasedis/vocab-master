@@ -436,7 +436,7 @@ const ANSWER_NOT_A_WORD = {
   "V-RIGHT": "Here the tested word is the word in CAPITALS in each sentence.",
 };
 
-function partBrief(p, i, spec, pictureWords, focus = []) {
+function partBrief(p, i, spec, pictureWords, focus = [], order = null) {
   const t = TASKS[p.task];
   const lines = [`PART ${i + 1} — id "${p.id}" — ${SKILLS[p.skill].label}: ${t.label} [${p.task}]`, `  What to write: ${t.ai}`];
   if (t.answer !== "open") lines.push(`  Items: exactly ${p.items}, plus ONE extra "example" item (shown solved as item 0, not counted). Never fewer: if the text or script seems too short, make it longer.`);
@@ -444,7 +444,8 @@ function partBrief(p, i, spec, pictureWords, focus = []) {
   if (t.answer === "choice") lines.push(`  Each item: "options" (${t.knobs?.includes("options") ? partOpts(p, spec.levelId).options : t.options || 3}) and "answer" = the exact text of the right option.`);
   if (t.answer === "tf") {
     const [yes, no] = tfLabels(spec.levelId);
-    lines.push(`  Answer each with "${yes}" or "${no}" in THIS order: ${balancedPattern(tfLabels(spec.levelId), p.items).join(", ")}.`);
+    // A fix keeps the answers the part has (order): a fresh random order would contradict the items that stay.
+    lines.push(`  Answer each with "${yes}" or "${no}" in THIS order: ${(order || balancedPattern(tfLabels(spec.levelId), p.items)).join(", ")}.`);
     const src = p.skill === "listening" ? "script" : "text";
     if (t.needs?.includes("script") || t.needs?.includes("passage") || TASKS[p.task]?.knobs?.includes("text")) lines.push(`  Write the ${src} first, then one statement per item. A "${yes}" statement says what the ${src} says; a "${no}" statement changes one detail (who, what, where or when) so the ${src} clearly says otherwise. Every statement is about something the ${src} says. Never key "${no}" for something that is said.`);
     if (t.needs?.includes("script") || t.needs?.includes("passage") || TASKS[p.task]?.knobs?.includes("text")) lines.push(`  Each item (and the example) also has "evidence": the exact words of the ${src} that decide its answer.`);
@@ -566,8 +567,8 @@ export function keyCheckPrompt(doc, onlyParts = null) {
   if (!parts.length) return null;
   const usage = parts.some((s) => s.task === "V-RIGHT");
   const system = `You check answer keys for an English test. Read each text and decide, for every statement, whether the text says it (yes) or clearly says otherwise (no). Judge only by the text.${usage ? `
-A part marked USAGE has no text: for each sentence decide whether the word in CAPITALS is used with a meaning that makes sense in that sentence (yes) or not (no).` : ""}
-Return ONLY valid JSON: { "sections": [ { "id": "<part id>", "answers": ["yes" or "no", …] } ] } — one answer per statement, in order.`;
+A part marked USAGE has no text: for each sentence decide whether the word in CAPITALS is used with a meaning that makes sense in that sentence (yes) or not (no). Also list in "grammar" the numbers of the sentences that are not correct English as they stand — the word in CAPITALS in the wrong word class or place ("I DURING my homework.") — because a "no" sentence must be wrong only in MEANING.` : ""}
+Return ONLY valid JSON: { "sections": [ { "id": "<part id>", "answers": ["yes" or "no", …]${usage ? ', "grammar": [numbers, only for USAGE parts]' : ""} } ] } — one answer per statement, in order.`;
   const user = parts.map((s) => {
     if (s.task === "V-RIGHT" && !s.passage && !s.script?.length) return `PART id "${s.id}" — USAGE\nSENTENCES:\n${s.items.map((it) => `${it.n}. ${it.prompt}`).join("\n")}`;
     const text = s.script.length ? s.script.map((l) => `${l.speaker}: ${l.text}`).join("\n") : s.passage;
@@ -583,6 +584,9 @@ export function applyKeyCheck(doc, reply) {
   for (const s of doc?.sections || []) {
     const answers = byId.get(s.id)?.answers;
     if (s.answerType !== "tf" || !Array.isArray(answers) || answers.length !== s.items.length) continue;
+    // "Is the word used correctly?": a sentence that isn't correct English tests grammar, not the word's meaning.
+    const bad = s.task === "V-RIGHT" && Array.isArray(byId.get(s.id)?.grammar) ? [...new Set(byId.get(s.id).grammar.map(Number))].filter((n) => s.items.some((it) => it.n === n)).sort((a, b) => a - b) : [];
+    if (bad.length) s.problems = [...(s.problems || []), `item${bad.length > 1 ? "s" : ""} ${bad.join(", ")}: not correct English as written — a "${tfLabels(doc.meta?.classProfile)[1]}" sentence must use the word in CAPITALS in its normal grammar and be wrong only in meaning`];
     const labels = tfLabels(doc.meta?.classProfile);
     const fixed = [];
     s.items.forEach((it, i) => {
@@ -593,7 +597,7 @@ export function applyKeyCheck(doc, reply) {
       fixed.push(it.n);
     });
     if (fixed.length) {
-      s.problems = [...(s.problems || []), `the answer key was corrected for item${fixed.length > 1 ? "s" : ""} ${fixed.join(", ")} — please check ${s.script.length ? "against the script" : s.passage ? "against the text" : "the sentences"}`];
+      s.problems = [...(s.problems || []), `the answer key was corrected for item${fixed.length > 1 ? "s" : ""} ${fixed.join(", ")} (now ${fixed.map((n) => `"${s.items.find((it) => it.n === n).answer}"`).join(", ")}) — please check ${s.script.length ? "against the script" : s.passage ? "against the text" : "the sentences"}`];
       changed += fixed.length;
     }
   }
@@ -617,6 +621,25 @@ export function problemTargets(section) {
   }
   const list = [...items].filter((n) => n >= 1 && n <= (section?.items?.length || 0)).sort((a, b) => a - b);
   return { items: list, whole: whole || (!list.length && !!section?.problems?.length) };
+}
+
+/**
+ * The answers a yes/no part's fix asks for, as labels in item order: what the problems ask for ("should be"), else
+ * for each item being rewritten whichever answer the rest of the part has fewer of (so the key stays mixed; a tie
+ * keeps its answer), and the other items keep theirs.
+ */
+export function keyOrder(section, itemNs, must = {}, labels = ["yes", "no"]) {
+  const vals = (section?.items || []).map((it) => (it.tf === 0 || it.tf === 1 ? it.tf : 0));
+  for (const n of itemNs) {
+    if (n < 1 || n > vals.length) continue;
+    const want = must[n] !== undefined ? labels.findIndex((l) => l.toLowerCase() === String(must[n]).toLowerCase()) : -1;
+    if (want >= 0) { vals[n - 1] = want; continue; }
+    const others = vals.filter((_, i) => i !== n - 1);
+    const yes = others.filter((v) => v === 0).length;
+    const no = others.length - yes;
+    if (yes !== no) vals[n - 1] = yes < no ? 0 : 1;
+  }
+  return vals.map((v) => labels[v]);
 }
 
 /** Answers the problems ask for: { n: "no" } from "items 2, 4 should be \"no\"". */
@@ -643,12 +666,15 @@ export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
   const t = TASKS[section.task] || {};
   const src = section.script?.length ? "script" : section.passage ? "text" : "";
   const must = requiredAnswers(section);
+  // Yes/no parts: the answer each item needs, so the fixer and the key check agree (keyOrder).
+  const order = t.answer === "tf" ? keyOrder(section, itemNs, must, tfLabels(spec.levelId)) : null;
+  if (order) itemNs.forEach((n) => { must[n] = order[n - 1]; });
   const show = (it) => `${it.n}. ${it.prompt || ""}${it.options?.length ? ` [${it.options.join(" | ")}]` : ""} → ${it.answer || ""}`;
   const system = `You fix single questions in an English test for Greek learners in a language school. Return ONLY valid JSON: { "items": [ { "n": 3, "prompt": "", "options": [], "answer": ""${t.answer === "tf" ? ', "evidence": "the exact words of the ' + (src || "text") + ' that decide it"' : ""} } ]${ctx.withScript ? ', "script": [ { "speaker": "Name", "text": "line" } ]' : ""} } — only the items asked for, with their numbers${ctx.withScript ? ", and the whole script" : ""}.
 ${ctx.profileBlock || ""}`;
   const focus = (ctx.focusWords || []).map((w) => w.english).filter(Boolean);
   const user = [
-    partBrief(plan, idx, spec, ctx.pictureWords || [], ctx.focusWords || []),
+    partBrief(plan, idx, spec, ctx.pictureWords || [], ctx.focusWords || [], order),
     section.script?.length ? `SCRIPT:\n${section.script.map((l) => `${l.speaker}: ${l.text}`).join("\n")}` : "",
     section.passage ? `TEXT${section.passageTitle ? ` "${section.passageTitle}"` : ""}:\n${section.passage}` : "",
     section.bank?.length && section.answerType !== "match" ? `WORD BOX: ${section.bank.join(", ")}` : "",
@@ -657,7 +683,7 @@ ${ctx.profileBlock || ""}`;
     ctx.instruction ? `FOR ITEM${itemNs.length > 1 ? "S" : ""} ${itemNs.join(", ")} (these rules come first):
 ${ctx.instruction}` : "",
     `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${t.bank && t.answer !== "match" ? " Each gap needs a different word: never the answer of another item (the app makes the word box from the answers again)." : ""}${src && !ctx.withScript ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? (SCOPED.includes(section.task) ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ` Use words the class knows (the unit words where they fit: ${focus.slice(0, 30).join(", ")}).`) : ""}`,
-    Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.` : "",
+    Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.${order ? ` Write a NEW sentence for each of these items whose answer is beyond doubt — a reader who checks the key must give the same answer.${section.task === "V-RIGHT" ? ` A "${tfLabels(spec.levelId)[1]}" sentence is correct English with the word in CAPITALS in its normal grammar; only its MEANING doesn't fit.` : ""}` : ""}` : "",
     t.answer === "choice" ? DISTRACTOR_RULE : "",
     ctx.withScript ? `ALSO RETURN "script": the whole script again for ALL the items (the new ones too). Keep the same speakers, names and situation and the lines that still work; add what the new items need, so every answer${section.example ? " (and the example's)" : ""} is said clearly, once, in the order of the items. At least ${scriptLines({ items: section.items.length })} lines; only what the speakers say.${section.task === "L-GIST" ? ' One very short recording per item, each opened by the speaker "Narrator": "Number 1." … in order (and "Example." first).' : ""}` : "",
   ].filter(Boolean).join("\n\n");
