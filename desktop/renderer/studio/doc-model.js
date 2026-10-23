@@ -398,6 +398,46 @@ export function balanceChoices(items, rand = Math.random) {
 /** How many pictures an open picture task prints (writing story pictures, speaking cards). */
 const PICTURES_NEEDED = { "W-PICTURES": 3, "S-PICTURE": 3, "S-STORY": 4, "S-DISCUSS": 5 };
 
+/** A speaking card's name on paper: "Card 2", or "Student A" / "Student B" in a role-play. */
+export const speakingCardLabel = (task, i) => (task === "S-ROLE" ? `Student ${i % 2 ? "B" : "A"}` : `Card ${i + 1}`);
+
+/**
+ * How a speaking part is laid out (paper, Word, teacher's pack; pure).
+ *   kind: "picture" (each card shows its own pictures), "story" (the story card above a picture strip read left to
+ *   right), "discuss" (the situation in the middle, the options around it), "question" (the Big Question as a
+ *   banner), "role" (Student A and B side by side, one situation a row) or "cards".
+ *   lead: the card printed in the part's own shape (story / discuss / question), or null.
+ *   cards: the other cards, each { card, index, label, pics }. pictures: pictures shown on no card.
+ * Picture cards: a card gets the pictures its title, text or words name; a card naming none gets the next free one;
+ * pictures left over go to the cards with the fewest (two at most a card), the rest in a strip.
+ */
+export function speakingPlan(section) {
+  const task = section?.task;
+  const pics = (section?.pictures || []).filter((p) => p?.pic);
+  const all = (section?.cards || []).map((card, index) => ({ card, index, label: speakingCardLabel(task, index), pics: [] }));
+  const leadKind = { "S-STORY": "story", "S-DISCUSS": "discuss", "S-BQ": "question" }[task];
+  if (leadKind) {
+    const lead = all.shift() || null;
+    return { kind: leadKind, lead, cards: all, pictures: pics };
+  }
+  if (task !== "S-PICTURE") return { kind: task === "S-ROLE" ? "role" : "cards", lead: null, cards: all, pictures: pics };
+  const free = new Set(pics);
+  const said = all.map(({ card }) => ` ${squash([card.title, card.student, ...(card.keyWords || [])].join(" "))} `);
+  pics.forEach((p) => {
+    const k = said.findIndex((s) => squash(p.word) && s.includes(` ${squash(p.word)} `));
+    if (k >= 0 && all[k].pics.length < 2) { all[k].pics.push(p); free.delete(p); }
+  });
+  all.forEach((c) => { if (!c.pics.length && free.size) { const p = free.values().next().value; c.pics.push(p); free.delete(p); } });
+  for (const p of [...free]) {
+    const c = [...all].sort((a, b) => a.pics.length - b.pics.length)[0];
+    if (!c || c.pics.length >= 2) break;
+    c.pics.push(p);
+    free.delete(p);
+  }
+  all.forEach((c) => c.pics.sort((a, b) => pics.indexOf(a) - pics.indexOf(b)));
+  return { kind: "picture", lead: null, cards: all, pictures: pics.filter((p) => free.has(p)) };
+}
+
 /** The picture of a word the AI wrote loosely ("Firefighters", "the hospital", { word: "park" }), or "". */
 function picForLoose(picFor, w) {
   const word = clean(typeof w === "object" && w ? w.word || w.english || w.name : w).replace(/^(?:a|an|the)\s+/i, "").replace(/[.!?,;:]+$/, "");
