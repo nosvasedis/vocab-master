@@ -34,9 +34,11 @@ function validRec(spec, rec) {
 }
 
 /**
- * @param {{ storage: { get(k): string|null, set(k, v): void, remove(k): void }, now?: () => number, onChange?: (keys: string[]) => void, onStatus?: (s: object) => void }} opts
+ * @param {{ storage: { get(k): string|null, set(k, v): void, remove(k): void }, now?: () => number, onChange?: (keys: string[]) => void, onStatus?: (s: object) => void,
+ *   vaultKeys?: { get(uid): Promise<object|null>, set(uid, handle): Promise<void>, clear(uid): Promise<void> } }} opts
+ *   vaultKeys: where this computer remembers the unlocked vault key (vault-keys.js), so the passphrase is typed once per computer.
  */
-export function createEngine({ storage, now = Date.now, onChange = () => {}, onStatus = () => {} }) {
+export function createEngine({ storage, now = Date.now, onChange = () => {}, onStatus = () => {}, vaultKeys = null }) {
   let st = load();
   let backend = null;
   let uid = "";
@@ -44,6 +46,8 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
   let vaultHandle = null;
   let pushing = null;
   let pulling = null;
+  let remoteVault = null; // does the account hold a vault? null = not known yet
+  let vaultNote = "";     // a one-off line for the AI keys panel (e.g. turned off on another computer)
   let status = { phase: "local", error: "", vault: st.vault.on ? "on" : "off" };
 
   function load() {
@@ -59,8 +63,14 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
   const markDirty = (key, id) => { (st.dirty[key] ||= {})[id] = 1; };
   const clearDirty = (key, id) => { if (st.dirty[key]) { delete st.dirty[key][id]; if (!Object.keys(st.dirty[key]).length) delete st.dirty[key]; } };
   const pendingCount = () => Object.values(st.dirty).reduce((n, d) => n + Object.keys(d).length, 0) + (st.vault.on && st.vault.dirty ? 1 : 0);
-  const setStatus = (patch) => { status = { ...status, ...patch, pending: pendingCount(), lastSync: st.lastSync, vault: vaultState() }; onStatus(status); };
+  const vaultFields = () => ({ vault: vaultState(), vaultChanged: !!(st.vault.on && st.vault.waiting === "changed"), vaultRemote: remoteVault, vaultNote });
+  const setStatus = (patch) => { status = { ...status, ...patch, pending: pendingCount(), lastSync: st.lastSync, ...vaultFields() }; onStatus(status); };
   const vaultState = () => (!st.vault.on ? "off" : st.vault.waiting || (st.vault.dirty && !vaultHandle) ? "locked" : "on");
+  const rememberKey = (handle) => { if (vaultKeys && uid) vaultKeys.set(uid, handle).catch(() => {}); };
+  const forgetKey = (who = uid) => { if (vaultKeys && who) vaultKeys.clear(who).catch(() => {}); };
+  // Vault reads and writes run one at a time: a live update, an upload and an unlock must never interleave.
+  let vaultQueue = Promise.resolve();
+  const serial = (fn) => { const run = vaultQueue.then(fn); vaultQueue = run.catch(() => {}); return run; };
 
   /* ── local edits ─────────────────────────────────────────────── */
   function secretsNow() {
@@ -69,14 +79,19 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     return out;
   }
 
-  /** Each provider's key is its own item inside the vault: { t, h, by } per provider in st.vault.keys. */
-  function captureSecrets() {
+  /**
+   * Each provider's key is its own item inside the vault: { t, h, by } per provider in st.vault.keys.
+   * At start-up (boot) a key that vanished while the app was closed is not a teacher's removal (the app records those as they
+   * happen): it would erase the key on every computer. Instead the account's copy is fetched again.
+   */
+  function captureSecrets({ boot = false } = {}) {
     if (!st.vault.on) return false;
     const keys = (st.vault.keys ||= {});
     let changed = false;
     for (const [name, v] of Object.entries(secretsNow())) {
       const h = hash(v);
       if (keys[name]?.h === h) continue;
+      if (boot && !v) { keys[name] = { t: 0, h, by: "" }; st.vault.refetch = true; continue; }
       keys[name] = { t: stamp(time(), keys[name]), h, by: st.device };
       changed = true;
     }
@@ -99,10 +114,12 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     return n;
   }
 
+  let booted = false;
   function captureAll() {
     let n = 0;
     for (const key of Object.keys(SYNCED)) n += captureKey(key, { persist: false });
-    if (captureSecrets()) n++;
+    if (captureSecrets({ boot: !booted })) n++;
+    booted = true;
     const t = time();
     for (const key of Object.keys(st.items)) {
       for (const id of expiredTombstones(st.items[key], t)) if (!st.dirty[key]?.[id]) delete st.items[key][id];
@@ -186,8 +203,33 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     backend = null;
     uid = "";
     vaultHandle = null;
+    remoteVault = null;
+    vaultNote = "";
     setStatus({ phase: "local", error: "" });
   }
+
+  /** Take the vault key this computer remembered for this account (if it still fits the vault). Call after attach. */
+  async function restoreVaultKey() {
+    if (!vaultKeys || !uid || !st.vault.on || vaultHandle) return false;
+    const who = uid;
+    const handle = await vaultKeys.get(who).catch(() => null);
+    if (who !== uid || !handle?.key || !handle.salt) return false;
+    if (st.vault.salt && handle.salt !== st.vault.salt) return false;
+    vaultHandle = handle;
+    setStatus({});
+    return true;
+  }
+
+  /** The account's vault time from the live watch (null = no vault in the account). */
+  function noteRemoteVault(t) {
+    const has = t != null;
+    if (remoteVault === has) return;
+    remoteVault = has;
+    setStatus({});
+  }
+
+  /** Forget the remembered vault key of an account (sign-out with removal, removing a profile). */
+  const forgetVaultKey = (who) => forgetKey(who);
   const setClockOffset = (ms) => { offset = Number(ms) || 0; };
 
   /** Compare the account's index with ours: fetch what's newer there, queue what's newer here. */
@@ -363,19 +405,40 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     return ahead;
   }
 
-  async function pullVault() {
+  async function pullVaultNow() {
     if (!st.vault.on || !backend) return;
     const remote = await backend.getVault();
-    if (!remote) { if (st.vault.seen) { st.vault.dirty = true; save(); } return; }
-    if (remote.t === st.vault.seen && !st.vault.waiting) return;
-    if (!vaultHandle || vaultHandle.salt !== remote.salt) { st.vault.waiting = true; save(); setStatus({}); return; }
+    remoteVault = !!remote;
+    if (!remote) {
+      // The vault was there and is gone: key sync was turned off on another computer. Follow it (the keys stay here)
+      // instead of uploading this computer's keys again.
+      if (st.vault.seen) {
+        vaultHandle = null;
+        forgetKey();
+        st.vault = { on: false };
+        vaultNote = "Key sync was turned off on another computer. Your keys are still on this computer.";
+        save();
+        setStatus({});
+      }
+      return;
+    }
+    if (remote.t === st.vault.seen && !st.vault.waiting && !st.vault.refetch) return;
+    if (!vaultHandle || vaultHandle.salt !== remote.salt) {
+      // A different salt means the passphrase was changed (Forgot it?) on another computer.
+      const changed = !!(vaultHandle || st.vault.salt) && (vaultHandle?.salt || st.vault.salt) !== remote.salt;
+      st.vault.waiting = changed ? "changed" : true;
+      vaultHandle = null;
+      save();
+      setStatus({});
+      return;
+    }
     const ahead = mergeVault(await open(vaultHandle, remote, uid));
-    st.vault = { ...st.vault, seen: remote.t, salt: remote.salt, waiting: false, dirty: st.vault.dirty || ahead };
+    st.vault = { ...st.vault, seen: remote.t, salt: remote.salt, waiting: false, refetch: false, dirty: st.vault.dirty || ahead };
     save();
     setStatus({});
   }
 
-  async function pushVault() {
+  async function pushVaultNow() {
     if (!st.vault.on || !st.vault.dirty || !vaultHandle || !backend) return;
     captureSecrets();
     const now = secretsNow();
@@ -385,61 +448,84 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     const t = stamp(time(), st.vault.seen ? { t: st.vault.seen } : null);
     const marks = JSON.stringify(st.vault.keys);
     await backend.putVault({ ...sealed, t, by: st.device });
+    remoteVault = true;
     st.vault = { ...st.vault, seen: t, salt: sealed.salt, dirty: JSON.stringify(st.vault.keys) !== marks };
     save();
   }
+  const pullVault = () => serial(pullVaultNow);
+  const pushVault = () => serial(pushVaultNow);
+
+  /** A fresh vault's entry for a key: an empty key gets time 0, so it never erases another computer's key. */
+  const freshMark = (v, t) => (v ? { t, h: hash(v), by: st.device } : { t: 0, h: hash(v), by: "" });
 
   /**
    * Turn key sync on, or unlock it on this computer. With a vault already in the account, the passphrase
    * must open it; the account's keys win, and a key only this computer has is kept and uploaded.
    */
-  async function unlockVault(passphrase) {
-    if (!backend) throw new Error("Sign in first.");
-    const remote = await backend.getVault();
-    const local = secretsNow();
-    if (remote) {
-      const handle = await unlockKey(passphrase, remote);
-      const remoteKeys = await open(handle, remote, uid);
-      vaultHandle = handle;
-      if (!st.vault.on) {
-        // First time on this computer: its keys only count where the account has none.
+  function unlockVault(passphrase) {
+    return serial(async () => {
+      if (!backend) throw new Error("Sign in first.");
+      const remote = await backend.getVault();
+      remoteVault = !!remote;
+      const local = secretsNow();
+      if (remote) {
+        const handle = await unlockKey(passphrase, remote);
+        const remoteKeys = await open(handle, remote, uid);
+        vaultHandle = handle;
+        if (!st.vault.on) {
+          // First time on this computer: its keys only count where the account has none.
+          const keys = {};
+          for (const name of NAMES) keys[name] = local[name] && !remoteKeys?.[name]?.v ? { t: stamp(time(), remoteKeys?.[name]), h: hash(local[name]), by: st.device } : { t: 0, h: hash(local[name]), by: "" };
+          st.vault = { on: true, keys };
+        }
+        const ahead = mergeVault(remoteKeys);
+        st.vault = { ...st.vault, on: true, seen: remote.t, salt: remote.salt, waiting: false, refetch: false, dirty: !!st.vault.dirty || ahead };
+      } else {
+        vaultHandle = await unlockKey(passphrase);
         const keys = {};
-        for (const name of NAMES) keys[name] = local[name] && !remoteKeys?.[name]?.v ? { t: stamp(time(), remoteKeys?.[name]), h: hash(local[name]), by: st.device } : { t: 0, h: hash(local[name]), by: "" };
-        st.vault = { on: true, keys };
+        for (const name of NAMES) keys[name] = freshMark(local[name], time());
+        st.vault = { on: true, keys, salt: vaultHandle.salt, dirty: true, seen: 0 };
       }
-      const ahead = mergeVault(remoteKeys);
-      st.vault = { ...st.vault, on: true, seen: remote.t, salt: remote.salt, waiting: false, dirty: !!st.vault.dirty || ahead };
-    } else {
+      vaultNote = "";
+      rememberKey(vaultHandle);
+      save();
+      await pushVaultNow();
+      setStatus({});
+    });
+  }
+
+  /**
+   * Forgot the passphrase: replace the account's vault with this computer's keys under a new one.
+   * A key this computer doesn't have goes in empty with time 0, so another computer that has it uploads it again.
+   */
+  function resetVault(passphrase) {
+    return serial(async () => {
+      if (!backend) throw new Error("Sign in first.");
+      const remote = await backend.getVault();
       vaultHandle = await unlockKey(passphrase);
-      st.vault = { on: true, keys: {}, salt: vaultHandle.salt, dirty: true, seen: st.vault.seen || 0 };
-      captureSecrets();
-    }
-    save();
-    await pushVault();
-    setStatus({});
+      const keys = {};
+      const local = secretsNow();
+      const t = stamp(time(), remote ? { t: remote.t } : null);
+      for (const name of NAMES) keys[name] = freshMark(local[name], t);
+      st.vault = { on: true, keys, salt: vaultHandle.salt, dirty: true, seen: remote?.t || 0 };
+      vaultNote = "";
+      rememberKey(vaultHandle);
+      save();
+      await pushVaultNow();
+      setStatus({});
+    });
   }
 
-  /** Forgot the passphrase: replace the account's vault with this computer's keys under a new one. */
-  async function resetVault(passphrase) {
-    if (!backend) throw new Error("Sign in first.");
-    const remote = await backend.getVault();
-    vaultHandle = await unlockKey(passphrase);
-    const keys = {};
-    const local = secretsNow();
-    const t = stamp(time(), remote ? { t: remote.t } : null);
-    for (const name of NAMES) keys[name] = { t, h: hash(local[name]), by: st.device };
-    st.vault = { on: true, keys, salt: vaultHandle.salt, dirty: true, seen: remote?.t || 0 };
-    save();
-    await pushVault();
-    setStatus({});
-  }
-
-  async function disableVault() {
-    vaultHandle = null;
-    st.vault = { on: false };
-    save();
-    if (backend) await backend.putVault(null);
-    setStatus({});
+  function disableVault() {
+    return serial(async () => {
+      vaultHandle = null;
+      forgetKey();
+      st.vault = { on: false };
+      vaultNote = "";
+      save();
+      if (backend) { await backend.putVault(null); remoteVault = false; }
+      setStatus({});
+    });
   }
 
   /** Forget everything sync knows (the data itself stays): used when a profile's data is replaced. */
@@ -452,7 +538,8 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
   return {
     captureKey, captureAll, applyRecords, snapshot, attach, detach, setClockOffset,
     pull, push, onRemoteIndex, pullVault, unlockVault, resetVault, disableVault, reset,
-    get status() { return { ...status, pending: pendingCount(), lastSync: st.lastSync, vault: vaultState() }; },
+    restoreVaultKey, noteRemoteVault, forgetVaultKey,
+    get status() { return { ...status, pending: pendingCount(), lastSync: st.lastSync, ...vaultFields() }; },
     get device() { return st.device; },
     get vaultOn() { return !!st.vault.on; },
     get vaultUnlocked() { return !!vaultHandle; },

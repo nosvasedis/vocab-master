@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════
    Vocab Master — app shell: boot, navigation, top bar, sidebar, shortcuts.
    ══════════════════════════════════════════════════════════════════ */
-import { desktop, hydrateStorage, isAiReady, getChatGPT, getProvider, PROVIDERS, readJSON } from "./bridge.js";
+import { desktop, hydrateStorage, applyProvider, isAiReady, getChatGPT, getProvider, PROVIDERS, readJSON } from "./bridge.js";
 import { initSync } from "./sync/index.js";
 import { askMerge } from "./sync/account-ui.js";
 import * as engine from "../app.js";
@@ -230,7 +230,7 @@ function setAiState(next = "auto", message = "") {
   if (getProvider() === "chatgpt") {
     const session = getChatGPT();
     const model = session.models.find((m) => m.slug === session.model);
-    sub = hasKey ? `Using ChatGPT plan · ${model?.name || ""}` : "Connect ChatGPT and choose a model";
+    sub = hasKey ? `Using ChatGPT plan${model?.name || session.model ? ` · ${model?.name || session.model}` : ""}` : session.connected && !session.sharing ? "Allow ChatGPT plan usage in Settings" : "Connect ChatGPT and choose a model";
   }
   if (next === "busy") { cls = "busy"; title = "AI is working…"; sub = "This can take a minute"; }
   if (next === "error") { cls = "error"; title = "Last AI request failed"; sub = message || "Check your connection in Settings"; }
@@ -465,7 +465,9 @@ async function startSync() {
     if (keys.includes("vm_prefs_v2")) { Object.assign(prefs, readJSON("vm_prefs_v2", {})); applyTheme(); configureAudio(soundPrefs()); }
     // Worksheets, tests or dictations changed on another computer: a maker whose open item was deleted there is emptied.
     if (keys.includes(SAVES_KEY) || keys.includes(DOCS_KEY)) { reconcile({ remote: true }); emit("library"); }
-    if (keys.some((k) => k === "lingo_maker_api_key" || k === "vm_gemini_api_key" || k === "vm_ai_provider")) setAiState();
+    // The AI service chosen on another computer: the engine must use it too (not only the status card).
+    if (keys.includes("vm_ai_provider")) void applyProvider().finally(() => setAiState());
+    else if (keys.some((k) => k === "lingo_maker_api_key" || k === "vm_gemini_api_key")) setAiState();
   });
 }
 

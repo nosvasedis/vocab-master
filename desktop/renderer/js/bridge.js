@@ -23,9 +23,11 @@ export async function chatgptAction(action, payload) {
     method: "POST", headers: { "Content-Type": "application/json", "X-Vocab-ChatGPT": "1" }, body: JSON.stringify({ action, payload }),
   }).then((r) => { if (!r.ok) throw new Error("ChatGPT connection is unavailable. Restart Vocab Master and try again."); return r.json(); });
   if (!res.ok) {
-    if (/session_expired|invalid_grant|sharing.*disabled|sharing_not_enabled/.test(res.code || "")) {
+    if (action !== "status" && /session_expired|invalid_grant|invalid_token|invalid_identity|unauthorized|sharing.*disabled|sharing_not_enabled/.test(res.code || "")) {
       chatgptSession = { ...chatgptSession, ready: false, sharing: false };
       window.dispatchEvent(new Event("chatgpt-state"));
+      // Ask the host what's really left (an expired session is signed out there, not "permission needed").
+      void chatgptAction("status").catch(() => {});
     }
     throw Object.assign(new Error(res.error || "ChatGPT request failed."), { code: res.code });
   }
@@ -40,7 +42,13 @@ export async function refreshChatGPT({ models = false } = {}) {
   if (models && chatgptSession.sharing) await chatgptAction("models");
   return chatgptSession;
 }
-export const isAiReady = () => getProvider() === "chatgpt" ? chatgptSession.ready : !!getApiKey();
+/**
+ * ChatGPT is ready once the plan is shared and a model is chosen. The host only knows the model list after asking ChatGPT
+ * (it forgets it on restart, and asking needs the internet), so an unknown list doesn't count against the saved model:
+ * a generation loads the list first and says clearly if the model has gone.
+ */
+export const chatgptReady = (s = chatgptSession) => !!s.sharing && !!s.model && (!s.models?.length || s.models.some((m) => m.slug === s.model));
+export const isAiReady = () => getProvider() === "chatgpt" ? chatgptReady() : !!getApiKey();
 export const chatgptUsageLimited = (error) => getProvider() === "chatgpt" && /usage limit|sharing_usage/.test(error?.message || String(error || ""));
 export async function manageChatGPTUsage() {
   if (desktop()?.chatgpt) return chatgptAction("usage");
@@ -137,9 +145,21 @@ export async function hydrateStorage() {
       hydrating = false;
     }
   }
+  await applyProvider();
+}
+
+/**
+ * Tell the engine which AI service is chosen (at start, and when another computer changes it through sync).
+ * For ChatGPT the local connection state is read at once (no network); the model list loads in the background,
+ * because network discovery must never hold up opening saved units when offline.
+ */
+export async function applyProvider() {
   configureAi({ provider: getProvider() });
-  // Network discovery must never hold up opening saved units when offline.
-  if (getProvider() === "chatgpt") void refreshChatGPT({ models: true }).catch(() => {});
+  if (getProvider() !== "chatgpt") return;
+  try {
+    await Promise.race([chatgptAction("status"), new Promise((r) => setTimeout(r, 2000))]);
+  } catch { /* stays "not connected" */ }
+  if (chatgptSession.sharing) void chatgptAction("models").catch(() => {});
 }
 
 /* ── AI provider & keys ──────────────────────────────────────────── */

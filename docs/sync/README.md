@@ -25,6 +25,7 @@ Until steps 1–3 are done, sign-in shows "This sign-in method isn't switched on
 | engine: change capture, outbox, merge, key vault | `js/sync/engine.js` |
 | Firebase Auth + Realtime Database | `js/sync/backend-firebase.js` |
 | several teachers on one computer | `js/sync/profiles.js` |
+| the remembered vault key | `js/sync/vault-keys.js` |
 | service used by the app | `js/sync/index.js` |
 | Settings → Account & sync, merge question | `js/sync/account-ui.js`, `styles/sync.css` |
 | Google sign-in, app side | `js/sync/google.js` |
@@ -50,7 +51,8 @@ Until steps 1–3 are done, sign-in shows "This sign-in method isn't switched on
 **AI keys:**
 - Off by default. Settings → Account → Sync my AI keys.
 - Encrypted on this computer: PBKDF2-SHA256 (600k rounds) → AES-GCM-256, bound to the account's uid.
-- The passphrase never leaves the computer, and the derived key is kept in memory only.
+- The passphrase never leaves the computer and is never stored. Once unlocked, the derived AES key is remembered on that computer as a non-extractable CryptoKey in IndexedDB (`js/sync/vault-keys.js`), so the passphrase is typed once per computer, not after every start. Removing the teacher from the computer forgets it.
+- A new computer whose account already holds keys asks for the passphrase ("Get my keys"), never for a new one. Turning key sync off on one computer turns it off on the others (their keys stay). A key that vanished while the app was closed comes back from the account instead of erasing it everywhere; "Forgot it?" never erases a key the computer doesn't have.
 - Each provider's key merges on its own.
 - A forgotten passphrase can't be recovered: "Forgot it?" replaces the vault with this computer's keys.
 

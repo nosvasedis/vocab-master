@@ -351,6 +351,131 @@ test("engine vault: keys travel only encrypted, and need the passphrase on the o
   assert.equal(acct.vault, null);
 });
 
+function memoryVaultKeys() {
+  const m = new Map();
+  return { m, async get(uid) { return m.get(uid) || null; }, async set(uid, h) { m.set(uid, h); }, async clear(uid) { m.delete(uid); } };
+}
+function keyLaptop(account, now, init = {}, vaultKeys = memoryVaultKeys(), storage = memoryStorage(init)) {
+  const engine = createEngine({ storage, now, vaultKeys });
+  engine.attach(account, "uid-1");
+  return { storage, engine, vaultKeys, restart: () => keyLaptop(account, now, {}, vaultKeys, storage) };
+}
+
+test("engine vault: the passphrase is typed once per computer; after a restart keys keep syncing", async () => {
+  const acct = memoryAccount();
+  const now = clock();
+  let A = keyLaptop(acct, now, { lingo_maker_api_key: "sk-test-aaa" });
+  await A.engine.unlockVault("our class passphrase");
+  assert.equal(A.vaultKeys.m.size, 1);
+  assert.equal(A.vaultKeys.m.get("uid-1").key.extractable, false); // only an opaque, non-extractable key is remembered
+
+  A = A.restart();
+  await A.engine.restoreVaultKey();
+  assert.equal(A.engine.status.vault, "on");
+  now.tick();
+  A.storage.set("lingo_maker_api_key", "sk-test-changed");
+  await A.engine.push();
+  assert.equal(A.engine.status.vault, "on");
+
+  const B = keyLaptop(acct, now);
+  await B.engine.unlockVault("our class passphrase");
+  assert.equal(B.storage.get("lingo_maker_api_key"), "sk-test-changed");
+});
+
+test("engine vault: without a remembered key it asks once; a passphrase changed elsewhere says so", async () => {
+  const acct = memoryAccount();
+  const now = clock();
+  const A = keyLaptop(acct, now, { lingo_maker_api_key: "sk-a" });
+  await A.engine.unlockVault("first passphrase!");
+  const B = keyLaptop(acct, now);
+  await B.engine.unlockVault("first passphrase!");
+  now.tick();
+  await A.engine.resetVault("second passphrase");
+  await B.engine.pullVault();
+  assert.equal(B.engine.status.vault, "locked");
+  assert.equal(B.engine.status.vaultChanged, true);
+  await B.engine.unlockVault("second passphrase");
+  assert.equal(B.engine.status.vault, "on");
+  assert.equal(B.engine.status.vaultChanged, false);
+});
+
+test("engine vault: turned off on one computer, the other follows instead of uploading the keys again", async () => {
+  const acct = memoryAccount();
+  const now = clock();
+  const A = keyLaptop(acct, now, { lingo_maker_api_key: "sk-a" });
+  await A.engine.unlockVault("our class passphrase");
+  const B = keyLaptop(acct, now);
+  await B.engine.unlockVault("our class passphrase");
+  await A.engine.disableVault();
+  assert.equal(A.vaultKeys.m.size, 0);
+  await B.engine.pullVault();
+  now.tick();
+  B.storage.set("lingo_maker_api_key", "sk-b");
+  await B.engine.push();
+  assert.equal(acct.vault, null);
+  assert.equal(B.engine.status.vault, "off");
+  assert.match(B.engine.status.vaultNote, /turned off on another computer/);
+  assert.equal(B.storage.get("lingo_maker_api_key"), "sk-b"); // the keys stay on the computer
+  assert.equal(B.vaultKeys.m.size, 0);
+});
+
+test("engine vault: a new computer sees that the account already holds keys", async () => {
+  const acct = memoryAccount();
+  const now = clock();
+  const A = keyLaptop(acct, now, { lingo_maker_api_key: "sk-a" });
+  await A.engine.unlockVault("our class passphrase");
+  const B = keyLaptop(acct, now);
+  assert.equal(B.engine.status.vaultRemote, null);
+  B.engine.noteRemoteVault(acct.vault.t);
+  assert.equal(B.engine.status.vaultRemote, true);
+  assert.equal(B.engine.status.vault, "off");
+});
+
+test("engine vault: 'Forgot it?' on a computer without a key doesn't erase that key elsewhere", async () => {
+  const acct = memoryAccount();
+  const now = clock();
+  const A = keyLaptop(acct, now, { lingo_maker_api_key: "sk-a", vm_gemini_api_key: "AIza-a" });
+  await A.engine.unlockVault("old passphrase!!");
+  const B = keyLaptop(acct, now);
+  await B.engine.unlockVault("old passphrase!!");
+  B.storage.remove("vm_gemini_api_key"); // B only has DeepSeek...
+  B.storage.set("lingo_maker_api_key", "sk-b");
+  now.tick();
+  await B.engine.resetVault("new passphrase!!"); // ...and replaces the vault
+  await A.engine.pullVault();
+  await A.engine.unlockVault("new passphrase!!");
+  assert.equal(A.storage.get("lingo_maker_api_key"), "sk-b");
+  assert.equal(A.storage.get("vm_gemini_api_key"), "AIza-a");
+  await A.engine.push();
+  await B.engine.pullVault();
+  assert.equal(B.storage.get("vm_gemini_api_key"), "AIza-a"); // and it comes back to B
+});
+
+test("engine vault: a key that vanished while the app was closed comes back from the account, never erases it", async () => {
+  const acct = memoryAccount();
+  const now = clock();
+  let A = keyLaptop(acct, now, { lingo_maker_api_key: "sk-a" });
+  await A.engine.unlockVault("our class passphrase");
+  A.storage.remove("lingo_maker_api_key"); // e.g. the key file couldn't be read at start-up
+  const storage = A.storage;
+  now.tick();
+  A = keyLaptop(acct, now, {}, A.vaultKeys, storage);
+  A.engine.captureAll();
+  await A.engine.restoreVaultKey();
+  await A.engine.pull();
+  assert.equal(A.storage.get("lingo_maker_api_key"), "sk-a");
+  const B = keyLaptop(acct, now);
+  await B.engine.unlockVault("our class passphrase");
+  assert.equal(B.storage.get("lingo_maker_api_key"), "sk-a");
+  // A removal made in the app (while it runs) still syncs.
+  now.tick();
+  A.storage.remove("lingo_maker_api_key");
+  A.engine.captureKey("lingo_maker_api_key");
+  await A.engine.push();
+  await B.engine.pullVault();
+  assert.equal(B.storage.get("lingo_maker_api_key"), null);
+});
+
 /* ── security rules ───────────────────────────────────────────────── */
 test("rules: only the signed-in, non-anonymous owner can read or write users/{uid}", () => {
   const rules = JSON.parse(fs.readFileSync(path.join(ROOT, "firebase", "database.rules.json"), "utf8")).rules;
