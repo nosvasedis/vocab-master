@@ -8,6 +8,7 @@ import { readingText } from "./reading-texts.js";
 import { balancedPositions, binaryBalance } from "./answer-balance.js";
 import { fitWordBox, countExtraWords, repeatedAnswers, withExtraWords } from "./word-box.js";
 import { containsForm } from "./word-scope.js";
+import { scriptKeys } from "./listening-sync.js";
 
 /** Letters for options, matching meanings and order boxes: enough for the longest part (12 questions + the example). */
 export const LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -583,6 +584,8 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     const unsure = items.filter((it) => it.evidence && !source.includes(squash(it.evidence))).map((it) => it.n);
     if (source && unsure.length) problems.push(`check the answer${unsure.length > 1 ? "s" : ""} to item${unsure.length > 1 ? "s" : ""} ${unsure.join(", ")} against the ${section.script.length ? "script" : "text"}`);
   }
+  // The questions the recording was written for (kept through edits; a new script fits every question it has now).
+  if (task.skill === "listening" && section.script.length) section.scriptFor = Array.isArray(raw.scriptFor) ? raw.scriptFor : scriptKeys(section);
   section.problems = problems;
   return section;
 }
