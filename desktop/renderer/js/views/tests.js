@@ -629,7 +629,7 @@ function renderParts() {
     const head = `<div class="pc-head" data-expand="${p.id}">
         <span class="pc-num" aria-hidden="true"><b>${i + 1}</b><span>${SKILLS[p.skill].icon}</span></span>
         <div class="pc-main">
-          <small class="pc-skill">${esc(SKILLS[p.skill].label)}${stale ? ` · <em>${ts.doc ? "changed — write it again" : "changed"}</em>` : ""}</small>
+          <small class="pc-skill">${esc(SKILLS[p.skill].label)}${stale ? ` · <em>${ts.doc ? "changed — write it again" : "changed"}</em>` : ""}${pendingCount(p) ? ` · <em>${esc(pendingCount(p))}</em>` : ""}</small>
           <div class="pc-name">
             <button type="button" class="pc-task" data-pick="${p.id}" data-tip="Change the exercise" aria-label="Change the exercise of part ${i + 1}: ${esc(t.label)}"><span>${esc(t.label)}</span>${icon("chevron-down", "i-sm")}</button>
             <span class="tk-kind kind-${esc(t.kind)}">${t.kind === "recognise" ? "Recognise" : t.kind === "recall" ? "Recall" : "Create"}</span>
@@ -671,7 +671,7 @@ function renderParts() {
           ${knobsHtml(p, texts)}
           <div class="pc-knob"><span class="pc-lbl">Your wish</span><input class="input sm part-note" data-part-note="${p.id}" placeholder="Optional, e.g. “about a school trip”" value="${esc(p.note || "")}" /></div>
           ${ts.doc ? newPartNote(p) : ""}
-          ${writtenListening(p.id) ? `<p class="pc-knob-note">More or fewer questions change the paper at once: Lingo writes the new questions and the recording that says them; questions taken out come off the end.</p>${recordingHtml(ts.doc.sections.find((x) => x.id === p.id))}` : ""}
+          ${writtenListening(p.id) ? `${resizeHtml(p)}${recordingHtml(ts.doc.sections.find((x) => x.id === p.id))}` : ""}
           ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${!ts.doc.sections.some((x) => x.id === p.id) ? "Write this new part" : stale ? "Write this part with the new settings" : "Write this part again"}</button>` : ""}
         </div>
       </div>
@@ -789,6 +789,10 @@ function onPartsClick(e) {
   if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
   const rr = e.target.closest("[data-rerecord]");
   if (rr) { editor?.remakeRecording(rr.dataset.rerecord); return; }
+  const ap = e.target.closest("[data-apply-items]");
+  if (ap) { applyResize(ap.dataset.applyItems); return; }
+  const ca = e.target.closest("[data-cancel-items]");
+  if (ca) { const p = s.parts.find((x) => x.id === ca.dataset.cancelItems); const sec = ts.doc?.sections.find((x) => x.id === p?.id); if (p && sec) { p.items = sec.items.length; savePrefs(); renderParts(); } return; }
   const row = e.target.closest("[data-part]");
   if (!row) return;
   const i = s.parts.findIndex((p) => p.id === row.dataset.part);
@@ -800,7 +804,7 @@ function onPartsClick(e) {
     const d = Number(step.dataset.step);
     if (k === "items") p.items = Math.max(3, Math.min(12, p.items + d));
     // A written listening part changes on the paper itself (Lingo adds the questions and the recording that says them).
-    if (k === "items" && writtenListening(p.id)) { resizeSoon(p.id); savePrefs(); renderParts(); return; }
+    if (k === "items" && writtenListening(p.id)) { savePrefs(); renderParts(); return; }
     if (k === "pts") p.points = Math.max(4, Math.min(30, (p.points || 10) + d));
     if (k === "words") { const w = Math.max(15, Math.min(150, p.words[1] + d * 5)); p.words = [Math.max(10, Math.round(w * 0.7)), w]; }
     if (k === "items" || k === "words") markStale(p.id);
@@ -1370,25 +1374,35 @@ const listeningParts = () => (ts.doc?.sections || []).map((s, i) => ({ s, i })).
 /** A listening part already on the paper (with a recording). */
 const writtenListening = (id) => !!ts.doc?.sections.find((x) => x.id === id && x.skill === "listening" && x.script?.length);
 
-/** Step 3's question count for a written listening part, applied once the teacher stops clicking. */
-const resizeTimers = {};
-function resizeSoon(id) {
-  clearTimeout(resizeTimers[id]);
-  resizeTimers[id] = setTimeout(async () => {
-    const p = ts.spec.parts.find((x) => x.id === id);
-    const s = ts.doc?.sections.find((x) => x.id === id);
-    if (!p || !s || p.items === s.items.length) return;
-    if (ts.recording.has(id)) { resizeSoon(id); return; }
-    ts.recording.add(id);
-    renderListen();
-    try { await editor?.resizePart(id, p.items); } finally { ts.recording.delete(id); renderListen(); renderParts(); }
-  }, 700);
+/**
+ * Step 3's question count for a written listening part is only a choice until the teacher presses Apply: then fewer
+ * questions come off the end (no AI), or Lingo writes the new ones and the recording that says them in one request.
+ */
+const pendingCount = (p) => { const sec = writtenListening(p.id) ? ts.doc.sections.find((x) => x.id === p.id) : null; return sec && sec.items.length !== p.items ? `${sec.items.length} → ${p.items} questions — press Apply` : ""; };
+function resizeHtml(p) {
+  const sec = ts.doc?.sections.find((x) => x.id === p.id);
+  if (!sec) return "";
+  const have = sec.items.length;
+  if (p.items === have) return `<p class="pc-knob-note">The paper has ${plural(have, "question")}. Change the number, then press Apply — nothing is written until you do.</p>`;
+  if (ts.recording.has(p.id)) return ""; // recordingHtml says Lingo is at work
+  const more = p.items - have;
+  const what = more > 0 ? `Lingo writes ${plural(more, "new question")} at the end and the recording that says ${more > 1 ? "their answers" : "its answer"} — one Lingo request.` : `The last ${Math.abs(more) > 1 ? `${-more} questions come` : "question comes"} off the paper — no Lingo request; the recording still fits.`;
+  return `<div class="mk-op-probs pc-resize">${icon("info", "i-xs")}<div><b>${have} → ${p.items} questions</b><br>${esc(what)}
+    <div class="pc-resize-acts"><button type="button" class="btn ${more > 0 ? "btn-magic" : "btn-primary"} btn-sm" data-apply-items="${esc(p.id)}">${icon(more > 0 ? "sparkles" : "check", "i-sm")}Apply</button><button type="button" class="btn btn-ghost btn-sm" data-cancel-items="${esc(p.id)}">Keep ${have}</button></div></div></div>`;
+}
+async function applyResize(id) {
+  const p = ts.spec.parts.find((x) => x.id === id);
+  const s = ts.doc?.sections.find((x) => x.id === id);
+  if (!p || !s || p.items === s.items.length || ts.recording.has(id)) return;
+  ts.recording.add(id);
+  renderParts();
+  try { await editor?.resizePart(id, p.items); } finally { ts.recording.delete(id); renderListen(); renderOutline(); renderParts(); }
 }
 
 /** "This recording may not fit its questions", with the button that makes it again (Step 3, Step 5's side column). */
 function recordingHtml(sec) {
   if (!sec || sec.skill !== "listening") return "";
-  if (ts.recording.has(sec.id)) return `<div class="mk-op-probs">${icon("volume", "i-xs")}<div>Lingo is making the recording again…</div></div>`;
+  if (ts.recording.has(sec.id)) return `<div class="mk-op-probs">${icon("volume", "i-xs")}<div>Lingo is working on this part’s questions and recording…</div></div>`;
   const note = editor?.recordingNote(sec);
   return note ? `<div class="mk-op-probs">${icon("alert", "i-xs")}<div>${esc(note)} <button type="button" class="btn btn-magic btn-sm" data-rerecord="${esc(sec.id)}">${icon("sparkles", "i-xs")}Remake the recording</button></div></div>` : "";
 }

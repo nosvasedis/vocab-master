@@ -99,6 +99,7 @@
 .listen-bar .lb-rec.busy { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; }
 .listen-bar .lb-warn { display: flex; align-items: flex-start; gap: 6px; color: var(--warning-ink); opacity: 1; }
 .mk-op-probs [data-rerecord] { margin-top: 6px; }
+.pc-resize-acts { display: flex; gap: 6px; margin-top: 6px; }
 .voice-pick { display: inline-flex; padding: 2px; gap: 2px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); }
 .voice-pick .vp-opt { border: 0; background: transparent; color: var(--text-2); font: 700 12px/1 var(--font-ui); padding: 6px 11px; border-radius: 999px; cursor: pointer; }
 .voice-pick .vp-opt:hover { color: var(--text); }

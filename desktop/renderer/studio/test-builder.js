@@ -9,7 +9,7 @@ import { balancedPattern } from "./answer-balance.js";
 import { normalizeSection, docPoints, newDocId, tfValue, hasWordBox, sectionRubric } from "./doc-model.js";
 import { allowedTerms, answerInScope, relatedTerms } from "./word-scope.js";
 import { unitContextPrompt } from "./unit-context.js";
-import { scriptKeys, trustItems, answerHeard } from "./listening-sync.js";
+import { scriptKeys, trustItems, answerHeard, itemKey } from "./listening-sync.js";
 
 export const LENGTHS = {
   quiz: { label: "Quick quiz", minutes: 20, skills: ["vocabulary", "vocabulary", "grammar", "reading"] },
@@ -633,6 +633,10 @@ function requiredAnswers(section) {
 const SCOPED = ["V-PIC", "V-BANK", "V-MC", "V-DEF", "V-SPELL", "R-GAP", "L-GAP", "V-FIX", "V-GREEK", "V-PICREAD"];
 
 /** A small prompt that rewrites only some items of a part. ctx: { profileBlock, focusWords, pictureWords } */
+/**
+ * ctx.withScript (listening): the same reply also brings the whole script again, so new questions and the recording
+ * that says their answers cost one request.
+ */
 export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
   const plan = spec.parts.find((x) => x.id === section.id) || { id: section.id, task: section.task, skill: section.skill, items: section.items.length };
   const idx = Math.max(0, spec.parts.indexOf(plan));
@@ -640,7 +644,7 @@ export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
   const src = section.script?.length ? "script" : section.passage ? "text" : "";
   const must = requiredAnswers(section);
   const show = (it) => `${it.n}. ${it.prompt || ""}${it.options?.length ? ` [${it.options.join(" | ")}]` : ""} → ${it.answer || ""}`;
-  const system = `You fix single questions in an English test for Greek learners in a language school. Return ONLY valid JSON: { "items": [ { "n": 3, "prompt": "", "options": [], "answer": ""${t.answer === "tf" ? ', "evidence": "the exact words of the ' + (src || "text") + ' that decide it"' : ""} } ] } — only the items asked for, with their numbers.
+  const system = `You fix single questions in an English test for Greek learners in a language school. Return ONLY valid JSON: { "items": [ { "n": 3, "prompt": "", "options": [], "answer": ""${t.answer === "tf" ? ', "evidence": "the exact words of the ' + (src || "text") + ' that decide it"' : ""} } ]${ctx.withScript ? ', "script": [ { "speaker": "Name", "text": "line" } ]' : ""} } — only the items asked for, with their numbers${ctx.withScript ? ", and the whole script" : ""}.
 ${ctx.profileBlock || ""}`;
   const focus = (ctx.focusWords || []).map((w) => w.english).filter(Boolean);
   const user = [
@@ -652,9 +656,10 @@ ${ctx.profileBlock || ""}`;
     section.problems?.length ? `PROBLEMS:\n${section.problems.map((p) => `- ${p}`).join("\n")}` : "",
     ctx.instruction ? `FOR ITEM${itemNs.length > 1 ? "S" : ""} ${itemNs.join(", ")} (these rules come first):
 ${ctx.instruction}` : "",
-    `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${t.bank && t.answer !== "match" ? " Each gap needs a different word: never the answer of another item (the app makes the word box from the answers again)." : ""}${src ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? (SCOPED.includes(section.task) ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ` Use words the class knows (the unit words where they fit: ${focus.slice(0, 30).join(", ")}).`) : ""}`,
+    `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${t.bank && t.answer !== "match" ? " Each gap needs a different word: never the answer of another item (the app makes the word box from the answers again)." : ""}${src && !ctx.withScript ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? (SCOPED.includes(section.task) ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ` Use words the class knows (the unit words where they fit: ${focus.slice(0, 30).join(", ")}).`) : ""}`,
     Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.` : "",
     t.answer === "choice" ? DISTRACTOR_RULE : "",
+    ctx.withScript ? `ALSO RETURN "script": the whole script again for ALL the items (the new ones too). Keep the same speakers, names and situation and the lines that still work; add what the new items need, so every answer${section.example ? " (and the example's)" : ""} is said clearly, once, in the order of the items. At least ${scriptLines({ items: section.items.length })} lines; only what the speakers say.${section.task === "L-GIST" ? ' One very short recording per item, each opened by the speaker "Narrator": "Number 1." … in order (and "Example." first).' : ""}` : "",
   ].filter(Boolean).join("\n\n");
   return { system, user };
 }
@@ -740,12 +745,19 @@ export function applyScript(doc, spec, sectionId, reply, ctx = {}) {
   const script = (Array.isArray(reply?.script) ? reply.script : []).filter((l) => l && String(l.text || "").trim()).map((l) => ({ speaker: String(l.speaker || "").trim(), text: String(l.text).trim() }));
   if (script.length < 2) return false;
   const evidence = new Map((Array.isArray(reply?.evidence) ? reply.evidence : []).map((e) => [Number(e?.n), String(e?.evidence || "").trim()]).filter(([n, e]) => Number.isFinite(n) && e));
-  return reviseSection(doc, spec, sectionId, (raw) => {
+  const ok = reviseSection(doc, spec, sectionId, (raw) => {
     raw.script = script;
     raw.scriptFor = undefined;
     raw.items.forEach((it, k) => { if (evidence.has(k + 1)) it.evidence = evidence.get(k + 1); });
     if (raw.example && evidence.has(0)) raw.example.evidence = evidence.get(0);
   }, ctx);
+  // A question whose answer the new script still never says doesn't count as fitting it (the paper keeps saying so).
+  const s = ok ? doc.sections.find((x) => x.id === sectionId) : null;
+  if (s?.scriptFor) {
+    const off = new Set((s.items || []).filter((it) => answerHeard(s, it) === false).map(itemKey));
+    s.scriptFor = s.scriptFor.filter((k) => !off.has(k));
+  }
+  return ok;
 }
 
 /**

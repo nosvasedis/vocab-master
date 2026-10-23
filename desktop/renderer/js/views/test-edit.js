@@ -4,10 +4,11 @@
  * the script, the speaking script and the model answer. A hovered question shows a small bar: Edit, and ✨ Remake —
  * Lingo rewrites just that question, with the teacher's wish or fresh. A part's heading has ✨ Rewrite part.
  * Every change keeps the part checked (reviseSection) and can be undone from its toast.
- * Listening parts: the recording is read from the script, so it follows the questions — new questions (Lingo's or the
- * teacher's) and a changed answer the script doesn't say make Lingo write the script again at once (one Undo for both);
- * a question taken out leaves its detail as an extra one ("Listen for the main idea" cuts its own recording). A part
- * whose recording may not fit shows "Remake the recording" on the paper (and in Play the listening, Step 3 and Step 5). */
+ * Listening parts: the recording is read from the script, so it follows the questions. Lingo's new questions come with
+ * the script that says them in the same request (one Undo for both); a question taken out leaves its detail as an extra
+ * one ("Listen for the main idea" cuts its own recording). The teacher's own changes never call the AI by themselves:
+ * a part whose recording may not fit shows "Remake the recording" (one request) on the paper, in Play the listening,
+ * Step 3 and Step 5. */
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, KNOBS, tfLabels, levelIndex, partOpts, taskFit } from "../../studio/tasks.js";
 import { LETTER_HELP_TASKS, speakingCardLabel } from "../../studio/doc-model.js";
@@ -308,16 +309,7 @@ export function mountTestEditing(host) {
     const doc = host.doc();
     const before = insertItems(id, at, [item], ctx);
     if (!before) return;
-    // A listening question needs its answer in the recording: Lingo writes the script again for it.
-    let rec = null;
-    if (A(id)?.script?.length) {
-      host.commit();
-      const stop = toast("Lingo is writing the recording again so it says the new answer…", "info", { ms: 90000 });
-      rec = await rerecord(id).catch(() => ({ ok: false }));
-      stop?.();
-      if (host.doc() !== doc) return;
-    }
-    addedToast(doc, id, before, `Question ${at + 1} added.${recordedNote(rec)}`, at + 1, rec && !rec.ok);
+    addedToast(doc, id, before, `Question ${at + 1} added.${offNote(id, at + 1)}`, at + 1, !!offNote(id, at + 1));
   }
 
   /**
@@ -333,7 +325,7 @@ export function mountTestEditing(host) {
     btn?.classList.add("pe-busy");
     if (btn) btn.textContent = `Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`;
     const listen = !!s.script?.length;
-    const stop = quiet ? null : toast(`Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}${listen ? " and the recording that says the answers" : ""}…`, "info", { ms: 90000 });
+    const stop = quiet ? null : toast(`Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}${listen ? ` and the recording that says ${count === 1 ? "its answer" : "their answers"}` : ""}…`, "info", { ms: 90000 });
     let before = null;
     try {
       const ctx = await host.ctx();
@@ -345,7 +337,7 @@ export function mountTestEditing(host) {
       const others = A(id).items.filter((_, k) => !ns.includes(k + 1));
       const instruction = [
         `These are NEW questions added to the part. Each one is different from every other question (another word or another detail) — never a copy or a rewording of one of them.`,
-        A(id).script?.length ? "The recording is written again after this so the speakers say the new answers: each new question asks about a NEW detail that fits the situation of the script (something the speakers could also say), never a detail another question asks about." : A(id).passage ? "Each asks about a detail of the text that no other question asks about." : "",
+        listen ? "You also write the script again so the speakers say the new answers: each new question asks about a NEW detail that fits the situation of the script (something the speakers could also say), never a detail another question asks about." : A(id).passage ? "Each asks about a detail of the text that no other question asks about." : "",
         strict ? ns.map((n, k) => `Question ${n} MUST be built on the word "${words[k]}"${answer ? " and its right answer MUST be that word (a form of it that fits the sentence is fine)" : ""}.`).join(" ")
           : words.length ? `Build them on these words, one each where possible: ${words.join(", ")}.` : "Use words this part hasn't tested yet where you can.",
         level === "easier" ? "Make them a little easier than the others." : level === "harder" ? "Make them a little harder than the others." : "Make them as hard as the others.",
@@ -355,11 +347,13 @@ export function mountTestEditing(host) {
       ].filter(Boolean).join("\n");
       let missing = ns;
       for (let attempt = 0; attempt < 2 && missing.length; attempt++) {
-        const { system, user } = fixItemsPrompt(host.spec(), A(id), missing, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction });
+        const { system, user } = fixItemsPrompt(host.spec(), A(id), missing, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction, withScript: listen });
         const why = strict ? missing.map((n) => `question ${n} must ${answer ? "have the answer" : "use the word"} "${words[ns.indexOf(n)]}"`).join("; ") : "";
         const reply = await host.ask(system, user, attempt ? `Write items ${missing.join(", ")} — real new questions with a right answer${s.answerType === "choice" ? " among the options" : ""}${why ? `; ${why}` : ""}.` : "");
         if (host.doc() !== doc) return;
         applyItemFixes(doc, host.spec(), id, reply, missing, { picFor: ctx.picFor, focusWords: ctx.focus, trust: !listen });
+        // The script came in the same reply: the recording now says the new answers (no second request).
+        if (listen && Array.isArray(reply?.script)) applyScript(doc, host.spec(), id, { script: reply.script }, { picFor: ctx.picFor, focusWords: ctx.focus });
         const sec = A(id);
         missing = ns.filter((n, k) => {
           const it = sec.items[n - 1];
@@ -374,7 +368,6 @@ export function mountTestEditing(host) {
         const drop = [...missing].sort((a, b) => b - a);
         reviseSection(doc, host.spec(), id, (raw) => { drop.forEach((n) => raw.items.splice(n - 1, 1)); }, { picFor: ctx.picFor, focusWords: ctx.focus });
         host.itemsChanged?.(id);
-        if (listen) await rerecord(id).catch(() => null);
         await host.checkKeys([id]);
         if (host.doc() !== doc) return null;
         host.commit();
@@ -387,11 +380,11 @@ export function mountTestEditing(host) {
         if (!quiet) toast("Lingo couldn’t write the new questions this time. Try again, or write one yourself (✎ I'll write it).", "warn", { ms: 7000 });
         return { placed: [], failed: words, before: null };
       }
-      const rec = listen ? await rerecord(id).catch(() => ({ ok: false })) : null;
       await host.checkKeys([id]);
       if (host.doc() !== doc) return null;
       if (quiet) { host.commit(); flash(id, at + 1); return { placed: words, failed: [], before, first: at + 1 }; }
-      addedToast(doc, id, before, `${count === 1 ? `Question ${at + 1} is new.` : `Questions ${at + 1}–${at + count} are new.`}${recordedNote(rec)}`, at + 1, rec && !rec.ok);
+      const off = listen ? offNote(id, ...ns) : "";
+      addedToast(doc, id, before, `${count === 1 ? `Question ${at + 1} is new.` : `Questions ${at + 1}–${at + count} are new.`}${listen ? off || " The recording says the new answers too." : ""}`, at + 1, !!off);
     } catch (e) {
       if (before && host.doc() === doc) { Object.assign(doc, JSON.parse(before)); host.itemsChanged?.(id); host.commit(); }
       if (quiet) throw e;
@@ -707,12 +700,9 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
         if (!opts.quiet) toast(`Lingo didn’t manage it (${problems[0]}). Try other words in the box, or edit the question yourself.`, "warn", { ms: 7000 });
         return false;
       }
-      // A listening question whose new answer the recording never says: the script is written again for it.
-      let rec = null;
-      if (recordingState(A(id))?.missing.includes(n)) rec = await rerecord(id).catch(() => ({ ok: false }));
       await host.checkKeys([id]);
       if (host.doc() !== doc0) return false;
-      if (!opts.quiet) done(before, `Question ${n} is new.${recordedNote(rec)}`);
+      if (!opts.quiet) done(before, `Question ${n} is new.${offNote(id, n)}`);
       flash(id, n);
       return true;
     } catch (e) {
@@ -734,31 +724,28 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     if (st.missing.length) return `The recording doesn’t say the answer to ${list(st.missing)} yet.`;
     return `${list(st.unsure).replace(/^q/, "Q")} changed since the recording was made — it may not say ${st.unsure.length > 1 ? "their answers" : "its answer"}.`;
   }
-  const recordedNote = (rec) => (!rec ? "" : rec.ok && !rec.unheard?.length ? " The recording was made again: it says every answer." : rec.ok ? ` The new recording still doesn’t say “${rec.unheard[0].answer}” — edit the script, or Remake the recording.` : " The recording doesn’t say the new answers yet: press ✨ Remake the recording above the questions.");
+  /** After a change: what the toast adds when these questions may not be in the recording ("" when they are). */
+  function offNote(id, ...ns) {
+    const st = recordingState(A(id));
+    const off = ns.filter((n) => st?.missing.includes(n) || st?.unsure.includes(n));
+    if (!off.length) return "";
+    return ` The recording may not say ${off.length > 1 ? "their answers" : "its answer"} yet — press ✨ Remake the recording when you have finished changing the questions (one Lingo request).`;
+  }
 
   /**
-   * Lingo writes a listening part's script again for the questions on the paper (a second try names any answer the
-   * first one didn't say). No toast: returns { ok, unheard: [{ n, answer }] }. Throws when the AI can't be reached.
+   * Lingo writes a listening part's script again for the questions on the paper — one request (and the yes/no key check
+   * for yes/no parts). No toast: returns { ok, unheard: [{ n, answer }] }. Throws when the AI can't be reached.
    */
   async function rerecord(id) {
     const doc = host.doc();
     const ctx = await host.ctx();
-    let unheard = [];
-    let ok = false;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const s = A(id);
-      if (host.doc() !== doc || !s?.script?.length) return { ok: false };
-      const { system, user } = scriptPrompt(host.spec(), s, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords });
-      const hint = attempt ? `Return the whole script as JSON. It must say ${unheard.length ? unheard.map((u) => `"${u.answer}" (question ${u.n})`).join(", ") : "every answer"}.` : "";
-      const reply = await host.ask(system, user, hint);
-      if (host.doc() !== doc) return { ok: false };
-      if (!applyScript(doc, host.spec(), id, reply, { picFor: ctx.picFor, focusWords: ctx.focus })) continue;
-      ok = true;
-      unheard = unheardAnswers(A(id));
-      if (!unheard.length) break;
-    }
-    if (ok) await host.checkKeys([id]);
-    return { ok, unheard };
+    const s = A(id);
+    if (host.doc() !== doc || !s?.script?.length) return { ok: false, unheard: [] };
+    const { system, user } = scriptPrompt(host.spec(), s, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords });
+    const reply = await host.ask(system, user);
+    if (host.doc() !== doc || !applyScript(doc, host.spec(), id, reply, { picFor: ctx.picFor, focusWords: ctx.focus })) return { ok: false, unheard: [] };
+    await host.checkKeys([id]);
+    return { ok: true, unheard: unheardAnswers(A(id)) };
   }
 
   /** "Remake the recording": the part's script written again for its questions, with Undo. */
@@ -789,25 +776,13 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     }
   }
 
-  /** A listening question saved by the teacher: when the script doesn't say its new answer, the recording is made again. */
+  /** A listening question saved by the teacher: the toast says when the recording may not say its answer (no AI call). */
   async function saveListeningItem(id, idx, item) {
     const doc = host.doc();
     const before = snapshot();
     const ctx = await host.ctx().catch(() => ({}));
     if (host.doc() !== doc || !reviseSection(doc, host.spec(), id, (raw) => { raw.items[idx] = item; }, { picFor: ctx.picFor, focusWords: ctx.focus })) return;
-    const n = idx + 1;
-    const st = recordingState(A(id));
-    if (st?.missing.includes(n)) {
-      host.commit();
-      const stop = toast(`Question ${n} saved. Lingo is writing the recording again so it says “${A(id).items[idx].answer}”…`, "info", { ms: 90000 });
-      const rec = await rerecord(id).catch(() => ({ ok: false }));
-      stop?.();
-      if (host.doc() !== doc) return;
-      host.commit();
-      toast(`Question ${n} saved.${recordedNote(rec)}`, rec.ok && !rec.unheard?.length ? "ok" : "warn", { ms: 8000, actions: [{ label: "Undo", run: () => { if (host.doc() !== doc) return; Object.assign(doc, JSON.parse(before)); host.commit(); toast("Undone.", "info", { ms: 1600 }); } }] });
-      return;
-    }
-    done(before, st?.unsure.includes(n) ? `Question ${n} saved — check the recording still says its answer, or press ✨ Remake the recording.` : `Question ${n} saved.`);
+    done(before, `Question ${idx + 1} saved.${offNote(id, idx + 1)}`);
   }
 
   /**
