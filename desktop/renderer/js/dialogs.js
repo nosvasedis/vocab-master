@@ -1,6 +1,6 @@
 /* Settings and Help dialogs. */
 import { $, esc, icon, openDialog, toast } from "./ui.js";
-import { desktop, getApiKey, setApiKey, checkApiKey, getProvider, setProvider, getChatGPT, PROVIDERS } from "./bridge.js";
+import { desktop, getApiKey, setApiKey, checkApiKey, getProvider, setProvider, getChatGPT, chatgptReady, PROVIDERS } from "./bridge.js";
 import { chatgptSettingsHtml, mountChatGPTSettings } from "./chatgpt-settings.js";
 import { prefs, savePrefs, soundPrefs } from "./state.js";
 import { configureAudio, play } from "../arcade/audio.js";
@@ -74,9 +74,12 @@ const PROVIDER_CARDS = {
 
 export function openSettings({ focusKey = true } = {}) {
   let provider = getProvider();
-  // Keys being edited, per provider, until Save.
+  // Keys being edited, per provider, until Save. Only keys the teacher actually edited are written on Save:
+  // writing them all would put back a stale copy over a key that synced in while the dialog was open.
   const drafts = { deepseek: getApiKey("deepseek"), gemini: getApiKey("gemini") };
+  const edited = new Set();
   let chatgptPanel;
+  let offKeys = () => {};
   openDialog({
     title: "Settings",
     subtitle: "Your AI service, appearance and data.",
@@ -211,6 +214,7 @@ export function openSettings({ focusKey = true } = {}) {
       }));
       input.addEventListener("input", () => {
         drafts[provider] = input.value.trim();
+        edited.add(provider);
         q("#setKeyRemove").disabled = !drafts[provider];
         root.querySelector(`[data-provider-state="${provider}"]`).textContent = drafts[provider] ? "Key added" : "No key yet";
       });
@@ -266,14 +270,13 @@ export function openSettings({ focusKey = true } = {}) {
       q("#setKeyRemove").addEventListener("click", () => {
         setApiKey("", provider);
         drafts[provider] = "";
+        edited.delete(provider);
         renderProvider();
         actions.setAiState();
         toast(`${PROVIDERS[provider].name} key removed.`, "info");
       });
       const save = () => {
-        if (provider !== "chatgpt") drafts[provider] = input.value.trim();
-        setApiKey(drafts.deepseek, "deepseek");
-        setApiKey(drafts.gemini, "gemini");
+        for (const id of edited) setApiKey(drafts[id], id);
         setProvider(provider);
         prefs.schoolName = q("#setSchool").value.trim();
         prefs.pictureStyle = q("#setPics").value;
@@ -281,16 +284,28 @@ export function openSettings({ focusKey = true } = {}) {
         actions.setAiState();
         actions.settingsSaved?.();
         close();
-        toast(provider === "chatgpt" ? (getChatGPT().ready ? "Settings saved — using your ChatGPT plan." : "Settings saved — connect ChatGPT and choose a model to use AI.") : drafts[provider] ? `Settings saved — using ${PROVIDERS[provider].name}.` : `Settings saved — add a ${PROVIDERS[provider].name} key to use AI.`, "ok", { ms: 3000 });
+        toast(provider === "chatgpt" ? (chatgptReady() ? "Settings saved — using your ChatGPT plan." : "Settings saved — connect ChatGPT and choose a model to use AI.") : drafts[provider] ? `Settings saved — using ${PROVIDERS[provider].name}.` : `Settings saved — add a ${PROVIDERS[provider].name} key to use AI.`, "ok", { ms: 3000 });
       };
       q("#setSave").addEventListener("click", save);
       input.addEventListener("keydown", (e) => { if (e.key === "Enter") save(); });
       renderProvider();
+      // Keys that arrive from the account (key sync) while this is open show up at once, unless the teacher is editing that key.
+      const onKeys = (e) => {
+        const keys = e.detail?.keys || [];
+        if (!keys.some((k) => k === PROVIDERS.deepseek.storageKey || k === PROVIDERS.gemini.storageKey)) return;
+        for (const id of ["deepseek", "gemini"]) if (!edited.has(id)) drafts[id] = getApiKey(id);
+        if (!root.isConnected) return;
+        const keep = provider !== "chatgpt" && edited.has(provider);
+        if (!keep) renderProvider();
+        else root.querySelectorAll("[data-provider-state]").forEach((s) => { if (drafts[s.dataset.providerState] !== undefined) { s.textContent = drafts[s.dataset.providerState] ? "Key added" : "No key yet"; s.classList.toggle("has-key", !!drafts[s.dataset.providerState]); } });
+      };
+      window.addEventListener("vm-sync-changed", onKeys);
+      offKeys = () => window.removeEventListener("vm-sync-changed", onKeys);
       chatgptPanel = mountChatGPTSettings(root, () => { renderProvider(); actions.setAiState(); });
       if (provider === "chatgpt") chatgptPanel.load();
       mountAccount(root);
     },
-    onClose() { chatgptPanel?.close(); },
+    onClose() { chatgptPanel?.close(); offKeys(); },
   });
 }
 

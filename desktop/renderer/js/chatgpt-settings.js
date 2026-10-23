@@ -1,4 +1,4 @@
-import { desktop, chatgptAction, refreshChatGPT, getChatGPT } from "./bridge.js";
+import { desktop, chatgptAction, refreshChatGPT, getChatGPT, chatgptReady } from "./bridge.js";
 import { esc, openDialog } from "./ui.js";
 
 const USAGE_URL = "https://chatgpt.com/settings/usage";
@@ -38,15 +38,18 @@ export function mountChatGPTSettings(root, onState) {
     account.value = s.accountId || "";
     account.disabled = busy || s.pending || !s.profiles.length;
     q("#chatgptConnect").disabled = busy || s.pending;
-    q("#chatgptConnect").textContent = "Continue with ChatGPT";
+    // Connected already: the same button signs in again (e.g. to allow plan usage), so say so.
+    q("#chatgptConnect").textContent = s.connected ? "Reconnect" : "Continue with ChatGPT";
     q("#chatgptAdd").classList.toggle("hidden", !s.profiles.length);
     q("#chatgptAdd").disabled = busy || s.pending;
     q("#chatgptCancel").classList.toggle("hidden", !s.pending);
     q("#chatgptDisconnect").disabled = busy || !s.connected;
     q("#chatgptRefresh").disabled = busy || s.pending || !s.sharing;
     const model = q("#chatgptModel");
-    const missing = s.model && !s.models.some((m) => m.slug === s.model);
-    model.innerHTML = (missing ? `<option value="" disabled selected>Previous model unavailable — choose a model</option>` : !s.models.length ? `<option value="">${s.sharing ? "Refresh to load available models" : "Connect ChatGPT to choose a model"}</option>` : "") + s.models.map((m) => `<option value="${esc(m.slug)}">${esc(m.name)}</option>`).join("");
+    // Only a loaded list can say the saved model is gone (the list is forgotten on restart and needs the internet).
+    const missing = s.model && s.models.length && !s.models.some((m) => m.slug === s.model);
+    const unlisted = s.sharing && s.model && !s.models.length;
+    model.innerHTML = (missing ? `<option value="" disabled selected>Previous model unavailable — choose a model</option>` : unlisted ? `<option value="${esc(s.model)}">${esc(s.model)}</option>` : !s.models.length ? `<option value="">${s.sharing ? "Refresh to load available models" : "Connect ChatGPT to choose a model"}</option>` : "") + s.models.map((m) => `<option value="${esc(m.slug)}">${esc(m.name)}</option>`).join("");
     model.value = missing ? "" : s.model;
     model.disabled = busy || s.pending || !s.sharing || !s.models.length;
     q("#chatgptPlanState").textContent = s.sharing ? "Using ChatGPT plan · " : "ChatGPT plan usage · ";
@@ -57,6 +60,7 @@ export function mountChatGPTSettings(root, onState) {
       if (s.pending) text = "Finish signing in and allow plan usage in your browser. This window updates automatically.";
       else if (s.connected && !s.sharing) { text = "Signed in, but ChatGPT plan usage is not enabled. Reconnect and allow plan usage to generate."; cls = "warn"; }
       else if (s.ready) { text = "Connected. Your selected model will use your ChatGPT plan."; cls = "ok"; }
+      else if (unlisted && chatgptReady(s)) { text = "Connected. Your saved model is used; press Refresh models to see the others."; cls = "ok"; }
       else if (s.sharing) { text = missing ? "Your previous model is unavailable. Choose an available model to continue." : "Connected. Refresh the models to choose one."; cls = "warn"; }
       else text = "Connect your ChatGPT account to get started.";
     }
@@ -87,6 +91,8 @@ export function mountChatGPTSettings(root, onState) {
     }
     await run(async () => {
       try {
+        // A sign-in left open in another browser tab would block this one ("already open"): start over instead.
+        if (getChatGPT().pending) await chatgptAction("cancel");
         const result = await chatgptAction("signIn", { accountId: newAccount ? "" : getChatGPT().accountId });
         if (closed) { await chatgptAction("cancel"); popup?.close(); return; }
         if (popup && result.browserPath) popup.location.replace(new URL(result.browserPath, window.location.origin).href);

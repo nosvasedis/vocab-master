@@ -1,7 +1,7 @@
 /* Sync — the AI-key vault. Keys are encrypted on this computer with a passphrase only the teacher knows:
    PBKDF2-SHA256 (600,000 rounds, random 16-byte salt) → AES-GCM-256, a fresh 12-byte IV on every save.
    Only { salt, iv, ct } is uploaded, so the database (and anyone who can read it) sees ciphertext only.
-   The derived key is non-extractable and lives in memory for this session. Works in browsers and Node 20+. */
+   The derived key is non-extractable; vault-keys.js remembers it (as an opaque CryptoKey) on this computer only. Works in browsers and Node 20+. */
 
 const subtle = () => globalThis.crypto.subtle;
 const enc = new TextEncoder();

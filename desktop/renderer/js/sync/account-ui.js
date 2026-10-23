@@ -76,20 +76,28 @@ function otherProfiles(s) {
 }
 
 function keysBlock(s, open) {
+  const head = `<h5>${icon("key", "i-sm")}AI keys</h5>`;
   if (s.vault === "on") {
-    return `<div class="acct-sub" data-area="keys"><h5>${icon("key", "i-sm")}AI keys</h5>
-      <p class="hint">Your AI keys sync, locked with your sync passphrase before they leave this computer. Nobody else can read them, not even the database.</p>
+    return `<div class="acct-sub" data-area="keys">${head}
+      <p class="hint">Your AI keys sync, locked with your sync passphrase before they leave this computer. Nobody else can read them, not even the database. This computer remembers the passphrase, so you don't type it again here.</p>
       <div class="acct-actions"><button type="button" class="btn btn-ghost btn-sm" data-ac="keys-off">Stop syncing keys</button></div>
     </div>`;
   }
-  if (s.vault === "locked") {
-    return `<div class="acct-sub" data-area="keys"><h5>${icon("key", "i-sm")}AI keys</h5>
-      <div class="key-status warn">${icon("alert", "i-sm")}<span>Type your sync passphrase to get your keys on this computer (and to upload a changed key).</span></div>
+  const unlockForm = (text, label) => `<div class="key-status warn">${icon("alert", "i-sm")}<span>${esc(text)}</span></div>
       <div class="acct-fields"><input class="input" id="acVaultPass" type="password" autocomplete="off" placeholder="Sync passphrase" /></div>
-      <div class="acct-actions"><button type="button" class="btn btn-primary btn-sm" data-ac="keys-unlock">Unlock</button><span class="spacer"></span><button type="button" class="btn btn-ghost btn-sm" data-ac="keys-forgot">Forgot it?</button></div>
-    </div>`;
+      <div class="acct-actions"><button type="button" class="btn btn-primary btn-sm" data-ac="keys-unlock">${label}</button><span class="spacer"></span><button type="button" class="btn btn-ghost btn-sm" data-ac="keys-forgot">Forgot it?</button></div>`;
+  if (s.vault === "locked") {
+    const text = s.vaultChanged
+      ? "Your sync passphrase was changed on another computer. Type the new one to keep your keys in sync here."
+      : "Type your sync passphrase once on this computer to get your keys (and to upload a changed key). It's remembered here after that.";
+    return `<div class="acct-sub" data-area="keys">${head}${unlockForm(text, "Unlock")}</div>`;
   }
-  return `<div class="acct-sub" data-area="keys"><h5>${icon("key", "i-sm")}AI keys</h5>
+  // Off here, but the account already holds keys (saved on another computer): join, don't create a new passphrase.
+  if (s.vaultRemote) {
+    return `<div class="acct-sub" data-area="keys">${head}${unlockForm("Your account has AI keys saved from another computer. Type your sync passphrase to get them here.", "Get my keys")}</div>`;
+  }
+  return `<div class="acct-sub" data-area="keys">${head}
+    ${s.vaultNote ? `<p class="hint">${esc(s.vaultNote)}</p>` : ""}
     <label class="switch"><input type="checkbox" id="acKeysOn" ${open ? "checked" : ""} /><span class="track"></span><span class="sw-text">Sync my AI keys<small>Locked with a passphrase only you know. If you forget it, you'll paste your keys again.</small></span></label>
     ${open ? `<div class="acct-fields">
       <input class="input" id="acVaultPass" type="password" autocomplete="new-password" placeholder="Sync passphrase (not your password)" />
@@ -267,9 +275,9 @@ export function mountAccount(root) {
     } else if (ac === "keys-unlock") {
       const a = val("#acVaultPass");
       if (!a) { msg("error", "Type your sync passphrase."); return; }
-      after(await busy(btn, () => enableKeySync(a)), "Unlocked. Your keys are on this computer.");
+      after(await busy(btn, () => enableKeySync(a)), "Unlocked. Your keys are on this computer and keep syncing.");
     } else if (ac === "keys-forgot") {
-      const a = await askPassphrase({ title: "Choose a new sync passphrase", text: "The keys saved in your account can't be opened without the old passphrase. They'll be replaced by the keys on this computer, locked with the new passphrase. On your other computers, type the new one once.", okLabel: "Replace", confirm: true });
+      const a = await askPassphrase({ title: "Choose a new sync passphrase", text: "The keys saved in your account can't be opened without the old passphrase. They'll be replaced by the keys on this computer, locked with the new passphrase (a key this computer doesn't have comes back from your other computers). On your other computers, type the new one once.", okLabel: "Replace", confirm: true });
       if (a) after(await busy(btn, () => resetKeySync(a)), "Done. Your keys are locked with the new passphrase.");
     } else if (ac === "keys-off") {
       const ok = await confirmDialog({ title: "Stop syncing AI keys?", body: "The locked copy is deleted from your account. The keys stay on this computer.", okLabel: "Stop syncing", tone: "danger", iconName: "key" });

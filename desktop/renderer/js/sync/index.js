@@ -8,6 +8,7 @@ import {
   profileApp, dropProfileApp, restoredUser, accountBackend, emailSignIn, emailSignUp, resetPassword, googleSignIn, signOutProfile, friendlyAuthError, useEmulator,
 } from "./backend-firebase.js";
 import { googleIdToken } from "./google.js";
+import { vaultKeys } from "./vault-keys.js";
 import { LOCAL, loadProfiles, saveProfiles, newSlot, stashCurrent, restoreStash, deleteStash, clearCurrent, hasStash } from "./profiles.js";
 
 const BACKUP_FORMAT = "vocab-master-backup";
@@ -88,6 +89,7 @@ export async function initSync(hooks = {}) {
     storage,
     onChange: (keys) => emit("vm-sync-changed", { keys }),
     onStatus: (s) => publish(s),
+    vaultKeys,
   });
   installCapture();
   engine.captureAll();
@@ -101,17 +103,20 @@ export async function initSync(hooks = {}) {
 }
 
 /** Attach the engine to the signed-in user; resolves after the first sync round (or never, offline). */
-function connect(u) {
+async function connect(u) {
   user = u;
   backend = accountBackend(handle, u.uid);
   engine.attach(backend, u.uid);
   updateProfile({ uid: u.uid, email: u.email || "", name: u.displayName || "", photo: u.photoURL || "" });
+  // The vault key this computer remembered: keys keep syncing after a restart without the passphrase.
+  await engine.restoreVaultKey().catch(() => false);
+  if (user !== u) return undefined; // signed out (or switched) meanwhile
   let first;
   const ready = new Promise((r) => { first = r; });
   stopWatch?.();
   stopWatch = backend.watch({
     onIndex: (index) => engine.onRemoteIndex(index).finally(() => { first(); publish(); }),
-    onVault: () => engine.pullVault().catch(() => {}).finally(() => publish()),
+    onVault: (t) => { engine.noteRemoteVault(t); engine.pullVault().catch(() => {}).finally(() => publish()); },
     onConnected: (c) => { connected = c; publish(); if (c) schedulePush(200); },
     onOffset: (ms) => engine.setClockOffset(ms),
     // A refused read (e.g. the account's rules) would otherwise leave sync silently stuck.
@@ -243,6 +248,7 @@ export async function signOut({ removeData = false } = {}) {
   disconnect();
   const remove = removeData && pending === 0;
   if (remove) {
+    engine.forgetVaultKey(p.uid);
     clearCurrent(withSuspended);
     profiles.list = profiles.list.filter((x) => x.uid !== p.uid);
   } else {
@@ -259,6 +265,7 @@ export async function removeProfile(uid) {
   if (uid === profiles.active) return;
   const p = profiles.list.find((x) => x.uid === uid);
   await deleteStash(uid);
+  engine.forgetVaultKey(uid);
   if (p) await dropProfileApp(p.slot);
   profiles.list = profiles.list.filter((x) => x.uid !== uid);
   saveProfiles(profiles);
