@@ -4,10 +4,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildStudioDocx } from "../desktop/renderer/app.js";
-import { TASKS, partOpts } from "../desktop/renderer/studio/tasks.js";
+import { TASKS, partOpts, tfLabels } from "../desktop/renderer/studio/tasks.js";
 import { normalizeSection, answerKeyRows, makeVersionB, sortRows } from "../desktop/renderer/studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../desktop/renderer/studio/doc-render.js";
-import { makePart, testDefaults, testPrompt, buildTestDoc, reviseSection, keyCheckPrompt, applyKeyCheck, greekLookup, problemTargets } from "../desktop/renderer/studio/test-builder.js";
+import { makePart, testDefaults, testPrompt, buildTestDoc, reviseSection, keyCheckPrompt, applyKeyCheck, greekLookup, problemTargets, keyOrder, fixItemsPrompt, applyItemFixes } from "../desktop/renderer/studio/test-builder.js";
 import { testCoverage } from "../desktop/renderer/studio/test-coverage.js";
 import { testPartColumns } from "../desktop/renderer/studio/item-columns.js";
 
@@ -194,4 +194,72 @@ test("worksheets: Own sentence (D29) for B–E Senior, a writing line on paper a
   assert.ok(v.coverage.dictation.ok, "both words count as tested");
   assert.ok((await buildDictationDocx(data)).size > 2000);
   assert.match(buildSystemPrompt("C_SENIOR", { dictationTypes: ["D29"], lingoTypes: ["L01"], dictationExerciseCount: 1, lingoPracticeCount: 1 }), /D29 Own sentence: NO wordBank/);
+});
+
+/* The "Fix question 1" loop: the second check corrected a yes/no key, Fix rewrote the question for a random order of
+ * answers (so often the old answer again), the check corrected it again — the same note, every time. */
+const RIGHT = ["A hen can LAY EGGS in the nest.", "My sister and I can sing AT THE SAME TIME.", "We plant seeds IN THIS WAY: we put them in the soil.",
+  "I DURING my homework every evening.", "Fish can BREATHE under water.", "The YARD is inside the house, so we sleep in it.",
+  "The baby cries ALL DAY LONG.", "Before I draw, I VISUALIZE the picture in my head.", "I IMAGINE my lunch, so I eat it.", "The SCENE of the film is a big city."];
+const rightPart = (level, keys) => {
+  const [yes, no] = tfLabels(level);
+  return part("V-RIGHT", { example: { prompt: "I put the milk in the FRIDGE to keep it cold.", answer: yes }, items: RIGHT.map((prompt, i) => ({ prompt, answer: keys[i] === "y" ? yes : no })) }, { level });
+};
+
+test("is the word used correctly: a corrected key says what it is now, and a sentence that isn't English is flagged", () => {
+  for (const level of ["A_SENIOR", "D_SENIOR"]) {
+    const [yes, no] = tfLabels(level);
+    const s = rightPart(level, "nnynynyyny");
+    const d = { ...doc(s), meta: { title: "T", classProfile: level } };
+    assert.match(keyCheckPrompt(d).system, /"grammar"/);
+    const changed = applyKeyCheck(d, { sections: [{ id: "p1", answers: ["yes", "yes", "yes", "no", "yes", "no", "yes", "yes", "no", "yes"], grammar: [4, "4", 99] }] });
+    assert.equal(changed, 2);
+    assert.deepEqual(s.items.map((it) => it.answer), [yes, yes, yes, no, yes, no, yes, yes, no, yes]);
+    assert.ok(s.problems.includes(`the answer key was corrected for items 1, 2 (now "${yes}", "${yes}") — please check the sentences`), s.problems.join(" | "));
+    assert.ok(s.problems.some((p) => p.startsWith(`item 4: not correct English as written — a "${no}" sentence`)), "only the real item, once");
+    assert.deepEqual(problemTargets(s), { items: [1, 2, 4], whole: false });
+  }
+});
+
+test("Fix keeps the answers the part has: the order asked for is today's key, and a rewritten item gets the answer the key lacks", () => {
+  const s = rightPart("A_SENIOR", "yyynynyyny");
+  // Seven yes, three no: question 1 is rewritten as a "no", every other answer stays.
+  assert.deepEqual(keyOrder(s, [1]), ["no", "yes", "yes", "no", "yes", "no", "yes", "yes", "no", "yes"]);
+  // An answer the problems ask for wins; a tie keeps the answer.
+  assert.deepEqual(keyOrder(s, [1], { 1: "yes" })[0], "yes");
+  const even = rightPart("A_SENIOR", "ynynynynyn");
+  assert.deepEqual(keyOrder(even, [1]), even.items.map((it) => it.answer));
+  const heavy = rightPart("A_SENIOR", "yyyyyynnnn");
+  assert.deepEqual(keyOrder(heavy, [1, 2]).slice(0, 3), ["no", "yes", "yes"], "the second rewrite sees the first one's new answer");
+  // T/F classes get T/F.
+  assert.equal(keyOrder(rightPart("D_SENIOR", "yyynynyyny"), [1], {}, tfLabels("D_SENIOR"))[0], tfLabels("D_SENIOR")[1]);
+
+  const spec = { ...testDefaults("A_SENIOR"), parts: [{ ...makePart("vocabulary", "V-RIGHT", "A_SENIOR"), id: "p1", items: 10 }] };
+  s.problems = ['the answer key was corrected for item 1 (now "yes") — please check the sentences'];
+  const { user } = fixItemsPrompt(spec, s, [1]);
+  assert.match(user, /in THIS order: no, yes, yes, no, yes, no, yes, yes, no, yes\./, "today's key, item 1 as the key needs it");
+  assert.match(user, /Required answers: item 1 = "no"\. Write a NEW sentence/);
+  assert.match(user, /correct English with the word in CAPITALS in its normal grammar/);
+  // The fix is applied and the note goes (a fresh check decides again).
+  const d = { ...doc(s), meta: { title: "T", classProfile: "A_SENIOR" } };
+  assert.deepEqual(applyItemFixes(d, spec, "p1", { items: [{ n: 1, prompt: "I wear a SCARF on my feet.", answer: "no" }] }, [1]), [1]);
+  assert.equal(d.sections[0].items[0].answer, "no");
+  assert.deepEqual(d.sections[0].problems, []);
+});
+
+test("the example: sent as item 0 among the items it is the example, and is the word used correctly never goes without one", () => {
+  const items = RIGHT.slice(0, 4).map((prompt, i) => ({ n: i + 1, prompt, answer: ["yes", "yes", "no", "no"][i] }));
+  const s = part("V-RIGHT", { items: [{ n: 0, prompt: "The cat sleeps in its BED.", answer: "yes" }, ...items] }, { level: "A_SENIOR" });
+  s.items.length = 4;
+  assert.equal(s.example.prompt, "The cat sleeps in its BED.");
+  assert.equal(s.items[0].prompt, RIGHT[0]);
+  const planned = normalizeSection({ ...makePart("vocabulary", "V-RIGHT", "A_SENIOR"), id: "p1", items: 4 }, { items: [{ n: 0, prompt: "The cat sleeps in its BED.", answer: "yes" }, ...items] }, { levelId: "A_SENIOR" });
+  assert.deepEqual(planned.items.map((it) => it.prompt), RIGHT.slice(0, 4));
+  assert.ok(!planned.problems.length, planned.problems.join(" | "));
+  const none = normalizeSection({ ...makePart("vocabulary", "V-RIGHT", "D_SENIOR"), id: "p1", items: 4 }, { items }, { levelId: "D_SENIOR" });
+  assert.equal(none.example.prompt, TASKS["V-RIGHT"].sample.q);
+  assert.equal(none.example.answer, tfLabels("D_SENIOR")[0]);
+  // Items numbered from 0 next to their own example are all questions.
+  const zeroBased = normalizeSection({ ...makePart("vocabulary", "V-RIGHT", "A_SENIOR"), id: "p1", items: 4 }, { example: { prompt: "The cat sleeps in its BED.", answer: "yes" }, items: items.map((it, i) => ({ ...it, n: i })) }, { levelId: "A_SENIOR" });
+  assert.equal(zeroBased.items.length, 4);
 });
