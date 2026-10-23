@@ -3,13 +3,20 @@
  * a question (or the example), the writing task, the speaking cards, the listening script; on the teacher's pack,
  * the script, the speaking script and the model answer. A hovered question shows a small bar: Edit, and ✨ Remake —
  * Lingo rewrites just that question, with the teacher's wish or fresh. A part's heading has ✨ Rewrite part.
- * Every change keeps the part checked (reviseSection) and can be undone from its toast. */
+ * Every change keeps the part checked (reviseSection) and can be undone from its toast.
+ * Listening parts: the recording is read from the script, so it follows the questions. Lingo's new questions come with
+ * the script that says them in the same request (one Undo for both); a question taken out leaves its detail as an extra
+ * one ("Listen for the main idea" cuts its own recording). The teacher's own changes never call the AI by themselves:
+ * a part whose recording may not fit shows "Remake the recording" (one request) on the paper, in Play the listening,
+ * Step 3 and Step 5. */
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, KNOBS, tfLabels, levelIndex, partOpts, taskFit } from "../../studio/tasks.js";
-import { LETTER_HELP_TASKS } from "../../studio/doc-model.js";
+import { LETTER_HELP_TASKS, speakingCardLabel } from "../../studio/doc-model.js";
+import { picUrl } from "../pics.js";
 import { letterHelpField } from "./letter-help-ui.js";
 import { TEST_DEFAULTS } from "../../studio/levels.js";
-import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, estimateMinutes } from "../../studio/test-builder.js";
+import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, estimateMinutes, scriptPrompt, applyScript } from "../../studio/test-builder.js";
+import { recordingState, unheardAnswers, cutGistRecording } from "../../studio/listening-sync.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
 import { containsForm } from "../../studio/word-scope.js";
 import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks, hasWord } from "../../studio/test-coverage.js";
@@ -35,6 +42,11 @@ const CSS = `
 .st-sec:hover .pe-add, .pe-add:focus-visible { opacity: 1; }
 .pe-add:hover { background: #f3f1ff; }
 .pe-add.pe-busy { pointer-events: none; opacity: 1; background: #f3f1ff; }
+.pe-rec { display: flex; align-items: center; gap: 8px; margin: 0 0 2mm 9.8mm; padding: 1.6mm 3mm; border: 1.5px solid #fdba74; border-radius: 8px; background: #fff7ed; color: #9a3412; font: 600 12px/1.35 "Segoe UI", system-ui, sans-serif; }
+.pe-rec span { flex: 1; }
+.pe-rec button { flex: none; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 10px; border: 0; border-radius: 7px; color: #fff; background: linear-gradient(135deg, #6d5df6, #a855f7); font: 650 12px/1 "Segoe UI", system-ui, sans-serif; cursor: pointer; }
+.pe-rec button:hover { filter: brightness(1.08); }
+.pe-rec.pe-busy { opacity: .7; pointer-events: none; }
 `;
 
 const lines = (v) => String(v || "").split("\n").map((x) => x.trim()).filter(Boolean);
@@ -69,7 +81,7 @@ export function mountTestEditing(host) {
         const s = host.doc().sections[i];
         if (!s || s.skill === "dictation") return;
         mark(secEl.querySelector(".st-script"), { kind: "script", id: s.id });
-        secEl.querySelectorAll(".st-speak-t").forEach((el) => mark(el, { kind: "speaking", id: s.id }));
+        secEl.querySelectorAll(".st-speak-t").forEach((el) => mark(el, { kind: "speaking", id: s.id, card: el.dataset.card ? Number(el.dataset.card) : -1 }));
         secEl.querySelectorAll(":scope > .st-sample").forEach((el) => mark(el, { kind: s.skill === "speaking" && s.cards?.length ? "speaking" : "sample", id: s.id }));
       });
       return;
@@ -82,6 +94,9 @@ export function mountTestEditing(host) {
       const id = s.id;
       mark(secEl.querySelector(".ex-head"), { kind: "rubric", id, rewrite: true });
       mark(secEl.querySelector(".st-audio"), { kind: "script", id });
+      // The recording no longer fits the questions: say so under the track line (on screen only), with the fix.
+      const rec = host.sheet() !== "B" ? recordingNote(A(id)) : "";
+      if (rec) secEl.querySelector(".st-audio")?.insertAdjacentHTML("afterend", `<div class="pe-rec" data-pe-rec="${esc(id)}"><b aria-hidden="true">⚠</b><span>${esc(rec)}</span><button type="button" data-pe-rerecord="${esc(id)}">✨ Remake the recording</button></div>`);
       mark(secEl.querySelector(".st-passage"), { kind: "passage", id });
       mark(secEl.querySelector(".word-bank:not(.st-keywords)"), { kind: "bank", id });
       mark(secEl.querySelector(".match-defs"), { kind: "pairs", id });
@@ -90,9 +105,12 @@ export function mountTestEditing(host) {
       [...secEl.querySelectorAll(".st-item:not(.st-example), .pic-card:not(.st-example)")].forEach((el, k) => {
         if (s.items[k]) mark(el, { kind: "item", id, ref: s.items[k], remake: true });
       });
-      secEl.querySelectorAll(".st-task, .st-frame, .st-starters, .st-story-pics").forEach((el) => mark(el, { kind: "writing", id }));
+      // A speaking part's pictures and cards open the speaking editor (on the card that was clicked).
+      const speaking = s.skill === "speaking";
+      secEl.querySelectorAll(".st-task, .st-frame, .st-starters, .st-story-pics").forEach((el) => mark(el, { kind: speaking ? "speaking" : "writing", id }));
       if (host.sheet() !== "B" && canAdd(s)) secEl.insertAdjacentHTML("beforeend", `<button type="button" class="pe-add" data-pe-add="${esc(id)}">＋ Add a question</button>`);
-      secEl.querySelectorAll(".st-speak-card").forEach((el, k) => mark(el, { kind: "speaking", id, card: k }));
+      // (The words under a story or a discussion belong to its first card.)
+      if (speaking) secEl.querySelectorAll(":scope > [data-card], :scope > .st-speak-grid > [data-card], :scope > .st-speak-words, :scope > .st-speak-none").forEach((el) => mark(el, { kind: "speaking", id, card: el.dataset.card ? Number(el.dataset.card) : el.matches(".st-speak-words") ? 0 : -1 }));
     });
   }
 
@@ -117,6 +135,8 @@ export function mountTestEditing(host) {
     const path = e.composedPath();
     const addBtn = path.find((n) => n.dataset?.peAdd);
     if (addBtn) { addDialog(addBtn.dataset.peAdd); return; }
+    const recBtn = path.find((n) => n.dataset?.peRerecord);
+    if (recBtn) { remakeRecording(recBtn.dataset.peRerecord); return; }
     const el = path.find((n) => n.classList?.contains("pe-t"));
     if (!el || busy.has(el)) return;
     const d = targets.get(el);
@@ -164,6 +184,8 @@ export function mountTestEditing(host) {
     const ok = reviseSection(doc, host.spec(), d.id, (raw) => {
       if (!raw.items[idx]) return false;
       const [gone] = raw.items.splice(idx, 1);
+      // "Listen for the main idea": its own short recording goes too, and the ones after it are renumbered.
+      if (s.task === "L-GIST") raw.script = cutGistRecording(raw.script, idx + 1) || raw.script;
       // Its answer leaves the word box too (unless another question still needs it).
       if (Array.isArray(raw.bank) && gone?.answer && !raw.items.some((it) => lc(it.answer) === lc(gone.answer))) {
         const at = raw.bank.findIndex((w) => lc(w) === lc(gone.answer));
@@ -173,7 +195,8 @@ export function mountTestEditing(host) {
     if (!ok) return;
     host.itemsChanged?.(d.id);
     host.commit();
-    toast(`Question ${n} deleted — ${plural(A(d.id).items.length, "question")} left in this part.`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
+    const recNote = s.skill !== "listening" ? "" : s.task === "L-GIST" ? " Its recording was cut out too." : " The recording still fits — its detail stays as an extra one.";
+    toast(`Question ${n} deleted — ${plural(A(d.id).items.length, "question")} left in this part.${recNote}`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
       if (host.doc() !== doc) return;
       Object.assign(doc, JSON.parse(before));
       host.itemsChanged?.(d.id);
@@ -269,10 +292,10 @@ export function mountTestEditing(host) {
     host.itemsChanged?.(id);
     return before;
   }
-  function addedToast(doc, id, before, message, first) {
+  function addedToast(doc, id, before, message, first, warn = false) {
     host.commit();
     flash(id, first);
-    toast(message, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
+    toast(message, warn ? "warn" : "ok", { ms: warn ? 9000 : 6000, actions: [{ label: "Undo", run: () => {
       if (host.doc() !== doc) return;
       Object.assign(doc, JSON.parse(before));
       host.itemsChanged?.(id);
@@ -286,7 +309,7 @@ export function mountTestEditing(host) {
     const doc = host.doc();
     const before = insertItems(id, at, [item], ctx);
     if (!before) return;
-    addedToast(doc, id, before, `Question ${at + 1} added.`, at + 1);
+    addedToast(doc, id, before, `Question ${at + 1} added.${offNote(id, at + 1)}`, at + 1, !!offNote(id, at + 1));
   }
 
   /**
@@ -301,7 +324,8 @@ export function mountTestEditing(host) {
     const btn = host.root.querySelector(`[data-pe-add="${CSS_ESC(id)}"]`);
     btn?.classList.add("pe-busy");
     if (btn) btn.textContent = `Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`;
-    const stop = quiet ? null : toast(`Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}…`, "info", { ms: 60000 });
+    const listen = !!s.script?.length;
+    const stop = quiet ? null : toast(`Lingo is writing ${count === 1 ? "a new question" : `${count} new questions`}${listen ? ` and the recording that says ${count === 1 ? "its answer" : "their answers"}` : ""}…`, "info", { ms: 90000 });
     let before = null;
     try {
       const ctx = await host.ctx();
@@ -313,7 +337,7 @@ export function mountTestEditing(host) {
       const others = A(id).items.filter((_, k) => !ns.includes(k + 1));
       const instruction = [
         `These are NEW questions added to the part. Each one is different from every other question (another word or another detail) — never a copy or a rewording of one of them.`,
-        A(id).script?.length || A(id).passage ? `Each asks about a detail of the ${A(id).script?.length ? "script" : "text"} that no other question asks about.` : "",
+        listen ? "You also write the script again so the speakers say the new answers: each new question asks about a NEW detail that fits the situation of the script (something the speakers could also say), never a detail another question asks about." : A(id).passage ? "Each asks about a detail of the text that no other question asks about." : "",
         strict ? ns.map((n, k) => `Question ${n} MUST be built on the word "${words[k]}"${answer ? " and its right answer MUST be that word (a form of it that fits the sentence is fine)" : ""}.`).join(" ")
           : words.length ? `Build them on these words, one each where possible: ${words.join(", ")}.` : "Use words this part hasn't tested yet where you can.",
         level === "easier" ? "Make them a little easier than the others." : level === "harder" ? "Make them a little harder than the others." : "Make them as hard as the others.",
@@ -323,11 +347,13 @@ export function mountTestEditing(host) {
       ].filter(Boolean).join("\n");
       let missing = ns;
       for (let attempt = 0; attempt < 2 && missing.length; attempt++) {
-        const { system, user } = fixItemsPrompt(host.spec(), A(id), missing, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction });
+        const { system, user } = fixItemsPrompt(host.spec(), A(id), missing, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords, instruction, withScript: listen });
         const why = strict ? missing.map((n) => `question ${n} must ${answer ? "have the answer" : "use the word"} "${words[ns.indexOf(n)]}"`).join("; ") : "";
         const reply = await host.ask(system, user, attempt ? `Write items ${missing.join(", ")} — real new questions with a right answer${s.answerType === "choice" ? " among the options" : ""}${why ? `; ${why}` : ""}.` : "");
         if (host.doc() !== doc) return;
-        applyItemFixes(doc, host.spec(), id, reply, missing, { picFor: ctx.picFor, focusWords: ctx.focus });
+        applyItemFixes(doc, host.spec(), id, reply, missing, { picFor: ctx.picFor, focusWords: ctx.focus, trust: !listen });
+        // The script came in the same reply: the recording now says the new answers (no second request).
+        if (listen && Array.isArray(reply?.script)) applyScript(doc, host.spec(), id, { script: reply.script }, { picFor: ctx.picFor, focusWords: ctx.focus });
         const sec = A(id);
         missing = ns.filter((n, k) => {
           const it = sec.items[n - 1];
@@ -357,7 +383,8 @@ export function mountTestEditing(host) {
       await host.checkKeys([id]);
       if (host.doc() !== doc) return null;
       if (quiet) { host.commit(); flash(id, at + 1); return { placed: words, failed: [], before, first: at + 1 }; }
-      addedToast(doc, id, before, count === 1 ? `Question ${at + 1} is new.` : `Questions ${at + 1}–${at + count} are new.`, at + 1);
+      const off = listen ? offNote(id, ...ns) : "";
+      addedToast(doc, id, before, `${count === 1 ? `Question ${at + 1} is new.` : `Questions ${at + 1}–${at + count} are new.`}${listen ? off || " The recording says the new answers too." : ""}`, at + 1, !!off);
     } catch (e) {
       if (before && host.doc() === doc) { Object.assign(doc, JSON.parse(before)); host.itemsChanged?.(id); host.commit(); }
       if (quiet) throw e;
@@ -467,7 +494,15 @@ export function mountTestEditing(host) {
           const script = lines(v("pe_script")).map((l) => { const m = l.match(/^([^:]{1,24}):\s*(.+)$/); return m ? { speaker: m[1].trim(), text: m[2].trim() } : { speaker: "Narrator", text: l }; });
           if (!script.length) { toast("The script can’t be empty.", "warn"); return false; }
           const plays = Number(v("pe_plays")) === 1 ? 1 : 2;
-          revise(s.id, (raw) => { raw.script = script; }, "Script saved.").then(() => { const x = A(s.id); if (x) { x.plays = plays; host.commit(); } });
+          // The teacher's script is the recording for the questions now; an answer it never says is pointed out.
+          const before = snapshot();
+          host.ctx().catch(() => ({})).then((ctx) => {
+            if (!host.doc() || !reviseSection(host.doc(), host.spec(), s.id, (raw) => { raw.script = script; raw.scriptFor = undefined; }, { picFor: ctx.picFor, focusWords: ctx.focus })) return;
+            const x = A(s.id);
+            x.plays = plays;
+            const unheard = unheardAnswers(x);
+            done(before, unheard.length ? `Script saved — but it never says ${unheard.slice(0, 3).map((u) => `“${u.answer}” (question ${u.n})`).join(", ")}${unheard.length > 3 ? " and more" : ""}.` : "Script saved. The audio is made from it.");
+          });
         },
       });
     }
@@ -514,27 +549,80 @@ export function mountTestEditing(host) {
         const item = { prompt: v("pe_prompt").trim(), answer: v("pe_ans").trim(), options: choice ? lines(v("pe_opts")) : undefined, evidence: it.evidence, ...(help ? { reveal: help.value() } : it.reveal !== undefined ? { reveal: it.reveal } : {}) };
         if (choice && !item.options.some((o) => o.toLowerCase() === item.answer.toLowerCase())) { toast("The right answer must be one of the options.", "warn"); return false; }
         if (!item.answer) { toast("Add the right answer.", "warn"); return false; }
+        if (s.script?.length && !example) { saveListeningItem(s.id, idx, item); return; }
         revise(s.id, (raw) => { if (example) raw.example = item; else raw.items[idx] = item; }, example ? "Example saved." : `Question ${it.n} saved.`);
       },
     });
   }
 
-  function speakingEditor(s, focusCard = -1) {
+  /**
+   * The speaking cards: warm-up, each card (title, what the student reads, words, the teacher's questions, follow-ups,
+   * model), cards added or removed, and — for picture tasks — the pictures, picked from the test's words that have one.
+   */
+  async function speakingEditor(s, focusCard = -1) {
     const role = s.task === "S-ROLE";
-    const cards = s.cards.length ? s.cards : [{ title: "", student: "", keyWords: [], questions: [], followUps: [], model: "" }];
-    form({
-      title: "Speaking cards", subtitle: label(s), iconName: "mic",
-      body: field("pe_warm", "Warm-up questions", (s.warmup || []).join("\n"), { rows: 2, hint: "one per line" })
-        + cards.map((c, k) => `<fieldset class="pe-card" data-card="${k}"><legend>${role ? `Student ${k % 2 ? "B" : "A"}` : `Card ${k + 1}`}</legend>
+    const pics = TASKS[s.task]?.needs?.includes("pictures");
+    const ctx = pics ? await host.ctx().catch(() => ({})) : {};
+    const blank = { title: "", student: "", keyWords: [], questions: [], followUps: [], model: "" };
+    const cardSet = (c, k) => `<fieldset class="pe-card" data-card="${k}"><legend>${speakingCardLabel(s.task, k)}</legend>
+          <button type="button" class="pe-card-x" data-drop title="Remove this card">${icon("x", "i-sm")}</button>
           ${field(`pe_ct${k}`, "Title", c.title)}${field(`pe_cs${k}`, "What the student reads", c.student, { rows: 2 })}
-          ${field(`pe_ck${k}`, "Key words", c.keyWords.join(", "), { hint: "commas" })}
+          ${field(`pe_ck${k}`, role ? "Phrases they can use" : "Words to use", c.keyWords.join(", "), { hint: "commas" })}
           ${field(`pe_cq${k}`, "Teacher’s questions", c.questions.join("\n"), { rows: 3, hint: "one per line" })}
           ${field(`pe_cf${k}`, "Follow-up questions", c.followUps.join("\n"), { rows: 2, hint: "one per line" })}
-          ${field(`pe_cm${k}`, role ? "Model dialogue" : "Model answer", c.model, { rows: 3 })}</fieldset>`).join(""),
-      onMount(root) { if (focusCard >= 0) root.querySelector(`[data-card="${focusCard}"]`)?.scrollIntoView({ block: "center" }); },
-      onSave: (v) => revise(s.id, (raw) => {
+          ${field(`pe_cm${k}`, role ? "Model dialogue" : "Model answer", c.model, { rows: 3 })}</fieldset>`;
+    const cards = s.cards.length ? s.cards : [blank];
+    // The test's words that have a picture, to tap in or out of the list.
+    const seen = new Set();
+    const choices = [...(s.pictures || []).map((p) => p.word), ...(ctx.focus || []).map((w) => w.english), ...(ctx.pictureWords || [])]
+      .map((w) => String(w || "").trim()).filter((w) => w && !seen.has(w.toLowerCase()) && seen.add(w.toLowerCase()))
+      .map((w) => ({ w, tok: ctx.picFor?.(w) || "" })).filter((x) => x.tok).slice(0, 40);
+    const picker = choices.length ? `<div class="pe-pics" role="group" aria-label="The test’s words with a picture">${choices.map((x) => `<button type="button" class="pe-pic" data-word="${esc(x.w)}" title="${esc(x.w)}"><img src="${esc(picUrl(x.tok.replace(/^@/, "")))}" alt="" draggable="false"><span>${esc(x.w)}</span></button>`).join("")}</div>` : "";
+    const order = { "S-STORY": "in story order", "S-DISCUSS": "the choices around the question", "S-PICTURE": "each card shows the pictures it names" }[s.task] || "";
+    form({
+      title: "Speaking cards", subtitle: label(s), iconName: "mic",
+      body: (pics ? field("pe_pics", "Pictures", (s.pictures || []).map((p) => p.word).join("\n"), { rows: 3, hint: `one word per line, ${order} — tap a picture below to add or take it out` }) + picker : "")
+        + field("pe_warm", "Warm-up questions", (s.warmup || []).join("\n"), { rows: 2, hint: "one per line" })
+        + `<div class="pe-cards">${cards.map(cardSet).join("")}</div>`
+        + `<button type="button" class="pe-add-card" data-add-card>＋ Add ${role ? "a Student A and B pair" : "a card"}</button>`,
+      onMount(root) {
+        const list = root.querySelector(".pe-cards");
+        const renumber = () => list.querySelectorAll(".pe-card").forEach((f, k) => { f.querySelector("legend").textContent = speakingCardLabel(s.task, k); });
+        let next = cards.length;
+        root.querySelector("[data-add-card]").addEventListener("click", () => {
+          for (let i = 0; i < (role ? 2 : 1); i++) list.insertAdjacentHTML("beforeend", cardSet(blank, next++));
+          renumber();
+          list.lastElementChild.querySelector("input")?.focus();
+        });
+        list.addEventListener("click", (e) => {
+          const x = e.target.closest("[data-drop]");
+          if (!x) return;
+          if (list.children.length <= 1) { toast("A speaking part needs at least one card.", "warn"); return; }
+          x.closest(".pe-card").remove();
+          renumber();
+        });
+        const area = root.querySelector("#pe_pics");
+        const paint = () => { const on = new Set(lines(area.value).map((w) => w.toLowerCase())); root.querySelectorAll(".pe-pic").forEach((b) => b.classList.toggle("on", on.has(b.dataset.word.toLowerCase()))); };
+        root.querySelector(".pe-pics")?.addEventListener("click", (e) => {
+          const b = e.target.closest(".pe-pic");
+          if (!b) return;
+          const words = lines(area.value);
+          const at = words.findIndex((w) => w.toLowerCase() === b.dataset.word.toLowerCase());
+          if (at >= 0) words.splice(at, 1); else words.push(b.dataset.word);
+          area.value = words.join("\n");
+          paint();
+        });
+        area?.addEventListener("input", paint);
+        if (area) paint();
+        if (focusCard >= 0) root.querySelector(`.pe-card[data-card="${focusCard}"]`)?.scrollIntoView({ block: "center" });
+      },
+      onSave: (v, root) => revise(s.id, (raw) => {
+        if (pics) raw.pictures = lines(v("pe_pics"));
         raw.warmup = lines(v("pe_warm"));
-        raw.cards = cards.map((_, k) => ({ title: v(`pe_ct${k}`).trim(), student: v(`pe_cs${k}`).trim(), keyWords: v(`pe_ck${k}`).split(",").map((x) => x.trim()).filter(Boolean), questions: lines(v(`pe_cq${k}`)), followUps: lines(v(`pe_cf${k}`)), model: v(`pe_cm${k}`).trim() }));
+        raw.cards = [...root.querySelectorAll(".pe-card")].map((f) => {
+          const k = f.dataset.card;
+          return { title: v(`pe_ct${k}`).trim(), student: v(`pe_cs${k}`).trim(), keyWords: v(`pe_ck${k}`).split(",").map((x) => x.trim()).filter(Boolean), questions: lines(v(`pe_cq${k}`)), followUps: lines(v(`pe_cf${k}`)), model: v(`pe_cm${k}`).trim() };
+        }).filter((c) => c.title || c.student || c.questions.length);
       }, "Speaking cards saved."),
     });
   }
@@ -614,7 +702,7 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
       }
       await host.checkKeys([id]);
       if (host.doc() !== doc0) return false;
-      if (!opts.quiet) done(before, `Question ${n} is new.`);
+      if (!opts.quiet) done(before, `Question ${n} is new.${offNote(id, n)}`);
       flash(id, n);
       return true;
     } catch (e) {
@@ -625,6 +713,99 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     } finally {
       if (el) { busy.delete(el); el.classList.remove("pe-busy"); }
     }
+  }
+
+  /* ── The recording follows the questions (listening parts) ── */
+  /** What the paper says when a part's recording may not fit its questions ("" when it fits). */
+  function recordingNote(s) {
+    const st = recordingState(s);
+    if (!st?.stale) return "";
+    const list = (ns) => `${ns.length > 1 ? "questions" : "question"} ${ns.join(", ")}`;
+    if (st.missing.length) return `The recording doesn’t say the answer to ${list(st.missing)} yet.`;
+    return `${list(st.unsure).replace(/^q/, "Q")} changed since the recording was made — it may not say ${st.unsure.length > 1 ? "their answers" : "its answer"}.`;
+  }
+  /** After a change: what the toast adds when these questions may not be in the recording ("" when they are). */
+  function offNote(id, ...ns) {
+    const st = recordingState(A(id));
+    const off = ns.filter((n) => st?.missing.includes(n) || st?.unsure.includes(n));
+    if (!off.length) return "";
+    return ` The recording may not say ${off.length > 1 ? "their answers" : "its answer"} yet — press ✨ Remake the recording when you have finished changing the questions (one Lingo request).`;
+  }
+
+  /**
+   * Lingo writes a listening part's script again for the questions on the paper — one request (and the yes/no key check
+   * for yes/no parts). No toast: returns { ok, unheard: [{ n, answer }] }. Throws when the AI can't be reached.
+   */
+  async function rerecord(id) {
+    const doc = host.doc();
+    const ctx = await host.ctx();
+    const s = A(id);
+    if (host.doc() !== doc || !s?.script?.length) return { ok: false, unheard: [] };
+    const { system, user } = scriptPrompt(host.spec(), s, { profileBlock: host.profile(host.spec().levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords });
+    const reply = await host.ask(system, user);
+    if (host.doc() !== doc || !applyScript(doc, host.spec(), id, reply, { picFor: ctx.picFor, focusWords: ctx.focus })) return { ok: false, unheard: [] };
+    await host.checkKeys([id]);
+    return { ok: true, unheard: unheardAnswers(A(id)) };
+  }
+
+  /** "Remake the recording": the part's script written again for its questions, with Undo. */
+  async function remakeRecording(id) {
+    const s = A(id);
+    if (!s?.script?.length || busy.has(id)) return false;
+    busy.add(id);
+    const doc = host.doc();
+    const before = snapshot();
+    const n = doc.sections.indexOf(s) + 1;
+    host.root.querySelector(`[data-pe-rec="${CSS_ESC(id)}"]`)?.classList.add("pe-busy");
+    host.recording?.(id, true);
+    const stop = toast(`Lingo is making the recording of Part ${n} again for its questions…`, "info", { ms: 90000 });
+    try {
+      const rec = await rerecord(id);
+      if (host.doc() !== doc) return false;
+      if (!rec.ok) { Object.assign(doc, JSON.parse(before)); host.commit(); toast("Lingo couldn’t write the recording this time. Try again, or click the track line to edit the script yourself.", "warn", { ms: 7000 }); return false; }
+      done(before, rec.unheard.length ? `New recording for Part ${n} — but it still doesn’t say “${rec.unheard[0].answer}” (question ${rec.unheard[0].n}). Edit the script, or try again.` : `New recording for Part ${n}: it says every answer, in order.`);
+      return true;
+    } catch (e) {
+      if (host.doc() === doc) { Object.assign(doc, JSON.parse(before)); host.commit(); }
+      if (!e?.quiet) toast(e?.message || "Lingo couldn’t write the recording.", "error");
+      return false;
+    } finally {
+      stop?.();
+      busy.delete(id);
+      host.recording?.(id, false);
+    }
+  }
+
+  /** A listening question saved by the teacher: the toast says when the recording may not say its answer (no AI call). */
+  async function saveListeningItem(id, idx, item) {
+    const doc = host.doc();
+    const before = snapshot();
+    const ctx = await host.ctx().catch(() => ({}));
+    if (host.doc() !== doc || !reviseSection(doc, host.spec(), id, (raw) => { raw.items[idx] = item; }, { picFor: ctx.picFor, focusWords: ctx.focus })) return;
+    done(before, `Question ${idx + 1} saved.${offNote(id, idx + 1)}`);
+  }
+
+  /**
+   * Step 3's number of questions for a written listening part: questions taken off the end (the recording keeps
+   * their details), or Lingo writes the new ones at the end and the recording that says them.
+   */
+  async function resizePart(id, target) {
+    const s = A(id);
+    if (!s) return;
+    const have = s.items.length;
+    if (target > have) return addWithLingo(id, have, Math.min(target, MAX_ITEMS) - have);
+    if (target >= have || target < 1) return;
+    const doc = host.doc();
+    const before = snapshot();
+    const ctx = await host.ctx().catch(() => ({}));
+    if (host.doc() !== doc) return;
+    const gone = have - target;
+    reviseSection(doc, host.spec(), id, (raw) => {
+      raw.items.splice(target);
+      if (s.task === "L-GIST") for (let n = have; n > target; n--) raw.script = cutGistRecording(raw.script, n) || raw.script;
+    }, { picFor: ctx.picFor, focusWords: ctx.focus });
+    host.itemsChanged?.(id);
+    done(before, `${gone > 1 ? `The last ${gone} questions` : "The last question"} taken out — ${plural(target, "question")} left.${s.task === "L-GIST" ? " Their recordings were cut out too." : s.script?.length ? " The recording still fits." : ""}`);
   }
 
   /** A question on the paper (A version), for the busy look while Lingo rewrites it. */
@@ -1148,5 +1329,5 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     toast(msg.join(" ") || "Nothing changed.", failed.length || only.length ? "warn" : "ok", { ms: 10000, actions: changed ? [{ label: "Undo", run: () => { if (undo()) toast("Undone.", "info", { ms: 1600 }); } }] : [] });
   }
 
-  return { decorate, placeWords };
+  return { decorate, placeWords, remakeRecording, resizePart, recordingNote };
 }

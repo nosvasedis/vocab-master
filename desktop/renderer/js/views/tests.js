@@ -26,6 +26,7 @@ import { ownWordEntry } from "../../studio/own-words.js";
 import { relationsFromSaved } from "../../studio/word-relations.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
 import { audioFileName } from "../../studio/audio-track.js";
+import { recordingState } from "../../studio/listening-sync.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { loadLessonJson } from "./studio-common.js";
 import { mountTestEditing } from "./test-edit.js";
@@ -37,7 +38,7 @@ let picker;
 let paper;
 let editor = null;
 let built = false;
-const ts = { spec: null, doc: null, docKey: "", sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true, peek: null, epoch: 0 };
+const ts = { spec: null, doc: null, docKey: "", sheet: "A", player: null, playing: null, ctx: null, stale: new Set(), status: {}, naturalReady: true, peek: null, epoch: 0, recording: new Set() };
 
 const savePrefs = () => writeJSON(PREFS_KEY, ts.spec);
 
@@ -263,6 +264,8 @@ function build() {
     if (kp) { keepKeys(kp.dataset.keep); return; }
     const fx = e.target.closest("[data-fix]");
     if (fx) { fixPart(fx.dataset.fix, fx); return; }
+    const rr = e.target.closest("[data-rerecord]");
+    if (rr) { editor?.remakeRecording(rr.dataset.rerecord); return; }
     const rw = e.target.closest("[data-rewrite]");
     if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
   });
@@ -282,7 +285,9 @@ function build() {
     const play = e.target.closest("[data-play]");
     if (play) { togglePlay(play.dataset.play); return; }
     const wav = e.target.closest("[data-wav]");
-    if (wav) saveTrack(wav.dataset.wav, wav);
+    if (wav) { saveTrack(wav.dataset.wav, wav); return; }
+    const rr = e.target.closest("[data-rerecord]");
+    if (rr) editor?.remakeRecording(rr.dataset.rerecord);
   });
   $("tsProblems").addEventListener("click", (e) => {
     const kp = e.target.closest("[data-keep]");
@@ -332,6 +337,8 @@ function build() {
       renderParts();
     },
     rewritePart: (id, wish) => rewritePart(id, null, wish),
+    // Lingo is making a part's recording again: Play the listening and Step 5 show it.
+    recording(id, on) { if (on) ts.recording.add(id); else ts.recording.delete(id); renderListen(); renderOutline(); renderParts(); },
     addWordParts: (plans) => addWordParts(plans),
     undoPoint: () => undoPoint(),
   });
@@ -626,7 +633,7 @@ function renderParts() {
     const head = `<div class="pc-head" data-expand="${p.id}">
         <span class="pc-num" aria-hidden="true"><b>${i + 1}</b><span>${SKILLS[p.skill].icon}</span></span>
         <div class="pc-main">
-          <small class="pc-skill">${esc(SKILLS[p.skill].label)}${stale ? ` · <em>${ts.doc ? "changed — write it again" : "changed"}</em>` : ""}</small>
+          <small class="pc-skill">${esc(SKILLS[p.skill].label)}${stale ? ` · <em>${ts.doc ? "changed — write it again" : "changed"}</em>` : ""}${pendingCount(p) ? ` · <em>${esc(pendingCount(p))}</em>` : ""}</small>
           <div class="pc-name">
             <button type="button" class="pc-task" data-pick="${p.id}" data-tip="Change the exercise" aria-label="Change the exercise of part ${i + 1}: ${esc(t.label)}"><span>${esc(t.label)}</span>${icon("chevron-down", "i-sm")}</button>
             <span class="tk-kind kind-${esc(t.kind)}">${t.kind === "recognise" ? "Recognise" : t.kind === "recall" ? "Recall" : "Create"}</span>
@@ -668,6 +675,7 @@ function renderParts() {
           ${knobsHtml(p, texts)}
           <div class="pc-knob"><span class="pc-lbl">Your wish</span><input class="input sm part-note" data-part-note="${p.id}" placeholder="Optional, e.g. “about a school trip”" value="${esc(p.note || "")}" /></div>
           ${ts.doc ? newPartNote(p) : ""}
+          ${writtenListening(p.id) ? `${resizeHtml(p)}${recordingHtml(ts.doc.sections.find((x) => x.id === p.id))}` : ""}
           ${ts.doc ? `<button type="button" class="btn ${stale ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-rewrite="${p.id}">${icon("refresh", "i-sm")}${!ts.doc.sections.some((x) => x.id === p.id) ? "Write this new part" : stale ? "Write this part with the new settings" : "Write this part again"}</button>` : ""}
         </div>
       </div>
@@ -783,6 +791,12 @@ function onPartsClick(e) {
   }
   const rw = e.target.closest("[data-rewrite]");
   if (rw) { rewritePart(rw.dataset.rewrite, rw); return; }
+  const rr = e.target.closest("[data-rerecord]");
+  if (rr) { editor?.remakeRecording(rr.dataset.rerecord); return; }
+  const ap = e.target.closest("[data-apply-items]");
+  if (ap) { applyResize(ap.dataset.applyItems); return; }
+  const ca = e.target.closest("[data-cancel-items]");
+  if (ca) { const p = s.parts.find((x) => x.id === ca.dataset.cancelItems); const sec = ts.doc?.sections.find((x) => x.id === p?.id); if (p && sec) { p.items = sec.items.length; savePrefs(); renderParts(); } return; }
   const row = e.target.closest("[data-part]");
   if (!row) return;
   const i = s.parts.findIndex((p) => p.id === row.dataset.part);
@@ -793,6 +807,8 @@ function onPartsClick(e) {
     const [k] = step.closest("[data-stepper]").dataset.stepper.split(":");
     const d = Number(step.dataset.step);
     if (k === "items") p.items = Math.max(3, Math.min(12, p.items + d));
+    // A written listening part changes on the paper itself (Lingo adds the questions and the recording that says them).
+    if (k === "items" && writtenListening(p.id)) { savePrefs(); renderParts(); return; }
     if (k === "pts") p.points = Math.max(4, Math.min(30, (p.points || 10) + d));
     if (k === "words") { const w = Math.max(15, Math.min(150, p.words[1] + d * 5)); p.words = [Math.max(10, Math.round(w * 0.7)), w]; }
     if (k === "items" || k === "words") markStale(p.id);
@@ -874,11 +890,13 @@ function renderOutline() {
     <ol class="mk-outline-parts">${d.sections.map((sec, i) => {
     const stale = ts.stale.has(sec.id);
     const probs = sec.problems || [];
-    return `<li data-skill="${sec.skill}" class="${stale ? "stale" : ""}${probs.length ? " warn" : ""}">
+    const rec = recordingHtml(sec);
+    return `<li data-skill="${sec.skill}" class="${stale ? "stale" : ""}${probs.length || rec ? " warn" : ""}">
       <div class="mk-op-row"><span class="mk-op-ico">${SKILLS[sec.skill]?.icon || ""}</span><span class="mk-op-t"><small>Part ${i + 1} · ${esc(SKILLS[sec.skill]?.label || "")}${stale ? " · changed" : ""}</small><b>${esc(TASKS[sec.task]?.label || "")}</b></span>
         <button type="button" class="icon-btn sm" data-rewrite="${sec.id}" data-tip="${stale ? "Write this part again with its new settings" : "Write the whole part again"}" aria-label="Write part ${i + 1} again">${icon("refresh", "i-sm")}</button></div>
       ${cov.parts[i]?.words.length ? `<p class="mk-op-words" data-cov-show="${i}" title="${esc(cov.parts[i].words.join(", "))}">${icon("target", "i-xs")}<span><b>${plural(cov.parts[i].words.length, "word")}</b> · ${esc(cov.parts[i].words.join(", "))}</span></p>` : ""}
       ${probs.length ? `<div class="mk-op-probs">${icon("alert", "i-xs")}<div><ul>${probs.map((pr) => `<li>${esc(friendlyProblem(pr))}</li>`).join("")}</ul>${fixButton(sec)}</div></div>` : ""}
+      ${rec}
     </li>`;
   }).join("")}</ol>
     ${wordCheckHtml(d, cov)}
@@ -1311,6 +1329,8 @@ async function exportTestPack(btn) {
     files.push(await packPdf(sheetHtml(false, "teacher"), title("teacher"), teacher));
     // The listening tracks, made with the voices chosen in “Play the listening” (as the ⤓ buttons do).
     const parts = listeningParts();
+    const off = parts.filter(({ s }) => recordingState(s)?.stale);
+    if (off.length) toast(`${off.map(({ i }) => `Track ${i + 1}`).join(", ")} may not say every answer — the questions changed since ${off.length > 1 ? "they were" : "it was"} made. ✨ Remake the recording in Play the listening, then export again.`, "warn", { ms: 10000 });
     for (const [k, { s, i }] of parts.entries()) {
       say(`Making audio ${k + 1} of ${parts.length}…`);
       const { blob } = await scriptWav(s.script, { plays: s.plays, levelId: meta.classProfile, onStatus: (st) => setStatus(s.id, st) });
@@ -1374,6 +1394,48 @@ function renderPaper() {
 /* ── Listening: natural / studio / computer voices, a player per track and a WAV per track ── */
 const listeningParts = () => (ts.doc?.sections || []).map((s, i) => ({ s, i })).filter(({ s }) => s.skill === "listening" && s.script?.length);
 
+/** A listening part already on the paper (with a recording). */
+const writtenListening = (id) => !!ts.doc?.sections.find((x) => x.id === id && x.skill === "listening" && x.script?.length);
+
+/**
+ * Step 3's question count for a written listening part is only a choice until the teacher presses Apply: then fewer
+ * questions come off the end (no AI), or Lingo writes the new ones and the recording that says them in one request.
+ */
+const pendingCount = (p) => { const sec = writtenListening(p.id) ? ts.doc.sections.find((x) => x.id === p.id) : null; return sec && sec.items.length !== p.items ? `${sec.items.length} → ${p.items} questions — press Apply` : ""; };
+function resizeHtml(p) {
+  const sec = ts.doc?.sections.find((x) => x.id === p.id);
+  if (!sec) return "";
+  const have = sec.items.length;
+  if (p.items === have) return `<p class="pc-knob-note">The paper has ${plural(have, "question")}. Change the number, then press Apply — nothing is written until you do.</p>`;
+  if (ts.recording.has(p.id)) return ""; // recordingHtml says Lingo is at work
+  const more = p.items - have;
+  const what = more > 0 ? `Lingo writes ${plural(more, "new question")} at the end and the recording that says ${more > 1 ? "their answers" : "its answer"} — one Lingo request.` : `The last ${Math.abs(more) > 1 ? `${-more} questions come` : "question comes"} off the paper — no Lingo request; the recording still fits.`;
+  return `<div class="mk-op-probs pc-resize">${icon("info", "i-xs")}<div><b>${have} → ${p.items} questions</b><br>${esc(what)}
+    <div class="pc-resize-acts"><button type="button" class="btn ${more > 0 ? "btn-magic" : "btn-primary"} btn-sm" data-apply-items="${esc(p.id)}">${icon(more > 0 ? "sparkles" : "check", "i-sm")}Apply</button><button type="button" class="btn btn-ghost btn-sm" data-cancel-items="${esc(p.id)}">Keep ${have}</button></div></div></div>`;
+}
+async function applyResize(id) {
+  const p = ts.spec.parts.find((x) => x.id === id);
+  const s = ts.doc?.sections.find((x) => x.id === id);
+  if (!p || !s || p.items === s.items.length || ts.recording.has(id)) return;
+  ts.recording.add(id);
+  renderParts();
+  try { await editor?.resizePart(id, p.items); } finally { ts.recording.delete(id); renderListen(); renderOutline(); renderParts(); }
+}
+
+/** "This recording may not fit its questions", with the button that makes it again (Step 3, Step 5's side column). */
+function recordingHtml(sec) {
+  if (!sec || sec.skill !== "listening") return "";
+  if (ts.recording.has(sec.id)) return `<div class="mk-op-probs">${icon("volume", "i-xs")}<div>Lingo is working on this part’s questions and recording…</div></div>`;
+  const note = editor?.recordingNote(sec);
+  return note ? `<div class="mk-op-probs">${icon("alert", "i-xs")}<div>${esc(note)} <button type="button" class="btn btn-magic btn-sm" data-rerecord="${esc(sec.id)}">${icon("sparkles", "i-xs")}Remake the recording</button></div></div>` : "";
+}
+
+/** Before a track is played or saved: a recording that may not fit its questions is said, with the fix. */
+function warnRecording(s, i) {
+  const note = recordingState(s)?.stale ? editor?.recordingNote(s) : "";
+  if (note) toast(`Track ${i + 1}: ${note}`, "warn", { ms: 8000, actions: [{ label: "Remake the recording", run: () => editor?.remakeRecording(s.id) }] });
+}
+
 function renderListen() {
   const parts = listeningParts();
   if (!parts.length) { $("tsListen").innerHTML = ""; return; }
@@ -1384,7 +1446,9 @@ function renderListen() {
       <button type="button" class="btn btn-secondary btn-sm${ts.playing === s.id ? " playing" : ""}" data-play="${s.id}">${icon(ts.playing === s.id ? "pause" : "play", "i-sm")}${ts.playing === s.id ? "Stop" : `Track ${i + 1} · plays ${s.plays === 1 ? "once" : "twice"}`}</button>
       <button type="button" class="icon-btn sm" data-wav="${s.id}" data-tip="Save track ${i + 1} as an audio file (WAV) — for a speaker, a CD player or the class page" aria-label="Save track ${i + 1} as audio">${icon("download", "i-sm")}</button>
       ${statusPill(ts.status[s.id])}
+      ${ts.recording.has(s.id) ? `<span class="lb-rec busy">${icon("sparkles", "i-xs")}Lingo is making it again…</span>` : recordingState(s)?.stale ? `<button type="button" class="btn btn-magic btn-sm lb-rec" data-rerecord="${s.id}" data-tip="${esc(editor?.recordingNote(s) || "")}">${icon("sparkles", "i-xs")}Remake the recording</button>` : ""}
     </div>`).join("")}</div>
+    ${parts.some(({ s }) => recordingState(s)?.stale) ? `<small class="lb-warn">${icon("alert", "i-xs")} ${esc(parts.filter(({ s }) => recordingState(s)?.stale).map(({ s, i }) => `Track ${i + 1}: ${editor?.recordingNote(s)}`).join(" "))}</small>` : ""}
     <small>${esc(voiceNote(chars, { downloaded: ts.naturalReady }))}</small>
   </div>`;
 }
@@ -1409,6 +1473,7 @@ function togglePlay(id) {
   if (ts.player) { stopPlayer(); delete ts.status[was]; renderListen(); if (was === id) return; }
   const s = ts.doc.sections.find((x) => x.id === id);
   if (!s) return;
+  warnRecording(s, ts.doc.sections.indexOf(s));
   ts.playing = id;
   ts.player = playScript(s.script, {
     plays: s.plays,
@@ -1426,6 +1491,7 @@ function togglePlay(id) {
 async function saveTrack(id, btn) {
   const part = listeningParts().find(({ s }) => s.id === id);
   if (!part || btn.disabled) return;
+  warnRecording(part.s, part.i);
   btn.disabled = true;
   try {
     const { blob, seconds } = await scriptWav(part.s.script, { plays: part.s.plays, levelId: ts.doc.meta.classProfile, onStatus: (st) => setStatus(id, st) });

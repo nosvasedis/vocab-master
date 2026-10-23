@@ -95,6 +95,11 @@
 .listen-bar .lb-tracks { display: flex; flex-wrap: wrap; gap: 6px 14px; width: 100%; }
 .listen-bar .lb-track { display: inline-flex; align-items: center; gap: 4px; min-width: 0; }
 .listen-bar small { width: 100%; }
+.listen-bar .lb-rec { margin-left: 4px; }
+.listen-bar .lb-rec.busy { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; }
+.listen-bar .lb-warn { display: flex; align-items: flex-start; gap: 6px; color: var(--warning-ink); opacity: 1; }
+.mk-op-probs [data-rerecord] { margin-top: 6px; }
+.pc-resize-acts { display: flex; gap: 6px; margin-top: 6px; }
 .voice-pick { display: inline-flex; padding: 2px; gap: 2px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); }
 .voice-pick .vp-opt { border: 0; background: transparent; color: var(--text-2); font: 700 12px/1 var(--font-ui); padding: 6px 11px; border-radius: 999px; cursor: pointer; }
 .voice-pick .vp-opt:hover { color: var(--text); }
@@ -967,8 +972,18 @@
 .pe-pairs { display: flex; flex-direction: column; gap: 6px; }
 .pe-pair { display: grid; grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1.6fr); gap: 8px; align-items: center; }
 .pe-n { font: 800 12px/1 var(--font-ui); color: var(--text-3); text-align: right; }
-.pe-card { margin: 4px 0 12px; padding: 10px 14px 4px; border: 1.5px solid var(--border); border-radius: 12px; }
+.pe-card { position: relative; margin: 4px 0 12px; padding: 10px 14px 4px; border: 1.5px solid var(--border); border-radius: 12px; }
 .pe-card legend { padding: 0 6px; font: 800 12px/1 var(--font-ui); letter-spacing: .04em; text-transform: uppercase; color: var(--brand-ink); }
+.pe-card-x { position: absolute; top: -2px; right: 8px; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: 0; border-radius: 8px; background: transparent; color: var(--muted, #6b6b80); cursor: pointer; }
+.pe-card-x:hover { background: #fff1e8; color: #c2410c; }
+.pe-add-card { display: flex; align-items: center; justify-content: center; width: 100%; margin: 0 0 8px; padding: 9px; border: 1.5px dashed #b7aefc; border-radius: 10px; background: transparent; color: #4b3fd6; font: 650 13px/1 var(--font-ui); cursor: pointer; }
+.pe-add-card:hover { background: #f3f1ff; }
+.pe-pics { flex: none; display: flex; flex-wrap: wrap; gap: 6px; max-height: 196px; overflow-y: auto; margin: -4px 0 14px; padding: 2px; }
+.pe-pic { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 74px; padding: 5px 4px 6px; border: 1.5px solid var(--border); border-radius: 10px; background: var(--surface, #fff); color: inherit; font: 600 11px/1.15 var(--font-ui); cursor: pointer; }
+.pe-pic img { width: 52px; height: 52px; object-fit: contain; }
+.pe-pic span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pe-pic:hover { border-color: #b7aefc; }
+.pe-pic.on { border-color: #6d5df6; background: #f3f1ff; box-shadow: 0 0 0 1.5px #6d5df6; }
 
 /* ── Worksheets: the same stepped maker as Test Maker and Read-aloud dictation, in warm "paper" colours ── */
 .mk-sheets { --mk: #f26b3a; --mk-2: #f7a531; min-height: calc(100vh - var(--topbar-h) - 66px); }
