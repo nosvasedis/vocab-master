@@ -10,7 +10,8 @@
  * whose recording may not fit shows "Remake the recording" on the paper (and in Play the listening, Step 3 and Step 5). */
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, KNOBS, tfLabels, levelIndex, partOpts, taskFit } from "../../studio/tasks.js";
-import { LETTER_HELP_TASKS } from "../../studio/doc-model.js";
+import { LETTER_HELP_TASKS, speakingCardLabel } from "../../studio/doc-model.js";
+import { picUrl } from "../pics.js";
 import { letterHelpField } from "./letter-help-ui.js";
 import { TEST_DEFAULTS } from "../../studio/levels.js";
 import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, estimateMinutes, scriptPrompt, applyScript } from "../../studio/test-builder.js";
@@ -79,7 +80,7 @@ export function mountTestEditing(host) {
         const s = host.doc().sections[i];
         if (!s || s.skill === "dictation") return;
         mark(secEl.querySelector(".st-script"), { kind: "script", id: s.id });
-        secEl.querySelectorAll(".st-speak-t").forEach((el) => mark(el, { kind: "speaking", id: s.id }));
+        secEl.querySelectorAll(".st-speak-t").forEach((el) => mark(el, { kind: "speaking", id: s.id, card: el.dataset.card ? Number(el.dataset.card) : -1 }));
         secEl.querySelectorAll(":scope > .st-sample").forEach((el) => mark(el, { kind: s.skill === "speaking" && s.cards?.length ? "speaking" : "sample", id: s.id }));
       });
       return;
@@ -103,9 +104,12 @@ export function mountTestEditing(host) {
       [...secEl.querySelectorAll(".st-item:not(.st-example), .pic-card:not(.st-example)")].forEach((el, k) => {
         if (s.items[k]) mark(el, { kind: "item", id, ref: s.items[k], remake: true });
       });
-      secEl.querySelectorAll(".st-task, .st-frame, .st-starters, .st-story-pics").forEach((el) => mark(el, { kind: "writing", id }));
+      // A speaking part's pictures and cards open the speaking editor (on the card that was clicked).
+      const speaking = s.skill === "speaking";
+      secEl.querySelectorAll(".st-task, .st-frame, .st-starters, .st-story-pics").forEach((el) => mark(el, { kind: speaking ? "speaking" : "writing", id }));
       if (host.sheet() !== "B" && canAdd(s)) secEl.insertAdjacentHTML("beforeend", `<button type="button" class="pe-add" data-pe-add="${esc(id)}">＋ Add a question</button>`);
-      secEl.querySelectorAll(".st-speak-card").forEach((el, k) => mark(el, { kind: "speaking", id, card: k }));
+      // (The words under a story or a discussion belong to its first card.)
+      if (speaking) secEl.querySelectorAll(":scope > [data-card], :scope > .st-speak-grid > [data-card], :scope > .st-speak-words, :scope > .st-speak-none").forEach((el) => mark(el, { kind: "speaking", id, card: el.dataset.card ? Number(el.dataset.card) : el.matches(".st-speak-words") ? 0 : -1 }));
     });
   }
 
@@ -558,22 +562,74 @@ export function mountTestEditing(host) {
     });
   }
 
-  function speakingEditor(s, focusCard = -1) {
+  /**
+   * The speaking cards: warm-up, each card (title, what the student reads, words, the teacher's questions, follow-ups,
+   * model), cards added or removed, and — for picture tasks — the pictures, picked from the test's words that have one.
+   */
+  async function speakingEditor(s, focusCard = -1) {
     const role = s.task === "S-ROLE";
-    const cards = s.cards.length ? s.cards : [{ title: "", student: "", keyWords: [], questions: [], followUps: [], model: "" }];
-    form({
-      title: "Speaking cards", subtitle: label(s), iconName: "mic",
-      body: field("pe_warm", "Warm-up questions", (s.warmup || []).join("\n"), { rows: 2, hint: "one per line" })
-        + cards.map((c, k) => `<fieldset class="pe-card" data-card="${k}"><legend>${role ? `Student ${k % 2 ? "B" : "A"}` : `Card ${k + 1}`}</legend>
+    const pics = TASKS[s.task]?.needs?.includes("pictures");
+    const ctx = pics ? await host.ctx().catch(() => ({})) : {};
+    const blank = { title: "", student: "", keyWords: [], questions: [], followUps: [], model: "" };
+    const cardSet = (c, k) => `<fieldset class="pe-card" data-card="${k}"><legend>${speakingCardLabel(s.task, k)}</legend>
+          <button type="button" class="pe-card-x" data-drop title="Remove this card">${icon("x", "i-sm")}</button>
           ${field(`pe_ct${k}`, "Title", c.title)}${field(`pe_cs${k}`, "What the student reads", c.student, { rows: 2 })}
-          ${field(`pe_ck${k}`, "Key words", c.keyWords.join(", "), { hint: "commas" })}
+          ${field(`pe_ck${k}`, role ? "Phrases they can use" : "Words to use", c.keyWords.join(", "), { hint: "commas" })}
           ${field(`pe_cq${k}`, "Teacher’s questions", c.questions.join("\n"), { rows: 3, hint: "one per line" })}
           ${field(`pe_cf${k}`, "Follow-up questions", c.followUps.join("\n"), { rows: 2, hint: "one per line" })}
-          ${field(`pe_cm${k}`, role ? "Model dialogue" : "Model answer", c.model, { rows: 3 })}</fieldset>`).join(""),
-      onMount(root) { if (focusCard >= 0) root.querySelector(`[data-card="${focusCard}"]`)?.scrollIntoView({ block: "center" }); },
-      onSave: (v) => revise(s.id, (raw) => {
+          ${field(`pe_cm${k}`, role ? "Model dialogue" : "Model answer", c.model, { rows: 3 })}</fieldset>`;
+    const cards = s.cards.length ? s.cards : [blank];
+    // The test's words that have a picture, to tap in or out of the list.
+    const seen = new Set();
+    const choices = [...(s.pictures || []).map((p) => p.word), ...(ctx.focus || []).map((w) => w.english), ...(ctx.pictureWords || [])]
+      .map((w) => String(w || "").trim()).filter((w) => w && !seen.has(w.toLowerCase()) && seen.add(w.toLowerCase()))
+      .map((w) => ({ w, tok: ctx.picFor?.(w) || "" })).filter((x) => x.tok).slice(0, 40);
+    const picker = choices.length ? `<div class="pe-pics" role="group" aria-label="The test’s words with a picture">${choices.map((x) => `<button type="button" class="pe-pic" data-word="${esc(x.w)}" title="${esc(x.w)}"><img src="${esc(picUrl(x.tok.replace(/^@/, "")))}" alt="" draggable="false"><span>${esc(x.w)}</span></button>`).join("")}</div>` : "";
+    const order = { "S-STORY": "in story order", "S-DISCUSS": "the choices around the question", "S-PICTURE": "each card shows the pictures it names" }[s.task] || "";
+    form({
+      title: "Speaking cards", subtitle: label(s), iconName: "mic",
+      body: (pics ? field("pe_pics", "Pictures", (s.pictures || []).map((p) => p.word).join("\n"), { rows: 3, hint: `one word per line, ${order} — tap a picture below to add or take it out` }) + picker : "")
+        + field("pe_warm", "Warm-up questions", (s.warmup || []).join("\n"), { rows: 2, hint: "one per line" })
+        + `<div class="pe-cards">${cards.map(cardSet).join("")}</div>`
+        + `<button type="button" class="pe-add-card" data-add-card>＋ Add ${role ? "a Student A and B pair" : "a card"}</button>`,
+      onMount(root) {
+        const list = root.querySelector(".pe-cards");
+        const renumber = () => list.querySelectorAll(".pe-card").forEach((f, k) => { f.querySelector("legend").textContent = speakingCardLabel(s.task, k); });
+        let next = cards.length;
+        root.querySelector("[data-add-card]").addEventListener("click", () => {
+          for (let i = 0; i < (role ? 2 : 1); i++) list.insertAdjacentHTML("beforeend", cardSet(blank, next++));
+          renumber();
+          list.lastElementChild.querySelector("input")?.focus();
+        });
+        list.addEventListener("click", (e) => {
+          const x = e.target.closest("[data-drop]");
+          if (!x) return;
+          if (list.children.length <= 1) { toast("A speaking part needs at least one card.", "warn"); return; }
+          x.closest(".pe-card").remove();
+          renumber();
+        });
+        const area = root.querySelector("#pe_pics");
+        const paint = () => { const on = new Set(lines(area.value).map((w) => w.toLowerCase())); root.querySelectorAll(".pe-pic").forEach((b) => b.classList.toggle("on", on.has(b.dataset.word.toLowerCase()))); };
+        root.querySelector(".pe-pics")?.addEventListener("click", (e) => {
+          const b = e.target.closest(".pe-pic");
+          if (!b) return;
+          const words = lines(area.value);
+          const at = words.findIndex((w) => w.toLowerCase() === b.dataset.word.toLowerCase());
+          if (at >= 0) words.splice(at, 1); else words.push(b.dataset.word);
+          area.value = words.join("\n");
+          paint();
+        });
+        area?.addEventListener("input", paint);
+        if (area) paint();
+        if (focusCard >= 0) root.querySelector(`.pe-card[data-card="${focusCard}"]`)?.scrollIntoView({ block: "center" });
+      },
+      onSave: (v, root) => revise(s.id, (raw) => {
+        if (pics) raw.pictures = lines(v("pe_pics"));
         raw.warmup = lines(v("pe_warm"));
-        raw.cards = cards.map((_, k) => ({ title: v(`pe_ct${k}`).trim(), student: v(`pe_cs${k}`).trim(), keyWords: v(`pe_ck${k}`).split(",").map((x) => x.trim()).filter(Boolean), questions: lines(v(`pe_cq${k}`)), followUps: lines(v(`pe_cf${k}`)), model: v(`pe_cm${k}`).trim() }));
+        raw.cards = [...root.querySelectorAll(".pe-card")].map((f) => {
+          const k = f.dataset.card;
+          return { title: v(`pe_ct${k}`).trim(), student: v(`pe_cs${k}`).trim(), keyWords: v(`pe_ck${k}`).split(",").map((x) => x.trim()).filter(Boolean), questions: lines(v(`pe_cq${k}`)), followUps: lines(v(`pe_cf${k}`)), model: v(`pe_cm${k}`).trim() };
+        }).filter((c) => c.title || c.student || c.questions.length);
       }, "Speaking cards saved."),
     });
   }

@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./paper-header.js";
@@ -48,6 +48,56 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     return new d.Table({ width: { size: 100, type: d.WidthType.PERCENTAGE }, borders: { top: noLine, bottom: noLine, left: noLine, right: noLine, insideHorizontal: noLine, insideVertical: noLine }, rows: [new d.TableRow({ children: [cell(left), cell(right)] })] });
   };
 
+  // Speaking on paper, as in the HTML (speakingPlan): picture cards hold their pictures, a story's pictures run in
+  // order with arrows, a discussion's options sit in a row under the question, the Big Question is a banner.
+  const grid = (cells, cols) => new d.Table({
+    width: { size: 100, type: d.WidthType.PERCENTAGE },
+    rows: Array.from({ length: Math.ceil(cells.length / cols) }, (_, r) => new d.TableRow({ children: Array.from({ length: cols }, (_, k) => {
+      const c = cells[r * cols + k];
+      return new d.TableCell({ width: { size: Math.floor(100 / cols), type: d.WidthType.PERCENTAGE }, margins: { top: 1.6 * MM, bottom: 1.6 * MM, left: 2 * MM, right: 2 * MM }, ...(c ? {} : { borders: { top: noLine, bottom: noLine, left: noLine, right: noLine } }), children: c || [para([])] });
+    }) })),
+  });
+  const speakWords = (list, label) => (list?.length ? [para([run(`${label}:  `, { italics: true, size: 17, color: "777777" }), run(list.join("   •   "), { size: 19, color: "333333" })])] : []);
+  const speakingPaper = (s) => {
+    const plan = speakingPlan(s);
+    const strip = (list) => {
+      const imgs = list.map((p) => pic(p.pic, 90)).filter(Boolean);
+      if (imgs.length) children.push(para(imgs.flatMap((p, k) => [...(k ? [run("     ")] : []), run(`${k + 1} `, { bold: true, size: 18 }), p])));
+    };
+    if (!s.cards?.length) { strip(plan.pictures); children.push(para([run("Your teacher will talk with you.", { italics: true })])); return; }
+    const wordsLabel = s.task === "S-ROLE" ? "You can say" : s.task === "S-DISCUSS" ? "Useful phrases" : "Words to use";
+    if (plan.lead) {
+      const c = plan.lead.card;
+      const tag = { story: "STORY", discuss: "TALK TOGETHER", question: "BIG QUESTION" }[plan.kind];
+      children.push(box([
+        para([run(`${tag}   `, { bold: true, size: 16, color: "555555" }), run(c.title, { bold: true, size: plan.kind === "question" ? 28 : 24 })]),
+        ...(c.student ? [para([run(c.student, { size: 21 })])] : []),
+        ...(plan.kind === "question" ? speakWords(c.keyWords, wordsLabel) : []),
+      ]));
+      if (plan.kind === "story") {
+        // The panels in order, numbered, an arrow to the next one.
+        const cells = plan.pictures.map((p) => pic(p.pic, 80)).filter(Boolean).map((img, k, all) => [para([img], { alignment: d.AlignmentType.CENTER }), para([run(`${k + 1}${k < all.length - 1 ? "  →" : ""}`, { bold: true, size: 19 })], { alignment: d.AlignmentType.CENTER })]);
+        if (cells.length) children.push(grid(cells, cells.length));
+      }
+      if (plan.kind === "discuss") {
+        const cells = plan.pictures.map((p) => { const img = pic(p.pic, 80); return img ? [para([img], { alignment: d.AlignmentType.CENTER }), para([run(p.word, { size: 17, color: "444444" })], { alignment: d.AlignmentType.CENTER })] : null; }).filter(Boolean);
+        if (cells.length) children.push(grid(cells, Math.min(5, cells.length)));
+      }
+      if (plan.kind !== "question") children.push(...speakWords(c.keyWords, wordsLabel));
+    }
+    const cards = plan.cards.map((c) => {
+      const imgs = c.pics.map((p) => pic(p.pic, 80)).filter(Boolean);
+      return [
+        ...(imgs.length ? [para(imgs.flatMap((p, k) => [...(k ? [run("   ")] : []), p]), { alignment: d.AlignmentType.CENTER })] : []),
+        para([run(`${c.label}   `, { bold: true, size: 18, color: "555555" }), run(c.card.title, { bold: true, size: 22 })]),
+        ...(c.card.student ? [para([run(c.card.student, { size: 21 })])] : []),
+        ...speakWords(c.card.keyWords, wordsLabel),
+      ];
+    });
+    if (cards.length) children.push(grid(cards, cards.length === 1 ? 1 : cards.length === 3 && plan.kind === "picture" ? 3 : 2));
+    strip(plan.kind === "picture" ? plan.pictures : []);
+  };
+
   const children = [];
   const teacher = which === "teacher";
   // The header follows the same switches as the paper (paper-header.js).
@@ -78,13 +128,12 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       if (s.script?.length) children.push(box(s.script.map((l) => para([run(`${l.speaker}: `, { bold: true, size: 20 }), run(l.text, { size: 20 })]))));
       if (s.answerType === "open") {
         if (s.skill === "speaking" && s.cards?.length) {
-          const role = s.task === "S-ROLE";
           if (s.warmup?.length) { children.push(para([run("Warm-up", { bold: true, size: 19 })])); s.warmup.forEach((q, k) => children.push(item(k + 1, [run(q)]))); }
           s.cards.forEach((c, k) => {
-            children.push(para([run(`${role ? `Student ${k % 2 ? "B" : "A"}` : `Card ${k + 1}`} · ${c.title}`, { bold: true, size: 20 }), ...(c.student ? [run(`  — ${c.student}`, { italics: true, size: 18, color: "555555" })] : [])], { spacing: { before: 1.6 * MM } }));
+            children.push(para([run(`${speakingCardLabel(s.task, k)} · ${c.title}`, { bold: true, size: 20 }), ...(c.student ? [run(`  — ${c.student}`, { italics: true, size: 18, color: "555555" })] : [])], { spacing: { before: 1.6 * MM } }));
             c.questions.forEach((q, j) => children.push(item(j + 1, [run(q)])));
             if (c.followUps.length) children.push(para([run("Follow-up: ", { italics: true, size: 18 }), run(c.followUps.join(" · "), { size: 18 })]));
-            if (c.model) children.push(para([run(role ? "Model dialogue: " : "Model answer: ", { bold: true, size: 18 }), run(c.model, { italics: true, size: 18 })]));
+            if (c.model) children.push(para([run(s.task === "S-ROLE" ? "Model dialogue: " : "Model answer: ", { bold: true, size: 18 }), run(c.model, { italics: true, size: 18 })]));
           });
         } else s.prompts.forEach((p, k) => children.push(item(k + 1, [run(p)])));
         if (s.sample) children.push(para([run("Model: ", { bold: true, size: 19 }), run(s.sample, { italics: true, size: 19 })]));
@@ -131,18 +180,9 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     }
     if (s.answerType === "open") {
       if (s.task_prompt) children.push(para([run(s.task_prompt, { bold: true }), ...(s.words ? [run(`  (${s.words[0]}–${s.words[1]} words)`, { size: 18, color: "666666" })] : [])]));
+      if (s.skill === "speaking") { speakingPaper(s); return; }
       const storyPics = s.pictures.map((p) => pic(p.pic, 90)).filter(Boolean);
       if (storyPics.length) children.push(para(storyPics.flatMap((p, k) => [p, run(`  ${k + 1}     `)])));
-      if (s.skill === "speaking") {
-        if (!s.cards?.length) { children.push(para([run("Your teacher will talk with you.", { italics: true })])); return; }
-        const role = s.task === "S-ROLE";
-        s.cards.forEach((c, k) => children.push(box([
-          para([run(`${role ? `Student ${k % 2 ? "B" : "A"}` : `Card ${k + 1}`}   `, { bold: true, size: 18, color: "555555" }), run(c.title, { bold: true, size: 22 })]),
-          ...(c.student ? [para([run(c.student, { size: 21 })])] : []),
-          ...(c.keyWords.length ? [para([run(c.keyWords.join("   •   "), { size: 19, color: "444444" })])] : []),
-        ])));
-        return;
-      }
       if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [run(`${gapText(starterText(f))}  `), run("______________________________", { color: "8A8A8A" })]))); return; }
       s.frame.forEach((f) => children.push(para([run(`• ${gapText(f)}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));

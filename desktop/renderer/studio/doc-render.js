@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 import { testPartColumns } from "./item-columns.js";
 
@@ -160,7 +160,7 @@ function pictureCardsHtml(section, layout, showAnswers) {
 function openTaskHtml(section, layout) {
   const words = section.words ? `<span class="st-words">${esc(section.words[0])}–${esc(section.words[1])} words</span>` : "";
   const pics = layout.pictures && section.pictures.length ? `<div class="st-story-pics">${section.pictures.map((p, i) => `<div class="st-story-pic">${pic(p.pic)}<small>${i + 1}</small></div>`).join("")}</div>` : "";
-  if (section.skill === "speaking") return `${pics}${speakingCardsHtml(section)}`;
+  if (section.skill === "speaking") return speakingHtml(section, layout);
   // "Finish the sentences": each starter gets its own line to write on.
   if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${withGaps(starterText(f))}</span>${line("grow")}</p>`).join("")}</div>`;
   const frame = section.frame.length ? `<ul class="st-frame">${section.frame.map((f) => `<li>${withGaps(f)}</li>`).join("")}</ul>` : "";
@@ -168,25 +168,81 @@ function openTaskHtml(section, layout) {
   return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)} ${words}</p>` : words ? `<p class="st-task">${words}</p>` : ""}${pics}${frame}<div class="st-lines">${Array.from({ length: n }, () => line("full")).join("")}</div>`;
 }
 
-/** The speaking cards students hold: what to do and the words to use (role-plays: Student A / B). */
-function speakingCardsHtml(section) {
-  if (!section.cards?.length) return `<p class="st-note">Your teacher will talk with you.${section.prompts.length ? ` ${section.prompts.length} questions.` : ""}</p>`;
-  const role = section.task === "S-ROLE";
-  return `<div class="st-speak-grid">${section.cards.map((c, i) => `<div class="st-speak-card">
-      <div class="st-speak-head"><span class="st-speak-n">${role ? `Student ${i % 2 ? "B" : "A"}` : `Card ${i + 1}`}</span><b>${esc(c.title)}</b></div>
-      ${c.student ? `<p>${esc(c.student)}</p>` : ""}
-      ${c.keyWords.length ? `<div class="st-speak-words">${c.keyWords.map((w) => `<span>${esc(w)}</span>`).join("")}</div>` : ""}
-    </div>`).join("")}</div>`;
+/* ── Speaking ─────────────────────────────────────────────────────── */
+// Small line icons (they print in black and white).
+const ICON = {
+  talk: '<path d="M4 5h16v10H10l-5 4v-4H4z"/>',
+  pair: '<circle cx="8" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/><path d="M3.5 19c0-2.8 2-4.6 4.5-4.6s4.5 1.8 4.5 4.6M11.5 19c0-2.8 2-4.6 4.5-4.6s4.5 1.8 4.5 4.6"/>',
+  story: '<rect x="3" y="5" width="7" height="6" rx="1.2"/><rect x="14" y="5" width="7" height="6" rx="1.2"/><rect x="3" y="14" width="7" height="6" rx="1.2"/><rect x="14" y="14" width="7" height="6" rx="1.2"/>',
+  choose: '<circle cx="12" cy="12" r="3.2"/><path d="M12 3v5.8M12 15.2V21M3 12h5.8M15.2 12H21"/>',
+  question: '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.8.4-1.2 1-1.2 1.9"/><path d="M12 16.8v.2"/>',
+};
+const icon = (k) => `<svg class="st-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const speakWords = (list, label) => (list?.length ? `<div class="st-speak-words"><i>${esc(label)}</i>${list.map((w) => `<span>${esc(w)}</span>`).join("")}</div>` : "");
+const WORDS_LABEL = { "S-ROLE": "You can say", "S-DISCUSS": "Useful phrases" };
+/** Numbered pictures in a row (story panels with arrows between them; pictures no card shows). */
+const picStrip = (list, { arrows = false, start = 0 } = {}) => `<div class="st-story-pics${arrows ? " st-storyboard" : ""}">${list.map((p, i) => `${arrows && i ? `<span class="st-story-arrow" aria-hidden="true"><svg viewBox="0 0 12 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5l7 7-7 7"/></svg></span>` : ""}<div class="st-story-pic">${pic(p.pic)}<small>${start + i + 1}</small></div>`).join("")}</div>`;
+
+/** A card students hold: its pictures, what to do and the words to use (role-plays: Student A / B). */
+function speakCardHtml(c, task, layout) {
+  const pics = layout.pictures && c.pics.length ? `<div class="st-speak-pics">${c.pics.map((p) => `<div class="st-speak-pic">${pic(p.pic)}</div>`).join("")}</div>` : "";
+  const role = task === "S-ROLE" ? (c.index % 2 ? " role-b" : " role-a") : "";
+  return `<div class="st-speak-card${pics ? " has-pic" : ""}${role}" data-card="${c.index}">${pics}<div class="st-speak-body">
+      <div class="st-speak-head"><span class="st-speak-n">${role ? icon("pair") : ""}${esc(c.label)}</span><b>${esc(c.card.title)}</b></div>
+      ${c.card.student ? `<p>${esc(c.card.student)}</p>` : ""}
+      ${speakWords(c.card.keyWords, WORDS_LABEL[task] || "Words to use")}
+    </div></div>`;
+}
+
+/** The card a story, a discussion or a Big Question part is built around, in that part's own shape. */
+function speakLeadHtml(plan, section, layout) {
+  const { lead, kind } = plan;
+  const pics = layout.pictures ? plan.pictures : [];
+  const c = lead.card;
+  const head = (ic, label) => `<div class="st-speak-head"><span class="st-speak-n">${icon(ic)}${esc(label)}</span><b>${esc(c.title)}</b></div>`;
+  if (kind === "story") {
+    return `<div class="st-speak-lead st-speak-story" data-card="0">${head("story", "Story")}${c.student ? `<p>${esc(c.student)}</p>` : ""}</div>${pics.length ? picStrip(pics, { arrows: true }) : ""}${speakWords(c.keyWords, "Words to use")}`;
+  }
+  if (kind === "discuss" && pics.length >= 3 && pics.length <= 5) {
+    // The situation in the middle, the options around it, joined by lines (as in A2 Key Speaking Part 2).
+    const slots = { 3: ["t", "l", "r"], 4: ["tl", "tr", "l", "r"], 5: ["tl", "t", "tr", "l", "r"] }[pics.length];
+    const at = { tl: [50, 50], t: [150, 50], tr: [250, 50], l: [50, 150], r: [250, 150] };
+    const lines = slots.map((k) => `<line x1="150" y1="150" x2="${at[k][0]}" y2="${at[k][1]}"/>`).join("");
+    return `<div class="st-mindmap" data-card="0"><svg class="st-mindmap-lines" viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>
+      ${pics.map((p, i) => `<div class="st-mind-pic at-${slots[i]}">${pic(p.pic)}<small>${esc(p.word)}</small></div>`).join("")}
+      <div class="st-mind-centre">${icon("choose")}<b>${esc(c.title)}</b>${c.student ? `<p>${esc(c.student)}</p>` : ""}</div>
+    </div>${speakWords(c.keyWords, WORDS_LABEL[section.task])}`;
+  }
+  const ic = kind === "question" ? "question" : "choose";
+  return `<div class="st-speak-lead st-speak-${kind === "question" ? "bq" : "discuss"}" data-card="0">${kind === "question" ? `<span class="st-bq-mark">${icon("question")}</span>` : ""}<div class="st-speak-body">${head(ic, kind === "question" ? "Big Question" : "Talk together")}${c.student ? `<p>${esc(c.student)}</p>` : ""}${speakWords(c.keyWords, WORDS_LABEL[section.task] || "Words to use")}</div></div>${kind === "discuss" && pics.length ? picStrip(pics) : ""}`;
+}
+
+/** A speaking part on the student's paper: the cards (and pictures) students look at while they talk. */
+function speakingHtml(section, layout) {
+  const plan = speakingPlan(section);
+  const strip = layout.pictures && plan.pictures.length ? picStrip(plan.pictures) : "";
+  if (!section.cards?.length) return `${strip}<p class="st-note st-speak-none">${icon("talk")}Your teacher will talk with you.${section.prompts.length ? ` ${section.prompts.length} questions.` : ""}</p>`;
+  const n = plan.cards.length;
+  const cols = n <= 3 ? n : n === 4 ? 2 : 3;
+  const grid = n ? `<div class="st-speak-grid cols-${cols}${plan.kind === "role" ? " st-speak-pairs" : ""}">${plan.cards.map((c) => speakCardHtml(c, section.task, layout)).join("")}</div>` : "";
+  if (plan.lead) return `${speakLeadHtml(plan, section, layout)}${grid}`;
+  return `${grid}${strip}`;
 }
 
 /** The teacher's speaking script: warm-up, each card's questions and follow-ups, a model answer. */
-function speakingScriptHtml(s) {
-  const role = s.task === "S-ROLE";
-  let h = s.warmup?.length ? `<div class="st-speak-t"><b>Warm-up</b><ol>${s.warmup.map((q) => `<li>${esc(q)}</li>`).join("")}</ol></div>` : "";
-  h += s.cards.map((c, i) => `<div class="st-speak-t"><b>${role ? `Student ${i % 2 ? "B" : "A"}` : `Card ${i + 1}`} · ${esc(c.title)}</b>${c.student ? ` <span class="st-teacher-note">— ${esc(c.student)}</span>` : ""}
-      ${c.questions.length ? `<ol>${c.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol>` : ""}
-      ${c.followUps.length ? `<p class="st-speak-follow"><i>Follow-up:</i> ${c.followUps.map(esc).join(" · ")}</p>` : ""}
-      ${c.model ? `<div class="st-sample"><b>${role ? "Model dialogue" : "Model answer"}</b><p>${esc(c.model)}</p></div>` : ""}</div>`).join("");
+function speakingScriptHtml(s, layout) {
+  const plan = speakingPlan(s);
+  const thumbs = (list, numbered) => (layout.pictures && list.length ? `<span class="st-speak-thumbs">${list.map((p, i) => `<span>${pic(p.pic)}${numbered ? `<small>${i + 1}</small>` : ""}</span>`).join("")}</span>` : "");
+  let h = s.warmup?.length ? `<div class="st-speak-t"><div class="st-speak-head"><span class="st-speak-n">${icon("talk")}Warm-up</span></div><ol>${s.warmup.map((q) => `<li>${esc(q)}</li>`).join("")}</ol></div>` : "";
+  // A story or a discussion: the pictures, numbered as on the paper, above its card.
+  const leadPics = plan.lead && plan.kind !== "question" ? plan.pictures : [];
+  const cards = [...(plan.lead ? [{ ...plan.lead, pics: [] }] : []), ...plan.cards];
+  h += cards.map((c) => `<div class="st-speak-t" data-card="${c.index}">
+      ${thumbs(c === cards[0] && plan.lead ? leadPics : c.pics, c === cards[0] && plan.lead)}<div class="st-speak-head"><span class="st-speak-n">${esc(c.label)}</span><b>${esc(c.card.title)}</b></div>
+      ${c.card.student ? `<p class="st-teacher-note">Student’s card: ${esc(c.card.student)}</p>` : ""}
+      ${c.card.questions.length ? `<ol>${c.card.questions.map((q) => `<li>${esc(q)}</li>`).join("")}</ol>` : ""}
+      ${c.card.followUps.length ? `<p class="st-speak-follow"><i>Follow-up:</i> ${c.card.followUps.map(esc).join(" · ")}</p>` : ""}
+      ${c.card.model ? `<div class="st-sample"><b>${s.task === "S-ROLE" ? "Model dialogue" : "Model answer"}</b><p>${esc(c.card.model)}</p></div>` : ""}</div>`).join("");
   return h;
 }
 
@@ -261,7 +317,7 @@ export function renderTeacherPack(doc, options = {}) {
     }
     if (s.script?.length) h += `<div class="st-script"><b>Script (track ${i + 1})</b>${s.script.map((l) => `<p><b>${esc(l.speaker)}:</b> ${esc(l.text)}</p>`).join("")}</div>`;
     if (s.answerType === "open") {
-      if (s.skill === "speaking" && s.cards?.length) h += speakingScriptHtml(s);
+      if (s.skill === "speaking" && s.cards?.length) h += speakingScriptHtml(s, layout);
       else if (s.prompts.length) h += `<ol class="st-prompts">${s.prompts.map((p) => `<li>${esc(p)}</li>`).join("")}</ol>`;
       if (s.sample) h += `<div class="st-sample"><b>${s.skill === "speaking" ? "Model answers" : "Model answer"}</b>${s.sample.split("\n").map((p) => `<p>${esc(p)}</p>`).join("")}</div>`;
       h += rubricTable(s.skill === "speaking" ? SPEAKING_RUBRIC : WRITING_RUBRIC, s.points || 10);
@@ -379,16 +435,74 @@ export const STUDIO_PRINT_CSS = `
 .st-sample { margin: 1mm 0 1.6mm; font-size: 9.4pt; }
 .st-sample p { margin: 0.6mm 0; font-style: italic; }
 .st-prompts { margin: 0 0 1.6mm; padding-left: 5mm; font-size: 9.6pt; }
+.st-ic { width: 1.2em; height: 1.2em; flex: none; vertical-align: -0.2em; }
 .st-speak-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3mm; margin: 1mm 0 2mm 9.8mm; }
-.st-speak-card { padding: 2.6mm 3.2mm 3mm; border: 0.8pt solid var(--ink); border-radius: 3mm; break-inside: avoid; }
-.st-speak-head { display: flex; align-items: center; gap: 2mm; margin-bottom: 1.2mm; }
-.st-speak-n { display: inline-flex; align-items: center; height: 5.6mm; padding: 0 2mm; border-radius: 99px; background: var(--ink); color: #fff; font: 800 7.6pt/1 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: .04em; white-space: nowrap; }
-.st-speak-head b { font: 800 10.6pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; }
-.st-speak-card p { margin: 0 0 1.6mm; font-size: 10pt; line-height: 1.45; }
-.st-speak-words { display: flex; flex-wrap: wrap; gap: 1.4mm; }
+.st-speak-grid.cols-1 { grid-template-columns: minmax(0, 1fr); }
+.st-speak-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.st-speak-card { position: relative; display: flex; flex-direction: column; padding: 2.6mm 3.2mm 3mm; border: 0.8pt solid var(--ink); border-radius: 3mm; break-inside: avoid; page-break-inside: avoid; }
+.st-speak-body { flex: 1; min-width: 0; }
+.st-speak-head { display: flex; align-items: center; flex-wrap: wrap; gap: 1mm 2mm; margin-bottom: 1.2mm; }
+.st-speak-n { display: inline-flex; align-items: center; gap: 1mm; height: 5.6mm; padding: 0 2mm; border: 0.8pt solid var(--ink); border-radius: 99px; background: var(--ink); color: #fff; font: 800 7.6pt/1 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: .04em; white-space: nowrap; }
+.st-speak-head b { flex: 1 1 30mm; font: 800 10.6pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; }
+.st-speak-card p, .st-speak-lead p { margin: 0 0 1.6mm; font-size: 10pt; line-height: 1.45; }
+.st-speak-words { display: flex; flex-wrap: wrap; align-items: center; gap: 1.4mm; }
+.st-speak-words i { font: italic 600 8pt/1 "Manrope", "Inter", sans-serif; color: var(--ink-3); margin-right: 0.4mm; }
 .st-speak-words span { padding: 0.5mm 2.2mm; border: 0.6pt dashed var(--ink-3); border-radius: 99px; font-size: 9pt; }
-.st-speak-t { margin: 0 0 2.4mm; font-size: 9.6pt; }
+.st-sec > .st-speak-words { margin: 0 0 2.4mm 9.8mm; }
+/* Picture cards: the card's own picture on top (beside the text when the card is wide). */
+.st-speak-pics { display: flex; justify-content: center; gap: 2mm; margin: 0 0 2mm; padding-bottom: 2mm; border-bottom: 0.6pt dashed var(--rule); }
+.st-speak-pic { flex: 0 1 30mm; display: flex; justify-content: center; }
+.st-speak-pic img { width: 100%; height: 26mm; object-fit: contain; }
+.st-speak-grid:is(.cols-1, .cols-2) .st-speak-card.has-pic { flex-direction: row; align-items: center; gap: 3mm; }
+.st-speak-grid:is(.cols-1, .cols-2) .has-pic .st-speak-pics { flex: none; width: 30mm; flex-direction: column; margin: 0; padding: 0 3mm 0 0; border-bottom: 0; border-right: 0.6pt dashed var(--rule); }
+.st-speak-grid:is(.cols-1, .cols-2) .has-pic .st-speak-pics:has(> :nth-child(2)) { width: 46mm; flex-direction: row; }
+.st-speak-grid:is(.cols-1, .cols-2) .has-pic .st-speak-pic img { height: 24mm; }
+/* Role-play: Student A and Student B look different, with a big letter in the corner. */
+.st-speak-card.role-b .st-speak-n { background: #fff; color: var(--ink); }
+.st-speak-card.role-b { border-style: dashed; border-width: 1pt; }
+.st-speak-card:is(.role-a, .role-b)::after { position: absolute; top: 1.4mm; right: 2.6mm; font: 900 20pt/1 "Manrope", "Inter", sans-serif; color: var(--tint-2); content: "A"; }
+.st-speak-card.role-b::after { content: "B"; }
+.st-speak-card:is(.role-a, .role-b) .st-speak-head { padding-right: 7mm; }
+/* Story, discussion and Big Question: the part's main card as a banner. */
+.st-speak-lead { display: flex; align-items: flex-start; gap: 3mm; margin: 1mm 0 2.4mm 9.8mm; padding: 2.6mm 3.6mm; border: 1pt solid var(--ink); border-left-width: 2.2mm; border-radius: 3mm; break-inside: avoid; page-break-inside: avoid; break-after: avoid; page-break-after: avoid; }
+.st-speak-lead.st-speak-story { display: block; }
+.st-speak-lead .st-speak-head b { font-size: 11.6pt; }
+.st-speak-lead p { margin-bottom: 0.6mm; }
+.st-speak-lead .st-speak-words { margin-top: 1.2mm; }
+.st-bq-mark { flex: none; display: flex; width: 13mm; height: 13mm; color: var(--ink); }
+.st-bq-mark .st-ic { width: 100%; height: 100%; }
+.st-speak-bq .st-speak-head b { font-size: 13pt; }
+/* Story: the pictures read left to right, with arrows between them. */
+.st-storyboard { align-items: center; gap: 1.2mm; }
+.st-story-arrow { flex: none; display: flex; width: 3.4mm; color: var(--ink-3); }
+.st-story-arrow svg { width: 100%; height: 6mm; }
+.st-storyboard .st-story-pic { position: relative; padding-top: 2mm; }
+.st-storyboard .st-story-pic small { position: absolute; top: 1.2mm; left: 1.2mm; display: inline-flex; align-items: center; justify-content: center; width: 5mm; height: 5mm; border-radius: 50%; background: var(--ink); color: #fff; font-size: 7.6pt; }
+/* Talk together: the situation in the middle, the pictures around it, joined by lines. */
+.st-mindmap { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: 34mm 34mm; gap: 3mm 5mm; margin: 1mm 0 2.4mm 9.8mm; break-inside: avoid; page-break-inside: avoid; }
+.st-mindmap-lines { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+.st-mindmap-lines line { vector-effect: non-scaling-stroke; }
+.st-mind-pic, .st-mind-centre { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 0.8pt solid var(--ink); border-radius: 3mm; background: #fff; min-width: 0; }
+.st-mind-pic { padding: 1.4mm; }
+.st-mind-pic img { width: 100%; height: 25mm; object-fit: contain; }
+.st-mind-pic small { font: 700 8pt/1.1 "Manrope", sans-serif; color: var(--ink-2); text-align: center; }
+.st-mind-centre { grid-area: 2 / 2; padding: 2mm 3mm; border-width: 1.4pt; border-radius: 50% / 40%; text-align: center; gap: 0.8mm; }
+.st-mind-centre .st-ic { width: 5mm; height: 5mm; }
+.st-mind-centre b { font: 800 10.4pt/1.2 "Manrope", "Inter", sans-serif; }
+.st-mind-centre p { margin: 0; font-size: 8.6pt; line-height: 1.3; color: var(--ink-2); }
+.st-mind-pic.at-tl { grid-area: 1 / 1; } .st-mind-pic.at-t { grid-area: 1 / 2; } .st-mind-pic.at-tr { grid-area: 1 / 3; }
+.st-mind-pic.at-l { grid-area: 2 / 1; } .st-mind-pic.at-r { grid-area: 2 / 3; }
+.st-speak-none { display: flex; align-items: center; gap: 2mm; font-style: normal; }
+.st-speak-none .st-ic { width: 5mm; height: 5mm; color: var(--ink); }
+/* Teacher's pack: each card's script in its own box, its pictures beside the title. */
+.st-speak-t { display: flow-root; margin: 0 0 2.4mm; padding: 2mm 3mm 1mm; border-left: 1.4mm solid var(--tint-2); font-size: 9.6pt; break-inside: avoid; page-break-inside: avoid; }
+.st-speak-t .st-speak-n { height: 5mm; }
+.st-speak-t .st-speak-head b { font-size: 10pt; }
 .st-speak-t ol { margin: 0.8mm 0 1mm; padding-left: 5mm; }
+.st-speak-thumbs { float: right; display: flex; gap: 1.6mm; margin: 0.6mm 0 1mm 3mm; }
+.st-speak-thumbs span { position: relative; display: inline-flex; width: 13mm; height: 13mm; padding: 0.6mm; border: 0.6pt solid var(--rule); border-radius: 1.6mm; }
+.st-speak-thumbs img { width: 100%; height: 100%; object-fit: contain; }
+.st-speak-thumbs small { position: absolute; top: -1.2mm; left: -1.2mm; display: inline-flex; align-items: center; justify-content: center; width: 4mm; height: 4mm; border-radius: 50%; background: var(--ink); color: #fff; font: 700 6.6pt/1 "Manrope", sans-serif; }
 .st-speak-follow { margin: 0 0 1mm; font-size: 9.2pt; color: var(--ink-2); }
 .st-teacher-note { font-size: 9pt; color: var(--ink-2); margin: 0 0 1.6mm; }
 .st-rubric, .st-scheme { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 1mm 0 2mm; }
