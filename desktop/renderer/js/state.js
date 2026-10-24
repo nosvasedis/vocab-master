@@ -41,7 +41,7 @@ export const state = {
   words: [],
   fields: { type: true, greek: true, emojis: true, collocation: true, derivatives: false, synonyms: false, antonyms: false },
   freeform: "",
-  ex: { mode: "random", dictCount: 0, lingoCount: 0, family: "all", picked: { dictation: [], lingo: [] }, tune: { ...TUNE_START } },
+  ex: { dictCount: 0, lingoCount: 0, tune: { ...TUNE_START } },
   plan: null,
   data: null,
   sessionId: null,
@@ -195,10 +195,6 @@ export function applyForm(form = {}, plan = null) {
   if (plan) {
     state.plan = plan;
     state.ex.tune = { ...TUNE_START, ...(plan.tune || {}) };
-    state.ex.mode = plan.exerciseMode === "custom" ? "custom" : "random";
-    if (state.ex.mode === "custom") {
-      state.ex.picked = { dictation: [...(plan.dictationTypes || [])], lingo: [...(plan.lingoTypes || [])] };
-    }
   }
 }
 
@@ -257,7 +253,7 @@ export function loadDraft() {
   Object.assign(state.custom, d.custom || {});
   Object.assign(state.fields, d.fields || {});
   Object.assign(state.preview, d.preview || {});
-  if (d.ex) state.ex = { ...state.ex, ...d.ex, picked: { dictation: [], lingo: [], ...(d.ex.picked || {}) }, tune: { ...TUNE_START, ...(d.ex.tune || {}) } };
+  if (d.ex) state.ex = { dictCount: Number(d.ex.dictCount) || 0, lingoCount: Number(d.ex.lingoCount) || 0, tune: { ...TUNE_START, ...(d.ex.tune || {}) } };
   state.words = Array.isArray(d.words) ? d.words.map((w) => ({ ...makeWord(w), id: w.id || uid("w") })) : [];
   return true;
 }

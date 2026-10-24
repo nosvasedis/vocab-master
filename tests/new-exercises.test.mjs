@@ -174,7 +174,7 @@ test("a whole test with the new parts: prompt, doc, word check, Word file", asyn
 test("worksheets: Own sentence (D29) for B–E Senior, a writing line on paper and in Word, no false alarms", async () => {
   const { CLASS_PROFILES, EXERCISE_LABELS, EXERCISE_FAMILIES, renderDictation, buildDictationDocx, validateWorksheet, buildSystemPrompt } = await import("../desktop/renderer/app.js");
   assert.equal(EXERCISE_LABELS.D29, "Own sentence");
-  assert.equal(EXERCISE_FAMILIES.D29, "productive");
+  assert.equal(EXERCISE_FAMILIES.D29, "create");
   assert.ok(!CLASS_PROFILES.A_SENIOR.allowDictation.includes("D29"));
   for (const p of ["B_SENIOR", "C_SENIOR", "D_SENIOR", "E_SENIOR"]) assert.ok(CLASS_PROFILES[p].allowDictation.includes("D29"), p);
   const words = ["track", "stadium"];

@@ -475,79 +475,50 @@
           <header class="mk-top" data-ws-top></header>
           <div class="mk-body ws-body">
           <div class="view-inner">
-            <header class="mk-page-head"><div><h2>Which exercises?</h2><p>A smart mix that suits the class, or choose each exercise yourself and fine-tune it. Then Lingo writes both sheets.</p></div></header>
-            <div class="card card-pad">
-              <div class="card-head">
-                <div>
-                  <h2 class="card-title"><svg class="i"><use href="#i-layers"/></svg>Exercise plan</h2>
-                  <p class="card-sub">Every unit word is guaranteed to appear in the Dictation sheet. Want one you read aloud? <button type="button" class="ex-crosslink" data-go="dictation" title="A dictation you read aloud and the class writes down">Read-aloud dictation →</button></p>
-                </div>
-                <div class="segmented lg" id="exModeSeg" data-segmented>
-                  <span class="seg-thumb"></span>
-                  <button type="button" data-value="random"><svg class="i i-sm"><use href="#i-wand"/></svg>Smart mix</button>
-                  <button type="button" data-value="custom"><svg class="i i-sm"><use href="#i-sliders"/></svg>Hand-pick</button>
-                </div>
+            <header class="mk-page-head"><div><h2>Which exercises?</h2><p>Each row is one exercise on a sheet. Open the library to choose what the children do, then tune it: lines, difficulty, word box and your wish. Then Lingo writes both sheets.</p></div><span class="mk-pill-sum" id="wsPlanSum"></span></header>
+            <div class="ws-plan-bar">
+              <div class="ws-mix-ctl">
+                <span class="label">Lingo's mix</span>
+                <label class="field-inline"><span class="sr-only">Dictation exercises</span>
+                  <select class="select sm" id="dictCount" aria-label="Dictation exercises in a new mix">
+                    <option value="0">Dictation: 3–5</option>
+                    <option value="3">Dictation: 3</option>
+                    <option value="4">Dictation: 4</option>
+                    <option value="5">Dictation: 5</option>
+                  </select>
+                </label>
+                <label class="field-inline"><span class="sr-only">Lingo practice exercises</span>
+                  <select class="select sm" id="lingoCount" aria-label="Lingo practice exercises in a new mix">
+                    <option value="0">Practice: 1–2</option>
+                    <option value="1">Practice: 1</option>
+                    <option value="2">Practice: 2</option>
+                  </select>
+                </label>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnShuffle"><svg class="i i-sm"><use href="#i-shuffle"/></svg>New mix for the class</button>
               </div>
-
-              <div id="smartPane">
-                <div class="smart-controls">
-                  <label class="field-inline">
-                    <span class="label">Dictation</span>
-                    <select class="select sm" id="dictCount">
-                      <option value="0">Auto (3–5)</option>
-                      <option value="3">3 exercises</option>
-                      <option value="4">4 exercises</option>
-                      <option value="5">5 exercises</option>
-                    </select>
-                  </label>
-                  <label class="field-inline">
-                    <span class="label">Lingo practice</span>
-                    <select class="select sm" id="lingoCount">
-                      <option value="0">Auto (1–2)</option>
-                      <option value="1">1 exercise</option>
-                      <option value="2">2 exercises</option>
-                    </select>
-                  </label>
-                  <span class="spacer"></span>
-                  <button type="button" class="btn btn-secondary btn-sm" id="btnShuffle"><svg class="i i-sm"><use href="#i-shuffle"/></svg>Shuffle mix</button>
-                </div>
+              <div class="preset-row" id="wsPresets">
+                <span class="label">Start from</span>
+                <button type="button" class="chip" data-preset="balanced">⚖️ Balanced</button>
+                <button type="button" class="chip" data-preset="recognise">🎯 Recognise first</button>
+                <button type="button" class="chip" data-preset="recall">✍️ Recall</button>
+                <button type="button" class="chip" data-preset="exam">🎓 Cambridge style</button>
+                <button type="button" class="chip" data-preset="families">🌳 Word families</button>
               </div>
+            </div>
+            <p class="card-sub ws-plan-note">Every unit word is tested in the Dictation sheet. Want one you read aloud? <button type="button" class="ex-crosslink" data-go="dictation" title="A dictation you read aloud and the class writes down">Read-aloud dictation →</button></p>
+            <div id="wsParts"></div>
 
-              <div id="customPaneEx" class="hidden">
-                <div class="picker-bar">
-                  <div class="preset-row">
-                    <span class="label">Presets</span>
-                    <button type="button" class="chip" data-preset="balanced">⚖️ Balanced</button>
-                    <button type="button" class="chip" data-preset="recognition">🎯 Recognition</button>
-                    <button type="button" class="chip" data-preset="productive">✍️ Productive</button>
-                    <button type="button" class="chip" data-preset="exam">🎓 Exam prep</button>
-                    <button type="button" class="chip" data-preset="families">🌳 Word families</button>
-                    <button type="button" class="btn btn-ghost btn-sm" data-preset="clear">Clear</button>
-                  </div>
-                  <div class="segmented sm" id="familySeg" data-segmented>
-                    <span class="seg-thumb"></span>
-                    <button type="button" data-value="all">All</button>
-                    <button type="button" data-value="recognition"><span class="fam-dot recognition"></span>Recognition</button>
-                    <button type="button" data-value="productive"><span class="fam-dot productive"></span>Productive</button>
-                    <button type="button" data-value="analysis"><span class="fam-dot analysis"></span>Analysis</button>
-                  </div>
-                </div>
-                <div class="ex-section-title"><span>📝</span>Dictation <small>assessment</small><span class="ex-picked" id="pickedDict"></span></div>
-                <div class="ex-grid" id="dictGrid"></div>
-                <div class="ex-section-title"><span>🚀</span>Lingo Launcher <small>practice</small><span class="ex-picked" id="pickedLingo"></span></div>
-                <div class="ex-grid" id="lingoGrid"></div>
-              </div>
-
+            <div class="tune-card">
               <div class="tune-panel hidden" id="tunePanel">
                 <div class="tune-head">
-                  <span class="tune-title"><svg class="i i-sm"><use href="#i-sliders"/></svg>Fine-tune</span>
+                  <span class="tune-title"><svg class="i i-sm"><use href="#i-sliders"/></svg>Every exercise</span>
                   <small class="tune-hint" id="tuneHint"></small>
                   <span class="spacer"></span>
                   <button type="button" class="btn btn-ghost btn-sm hidden" id="btnTuneReset">Back to class defaults</button>
                 </div>
                 <div class="tune-grid">
                   <div class="tune-field">
-                    <span class="label">Items in each exercise</span>
+                    <span class="label">Lines in each exercise</span>
                     <select class="select sm" id="tuneItems"></select>
                   </div>
                   <div class="tune-field">
@@ -569,7 +540,7 @@
                     </div>
                   </div>
                   <div class="tune-field">
-                    <span class="label">Extra words in word banks</span>
+                    <span class="label">Extra words in word boxes</span>
                     <select class="select sm" id="tuneExtras">
                       <option value="0">None (one per gap)</option>
                       <option value="1">+1 extra word</option>
@@ -578,9 +549,8 @@
                     </select>
                   </div>
                 </div>
+                <p class="tune-foot">An exercise's own settings (its row → Settings) win over these.</p>
               </div>
-
-              <div class="plan" id="planPreview"></div>
             </div>
 
             <div class="generate-card" id="generateCard">

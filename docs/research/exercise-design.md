@@ -81,3 +81,32 @@ Checked against the Cambridge Young Learners formats (Starters / Movers / Flyers
 Left out on purpose: "listen and colour/draw" (composed scenes), word searches (little evidence they build knowledge), key-word sentence transformation (B2 level, beyond the classes), multiple-meaning "one word for three sentences" (C1 Advanced).
 
 Sources: https://www.cambridgeenglish.org/exams-and-tests/qualifications/young-learners/paper/flyers/format/ · https://www.cambridgeenglish.org/images/563304-B1-Preliminary-for-Schools-Reading-Part-4.pdf · https://www.esl-lounge.com/student/exams/b1-preliminary-exam-reading-paper-guide-gapped-text.php · https://www.teachingenglish.org.uk/article/categorisation · Laufer & Hulstijn (2001), *Incidental vocabulary acquisition in a second language: the construct of task-induced involvement*, Applied Linguistics · Paribakht & Wesche (1997), the Vocabulary Knowledge Scale · Read (2000), *Assessing Vocabulary*, CUP · Tinkham (1993) / Waring (1997) on semantic clustering. As above: guidance, not proof — most studies use older learners.
+
+## Worksheet exercises: one library with the Test Maker (2026-10-24)
+The worksheet's 42 exercises (D01–D29 Dictation, L01–L13 Lingo practice) now live in `studio/worksheet-tasks.js` with the Test Maker's fields: kind (**recognise → recall → create**), class fit (A ≈ Starters/Movers, B Movers, C Flyers, D A2 Key, E B1 Preliminary), a blurb, what it trains and a paper preview. The class profiles' exercise lists (`allowDictation` / `allowLingo`, the smart mix's pool) are now *derived* from the fit ranges, so the list, the badges and the mix can't disagree. Any exercise can still be picked by hand ("A stretch" / "Easy", as in the Test Maker).
+
+What the audit changed (old → new), and why:
+
+| Exercise | Was | Now | Why |
+|---|---|---|---|
+| L08 Sentence order | D–E only | A–E | Word order with given words is a Starters/Movers task; the Test Maker's G-ORDER is A–E. |
+| D17 Collocation pair | A–E | C–E | Collocations come after single-word meaning; the Test Maker's V-COLLOC is C–E. |
+| D06 Synonym select | A–E (L03 B+) | B–E | Same-meaning words after opposites (V-SYN B–E); now consistent with L03. |
+| D11 Odd one out | C–E | A–D | Picture/meaning groups are fine from Starters (V-ODD A–D); L09 was already A. |
+| D12 Riddle | C–E | A–D | The Starters Reading Part 4 was a riddle until 2018. |
+| D21 Sequencing | D–E | B–E | Ordering events/steps is in Movers/Flyers (R-ORDER A–D). |
+| D22 Crossword clue | E only | B–E | A clue + letter count is a definition task with help (V-DEF B–E). |
+| D28 / L12 Spelling check | B+ / C+ | both B–E | One rule for the same task. |
+| D04 Phrase completion | A–E | B–E | Recall with no help at all; A Senior do better with a word box (Starters Part 4 gives one). |
+| D14 Cloze, D19 Definition (advanced), D24 Minimal pair | E only | D–E | Open recall in a text / no-help definitions / look-alike words fit A2 (D Senior) as well as B1. |
+| D23 Analogy | D–E | D–E (kept) | Proportional analogies ("A is to B as…") are clearly harder before about 12; the gap closes by 12. |
+| D25/D26/D27 picture, jumbled, missing letters | to E | A–C | Starters/Movers spelling tasks; "Easy" for D–E. |
+| L06 Grammar labels, L07 Derivative build, L13 Which sentence is right | D+ | C–E | Greek primary pupils know noun/verb/adjective by C Senior; L13 matches V-RIGHT. |
+| L10 Personal questions | E only | B–E | Answering questions about yourself with the unit words is a Movers/Flyers speaking-writing staple. |
+| Kinds | Picture cue and Advanced definition were "recognition"; Sentence fixer, Spelling check, Word math "analysis" | recall | The child writes the word — that is recall, whatever the clue. Odd one out, riddles, register and minimal pairs are recognise. Own sentence and personal questions are create. |
+| A/B Senior "definitions FORBIDDEN in dictation" | while D01 (definition + word bank) was their seed exercise | "very simple" / "simple" definitions | Movers Reading & Writing Part 1 *is* definitions → word; the rule contradicted the class's own exercise. |
+| 13 exercises without a format rule for the AI (D07, D09, D10, D14, D18, D19, D21–D24, L06–L08, L10) | — | a rule each | So their lines come out in one printable, markable shape. L09 now groups by meaning for A–C and by word class only for D–E. |
+
+The smart mix keeps at least one recognise and one recall exercise and adds a "create" one with the class's share (none for A Senior, more with age) — retrieval and production over recognition alone (see the evidence table above). Each exercise also has its own settings like a Test Maker part (lines, a 5-step difficulty, the word box for D01/L01/L05, the teacher's wish), sent to the AI as an EXERCISE SETTINGS block.
+
+Sources: Cambridge YLE task formats ([2018 update](https://www.cambridgeenglish.org/images/419671-young-learners-2018-exam-update.pdf), [handbook 2024](https://www.cambridgeenglish.org/es/Images/young-learners-handbook-2024.pdf), [part-by-part summary](https://skyteach.ru/tefl/cambridge-young-learners-exams-structure-tasks-and-challenges/)); [A2 Key for Schools format](https://www.cambridgeenglish.org/exams-and-tests/key-for-schools/exam-format); age and verbal analogies: [Glady et al. 2017](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5440766/) and a study of 8-, 10- and 12-year-olds' verbal analogies ([KJDP](https://accesson.kr/jkdp/v.10/1/181/26062)). Guidance, not proof: the fit ranges are judgement calls a teacher can override per exercise.

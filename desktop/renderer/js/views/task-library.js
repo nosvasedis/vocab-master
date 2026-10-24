@@ -5,13 +5,14 @@ import { esc, icon, openDialog } from "../ui.js";
 import { TASKS, SKILLS, KINDS, tasksFor, taskFit, defaultTask, secondTask } from "../../studio/tasks.js";
 import { taskBlock } from "../../studio/test-builder.js";
 import { TEXT_KINDS, wordCount, textUnitWords } from "../../studio/reading-texts.js";
+import { WS_TASKS, WS_KINDS, WS_SHEETS, wsTaskFit, wsTasksFor, wsBlock } from "../../studio/worksheet-tasks.js";
+import { EXERCISE_LABELS } from "../../app.js";
 
 const LETTERS = "abcd";
 const TEST_SKILLS = Object.keys(SKILLS).filter((k) => k !== "dictation");
 
-/** A small paper-like preview of a task, from its sample (TASKS[id].sample). */
-export function sampleHtml(taskId) {
-  const t = TASKS[taskId];
+/** A small paper-like preview of a task, from its sample (TASKS[id].sample, or a worksheet exercise from wsTask). */
+export function sampleHtml(taskId, t = TASKS[taskId]) {
   const s = t?.sample;
   if (!s) return "";
   const out = [];
@@ -43,10 +44,9 @@ export function sampleHtml(taskId) {
   return `<div class="tkp" data-skill="${esc(t.skill)}">${out.join("")}</div>`;
 }
 
-/** The kind and class-fit badges of a task. */
-export function taskBadges(taskId, levelId) {
-  const t = TASKS[taskId];
-  const fit = taskFit(taskId, levelId);
+/** The kind and class-fit badges of a task (a worksheet exercise passes its own task and fit). */
+export function taskBadges(taskId, levelId, { task = TASKS[taskId], fit = taskFit(taskId, levelId) } = {}) {
+  const t = task;
   return `<span class="tk-kind kind-${esc(t.kind)}" data-tip="${esc(KINDS[t.kind]?.hint || "")}">${esc(KINDS[t.kind]?.label || "")}</span>${fit.label ? `<span class="tk-fit fit-${fit.fit}">${fit.fit === "great" ? icon("check", "i-xs") : ""}${esc(fit.label)}</span>` : ""}`;
 }
 
@@ -132,4 +132,82 @@ export function textChooserHtml(partId, texts, chosen, { newNote = "", peek = fa
       ${peek ? `<div class="tx-body"><h5>${esc(sel.title)}</h5>${sel.text.split(/\n+/).map((p) => `<p>${esc(p)}</p>`).join("")}<div class="tx-words">${textUnitWords(sel).map((w) => `<span>${esc(w)}</span>`).join("")}</div></div>` : ""}
     </div>` : ""}
   </div>`;
+}
+
+/* ── Worksheets: the same library for the Dictation and Lingo Launcher exercises ─────────────────── */
+
+/**
+ * A worksheet exercise (D01–D29, L01–L13) in the Test Maker's task shape, so the same cards, previews and badges
+ * show it: label, skill (its sheet's colour) and how it is answered (for the preview).
+ */
+export function wsTask(id) {
+  const t = WS_TASKS[id];
+  if (!t) return null;
+  const s = t.sample || {};
+  const answer = s.o ? "choice" : t.kind === "create" ? "word" : /^(T|F|Yes|No)$/.test(s.a || "") ? "tf" : "word";
+  return { ...t, id, label: EXERCISE_LABELS[id] || id, skill: `ws-${t.sheet}`, answer };
+}
+
+/** Kind + class-fit badges of a worksheet exercise. */
+export function wsBadges(id, levelId) {
+  return taskBadges(id, levelId, { task: wsTask(id), fit: wsTaskFit(id, levelId) });
+}
+
+function wsCard(id, { levelId, current, features, recommended }) {
+  const t = wsTask(id);
+  const block = wsBlock(id, features);
+  const fit = wsTaskFit(id, levelId);
+  const isCurrent = id === current;
+  return `<button type="button" class="tl-card kind-${esc(t.kind)} fit-${fit.fit}${isCurrent ? " current" : ""}${block ? " blocked" : ""}" data-task="${esc(id)}" data-skill="${esc(t.skill)}"${block ? ` aria-disabled="true"` : ""}>
+    <span class="tl-top">${wsBadges(id, levelId)}${recommended.includes(id) ? `<span class="tk-rec">${icon("star", "i-xs")}In Lingo's mix</span>` : ""}${isCurrent ? `<span class="tl-now">${icon("check", "i-xs")}This exercise</span>` : ""}</span>
+    <b class="tl-title">${esc(t.label)} <small class="tl-id">${esc(id)}</small></b>
+    <span class="tl-blurb">${esc(t.blurb || "")}</span>
+    ${sampleHtml(id, t)}
+    <span class="tl-trains">${(t.trains || []).map((x) => `<span>${esc(x)}</span>`).join("")}</span>
+    ${block ? `<span class="tl-block">${icon("alert", "i-xs")}${esc(block[0].toUpperCase() + block.slice(1))}</span>` : ""}
+  </button>`;
+}
+
+/**
+ * The worksheet library dialog: every exercise of one sheet as a card (what the children do, a paper preview, the kind
+ * and how well it suits the class). mode "change" (an exercise of the plan) or "add". onPick(id) gets the choice.
+ */
+export function openWorksheetLibrary({ sheet = "dictation", levelId, levelName = "", current = "", features = {}, recommended = [], mode = "change", partLabel = "", onPick }) {
+  let onlyFit = false;
+  let kind = "all";
+  const grid = () => {
+    const list = wsTasksFor(sheet, levelId).filter((t) => (!onlyFit || wsTaskFit(t.id, levelId).fit === "great") && (kind === "all" || t.kind === kind));
+    return list.map((t) => wsCard(t.id, { levelId, current, features, recommended })).join("") || `<p class="tl-empty">Nothing here for ${esc(levelName || "this class")} — turn off the filters to see every exercise.</p>`;
+  };
+  const kinds = () => [["all", "All"], ...Object.entries(WS_KINDS).map(([k, v]) => [k, v.label])].map(([k, label]) => `<button type="button" class="tl-tab${k === kind ? " active" : ""}" data-kind="${k}" data-skill="ws-${sheet}" role="tab" aria-selected="${k === kind}">${k === "all" ? "" : `<i class="tl-dot kind-${k}"></i>`}${esc(label)}<small>${wsTasksFor(sheet).filter((t) => k === "all" || t.kind === k).length}</small></button>`).join("");
+  const sh = WS_SHEETS[sheet];
+  const title = mode === "add" ? `Add a ${sheet === "dictation" ? "Dictation" : "Lingo practice"} exercise` : `Change the exercise${partLabel ? ` · ${partLabel}` : ""}`;
+  return openDialog({
+    title,
+    subtitle: `${sh.icon} ${sh.label}. Every exercise says what the children do and how it looks on paper. Badges show what suits ${levelName || "your class"}.`,
+    iconName: "layers",
+    size: "tl-dialog",
+    body: `<div class="tl-tabs" role="tablist">${kinds()}</div>
+      <div class="tl-bar">
+        <div class="tl-legend">${Object.entries(WS_KINDS).map(([k, v]) => `<span class="kind-${k}" data-tip="${esc(v.hint)}"><i></i>${esc(v.label)}</span>`).join("")}<small>A good worksheet moves from recognising to recalling to using the words.</small></div>
+        <label class="switch sm"><input type="checkbox" data-only-fit /><span class="track"></span><span class="sw-text">Only for ${esc(levelName || "my class")}</span></label>
+      </div>
+      <div class="tl-grid" data-skill="ws-${sheet}">${grid()}</div>`,
+    onMount(root, close) {
+      const body = root.querySelector(".dialog-body");
+      const redraw = () => {
+        root.querySelector(".tl-tabs").innerHTML = kinds();
+        root.querySelector(".tl-grid").innerHTML = grid();
+      };
+      root.querySelector("[data-only-fit]").addEventListener("change", (e) => { onlyFit = e.target.checked; redraw(); });
+      body.addEventListener("click", (e) => {
+        const kb = e.target.closest("[data-kind]");
+        if (kb) { kind = kb.dataset.kind; redraw(); body.scrollTop = 0; return; }
+        const c = e.target.closest("[data-task]");
+        if (!c || c.getAttribute("aria-disabled") === "true") return;
+        close();
+        onPick?.(c.dataset.task);
+      });
+    },
+  });
 }

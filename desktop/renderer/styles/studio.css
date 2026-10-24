@@ -183,6 +183,9 @@
 [data-skill="grammar"] { --skill: #f59e0b; }
 [data-skill="writing"] { --skill: #f43f5e; }
 [data-skill="speaking"] { --skill: #14b8a6; }
+/* Worksheet sheets (Step 3 of Worksheets uses the same part rows and library as the Test Maker) */
+[data-skill="ws-dictation"] { --skill: #f26b3a; }
+[data-skill="ws-lingo"] { --skill: #7c5cf6; }
 
 .mk {
   --mk: #5b5ff6; --mk-2: #38b2f8;
@@ -1208,3 +1211,28 @@
 .pc-rel { display: inline-block; margin: 1px 2px; padding: 0 7px; border-radius: 99px; font-weight: 700; color: var(--text); background: var(--surface); border: 1px solid var(--border); white-space: nowrap; }
 .pc-rels small { color: var(--text-3); }
 .prob-acts { display: inline-flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+/* Worksheets Step 3: the exercises of each sheet as Test Maker part rows */
+.ws-plan-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin: 0 0 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow-xs); }
+.ws-mix-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ws-mix-ctl .label, .ws-plan-bar .preset-row .label { font-size: 11.5px; font-weight: 700; color: var(--text-3); }
+.ws-plan-note { margin: 0 0 12px 2px; }
+.ws-sheets { display: flex; flex-direction: column; gap: 22px; }
+.ws-sheet-head { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; }
+.ws-sheet-head > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ws-sheet-head b { font: 750 15px/1.2 var(--font-display); }
+.ws-sheet-head small { font-size: 12px; color: var(--text-3); }
+.ws-sheet-head .badge { margin-left: auto; }
+.ws-sheet-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; font-size: 17px; background: color-mix(in srgb, var(--skill) 14%, transparent); }
+.ws-add { width: 100%; margin-top: 8px; }
+.ws-sheet .pc-pts small { letter-spacing: 0.02em; }
+.pc-facts .ws-fit-stretch { color: var(--warning-ink); font-weight: 650; }
+.pc-facts .ws-fit-easy { color: var(--text-2); font-weight: 650; }
+.ws-fit-note .i { color: var(--warning); }
+.ws-block { color: var(--warning-ink); }
+.tune-card { margin-top: 18px; }
+.tune-card .tune-panel { margin-top: 0; }
+.tune-foot { margin: 10px 0 0; font-size: 12px; color: var(--text-3); }
+.tl-title .tl-id { margin-left: 4px; font: 700 10.5px/1 var(--font-ui); color: var(--text-3); vertical-align: 2px; }
+.tl-dot { width: 9px; height: 9px; border-radius: 3px; background: var(--k); }
+@media (max-width: 760px) { .ws-plan-bar { flex-direction: column; align-items: stretch; } }

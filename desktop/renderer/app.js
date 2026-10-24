@@ -26,6 +26,7 @@ import {
 import { picForWord, picUrl } from "./js/pics.js";
 import { TEXT_SIZE_CSS, textSizeKey, scaledSize } from "./studio/text-size.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./studio/paper-header.js";
+import { WS_KIND_OF, wsAllowed, wsTaskFit, exerciseSettingsBlock, itemsAt, settingsAt } from "./studio/worksheet-tasks.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -53,19 +54,8 @@ function wTextRun(TextRun, text, options = {}) {
   return new TextRun({ text, font: WORKSHEET_FONTS.docx, ...options });
 }
 
-const EXERCISE_FAMILIES = {
-  D01: "recognition", D02: "productive", D03: "recognition", D04: "productive",
-  D05: "productive", D06: "recognition", D07: "analysis", D08: "analysis",
-  D09: "analysis", D10: "productive", D11: "analysis", D12: "analysis",
-  D13: "recognition", D14: "productive", D15: "recognition", D16: "analysis",
-  D17: "productive", D18: "recognition", D19: "recognition", D20: "productive",
-  D21: "analysis", D22: "productive", D23: "analysis", D24: "recognition",
-  D25: "recognition", D26: "productive", D27: "productive", D28: "analysis",
-  D29: "productive",
-  L01: "productive", L02: "recognition", L03: "recognition", L04: "recognition",
-  L05: "productive", L06: "analysis", L07: "productive", L08: "productive",
-  L09: "analysis", L10: "productive", L11: "recognition", L12: "analysis", L13: "recognition",
-};
+/** What the learner does in each exercise (recognise → recall → create), from the shared library (studio/worksheet-tasks.js). */
+const EXERCISE_FAMILIES = WS_KIND_OF;
 
 const EXERCISE_LABELS = {
   D01: "Definition + word bank", D02: "Word stem collocation", D03: "Bracketed choice",
@@ -309,40 +299,46 @@ function getStudentExerciseInstructionEl(ex) {
   return line && GAP_BOX_TYPES.has(ex?.typeId) ? withExtraWords(line, exerciseExtraWords(ex), "el") : line;
 }
 
+/*
+ * The exercises a class gets by itself (allowDictation / allowLingo, the smart mix's pool) are the ones made for it in
+ * the shared library (studio/worksheet-tasks.js, fit ranges after the Cambridge formats). Any other exercise can still
+ * be chosen by hand in Step 3 — it shows "A stretch" or "Easy", as in the Test Maker.
+ * cognitiveMix: the share of recognise / recall / create exercises in a smart mix (more recall and creating with age).
+ */
 const CLASS_PROFILES = {
   A_SENIOR: {
     id: "A_SENIOR", label: "A Senior", greekGrades: "3η / 4η / 5η Δημοτικού",
     cefr: "Early A1", ageRange: "9–10", defaultVocab: 10, maxSentenceWords: 7,
-    minEmojis: 2, maxDerivatives: 1, allowDefinitionsInDictation: false,
-    allowDictation: ["D01", "D03", "D04", "D06", "D13", "D15", "D17", "D25", "D26", "D27"],
-    allowLingo: ["L01", "L02", "L04", "L05", "L09", "L11"],
-    cognitiveMix: { recognition: 0.6, productive: 0.3, analysis: 0.1 },
+    minEmojis: 2, maxDerivatives: 1, allowDefinitionsInDictation: "very simple, concrete (“It's an animal. It gives us milk.”)",
+    allowDictation: wsAllowed("dictation", 0),
+    allowLingo: wsAllowed("lingo", 0),
+    cognitiveMix: { recognise: 0.6, recall: 0.4, create: 0 },
     lingoPracticeWeights: [1, 0, 0],
     wordBankSize: 4, itemsPerExercise: 5,
     topics: "school, family, animals, sports, daily routine — concrete and visual",
-    seedCombos: [["D01", "D03", "D04"], ["D13", "D03", "D04", "D15"]],
+    seedCombos: [["D01", "D03", "D25"], ["D13", "D03", "D26", "D15"]],
     seedLingo: [["L02"], ["L01"]],
   },
   B_SENIOR: {
     id: "B_SENIOR", label: "B Senior", greekGrades: "4η / 5η / 6η Δημοτικού",
     cefr: "A1", ageRange: "10–11", defaultVocab: 12, maxSentenceWords: 9,
-    minEmojis: 2, maxDerivatives: 2, allowDefinitionsInDictation: false,
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D13", "D15", "D16", "D17", "D25", "D26", "D27", "D28", "D29"],
-    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11"],
-    cognitiveMix: { recognition: 0.5, productive: 0.35, analysis: 0.15 },
+    minEmojis: 2, maxDerivatives: 2, allowDefinitionsInDictation: "simple",
+    allowDictation: wsAllowed("dictation", 1),
+    allowLingo: wsAllowed("lingo", 1),
+    cognitiveMix: { recognise: 0.5, recall: 0.45, create: 0.05 },
     lingoPracticeWeights: [0.8, 0.2, 0],
     wordBankSize: 5, itemsPerExercise: 5,
     topics: "school, family, hobbies, sports — simple familiar contexts",
-    seedCombos: [["D01", "D03", "D04"], ["D01", "D02", "D03", "D17"]],
+    seedCombos: [["D01", "D03", "D04"], ["D01", "D02", "D03", "D28"]],
     seedLingo: [["L01"], ["L02", "L04"]],
   },
   C_SENIOR: {
     id: "C_SENIOR", label: "C Senior", greekGrades: "5η / 6η Δημοτικού · ίσως 1η Γυμνασίου",
     cefr: "A1–A2", ageRange: "11–12", defaultVocab: 16, maxSentenceWords: 11,
     minEmojis: 1, maxDerivatives: 3, allowDefinitionsInDictation: "simple",
-    allowDictation: ["D01", "D02", "D03", "D04", "D05", "D06", "D08", "D11", "D12", "D13", "D16", "D17", "D25", "D26", "D27", "D28", "D29"],
-    allowLingo: ["L01", "L02", "L03", "L04", "L05", "L09", "L11", "L12"],
-    cognitiveMix: { recognition: 0.45, productive: 0.4, analysis: 0.15 },
+    allowDictation: wsAllowed("dictation", 2),
+    allowLingo: wsAllowed("lingo", 2),
+    cognitiveMix: { recognise: 0.45, recall: 0.45, create: 0.1 },
     lingoPracticeWeights: [0.5, 0.5, 0],
     wordBankSize: 5, itemsPerExercise: 5,
     topics: "sports, health, school community, hobbies",
@@ -353,9 +349,9 @@ const CLASS_PROFILES = {
     id: "D_SENIOR", label: "D Senior", greekGrades: "6η Δημοτικού · 1η / 2α Γυμνασίου",
     cefr: "A2", ageRange: "12–13", defaultVocab: 18, maxSentenceWords: 13,
     minEmojis: 0, maxDerivatives: 4, allowDefinitionsInDictation: "short",
-    allowDictation: ["D01","D02","D03","D04","D05","D06","D07","D08","D09","D10","D11","D12","D13","D15","D16","D17","D20","D21","D23","D25","D26","D27","D28","D29"],
-    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L11","L12","L13"],
-    cognitiveMix: { recognition: 0.4, productive: 0.4, analysis: 0.2 },
+    allowDictation: wsAllowed("dictation", 3),
+    allowLingo: wsAllowed("lingo", 3),
+    cognitiveMix: { recognise: 0.4, recall: 0.45, create: 0.15 },
     lingoPracticeWeights: [0.5, 0.5, 0],
     wordBankSize: 6, itemsPerExercise: 6,
     topics: "health, technology, social life, environment — teen-appropriate",
@@ -366,13 +362,13 @@ const CLASS_PROFILES = {
     id: "E_SENIOR", label: "E Senior", greekGrades: "1η / 2α / 3η Γυμνασίου",
     cefr: "B1", ageRange: "13–14", defaultVocab: 20, maxSentenceWords: 16,
     minEmojis: 0, maxDerivatives: 99, allowDefinitionsInDictation: true,
-    allowDictation: Array.from({ length: 29 }, (_, i) => `D${String(i + 1).padStart(2, "0")}`),
-    allowLingo: ["L01","L02","L03","L04","L05","L06","L07","L08","L09","L10","L11","L12","L13"],
-    cognitiveMix: { recognition: 0.35, productive: 0.4, analysis: 0.25 },
+    allowDictation: wsAllowed("dictation", 4),
+    allowLingo: wsAllowed("lingo", 4),
+    cognitiveMix: { recognise: 0.35, recall: 0.45, create: 0.2 },
     lingoPracticeWeights: [0.3, 0.7, 0],
     wordBankSize: 6, itemsPerExercise: 6,
     topics: "opinions, social issues, abstract nouns — still age 13–14 appropriate",
-    seedCombos: [["D02", "D10", "D14"], ["D08", "D11", "D07", "D20", "D23"]],
+    seedCombos: [["D02", "D24", "D14"], ["D08", "D24", "D07", "D20", "D23"]],
     seedLingo: [["L02", "L07"], ["L01", "L10"]],
   },
 };
@@ -475,6 +471,7 @@ WORD BOXES (${[...new Set(types)].join(", ")}) — mandatory:
 - ${extras
     ? `The box (D01 wordBank, L01/L05 wordList) = that exercise's answers, each once, in the form that fits its gap, PLUS EXACTLY ${extras} extra word${extras > 1 ? "s" : ""} that fit${extras > 1 ? "" : "s"} no gap (never a form of an answer) — ${extras} more words than gaps`
     : "The box (D01 wordBank, L01/L05 wordList) = EXACTLY that exercise's answers, each once, in the form that fits its gap — NO extra words and NO other unit words, so gaps and words match one to one"}
+- An exercise with its own "word box" setting in EXERCISE SETTINGS follows that instead
 - Leave "instruction" empty for these exercises: the app writes the task line${extras ? " and says how many extra words there are" : ""}`;
 }
 
@@ -621,31 +618,37 @@ function buildSignature(dictTypes, lingoTypes) {
   return dictTypes.join("+") + "|" + lingoTypes.join("+");
 }
 
+/**
+ * A smart mix of `count` exercises: at least one to recognise and one to recall (when the pool has them), creating as
+ * the class's mix allows, then the rest at random. Kinds: recognise / recall / create (EXERCISE_FAMILIES).
+ */
 function pickDistinctTypes(pool, count, cognitiveMix) {
-  const targets = {
-    recognition: Math.round(count * cognitiveMix.recognition),
-    productive: Math.round(count * cognitiveMix.productive),
-    analysis: count - Math.round(count * cognitiveMix.recognition) - Math.round(count * cognitiveMix.productive),
-  };
-  const byFamily = { recognition: [], productive: [], analysis: [] };
+  const mix = cognitiveMix || {};
+  const recognise = Math.max(1, Math.round(count * (mix.recognise || 0)));
+  const create = Math.round(count * (mix.create || 0));
+  const targets = { recognise, recall: Math.max(1, count - recognise - create), create };
+  const byFamily = { recognise: [], recall: [], create: [] };
   pool.forEach((id) => {
     const f = EXERCISE_FAMILIES[id];
     if (f && byFamily[f]) byFamily[f].push(id);
   });
   const picked = [];
-  const families = ["recognition", "productive", "analysis"];
-  for (const fam of families) {
-    const need = Math.max(1, targets[fam] || 0);
+  for (const fam of ["recognise", "recall", "create"]) {
     const avail = byFamily[fam].filter((x) => !picked.includes(x));
-    for (let i = 0; i < need && avail.length && picked.length < count; i++) {
+    for (let i = 0; i < targets[fam] && avail.length && picked.length < count; i++) {
       const t = randomChoice(avail);
       picked.push(t);
       avail.splice(avail.indexOf(t), 1);
     }
   }
-  const remaining = shuffle(pool.filter((x) => !picked.includes(x)));
+  const remaining = shuffle(pool.filter((x) => !picked.includes(x) && EXERCISE_FAMILIES[x] !== "create"));
   while (picked.length < count && remaining.length) picked.push(remaining.pop());
   return picked.slice(0, count);
+}
+
+/** A mix has something to recognise and something to recall (when the pool offers both). */
+function mixIsBalanced(types, pool) {
+  return ["recognise", "recall"].every((k) => !pool.some((id) => EXERCISE_FAMILIES[id] === k) || types.some((id) => EXERCISE_FAMILIES[id] === k));
 }
 
 function pickGenerationPlan(profileId, options = {}) {
@@ -672,8 +675,6 @@ function pickGenerationPlanTypes(profileId, options = {}) {
   // Synonym/antonym exercises are impossible without synonyms/antonyms in the vocabulary.
   const dictPool = filterDictTypesByFeatures(profile.allowDictation, features);
   const seedOk = (combo) => combo.every((id) => dictPool.includes(id));
-  // Only 3 cognitive families exist, and some profiles' pools span fewer.
-  const poolFamilies = new Set(dictPool.map((d) => EXERCISE_FAMILIES[d])).size;
   const dictCount = options.dictationCount || randomChoice([3, 4, 5]);
   const lingoCount = options.lingoCount ?? pickLingoCount(profile);
 
@@ -688,9 +689,7 @@ function pickGenerationPlanTypes(profileId, options = {}) {
     }
     dictTypes = maybeInjectRelatedTypes(dictTypes, dictPool, features, "dictation");
     if (dictTypes.length !== dictCount) continue;
-    const uniqueFamilies = new Set(dictTypes.map((d) => EXERCISE_FAMILIES[d]));
-    const minFamilies = Math.min(dictCount, poolFamilies);
-    if (uniqueFamilies.size < minFamilies) continue;
+    if (dictCount >= 2 && !mixIsBalanced(dictTypes, dictPool)) continue;
 
     let lingoTypes = pickLingoTypesForPlan(profile, features, lingoCount);
     lingoTypes = maybeInjectRelatedTypes(lingoTypes, getLingoPoolForFeatures(profile, features), features, "lingo");
@@ -1307,30 +1306,32 @@ function normalizeDictationWordBanks(data) {
   if (!data) return data;
   const extras = normalizeTune(data.generationPlan?.tune).extras;
   const spare = (data.lingoLauncher?.vocabulary || []).map((v) => v?.english).filter(Boolean);
-  const fit = (ex, key) => {
+  // An exercise set up in Step 3 with its own extra words keeps that number.
+  const ownExtras = (sheet, i) => settingsAt(data.generationPlan, sheet, i).extras;
+  const fit = (ex, key, own) => {
     const asIs = !!ex.boxByTeacher;
-    const want = Number.isFinite(ex.extraCount) ? ex.extraCount : extras;
+    const want = Number.isFinite(ex.extraCount) ? ex.extraCount : own ?? extras;
     const box = fitWordBox({ bank: ex[key] || [], answers: gapAnswers(ex), extras: want, keep: ex.extraWords || [], spare, asIs });
     ex[key] = box.words;
     if (box.extraWords.length) ex.extraWords = box.extraWords;
     else delete ex.extraWords;
     if (asIs) { ex.extraCount = box.extraWords.length; delete ex.boxByTeacher; }
   };
-  data.dictation?.exercises?.forEach((ex) => {
+  data.dictation?.exercises?.forEach((ex, i) => {
     if (itemsHaveSlashChoices(ex)) {
       ex.wordBank = [];
     } else if (!DICTATION_WORD_BANK_TYPES.has(ex.typeId)) {
       ex.wordBank = [];
     } else if (ex.typeId === "D01" && ex.items?.length) {
-      fit(ex, "wordBank");
+      fit(ex, "wordBank", ownExtras("dictation", i));
     } else if (ex.typeId === "D16" && ex.items?.length) {
       // Category sort: the box is exactly the words to sort (an extra word would belong to no category).
       const words = dedupeWords(flattenExerciseAnswers(ex));
       if (words.length) ex.wordBank = fitWordBox({ bank: ex.wordBank || [], answers: words }).words;
     }
   });
-  data.lingoLauncher?.practice?.forEach((ex) => {
-    if (LINGO_WORDLIST_TYPES.has(ex.typeId) && ex.items?.length) fit(ex, "wordList");
+  data.lingoLauncher?.practice?.forEach((ex, i) => {
+    if (LINGO_WORDLIST_TYPES.has(ex.typeId) && ex.items?.length) fit(ex, "wordList", ownExtras("lingo", i));
   });
   return data;
 }
@@ -1507,6 +1508,8 @@ function filterDictTypesByFeatures(types, features = {}) {
   return types.filter((id) => {
     if (id === "D06" && !features.hasSynonyms) return false;
     if (id === "D05" && !features.hasAntonyms) return false;
+    // Word-family exercises need the families in the list (the answers may only be listed forms); unknown = allowed.
+    if ((id === "D02" || id === "D10") && features.hasDerivatives === false) return false;
     if (id === "D25" && Array.isArray(features.pictureWords) && features.pictureWords.length < 3) return false;
     return true;
   });
@@ -1881,11 +1884,13 @@ function buildDictationDistributionBlock(form, plan, vocabulary) {
   const targets = collectTestTargets(vocab);
   const dictCount = plan?.dictationExerciseCount || plan?.dictationTypes?.length || 3;
   const perEx = profile.itemsPerExercise;
-  const totalSlots = dictCount * perEx;
+  const counts = Array.from({ length: dictCount }, (_, i) => itemsAt(plan, "dictation", i, perEx));
+  const totalSlots = counts.reduce((a, b) => a + b, 0);
+  const own = counts.some((n) => n !== perEx);
   return `
 DICTATION COVERAGE DISTRIBUTION — mandatory:
 - Unit vocabulary: ${vocab.length} headwords; ${targets.length} total test targets (headwords + listed synonyms/antonyms/derivatives)
-- Dictation exercises: ${dictCount}; ~${perEx} items EACH (never more than ${perEx + 1} per exercise)
+- Dictation exercises: ${dictCount}; ${own ? `items per exercise, in order: ${counts.join(", ")} (the teacher's numbers — keep them exactly)` : `~${perEx} items EACH (never more than ${perEx + 1} per exercise)`}
 - Cover ALL ${targets.length} targets at least ONCE across the WHOLE dictation worksheet combined — NOT in every exercise, NOT all in one exercise
 - Split words across exercises: e.g. 14 words + 4 exercises → ~3–4 items per exercise, different words in each
 - D01: ~${perEx} gap items in that exercise, and its wordBank holds ONLY those items' answers (see WORD BOXES) — other words go in other exercise types
@@ -1922,10 +1927,10 @@ function buildAnswerBalanceBlock(plan, form) {
   const per = tunedProfile(form?.classProfile, plan?.tune)?.itemsPerExercise || 5;
   const lines = [];
   (plan?.dictationTypes || []).forEach((t, i) => {
-    if (BINARY_TYPES[t]) lines.push(`- Dictation exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], per).join(", ")}`);
+    if (BINARY_TYPES[t]) lines.push(`- Dictation exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], itemsAt(plan, "dictation", i, per)).join(", ")}`);
   });
   (plan?.lingoTypes || []).forEach((t, i) => {
-    if (BINARY_TYPES[t]) lines.push(`- Lingo exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], per).join(", ")}`);
+    if (BINARY_TYPES[t]) lines.push(`- Lingo exercise ${i + 1} (${t}): answers in this order → ${balancedPattern(BINARY_TYPES[t], itemsAt(plan, "lingo", i, per)).join(", ")}`);
   });
   return `
 ANSWER KEY BALANCE — mandatory:
@@ -2262,9 +2267,10 @@ function maybeInjectRelatedTypes(types, allowedPool, features, section) {
   return [...new Set(result)].slice(0, types.length);
 }
 
+/** A hand-picked plan: any exercise of the library (the class fit only guides), minus those the word list can't support. */
 function buildPlanFromCustom(profile, dictTypes, lingoTypes, features = {}) {
-  const dict = filterDictTypesByFeatures(dictTypes.filter((t) => profile.allowDictation.includes(t)), features);
-  const lingo = filterLingoTypesByFeatures(lingoTypes.filter((t) => profile.allowLingo.includes(t)), features);
+  const dict = filterDictTypesByFeatures(dictTypes.filter((t) => EXERCISE_LABELS[t] && t.startsWith("D")), features);
+  const lingo = filterLingoTypesByFeatures(lingoTypes.filter((t) => EXERCISE_LABELS[t] && t.startsWith("L")), features);
   return {
     dictationExerciseCount: dict.length,
     dictationTypes: dict,
@@ -2297,9 +2303,12 @@ function validateWorksheet(data) {
   const vocab = data.lingoLauncher?.vocabulary || [];
   if (!profile) issues.push("Invalid class profile");
   // Lines per exercise is a target, not a limit: only a big overshoot is worth a word.
-  const sizeNote = (sheet, ex, count) => {
-    if (profile && count > profile.itemsPerExercise + 2) {
-      notes.push(`${sheet} ${ex.number} has ${count} lines — the class setting is about ${profile.itemsPerExercise}. Fine if you want it longer; Step 3 → “Lines per exercise” changes it for next time.`);
+  // An exercise with its own number of lines (Step 3) is measured against that number.
+  const sizeNote = (sheet, ex, count, i) => {
+    const own = settingsAt(data.generationPlan, sheet === "Dictation" ? "dictation" : "lingo", i).items;
+    const want = own || profile?.itemsPerExercise;
+    if (profile && count > want + 2) {
+      notes.push(`${sheet} ${ex.number} has ${count} lines — ${own ? "you chose" : "the class setting is about"} ${want}. Fine if you want it longer; Step 3 → the exercise's Settings change it for next time.`);
     }
   };
 
@@ -2332,11 +2341,12 @@ function validateWorksheet(data) {
     notes.push(`The Dictation has ${exCount} exercise${exCount === 1 ? "" : "s"}; ${plan.dictationExerciseCount} were planned in Step 3.`);
   }
 
-  data.dictation?.exercises?.forEach((ex) => {
+  data.dictation?.exercises?.forEach((ex, exIndex) => {
     if (profile && !profile.allowDictation?.includes(ex.typeId)) {
-      notes.push(`Dictation ${ex.number} (${EXERCISE_LABELS[ex.typeId] || ex.typeId}) isn't one of the usual exercises for ${profile.label} — check it suits the class.`);
+      const fit = wsTaskFit(ex.typeId, profile.id);
+      notes.push(`Dictation ${ex.number} (${EXERCISE_LABELS[ex.typeId] || ex.typeId}) is usually for ${fit.range || "other classes"}${fit.fit === "easy" ? " — easy for" : " — a stretch for"} ${profile.label}. Fine if you chose it on purpose.`);
     }
-    sizeNote("Dictation", ex, ex.items?.length || 0);
+    sizeNote("Dictation", ex, ex.items?.length || 0, exIndex);
     ex.items?.forEach((item) => {
       if (hasGreek(item.prompt) || hasGreek(item.instruction)) {
         issues.push(`Greek found in dictation prompt (item ${item.number})`);
@@ -2368,10 +2378,10 @@ function validateWorksheet(data) {
     notes.push(`The Lingo sheet has ${practiceCount} practice exercise${practiceCount === 1 ? "" : "s"}; ${plan.lingoPracticeCount} were planned in Step 3.`);
   }
 
-  data.lingoLauncher?.practice?.forEach((ex) => {
+  data.lingoLauncher?.practice?.forEach((ex, exIndex) => {
     const vocab = data.lingoLauncher?.vocabulary || [];
     const lingoItemCount = ex.items?.length || 0;
-    sizeNote("Lingo", ex, lingoItemCount);
+    sizeNote("Lingo", ex, lingoItemCount, exIndex);
     if (["L01", "L05"].includes(ex.typeId) && ex.wordList?.length >= 2) {
       if (wordListMatchesAnswerOrder(ex.wordList, ex.items)) {
         issues.push(`Lingo exercise ${ex.number}: word list is in answer order — must be shuffled`);
@@ -3140,6 +3150,16 @@ DICTATION FORMATS (never give away answers to students):
 - D26 Jumbled letters: prompt = "scrambledLetters (short clue)" e.g. "ckrat (a path for running races)"; the scramble MUST be the answer's letters in a different order (single word, lower case); the clue must NOT contain the answer or a close form; answer = the unit word
 - D27 Missing letters: prompt = "t _ a _ k (short clue)" — the answer's letters with 2–3 letters replaced by "_" separated by spaces (never the first letter); clue must NOT contain the answer; answer = the full unit word (single word)
 - D29 Own sentence: NO wordBank; prompt = ONE unit word in CAPITALS, then " — " and a short idea from the students' own lives to write about (e.g. "TRACK — your school"), never a sentence or a definition; answer = a model sentence at class level that uses the word (any form) so that it SHOWS its meaning ("Our school has a track where we run every Friday.", never "I like the track."); testsWords = [that unit word]; a different unit word on each line
+- D07 Word math: prompt = the parts of ONE unit word joined with " + " and " = ________" (e.g. "in + spire + ation = ________"); use real prefixes, roots and suffixes (spelling changes allowed, e.g. "create + ive"); answer = the whole unit word
+- D09 Grammar detective: prompt = a sentence with ONE grammar mistake in the FORM of a unit word (wrong ending, tense, plural, word class — "She wants to competing"); answer = the correct form of that word only (one word or short chunk); never mark the mistake; testsWords = [the unit word]
+- D10 Word formation: prompt = the base word in quotes and the ending or beginning to add, then a gap (e.g. "Add -ition to “compete”: ________" / "Add un- to “happy”: ________"); answer = the new word, which MUST be a listed derivative or unit word; follow the class's word-family level
+- D14 Cloze paragraph: ONE connected paragraph split over the items: each item's prompt = the next sentence(s) of the paragraph with one numbered gap "(n) ________"; NO wordBank; answer = the unit word (in the form the gap needs); the paragraph tells one small story or fact text on the unit topic
+- D18 Register choice: prompt = a sentence with a gap and a situation in brackets — "(notice)", "(email to a friend)" — followed by (formal option / everyday option); answer = the option that fits the situation
+- D19 Definition (advanced): prompt = a precise definition followed by ": ________"; NO wordBank, NO letter hints; never the word or a word of its family; answer = the unit word
+- D21 Sequencing: each item = ONE everyday event in 3–4 short steps that use unit words, given MIXED UP as "a) … / b) … / c) …" on one line; answer = the letters in the right order, e.g. "b, a, c"; only one order makes sense (use First / Then / Finally clues only where needed)
+- D22 Crossword clue: prompt = a short clue and the number of letters in brackets, e.g. "A path where athletes run races (5 letters)"; never the answer or its family; answer = the unit word (ONE word)
+- D23 Analogy: prompt = "A is to B as C is to ________." with one clear relationship (opposite, part of, used for, type of, place where), A–B and C–answer sharing the SAME relationship; answer = a unit word; only one answer fits
+- D24 Minimal pair: prompt = a sentence with a gap ________ followed by (wordA / wordB) — two real words that look or sound alike and learners confuse (quiet / quite, lose / loose); answer = the one that fits; the unit word is the answer in most items
 - D28 Spelling check: sentence with ONE misspelt unit word in [square brackets] (a realistic learner error, e.g. [competion]); answer = the correctly spelt word; the bracketed word must NOT be a real English word
 - GLOBAL: Parentheses with a single vocabulary word matching the answer are FORBIDDEN on D01/D02/D04/D14/D17 — this includes trailing hints like "(blend)" after a gap`;
 
@@ -3153,7 +3173,11 @@ LINGO PRACTICE FORMATS (follow exactly per typeId):
 - L11 Yes / No questions: each prompt = a short question testing real understanding of a unit word in context (e.g. "Do athletes compete in a stadium?"); wordList MUST be []; answer = "Yes" or "No"; use a MIX of both (never all Yes); NEVER include the choices in the prompt
 - L12 Spelling check: sentence with ONE misspelt unit word in [square brackets]; wordList MUST be []; answer = the correctly spelt word; the bracketed word must NOT be a real English word; NEW sentences, not copied from dictation
 - L13 Which sentence is right?: wordList MUST be []; each prompt = "A. sentence  B. sentence" on one line — same unit word in both, exactly one uses it correctly (collocation, form or meaning); answer = "A" or "B"; MIX A and B answers; the mistake must be about the unit word, never random grammar
-- L09 Odd one out: each item = exactly 4 comma-separated words. 3 share the SAME part of speech (check vocabulary type); 1 is a different part of speech. answer = the odd word only. NEVER put antonyms or related forms (careful/careless) together. NEVER use 4 nouns with no verb/adjective odd word. GOOD: "artifact, treasure, jewel, excavate" (3 nouns + 1 verb, answer excavate). BAD: "careful, careless, royalty, excavate" (2 adjectives + mixed). BAD: "wagon, tide, audience, mystery" (4 nouns — no clear odd word)`;
+- L09 Odd one out: each item = exactly 4 comma-separated words; 3 share ONE clear link and 1 does not. A–C Senior: link by MEANING (animals, places, things you wear — "cat, dog, horse, bread", answer bread). D–E Senior: by meaning or by part of speech (check vocabulary type — "artifact, treasure, jewel, excavate", answer excavate). answer = the odd word only. Only ONE word can be the odd one. NEVER put antonyms or related forms (careful/careless) together. BAD: "wagon, tide, audience, mystery" (no clear link — no clear odd word)
+- L06 Grammar labels: prompt = ONE unit word (as in the table, or in a short phrase that shows its use: "a fast RUN" for a word with two classes); answer = its word class in full: noun / verb / adjective / adverb / preposition; wordList MUST be []; mix the classes
+- L07 Derivative build: prompt = "word (class) → ________ (class)" using a word and a derivative LISTED in the table (e.g. "compete (v.) → ________ (n.)"); answer = that listed derivative; wordList MUST be []; never invent forms
+- L08 Sentence order: prompt = the words of ONE correct sentence that uses a unit word, jumbled and separated by " / " without the final full stop or question mark ("around / ran / track / the / they"); never in the right order; answer = the full sentence with a capital letter; wordList MUST be []; at most the class's sentence length
+- L10 Personalize prompt: prompt = a question about the student's own life that uses a unit word ("Who is a big inspiration in your life?"); answer = a model answer — one full sentence at class level that uses the word; wordList MUST be []`;
 
 function buildSystemPrompt(profileId, plan) {
   const typeDesc = plan.dictationTypes.map((t) => `${t} (${EXERCISE_LABELS[t]})`).join(", ");
@@ -3162,7 +3186,7 @@ function buildSystemPrompt(profileId, plan) {
 
 Return ONLY valid json matching the schema below. No markdown fences.
 
-${getProfilePromptBlock(profileId, plan.tune)}${buildTuneBlock(profileId, plan.tune)}${buildWordBoxBlock(plan)}
+${getProfilePromptBlock(profileId, plan.tune)}${buildTuneBlock(profileId, plan.tune)}${buildWordBoxBlock(plan)}${exerciseSettingsBlock(plan, EXERCISE_LABELS)}
 
 LOCKED GENERATION PLAN (do NOT change types or counts):
 - Dictation exercises: exactly ${plan.dictationExerciseCount} — types: ${typeDesc}
@@ -3171,8 +3195,8 @@ LOCKED GENERATION PLAN (do NOT change types or counts):
 RULES:
 - Greek translation on EVERY Lingo Launcher vocab item; NEVER Greek in dictation prompts
 - Collocation phrases, not dictionary sentences
-- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items only
-- LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items maximum — NEVER one exercise with every vocabulary word
+- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items only (an exercise with its own number in EXERCISE SETTINGS has exactly that many)
+- LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items maximum (or its own number in EXERCISE SETTINGS) — NEVER one exercise with every vocabulary word
 - NEVER reuse the same sentence in Lingo practice and Dictation — write different contexts for each worksheet
 - Item "number" is a plain counter (1, 2, 3…) — NEVER type "(1)", "1)" or "1." at the start of any item "prompt"; the app prints the numbered circle itself
 - Dictation titles: "Exercise N" only — no parenthetical subtitles
@@ -3722,6 +3746,14 @@ async function freshIfWordsChanged(form, apiKey, existingData, options) {
   return { ...result, fullRegenerate: true };
 }
 
+/** The per-exercise settings of a partly rewritten worksheet: the kept sheet's own, the rewritten sheet's new ones. */
+function keptSettings(dictation, lingo) {
+  const out = {};
+  if (dictation?.length) out.dictation = dictation;
+  if (lingo?.length) out.lingo = lingo;
+  return Object.keys(out).length ? out : undefined;
+}
+
 /** options.plan: a plan whose dictation types to use (e.g. the teacher's custom selection). */
 async function regenerateDictationOnly(form, apiKey, existingData, options = {}) {
   const fresh = await freshIfWordsChanged(form, apiKey, existingData, options);
@@ -3742,7 +3774,9 @@ async function regenerateDictationOnly(form, apiKey, existingData, options = {})
     lingoPracticeCount: keptPractice.length,
     signature: buildSignature(picked.dictationTypes, lingoTypes),
     tune: planTune(options, picked.tune),
+    settings: keptSettings(picked.settings?.dictation, existingData.generationPlan?.settings?.lingo),
   };
+  if (!plan.settings) delete plan.settings;
   const systemPrompt = buildSystemPrompt(profileId, plan);
   // A new version: the old lines, so the AI writes really new ones.
   const oldLines = (existingData.dictation?.exercises || []).flatMap((ex) => (ex.items || []).map((i) => i.prompt)).filter(Boolean).slice(0, 40);
@@ -3785,7 +3819,9 @@ async function regenerateLingoPracticeOnly(form, apiKey, existingData, options =
     lingoPracticeCount: lingoPlan.lingoTypes.length,
     signature: buildSignature(dictTypes, lingoPlan.lingoTypes),
     tune: planTune(options, existingData.generationPlan?.tune),
+    settings: keptSettings(existingData.generationPlan?.settings?.dictation, lingoPlan.settings?.lingo),
   };
+  if (!plan.settings) delete plan.settings;
   const systemPrompt = buildSystemPrompt(profileId, plan);
   const userPrompt = buildUserPrompt(form, plan, form.teacherHints) +
     `\n\nONLY regenerate lingoLauncher.practice. Keep dictation exercises identical to:\n${JSON.stringify(existingData.dictation, null, 2)}` +

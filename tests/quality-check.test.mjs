@@ -124,7 +124,7 @@ test("lines per exercise is a guideline: 7 lines for A Senior is fine, a big ove
   const at = (n) => validateWorksheet(sheet(words, [{ number: 1, typeId: "D04", wordBank: [], items: gaps(n) }]));
   const seven = at(7);
   assert.equal(seven.issues.some((i) => /items|lines/.test(i)), false, "never a problem");
-  assert.equal(seven.notes.length, 0, "7 lines (setting ~5) isn't even worth a note");
+  assert.equal(seven.notes.filter((n) => /lines/.test(n)).length, 0, "7 lines (setting ~5) isn't even worth a note");
   const nine = at(9);
   assert.ok(nine.notes.some((n) => /Dictation 1 has 9 lines/.test(n)));
   const report = buildValidationReport(nine, sheet(words, []));
@@ -137,6 +137,6 @@ test("exercise counts and class types are notes on the sheet, but a dropped exer
   const v = validateWorksheet(data);
   assert.equal(v.issues.some((i) => /expected|not allowed/.test(i)), false);
   assert.ok(v.notes.some((n) => /1 exercise; 2 were planned/.test(n)));
-  assert.ok(v.notes.some((n) => /isn't one of the usual exercises for A Senior/.test(n)));
+  assert.ok(v.notes.some((n) => /usually for D–E Senior — a stretch for A Senior/.test(n)));
   assert.equal(v.planMismatch, true);
 });
