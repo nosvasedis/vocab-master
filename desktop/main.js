@@ -588,8 +588,10 @@ async function runSmokeTest() {
         const cpp1 = E.queryCoursebookWords({ bookId: "CPP1", unit: 1, includeSb: true, includeWb: true });
         const cpp2 = E.queryCoursebookWords({ bookId: "CPP2", unit: 5, includeSb: true, includeWb: false });
         const cpp3 = E.queryCoursebookWords({ bookId: "CPP3", pageRange: "118-120", includeSb: true, includeWb: true, wbScope: "unit" });
+        // 3549 official rows since the 2026-10-22 audit (one entry per word per section). The bank's own families,
+        // opposites and synonyms are curated now (tests/wordbank.test.mjs checks them); old AI enrichment must not come back.
         const cbOk = cpp1.counts.total > 50 && cpp1.counts.wb > 5 && cpp2.counts.wb === 0 && cpp3.unit === 6 && cpp3.counts.wb > 10
-          && E.CPP_WORDBANK.filter((e) => !e.origin).length === 3554 && !E.CPP_WORDBANK.some((e) => e.source === "enriched" || e.synonyms || e.isBasic);
+          && E.CPP_WORDBANK.filter((e) => !e.origin).length === 3549 && !E.CPP_WORDBANK.some((e) => e.source === "enriched" || e.isBasic);
 
         // Setup: choose Primary Path 2, type pages 74–76 → unit 4 is inferred and its words load.
         VM.go("setup");

@@ -7,7 +7,9 @@
 ## Worksheets: "Add your own words" as in the Test Maker (2026-10-24, from the user; pages only, on main)
 - **Step 1**, under the word pool (Primary Path only): the Test Maker's box. Type or paste "crater, ash cloud, volcano - ηφαίστειο" (Enter, Add, or paste a list one per line); same parser (`parseOwnWords` in `studio/own-words.js`). A word of the unit's pool comes in as the pool's word; any other is looked up in the word bank (any book) for its type, Greek, phrase and family; the teacher's Greek wins. Own words show as chips with ✕ and Remove all (Undo in the toast); the pool's count says "+N of your own".
 - **Own words stay** (`word.own`, kept by `makeWord` and the draft) when the unit's words are loaded again: Reload pick, Load, SB/WB filters, pages, another unit. Step 2's **Reset to unit words** drops them (`loadPoolWords({ dropOwn: true })`, Undo).
-- `npm test` 673 green. Checked in the browser preview: typing, a pool word typed, duplicates, Reload pick, remove, paste, restart, Step 2's list, Reset. `npm run smoke`: everything passes except `cbOk` (the word bank's 3554 count), which fails the same way on main without this change.
+- `npm test` 673 green. Checked in the browser preview: typing, a pool word typed, duplicates, Reload pick, remove, paste, restart, Step 2's list, Reset.
+- **AI treatment:** own words are ordinary rows: Step 2's ✨ Fill sends them with the unit's words (fill, retry, reviewer) and generation copies the filled table (empty fields → the "Some fields are empty" question). Checked with the AI mocked in the browser.
+- **Smoke fixed** (`desktop/main.js`, smoke code only, no release needed): `cbOk` still expected 3554 official rows and no synonyms, from before the 2026-10-22 audit (one entry per word per section → 3549; curated synonyms on CPP1 Unit 7). Now 3549 and the old-enrichment guard without the synonym ban; `npm run smoke` all green.
 
 ## Test Maker: a matching list follows the example switch (2026-10-24, from the user; pages only, on main)
 - **Bug:** a matching exercise with its example hidden still listed the example's meaning: 9 meanings for 8 words, and the letter of the extra one had no question.
