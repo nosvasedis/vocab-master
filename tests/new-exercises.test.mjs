@@ -187,7 +187,7 @@ test("worksheets: Own sentence (D29) for B–E Senior, a writing line on paper a
     ] }] },
   };
   const html = renderDictation(data);
-  assert.ok(html.includes('<strong>TRACK — your school</strong><span class="own-line"></span>'));
+  assert.ok(html.includes('<b>TRACK — your school</b><span class="st-line full"></span>'), "the word, then a whole line (the Test Maker's V-USE look)");
   assert.ok(!html.replace(/data-answer="[^"]*"/g, "").includes("Our school has a track"), "the model is only in the key");
   const v = validateWorksheet(data);
   assert.deepEqual(v.issues.filter((x) => /Dictation (ex )?1/.test(x)), []);

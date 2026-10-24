@@ -2,7 +2,7 @@
 import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
   renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
-  saveWorksheetSession, applyQuickWorksheetFixes, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
+  saveWorksheetSession, applyQuickWorksheetFixes, getStudentExerciseInstruction, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
   fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, getSavedSession, remakeWorksheetItem,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
@@ -16,6 +16,8 @@ import { openHeaderDialog } from "../header-dialog.js";
 import { play } from "../../arcade/audio.js";
 import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
 import { productFileName, safeFileName } from "../../studio/file-names.js";
+import { wsItemView, WS_HELP, helpMode, helpModes, familyBase, splitClue, joinAB, joinSteps } from "../../studio/ws-paper.js";
+import { letterHelpField } from "./letter-help-ui.js";
 
 let sheetSeg;
 let densitySeg;
@@ -35,6 +37,8 @@ const PAPER_CSS = WORKSHEET_PRINT_CSS.replace(/@page[^}]*}/, "").replace(/html,\
 }
 .editable, .editable-vocab { cursor: pointer; border-radius: 6px; transition: background 140ms, box-shadow 140ms; }
 .ex-item.editable { margin-left: -6px; margin-right: -6px; padding: 1px 6px; }
+.ex-head.editable-head { cursor: pointer; border-radius: 8px; margin-left: -6px; margin-right: -6px; padding: 2px 6px; transition: background 140ms, box-shadow 140ms; }
+.ex-head.editable-head:hover, .ex-head.editable-head:focus-visible { outline: none; background: #f1efff; box-shadow: 0 0 0 1.5px #b7aefc; }
 .editable:hover, .editable-vocab:hover { background: #f1efff; box-shadow: 0 0 0 1.5px #b7aefc; }
 .editable:focus-visible, .editable-vocab:focus-visible { outline: none; background: #f1efff; box-shadow: 0 0 0 2px #5b4cf5; }
 td.editable-vocab { border-radius: 0; }
@@ -211,6 +215,15 @@ function decorateEditable(sheet) {
   const list = sheet === "lingo" ? state.data.lingoLauncher.practice : state.data.dictation.exercises;
   shadow.querySelectorAll(".ex-block").forEach((block, exIndex) => {
     if (!list[exIndex]) return;
+    // The heading opens the exercise's own settings (task line, letter help, mixing).
+    const head = block.querySelector(".ex-head");
+    if (head) {
+      head.classList.add("editable-head");
+      head.tabIndex = 0;
+      head.setAttribute("role", "button");
+      head.title = "Click for this exercise's settings: instructions, letter help, mix the options";
+      head.dataset.ex = String(exIndex);
+    }
     block.querySelectorAll(".ex-item").forEach((item, itemIndex) => {
       item.classList.add("editable");
       item.tabIndex = 0;
@@ -226,6 +239,8 @@ function onPaperActivate(e) {
   const path = e.composedPath();
   const cell = path.find((n) => n.classList?.contains("editable-vocab"));
   if (cell) { e.preventDefault(); openVocabEditor(Number(cell.dataset.vocabNum) - 1); return; }
+  const head = path.find((n) => n.classList?.contains("editable-head"));
+  if (head) { e.preventDefault(); openExerciseSettings(state.preview.sheet, Number(head.dataset.ex)); return; }
   const item = path.find((n) => n.classList?.contains("editable"));
   if (!item || item.classList.contains("pe-busy")) return;
   e.preventDefault();
@@ -620,53 +635,189 @@ function getExercise(sheet, exIndex) {
   return list?.[exIndex] || null;
 }
 
+/** What the line editor shows for an exercise: the fields a line of that kind has (studio/ws-paper.js reads it). */
+function editKind(ex, view) {
+  const t = ex.typeId;
+  if (t === "D11" || t === "L09") return view.kind === "choice" ? "odd" : "plain";
+  if (t === "L13") return view.kind === "choice" ? "ab" : "plain";
+  if (t === "L06") return "label";
+  if (view.kind === "choice") return "choice";
+  if (view.kind === "tf") return "tf";
+  if (t === "D13") return "match";
+  if (view.kind === "steps") return "steps";
+  if (view.kind === "group") return "group";
+  if (t === "D26") return "jumble";
+  if (t === "D27") return "missing";
+  if (view.kind === "chips") return "order";
+  return "plain";
+}
+
+const WORD_CLASSES = ["noun", "verb", "adjective", "adverb"];
+/** A sentence's words mixed up ("they / the / ran …"), never in the right order. */
+function mixWords(sentence) {
+  const words = String(sentence || "").replace(/[.!?]+$/, "").split(/\s+/).filter(Boolean);
+  let out = words;
+  for (let k = 0; k < 12 && words.length > 1 && out.join(" ") === words.join(" "); k++) out = [...words].sort(() => Math.random() - 0.5);
+  return out.join(" / ");
+}
+
+/**
+ * One line of a worksheet, edited like a Test Maker question: the fields its kind has (sentence + options + the right
+ * one, A/B, yes/no, the letter of a meaning, the steps, a group's words, a clue), and — for the exercises whose letter
+ * boxes the app makes — this line's own letter help.
+ */
 function openItemEditor(sheet, exIndex, itemIndex) {
   const ex = getExercise(sheet, exIndex);
   const item = ex?.items?.[itemIndex];
   if (!ex || !item) return;
-  const showAnswer = ex.typeId !== "D13";
+  const level = state.data.meta?.classProfile || state.profileId;
+  const view = wsItemView(ex, item, level);
+  const kind = editKind(ex, view);
   const showStem = ex.typeId === "D02";
   const showTests = sheet === "dictation" && Array.isArray(item.testsWords);
-  const showBank = Array.isArray(ex.wordBank) && ex.wordBank.length > 0;
+  const showBank = Array.isArray(ex.wordBank) && ex.wordBank.length > 0 && ex.typeId !== "D16";
   const showList = Array.isArray(ex.wordList) && ex.wordList.length > 0;
   const typeLabel = `${ex.typeId} · ${EXERCISE_LABELS[ex.typeId] || ex.typeId}`;
+  const field = (id, label, value, { rows = 0, hint = "", wide = true } = {}) => `<div class="field${wide ? " wide" : ""}"><label class="label" for="${id}">${label}${hint ? ` <span class="opt">${hint}</span>` : ""}</label>${rows ? `<textarea class="textarea" id="${id}" rows="${rows}">${esc(value ?? "")}</textarea>` : `<input class="input" id="${id}" value="${esc(value ?? "")}" autocomplete="off" />`}</div>`;
+  const select = (id, label, options, value) => `<div class="field"><label class="label" for="${id}">${label}</label><select class="select" id="${id}">${options.map(([v, l]) => `<option value="${esc(v)}"${String(v).toLowerCase() === String(value ?? "").toLowerCase() ? " selected" : ""}>${esc(l)}</option>`).join("")}</select></div>`;
+  const LET = "abcdefgh";
+  // The sentence of a choice line, as the teacher edits it: the gap stays (or is where the options were).
+  const choiceBody = view.kind === "choice" ? (view.target ? view.before : view.mid ? `${view.before} ________ ${view.after}`.trim() : `${view.before} ${view.after}`.trim()) : "";
+  const tfOptions = ex.typeId === "L11" ? [["Yes", "Yes"], ["No", "No"]] : [["T", "T (true)"], ["F", "F (false)"]];
+  const meaning = (l) => String((ex.wordBank || []).find((e) => String(e).toUpperCase().startsWith(`${l}.`)) || "").replace(/^[A-Z]\.\s*/i, "");
+  const matchLetters = (ex.wordBank || []).map((e) => String(e).match(/^([A-Z])\./i)?.[1]?.toUpperCase()).filter(Boolean);
+  let body = "";
+  if (kind === "choice") {
+    body = field("ie_body", view.target ? "Word" : "Sentence", choiceBody, { rows: view.target ? 0 : 2, hint: view.target ? "its options are printed under it" : "the gap is ________" })
+      + field("ie_opts", "Options", view.options.join("\n"), { rows: 3, hint: "one per line — printed a, b, c to circle" })
+      + `<div class="field"><label class="label" for="ie_answer">Right answer</label><select class="select" id="ie_answer"></select></div>`;
+  } else if (kind === "odd") {
+    body = field("ie_opts", "The words", view.options.join("\n"), { rows: 4, hint: "one per line — three belong together" }) + `<div class="field"><label class="label" for="ie_answer">The odd one out</label><select class="select" id="ie_answer"></select></div>`;
+  } else if (kind === "ab") {
+    body = field("ie_a", "Sentence A", view.options[0], { rows: 2 }) + field("ie_b", "Sentence B", view.options[1], { rows: 2 }) + select("ie_answer", "The right one", [["A", "A"], ["B", "B"]], item.answer);
+  } else if (kind === "label") {
+    body = field("ie_prompt", "Word", item.prompt) + select("ie_answer", "Word class", WORD_CLASSES.map((w) => [w, w]), item.answer);
+  } else if (kind === "tf") {
+    body = field("ie_body", ex.typeId === "L11" ? "Question" : "Statement", view.text, { rows: 2 }) + select("ie_answer", "Right answer", tfOptions, item.answer);
+  } else if (kind === "match") {
+    body = field("ie_body", "Word", view.word) + (matchLetters.length ? select("ie_answer", "Its meaning", matchLetters.map((l) => [l, `${l} · ${meaning(l)}`]), item.answer) : field("ie_answer", "Letter", item.answer, { wide: false }));
+  } else if (kind === "steps") {
+    body = field("ie_steps", "Steps", view.steps.join("\n"), { rows: 4, hint: "one per line, as printed a, b, c … (mixed up)" }) + field("ie_answer", "Right order", item.answer, { hint: "the letters, e.g. b, a, c" });
+  } else if (kind === "group") {
+    body = field("ie_body", "Group", view.group) + field("ie_answer", "Its words", item.answer, { hint: "comma-separated — they go in the word box" });
+  } else if (kind === "jumble") {
+    const c = splitClue(item.prompt);
+    body = field("ie_body", "Clue", c.clue) + field("ie_answer", "Answer", item.answer) + `<div class="field wide"><label class="switch sm"><input type="checkbox" id="ie_mix" /><span class="track"></span><span class="sw-text">Mix the letters again (now: ${esc(c.head)})</span></label></div>`;
+  } else if (kind === "missing") {
+    body = field("ie_body", "Clue", splitClue(item.prompt).clue) + field("ie_answer", "Answer", item.answer, { hint: "the letter boxes below follow it" });
+  } else if (kind === "order") {
+    body = field("ie_prompt", "Words (mixed up)", item.prompt, { hint: "separated by /" }) + field("ie_answer", "The sentence", item.answer) + `<div class="field wide"><button type="button" class="btn btn-ghost btn-sm" data-mix>${icon("shuffle", "i-sm")}Mix the words again</button></div>`;
+  } else {
+    body = field("ie_prompt", "Line shown to students", item.prompt, { rows: 3, hint: /_{3,}/.test(item.prompt || "") ? "the gap is ________" : "" }) + (ex.typeId === "D13" ? "" : field("ie_answer", "Answer", item.answer, { wide: !showStem }));
+  }
+  // Letter help for this one line (the exercises whose letter boxes the app makes), as in the Test Maker.
+  let help = null;
+  if (WS_HELP[ex.typeId] && ["plain", "missing", "jumble"].includes(kind)) {
+    let rootEl = null;
+    const family = WS_HELP[ex.typeId].kind === "family";
+    help = letterHelpField({
+      task: family ? "V-FORM" : "V-DEF", reveal: item.reveal, partMode: helpMode(ex, level), partName: "exercise",
+      exclude: WS_HELP[ex.typeId].not || [],
+      watch: ["#ie_answer", "#ie_prompt", "#ie_stem"],
+      answer: () => rootEl?.querySelector("#ie_answer")?.value ?? item.answer,
+      prompt: () => {
+        if (!family) return "";
+        const base = familyBase(ex, { ...item, prompt: rootEl?.querySelector("#ie_prompt")?.value ?? item.prompt, stem: rootEl?.querySelector("#ie_stem")?.value ?? item.stem });
+        return base ? `(${base.toUpperCase()})` : "";
+      },
+    });
+    const mount = help.mount;
+    help.mount = (root) => { rootEl = root; mount(root); };
+  }
 
   openDialog({
     title: `${SHEET_NAME[sheet]} · Exercise ${ex.number}, line ${item.number}`,
-    subtitle: ex.typeId === "D13" ? `${typeLabel} — matching letters come from the definition list` : typeLabel,
+    subtitle: typeLabel,
     iconName: "pencil",
     sheet: true,
     body: `
-      <div class="field"><label class="label" for="ie_prompt">Line shown to students</label>
-        <textarea class="textarea" id="ie_prompt" rows="3">${esc(item.prompt || "")}</textarea></div>
       <div class="editor-grid">
-        ${showAnswer ? `<div class="field ${showStem ? "" : "wide"}"><label class="label" for="ie_answer">Answer</label><input class="input" id="ie_answer" value="${esc(item.answer || "")}" autocomplete="off" /></div>` : ""}
+        ${body}
         ${showStem ? `<div class="field"><label class="label" for="ie_stem">Stem clue (bold)</label><input class="input" id="ie_stem" value="${esc(item.stem || "")}" autocomplete="off" /></div>` : ""}
         ${showTests ? `<div class="field wide"><label class="label" for="ie_tests">Tests these unit words <span class="opt">comma-separated</span></label><input class="input" id="ie_tests" value="${esc((item.testsWords || []).join(", "))}" autocomplete="off" /></div>` : ""}
-        ${showBank ? `<div class="field wide"><label class="label" for="ie_bank">Word bank <span class="opt">one per line · whole exercise · words that fit no gap count as extra words</span></label><textarea class="textarea" id="ie_bank" rows="4">${esc(ex.wordBank.join("\n"))}</textarea></div>` : ""}
+        ${showBank ? `<div class="field wide"><label class="label" for="ie_bank">${ex.typeId === "D13" ? "Meanings" : "Word bank"} <span class="opt">one per line · whole exercise${ex.typeId === "D13" ? " · “A. meaning”" : " · words that fit no gap count as extra words"}</span></label><textarea class="textarea" id="ie_bank" rows="4">${esc(ex.wordBank.join("\n"))}</textarea></div>` : ""}
         ${showList ? `<div class="field wide"><label class="label" for="ie_list">Word list <span class="opt">one per line · whole exercise · words that fit no gap count as extra words</span></label><textarea class="textarea" id="ie_list" rows="4">${esc(ex.wordList.join("\n"))}</textarea></div>` : ""}
       </div>
+      ${help?.html || ""}
       <div class="validation-line ok" id="ie_val">${icon("check-circle")}<span>Checking…</span></div>`,
     foot: `
       <button type="button" class="btn btn-danger-ghost btn-sm" data-del>${icon("trash", "i-sm")}Delete line</button>
       <button type="button" class="btn btn-ghost btn-sm" data-add>${icon("plus", "i-sm")}Add line below</button>
       <span class="spacer"></span>
+      <button type="button" class="btn btn-magic btn-sm" data-remake>${icon("sparkles", "i-sm")}Remake with Lingo</button>
       <button type="button" class="btn btn-secondary" data-close>Cancel</button>
       <button type="button" class="btn btn-primary" data-save>Save</button>`,
     onMount(root, close) {
       const q = (id) => root.querySelector(id);
+      const val = (id) => q(id)?.value ?? "";
+      const lines = (id) => val(id).split("\n").map((x) => x.trim()).filter(Boolean);
+      help?.mount(root);
+      // The right-answer list follows the options as they are typed.
+      const fillAnswers = () => {
+        const sel = q("#ie_answer");
+        if (!sel || sel.tagName !== "SELECT" || !q("#ie_opts")) return;
+        const opts = lines("#ie_opts");
+        const cur = sel.value || item.answer;
+        sel.innerHTML = opts.map((o, i) => `<option value="${esc(o)}"${o.toLowerCase() === String(cur).toLowerCase() ? " selected" : ""}>${LET[i] || ""}) ${esc(o)}</option>`).join("");
+      };
+      fillAnswers();
+      q("#ie_opts")?.addEventListener("input", fillAnswers);
+      q("[data-mix]")?.addEventListener("click", () => { q("#ie_prompt").value = mixWords(val("#ie_answer")); q("#ie_prompt").dispatchEvent(new Event("input", { bubbles: true })); });
+      /** The line as the teacher left it: the prompt rebuilt in the exercise's own format; check = why it can't be saved. */
+      const built = () => {
+        const out = { check: "" };
+        if (kind === "choice") {
+          const opts = lines("#ie_opts");
+          const group = `(${opts.join(" / ")})`;
+          const b = val("#ie_body").trim();
+          out.prompt = !view.target && view.mid && /_{3,}/.test(b) ? b.replace(/_{3,}/, group) : `${b} ${group}`;
+          out.answer = val("#ie_answer");
+          if (opts.length < 2 || !opts.some((o) => o.toLowerCase() === out.answer.toLowerCase())) out.check = "Give at least two options and choose the right one.";
+        } else if (kind === "odd") {
+          const opts = lines("#ie_opts");
+          out.prompt = opts.join(", ");
+          out.answer = val("#ie_answer");
+          if (opts.length < 3) out.check = "Give three or four words.";
+        } else if (kind === "ab") { out.prompt = joinAB([val("#ie_a"), val("#ie_b")]); out.answer = val("#ie_answer"); }
+        else if (kind === "label") { out.prompt = val("#ie_prompt").trim(); out.answer = val("#ie_answer"); }
+        else if (kind === "tf") { out.prompt = `${ex.typeId === "D15" ? "( ) " : ""}${val("#ie_body").trim()}`; out.answer = val("#ie_answer"); }
+        else if (kind === "match") { out.prompt = `${val("#ie_body").trim()} __________`; out.answer = val("#ie_answer").trim().toUpperCase(); }
+        else if (kind === "steps") { out.prompt = joinSteps(lines("#ie_steps")); out.answer = val("#ie_answer").trim(); }
+        else if (kind === "group") {
+          const words = val("#ie_answer").split(",").map((w) => w.trim()).filter(Boolean);
+          out.prompt = `${val("#ie_body").trim()}: ${words.map(() => "________").join(", ")}`;
+          out.answer = words.join(", ");
+        } else if (kind === "jumble") {
+          const c = splitClue(item.prompt);
+          out.prompt = `${q("#ie_mix")?.checked ? "" : c.head} (${val("#ie_body").trim()})`.trim();
+          out.answer = val("#ie_answer").trim();
+        } else if (kind === "missing") { out.prompt = `_ (${val("#ie_body").trim()})`; out.answer = val("#ie_answer").trim(); }
+        else { out.prompt = val("#ie_prompt").trim(); if (q("#ie_answer")) out.answer = val("#ie_answer").trim(); }
+        return out;
+      };
       const applyTo = (data) => {
         const cEx = sheet === "lingo" ? data.lingoLauncher.practice[exIndex] : data.dictation.exercises[exIndex];
         const cItem = cEx?.items?.[itemIndex];
         if (!cEx || !cItem) return data;
-        cItem.prompt = q("#ie_prompt").value.trim();
-        if (showAnswer) cItem.answer = q("#ie_answer").value.trim();
-        if (showStem) cItem.stem = q("#ie_stem").value.trim();
-        if (showTests) cItem.testsWords = q("#ie_tests").value.split(",").map((s) => s.trim()).filter(Boolean);
+        const b = built();
+        cItem.prompt = b.prompt;
+        if (b.answer !== undefined) cItem.answer = b.answer;
+        if (showStem) cItem.stem = val("#ie_stem").trim();
+        if (showTests) cItem.testsWords = val("#ie_tests").split(",").map((x) => x.trim()).filter(Boolean);
+        if (help) { const r = help.value(); if (r === undefined) delete cItem.reveal; else cItem.reveal = r; }
         // A box the teacher typed keeps all its words (the answers are always added); its extra words are then this exercise's own.
-        const typed = (sel) => q(sel).value.split("\n").map((s) => s.trim()).filter(Boolean);
-        if (showBank && typed("#ie_bank").join("\n") !== (cEx.wordBank || []).join("\n")) { cEx.wordBank = typed("#ie_bank"); cEx.boxByTeacher = true; }
-        if (showList && typed("#ie_list").join("\n") !== (cEx.wordList || []).join("\n")) { cEx.wordList = typed("#ie_list"); cEx.boxByTeacher = true; }
+        if (showBank && lines("#ie_bank").join("\n") !== (cEx.wordBank || []).join("\n")) { cEx.wordBank = lines("#ie_bank"); cEx.boxByTeacher = true; }
+        if (showList && lines("#ie_list").join("\n") !== (cEx.wordList || []).join("\n")) { cEx.wordList = lines("#ie_list"); cEx.boxByTeacher = true; }
         return data;
       };
       let t;
@@ -675,11 +826,12 @@ function openItemEditor(sheet, exIndex, itemIndex) {
         t = setTimeout(() => {
           const out = q("#ie_val");
           try {
+            const own = built().check;
             const clone = applyTo(normalizeWorksheetExercises(JSON.parse(JSON.stringify(state.data))));
             const issues = validateWorksheet(clone).issues || [];
             const ex2 = getExercise(sheet, exIndex);
             const re = new RegExp(`^${sheet === "lingo" ? "Lingo" : "Dictation"} ex ${ex2.number}\\b(?: \\([^)]*\\))? item ${item.number}:`, "i");
-            const mine = issues.filter((i) => re.test(i)).map((i) => i.replace(/^.*?item \d+:\s*/i, ""));
+            const mine = [...(own ? [own] : []), ...issues.filter((i) => re.test(i)).map((i) => i.replace(/^.*?item \d+:\s*/i, ""))];
             out.className = `validation-line ${mine.length ? "warn" : "ok"}`;
             out.innerHTML = `${icon(mine.length ? "alert" : "check-circle")}<span>${mine.length ? esc(mine.join(" · ")) : "This line looks good."}</span>`;
           } catch {
@@ -689,21 +841,25 @@ function openItemEditor(sheet, exIndex, itemIndex) {
         }, 220);
       };
       root.querySelector(".dialog-body").addEventListener("input", validate);
+      root.querySelector(".dialog-body").addEventListener("click", (e) => { if (e.target.closest("[data-lh], [data-mix]")) validate(); });
       validate();
 
       const commit = (msg) => {
         state.data = normalizeWorksheetExercises(state.data);
-        const val = persistSession();
+        const v = persistSession();
         renderPreview();
-        if (msg) toast(msg, val?.issues?.length ? "warn" : "ok", { ms: 2600 });
+        if (msg) toast(msg, v?.issues?.length ? "warn" : "ok", { ms: 2600 });
       };
       const save = () => {
+        const b = built();
+        if (b.check) { toast(b.check, "warn"); return; }
         applyTo(state.data);
         close();
         commit("Line saved.");
         flashNode(`.ex-item[data-ex="${exIndex}"][data-item="${itemIndex}"]`);
       };
       q("[data-save]").addEventListener("click", save);
+      q("[data-remake]").addEventListener("click", () => { close(); remakeDialog(sheet, exIndex, itemIndex); });
       root.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); save(); } });
       q("[data-add]").addEventListener("click", () => {
         applyTo(state.data);
@@ -736,6 +892,107 @@ function openItemEditor(sheet, exIndex, itemIndex) {
             commit("Line restored.");
           } }],
         });
+      });
+    },
+  });
+}
+
+/* ── One exercise's settings on the paper (click its heading), like a Test Maker part's: the task line, the letter
+   help of the whole exercise, and mixing its options / letters / words / steps again — all without the AI. ── */
+const shuffled = (list) => { const a = [...list]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/** Each choice line gets its options in a new order, the right one in a different place from line to line. */
+function mixOptions(ex, level) {
+  let k = Math.floor(Math.random() * 3);
+  ex.items.forEach((it) => {
+    const v = wsItemView(ex, it, level);
+    if (v.kind !== "choice" || v.answerIndex < 0) return;
+    const right = v.options[v.answerIndex];
+    const rest = shuffled(v.options.filter((_, i) => i !== v.answerIndex));
+    const at = k++ % v.options.length;
+    const options = [...rest.slice(0, at), right, ...rest.slice(at)];
+    if (ex.typeId === "D11" || ex.typeId === "L09") it.prompt = options.join(", ");
+    else if (ex.typeId === "L13") { it.prompt = joinAB(options); it.answer = at === 0 ? "A" : "B"; }
+    else it.prompt = it.prompt.replace(/\(([^()]*\/[^()]*)\)/, `(${options.join(" / ")})`);
+  });
+}
+
+/** Steps in a new order, with the answer's letters following them. */
+function mixSteps(ex, level) {
+  ex.items.forEach((it) => {
+    const v = wsItemView(ex, it, level);
+    if (v.kind !== "steps") return;
+    const order = String(it.answer || "").toLowerCase().match(/[a-h]/g) || [];
+    const right = order.map((l) => v.steps["abcdefgh".indexOf(l)]).filter(Boolean);
+    if (right.length !== v.steps.length) return;
+    let mixed = shuffled(right);
+    for (let t = 0; t < 8 && mixed.join() === right.join(); t++) mixed = shuffled(right);
+    it.prompt = joinSteps(mixed);
+    it.answer = right.map((st) => "abcdefgh"[mixed.indexOf(st)]).join(", ");
+  });
+}
+
+function openExerciseSettings(sheet, exIndex) {
+  const ex = getExercise(sheet, exIndex);
+  if (!ex) return;
+  const level = state.data.meta?.classProfile || state.profileId;
+  const views = ex.items.map((it) => wsItemView(ex, it, level));
+  const modes = helpModes(ex.typeId);
+  const family = WS_HELP[ex.typeId]?.kind === "family";
+  let mode = helpMode(ex, level);
+  const appLine = getStudentExerciseInstruction({ ...ex, ownInstruction: false });
+  const own = ex.ownInstruction ? String(ex.instruction || "") : "";
+  const mixes = [
+    views.some((v) => v.kind === "choice") && ["options", "Mix the options", "a new order on every line — the right answer moves around"],
+    views.some((v) => v.kind === "steps") && ["steps", "Mix the steps", "the right order follows"],
+    ex.typeId === "D26" && ["letters", "Mix the letters again", "every word"],
+    ex.typeId === "L08" && ["words", "Mix the words again", "every sentence"],
+  ].filter(Boolean);
+  const ownLines = ex.items.filter((it) => it.reveal !== undefined).length;
+  openDialog({
+    title: `${SHEET_NAME[sheet]} · Exercise ${ex.number}`,
+    subtitle: `${ex.typeId} · ${EXERCISE_LABELS[ex.typeId] || ex.typeId}`,
+    iconName: "sliders",
+    sheet: true,
+    body: `
+      <div class="field"><label class="label" for="es_instr">What the children read <span class="opt">empty = the app's line, which fits what is printed</span></label>
+        <textarea class="textarea" id="es_instr" rows="2" placeholder="${esc(appLine)}">${esc(own)}</textarea></div>
+      ${modes.length ? `<div class="field"><span class="label">${family ? "Word help" : "Letter help"} <span class="opt">the whole exercise — the app draws the letter boxes</span></span>
+        <div class="chip-row" data-es-modes>${modes.map(([v, l]) => `<button type="button" class="chip${v === mode ? " active" : ""}" data-mode="${esc(v)}">${esc(l)}</button>`).join("")}</div>
+        <small class="hint">${ownLines ? `${plural(ownLines, "line")} ${ownLines === 1 ? "has" : "have"} its own letters (click a line to change them) — <button type="button" class="ex-crosslink" data-es-clear>use the exercise's for all</button>` : "Click a line on the paper to choose its own letters."}</small></div>` : ""}
+      ${mixes.length ? `<div class="field"><span class="label">Mix</span><div class="es-mixes">${mixes.map(([k, l, hint]) => `<button type="button" class="btn btn-ghost btn-sm" data-es-mix="${k}">${icon("shuffle", "i-sm")}${esc(l)}</button><small class="hint">${esc(hint)}</small>`).join("")}</div></div>` : ""}`,
+    foot: `<span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Close</button><button type="button" class="btn btn-primary" data-save>Save</button>`,
+    onMount(root, close) {
+      let clearOwn = false;
+      const pending = new Set();
+      root.querySelector("[data-es-modes]")?.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-mode]");
+        if (!b) return;
+        mode = b.dataset.mode;
+        root.querySelectorAll("[data-mode]").forEach((x) => x.classList.toggle("active", x === b));
+      });
+      root.querySelector("[data-es-clear]")?.addEventListener("click", (e) => { clearOwn = true; e.target.closest("small").textContent = "Every line will use the exercise's letter help."; });
+      root.querySelectorAll("[data-es-mix]").forEach((b) => b.addEventListener("click", () => {
+        pending.add(b.dataset.esMix);
+        b.classList.add("active");
+        b.disabled = true;
+        b.lastChild.textContent = `${b.lastChild.textContent} ✓`;
+      }));
+      root.querySelector("[data-save]").addEventListener("click", () => {
+        const before = JSON.stringify(state.data);
+        const text = root.querySelector("#es_instr").value.trim();
+        if (text && text !== appLine) { ex.instruction = text; ex.ownInstruction = true; } else { delete ex.ownInstruction; ex.instruction = ""; }
+        if (modes.length) ex.letterHelp = mode;
+        if (clearOwn) ex.items.forEach((it) => { delete it.reveal; });
+        if (pending.has("options")) mixOptions(ex, level);
+        if (pending.has("steps")) mixSteps(ex, level);
+        if (pending.has("letters")) ex.items.forEach((it) => { it.prompt = `(${splitClue(it.prompt).clue})`; });
+        if (pending.has("words")) ex.items.forEach((it) => { it.prompt = mixWords(it.answer); });
+        close();
+        state.data = normalizeWorksheetExercises(state.data);
+        persistSession();
+        renderPreview();
+        toast("Exercise saved.", "ok", { ms: 2600, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); } }] });
       });
     },
   });

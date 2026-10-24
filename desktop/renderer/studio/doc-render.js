@@ -6,33 +6,20 @@ import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
 import { LETTERS, answerKeyRows, docPoints, matchList, sectionRubric, showsExample, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
+import { lineHtml, hintBoxHtml, isWriteIn } from "./paper-parts.js";
 import { testPartColumns } from "./item-columns.js";
 
 const GAP = /_{3,}/g;
-const line = (cls = "") => `<span class="st-line ${cls}"></span>`;
+const line = lineHtml;
 const pic = (token, cls = "ws-pic") => {
   const id = String(token || "").replace(/^@/, "");
   return /^(?:w|c|ui)-[a-z0-9-]+$/.test(id) ? `<img class="${cls}" src="${esc(picUrl(id))}" alt="" draggable="false">` : "";
 };
 const withGaps = (text) => esc(text).replace(GAP, () => line("inline"));
 /** Letter help with blanks ("b _ _ _ _ _", "_ _ _ _ (4 letters)", "s u n _ _") is the writing space itself. */
-const writeIn = (it) => /_/.test(it?.hint || "");
-/**
- * Letter help drawn as letter boxes, one per letter: the letters the help gives are printed, the rest are empty for
- * the child (words apart, a hyphen or apostrophe between boxes). In the example every box is filled in by hand.
- * hint: "b _ _ _ _ _", "_ _ _ _ (4 letters)", "s u n _ _", "l _ _   _ _ _ _".
- */
-const hintBox = (it, example) => {
-  const words = String(it.hint).replace(/\s*\(\d+ letters?\)\s*$/, "").trim().split(/\s{2,}/).map((w) => w.split(" ").filter(Boolean));
-  const fill = String(it.answer || "").trim().split(/\s+/).map((w) => [...w]);
-  const cell = (t, i, j) => {
-    if (!/^[A-Za-z_]$/.test(t)) return `<span class="st-cpunct">${esc(t)}</span>`;
-    const given = t !== "_";
-    const ch = given ? t : example ? fill[i]?.[j] || "" : "";
-    return `<span class="st-cell${given ? " given" : ""}">${esc(ch)}</span>`;
-  };
-  return `<span class="st-cells${example ? " done" : ""}">${words.map((w, i) => `<span class="st-cword">${w.map((t, j) => cell(t, i, j)).join("")}</span>`).join("")}</span>`;
-};
+const writeIn = (it) => isWriteIn(it?.hint);
+/** Letter help drawn as letter boxes (studio/paper-parts.js); in the example every box is filled in by hand. */
+const hintBox = (it, example) => hintBoxHtml(it.hint, it.answer, example);
 
 /** Layout options with their defaults. */
 export function docLayout(doc, options = {}) {
@@ -365,65 +352,25 @@ export const STUDIO_PRINT_CSS = `
 .st-passage h4 { margin: 0 0 1.4mm; font: 800 11pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; }
 .st-passage p { margin: 0 0 1.6mm; }
 .st-passage p:last-child { margin-bottom: 0; }
-.st-line { display: inline-block; min-width: 26mm; border-bottom: 0.8pt solid var(--ink); height: 1.1em; vertical-align: -0.2em; }
-.st-line.inline { min-width: 22mm; margin: 0 1mm; }
-.st-line.short { min-width: 18mm; }
-.st-line.tiny { min-width: 9mm; }
-.st-line.full { display: block; width: 100%; height: 8mm; }
-.st-line.grow { flex: 1; min-width: 30mm; }
-.st-hint { display: inline-block; margin: 0 1.6mm; padding: 0.2mm 1.8mm; border: 0.6pt dashed var(--ink-3); border-radius: 1.4mm; font: 700 9.6pt/1.4 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.06em; color: var(--ink-2); white-space: nowrap; }
-.pic-card .st-hint { margin: 0.6mm 0 0; font-size: 8.6pt; }
-.pic-card .pic-line.hinted { height: auto; border-bottom: 0; flex-wrap: wrap; gap: 1mm; }
-.st-cells { display: inline-flex; flex-wrap: nowrap; gap: 2.2mm; margin: 0 1.2mm; vertical-align: -1.9mm; }
-.st-cword { display: inline-flex; align-items: stretch; }
-.st-cell { display: inline-grid; place-items: center; box-sizing: border-box; width: 5.2mm; height: 6.4mm; margin-left: -0.6pt; border: 0.6pt solid var(--ink-3); background: #fff; font: 700 11pt/1 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; color: var(--ink); }
-.st-cword > .st-cell:first-child { margin-left: 0; border-radius: 1.2mm 0 0 1.2mm; }
-.st-cword > .st-cell:last-child { border-radius: 0 1.2mm 1.2mm 0; }
-.st-cword > .st-cell:only-child { border-radius: 1.2mm; }
-.st-cell.given { background: #f1f0eb; color: var(--ink-2); }
-.st-cells.done .st-cell:not(.given) { font: 400 12pt/1 "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }
-.st-cpunct { align-self: flex-end; padding: 0 0.5mm; font-weight: 700; }
-.pic-card .pic-line.hinted .st-cells { flex-wrap: wrap; justify-content: center; row-gap: 1mm; margin: 0; }
-.pic-card .st-cell { width: 4.4mm; height: 5.4mm; font-size: 9.5pt; }
 .st-notice { display: inline-block; max-width: 92%; margin: 0 0 1.2mm; padding: 1.6mm 3mm; border: 0.5mm solid #1f2430; border-radius: 1.6mm; font-weight: 700; letter-spacing: 0.01em; background: #fbfaf6; }
 .st-order .item-text { display: flex; align-items: center; gap: 3mm; }
-.st-order-box { flex: none; width: 7mm; height: 7mm; border: 0.8pt solid var(--ink); border-radius: 1.4mm; text-align: center; font: 700 10pt/7mm "Segoe Print", "Comic Sans MS", cursive; color: var(--ink-2); }
 .st-starters { margin: 0 0 1mm 9.8mm; }
 .st-conv .st-conv-reply { display: flex; align-items: center; gap: 2mm; margin-top: 0.6mm; }
 .st-use .st-line.full { height: 7mm; }
 .st-sort-words s { color: var(--ink-3); }
-.st-sort { width: calc(100% - 9.8mm); margin: 0 0 2mm 9.8mm; border-collapse: collapse; table-layout: fixed; }
-.st-sort th { padding: 1.4mm 2mm; border: 0.8pt solid var(--ink); background: #f1f0eb; font: 800 10pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; text-align: left; }
-.st-sort td { padding: 0.6mm 2mm 1mm; border-left: 0.8pt solid var(--ink); border-right: 0.8pt solid var(--ink); vertical-align: bottom; height: 8mm; }
-.st-sort tr:last-child td { border-bottom: 0.8pt solid var(--ink); }
-.st-sort .st-line.full { height: 6mm; }
 .st-sent-row { display: flex; flex-wrap: wrap; gap: 1.6mm 7mm; margin: 0 0 1mm 9.8mm; }
 .st-sent-row .st-sent { margin: 0; padding: 0; }
 .st-sent .item-text { display: flex; align-items: center; gap: 1.6mm; }
 .st-starter { display: flex; align-items: flex-end; gap: 2mm; margin: 0 0 3.2mm; font-size: 10.4pt; }
 .st-starter .item-num { flex: none; }
-.st-item { align-items: flex-start; }
-.st-options { display: flex; flex-wrap: wrap; gap: 1.4mm 6mm; margin-top: 0.6mm; }
-.st-opt { display: inline-flex; align-items: center; gap: 1.6mm; }
-.st-opt b { display: inline-flex; align-items: center; justify-content: center; width: 4.8mm; height: 4.8mm; border: 0.8pt solid var(--ink); border-radius: 50%; font: 700 7.6pt/1 "Manrope", sans-serif; }
-.st-opt.picked b { background: #111; color: #fff; }
 .st-cols { columns: 2; column-gap: 8mm; }
 .st-cols > .ex-item { break-inside: avoid; page-break-inside: avoid; }
 .st-pic-items { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm 6mm; }
 .st-pic-options { display: flex; gap: 3mm; margin-top: 1mm; }
 .st-pic-opt { display: flex; flex-direction: column; align-items: center; gap: 1mm; padding: 1.6mm; border: 0.8pt solid var(--rule); border-radius: 2mm; }
 .st-opt-pic { width: 19mm; height: 19mm; object-fit: contain; }
-.st-box { width: 5mm; height: 5mm; border: 0.8pt solid var(--ink); border-radius: 1mm; display: inline-flex; align-items: center; justify-content: center; font-size: 9pt; }
 .st-pic-opt small { font: 700 7.4pt/1 "Manrope", sans-serif; color: var(--ink-3); }
-.st-tf { display: flex; align-items: flex-start; gap: 4mm; }
-.st-tf > span:first-child { flex: 1; }
-.st-tf-box { flex: none; min-width: 14mm; height: 6mm; border: 0.8pt solid var(--ink); border-radius: 1.6mm; text-align: center; font: 700 9pt/6mm "Manrope", sans-serif; }
-.st-example { color: var(--ink-2); }
-.st-example .item-num { border-style: dashed; }
-.st-ex-ans { font-family: "Segoe Print", "Comic Sans MS", cursive; font-size: 11pt; color: var(--ink-2); border-bottom: 0.8pt solid var(--ink-3); padding: 0 2mm; }
 /* A matching example is selected, like the picked option of a choice: dark, not grey. */
-.st-ex-ans.picked { color: #fff; background: #111; border-bottom-color: transparent; border-radius: 1.2mm; padding: 0 1.6mm; }
-.st-order-box.picked { background: #111; color: #fff; }
 .match-def-line.picked b { background: #111; color: #fff; }
 .st-task { margin: 0 0 2mm 9.8mm; font-weight: 600; }
 .st-words { font-size: 8.6pt; font-weight: 700; color: var(--ink-3); border: 0.6pt solid var(--rule); border-radius: 1.4mm; padding: 0.2mm 1.6mm; margin-left: 1mm; }

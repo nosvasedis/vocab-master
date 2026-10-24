@@ -481,6 +481,10 @@
 .tune-field .select, .tune-field .segmented { width: 100%; }
 .preset-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 .preset-row .label { margin-right: 4px; }
+/* Worksheet exercise settings (Step 4: click an exercise's heading) */
+.chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 4px; }
+.es-mixes { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 10px; }
+.es-mixes .btn.active { color: var(--success-ink); }
 .ex-crosslink { border: 0; background: none; padding: 0; font: inherit; font-weight: 650; color: var(--brand); cursor: pointer; }
 .ex-crosslink:hover { text-decoration: underline; }
 .plan-empty { grid-column: 1 / -1; }

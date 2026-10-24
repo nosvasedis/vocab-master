@@ -10,16 +10,19 @@ const QUICK = [["count", "Boxes only"], ["first", "First letter"], ["first2", "F
 
 /**
  * opts: { task, reveal (the question's own: undefined | "none" | [positions]), partMode (the part's setting),
- *         answer(), prompt() — read live from the editor's fields }.
+ *         answer(), prompt() — read live from the editor's fields; watch: the fields to follow (selectors);
+ *         exclude: quick choices that don't apply (a missing-letters line always shows some letters: "none", "count");
+ *         partName: what the part is called ("part", "exercise") }.
  * Returns { html, mount(root), value() → undefined (the part's setting) | "none" | [positions] }.
  */
-export function letterHelpField({ task, reveal, partMode, answer, prompt }) {
+export function letterHelpField({ task, reveal, partMode, answer, prompt, watch = ["#pe_ans", "#pe_prompt"], exclude = [], partName = "part" }) {
   const family = task === "V-FORM";
   const knob = KNOBS[family ? "family" : "hint"];
   const partLabel = knob.values.find(([v]) => v === partMode)?.[1] || "None";
-  const quick = family ? [["root", "Word inside"], ...QUICK.filter(([m]) => m !== "first2" && m !== "firstlast")] : QUICK;
+  const quick = (family ? [["root", "Word inside"], ...QUICK.filter(([m]) => m !== "first2" && m !== "firstlast")] : QUICK).filter(([m]) => !exclude.includes(m));
+  const noNone = exclude.includes("none");
   // mode: "part" (the part's setting), "none" (a plain line), "own" (the letters in `shown`).
-  const st = reveal === "none" ? { mode: "none", shown: [] } : Array.isArray(reveal) ? { mode: "own", shown: [...reveal] } : { mode: "part", shown: [] };
+  const st = reveal === "none" && !noNone ? { mode: "none", shown: [] } : Array.isArray(reveal) ? { mode: "own", shown: [...reveal] } : { mode: "part", shown: [] };
   let host = null;
 
   const letters = () => letterPositions(answer());
@@ -45,7 +48,7 @@ export function letterHelpField({ task, reveal, partMode, answer, prompt }) {
     const n = shown.size;
     const chip = (m, label, active) => `<button type="button" class="chip${active ? " active" : ""}" data-lh-mode="${m}">${esc(label)}</button>`;
     host.innerHTML = `
-      <div class="lh-modes">${chip("part", `The part’s setting · ${partLabel}`, st.mode === "part")}${chip("none", "None", st.mode === "none")}${quick.map(([m, label]) => chip(m, label, st.mode === "own" && same(revealFor(answer(), m, prompt()), [...shown]))).join("")}</div>
+      <div class="lh-modes">${chip("part", `The ${partName}’s setting · ${partLabel}`, st.mode === "part")}${noNone ? "" : chip("none", "None", st.mode === "none")}${quick.map(([m, label]) => chip(m, label, st.mode === "own" && same(revealFor(answer(), m, prompt()), [...shown]))).join("")}</div>
       <div class="lh-boxes${off ? " off" : ""}">${cells}</div>
       <div class="lh-row">
         <button type="button" class="lh-step" data-lh-step="-1" aria-label="Show one letter fewer"${!off && n > 0 ? "" : " disabled"}>−</button>
@@ -81,7 +84,7 @@ export function letterHelpField({ task, reveal, partMode, answer, prompt }) {
       draw();
     });
     // The answer (or the word in capitals) changes: the boxes follow; letters that no longer exist go.
-    ["#pe_ans", "#pe_prompt"].forEach((sel) => root.querySelector(sel)?.addEventListener("input", draw));
+    watch.forEach((sel) => root.querySelector(sel)?.addEventListener("input", draw));
     draw();
   }
 

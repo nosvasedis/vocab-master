@@ -5,7 +5,7 @@
  * Fit follows the Cambridge formats each class works towards (A ≈ Starters/Movers, B Movers, C Flyers, D A2 Key,
  * E B1 Preliminary) — see docs/research/exercise-design.md → "Worksheet exercises: one library with the Test Maker". */
 
-import { levelIndex } from "./tasks.js";
+import { levelIndex, KNOBS } from "./tasks.js";
 
 export const WS_SHEETS = {
   dictation: { label: "Dictation", icon: "📝", note: "assessment — every unit word is tested here" },
@@ -81,8 +81,8 @@ export const WS_TASKS = {
     blurb: "Three or four short steps of one everyday event, mixed up (a, b, c); children write them in order. The unit words carry the steps — like Movers / Flyers story order, from B Senior.",
     sample: { list: ["Then step onto the track.", "First, warm up.", "Finally, compete."], a: "b, a, c" } },
   D22: { sheet: "dictation", kind: "recall", fit: [1, 4], trains: ["Meaning", "Spelling"],
-    blurb: "Crossword-style clues with the number of letters; children write the word. The letter count helps spelling — from B Senior.",
-    sample: { q: "A path where athletes run races (5 letters)", hint: "_ _ _ _ _", a: "track" } },
+    blurb: "Crossword-style clues with a box for each letter; children write the word. The boxes help spelling — you can also give the first letter, or none. From B Senior.",
+    sample: { q: "A path where athletes run races", hint: "_ _ _ _ _", a: "track" } },
   D23: { sheet: "dictation", kind: "recall", fit: [3, 4], trains: ["Relationships between words", "Reasoning"],
     blurb: "Word is to word as word is to ____ (hot is to cold as up is to ____). Children must see the link (opposite, part of, used for) — analogies in “A is to B” form are hard before about 12, so they are for D–E Senior.",
     sample: { q: "Arm is to body as wheel is to ________.", a: "bike" } },
@@ -90,14 +90,14 @@ export const WS_TASKS = {
     blurb: "Two words that look or sound alike in brackets (quiet / quite, inspiration / respiration); children choose the right one. For D–E Senior, who meet more look-alike words.",
     sample: { q: "Her story was a great ________ to us.", o: ["inspiration", "respiration"], a: 0 } },
   D25: { sheet: "dictation", kind: "recall", fit: [0, 2], needs: "pictures", trains: ["Spelling", "Naming things"],
-    blurb: "The app's own pictures with a short clue; children write the word — Cambridge “look and write”. Pictures carry the meaning, the strongest way for young classes to remember words.",
+    blurb: "The app's own pictures with a short clue; children write the word under each picture — Cambridge “look and write”. Letter boxes with the first letter help young classes.",
     sample: { pics: ["🏃"], q: "(an oval path for runners)", a: "track" } },
   D26: { sheet: "dictation", kind: "recall", fit: [0, 2], trains: ["Spelling", "Word shape"],
-    blurb: "The word's letters mixed up, with a short clue; children write the word. Playful spelling practice — the Starters unjumble task.",
-    sample: { q: "ckrat (a path for running races)", a: "track" } },
+    blurb: "The word's letters mixed up, with a short clue; children write the word — the Starters unjumble task. A line to write on, or letter boxes with the first letter if you like.",
+    sample: { q: "a path for running races  c · k · r · a · t", a: "track" } },
   D27: { sheet: "dictation", kind: "recall", fit: [0, 2], trains: ["Spelling"],
-    blurb: "The word with two or three letters missing and a clue (t _ a _ k); children complete it. Gentle spelling recall for young classes.",
-    sample: { q: "t _ a _ k (a path for running races)", a: "track" } },
+    blurb: "The word as letter boxes with some letters given, and a clue; children write the missing ones. You choose which letters show — for the whole exercise, or line by line on the paper.",
+    sample: { q: "a path for running races", hint: "t _ a _ k", a: "track" } },
   D28: { sheet: "dictation", kind: "recall", fit: [1, 4], trains: ["Spelling", "Checking your writing"],
     blurb: "One unit word in [brackets] is misspelt (a real learner mistake); children write it correctly. Trains the spelling Greek learners trip on — from B Senior.",
     sample: { q: "The runners ran around the [trak].", a: "track" } },
@@ -218,7 +218,7 @@ export const WS_LEVELS = [
 export const WS_ITEMS = [3, 10];
 export const WS_EXTRAS = [[0, "None · one per gap"], [1, "+1"], [2, "+2"], [3, "+3"]];
 
-/** One exercise's settings, cleaned: { items?, level?, extras?, note? } (absent = follow the worksheet). */
+/** One exercise's settings, cleaned: { items?, level?, extras?, hint?, note? } (absent = follow the worksheet). */
 export function cleanSettings(s) {
   const out = {};
   const items = Number(s?.items);
@@ -227,6 +227,8 @@ export function cleanSettings(s) {
   if (Number.isFinite(level) && level >= 1 && level <= 5 && Math.round(level) !== 3) out.level = Math.round(level);
   const extras = Number(s?.extras);
   if (Number.isFinite(extras) && extras >= 0 && extras <= 3 && s?.extras !== undefined && s?.extras !== null && s?.extras !== "") out.extras = Math.round(extras);
+  // Letter help (the app draws the boxes, no AI): a mode of the Test Maker's letter / word help.
+  if (typeof s?.hint === "string" && [...KNOBS.hint.values, ...KNOBS.family.values].some(([v]) => v === s.hint)) out.hint = s.hint;
   const note = String(s?.note || "").trim().slice(0, 160);
   if (note) out.note = note;
   return out;

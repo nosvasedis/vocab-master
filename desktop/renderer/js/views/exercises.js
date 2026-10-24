@@ -12,6 +12,8 @@ import { state, emit, on, buildForm, filledWords, bookTitle, unitNumber, pageRan
 import { getApiKey, isAiReady, getProvider, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
 import { stepperHtml } from "./studio-common.js";
+import { persistSession } from "./preview.js";
+import { WS_HELP, helpModes, defaultHelp } from "../../studio/ws-paper.js";
 import { openWorksheetLibrary, wsTask, wsBadges, sampleHtml } from "./task-library.js";
 import {
   WS_TASKS, WS_SHEETS, WS_KINDS, WS_LEVELS, WS_ITEMS, WS_EXTRAS, wsTaskFit, wsBlock, planEntries, withEntries,
@@ -224,9 +226,20 @@ function facts(e) {
     const n = e.extras ?? normalizeTune(state.ex.tune).extras;
     out.push(n ? `Word box: +${n} extra` : "Word box: one per gap");
   }
+  const help = helpLabel(e);
+  if (help) out.push(help);
   const fit = wsTaskFit(e.type, state.profileId);
   if (fit.fit !== "great") out.push(fit.label);
   return out;
+}
+
+/** "Letter help: First letter" for an exercise whose letter boxes the app draws ("" for the others). */
+function helpLabel(e) {
+  const h = WS_HELP[e.type];
+  if (!h) return "";
+  const mode = e.hint || defaultHelp(e.type, state.profileId);
+  const label = helpModes(e.type).find(([v]) => v === mode)?.[1] || "None";
+  return `${h.kind === "family" ? "Word help" : "Letter help"}: ${label}`;
 }
 
 function rowHtml(sheet, e, i, count, f) {
@@ -283,11 +296,24 @@ function rowHtml(sheet, e, i, count, f) {
           <b class="pc-level-v">${WS_LEVELS[lv].label}</b>
         </div>
         ${extras}
+        ${helpHtml(e, key)}
         <div class="pc-knob"><span class="pc-lbl">Your wish</span><input class="input sm part-note" data-note="${key}" placeholder="Optional, e.g. “about a school trip”" value="${esc(e.note || "")}" maxlength="160" /></div>
         ${block ? `<p class="pc-new-words ws-block">${icon("alert", "i-xs")}<span>This exercise ${esc(block)}. Change the exercise, or add them in Step 2.</span></p>` : ""}
       </div>
     </div>
   </li>`;
+}
+
+/** The letter-help chips of an exercise whose letter boxes the app draws (the Test Maker's knob). */
+function helpHtml(e, key) {
+  const h = WS_HELP[e.type];
+  if (!h) return "";
+  const mode = e.hint || defaultHelp(e.type, state.profileId);
+  const label = h.kind === "family" ? "Word help" : "Letter help";
+  return `<div class="pc-knob"><span class="pc-lbl">${label}</span><div class="pc-chips" role="radiogroup" aria-label="${label}">${helpModes(e.type).map(([v, l]) => {
+    const on = v === mode;
+    return `<button type="button" class="pc-chip${on ? " active" : ""}" data-help="${esc(v)}" data-key="${key}" role="radio" aria-checked="${on}">${esc(l)}</button>`;
+  }).join("")}</div><small class="pc-knob-note">For the whole exercise, made by the app (no AI) — on the paper, click a line to choose its own letters.</small></div>`;
 }
 
 function renderParts() {
@@ -386,6 +412,22 @@ function onPartsClick(e) {
   }
   const reset = e.target.closest("[data-items-reset]");
   if (reset) { update(reset.dataset.itemsReset, { items: undefined }); return; }
+  const hb = e.target.closest("[data-help]");
+  if (hb) {
+    const { sheet, i } = parseKey(hb.dataset.key);
+    const type = planEntries(state.plan, sheet)[i]?.type;
+    update(hb.dataset.key, { hint: hb.dataset.help === defaultHelp(type, state.profileId) ? undefined : hb.dataset.help });
+    // Letter boxes are the app's: a sheet already written changes at once.
+    const ex = (sheet === "dictation" ? state.data?.dictation?.exercises : state.data?.lingoLauncher?.practice)?.[i];
+    if (ex?.typeId === type) {
+      ex.letterHelp = hb.dataset.help;
+      state.data = normalizeWorksheetExercises(state.data);
+      persistSession();
+      emit("data");
+      toast(`${sheet === "dictation" ? "Dictation" : "Lingo"} ${i + 1}: the letter boxes on the sheet changed too.`, "ok", { ms: 2400 });
+    }
+    return;
+  }
   const chip = e.target.closest("[data-extras]");
   if (chip) { update(chip.dataset.key, { extras: chip.dataset.extras === "" ? undefined : Number(chip.dataset.extras) }); return; }
   const mv = e.target.closest("[data-move]");
