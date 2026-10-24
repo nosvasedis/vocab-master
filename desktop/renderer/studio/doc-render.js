@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, showsExample, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, matchList, sectionRubric, showsExample, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 import { testPartColumns } from "./item-columns.js";
 
@@ -78,12 +78,14 @@ function passageHtml(section) {
   return `<div class="st-passage">${section.passageTitle ? `<h4>${esc(section.passageTitle)}</h4>` : ""}${body}</div>`;
 }
 
-function bankHtml(section) {
+function bankHtml(section, layout = {}) {
   if (!section.bank?.length) return "";
   if (section.answerType === "match") {
+    // The meanings as the paper prints them: the example's own meaning only while the example is shown (selected).
+    const { defs, selected } = matchList(section, layout);
     // Short meanings sit in two columns (half the height).
-    const twoCol = section.bank.length >= 6 && section.bank.every((b) => String(b.text).length <= 38);
-    return `<div class="match-defs${twoCol ? " two-col" : ""}">${section.bank.map((b) => `<p class="match-def-line"><b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
+    const twoCol = defs.length >= 6 && defs.every((b) => String(b.text).length <= 38);
+    return `<div class="match-defs${twoCol ? " two-col" : ""}">${defs.map((b) => `<p class="match-def-line${b.text === selected ? " picked" : ""}"><b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
   }
   // The words to sort: the example's word is crossed out (it is already in the table). Not the editable word box.
   if (section.task === "V-SORT") return `<div class="word-bank st-keywords st-sort-words">${section.bank.map((w) => `<span>${w === section.example?.prompt ? `<s>${esc(w)}</s>` : esc(w)}</span>`).join("")}</div>`;
@@ -108,8 +110,11 @@ function sortTableHtml(section, layout, showAnswers) {
 
 function itemHtml(section, it, layout, { example = false, showAnswers = false } = {}) {
   const num = `<span class="item-num">${example ? "0" : esc(it.n)}</span>`;
-  const exAns = example ? `<span class="st-ex-ans">${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]}` : section.answerType === "match" ? it.letter?.toUpperCase() || "" : it.answer)}</span>` : "";
-  const key = showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]} ${it.answer}` : section.answerType === "match" ? it.letter?.toUpperCase() : it.answer)}</span>` : "";
+  // A matching part's letters are the ones its list prints (the example's meaning is in the list only while it is shown).
+  const match = section.answerType === "match" ? matchList(section, layout) : null;
+  const letter = (x) => (match ? match.letterOf(x.answer).toUpperCase() : "");
+  const exAns = example ? `<span class="st-ex-ans${match ? " picked" : ""}">${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]}` : match ? letter(it) : it.answer)}</span>` : "";
+  const key = showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]} ${it.answer}` : match ? letter(it) : it.answer)}</span>` : "";
   const cls = `ex-item st-item${example ? " st-example" : ""}`;
   if (section.answerType === "choice") {
     const pics = layout.pictures && it.optionPics?.length;
@@ -125,7 +130,7 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   }
   if (section.answerType === "match") {
     // A conversation: the other person's line, then the replier with a box for the letter of the reply.
-    const letterBox = `<span class="st-order-box">${example ? esc(it.letter?.toUpperCase() || "") : ""}</span>`;
+    const letterBox = `<span class="st-order-box${example ? " picked" : ""}">${example ? esc(letter(it)) : ""}</span>`;
     if (section.task === "R-CONV") return `<div class="${cls} st-conv">${num}<div class="item-text"><div>${esc(it.prompt)}</div><div class="st-conv-reply">${section.replier ? `<b>${esc(section.replier)}:</b>` : ""}${letterBox}${key}</div></div></div>`;
     // Missing sentences: "(1) [ ]" side by side under the list (the gap number is the question number).
     if (section.task === "R-SENT") return `<div class="${cls} st-sent"><div class="item-text"><b>${esc(it.prompt || `(${example ? 0 : it.n})`)}</b>${letterBox}${key}</div></div>`;
@@ -274,7 +279,7 @@ export function renderStudentPaper(doc, options = {}) {
     if (section.skill === "listening") body += `<div class="st-audio">Listen to track ${i + 1}. You will hear it ${section.plays === 1 ? "once" : "twice"}.</div>`;
     if (section.skill === "dictation") return `<section class="ex-block st-sec">${partHead(section, i, layout)}${dictationHtml(section, layout, options.showAnswers)}</section>`;
     if (!["writing"].includes(section.skill) || section.task === "W-MESSAGE") body += passageHtml(section);
-    body += bankHtml(section);
+    body += bankHtml(section, layout);
     if (section.answerType === "open") body += openTaskHtml(section, layout);
     else if (section.task === "V-PIC" || section.task === "V-TICK") body += pictureCardsHtml(section, layout, options.showAnswers);
     else if (section.task === "V-SORT") body += sortTableHtml(section, layout, options.showAnswers);
@@ -324,7 +329,7 @@ export function renderTeacherPack(doc, options = {}) {
     } else {
       if (s.task === "V-USE") h += `<p class="st-teacher-note">${esc(USE_MARKING(s))}</p>`;
       // Groups: "Animals: bee, insect" (a group name doesn't fit a number circle).
-      h += answerKeyRows(s).map((r) => (s.task === "V-SORT" ? `<p class="ex-item"><span class="item-text"><b>${esc(r.n)}:</b> <strong>${esc(r.text)}</strong></span></p>` : `<p class="ex-item"><span class="item-num">${esc(r.n)}</span><span class="item-text"><strong>${esc(r.text)}</strong></span></p>`)).join("");
+      h += answerKeyRows(s, layout).map((r) => (s.task === "V-SORT" ? `<p class="ex-item"><span class="item-text"><b>${esc(r.n)}:</b> <strong>${esc(r.text)}</strong></span></p>` : `<p class="ex-item"><span class="item-num">${esc(r.n)}</span><span class="item-text"><strong>${esc(r.text)}</strong></span></p>`)).join("");
     }
     return `${h}</section>`;
   }).join("");
@@ -416,6 +421,10 @@ export const STUDIO_PRINT_CSS = `
 .st-example { color: var(--ink-2); }
 .st-example .item-num { border-style: dashed; }
 .st-ex-ans { font-family: "Segoe Print", "Comic Sans MS", cursive; font-size: 11pt; color: var(--ink-2); border-bottom: 0.8pt solid var(--ink-3); padding: 0 2mm; }
+/* A matching example is selected, like the picked option of a choice: dark, not grey. */
+.st-ex-ans.picked { color: #fff; background: #111; border-bottom-color: transparent; border-radius: 1.2mm; padding: 0 1.6mm; }
+.st-order-box.picked { background: #111; color: #fff; }
+.match-def-line.picked b { background: #111; color: #fff; }
 .st-task { margin: 0 0 2mm 9.8mm; font-weight: 600; }
 .st-words { font-size: 8.6pt; font-weight: 700; color: var(--ink-3); border: 0.6pt solid var(--rule); border-radius: 1.4mm; padding: 0.2mm 1.6mm; margin-left: 1mm; }
 .st-frame { margin: 0 0 2mm 9.8mm; padding-left: 5mm; font-size: 10pt; color: var(--ink-2); }

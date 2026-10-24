@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, showsExample, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, matchList, sectionRubric, showsExample, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./paper-header.js";
@@ -141,7 +141,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       } else {
         if (s.task === "V-USE") children.push(para([run(USE_MARKING(s), { size: 18, color: "555555" })]));
         // Groups: "Animals: bee, insect" (a group name isn't a question number).
-        answerKeyRows(s).forEach((r) => children.push(s.task === "V-SORT" ? para([run(`${r.n}: `, { bold: true }), run(r.text)], { indent: { left: 8 * MM } }) : item(r.n, [run(r.text, { bold: true })])));
+        answerKeyRows(s, meta.layout).forEach((r) => children.push(s.task === "V-SORT" ? para([run(`${r.n}: `, { bold: true }), run(r.text)], { indent: { left: 8 * MM } }) : item(r.n, [run(r.text, { bold: true })])));
       }
       return;
     }
@@ -158,7 +158,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     }
     if (s.passage && (s.skill !== "writing" || s.task === "W-MESSAGE")) children.push(box([...(s.passageTitle ? [para([run(s.passageTitle, { bold: true })])] : []), ...s.passage.split(/\n+/).map((p) => para([run(gapText(p), { size: 21 })], { spacing: { after: 1 * MM } }))]));
     if (s.bank?.length) {
-      if (s.answerType === "match") s.bank.forEach((b) => children.push(para([run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text, { size: 20 })], { indent: { left: 8 * MM } })));
+      if (s.answerType === "match") matchList(s, meta.layout).defs.forEach((b) => children.push(para([run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text, { size: 20 })], { indent: { left: 8 * MM } })));
       // The words to sort: the example's word crossed out (it is already in the table).
       else if (s.task === "V-SORT") children.push(box([para(s.bank.flatMap((w, k) => [...(k ? [run("     •     ", { bold: true })] : []), new d.TextRun({ text: w, font: FONT, size: scaledSize(22, textSize), bold: true, strike: w === s.example?.prompt, color: w === s.example?.prompt ? "8A8A8A" : undefined })]))]));
       else children.push(box([para([run(s.bank.join("     •     "), { bold: true })])]));
@@ -189,6 +189,9 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       return;
     }
     const withExample = !!s.example && (teacher || showsExample(s, meta.layout));
+    // A matching part's letters are the ones its list prints (the example's meaning is in the list only while it is shown).
+    const matched = s.answerType === "match" ? matchList(s, meta.layout) : null;
+    const letterOf = (it) => (matched ? matched.letterOf(it.answer).toUpperCase() : "");
     const all = [...(withExample ? [{ ...s.example, n: 0 }] : []), ...s.items];
     const cols = testPartColumns(s, { textSize, withExample });
     const out = [];
@@ -208,8 +211,8 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         });
       } else if (s.answerType === "tf") runs.push(run(gapText(it.prompt)), run(`      ${ex ? it.answer : "______"}`, { bold: true }));
       // A conversation: the other person's line, then the replier and the letter of the reply.
-      else if (s.task === "R-CONV") runs.push(run(it.prompt), new d.TextRun({ break: 1 }), run(`${s.replier ? `${s.replier}:  ` : ""}`, { bold: true }), run(ex ? `[ ${(it.letter || "").toUpperCase()} ]` : "[      ]", { bold: true }));
-      else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? (it.letter || "").toUpperCase() : "_____"}`));
+      else if (s.task === "R-CONV") runs.push(run(it.prompt), new d.TextRun({ break: 1 }), run(`${s.replier ? `${s.replier}:  ` : ""}`, { bold: true }), run(ex ? `[ ${letterOf(it)} ]` : "[      ]", { bold: true }));
+      else if (s.answerType === "match") runs.push(run(it.prompt, { bold: true }), run(`   ${ex ? `(${letterOf(it)})` : "_____"}`, { bold: ex }));
       // Own sentences: the word (and the idea), then a whole line; the example shows the model.
       else if (s.task === "V-USE") runs.push(run(it.prompt, { bold: true }), new d.TextRun({ break: 1 }), run(ex ? it.answer : "_".repeat(70), { italics: ex, color: ex ? undefined : "8A8A8A" }));
       else if (writeIn(it)) {

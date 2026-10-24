@@ -299,6 +299,23 @@ export const boxExtras = (section) => (hasWordBox(section) ? countExtraWords(sec
 export const showsExample = (section, layout = {}) => !!section?.example && (section.task === "R-ORDER" || (section.showExample ?? layout.examples !== false));
 
 /**
+ * A matching part's list as printed: its meanings with their letters, the letter of each answer, and the example's
+ * meaning (selected) when the example is printed. The example's meaning is one of the list only while the example is
+ * printed: hidden, it is taken out and the letters run on from A over the rest, in the same order. The stored letters
+ * are the shown case, so the doc itself never changes.
+ */
+export function matchList(section, layout = {}) {
+  const exText = section?.example?.answer || null;
+  const shown = showsExample(section, layout);
+  const answers = new Set((section?.items || []).map((it) => it.answer));
+  // A meaning that is also a question's answer stays: the example only shares it.
+  const hide = !shown && exText && !answers.has(exText) ? exText : null;
+  const defs = (section?.bank || []).filter((b) => b.text !== hide).map((b, i) => ({ letter: LETTERS[i], text: b.text }));
+  const letters = new Map(defs.map((d) => [d.text, d.letter]));
+  return { defs, letterOf: (text) => letters.get(text) || "", selected: shown ? exText : null };
+}
+
+/**
  * A part's instruction (English and Greek) with the letters of its real options, and — for a word box — the line
  * saying how many extra words it has ("There are two extra words you do not need."), counted from the box itself.
  */
@@ -673,14 +690,15 @@ export function docPoints(doc) {
   return (doc?.sections || []).reduce((sum, s) => sum + (Number(s.points) || 0), 0);
 }
 
-/** Answer key lines for a section: [{ n, text }]. */
-export function answerKeyRows(section) {
+/** Answer key lines for a section: [{ n, text }]. layout: the doc's layout (a matching part's letters follow its list). */
+export function answerKeyRows(section, layout = {}) {
   // Groups: one row per group with its words.
   if (section.task === "V-SORT") return (section.groups || []).map((g) => ({ n: g, text: (section.items || []).filter((it) => it.answer === g).map((it) => it.prompt).join(", ") }));
+  const match = section.answerType === "match" ? matchList(section, layout) : null;
   return (section.items || []).map((it) => {
     if (section.task === "V-USE") return { n: it.n, text: `e.g. ${it.answer}` };
     if (section.answerType === "choice") return { n: it.n, text: `${LETTERS[it.answerIndex] ?? "?"}) ${it.answer}` };
-    if (section.answerType === "match") return { n: it.n, text: `${it.letter} — ${it.answer}` };
+    if (match) return { n: it.n, text: `${match.letterOf(it.answer)} — ${it.answer}` };
     if (section.task === "R-ORDER") return { n: (it.letter || "").toUpperCase() || it.n, text: `${it.answer} — ${it.prompt}` };
     return { n: it.n, text: it.answer || "" };
   });
