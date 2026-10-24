@@ -74,7 +74,18 @@
 }
 .sb-ico { width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 8px; color: var(--text-2); background: var(--surface-3); }
 .sb-ico .i { width: 15px; height: 15px; }
-.sb-ico.games { color: #fff; background: var(--accent-grad); }
+/* One design language for the sidebar: every item is a solid tile with a white icon, each in a colour of its own
+   (the makers in their page colours: Worksheets orange, Test Maker indigo → sky, Read-aloud dictation emerald → teal). */
+.sb-ico.home, .sb-ico.assistant, .sb-ico.worksheets, .sb-ico.tests, .sb-ico.dictation, .sb-ico.lessons, .sb-ico.games, .sb-ico.projector-ico, .sb-ico.library-ico { color: #fff; }
+.sb-ico.home { background: linear-gradient(135deg, #94a3b8, #475569); }
+.sb-ico.assistant { background: linear-gradient(135deg, #e879f9, #c026d3); }
+.sb-ico.worksheets { background: linear-gradient(135deg, #f26b3a, #f7a531); }
+.sb-ico.tests { background: linear-gradient(135deg, #5b5ff6, #38b2f8); }
+.sb-ico.dictation { background: linear-gradient(135deg, #0c9f7a, #22b8cf); }
+.sb-ico.lessons { background: linear-gradient(135deg, #a78bfa, #6d28d9); }
+.sb-ico.games { background: linear-gradient(135deg, #fb7185, #e11d48); }
+.sb-ico.projector-ico { background: linear-gradient(135deg, #a3e635, #4d7c0f); }
+.sb-ico.library-ico { background: linear-gradient(135deg, #d4a373, #9c6644); }
 .sb-count { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 99px; color: var(--brand-ink); background: var(--brand-soft); }
 .sb-item:disabled { opacity: 0.45; cursor: not-allowed; }
 

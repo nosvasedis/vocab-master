@@ -2,9 +2,6 @@
    Vocab Master — "Make" screens: Teacher assistant, Unit test, Dictation
    ══════════════════════════════════════════════════════════════════ */
 
-.sb-ico.assistant { color: #fff; background: linear-gradient(135deg, #e879f9, #c026d3); }
-.sb-ico.tests { color: var(--info-ink); background: var(--info-soft); }
-.sb-ico.dictation { color: var(--success-ink); background: var(--success-soft); }
 
 .studio-view { min-height: 100%; }
 
