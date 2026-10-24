@@ -25,7 +25,7 @@ import {
 } from "./arcade/deck.js";
 import { picForWord, picUrl } from "./js/pics.js";
 import { TEXT_SIZE_CSS, textSizeKey, scaledSize } from "./studio/text-size.js";
-import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./studio/paper-header.js";
+import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields, headerSchool, headerTitle } from "./studio/paper-header.js";
 import { WS_KIND_OF, wsAllowed, wsTaskFit, exerciseSettingsBlock, itemsAt, settingsAt } from "./studio/worksheet-tasks.js";
 import { PAPER_PARTS_CSS } from "./studio/paper-parts.js";
 import { wsItemView, wsItemHtml, wsItemClass, wsPicLineHtml, itemHint, splitClue, WS_HELP, WS_CHOICE_TYPES } from "./studio/ws-paper.js";
@@ -2821,12 +2821,14 @@ function worksheetHeaderHtml(meta, { title, kind, facts = {}, layout }) {
   const extra = headerExtra(h);
   const fields = layout.studentHeader ? studentFields(h) : [];
   const side = m.book || m.unitLine || m.detail;
-  const top = (h.school && layout.schoolName) || h.title || kindLine || extra;
+  // The school line and the title in the teacher's words when they changed them (Header → the words).
+  const school = h.school ? headerSchool(h, layout.schoolName) : "";
+  const top = school || h.title || kindLine || extra;
   return `<header class="ws-head">
     ${top || side ? `<div class="ws-band${side ? "" : " no-meta"}">
       <div class="ws-band-title">
-        ${h.school && layout.schoolName ? `<div class="ws-school">${escapeHtml(layout.schoolName)}</div>` : ""}
-        ${h.title ? `<h1 class="ws-title ws-heading">${escapeHtml(title)}</h1>` : ""}
+        ${school ? `<div class="ws-school">${escapeHtml(school)}</div>` : ""}
+        ${h.title ? `<h1 class="ws-title ws-heading">${escapeHtml(headerTitle(h, title))}</h1>` : ""}
         ${kindLine ? `<div class="ws-kind">${escapeHtml(kindLine)}</div>` : ""}
         ${extra ? `<div class="ws-extra">${escapeHtml(extra)}</div>` : ""}
       </div>
@@ -4745,6 +4747,8 @@ async function docxKit(meta, sheet) {
     const m = worksheetMetaParts(meta, h);
     const extra = headerExtra(h);
     kind = headerKindLine(kind, {}, h);
+    const school = h.school ? headerSchool(h, layout.schoolName) : "";
+    title = headerTitle(h, title);
     const band = new d.Table({
       width: { size: 100, type: d.WidthType.PERCENTAGE },
       borders: { top: line(8), bottom: line(8), left: line(8), right: line(8), insideHorizontal: none, insideVertical: line(4, RULE) },
@@ -4756,11 +4760,11 @@ async function docxKit(meta, sheet) {
             margins: { top: 3 * MM, bottom: 3 * MM, left: 5 * MM, right: 4 * MM },
             verticalAlign: d.VerticalAlign.CENTER,
             children: [
-              ...(h.school && layout.schoolName ? [para([run(layout.schoolName, { display: true, bold: true, size: 15, color: "444444", caps: true, spacing: 20 })])] : []),
+              ...(school ? [para([run(school, { display: true, bold: true, size: 15, color: "444444", caps: true, spacing: 20 })])] : []),
               ...(h.title ? [para([run(title, { display: true, bold: true, size: 44, color: INK })])] : []),
               ...(kind ? [para([run(kind, { display: true, bold: true, size: 16, color: GREY, caps: true, spacing: 24 })])] : []),
               ...(extra ? [para([run(extra, { size: 18, color: "444444" })])] : []),
-              ...(!h.title && !kind && !extra && !(h.school && layout.schoolName) ? [para([run("")])] : []),
+              ...(!h.title && !kind && !extra && !school ? [para([run("")])] : []),
             ],
           }),
           new d.TableCell({
@@ -5682,6 +5686,7 @@ function parseBulkVocabularyText(rawText) {
 
 export {
   getStudentExerciseInstruction,
+  worksheetUnitTitle,
   TUNE_DEFAULT,
   normalizeTune,
   isDefaultTune,

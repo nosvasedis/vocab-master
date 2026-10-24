@@ -17,10 +17,18 @@ import { containsForm } from "../../studio/word-scope.js";
 import { GRAMMAR_MENU, LEVEL_IDS, sentenceRange, DIFFICULTY, grammarLabel } from "../../studio/levels.js";
 import { renderStudentPaper, renderTeacherPack, renderRunningStrips } from "../../studio/doc-render.js";
 import { relabelDoc } from "../../studio/doc-model.js";
-import { openHeaderDialog } from "../header-dialog.js";
+import { openHeaderDialog, paperWords } from "../header-dialog.js";
 import { readDictation, dictationWav } from "../voices/listening.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
+
+/** The header lines of the student paper and the teacher's pack the teacher can reword (Header dialog). */
+const docWords = (meta = {}) => paperWords(meta, {
+  schoolName: prefs.schoolName || "",
+  titles: [["Title", meta.title || "Test"], ["Teacher’s pack", `${meta.title || "Test"} · Teacher’s pack`]],
+  kinds: [["Subtitle", meta.subtitle || ""], ["Pack subtitle", "Answer key · scripts · marking"]],
+});
+
 
 const PREFS_KEY = "vm_dictation_prefs_v1";
 const STYLE_ICON = { classic: "📝", gapped: "✏️", running: "🏃", dictogloss: "👂", picture: "🖼️" };
@@ -615,7 +623,8 @@ function renderPaper() {
     renderPaper();
   };
   wirePageControls($("dcPageCtl"), setPage, () => openHeaderDialog({
-    header: dc.doc.meta.layout?.header, schoolName: prefs.schoolName || "", subtitle: "This dictation — and the next ones you make",
+    header: dc.doc.meta.layout?.header,
+    words: docWords(dc.doc.meta), schoolName: prefs.schoolName || "", subtitle: "This dictation — and the next ones you make",
     onChange: (header) => setPage({ header }),
   }));
   paper.render(safePaperHtml(() => sheetHtml(), "dictation"));

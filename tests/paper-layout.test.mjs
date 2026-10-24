@@ -146,3 +146,22 @@ test("a unit test shows its book and unit once (on the right), and an old saved 
   relabelDoc(own);
   assert.equal(own.meta.subtitle, "Spring test · Ms V.", "a subtitle the teacher wrote stays");
 });
+
+/* Header → the words: the teacher's own text for any line, left side and right side, tied to the text it replaces. */
+test("header wording: the teacher's words replace a line on the paper, only where that line was", async () => {
+  const { headerText, headerMetaLines, textKey, HEADER_DEFAULTS } = await import("../desktop/renderer/studio/paper-header.js");
+  const { renderDictation } = await import("../desktop/renderer/app.js");
+  const h = { ...HEADER_DEFAULTS, texts: { [textKey("title", "Dictation")]: "Spelling check", [textKey("unit", "Unit 1")]: "Our first unit", [textKey("book", "Primary Path 1")]: "PP1" } };
+  assert.equal(headerText(h, "title", "Dictation"), "Spelling check");
+  assert.equal(headerText(h, "title", "Lingo Launcher"), "Lingo Launcher", "another sheet keeps its title");
+  const meta = { bookTitle: "Primary Path 1", unit: 1, classLabel: "B Senior" };
+  assert.deepEqual(headerMetaLines(meta, h, ""), { book: "PP1", unitLine: "Our first unit", detail: "B Senior" });
+  assert.equal(headerMetaLines({ ...meta, unit: 2 }, h, "").unitLine, "Unit 2", "a new unit gets its own line");
+  assert.equal(headerMetaLines(meta, { ...h, unit: false, unitTitle: false }, "").unitLine, "", "the line's switches still hide it");
+  // On a sheet the unit line has the book's unit title too: the teacher rewords that whole line.
+  h.texts[textKey("unit", "Unit 1 · What is a family?")] = "Our first unit";
+  const html = renderDictation({ meta, dictation: { exercises: [] }, lingoLauncher: { vocabulary: [], practice: [] } }, { layout: { header: h } });
+  assert.match(html, /<h1 class="ws-title ws-heading">Spelling check<\/h1>/);
+  assert.match(html, /<div class="ws-book">PP1<\/div>/);
+  assert.match(html, /<div class="ws-unit">Our first unit<\/div>/);
+});

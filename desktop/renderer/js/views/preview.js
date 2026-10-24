@@ -12,7 +12,7 @@ import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictur
 import { savePrefs } from "../state.js";
 import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
-import { openHeaderDialog } from "../header-dialog.js";
+import { openHeaderDialog, paperWords } from "../header-dialog.js";
 import { play } from "../../arcade/audio.js";
 import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
 import { productFileName, safeFileName } from "../../studio/file-names.js";
@@ -75,6 +75,11 @@ export function initPreview() {
   // The header switches apply to all three sheets (screen, print, PDF and Word).
   $("btnHeader").addEventListener("click", () => openHeaderDialog({
     header: state.preview.header, schoolName: prefs.schoolName || "", subtitle: "All three sheets of this unit",
+    words: paperWords(state.data?.meta || {}, {
+      schoolName: prefs.schoolName || "",
+      titles: [["Lingo title", "Lingo Launcher"], ["Dictation title", "Dictation"], ["Key title", "Answer Key"]],
+      kinds: [["Lingo subtitle", "Vocabulary study sheet"], ["Dictation subtitle", "Vocabulary test"], ["Key subtitle", "Teacher’s copy"]],
+    }),
     onChange: (header) => { state.preview.header = header; emit("preview"); renderPaper(); },
   }));
   document.querySelectorAll("[data-layout]").forEach((cb) => cb.addEventListener("change", () => {
