@@ -3,7 +3,7 @@
    ══════════════════════════════════════════════════════════════════ */
 
 /* ── Library view ─────────────────────────────────────────────────── */
-.sb-ico.lessons { background: linear-gradient(135deg, #8b6cff, #5b3df5); color: #fff; }
+.sb-ico.lessons { background: linear-gradient(135deg, #3b82f6, #4338ca); color: #fff; }
 /* Hero: what the lessons are, how to teach one, and the story characters standing on a hill. */
 .lsn-hero {
   position: relative; overflow: hidden; isolation: isolate;
