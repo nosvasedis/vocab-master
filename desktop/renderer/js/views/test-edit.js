@@ -11,7 +11,7 @@
  * Step 3 and Step 5. */
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, KNOBS, tfLabels, levelIndex, partOpts, taskFit } from "../../studio/tasks.js";
-import { LETTER_HELP_TASKS, speakingCardLabel } from "../../studio/doc-model.js";
+import { LETTER_HELP_TASKS, showsExample, speakingCardLabel } from "../../studio/doc-model.js";
 import { picUrl } from "../pics.js";
 import { letterHelpField } from "./letter-help-ui.js";
 import { TEST_DEFAULTS } from "../../studio/levels.js";
@@ -430,10 +430,28 @@ export function mountTestEditing(host) {
     if (!s) return;
     const sub = label(s);
     if (d.kind === "rubric") {
+      // The part's own example switch: the test's Examples switch decides until the teacher changes it here (and a
+      // switch that matches the test's again goes back to following it). An order task always keeps its first event.
+      const hasExample = !!s.example && s.task !== "R-ORDER";
+      const testOn = doc.meta.layout?.examples !== false;
+      const shownNow = s.showExample ?? testOn;
       return form({
         title: "Instructions", subtitle: sub,
-        body: field("pe_rub", "What the children read", s.rubric, { rows: 2 }) + field("pe_rubel", "In Greek", s.rubricEl, { rows: 2, hint: "printed when Greek help is on" }),
-        onSave: (v) => { const before = snapshot(); s.rubric = v("pe_rub").trim() || s.rubric; s.rubricEl = v("pe_rubel").trim(); done(before, "Instructions saved."); },
+        body: field("pe_rub", "What the children read", s.rubric, { rows: 2 }) + field("pe_rubel", "In Greek", s.rubricEl, { rows: 2, hint: "printed when Greek help is on" })
+          + (hasExample ? `<div class="field pe-example"><span class="label">Example <span class="opt">the solved question 0 at the start of this part</span></span><label class="switch sm"><input type="checkbox" id="pe_example"${shownNow ? " checked" : ""} /><span class="track"></span><span class="sw-text">Show it on the paper</span></label></div>` : ""),
+        onSave: (v, root) => {
+          const before = snapshot();
+          s.rubric = v("pe_rub").trim() || s.rubric; s.rubricEl = v("pe_rubel").trim();
+          let note = "";
+          if (hasExample) {
+            const on = root.querySelector("#pe_example").checked;
+            if (on !== shownNow) {
+              if (on === testOn) delete s.showExample; else s.showExample = on;
+              note = on ? " The example is shown." : " The example is hidden.";
+            }
+          }
+          done(before, `Instructions saved.${note}`);
+        },
       });
     }
     if (d.kind === "passage") {

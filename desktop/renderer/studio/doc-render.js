@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, showsExample, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 import { testPartColumns } from "./item-columns.js";
 
@@ -93,7 +93,7 @@ function bankHtml(section) {
 /** "Put the words in groups": a table with a column per group and the same number of lines in each; the example's word is written in. */
 function sortTableHtml(section, layout, showAnswers) {
   const rows = sortRows(section);
-  const ex = layout.examples !== false ? section.example : null;
+  const ex = showsExample(section, layout) ? section.example : null;
   const col = (g) => {
     const words = [ex, ...section.items].filter((it) => it && it.answer === g);
     return Array.from({ length: rows }, (_, r) => {
@@ -154,7 +154,7 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
 
 function pictureCardsHtml(section, layout, showAnswers) {
   const card = (it, example) => `<div class="ex-item pic-card${example ? " st-example" : ""}"><span class="item-num">${example ? "0" : esc(it.n)}</span><div class="pic-frame">${layout.pictures ? pic(it.pic) : ""}</div>${it.prompt ? `<div class="pic-clue">${esc(it.prompt.replace(GAP, "").trim())}</div>` : ""}${it.hint && !writeIn(it) ? `<div class="st-hint">${esc(it.hint)}</div>` : ""}<div class="pic-line${writeIn(it) ? " hinted" : ""}">${section.answerType === "tf" ? `<span class="st-tf-box">${example ? esc(it.answer) : ""}</span>${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}` : writeIn(it) ? `${hintBox(it, example)}${showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}` : example ? `<span class="st-ex-ans">${esc(it.answer)}</span>` : showAnswers ? `<span class="teacher-ans-pill">✓ ${esc(it.answer)}</span>` : ""}</div></div>`;
-  return `<div class="pic-grid">${section.example?.pic && layout.examples !== false ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
+  return `<div class="pic-grid">${section.example?.pic && showsExample(section, layout) ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
 }
 
 function openTaskHtml(section, layout) {
@@ -281,7 +281,7 @@ export function renderStudentPaper(doc, options = {}) {
     else {
       // Picture-choice questions sit two to a row, so a part fits on one page.
       const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
-      const example = section.example && (layout.examples !== false || section.task === "R-ORDER") ? itemHtml(section, section.example, layout, { example: true }) : "";
+      const example = showsExample(section, layout) ? itemHtml(section, section.example, layout, { example: true }) : "";
       const questions = section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
       // Ten or more short questions with one-letter or one-word answers: two columns, the second half beside the first
       // (the example stays above them, so 10 questions sit five and five).

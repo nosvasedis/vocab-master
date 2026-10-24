@@ -39,6 +39,45 @@ test("the examples switch leaves out item 0 — except the first event of an ord
   assert.ok(noEx.size < withEx.size, "the Word paper leaves it out too");
 });
 
+test("each part has its own example switch: it wins over the test's Examples switch, except an order task", async () => {
+  const { showsExample } = await import("../desktop/renderer/studio/doc-model.js");
+  const { reviseSection } = await import("../desktop/renderer/studio/test-builder.js");
+  assert.equal(showsExample({ example: null }, {}), false, "no example, nothing to show");
+  assert.equal(showsExample({ example: {} }, { examples: false }), false);
+  assert.equal(showsExample({ example: {}, showExample: true }, { examples: false }), true, "the part's own switch wins");
+  assert.equal(showsExample({ example: {}, showExample: false }, {}), false);
+  assert.equal(showsExample({ example: {}, task: "R-ORDER", showExample: false }, { examples: false }), true, "the first event stays");
+
+  const doc = docWith("V-MC", { examples: false });
+  assert.doesNotMatch(renderStudentPaper(doc), /EXAMPLE LINE/);
+  doc.sections[0].showExample = true;
+  assert.match(renderStudentPaper(doc), /EXAMPLE LINE/, "shown on this part only");
+  doc.meta.layout = { examples: true };
+  doc.sections[0].showExample = false;
+  assert.doesNotMatch(renderStudentPaper(doc), /EXAMPLE LINE/, "hidden on this part only");
+  const order = docWith("R-ORDER", { examples: false });
+  order.sections[0].showExample = false;
+  assert.ok(renderStudentPaper(order).includes("st-example"), "an order task keeps its first event");
+
+  // Word follows the part's switch too (the file is smaller without the example, bigger with it).
+  const sizeOf = async (d) => (await buildStudioDocx({ doc: d, which: "student" })).size;
+  const hidden = await sizeOf(docWith("V-MC", { examples: false }));
+  const shown = docWith("V-MC", { examples: false });
+  shown.sections[0].showExample = true;
+  assert.ok(hidden < (await sizeOf(shown)), "the Word paper shows it when the part says so");
+  const kept = docWith("V-MC");
+  kept.sections[0].showExample = false;
+  assert.ok((await sizeOf(kept)) < (await sizeOf(docWith("V-MC"))), "and leaves it out when the part says so");
+
+  // Changing a part (Lingo's rewrite, a question edit) keeps the switch.
+  const part = { ...makePart("grammar", "V-MC", "B_SENIOR"), id: "p1", items: 3 };
+  const spec = { ...testDefaults("B_SENIOR"), parts: [part] };
+  const again = buildTestDoc(spec, { sections: [{ id: "p1", passage: "", example: { prompt: "EXAMPLE LINE", options: ["lava", "snow", "ice"], answer: "lava" }, items: [0, 1, 2].map((i) => ({ prompt: `Sentence ${i} ____`, options: ["lava", "snow", "ice"], answer: "lava" })) }] }, { levelId: "B_SENIOR", meta: {} });
+  again.sections[0].showExample = true;
+  assert.equal(reviseSection(again, spec, "p1", (raw) => { raw.items[0].prompt = "Sentence 0 changed ____"; }), true);
+  assert.equal(again.sections[0].showExample, true, "an edited part keeps its example switch");
+});
+
 test("page flow: a test part may continue on the next page; what belongs together stays together", () => {
   assert.match(STUDIO_PRINT_CSS, /\.studio-sheet \.ex-block, \.studio-sheet \.key-block \{ break-inside: auto/);
   for (const sel of [".st-passage", ".word-bank", ".match-defs", ".st-example"]) assert.ok(STUDIO_PRINT_CSS.includes(`.studio-sheet ${sel}`), sel);

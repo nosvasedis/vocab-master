@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, sectionRubric, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, sectionRubric, showsExample, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields } from "./paper-header.js";
@@ -166,7 +166,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     // "Put the words in groups": a column per group, the same number of lines in each; the example's word written in.
     if (s.task === "V-SORT") {
       const rows = sortRows(s);
-      const ex = meta.layout?.examples !== false ? s.example : null;
+      const ex = teacher || showsExample(s, meta.layout) ? s.example : null;
       const cols = (s.groups || []).map((g) => [ex, ...s.items].filter((it) => it && it.answer === g));
       const cell = (children, head) => new d.TableCell({ margins: { top: 1.4 * MM, bottom: 1.4 * MM, left: 2 * MM, right: 2 * MM }, shading: head ? { fill: "F1F0EB", type: d.ShadingType.CLEAR, color: "auto" } : undefined, children });
       children.push(new d.Table({
@@ -188,7 +188,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
       return;
     }
-    const withExample = !!s.example && (meta.layout?.examples !== false || s.task === "R-ORDER" || teacher);
+    const withExample = !!s.example && (teacher || showsExample(s, meta.layout));
     const all = [...(withExample ? [{ ...s.example, n: 0 }] : []), ...s.items];
     const cols = testPartColumns(s, { textSize, withExample });
     const out = [];
