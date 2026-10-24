@@ -78,6 +78,8 @@ export function makeWord(data = {}) {
     if (v == null) continue;
     w[k] = Array.isArray(v) ? v.map((x) => (typeof x === "string" ? x : [x.text, x.type ? `(${x.type})` : "", x.greek ? `- ${x.greek}` : ""].filter(Boolean).join(" "))).join(", ") : String(v).trim();
   }
+  // The teacher's own word (Step 1's "Add your own words"): it stays when the unit's words are loaded again.
+  if (data.own) w.own = true;
   return w;
 }
 

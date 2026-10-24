@@ -335,6 +335,7 @@
 .word-chip.on .wc-box { background: var(--brand); color: #fff; transform: rotate(0); }
 .pool-foot { display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 13px; color: var(--text-3); }
 .pool-foot strong { color: var(--text); }
+.ws-own { margin-top: 14px; }
 .pool-legend { display: inline-flex; gap: 12px; margin-left: 14px; }
 .pool-legend span { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; }
 .pool-legend i { width: 7px; height: 7px; border-radius: 50%; }

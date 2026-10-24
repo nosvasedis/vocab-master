@@ -73,7 +73,7 @@ export function initWords() {
   $("freeform").addEventListener("input", (e) => { state.freeform = e.target.value; emit("wordsMeta"); });
   $("linkedBanner").addEventListener("click", (e) => {
     if (e.target.closest("[data-action=change-unit]")) actions.go("setup");
-    if (e.target.closest("[data-action=reload-unit]")) { loadPoolWords({ reason: "Unit words loaded", force: true }); emit("words", "setup"); }
+    if (e.target.closest("[data-action=reload-unit]")) { loadPoolWords({ reason: "Unit words loaded", force: true, dropOwn: true }); emit("words", "setup"); }
   });
 
   wireList();

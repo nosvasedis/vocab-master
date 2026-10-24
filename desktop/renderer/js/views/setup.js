@@ -1,13 +1,14 @@
 /* Step 1 — class level, coursebook/unit and the coursebook word pool. */
 import {
-  CLASS_PROFILES, CPP_BOOKS, BOOK_PRESETS, inferUnitFromPages, getAllSavedSessions,
+  CLASS_PROFILES, CPP_BOOKS, BOOK_PRESETS, inferUnitFromPages, getAllSavedSessions, lookupCoursebookWord,
 } from "../../app.js";
 import { $, $$, esc, icon, plural, debounce, toast } from "../ui.js";
 import {
   state, emit, on, prefs, savePrefs, LEVEL_COLORS, BOOK_COLORS, WORD_TARGETS, targetText,
-  unitStructure, coursebookQuery, pickFromQuery, coursebookEntryToWord, isCpp,
+  unitStructure, coursebookQuery, pickFromQuery, coursebookEntryToWord, isCpp, makeWord, filledWords,
 } from "../state.js";
 import { segmented } from "../ui.js";
+import { parseOwnWords } from "../../studio/own-words.js";
 
 let sourceSeg;
 let lastQuery = null;
@@ -155,6 +156,33 @@ export function initSetup() {
     }
   });
 
+  // The teacher's own words (as in the Test Maker): Add or Enter adds what was typed; a pasted list (one per line) is added at once.
+  $("btnOwnAdd").addEventListener("click", () => addOwnWords($("ownWordsInput").value));
+  $("ownWordsInput").addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    addOwnWords(e.target.value);
+  });
+  $("ownWordsInput").addEventListener("paste", (e) => {
+    const text = e.clipboardData?.getData("text") || "";
+    if (!/[\n\r]/.test(text)) return;
+    e.preventDefault();
+    addOwnWords(text);
+  });
+  $("ownWordList").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    const before = state.words;
+    const gone = b.dataset.ownDel ? state.words.filter((w) => w.id === b.dataset.ownDel) : state.words.filter((w) => w.own);
+    if (!gone.length) return;
+    state.words = state.words.filter((w) => !gone.includes(w));
+    emit("words", "setup");
+    toast(gone.length === 1 ? `Removed “${gone[0].english}”.` : `Removed ${plural(gone.length, "word")} of your own.`, "info", {
+      ms: 3000,
+      actions: [{ label: "Undo", run: () => { state.words = before; emit("words", "setup"); } }],
+    });
+  });
+
   $("welcomeCard").addEventListener("click", (e) => {
     if (e.target.closest('[data-action="dismiss-welcome"]')) {
       prefs.welcomeDismissed = true;
@@ -174,7 +202,9 @@ function resizeSmartPick() {
   if (isCpp() && state.cpp.limit === "smart" && state.words.some((w) => w.english.trim())) loadPoolWords({ reason: `${CLASS_PROFILES[state.profileId].label} aims for ${targetText(state.profileId)} words` });
 }
 
-export function loadPoolWords({ reason = "", force = false, silent = false } = {}) {
+/** The unit's words, loaded again for the current choice. The teacher's own words stay (after the unit's) unless
+ *  dropOwn ("Reset to unit words"). */
+export function loadPoolWords({ reason = "", force = false, silent = false, dropOwn = false } = {}) {
   if (!isCpp()) return;
   const q = coursebookQuery();
   const picked = pickFromQuery(q);
@@ -185,15 +215,61 @@ export function loadPoolWords({ reason = "", force = false, silent = false } = {
   const before = state.words;
   const byKey = new Map(before.filter((w) => w.english.trim()).map((w) => [w.english.trim().toLowerCase(), w]));
   // Keep any AI-filled details for words that stay in the list.
-  state.words = picked.map((entry) => byKey.get(entry.english.toLowerCase()) || coursebookEntryToWord(entry));
+  const unitWords = picked.map((entry) => byKey.get(entry.english.toLowerCase()) || coursebookEntryToWord(entry));
+  const inUnit = new Set(unitWords.map((w) => w.english.trim().toLowerCase()));
+  const own = dropOwn ? [] : before.filter((w) => w.own && w.english.trim() && !inUnit.has(w.english.trim().toLowerCase()));
+  state.words = [...unitWords, ...own];
   const changed = force || before.map((w) => w.english).join("|") !== state.words.map((w) => w.english).join("|");
   if (!changed || silent) return;
   loadToastDismiss?.();
   const hadWords = before.some((w) => w.english.trim());
-  loadToastDismiss = toast(`Loaded ${plural(state.words.length, "word")}${reason ? ` · ${reason}` : ""}`, "ok", {
+  loadToastDismiss = toast(`Loaded ${plural(unitWords.length, "word")}${own.length ? ` + ${plural(own.length, "of your own", "of your own")}` : ""}${reason ? ` · ${reason}` : ""}`, "ok", {
     ms: 3200,
     actions: hadWords ? [{ label: "Undo", run: () => { state.words = before; emit("words", "setup"); } }] : [],
   });
+}
+
+/**
+ * Typed or pasted own words ("crater, ash cloud, volcano - ηφαίστειο") join the list after the unit's words. A word of
+ * this unit's pool comes in as the pool's word; any other is looked up in the word bank (any book) for its type, Greek
+ * and example, and is kept when the unit's words are loaded again. The teacher's Greek wins.
+ */
+function addOwnWords(text) {
+  const input = $("ownWordsInput");
+  const have = new Set(filledWords().map((w) => w.english.trim().toLowerCase()));
+  const pool = new Map((lastQuery?.words || []).map((p) => [p.english.toLowerCase(), p]));
+  const added = [];
+  for (const w of parseOwnWords(text)) {
+    const k = w.english.toLowerCase();
+    if (have.has(k)) continue;
+    have.add(k);
+    const greek = w.greek ? { greek: w.greek } : {};
+    const fromPool = pool.get(k);
+    if (fromPool) { added.push(coursebookEntryToWord({ ...fromPool, ...greek })); continue; }
+    const hit = lookupCoursebookWord(w.english, state.cpp.bookId, state.cpp.unit);
+    const word = hit && hit.type !== "title" ? coursebookEntryToWord({ ...hit, ...greek }) : makeWord({ english: w.english, greek: w.greek });
+    word.own = true;
+    added.push(word);
+  }
+  if (!added.length) {
+    if (String(text || "").trim()) toast("Those words are already in the list.", "info", { ms: 1800 });
+    input.focus();
+    return;
+  }
+  state.words = [...filledWords(), ...added];
+  input.value = "";
+  emit("words", "setup");
+  toast(added.length === 1 ? `Added “${added[0].english}”.` : `Added ${plural(added.length, "word")}.`, "ok", { ms: 2200 });
+  input.focus();
+}
+
+/** The own words as chips under the box, each with ✕ (and Remove all). */
+function renderOwnWords() {
+  const own = state.words.filter((w) => w.own && w.english.trim());
+  const list = $("ownWordList");
+  list.classList.toggle("hidden", !own.length);
+  list.innerHTML = own.map((w) => `<span class="word-chip own"><span>${esc(w.english)}</span>${w.greek ? `<small lang="el">${esc(w.greek)}</small>` : ""}<button type="button" class="mk-own-x" data-own-del="${esc(w.id)}" aria-label="Remove ${esc(w.english)}">${icon("x", "i-xs")}</button></span>`).join("")
+    + (own.length > 1 ? `<button type="button" class="pk-clear" data-own-clear>Remove all</button>` : "");
 }
 
 function togglePoolWord(entry) {
@@ -365,6 +441,7 @@ function renderPool() {
   $("poolSub").textContent = us
     ? `${CPP_BOOKS[state.cpp.bookId].title} · Unit ${us.unit}${state.cpp.pages ? ` · p. ${state.cpp.pages}` : ""} — tap words to add or remove them.`
     : "Tap words to add or remove them from your unit.";
+  renderOwnWords();
 }
 
 function renderCustom() {
