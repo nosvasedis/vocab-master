@@ -614,6 +614,9 @@ kbd {
   background: var(--surface-2);
 }
 .dialog-foot .spacer { flex: 1; }
+/* A footer never pushes its buttons out of a narrow dialog: they wrap; .foot-break starts a new row. */
+.dialog-foot { flex-wrap: wrap; row-gap: 8px; }
+.dialog-foot .foot-break { flex-basis: 100%; height: 0; }
 
 /* Side sheet variant */
 .sheet-backdrop { place-items: stretch end; padding: 12px; }

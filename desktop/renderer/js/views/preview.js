@@ -755,6 +755,8 @@ function openItemEditor(sheet, exIndex, itemIndex) {
       <button type="button" class="btn btn-ghost btn-sm" data-add>${icon("plus", "i-sm")}Add line below</button>
       <span class="spacer"></span>
       <button type="button" class="btn btn-magic btn-sm" data-remake>${icon("sparkles", "i-sm")}Remake with Lingo</button>
+      <span class="foot-break"></span>
+      <span class="spacer"></span>
       <button type="button" class="btn btn-secondary" data-close>Cancel</button>
       <button type="button" class="btn btn-primary" data-save>Save</button>`,
     onMount(root, close) {
