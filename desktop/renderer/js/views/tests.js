@@ -1376,6 +1376,8 @@ function renderPaper() {
     if (!ts.doc) return;
     ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), ...change };
     ts.spec.page = { ...(ts.spec.page || {}), ...change };
+    // The test's Examples switch sets every part: a part's own example switch (Step 5) follows it again.
+    if ("examples" in change) ts.doc.sections.forEach((s) => { delete s.showExample; });
     savePrefs();
     refreshDoc();
   };

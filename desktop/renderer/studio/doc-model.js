@@ -291,6 +291,12 @@ export const optionCount = (section) => (section?.answerType === "choice" ? Math
 export const hasWordBox = (section) => !!TASKS[section?.task]?.bank && section.answerType !== "match" && Array.isArray(section.bank) && typeof section.bank[0] === "string";
 /** How many words of a part's box fit no gap (the example's word is neither). */
 export const boxExtras = (section) => (hasWordBox(section) ? countExtraWords(section.bank, (section.items || []).map((it) => it.answer), section.example?.answer ? [section.example.answer] : []) : 0);
+/**
+ * Whether a part's example (its solved question 0) is printed on the student's paper. The part's own switch (Step 5,
+ * the part's title → Example) wins when the teacher set one; otherwise the test's Examples switch decides. An order
+ * task keeps its first event, so its example always shows.
+ */
+export const showsExample = (section, layout = {}) => !!section?.example && (section.task === "R-ORDER" || (section.showExample ?? layout.examples !== false));
 
 /**
  * A part's instruction (English and Greek) with the letters of its real options, and — for a word box — the line
