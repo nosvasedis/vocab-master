@@ -50,12 +50,25 @@ export function taskBadges(taskId, levelId, { task = TASKS[taskId], fit = taskFi
   return `<span class="tk-kind kind-${esc(t.kind)}" data-tip="${esc(KINDS[t.kind]?.hint || "")}">${esc(KINDS[t.kind]?.label || "")}</span>${fit.label ? `<span class="tk-fit fit-${fit.fit}">${fit.fit === "great" ? icon("check", "i-xs") : ""}${esc(fit.label)}</span>` : ""}`;
 }
 
-function card(t, { levelId, current, src, recommended }) {
+/**
+ * "Already in the test · Part 2" — where an exercise is already used (places: ["Part 2", "Part 4"]), so a teacher sees
+ * it before adding the same kind again. where: "the test", "the Dictation", "Lingo practice".
+ */
+export function usedBadge(places, where) {
+  if (!places?.length) return "";
+  const many = places.length > 1;
+  const list = many ? `${places[0].replace(/\s*\d+$/, "")}s ${places.map((p) => p.match(/\d+$/)?.[0] || p).join(", ")}` : places[0];
+  return `<span class="tl-used" data-tip="${esc(`${many ? `${places.length} times` : "Once"} in ${where}: ${places.join(", ")}`)}">${icon("layers", "i-xs")}${many ? `${places.length}× ` : ""}Already in ${esc(where)} · ${esc(list)}</span>`;
+}
+
+function card(t, { levelId, current, src, recommended, used = {} }) {
   const block = src ? taskBlock(t.id, src) : "";
   const fit = taskFit(t.id, levelId);
   const isCurrent = t.id === current;
-  return `<button type="button" class="tl-card kind-${esc(t.kind)} fit-${fit.fit}${isCurrent ? " current" : ""}${block ? " blocked" : ""}" data-task="${esc(t.id)}" data-skill="${esc(t.skill)}"${block ? ` aria-disabled="true"` : ""}>
+  const inUse = used[t.id] || [];
+  return `<button type="button" class="tl-card kind-${esc(t.kind)} fit-${fit.fit}${isCurrent ? " current" : ""}${inUse.length ? " in-use" : ""}${block ? " blocked" : ""}" data-task="${esc(t.id)}" data-skill="${esc(t.skill)}"${block ? ` aria-disabled="true"` : ""}>
     <span class="tl-top">${taskBadges(t.id, levelId)}${recommended.includes(t.id) ? `<span class="tk-rec">${icon("star", "i-xs")}Lingo's pick</span>` : ""}${isCurrent ? `<span class="tl-now">${icon("check", "i-xs")}In this part</span>` : ""}</span>
+    ${usedBadge(inUse, "the test")}
     <b class="tl-title">${esc(t.label)}</b>
     <span class="tl-blurb">${esc(t.blurb || "")}</span>
     ${sampleHtml(t.id)}
@@ -68,13 +81,13 @@ function card(t, { levelId, current, src, recommended }) {
  * The library dialog. mode "change" (a part's exercise) or "add" (a new part).
  * onPick(taskId) is called with the chosen task; the dialog closes.
  */
-export function openTaskLibrary({ skill, levelId, levelName = "", current = "", src = null, mode = "change", partLabel = "", onPick }) {
+export function openTaskLibrary({ skill, levelId, levelName = "", current = "", src = null, mode = "change", partLabel = "", used = {}, onPick }) {
   let tab = skill || "reading";
   let onlyFit = false;
   const recommended = (k) => [defaultTask(k, levelId), secondTask(k, levelId)];
   const grid = () => {
     const list = tasksFor(tab, levelId).filter((t) => !onlyFit || taskFit(t.id, levelId).fit === "great");
-    return list.map((t) => card(t, { levelId, current, src, recommended: recommended(tab) })).join("") || `<p class="tl-empty">No ${esc(SKILLS[tab].label.toLowerCase())} exercises are made for ${esc(levelName || "this class")} — turn off the filter to see them all.</p>`;
+    return list.map((t) => card(t, { levelId, current, src, recommended: recommended(tab), used })).join("") || `<p class="tl-empty">No ${esc(SKILLS[tab].label.toLowerCase())} exercises are made for ${esc(levelName || "this class")} — turn off the filter to see them all.</p>`;
   };
   const tabs = () => TEST_SKILLS.map((k) => `<button type="button" class="tl-tab${k === tab ? " active" : ""}" data-tab="${k}" data-skill="${k}" role="tab" aria-selected="${k === tab}"><span>${SKILLS[k].icon}</span>${esc(SKILLS[k].label)}<small>${tasksFor(k).length}</small></button>`).join("");
   const title = mode === "add" ? "Add a part" : `Change the exercise${partLabel ? ` · ${partLabel}` : ""}`;
@@ -153,13 +166,15 @@ export function wsBadges(id, levelId) {
   return taskBadges(id, levelId, { task: wsTask(id), fit: wsTaskFit(id, levelId) });
 }
 
-function wsCard(id, { levelId, current, features, recommended }) {
+function wsCard(id, { levelId, current, features, recommended, used = {}, where = "" }) {
   const t = wsTask(id);
   const block = wsBlock(id, features);
   const fit = wsTaskFit(id, levelId);
   const isCurrent = id === current;
-  return `<button type="button" class="tl-card kind-${esc(t.kind)} fit-${fit.fit}${isCurrent ? " current" : ""}${block ? " blocked" : ""}" data-task="${esc(id)}" data-skill="${esc(t.skill)}"${block ? ` aria-disabled="true"` : ""}>
+  const inUse = used[id] || [];
+  return `<button type="button" class="tl-card kind-${esc(t.kind)} fit-${fit.fit}${isCurrent ? " current" : ""}${inUse.length ? " in-use" : ""}${block ? " blocked" : ""}" data-task="${esc(id)}" data-skill="${esc(t.skill)}"${block ? ` aria-disabled="true"` : ""}>
     <span class="tl-top">${wsBadges(id, levelId)}${recommended.includes(id) ? `<span class="tk-rec">${icon("star", "i-xs")}In Lingo's mix</span>` : ""}${isCurrent ? `<span class="tl-now">${icon("check", "i-xs")}This exercise</span>` : ""}</span>
+    ${usedBadge(inUse, where)}
     <b class="tl-title">${esc(t.label)} <small class="tl-id">${esc(id)}</small></b>
     <span class="tl-blurb">${esc(t.blurb || "")}</span>
     ${sampleHtml(id, t)}
@@ -172,12 +187,13 @@ function wsCard(id, { levelId, current, features, recommended }) {
  * The worksheet library dialog: every exercise of one sheet as a card (what the children do, a paper preview, the kind
  * and how well it suits the class). mode "change" (an exercise of the plan) or "add". onPick(id) gets the choice.
  */
-export function openWorksheetLibrary({ sheet = "dictation", levelId, levelName = "", current = "", features = {}, recommended = [], mode = "change", partLabel = "", onPick }) {
+export function openWorksheetLibrary({ sheet = "dictation", levelId, levelName = "", current = "", features = {}, recommended = [], mode = "change", partLabel = "", used = {}, onPick }) {
+  const where = sheet === "dictation" ? "the Dictation" : "Lingo practice";
   let onlyFit = false;
   let kind = "all";
   const grid = () => {
     const list = wsTasksFor(sheet, levelId).filter((t) => (!onlyFit || wsTaskFit(t.id, levelId).fit === "great") && (kind === "all" || t.kind === kind));
-    return list.map((t) => wsCard(t.id, { levelId, current, features, recommended })).join("") || `<p class="tl-empty">Nothing here for ${esc(levelName || "this class")} — turn off the filters to see every exercise.</p>`;
+    return list.map((t) => wsCard(t.id, { levelId, current, features, recommended, used, where })).join("") || `<p class="tl-empty">Nothing here for ${esc(levelName || "this class")} — turn off the filters to see every exercise.</p>`;
   };
   const kinds = () => [["all", "All"], ...Object.entries(WS_KINDS).map(([k, v]) => [k, v.label])].map(([k, label]) => `<button type="button" class="tl-tab${k === kind ? " active" : ""}" data-kind="${k}" data-skill="ws-${sheet}" role="tab" aria-selected="${k === kind}">${k === "all" ? "" : `<i class="tl-dot kind-${k}"></i>`}${esc(label)}<small>${wsTasksFor(sheet).filter((t) => k === "all" || t.kind === k).length}</small></button>`).join("");
   const sh = WS_SHEETS[sheet];

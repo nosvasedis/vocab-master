@@ -746,6 +746,8 @@ function libraryFor(p, mode, skill) {
     levelId: ts.spec.levelId,
     levelName: levelLabel(ts.spec.levelId),
     current: mode === "change" ? p.task : "",
+    // Where each exercise already is in the test ("Part 2"); the part being changed says "In this part" instead.
+    used: ts.spec.parts.reduce((m, x, k) => { if (!(mode === "change" && k === i)) (m[x.task] ||= []).push(`Part ${k + 1}`); return m; }, {}),
     src: picker ? sourceInfo().src : null,
     mode,
     partLabel: i >= 0 ? `Part ${i + 1}` : "",

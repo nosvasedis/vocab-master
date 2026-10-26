@@ -30,6 +30,7 @@ import { WS_KIND_OF, wsAllowed, wsTaskFit, exerciseSettingsBlock, itemsAt, setti
 import { PAPER_PARTS_CSS } from "./studio/paper-parts.js";
 import { wsItemView, wsItemHtml, wsItemClass, wsPicLineHtml, itemHint, splitClue, WS_HELP, WS_CHOICE_TYPES } from "./studio/ws-paper.js";
 import { fitChoiceLetters } from "./studio/doc-model.js";
+import { RELATION_TYPES, repairRelationExercise, relationRoom, lineProblem, repairLine } from "./studio/ws-checks.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -219,7 +220,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS = {
   D19: "Write the vocabulary word that fits each definition.",
   D20: "Each sentence has a vocabulary mistake. Write the corrected sentence on your answer sheet.",
   D21: "Put the steps in order. Write 1, 2, 3 in the boxes.",
-  D22: "Solve the crossword-style clues.",
+  D22: "Read each clue and write the word.",
   D23: "Complete each analogy.",
   D24: "Choose the right word: a or b.",
   D25: "Look at the pictures. Write the words.",
@@ -265,7 +266,7 @@ const EXERCISE_STUDENT_INSTRUCTIONS_EL = {
   D19: "Γράψε τη λέξη που ταιριάζει σε κάθε ορισμό.",
   D20: "Κάθε πρόταση έχει ένα λάθος. Γράψε τη σωστή πρόταση.",
   D21: "Βάλε τα βήματα στη σωστή σειρά. Γράψε 1, 2, 3 στα κουτιά.",
-  D22: "Λύσε τις ερωτήσεις του σταυρόλεξου.",
+  D22: "Διάβασε κάθε στοιχείο και γράψε τη λέξη.",
   D23: "Συμπλήρωσε την αναλογία.",
   D24: "Διάλεξε τη σωστή λέξη: a ή b.",
   D25: "Κοίτα τις εικόνες και γράψε τις λέξεις.",
@@ -292,9 +293,16 @@ const EXERCISE_STUDENT_INSTRUCTIONS_EL = {
 function getStudentExerciseInstruction(ex) {
   // The app's task line fits what it prints (options to circle, boxes); only a line the teacher wrote replaces it.
   const custom = ex?.ownInstruction ? String(ex?.instruction || "").trim() : "";
-  const line = custom || EXERCISE_STUDENT_INSTRUCTIONS[ex?.typeId] || EXERCISE_DESCRIPTIONS[ex?.typeId] || "";
+  const line = custom || (l06WithAdverbs(ex) ? L06_ADVERB_LINE.en : EXERCISE_STUDENT_INSTRUCTIONS[ex?.typeId]) || EXERCISE_DESCRIPTIONS[ex?.typeId] || "";
   return GAP_BOX_TYPES.has(ex?.typeId) ? withExtraWords(line, exerciseExtraWords(ex), "en") : fitChoiceLetters(line, exerciseOptionCount(ex));
 }
+
+/** Grammar labels with an adverb among the answers offer four classes on every line, and the task line names them. */
+const L06_ADVERB_LINE = {
+  en: "Is it a noun, a verb, an adjective or an adverb? Choose a, b, c or d.",
+  el: "Ουσιαστικό, ρήμα, επίθετο ή επίρρημα; Διάλεξε a, b, c ή d.",
+};
+const l06WithAdverbs = (ex) => ex?.typeId === "L06" && (ex.items || []).some((it) => normalizeWord(it.answer) === "adverb");
 
 /** The most options a line of a choice exercise has (the task line then names a, b … as far as they go; 0 = not a choice). */
 function exerciseOptionCount(ex) {
@@ -305,7 +313,7 @@ function exerciseOptionCount(ex) {
 /** The Greek help line (shown only under the app's own task line), with the same extra-words sentence. */
 function getStudentExerciseInstructionEl(ex) {
   if (ex?.ownInstruction && String(ex?.instruction || "").trim()) return "";
-  const line = EXERCISE_STUDENT_INSTRUCTIONS_EL[ex?.typeId] || "";
+  const line = (l06WithAdverbs(ex) ? L06_ADVERB_LINE.el : EXERCISE_STUDENT_INSTRUCTIONS_EL[ex?.typeId]) || "";
   return line && GAP_BOX_TYPES.has(ex?.typeId) ? withExtraWords(line, exerciseExtraWords(ex), "el") : fitChoiceLetters(line, exerciseOptionCount(ex));
 }
 
@@ -1250,6 +1258,38 @@ function validateAnswerKeys(data) {
   return issues;
 }
 
+/** Line problems found by studio/ws-checks.js — the line fixer rewrites those lines. */
+const LINE_PROBLEMS = new Set();
+
+/**
+ * Each line checked against its exercise (studio/ws-checks.js). Lingo's opposite / synonym lines are checked above
+ * with their own words. An opposite / synonym exercise shorter than planned because the list has too few such words
+ * is a note, not a problem.
+ */
+function validateLines(data, vocab, issues, notes) {
+  const check = (sheet, ex, i) => {
+    const t = ex?.typeId;
+    if (sheet === "Lingo" && (t === "L03" || t === "L04")) return;
+    (ex.items || []).forEach((item) => {
+      const problem = lineProblem(t, item, vocab);
+      if (!problem) return;
+      const issue = `${sheet} ex ${ex.number} (${t}) item ${item.number}: ${problem}`;
+      LINE_PROBLEMS.add(issue);
+      issues.push(issue);
+    });
+    if (RELATION_TYPES[t]) {
+      const room = relationRoom(t, vocab);
+      const want = settingsAt(data.generationPlan, sheet === "Dictation" ? "dictation" : "lingo", i).items || tunedProfile(data.meta?.classProfile, data.generationPlan?.tune)?.itemsPerExercise || 0;
+      const what = RELATION_TYPES[t] === "antonyms" ? "opposites" : "synonyms";
+      if (room > 0 && room < want && (ex.items?.length || 0) <= room) {
+        notes.push(`${sheet} ${ex.number} (${EXERCISE_LABELS[t]}) has ${ex.items?.length || 0} line${ex.items?.length === 1 ? "" : "s"}: only ${room} word${room === 1 ? "" : "s"} in your list ${room === 1 ? "has" : "have"} ${what}. Add ${what} in Step 2 for more lines.`);
+      }
+    }
+  };
+  data?.dictation?.exercises?.forEach((ex, i) => check("Dictation", ex, i));
+  data?.lingoLauncher?.practice?.forEach((ex, i) => check("Lingo", ex, i));
+}
+
 /** Issues the cheap line-by-line fixer handles better than a whole new generation. */
 function isAnswerKeyIssue(issue) {
   return /the key needs a mix of|is not a word from this unit's list/.test(issue);
@@ -1257,7 +1297,7 @@ function isAnswerKeyIssue(issue) {
 
 /** Line issues the line fixer repairs after generation (answer keys, a sentence too long to dictate, a line copied across sheets). */
 function isLineRepairIssue(issue) {
-  return isAnswerKeyIssue(issue) || /item \d+: (sentence is \d+ words|same sentence as Dictation)/.test(issue);
+  return isAnswerKeyIssue(issue) || LINE_PROBLEMS.has(issue) || /item \d+: (sentence is \d+ words|same sentence as Dictation)/.test(issue);
 }
 
 function normalizeWorksheetPrompts(data) {
@@ -1407,7 +1447,24 @@ function normalizeWorksheetExercises(data) {
   normalizeD08Exercises(data);
   normalizeWorksheetWordLists(data);
   normalizeWorksheetPrompts(data);
+  normalizeExerciseLines(data);
   normalizeBracketChoices(data);
+  return data;
+}
+
+/**
+ * Every line is the kind of question its task line asks (studio/ws-checks.js): an opposite / synonym exercise keeps
+ * only "WORD (a / b / c)" lines with a listed opposite (synonym) — a line of another kind is rewritten or rebuilt from
+ * the word list, or dropped when no word is left — and small sure fixes (a crossword clue's letter count).
+ */
+function normalizeExerciseLines(data) {
+  const vocab = data?.lingoLauncher?.vocabulary || [];
+  const each = (ex) => {
+    repairRelationExercise(ex, vocab);
+    ex.items?.forEach((item) => repairLine(ex.typeId, item));
+  };
+  data?.dictation?.exercises?.forEach(each);
+  data?.lingoLauncher?.practice?.forEach(each);
   return data;
 }
 
@@ -2568,6 +2625,7 @@ function validateWorksheet(data) {
   });
 
   validateExtraTypes(data, issues);
+  validateLines(data, vocab, issues, notes);
   validateAnswerKeys(data).forEach((i) => issues.push(i));
 
   findCrossWorksheetDuplicatePrompts(data).forEach((dup) => {
@@ -3085,6 +3143,13 @@ function renderDictation(data, options = {}) {
 function keyAnswer(ex, item, levelId) {
   const answer = String(item.answer || "").trim() || "—";
   const v = wsItemView(ex, item, levelId);
+  // Sequencing: students number the steps, so the key gives each step's number ("b, a, c" → a 2 · b 1 · c 3).
+  if (v.kind === "steps") {
+    const order = (answer.toLowerCase().match(/\b[a-h]\b/g) || []);
+    if (order.length === v.steps.length && new Set(order).size === order.length) {
+      return v.steps.map((_, i) => `${"abcdefgh"[i]} ${order.indexOf("abcdefgh"[i]) + 1}`).join(" · ");
+    }
+  }
   if (v.kind !== "choice" || v.answerIndex < 0 || ex.typeId === "L13") return answer;
   return `${"abcdefgh"[v.answerIndex]} · ${answer}`;
 }
@@ -3142,6 +3207,7 @@ DICTATION FORMATS (never give away answers to students):
 - D13 Matching columns: REQUIRED wordBank = shuffled lettered definitions (e.g. "A. great honour and admiration", "B. strong enthusiasm for something") — one per item, same count as items. Items = vocabulary word/phrase + blank only: "passion __________". answer = single LETTER only (e.g. "C"). NEVER print words without the definition list — students cannot solve otherwise. Definitions must explain meaning, not repeat the vocabulary word
 - D16 Category sort: REQUIRED shuffled wordBank with EVERY word students must place (all answers across categories combined); category lines use ________ gaps only — e.g. "Sports: ________, ________"; put words in testsWords per line OR comma-separated in answer; NEVER leave wordBank empty
 - D05/D06/D18: NO wordBank; multiple choices inside parentheses separated by / only; shuffle option order so the answer is not always first
+- D05 Opposite match / D06 Synonym select: EVERY item = "unitWord (optionA / optionB / optionC)" — the unit word ALONE, never a sentence, never "The opposite of … is", never "… can also mean"; answer = that word's listed antonym (D05) or synonym (D06) from the table, exactly ONE correct option, the other two clearly wrong (never another opposite/synonym of the word); only words that HAVE antonyms (D05) / synonyms (D06) in the table, one item per word; if fewer such words than lines, write FEWER items — NEVER pad with items of another kind
 - D17 Collocation pair: one half of collocation given + ________ gap (e.g. "pour ________ into a glass"); answer is the missing chunk only — words like "a" in the prompt are NOT the answer
 - D08 Sentence fixer (vocabulary): mark the ONE wrong word in [square brackets] in each sentence. "answer" = the single correct unit vocabulary word students write on their answer sheet. "testsWords" = [that same word]. Use a plausible mistake: wrong form (royalties→royalty), wrong similar word (cart→wagon), wrong collocation partner. NEVER print a perfect sentence with no [brackets]. NEVER use (slash / choices) — square brackets only. BAD: "The royalty attended the ceremony." GOOD: "The [royalties] attended the ceremony." answer "royalty". BAD: answer = full corrected sentence
 - D15 True / false: each item starts with "( )" for students to write T or F; statement uses unit vocabulary in context; answer = "T" or "F" only
@@ -3175,7 +3241,7 @@ LINGO PRACTICE FORMATS (follow exactly per typeId):
 - L12 Spelling check: sentence with ONE misspelt unit word in [square brackets]; wordList MUST be []; answer = the correctly spelt word; the bracketed word must NOT be a real English word; NEW sentences, not copied from dictation
 - L13 Which sentence is right?: wordList MUST be []; each prompt = "A. sentence  B. sentence" on one line — same unit word in both, exactly one uses it correctly (collocation, form or meaning); answer = "A" or "B"; MIX A and B answers; the mistake must be about the unit word, never random grammar
 - L09 Odd one out: each item = exactly 4 comma-separated words; 3 share ONE clear link and 1 does not. A–C Senior: link by MEANING (animals, places, things you wear — "cat, dog, horse, bread", answer bread). D–E Senior: by meaning or by part of speech (check vocabulary type — "artifact, treasure, jewel, excavate", answer excavate). answer = the odd word only. Only ONE word can be the odd one. NEVER put antonyms or related forms (careful/careless) together. BAD: "wagon, tide, audience, mystery" (no clear link — no clear odd word)
-- L06 Grammar labels: prompt = ONE unit word (as in the table, or in a short phrase that shows its use: "a fast RUN" for a word with two classes); answer = its word class in full: noun / verb / adjective / adverb / preposition; wordList MUST be []; mix the classes
+- L06 Grammar labels: prompt = ONE unit word (as in the table, or in a short phrase that shows its use: "a fast RUN" for a word with two classes); answer = its word class in full: noun / verb / adjective / adverb (only these four — never a preposition or another class); wordList MUST be []; mix the classes
 - L07 Derivative build: prompt = "word (class) → ________ (class)" using a word and a derivative LISTED in the table (e.g. "compete (v.) → ________ (n.)"); answer = that listed derivative; wordList MUST be []; never invent forms
 - L08 Sentence order: prompt = the words of ONE correct sentence that uses a unit word, jumbled and separated by " / " without the final full stop or question mark ("around / ran / track / the / they"); never in the right order; answer = the full sentence with a capital letter; wordList MUST be []; at most the class's sentence length
 - L10 Personalize prompt: prompt = a question about the student's own life that uses a unit word ("Who is a big inspiration in your life?"); answer = a model answer — one full sentence at class level that uses the word; wordList MUST be []`;
@@ -3279,6 +3345,19 @@ D12 MYSTERY RIDDLE — mandatory:
 BRACKET-CHOICE DICTATION (D03/D05/D06 etc.) — mandatory:
 - ~${tunedProfile(form.classProfile, plan.tune)?.itemsPerExercise || 5} items per exercise — do NOT list every vocabulary word in one exercise
 - Each sentence must be UNIQUE — never copy sentences from Lingo Launcher practice`;
+  }
+  for (const [id, kind, what] of [["D05", "antonyms", "OPPOSITE MATCH"], ["D06", "synonyms", "SYNONYM SELECT"]]) {
+    if (!plan.dictationTypes?.includes(id)) continue;
+    const words = kind === "antonyms" ? getAntonymWordsFromForm(form) : getSynonymWordsFromForm(form);
+    const one = kind === "antonyms" ? "opposite" : "synonym";
+    block += `
+${id} ${what} — mandatory:
+- Each item: "prompt" = "word (option / option / option)" — the unit word alone, then 3 options; "answer" = the word's listed ${one} below; "testsWords" = [the word]
+- Exactly one option is a listed ${one}; the other two are clearly wrong (never a second ${one} of the word, never a form of the word)
+- One item per word below ONLY, at most ${words.length} item${words.length === 1 ? "" : "s"} — write FEWER items rather than items of another kind
+- FORBIDDEN: sentences ("She feels worried, but she stays (calm / noisy)"), "The ${one} of slowly is …", "Vacation can also mean …", a ${kind === "antonyms" ? "synonym" : "opposite"} as the answer
+- GOOD: ${kind === "antonyms" ? '"slowly (quietly / quickly / gently)" answer "quickly"' : '"big (small / large / long)" answer "large"'}
+Words with ${kind} (use ONLY these): ${JSON.stringify(words)}`;
   }
   if (plan.dictationTypes?.includes("D25")) {
     const words = wordsWithPictures(form.vocabRows || []);
@@ -4256,6 +4335,9 @@ The other lines of this exercise (never repeat one of them): ${JSON.stringify(ot
   for (let attempt = 0; attempt < 3; attempt++) {
     const aiResult = await callDeepSeek(apiKey, buildFixItemsSystemPrompt(profileId, targets), userPrompt, attempt ? remakeRetryHint(problems) : "");
     const data = mergeItemFixes(existingData, aiResult, targets);
+    // The line is Lingo's now, no longer the teacher's own: the app may correct it like any other.
+    const remade = getWorksheetItem(data, sheet, exercise, item);
+    if (remade) delete remade.byTeacher;
     normalizeWorksheetExercises(data);
     const validation = validateWorksheet(data);
     const after = getWorksheetItem(data, sheet, exercise, item);

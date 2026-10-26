@@ -817,6 +817,8 @@ function openItemEditor(sheet, exIndex, itemIndex) {
         const cItem = cEx?.items?.[itemIndex];
         if (!cEx || !cItem) return data;
         const b = built();
+        // A line the teacher rewrote is theirs: the app checks it but never rebuilds it (studio/ws-checks.js).
+        if (b.prompt !== cItem.prompt || (b.answer !== undefined && b.answer !== cItem.answer)) cItem.byTeacher = true;
         cItem.prompt = b.prompt;
         if (b.answer !== undefined) cItem.answer = b.answer;
         if (showStem) cItem.stem = val("#ie_stem").trim();

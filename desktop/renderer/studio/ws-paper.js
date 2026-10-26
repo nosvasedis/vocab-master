@@ -179,7 +179,9 @@ export function wsItemView(ex, item, levelId) {
     if (ab) return { kind: "choice", before: "", after: "", gap: false, target: false, options: ab, answerIndex: /^b$/i.test(answer) ? 1 : /^a$/i.test(answer) ? 0 : -1, stack: true, upper: true };
   }
   if (t === "L06" && WORD_CLASSES.includes(norm(answer))) {
-    const options = norm(answer) === "adverb" ? WORD_CLASSES : WORD_CLASSES.slice(0, 3);
+    // An exercise with an adverb among its answers offers all four classes on every line (its task line names four).
+    const adverbs = (ex?.items || []).some((it) => norm(it?.answer) === "adverb");
+    const options = adverbs || norm(answer) === "adverb" ? WORD_CLASSES : WORD_CLASSES.slice(0, 3);
     return { kind: "choice", before: prompt.trim(), after: "", gap: false, target: true, options, answerIndex: pick(options), stack: false };
   }
   if (t === "D15" || t === "L11") return { kind: "tf", text: prompt.replace(/^\s*\(\s*\)\s*/, "").trim() };

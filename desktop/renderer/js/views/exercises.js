@@ -104,6 +104,46 @@ function commit(sheet, list) {
   renderExercises();
 }
 
+/*
+ * The written sheets follow Step 3 the way the Test Maker's paper follows its parts: an exercise removed here leaves
+ * the sheet at once, a moved one moves (an added or changed one waits for "Generate"). The sheet's exercise for a
+ * row is found by position while the sheet and the plan list the same exercises; otherwise by its type when only one
+ * exercise has it, and the sheet is left alone when that is unclear.
+ */
+const sheetList = (data, sheet) => (sheet === "dictation" ? data?.dictation?.exercises : data?.lingoLauncher?.practice);
+
+function sheetIndex(plan, sheet, i) {
+  const list = sheetList(state.data, sheet);
+  const types = planEntries(plan, sheet).map((e) => e.type);
+  if (!list?.length || !types[i]) return -1;
+  if (types.length === list.length && types.every((t, k) => list[k]?.typeId === t)) return i;
+  const found = list.map((ex, k) => (ex?.typeId === types[i] ? k : -1)).filter((k) => k >= 0);
+  return found.length === 1 ? found[0] : -1;
+}
+
+/** Change a written sheet's exercises (change(list) edits the array), renumber them and keep the sheet's plan in step. */
+function editSheet(sheet, change) {
+  const list = sheetList(state.data, sheet);
+  if (!list) return null;
+  const before = JSON.parse(JSON.stringify(state.data));
+  const gp = state.data.generationPlan;
+  const entries = gp ? planEntries(gp, sheet) : null;
+  change(list, entries);
+  list.forEach((ex, k) => { ex.number = k + 1; });
+  if (gp && entries) state.data.generationPlan = { ...withEntries(gp, sheet, entries), ...(gp.exerciseMode ? { exerciseMode: gp.exerciseMode } : {}) };
+  state.data = normalizeWorksheetExercises(state.data);
+  persistSession();
+  emit("data");
+  return before;
+}
+
+function restoreSheet(data) {
+  if (!data) return;
+  state.data = data;
+  persistSession();
+  emit("data");
+}
+
 /** Lingo's mix for the class (the old plan comes back with Undo). */
 function newMix({ quiet = false } = {}) {
   if (!state.profileId) { state.plan = null; renderExercises(); return; }
@@ -365,6 +405,8 @@ function libraryFor(sheet, i, mode) {
     levelId: state.profileId,
     levelName: levelName(),
     current: mode === "change" ? list[i]?.type : "",
+    // Where each exercise already is on this sheet ("Exercise 2"); the one being changed says "This exercise" instead.
+    used: list.reduce((m, e, k) => { if (!(mode === "change" && k === i)) (m[e.type] ||= []).push(`Exercise ${k + 1}`); return m; }, {}),
     features: features(),
     recommended,
     mode,
@@ -436,9 +478,17 @@ function onPartsClick(e) {
     const j = i + Number(mv.dataset.move);
     const list = planEntries(state.plan, sheet);
     if (j < 0 || j >= list.length) return;
+    const a = sheetIndex(state.plan, sheet, i);
+    const b = sheetIndex(state.plan, sheet, j);
     [list[i], list[j]] = [list[j], list[i]];
     if (openKey === `${sheet}:${i}`) openKey = `${sheet}:${j}`;
     else if (openKey === `${sheet}:${j}`) openKey = `${sheet}:${i}`;
+    if (a >= 0 && b >= 0 && a !== b) {
+      editSheet(sheet, (exs, entries) => {
+        [exs[a], exs[b]] = [exs[b], exs[a]];
+        if (entries?.[a] && entries?.[b]) [entries[a], entries[b]] = [entries[b], entries[a]];
+      });
+    }
     commit(sheet, list);
     return;
   }
@@ -448,10 +498,19 @@ function onPartsClick(e) {
     const list = planEntries(state.plan, sheet);
     if (list.length <= 1) return;
     const before = state.plan;
+    const at = sheetIndex(before, sheet, i);
     const [gone] = list.splice(i, 1);
     if (openKey?.startsWith(`${sheet}:`)) openKey = null;
+    // The written sheet loses the exercise too (one exercise always stays, as in the plan).
+    const sheetBefore = at >= 0 && sheetList(state.data, sheet).length > 1
+      ? editSheet(sheet, (exs, entries) => { exs.splice(at, 1); entries?.splice(at, 1); })
+      : null;
     commit(sheet, list);
-    toast(`Removed “${EXERCISE_LABELS[gone.type] || gone.type}”.`, "info", { ms: 3200, actions: [{ label: "Undo", run: () => { state.plan = before; emit("plan"); renderExercises(); } }] });
+    const name = EXERCISE_LABELS[gone.type] || gone.type;
+    toast(sheetBefore ? `Removed “${name}” — from the ${sheet === "dictation" ? "Dictation" : "Lingo"} sheet too.` : `Removed “${name}”.`, "info", {
+      ms: 3600,
+      actions: [{ label: "Undo", run: () => { state.plan = before; restoreSheet(sheetBefore); emit("plan"); renderExercises(); } }],
+    });
   }
 }
 
