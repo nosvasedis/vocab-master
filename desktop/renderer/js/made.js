@@ -30,6 +30,8 @@ const deleted = new Set();
 export function registerMaker(kind, api) { makers[kind] = api; }
 export const openId = (kind) => makers[kind]?.openId() || null;
 export const isOpen = (kind, id) => !!id && openId(kind) === id;
+/** The item a maker has open as it is now (its own copy when it says, else the saved one), or null. */
+export const openItem = (kind) => makers[kind]?.current?.() || findMade(kind, openId(kind));
 
 /* ── Tests and dictations (synced item by item, js/sync/registry.js) ── */
 export function recentDocs(kind) {

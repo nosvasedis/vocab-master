@@ -712,23 +712,85 @@
 .projector {
   position: fixed; inset: 0; z-index: 300;
   display: flex; flex-direction: column;
-  background: #0d0f1a;
+  background: radial-gradient(1200px 600px at 50% -10%, #1b1f38 0%, #0d0f1a 60%);
+  color: #fff;
   animation: fade-in 260ms var(--ease) both;
 }
 .projector.closing { animation: fade-out 200ms var(--ease) both; }
-.pj-bar { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #fff; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-.pj-bar .pj-title { display: flex; flex-direction: column; line-height: 1.25; margin-right: auto; }
-.pj-bar .pj-title small { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #8f95b5; font-weight: 700; }
-.pj-bar .pj-title strong { font: 750 15px var(--font-display); }
-.pj-bar .segmented { background: rgba(255, 255, 255, 0.07); }
-.pj-bar .segmented .seg-thumb { background: rgba(255, 255, 255, 0.14); box-shadow: none; }
-.pj-bar .segmented button { color: #a9aec6; }
-.pj-bar .segmented button.active, .pj-bar .segmented button:hover { color: #fff; }
-.pj-bar .btn-ghost, .pj-bar .icon-btn { color: #c7cbe0; }
-.pj-bar .btn-ghost:hover, .pj-bar .icon-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
-.pj-stage { flex: 1; overflow: auto; padding: 28px; display: flex; justify-content: center; }
-.pj-paper { width: min(1100px, 100%); background: #fff; color: #000; border-radius: 14px; padding: 40px 48px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); height: max-content; }
-.pj-hint { text-align: center; padding: 10px; font-size: 13px; color: #8f95b5; border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.pj-bar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); flex-wrap: wrap; }
+.pj-source { display: inline-flex; align-items: center; gap: 10px; min-width: 0; max-width: 360px; margin-right: auto; padding: 6px 10px 6px 6px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; background: rgba(255, 255, 255, 0.04); color: #fff; text-align: left; cursor: pointer; transition: background 140ms, border-color 140ms; }
+.pj-source:hover { background: rgba(255, 255, 255, 0.09); border-color: rgba(255, 255, 255, 0.2); }
+.pj-source > .i { color: #8f95b5; flex: none; }
+.pj-source-ico, .pj-pick-ico { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 9px; color: #fff; background: linear-gradient(135deg, #fb923c, #c2410c); }
+.pj-source[data-kind="test"] .pj-source-ico, .pj-pick[data-kind="test"] .pj-pick-ico { background: linear-gradient(135deg, #60a5fa, #1d4ed8); }
+.pj-source[data-kind="dictation"] .pj-source-ico, .pj-pick[data-kind="dictation"] .pj-pick-ico { background: linear-gradient(135deg, #f472b6, #be185d); }
+.pj-title { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.pj-title small { font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #8f95b5; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pj-title strong { font: 750 15px var(--font-display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pj-tabs, .pj-modes, .pj-zoom { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border-radius: 11px; background: rgba(255, 255, 255, 0.06); }
+.pj-tabs button, .pj-modes button { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: #a9aec6; font: 650 13px var(--font-ui); cursor: pointer; white-space: nowrap; transition: background 140ms, color 140ms; }
+.pj-tabs button:hover, .pj-modes button:hover { color: #fff; }
+.pj-tabs button.active { color: #fff; background: rgba(255, 255, 255, 0.16); }
+.pj-modes button.active { color: #fff; background: #5b4cf5; }
+.pj-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 10px; background: transparent; color: #e3e6f5; font: 650 13px var(--font-ui); cursor: pointer; }
+.pj-btn:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.pj-icon { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 9px; background: transparent; color: #c7cbe0; cursor: pointer; }
+.pj-icon:hover { color: #fff; background: rgba(255, 255, 255, 0.1); }
+.pj-zoom-v { min-width: 52px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #e3e6f5; font: 700 12.5px var(--font-ui); cursor: pointer; }
+.pj-zoom-v:hover { background: rgba(255, 255, 255, 0.1); }
+.pj-stage { flex: 1; min-height: 0; overflow: auto; padding: 24px 32px; display: flex; justify-content: center; align-items: flex-start; }
+.pj-sheet { background: #fff; color: #000; border-radius: 14px; padding: 36px 40px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); height: max-content; max-width: 100%; }
+.projector.is-focus .pj-stage { align-items: safe center; }
+.projector.is-focus .pj-sheet { padding: 28px 32px; }
+.projector.is-empty .pj-sheet { visibility: hidden; }
+.pj-foot { border-top: 1px solid rgba(255, 255, 255, 0.06); }
+.pj-nav { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 10px 16px 0; }
+.pj-nav-btn { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 50%; background: rgba(255, 255, 255, 0.05); color: #fff; cursor: pointer; }
+.pj-nav-btn:hover:not(:disabled) { background: #5b4cf5; border-color: #5b4cf5; }
+.pj-nav-btn:disabled { opacity: 0.3; cursor: default; }
+.pj-nav-mid { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; max-width: min(760px, 70vw); }
+.pj-nav-label { max-width: 100%; font: 700 14px var(--font-ui); color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pj-dots { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.pj-dots button { width: 9px; height: 9px; padding: 0; border: 0; border-radius: 99px; background: rgba(255, 255, 255, 0.25); cursor: pointer; transition: width 200ms, background 200ms; }
+.pj-dots button.on { width: 26px; background: #8b7dff; }
+.pj-dots small { font: 700 12px var(--font-ui); color: #a9aec6; }
+.pj-hint { padding: 8px 16px 10px; text-align: center; font-size: 12.5px; color: #8f95b5; }
+.pj-hint kbd { display: inline-block; min-width: 20px; padding: 1px 5px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; font: 600 11px var(--font-ui); color: #d5d9ee; text-align: center; }
+
+/* A picture, large */
+.pj-viewer { position: absolute; inset: 0; z-index: 3; display: flex; align-items: center; justify-content: center; gap: 24px; padding: 40px; background: rgba(8, 9, 18, 0.88); backdrop-filter: blur(6px); animation: fade-in 180ms var(--ease) both; }
+.pj-viewer figure { display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: min(1100px, 80vw); margin: 0; }
+.pj-viewer img { max-width: 100%; max-height: calc(100vh - 170px); min-width: min(420px, 60vw); object-fit: contain; padding: 28px; border-radius: 22px; background: #fff; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6); animation: pj-zoom-in 260ms cubic-bezier(.2, .9, .3, 1.2) both; }
+.pj-viewer figcaption { font: 700 16px var(--font-ui); color: #d5d9ee; }
+.pj-viewer-nav, .pj-viewer-x { display: grid; place-items: center; width: 54px; height: 54px; flex: none; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 50%; background: rgba(255, 255, 255, 0.08); color: #fff; cursor: pointer; }
+.pj-viewer-nav:hover, .pj-viewer-x:hover { background: #5b4cf5; border-color: #5b4cf5; }
+.pj-viewer-x { position: absolute; top: 18px; right: 18px; width: 44px; height: 44px; }
+@keyframes pj-zoom-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: none; } }
+
+/* The screen blanked (the class looks at the teacher) */
+.pj-blank { position: absolute; inset: 0; z-index: 4; display: flex; align-items: flex-end; justify-content: center; padding: 24px; background: #000; cursor: pointer; }
+.pj-blank span { font-size: 12px; color: #3a3d4f; }
+.pj-blank kbd { padding: 0 5px; border: 1px solid #3a3d4f; border-radius: 4px; }
+
+/* What to show: the open things, then the Library */
+.pj-picker { position: absolute; inset: 0; z-index: 2; display: flex; justify-content: center; align-items: flex-start; padding: 72px 20px 20px; background: rgba(8, 9, 18, 0.6); backdrop-filter: blur(4px); animation: fade-in 160ms var(--ease) both; }
+.pj-pick-card { display: flex; flex-direction: column; width: min(620px, 100%); max-height: calc(100vh - 110px); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; background: #171a2c; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55); }
+.pj-pick-head { display: flex; align-items: center; justify-content: space-between; min-height: 34px; padding: 14px 14px 4px 18px; font: 750 17px var(--font-display); }
+.pj-pick-search { display: flex; align-items: center; gap: 8px; height: 40px; margin: 8px 18px 10px; padding: 0 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.07); color: #8f95b5; }
+.pj-pick-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: #fff; font: 500 14px var(--font-ui); }
+.pj-pick-list { overflow: auto; padding: 0 10px 14px; }
+.pj-pick-list h4 { margin: 10px 8px 6px; font: 700 11px var(--font-ui); letter-spacing: 0.08em; text-transform: uppercase; color: #8f95b5; }
+.pj-pick { display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 10px; border: 0; border-radius: 11px; background: transparent; color: #fff; text-align: left; cursor: pointer; }
+.pj-pick:hover { background: rgba(255, 255, 255, 0.07); }
+.pj-pick.current { background: rgba(91, 76, 245, 0.25); }
+.pj-pick-text { display: flex; flex-direction: column; min-width: 0; }
+.pj-pick-text b { font: 650 14px var(--font-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pj-pick-text small { font-size: 12px; color: #a9aec6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pj-pick-empty { padding: 20px 10px; color: #a9aec6; text-align: center; }
+@media (max-width: 1100px) {
+  .pj-modes button span, .pj-btn span { display: none; }
+  .pj-source { max-width: 240px; }
+}
 
 /* ── Responsive ───────────────────────────────────────────────────── */
 @media (max-width: 1280px) {

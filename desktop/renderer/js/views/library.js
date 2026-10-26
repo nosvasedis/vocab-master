@@ -8,6 +8,7 @@ import { actions } from "../actions.js";
 import { readJSON, writeJSON } from "../bridge.js";
 import { recentDocs, openMade, deleteMade, isOpen, reconcile, SAVES_KEY, DOCS_KEY } from "../made.js";
 import { SKILLS, DICTATION_STYLES } from "../../studio/tasks.js";
+import { openProjector } from "./projector.js";
 
 const KINDS = [
   ["all", "Everything", "library"],
@@ -41,6 +42,10 @@ export function initLibrary() {
     if (btn.dataset.act === "open") openMade(type, id);
     if (btn.dataset.act === "words") openMade("unit", id, { view: "words" });
     if (btn.dataset.act === "delete") deleteMade(type, id);
+    if (btn.dataset.act === "project") {
+      const item = allItems().find((x) => x.type === type && x.id === id)?.raw;
+      if (item) openProjector({ kind: type, id, item });
+    }
   });
   on("library", () => { renderLibrary(); updateLibraryCount(); });
 }
@@ -93,7 +98,7 @@ function cardHtml(it, i) {
     : `<button type="button" class="btn btn-primary btn-sm" data-act="open">${icon("eye", "i-sm")}Open</button>`;
   return `<article ${base}>${top}${words}
       <div class="lib-meta">${meta}<span>·</span><span>${esc(timeAgo(it.savedAt))}</span></div>
-      <div class="lib-actions">${actionsHtml}<button type="button" class="icon-btn danger" data-act="delete" data-tip="Delete" aria-label="Delete">${icon("trash", "i-sm")}</button></div>
+      <div class="lib-actions">${actionsHtml}<button type="button" class="icon-btn" data-act="project" data-tip="Show it on the projector" aria-label="Show on the projector">${icon("monitor", "i-sm")}</button><button type="button" class="icon-btn danger" data-act="delete" data-tip="Delete" aria-label="Delete">${icon("trash", "i-sm")}</button></div>
     </article>`;
 }
 

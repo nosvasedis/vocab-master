@@ -20,6 +20,7 @@ import { relabelDoc } from "../../studio/doc-model.js";
 import { openHeaderDialog, paperWords } from "../header-dialog.js";
 import { readDictation, dictationWav } from "../voices/listening.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
+import { openProjector } from "./projector.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
 
 /** The header lines of the student paper and the teacher's pack the teacher can reword (Header dialog). */
@@ -60,6 +61,7 @@ export function initDictation() {
   registerMaker("dictation", {
     // Before the screen is first shown, the dictation left open last time counts as open.
     openId: () => (built ? dc.doc?.id : rememberedOpen("dictation")) || null,
+    current: () => (built ? dc.doc : null),
     open(id) {
       const d = findMade("dictation", id);
       if (!d) return false;
@@ -137,6 +139,7 @@ function build() {
               <button type="button" class="btn btn-sm" id="dcRead" disabled data-tip-pos="bottom" data-tip="Each sentence is read, then read again slowly, with time to write">${icon("volume", "i-sm")}<span>Read it aloud</span></button>
               <span class="export-pills tb-exports">
                 <button type="button" class="btn btn-primary btn-sm" id="dcPack" disabled data-tip-pos="bottom" data-tip="The student sheet and the teacher copy (and the wall strips) as Word + PDF, and the reading as audio, in one folder">${icon("package", "i-sm")}<span>Export dictation pack</span></button>
+                <button type="button" class="btn btn-secondary btn-sm" id="dcProject" disabled data-tip-pos="bottom" data-tip="Show it on the board: reveal each sentence to check, pictures large, wall strips one by one">${icon("monitor", "i-sm")}Projector</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcPrint" disabled>${icon("printer", "i-sm")}Print</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
                 <button type="button" class="btn btn-secondary btn-sm" id="dcWord" disabled>${icon("word", "i-sm")}Word</button>
@@ -238,6 +241,7 @@ function build() {
   });
   $("dcRead").addEventListener("click", toggleRead);
   $("dcPrint").addEventListener("click", () => printHtml(sheetHtml(), sheetTitle()));
+  $("dcProject").addEventListener("click", () => { if (dc.doc) openProjector({ kind: "dictation", id: dc.doc.id }); });
   $("dcPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(), sheetTitle(), fileBase())));
   $("dcWord").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportWord(dc.doc, dc.sheet === "teacher" ? "teacher" : "student", fileBase()).catch((err) => toast(err.message, "error"))));
   $("dcRecent").addEventListener("click", (e) => {
@@ -603,7 +607,7 @@ function renderPaper() {
   $("dcEmpty").classList.toggle("hidden", has);
   $("dcSheetSeg").classList.toggle("hidden", !has);
   $("dictationView").classList.toggle("has-doc", has);
-  ["dcRead", "dcPack", "dcPrint", "dcPdf", "dcWord"].forEach((id) => { $(id).disabled = !has; });
+  ["dcRead", "dcPack", "dcProject", "dcPrint", "dcPdf", "dcWord"].forEach((id) => { $(id).disabled = !has; });
   renderVoices();
   renderOutline();
   renderFoot();

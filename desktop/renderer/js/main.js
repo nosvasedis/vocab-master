@@ -21,7 +21,7 @@ import { initWords, renderWords } from "./views/words.js";
 import { initExercises, enterExercises, runGenerate } from "./views/exercises.js";
 import { initPreview, renderPreview, printSheet } from "./views/preview.js";
 import { initLibrary, renderLibrary, updateLibraryCount } from "./views/library.js";
-import { openProjector, isProjectorOpen } from "./views/projector.js";
+import { openProjector, isProjectorOpen, projectorHasContent } from "./views/projector.js";
 import { openSettings, openHelp, applyTheme } from "./dialogs.js";
 import { openArcade, isArcadeOpen } from "../arcade/arcade.js";
 import { buildArcadeDeck } from "../arcade/deck.js";
@@ -172,7 +172,8 @@ function renderChrome() {
   if (inFlow) renderWorksheetsTop(view);
   $("navSub-worksheets").textContent = state.data ? `${bookTitle() || "Your unit"}${unitNumber() ? ` · Unit ${unitNumber()}` : ""} · ready` : filledWords().length ? `${plural(filledWords().length, "word")} · in progress` : "Lingo Launcher + Dictation";
   const p = CLASS_PROFILES[state.profileId];
-  document.querySelector('.sb-item[data-action="open-projector"]').disabled = !state.data;
+  // The projector shows any worksheet unit, test or dictation (open or in the Library).
+  document.querySelector('.sb-item[data-action="open-projector"]').disabled = !projectorHasContent();
 
 
   // Flow bar

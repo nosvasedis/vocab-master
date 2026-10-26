@@ -47,6 +47,7 @@ export const LOCAL_ONLY = {
   vm_sync_profiles: "the profiles that use this computer",
   vm_sync_emulator: "developer switch: use the Firebase emulators",
   vm_game_results_v1: "results of Lingo Live and Quiz Show games (student nicknames): kept on this computer only, saved as CSV by the teacher",
+  vm_projector_v1: "the projector's Paper / Focus choice and text size, fitted to this computer's screen",
 };
 
 export const isSynced = (key) => Object.prototype.hasOwnProperty.call(SYNCED, key);

@@ -28,6 +28,7 @@ import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices
 import { audioFileName } from "../../studio/audio-track.js";
 import { recordingState } from "../../studio/listening-sync.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
+import { openProjector } from "./projector.js";
 import { loadLessonJson } from "./studio-common.js";
 import { mountTestEditing } from "./test-edit.js";
 import { openHeaderDialog, paperWords } from "../header-dialog.js";
@@ -60,6 +61,7 @@ export function initTests() {
   registerMaker("test", {
     // Before the screen is first shown, the test left open last time counts as open.
     openId: () => (built ? ts.doc?.id : rememberedOpen("test")) || null,
+    current: () => (built ? ts.doc : null),
     open(id) {
       const d = findMade("test", id);
       if (!d) return false;
@@ -144,6 +146,7 @@ function build() {
             <label class="switch sm"><input type="checkbox" id="tsAnswers" /><span class="track"></span><span class="sw-text">Show answers</span></label>
             <span class="export-pills tb-exports">
               <button type="button" class="btn btn-primary btn-sm" id="tsPack" disabled data-tip-pos="bottom" data-tip="Every sheet as Word + PDF (version B and the teacher’s pack too) and the listening tracks as audio, in one folder">${icon("package", "i-sm")}<span>Export test pack</span></button>
+              <button type="button" class="btn btn-secondary btn-sm" id="tsProject" disabled data-tip-pos="bottom" data-tip="Show the test on the board: tap a question for its answer, one part at a time, pictures large">${icon("monitor", "i-sm")}Projector</button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsPrint" disabled>${icon("printer", "i-sm")}Print</button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsPdf" disabled>${icon("pdf", "i-sm")}PDF</button>
               <button type="button" class="btn btn-secondary btn-sm" id="tsWord" disabled>${icon("word", "i-sm")}Word</button>
@@ -279,6 +282,7 @@ function build() {
   });
   $("tsAnswers").addEventListener("change", renderPaper);
   $("tsPrint").addEventListener("click", () => printHtml(sheetHtml(false), sheetTitle()));
+  $("tsProject").addEventListener("click", () => { if (ts.doc) openProjector({ kind: "test", id: ts.doc.id }); });
   // The button says what it is doing (papers, audio 1 of 2, saving), so it is disabled rather than a spinner.
   $("tsPack").addEventListener("click", async (e) => {
     const btn = e.currentTarget;
@@ -1375,7 +1379,7 @@ function renderPaper() {
     : `${icon("pencil", "i-xs")}<span>Click to edit · hover a question for ✨ Remake</span>`;
   $("tsSheetSeg").classList.toggle("hidden", !has);
   $("testsView").classList.toggle("has-doc", has);
-  ["tsPack", "tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
+  ["tsPack", "tsProject", "tsPrint", "tsPdf", "tsWord"].forEach((id) => { $(id).disabled = !has; });
   renderOutline();
   renderFoot();
   $("tsPageCtl").classList.toggle("hidden", !has);
