@@ -5,9 +5,10 @@ import {
   CLASS_PROFILES, EXERCISE_LABELS,
   pickGenerationPlan, analyzeVocabFeatures, generateWorksheets, regenerateDictationOnly,
   regenerateLingoPracticeOnly, normalizeWorksheetExercises, validateWorksheet, saveWorksheetSession, findVocabGaps,
+  writeWorksheetExercises, exerciseStatus,
   normalizeTune, isDefaultTune, tunedProfile,
 } from "../../app.js";
-import { $, esc, icon, plural, toast, segmented, confirmDialog } from "../ui.js";
+import { $, esc, icon, plural, toast, segmented, confirmDialog, withBusy } from "../ui.js";
 import { state, emit, on, buildForm, filledWords, bookTitle, unitNumber, pageRange, worksheetFreshness, detachWorksheet } from "../state.js";
 import { getApiKey, isAiReady, getProvider, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
 import { actions } from "../actions.js";
@@ -70,8 +71,9 @@ export function initExercises() {
   // A new class gets Lingo's mix for it — unless the teacher built the plan, which keeps its exercises (the badges
   // then say which ones are a stretch or easy for the new class).
   on("level", () => { if (state.plan?.exerciseMode !== "custom") state.plan = null; });
-  on("data", renderGenerateCard);
+  on("data", () => { renderGenerateCard(); if (state.view === "exercises") renderParts(); });
   on("setup", detachIfUnitChanged);
+  $("genSummary").addEventListener("click", (e) => { const b = e.target.closest("[data-write-changed]"); if (b) writeChanged(b); });
 }
 
 /** A different book or unit was chosen: the open worksheets belong to the old unit. Put them away
@@ -282,7 +284,20 @@ function helpLabel(e) {
   return `${h.kind === "family" ? "Word help" : "Letter help"}: ${label}`;
 }
 
-function rowHtml(sheet, e, i, count, f) {
+/* ── A written worksheet and Step 3 (like the Test Maker's "Write this part") ─────────────────────────────────── */
+const STATUS_TEXT = { new: "new — not on the sheet yet", changed: "changed — write it", settings: "settings changed — write it again" };
+const WRITE_LABEL = { new: "Write this new exercise", changed: "Write this exercise", settings: "Write it with the new settings", "": "Write this exercise again" };
+
+/** How Step 3's exercises stand against the written sheets ({ dictation: [...], lingo: [...] }; "" = as written). */
+function statuses() {
+  const out = {};
+  for (const sh of SHEETS) out[sh] = state.data ? exerciseStatus(state.data, state.plan, sh) : [];
+  return out;
+}
+/** Exercises can be written one by one while the sheets were made from the words in Step 2 now. */
+const canWriteOne = () => !!state.data && !worksheetFreshness()?.wordsChanged;
+
+function rowHtml(sheet, e, i, count, f, st = "") {
   const t = wsTask(e.type);
   if (!t) return "";
   const key = `${sheet}:${i}`;
@@ -293,7 +308,7 @@ function rowHtml(sheet, e, i, count, f) {
   const head = `<div class="pc-head" data-expand="${key}">
       <span class="pc-num" aria-hidden="true"><b>${i + 1}</b><span>${WS_SHEETS[sheet].icon}</span></span>
       <div class="pc-main">
-        <small class="pc-skill">${esc(sheet === "dictation" ? "Dictation" : "Lingo practice")} · ${esc(e.type)}${block ? ` · <em>${esc(block)}</em>` : ""}</small>
+        <small class="pc-skill">${esc(sheet === "dictation" ? "Dictation" : "Lingo practice")} · ${esc(e.type)}${block ? ` · <em>${esc(block)}</em>` : ""}${st ? ` · <em class="ws-changed">${esc(STATUS_TEXT[st])}</em>` : ""}</small>
         <div class="pc-name">
           <button type="button" class="pc-task" data-pick="${key}" data-tip="Change the exercise" aria-label="Change exercise ${i + 1}: ${esc(t.label)}"><span>${esc(t.label)}</span>${icon("chevron-down", "i-sm")}</button>
           <span class="tk-kind kind-${esc(t.kind)}">${esc(WS_KINDS[t.kind].label)}</span>
@@ -302,13 +317,14 @@ function rowHtml(sheet, e, i, count, f) {
       </div>
       <span class="pc-pts"><b>${linesOf(e)}</b><small>lines</small></span>
       <span class="part-acts">
+        ${state.data ? `<button type="button" class="icon-btn sm ws-write${st ? " on" : ""}" data-write="${key}" ${canWriteOne() ? "" : "disabled"} data-tip="${esc(canWriteOne() ? WRITE_LABEL[st] : "Your word list changed — Generate again below")}" aria-label="${esc(WRITE_LABEL[st])}">${icon("refresh", "i-sm")}</button>` : ""}
         <button type="button" class="icon-btn sm" data-move="-1" data-key="${key}" data-tip="Move up" aria-label="Move exercise ${i + 1} up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
         <button type="button" class="icon-btn sm" data-move="1" data-key="${key}" data-tip="Move down" aria-label="Move exercise ${i + 1} down" ${i === count - 1 ? "disabled" : ""}>${icon("chevron-down", "i-sm")}</button>
         <button type="button" class="icon-btn sm danger" data-remove="${key}" data-tip="Remove this exercise" aria-label="Remove exercise ${i + 1}" ${count <= 1 ? "disabled" : ""}>${icon("trash", "i-sm")}</button>
       </span>
       <button type="button" class="pc-toggle" data-expand="${key}" aria-expanded="${expanded}" aria-controls="wsBody-${key.replace(":", "-")}">${icon(expanded ? "chevron-up" : "sliders", "i-sm")}<span>${expanded ? "Done" : "Settings"}</span></button>
     </div>`;
-  const cls = `part-card${block ? " stale" : ""}${expanded ? " open" : ""}`;
+  const cls = `part-card${block || st ? " stale" : ""}${expanded ? " open" : ""}`;
   if (!expanded) return `<li class="${cls}" data-key="${key}" data-skill="ws-${sheet}">${head}</li>`;
   const extras = t.knobs?.includes("extras")
     ? `<div class="pc-knob"><span class="pc-lbl">Word box</span><div class="pc-chips" role="radiogroup" aria-label="Extra words in the word box">${[["", "Like every exercise"], ...WS_EXTRAS].map(([v, label]) => {
@@ -339,6 +355,10 @@ function rowHtml(sheet, e, i, count, f) {
         ${helpHtml(e, key)}
         <div class="pc-knob"><span class="pc-lbl">Your wish</span><input class="input sm part-note" data-note="${key}" placeholder="Optional, e.g. “about a school trip”" value="${esc(e.note || "")}" maxlength="160" /></div>
         ${block ? `<p class="pc-new-words ws-block">${icon("alert", "i-xs")}<span>This exercise ${esc(block)}. Change the exercise, or add them in Step 2.</span></p>` : ""}
+        ${state.data ? `<div class="pc-write">
+          <button type="button" class="btn ${st ? "btn-primary" : "btn-ghost"} btn-sm part-rewrite" data-write="${key}" ${canWriteOne() && !block ? "" : "disabled"}>${icon("refresh", "i-sm")}${esc(WRITE_LABEL[st])}</button>
+          <small>${!canWriteOne() ? "Your word list changed — <b>Generate again</b> below writes everything with the new words." : st === "new" ? "Lingo writes just this exercise and adds it to the sheet; the rest stays as it is." : st ? "Lingo writes just this exercise again; the rest of the worksheet stays as it is." : "A new version of just this exercise; the rest stays as it is."}</small>
+        </div>` : ""}
       </div>
     </div>
   </li>`;
@@ -368,12 +388,17 @@ function renderParts() {
   const all = [...lists.dictation, ...lists.lingo];
   const mix = Object.entries(all.reduce((m, e) => { const k = WS_TASKS[e.type]?.kind; if (k) m[k] = (m[k] || 0) + 1; return m; }, {}));
   const lines = all.reduce((n, e) => n + linesOf(e), 0);
+  const status = statuses();
   const section = (sheet) => {
     const list = lists[sheet];
     const sh = WS_SHEETS[sheet];
+    const changed = status[sheet].filter(Boolean).length;
+    const writeAll = changed && canWriteOne()
+      ? `<button type="button" class="btn btn-primary btn-sm ws-write-sheet" data-write-sheet="${sheet}" data-tip="Lingo writes just the changed exercises; the rest of the worksheet stays as it is">${icon("refresh", "i-sm")}Write the ${changed === 1 ? "changed one" : `${changed} changed`}</button>`
+      : "";
     return `<section class="ws-sheet" data-skill="ws-${sheet}">
-      <div class="ws-sheet-head"><span class="ws-sheet-ico">${sh.icon}</span><div><b>${esc(sh.label)}</b><small>${esc(sh.note)}</small></div><span class="badge">${plural(list.length, "exercise")}</span></div>
-      <ol class="part-list">${list.map((e, i) => rowHtml(sheet, e, i, list.length, f)).join("") || `<li class="st-hint">No exercises yet — add one below.</li>`}</ol>
+      <div class="ws-sheet-head"><span class="ws-sheet-ico">${sh.icon}</span><div><b>${esc(sh.label)}</b><small>${esc(sh.note)}</small></div>${writeAll}<span class="badge">${plural(list.length, "exercise")}</span></div>
+      <ol class="part-list">${list.map((e, i) => rowHtml(sheet, e, i, list.length, f, status[sheet][i] || "")).join("") || `<li class="st-hint">No exercises yet — add one below.</li>`}</ol>
       <button type="button" class="add-tile ws-add" data-add="${sheet}" data-skill="ws-${sheet}"><span>${sh.icon}</span>Add a ${sheet === "dictation" ? "Dictation" : "Lingo practice"} exercise${icon("plus", "i-xs")}</button>
     </section>`;
   };
@@ -431,6 +456,14 @@ function libraryFor(sheet, i, mode) {
 }
 
 function onPartsClick(e) {
+  const w = e.target.closest("[data-write]");
+  if (w) { const { sheet, i } = parseKey(w.dataset.write); writeExercises(sheet, [i], w); return; }
+  const ws = e.target.closest("[data-write-sheet]");
+  if (ws) {
+    const sheet = ws.dataset.writeSheet;
+    writeExercises(sheet, statuses()[sheet].map((s, i) => (s ? i : -1)).filter((i) => i >= 0), ws);
+    return;
+  }
   const ex = e.target.closest("[data-expand]");
   if (ex && (ex.matches("button") || !e.target.closest("button, input, a"))) {
     openKey = openKey === ex.dataset.expand ? null : ex.dataset.expand;
@@ -544,17 +577,109 @@ function renderGenerateCard() {
     state.plan ? `<span class="badge">${state.plan.dictationTypes?.length || 0} Dictation · ${state.plan.lingoTypes?.length || 0} Lingo</span>` : "",
   ].join("");
   const fr = worksheetFreshness();
+  const st = statuses();
+  const changed = SHEETS.reduce((n, sh) => n + st[sh].filter(Boolean).length, 0);
   const staleNote = fr?.wordsChanged
     ? `<div class="callout info">${icon("info")}<span>Your word list changed since these worksheets were written. <strong>Generate again</strong> writes everything with the new words — rewriting only one sheet would mix old and new words, so that option is off until then.</span></div>`
-    : "";
+    : changed
+      ? `<div class="callout info ws-changed-note">${icon("refresh")}<div><span>${changed === 1 ? "One exercise has" : `${changed} exercises have`} changed in Step 3 since the sheets were written. Lingo can write just ${changed === 1 ? "that one" : "those"} — everything else stays as it is.</span>
+          <button type="button" class="btn btn-primary btn-sm" data-write-changed>${icon("refresh", "i-sm")}Write the ${changed === 1 ? "changed exercise" : `${changed} changed exercises`}</button></div></div>`
+      : "";
   $("genSummary").innerHTML = `
     <h3>${state.data ? (fr?.wordsChanged ? "New word list — time for fresh worksheets" : "Worksheets ready — want a fresh version?") : "Ready to write your worksheets"}</h3>
     <div class="gs-facts">${facts}</div>
-    ${err ? `<div class="callout warning">${icon("alert")}<span>${esc(err)}</span></div>` : staleNote || `<p class="hint">Lingo Launcher study sheet, Dictation test and a full teacher answer key — usually 30–90 seconds.</p>`}`;
+    ${err ? `<div class="callout warning">${icon("alert")}<span>${esc(err)}</span></div>` : ""}${staleNote || (err ? "" : `<p class="hint">Lingo Launcher study sheet, Dictation test and a full teacher answer key — usually 30–90 seconds.</p>`)}`;
   $("btnGenerate").disabled = !!err;
   $("btnGenerate").innerHTML = `${icon("sparkles")}${state.data ? "Generate again" : "Generate worksheets"}`;
   $("genRegen").classList.toggle("hidden", !state.data || !!fr?.wordsChanged);
   $("btnRegenDict").disabled = $("btnRegenLingo").disabled = !!err;
+}
+
+/* ── Writing some exercises of a written worksheet ───────────────────────────────────────────────────────────── */
+let writing = false;
+
+/** Ready to write these exercises (the class and words set, each of them possible with the word list, an AI connected)? Says why not. */
+function readyToWrite(sheet, indices) {
+  const err = planError();
+  // Only these exercises matter: another exercise's problem waits for its own turn.
+  if (err && !/^“/.test(err)) { toast(err, "warn"); return false; }
+  const f = features();
+  for (const i of indices) {
+    const type = planEntries(state.plan, sheet)[i]?.type;
+    const block = type && wsBlock(type, f);
+    if (block) { toast(`“${EXERCISE_LABELS[type] || type}” ${block} — change it or fill that column.`, "warn"); return false; }
+  }
+  if (!isAiReady()) {
+    toast("Connect an AI service in Settings to write exercises.", "warn", { actions: [{ label: "Open settings", run: () => actions.openSettings() }] });
+    return false;
+  }
+  if (worksheetFreshness()?.wordsChanged) { toast("Your word list changed since these sheets were written — Generate again writes everything with the new words.", "warn"); return false; }
+  return true;
+}
+
+/**
+ * Lingo writes some of a sheet's exercises (Step 3's indices) and puts them in their places on the written worksheet;
+ * the rest stays exactly as it is. The worksheet is saved, Step 4 shows it, and Undo brings the old exercises back.
+ * Returns true when written.
+ */
+async function writeExercises(sheet, indices, btn, { quiet = false } = {}) {
+  if (writing || state.busy || !state.data || !indices.length) return false;
+  if (!readyToWrite(sheet, indices)) return false;
+  writing = true;
+  const before = state.data;
+  const name = sheet === "dictation" ? "Dictation" : "Lingo";
+  actions.setAiState("busy");
+  try {
+    return await withBusy(btn, async () => {
+      const res = await writeWorksheetExercises(buildForm(), getApiKey(), state.data, { plan: state.plan, sheet, indices });
+      // The sheets were replaced meanwhile (generated again, another unit opened): this exercise belongs to the old ones.
+      if (state.data !== before) return false;
+      state.data = normalizeWorksheetExercises(res.data);
+      persistSession();
+      actions.setAiState("on");
+      emit("data", "library");
+      renderExercises();
+      if (!quiet) {
+        const n = res.numbers;
+        toast(`${name} ${n.length === 1 ? `exercise ${n[0]} is` : `exercises ${n.join(", ")} are`} written — the rest of the worksheet stayed as it was.`, "ok", {
+          ms: 5200,
+          actions: [
+            { label: "See it", run: () => actions.go("preview") },
+            { label: "Undo", run: () => { state.data = before; persistSession(); emit("data", "library"); renderExercises(); } },
+          ],
+        });
+      }
+      return true;
+    });
+  } catch (e) {
+    actions.setAiState("error", e.message);
+    toast(`Lingo couldn't write it: ${e.message || e}`, "error", { ms: 6000 });
+    return false;
+  } finally {
+    writing = false;
+  }
+}
+
+/** Every exercise that changed in Step 3, on both sheets (one call per sheet). */
+async function writeChanged(btn) {
+  const st = statuses();
+  const todo = SHEETS.map((sh) => [sh, st[sh].map((s, i) => (s ? i : -1)).filter((i) => i >= 0)]).filter(([, l]) => l.length);
+  if (!todo.length) return;
+  const before = state.data;
+  let done = 0;
+  for (const [sheet, list] of todo) {
+    if (!await writeExercises(sheet, list, btn, { quiet: true })) break;
+    done += list.length;
+  }
+  if (done) {
+    toast(`${plural(done, "changed exercise")} written — the rest of the worksheet stayed as it was.`, "ok", {
+      ms: 5200,
+      actions: [
+        { label: "See it", run: () => actions.go("preview") },
+        { label: "Undo", run: () => { state.data = before; persistSession(); emit("data", "library"); renderExercises(); } },
+      ],
+    });
+  }
 }
 
 /* ── Generation ──────────────────────────────────────────────────── */

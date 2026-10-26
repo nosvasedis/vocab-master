@@ -26,7 +26,7 @@ import {
 import { picForWord, picUrl } from "./js/pics.js";
 import { TEXT_SIZE_CSS, textSizeKey, scaledSize } from "./studio/text-size.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields, headerSchool, headerTitle } from "./studio/paper-header.js";
-import { WS_KIND_OF, wsAllowed, wsTaskFit, exerciseSettingsBlock, itemsAt, settingsAt } from "./studio/worksheet-tasks.js";
+import { WS_KIND_OF, wsAllowed, wsTaskFit, exerciseSettingsBlock, itemsAt, settingsAt, planEntries, withEntries, cleanSettings } from "./studio/worksheet-tasks.js";
 import { PAPER_PARTS_CSS } from "./studio/paper-parts.js";
 import { wsItemView, wsItemHtml, wsItemClass, wsPicLineHtml, itemHint, splitClue, WS_HELP, WS_CHOICE_TYPES } from "./studio/ws-paper.js";
 import { fitChoiceLetters } from "./studio/doc-model.js";
@@ -2019,10 +2019,15 @@ ${lines.length ? `${lines.join("\n")}\n` : ""}- Two-answer exercises are NEVER a
 - In bracket choices "(a / b / c)" put the correct option in a different place on different lines (first, middle, last)`;
 }
 
-/** Words a student hears in a line: a gap or a set of bracket choices (anywhere in the line) is one word. */
+/**
+ * The words of the longest sentence in a line (the class limit is per sentence): a riddle's short clues, "I live in the
+ * sea. I have eight legs. What am I?", are three sentences, and sequencing steps "a) … / b) …" one each. A gap or a set
+ * of bracket choices (anywhere in the line) is one word; a riddle's choices aren't read out.
+ */
 function countDictationPromptWords(prompt, typeId) {
-  const body = typeId === "D12" ? splitPromptBodyAndChoices(prompt).body : String(prompt || ""); // a riddle's choices aren't read out
-  return countWords(body.replace(/\([^)]*\/[^)]*\)/g, " X ").replace(/_{2,}/g, " X "));
+  const body = typeId === "D12" ? splitPromptBodyAndChoices(prompt).body : String(prompt || "");
+  const flat = body.replace(/\([^)]*\/[^)]*\)/g, " X ").replace(/_{2,}/g, " X ");
+  return Math.max(0, ...flat.split(/(?<=[.!?])\s+(?=\S)|\s+\/\s+/).map((s) => countWords(s)));
 }
 
 const RIDDLE_GIVEAWAY_HINTS = [
@@ -3203,7 +3208,7 @@ DICTATION FORMATS (never give away answers to students):
 - D02 Word formation (Cambridge style): NO "ROOT:" prefix. Each item = { "prompt": "sentence with ________________ gap", "stem": "WORD", "answer": "otherForm" }. "stem" = uppercase clue shown in bold at end — ANY other form from the same word family (headword, derivative, or root: JOURNAL, JOURNALIST, JOURNALISM, EMBARRASS, EMBARRASSMENT, EMBARRASSING…). VARY stems across items — do not use only bare roots. "answer" = the form that fits the gap — MUST differ from stem. FORBIDDEN: stem identical to answer. Use vocabulary derivatives when listed
 - D03 Bracketed choice: NO wordBank; gap plus (wrong / correct) with slashes; correct answer must NOT always be first — vary order
 - D04 Phrase completion: collocation with __________ gap ONLY — FORBIDDEN: "________ (regularly)" or any parenthesis hint; students recall the missing word from context
-- D12 Mystery riddle: riddle body BEFORE brackets, max ~profile maxSentenceWords words in body only. Body = short context clues, NOT dictionary definitions. FORBIDDEN in body: answer word, obvious synonyms, giveaway phrases ("gold and jewels" for treasure, "hard hat" for helmet). Each item ends with shuffled (wrong / wrong / correct) bracket choices — 3 options only
+- D12 Mystery riddle: riddle body BEFORE brackets: 2–3 short clue sentences (each at most the class's sentence length) and "What am I?". Body = short context clues, NOT dictionary definitions. FORBIDDEN in body: answer word, obvious synonyms, giveaway phrases ("gold and jewels" for treasure, "hard hat" for helmet). Each item ends with shuffled (wrong / wrong / correct) bracket choices — 3 options only
 - D13 Matching columns: REQUIRED wordBank = shuffled lettered definitions (e.g. "A. great honour and admiration", "B. strong enthusiasm for something") — one per item, same count as items. Items = vocabulary word/phrase + blank only: "passion __________". answer = single LETTER only (e.g. "C"). NEVER print words without the definition list — students cannot solve otherwise. Definitions must explain meaning, not repeat the vocabulary word
 - D16 Category sort: REQUIRED shuffled wordBank with EVERY word students must place (all answers across categories combined); category lines use ________ gaps only — e.g. "Sports: ________, ________"; put words in testsWords per line OR comma-separated in answer; NEVER leave wordBank empty
 - D05/D06/D18: NO wordBank; multiple choices inside parentheses separated by / only; shuffle option order so the answer is not always first
@@ -3246,7 +3251,8 @@ LINGO PRACTICE FORMATS (follow exactly per typeId):
 - L08 Sentence order: prompt = the words of ONE correct sentence that uses a unit word, jumbled and separated by " / " without the final full stop or question mark ("around / ran / track / the / they"); never in the right order; answer = the full sentence with a capital letter; wordList MUST be []; at most the class's sentence length
 - L10 Personalize prompt: prompt = a question about the student's own life that uses a unit word ("Who is a big inspiration in your life?"); answer = a model answer — one full sentence at class level that uses the word; wordList MUST be []`;
 
-function buildSystemPrompt(profileId, plan) {
+/** options.part: only some exercises of a written worksheet are written (writeWorksheetExercises) — coverage is theirs alone. */
+function buildSystemPrompt(profileId, plan, options = {}) {
   const typeDesc = plan.dictationTypes.map((t) => `${t} (${EXERCISE_LABELS[t]})`).join(", ");
   const lingoDesc = plan.lingoTypes.map((t) => `${t} (${EXERCISE_LABELS[t]})`).join(", ");
   return `You are Vocab Master, an expert ESL materials writer for Greek learners in Greek language schools (φροντιστήριο).
@@ -3262,7 +3268,7 @@ LOCKED GENERATION PLAN (do NOT change types or counts):
 RULES:
 - Greek translation on EVERY Lingo Launcher vocab item; NEVER Greek in dictation prompts
 - Collocation phrases, not dictionary sentences
-- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items only (an exercise with its own number in EXERCISE SETTINGS has exactly that many)
+${options.part ? "- ONE PART OF A WRITTEN WORKSHEET: write ONLY the exercises in the plan; the rest of the worksheet already exists and stays. Which words to test is in the user message (ONE PART OF A WRITTEN WORKSHEET) — never every unit word in one exercise. Each dictation exercise" : "- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise"}: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items only (an exercise with its own number in EXERCISE SETTINGS has exactly that many)
 - LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items maximum (or its own number in EXERCISE SETTINGS) — NEVER one exercise with every vocabulary word
 - NEVER reuse the same sentence in Lingo practice and Dictation — write different contexts for each worksheet
 - Item "number" is a plain counter (1, 2, 3…) — NEVER type "(1)", "1)" or "1." at the start of any item "prompt"; the app prints the numbered circle itself
@@ -3334,7 +3340,7 @@ ${JSON.stringify(families, null, 2)}`;
   if (plan.dictationTypes?.includes("D12")) {
     block += `
 D12 MYSTERY RIDDLE — mandatory:
-- Riddle body: short clues about use/context — max ~${tunedProfile(form.classProfile || plan.classProfile, plan.tune)?.maxSentenceWords || 11} words in body (not counting bracket choices)
+- Riddle body: 2–3 short clue sentences about use/context, then "What am I?" — each sentence at most ~${tunedProfile(form.classProfile || plan.classProfile, plan.tune)?.maxSentenceWords || 11} words (bracket choices not counted)
 - FORBIDDEN in riddle body: the answer word, synonyms, or defining phrases that name the answer
 - End each item with shuffled (distractor / distractor / correct) — 3 bracketed options
 - BAD: "I am a valuable thing like gold. Pirates look for me." for answer treasure
@@ -3507,7 +3513,8 @@ function findVocabGaps(form) {
   return gaps;
 }
 
-function buildUserPrompt(form, plan, teacherHints) {
+/** options.part: the block for writing only some exercises of a written worksheet (replaces the coverage split). */
+function buildUserPrompt(form, plan, teacherHints, options = {}) {
   let vocabSection = "";
   if (form.inputMode === "structured" && form.vocabRows?.length) {
     const n = form.vocabRows.length;
@@ -3523,7 +3530,7 @@ If a row already has type and/or greek filled in, treat that as the locked word 
   }
   const lingoRelated = buildLingoRelatedExerciseBlock(form, plan);
   const dictationRelated = buildDictationRelatedExerciseBlock(form, plan);
-  const distributionBlock = buildDictationDistributionBlock(form, plan, form.vocabRows);
+  const distributionBlock = options.part || buildDictationDistributionBlock(form, plan, form.vocabRows);
   const uniquenessBlock = buildWorksheetUniquenessBlock() + buildWordScopeBlock(form) + buildAnswerBalanceBlock(plan, form);
   return `Create worksheets for:
 Book: ${form.bookTitle}
@@ -3924,6 +3931,148 @@ async function regenerateLingoPracticeOnly(form, apiKey, existingData, options =
     },
   });
   return { data, validation, plan };
+}
+
+/* ── One part of a written worksheet (Step 3's "Write this exercise", like the Test Maker's "Write this part") ── */
+const SHEET_NAME = { dictation: "Dictation", lingo: "Lingo" };
+const sheetExercises = (data, sheet) => (sheet === "dictation" ? data?.dictation?.exercises : data?.lingoLauncher?.practice) || [];
+
+/** A written sheet's own plan entries, one per exercise on it (rebuilt from the exercises when an old plan doesn't match). */
+function writtenEntries(data, sheet) {
+  const list = sheetExercises(data, sheet);
+  const gp = planEntries(data?.generationPlan, sheet);
+  return gp.length === list.length && gp.every((e, i) => e.type === list[i]?.typeId) ? gp : list.map((ex) => ({ type: ex.typeId }));
+}
+
+/** Settings that change what Lingo writes (letter help is the app's own and changes the sheet at once). */
+const writtenSettings = (e) => { const { hint: _h, ...rest } = cleanSettings(e || {}); return JSON.stringify(rest); };
+
+/**
+ * How each of Step 3's exercises stands against the written sheet: "new" (not on the sheet yet), "changed" (another
+ * exercise on the sheet at its place), "settings" (lines, difficulty, word box or wish changed since it was written),
+ * or "" (as written). The sheet follows Step 3's order (removing and moving change it at once), so places match.
+ */
+function exerciseStatus(data, plan, sheet) {
+  const list = sheetExercises(data, sheet);
+  const written = writtenEntries(data, sheet);
+  return planEntries(plan, sheet).map((e, i) => {
+    if (!data) return "";
+    if (i >= list.length) return "new";
+    if (list[i]?.typeId !== e.type) return "changed";
+    return writtenSettings(e) !== writtenSettings(written[i]) ? "settings" : "";
+  });
+}
+
+/** Issues of a validation that belong to some exercises of one sheet (by their numbers). */
+function issuesOfExercises(issues, sheet, numbers) {
+  return (issues || []).filter((s) => {
+    const text = String(s);
+    const m = text.match(/^(Dictation|Lingo)(?: ex| exercise)? (\d+)\b/i) || (sheet === "lingo" ? text.match(/^()Exercise (\d+) \(L\d+\)/) : null);
+    if (!m) return false;
+    if (m[1] && m[1].toLowerCase() !== SHEET_NAME[sheet].toLowerCase()) return false;
+    return numbers.has(Number(m[2]));
+  });
+}
+
+/**
+ * Write some exercises of a written worksheet again (or for the first time): Step 3's exercises at `indices` on one
+ * sheet, with their own settings. A changed exercise replaces the one at its place, a new one is added at its place
+ * (new ones at the end are written together, in order); every other exercise, the other sheet and the word table
+ * stay exactly as they are. The AI is told which words the rest of the sheet doesn't test yet, the old lines (to
+ * write new ones), and the other lines on both sheets (never to repeat). Its exercises are checked like a whole
+ * worksheet's: one more try with the problems, then the line fixer for lines that are still off.
+ * Returns { data, validation, written: [indices], numbers: [exercise numbers] }.
+ */
+async function writeWorksheetExercises(form, apiKey, existingData, { plan, sheet, indices }) {
+  if (!existingData) throw new Error("Write the worksheets first.");
+  if (!worksheetMatchesForm(existingData, form)) throw new Error("Your word list changed since these sheets were written — generate them again with the new words.");
+  const entries = planEntries(plan, sheet);
+  const list = sheetExercises(existingData, sheet);
+  let want = [...new Set(indices)].filter((i) => i >= 0 && i < entries.length);
+  if (!want.length) throw new Error("That exercise is no longer in Step 3.");
+  // New exercises are added in order, so the sheet keeps Step 3's order: writing one writes the new ones before it.
+  for (let i = list.length; i <= Math.max(...want); i++) if (!want.includes(i)) want.push(i);
+  want = want.sort((a, b) => a - b);
+  const profileId = form.classProfile || existingData.meta?.classProfile;
+  const vocab = existingData.lingoLauncher?.vocabulary || [];
+  const per = tunedProfile(profileId, plan?.tune)?.itemsPerExercise || 5;
+
+  // The plan of just these exercises (their own settings), on their own sheet.
+  const mine = want.map((i) => entries[i]);
+  const other = sheet === "dictation" ? "lingo" : "dictation";
+  const sub = withEntries(withEntries({ exerciseMode: "custom", ...(plan?.tune ? { tune: plan.tune } : {}) }, sheet, mine), other, []);
+
+  // What the rest of the sheet already tests (on the Dictation every unit word must be tested somewhere).
+  const rest = JSON.parse(JSON.stringify(existingData));
+  const keep = sheetExercises(rest, sheet).filter((_, i) => !want.includes(i));
+  if (sheet === "dictation") rest.dictation = { ...(rest.dictation || {}), exercises: keep };
+  else rest.lingoLauncher = { ...rest.lingoLauncher, practice: keep };
+  const untested = sheet === "dictation"
+    ? computeDictationCoverage(vocab, rest.dictation).missing.map((m) => m.label)
+    : (() => { const c = computeLingoCoverage(vocab, keep); return vocab.map((v) => v.english).filter((w) => !(c.wordMap[w] || []).length); })();
+  const oldLines = want.filter((i) => i < list.length).flatMap((i) => (list[i].items || []).map((it) => it.prompt)).filter(Boolean).slice(0, 30);
+  const otherLines = [...keep, ...sheetExercises(existingData, other)].flatMap((ex) => (ex.items || []).map((it) => it.prompt)).filter(Boolean).slice(0, 60);
+  // The plan and the settings blocks number these exercises 1, 2… (the order of the answer); the sheet's own numbers follow.
+  const what = mine.map((e, k) => `exercise ${k + 1} of your answer: ${e.type} (${EXERCISE_LABELS[e.type] || e.type}), ${e.items || per} items — it becomes ${SHEET_NAME[sheet]} exercise ${want[k] + 1} on the sheet`).join("\n- ");
+  const part = `
+ONE PART OF A WRITTEN WORKSHEET — mandatory:
+- The worksheet is already written. Write ONLY ${mine.length === 1 ? "this exercise" : `these ${mine.length} exercises, in this order`}, as the ${sheet === "dictation" ? "dictation.exercises" : "lingoLauncher.practice"} array (leave the other array empty):
+- ${what}
+- ${untested.length ? `The rest of the ${SHEET_NAME[sheet]} sheet does NOT test these words yet — test them first (as answers), as many as fit: ${JSON.stringify(untested)}. Then other unit words.` : `The rest of the ${SHEET_NAME[sheet]} sheet already tests every unit word: use unit words that suit ${mine.length === 1 ? "this exercise" : "these exercises"}, different words on different lines.`}
+- Keep the vocabulary table exactly as given (it is the teacher's and is not changed).${oldLines.length ? `
+- THIS IS A NEW VERSION: write completely new lines — never reuse or reword these old ones: ${JSON.stringify(oldLines)}` : ""}${otherLines.length ? `
+- These lines are already on the worksheet — never repeat or copy them: ${JSON.stringify(otherLines)}` : ""}`;
+  const systemPrompt = buildSystemPrompt(profileId, sub, { part: true });
+  const userPrompt = `${buildUserPrompt(form, sub, form.teacherHints, { part })}\n\nUSE THIS EXACT VOCABULARY TABLE (do not change):\n${JSON.stringify(vocab, null, 2)}`;
+
+  // The worksheet with the new exercises in their places, and the sheet's plan saying what it now holds.
+  const merge = (reply) => {
+    const got = sheetExercises(ensureWorksheetShape(reply), sheet).filter((ex) => ex && Array.isArray(ex.items) && ex.items.length);
+    if (got.length < mine.length) return null;
+    const data = JSON.parse(JSON.stringify(existingData));
+    if (sheet === "dictation") data.dictation = { ...(data.dictation || {}), exercises: [...sheetExercises(data, sheet)] };
+    else data.lingoLauncher = { ...data.lingoLauncher, practice: [...sheetExercises(data, sheet)] };
+    const target = sheetExercises(data, sheet);
+    const gpEntries = writtenEntries(existingData, sheet);
+    want.forEach((i, k) => {
+      const ex = { ...got[k], typeId: mine[k].type, instruction: "" };
+      delete ex.ownInstruction;
+      delete ex.letterHelp;
+      if (mine[k].hint) ex.letterHelp = mine[k].hint;
+      if (i < target.length) { target[i] = ex; gpEntries[i] = mine[k]; } else { target.push(ex); gpEntries.push(mine[k]); }
+    });
+    target.forEach((ex, n) => { ex.number = n + 1; });
+    const gp = existingData.generationPlan || {};
+    data.generationPlan = { ...withEntries(gp, sheet, gpEntries), ...(gp.exerciseMode ? { exerciseMode: gp.exerciseMode } : {}) };
+    enforceTeacherVocabulary(data, form);
+    normalizeWorksheetExercises(data);
+    return data;
+  };
+  const numbers = new Set(want.map((i) => i + 1));
+  let best = null;
+  let mineIssues = [];
+  let hint = "";
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const data = merge(await callDeepSeek(apiKey, systemPrompt, userPrompt, hint));
+    if (!data) { hint = `Write EXACTLY ${mine.length} exercise${mine.length === 1 ? "" : "s"} in ${sheet === "dictation" ? "dictation.exercises" : "lingoLauncher.practice"}, each with its items.`; continue; }
+    const validation = validateWorksheet(data);
+    const issues = issuesOfExercises(validation.issues, sheet, numbers);
+    if (!best || issues.length < mineIssues.length) { best = { data, validation }; mineIssues = issues; }
+    const rewrite = mineIssues.filter((i) => !isLineRepairIssue(i));
+    if (!rewrite.length) break;
+    hint = `Your last answer had these problems — fix them all:\n- ${rewrite.slice(0, 12).join("\n- ")}`;
+  }
+  if (!best) throw new Error("Lingo didn't write the exercise — please try again.");
+  // Lines that are still off (a lopsided key, a line of the wrong kind…): the line fixer rewrites just those.
+  const lines = mineIssues.filter(isLineRepairIssue);
+  if (lines.length) {
+    try {
+      const fixed = await fixWorksheetValidationIssues(form, apiKey, best.data, { ...best.validation, issues: lines }, { maxAttempts: 2 });
+      best = { data: fixed.data, validation: validateWorksheet(fixed.data) };
+    } catch { /* keep the exercise; the quality panel offers the same fix */ }
+  }
+  best.data.coverageReport = best.validation.coverage;
+  return { ...best, written: want, numbers: [...numbers] };
 }
 
 function cloneWorksheetData(data) {
@@ -5829,6 +5978,8 @@ export {
   generateWorksheets,
   regenerateDictationOnly,
   regenerateLingoPracticeOnly,
+  writeWorksheetExercises,
+  exerciseStatus,
   fixWorksheetValidationIssues,
   remakeWorksheetItem,
   countFixableValidationIssues,
