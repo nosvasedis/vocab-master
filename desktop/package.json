@@ -8,9 +8,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "cargo run --manifest-path src-tauri/Cargo.toml",
+    "start": "node scripts/cargo.mjs run",
     "smoke": "node scripts/smoke.mjs",
-    "test": "cargo test --manifest-path src-tauri/Cargo.toml",
+    "test": "node scripts/cargo.mjs test",
     "icon": "node scripts/make-icon.js",
     "dist": "node scripts/dist.mjs"
   },

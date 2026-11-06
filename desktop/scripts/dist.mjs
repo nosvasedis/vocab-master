@@ -35,6 +35,12 @@ function fingerprint(dir) {
   return h.digest("hex");
 }
 
+// The exe's own version (Windows file version, Cargo) follows desktop/package.json, the one version source.
+const cargoToml = path.join(DESKTOP, "src-tauri", "Cargo.toml");
+const cargo = fs.readFileSync(cargoToml, "utf8");
+const synced = cargo.replace(/^version = "[^"]*"/m, `version = "${version}"`);
+if (synced !== cargo) { fs.writeFileSync(cargoToml, synced); console.log(`Cargo.toml version → ${version}`); }
+
 execFileSync(process.execPath, [path.join(DESKTOP, "scripts", "live-base.cjs")], { stdio: "inherit" });
 const before = fingerprint(RENDERER);
 

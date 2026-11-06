@@ -15,6 +15,7 @@
       return false;
     })();
     results.title = document.title;
+    results.info = await window.desktop.info();
 
     // Drive the real UI end-to-end: a fixture unit, live editors, projector, coursebook auto-pick, arcade games.
     results.editorFlow = await (async () => {

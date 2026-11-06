@@ -59,6 +59,6 @@ for (const f of files) if (!fs.existsSync(f)) fail(`Missing ${path.basename(f)} 
 const manifest = JSON.parse(fs.readFileSync(latest, "utf8"));
 if (manifest.version !== version || !manifest.platforms?.["windows-x86_64"]?.signature) fail("latest.json is for another version or unsigned.");
 // The built app, with its pages inside, drives itself end to end.
-run(process.execPath, [path.join(ROOT, "desktop", "scripts", "smoke.mjs"), portable], { shell: false });
+run(process.execPath, [path.join(ROOT, "desktop", "scripts", "smoke.mjs"), portable], { shell: false, env: { ...process.env, VM_EXPECT_VERSION: version } });
 run("gh", ["release", "create", tag, ...files, "--target", "main", "--title", `Vocab Master ${version}`, "--notes-file", notesFile, "--latest"], { shell: false });
 console.log(`\n✓ ${tag} is published. Installed copies (Setup) download it in the background and install it when they restart or close.`);

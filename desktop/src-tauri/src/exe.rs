@@ -101,7 +101,13 @@ impl ExeUpdater {
             }
             return Ok(());
         }
-        let updater = app.updater().map_err(|e| e.to_string())?;
+        // Testing: VM_UPDATE_URL=http://127.0.0.1:<port>/latest.json reads another update manifest (still signed with
+        // the app's key, so it can only offer builds signed by the release key).
+        let updater = match std::env::var("VM_UPDATE_URL").ok().and_then(|u| url::Url::parse(&u).ok()) {
+            Some(u) => app.updater_builder().endpoints(vec![u]).map_err(|e| e.to_string())?.build(),
+            None => app.updater(),
+        }
+        .map_err(|e| e.to_string())?;
         let Some(update) = updater.check().await.map_err(|e| e.to_string())? else {
             self.set(json!({ "state": "current" }));
             return Ok(());

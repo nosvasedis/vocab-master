@@ -72,6 +72,12 @@ pub fn smoke_report(app: AppHandle, results: Value) {
         results["pack"]["checked"] = json!(checked);
     }
     results["packOk"] = json!(pack_ok);
-    let ok = ["protocolOk", "engineOk", "editorOk", "voicesOk"].iter().all(|k| results.get(*k) == Some(&json!(true))) && pack_ok;
+    // The release script passes the version it built: an exe that reports another one would update forever.
+    let version_ok = match std::env::var("VM_EXPECT_VERSION") {
+        Ok(want) => results.pointer("/info/version").and_then(|v| v.as_str()) == Some(want.as_str()),
+        Err(_) => true,
+    };
+    results["versionOk"] = json!(version_ok);
+    let ok = ["protocolOk", "engineOk", "editorOk", "voicesOk"].iter().all(|k| results.get(*k) == Some(&json!(true))) && pack_ok && version_ok;
     finish(&app, results, ok);
 }
