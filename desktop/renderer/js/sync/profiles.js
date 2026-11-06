@@ -41,8 +41,42 @@ async function tx(mode, fn) {
   });
 }
 const idbGet = (id) => tx("readonly", (s) => s.get(id));
-const idbPut = (id, v) => tx("readwrite", (s) => s.put(v, id));
-const idbDel = (id) => tx("readwrite", (s) => s.delete(id));
+const idbPut = async (id, v) => { await tx("readwrite", (s) => s.put(v, id)); await mirrorStash(); };
+const idbDel = async (id) => { await tx("readwrite", (s) => s.delete(id)); await mirrorStash(); };
+async function idbAll() {
+  const [ids, recs] = await Promise.all([tx("readonly", (s) => s.getAllKeys()), tx("readonly", (s) => s.getAll())]);
+  return Object.fromEntries((ids || []).map((id, i) => [id, recs[i]]));
+}
+
+/* ── A copy of the stash in the app's data file (desktop) ──────────
+   IndexedDB belongs to the app's browser engine, and the Tauri app (WebView2) can't read what the Electron app
+   kept there. So the desktop app also keeps the stash in its data file (store.json, STASH_MIRROR, never in
+   localStorage); on start a stash that is in the copy but not in IndexedDB is taken back (moving to the Tauri app),
+   then the copy is brought up to date. */
+export const STASH_MIRROR = "__vm_shell_stash";
+let mirrorWanted = false;
+async function mirrorStash() {
+  const d = desktop();
+  if (!d?.storage) return;
+  try {
+    const all = await idbAll();
+    if (!mirrorWanted && !Object.keys(all).length) return;
+    mirrorWanted = true;
+    await d.storage.set(STASH_MIRROR, all);
+  } catch (err) { console.warn("stash copy not saved", err?.name || err); }
+}
+export async function syncStashMirror(mirror) {
+  if (!desktop()?.storage) return;
+  try {
+    if (mirror && typeof mirror === "object") {
+      mirrorWanted = true;
+      for (const [id, rec] of Object.entries(mirror)) {
+        if (rec && typeof rec === "object" && !(await idbGet(id))) await tx("readwrite", (s) => s.put(rec, id));
+      }
+    }
+    await mirrorStash();
+  } catch (err) { console.warn("stash copy not read", err?.name || err); }
+}
 
 const keychainName = (pid, name) => `p-${pid}-${name}`;
 const desktop = () => (typeof window.desktop !== "undefined" ? window.desktop : null);

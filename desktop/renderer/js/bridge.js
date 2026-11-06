@@ -5,6 +5,7 @@
  * The engine (app.js) only knows fetch() and localStorage, so both are patched here.
  */
 import { STORAGE_KEY, configureAi } from "../app.js";
+import { STASH_MIRROR, syncStashMirror } from "./sync/profiles.js";
 
 export const API_KEY_KEY = STORAGE_KEY;
 export const GEMINI_KEY_KEY = "vm_gemini_api_key";
@@ -132,13 +133,15 @@ export async function hydrateStorage() {
     try {
       const all = await d.storage.getAll();
       for (const [k, v] of Object.entries(all || {})) {
-        if (SECRET_KEYS[k]) continue;
+        if (SECRET_KEYS[k] || k === STASH_MIRROR) continue;
         try { localStorage.setItem(k, v); } catch { /* ignore */ }
       }
       for (const [k, slot] of Object.entries(SECRET_KEYS)) {
         const value = await d.keychain.get(slot);
         if (value) secretsInMemory[k] = value;
       }
+      // The other teachers' stashes (sync profiles): kept in the data file too, so they move with the app.
+      await syncStashMirror(all?.[STASH_MIRROR]);
     } catch (err) {
       console.error("hydrate failed", err);
     } finally {
