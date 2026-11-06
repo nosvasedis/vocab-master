@@ -1,6 +1,5 @@
 /* Vocab Master — the Tauri shell's bridge for the pages (injected before the pages' own scripts, main frame only).
- * The same `window.desktop` the Electron preload gave (desktop/preload.cjs), so the pages run unchanged in both
- * shells. Calls go to the Rust side (desktop/src-tauri/src/lib.rs); Word files are built right here with the
+ * `window.desktop`: the same bridge the Electron app (≤ 3.5) gave the pages, so they ran unchanged when it was replaced. Calls go to the Rust side (desktop/src-tauri/src/lib.rs); Word files are built right here with the
  * pages' own engine (app.js) instead of in a Node process; file saving, PDF printing, AI requests, sign-ins and
  * updates stay in the shell. OAuth tokens never come back to the page. */
 (() => {

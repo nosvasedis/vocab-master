@@ -1,4 +1,4 @@
-/* ChatGPT plan usage for local apps. OAuth and tokens stay in the host process.
+/* ChatGPT plan usage for the web version (proxy.js; the desktop app has the same in Rust: desktop/src-tauri/src/chatgpt.rs). OAuth and tokens stay in the host process.
  * Protocol: https://developers.openai.com/siwc/token-sharing-open-source
  * No API key, private ChatGPT endpoints, or access to other apps' credentials.
  */

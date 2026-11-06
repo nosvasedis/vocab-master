@@ -1,4 +1,4 @@
-/* Build the Electron PNG and multi-size ICO from the generated Vocab Master mark.
+/* Build the app icon (PNG and multi-size ICO, used by the Tauri build) from the generated Vocab Master mark.
  * Keeps icon generation dependency-free and preserves alpha while resizing.
  * Usage: node scripts/make-icon.js
  */

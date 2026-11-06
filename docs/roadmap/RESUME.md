@@ -10,10 +10,10 @@
 ## Setup
 ```bash
 npm install                 # root (scripts + tests)
-npm --prefix desktop install  # Electron app (only for desktop runs/builds)
+npm --prefix desktop install  # Tauri CLI (desktop runs/builds also need Rust: rustup, stable)
 ```
 - The web app runs with `npm start` (http://localhost:8787). The launch config is `.claude/launch.json` → "vocab-master-web".
-- Tests: `npm test` (`node --test "tests/*.test.mjs"`).
+- Tests: `npm test` (`node --test "tests/*.test.mjs"`) for the pages; `npm run test:shell` (`cargo test`) for the app shell.
 
 ## Secrets (`.env.local` at the repo root, gitignored)
 | Variable | Used by | Notes |
@@ -45,11 +45,11 @@ State lives in `work/state/*.json` (committed). Re-running the same command cont
 (Scripts are added phase by phase; PROGRESS.md lists which exist.)
 
 ## Shipping changes to teachers
-- **Pages (almost everything: `desktop/renderer/**`)**: commit and push to `main`. Installed apps fetch the changed files from GitHub within ~3 hours or at their next start (`desktop/live-update.js`) and use them from the following start. No exe needed. Voice clips (`assets/audio/*.ogg`, not in Git) are the exception.
-- **The app shell** (`desktop/main.js`, `preload.cjs`, Electron, new IPC the pages rely on, voice clips): bump the version in `package.json` and `desktop/package.json` (and the README file names), commit, push, then `npm run release` (tests, build, package check, packaged smoke, GitHub release with `latest.yml` — installed Setup copies update themselves). If new pages need the new shell, raise `SHELL_API` in `desktop/live-update.js` **and** `desktop/renderer/live-requires.json` together: older apps then wait for the new exe instead of loading pages they can't run.
-- Test live updates without touching real data: `VM_USER_DATA=<temp folder> VM_LIVE=1 VM_LIVE_BRANCH=<branch> VM_LIVE_SELFTEST=1 npx electron .` in `desktop/` (prints `LIVE_SELFTEST {…}`).
+- **Pages (almost everything: `desktop/renderer/**`)**: commit and push to `main`. Installed apps fetch the changed files from GitHub within ~3 hours or at their next start (`desktop/src-tauri/src/live.rs`) and use them from the following start. No exe needed. Voice clips (`assets/audio/*.ogg`, not in Git) are the exception.
+- **The app shell** (`desktop/src-tauri/**`: Rust, `shim/desktop.js` = `window.desktop`, Tauri/crate versions, voice clips): bump the version in `package.json` and `desktop/package.json` (and the README file names), commit, push, then `npm run release` (page + shell tests, build that checks the pages didn't change while embedded, the built app's smoke test, GitHub release with the Setup/Portable exes and signed `latest.json` — installed Setup copies update themselves). Releases are signed with the updater key `~/.tauri/vocab-master-updater.key` (never commit it; back it up — without it installed apps can't take new versions; its public half is in `tauri.conf.json`). If new pages need the new shell, raise `SHELL_API` in `desktop/src-tauri/src/live.rs` **and** `desktop/renderer/live-requires.json` together: older apps then wait for the new exe instead of loading pages they can't run.
+- Test live updates without touching real data: `VM_USER_DATA=<temp folder> VM_LIVE=1 VM_LIVE_BRANCH=<branch> npm --prefix desktop start`, then Settings → Updates → Check now. `VM_DEBUG_PORT=9333` (debug builds only) opens the DevTools protocol so a script can drive the window.
 
 ## Conventions
-- Plain ES modules, no bundler. The renderer is shared by Electron (`app://`) and the web server (`proxy.js`).
+- Plain ES modules, no bundler. The renderer is shared by the Tauri app (`app` scheme, `https://app.localhost/`) and the web server (`proxy.js`).
 - Match the existing code style: short header comment per file, `esc()` for every interpolated string, no frameworks.
 - Lessons are JSON in `desktop/renderer/lessons/`. Never hand-edit `generatedBy`; set `status` to `approved` only after a human review.

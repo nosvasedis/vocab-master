@@ -1,6 +1,6 @@
 /* Writes renderer/live-base.json before each build: the commit the exe is built from and the Git fingerprint of
    every page file in it. The installed app compares these with GitHub's main branch to fetch only what changed
-   (live-update.js). Runs automatically as "predist". Uncommitted page changes are fine for testing but are listed,
+   (src-tauri/src/live.rs). Runs automatically as "predist". Uncommitted page changes are fine for testing but are listed,
    because the live updater can't know about them. */
 const { execFileSync } = require("child_process");
 const fs = require("fs");

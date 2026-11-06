@@ -1,6 +1,6 @@
 /* Updates, as the teacher sees them (desktop app only).
- * The pages update themselves from GitHub in the background (desktop/live-update.js) and the app itself from
- * GitHub Releases (desktop/exe-update.js). Here: tell the main process the pages started (so a broken update is
+ * The pages update themselves from GitHub in the background (desktop/src-tauri/src/live.rs) and the app itself from
+ * GitHub Releases (desktop/src-tauri/src/exe.rs). Here: tell the app shell the pages started (so a broken update is
  * rolled back), a friendly toast when an update arrived or is ready, and the Updates section in Settings. */
 import { desktop } from "./bridge.js";
 import { $, esc, icon, toast } from "./ui.js";

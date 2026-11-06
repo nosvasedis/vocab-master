@@ -19,15 +19,14 @@
     "copyright": "© Vocab Master",
     "shortDescription": "Vocab Master — vocabulary and dictation worksheets",
     "longDescription": "AI vocabulary and worksheet studio for Greek-L1 ESL classes (A–E Senior).",
-    "icon": ["icons/icon.png", "icons/icon.ico"],
+    "icon": ["../build/icon.png", "../build/icon.ico"],
     "createUpdaterArtifacts": true,
     "windows": {
       "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
       "nsis": {
         "installMode": "currentUser",
-        "installerIcon": "icons/icon.ico",
-        "displayLanguageSelector": false,
-        "installerHooks": "./installer-hooks.nsh"
+        "installerIcon": "../build/icon.ico",
+        "displayLanguageSelector": false
       }
     }
   },

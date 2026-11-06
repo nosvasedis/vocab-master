@@ -13,11 +13,13 @@ https://chatgpt.com/settings/usage, including when a request reaches a usage lim
 
 ## Runtime
 
-- `desktop/chatgpt.js`: shared OAuth, verified identity, registration/profile
-  management, serialized token refresh, account-specific model catalogs, and SSE
-  inference. Uses only Node built-ins and public OpenAI endpoints.
-- `desktop/main.js`: narrow, top-frame-only IPC and atomic safeStorage-encrypted
-  `chatgpt-accounts.bin` in Electron userData. Refuses plaintext credential storage.
+- `desktop/src-tauri/src/chatgpt.rs` (desktop app): OAuth, verified identity,
+  registration/profile management, serialized token refresh, account-specific
+  model catalogs, and SSE inference, with tests in `chatgpt/tests.rs`. The
+  `chatgpt_action` command answers the pages; `chatgpt-accounts.bin` in the data
+  folder is encrypted (DPAPI-protected AES-GCM, `keychain.rs`). Refuses plaintext
+  credential storage.
+- `proxy-chatgpt.js` (web version): the same runtime in Node built-ins, used by `proxy.js`.
 - `proxy.js`: local browser transport with Host/Origin/custom-header checks.
   Binds to loopback. Tokens stay in server memory; only host/client registration
   metadata and model preference persist under the user's local application data.

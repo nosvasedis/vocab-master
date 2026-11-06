@@ -107,7 +107,9 @@ test("the natural voices ship with the app: Kokoro web bundle, its WebAssembly a
   const html = fs.readFileSync(new URL("../desktop/renderer/index.html", import.meta.url), "utf8");
   assert.match(html, /script-src 'self' 'wasm-unsafe-eval'/);
   assert.match(html, /https:\/\/huggingface\.co https:\/\/\*\.huggingface\.co https:\/\/\*\.hf\.co/);
-  const main = fs.readFileSync(new URL("../desktop/main.js", import.meta.url), "utf8");
-  assert.match(main, /"cross-origin-embedder-policy": "credentialless"/);
-  for (const f of ["../proxy.js", "../desktop/main.js"]) assert.match(fs.readFileSync(new URL(f, import.meta.url), "utf8"), /\|interactions\)\$\/\.test\(apiPath\)/, `${f} forwards studio-voice requests`);
+  // The desktop shell serves the pages cross-origin isolated and forwards studio-voice requests (Rust: protocol.rs, net.rs).
+  const protocol = fs.readFileSync(new URL("../desktop/src-tauri/src/protocol.rs", import.meta.url), "utf8");
+  assert.match(protocol, /"cross-origin-embedder-policy", "credentialless"/);
+  assert.match(fs.readFileSync(new URL("../desktop/src-tauri/src/net.rs", import.meta.url), "utf8"), /rest == "interactions"/, "desktop forwards studio-voice requests");
+  assert.match(fs.readFileSync(new URL("../proxy.js", import.meta.url), "utf8"), /\|interactions\)\$\/\.test\(apiPath\)/, "proxy.js forwards studio-voice requests");
 });

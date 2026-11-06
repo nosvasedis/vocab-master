@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { generateKeyPairSync, sign } from "node:crypto";
-import { createChatGPT, completedText } from "../desktop/chatgpt.js";
+import { createChatGPT, completedText } from "../proxy-chatgpt.js";
 import { configureAi, autofillVocabulary } from "../desktop/renderer/app.js";
 import { testDefaults, testPrompt } from "../desktop/renderer/studio/test-builder.js";
 

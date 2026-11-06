@@ -4893,8 +4893,8 @@ async function loadDocxLibs() {
     try {
       return await import("docx");
     } catch (err) {
-      // A live-updated copy of the pages (AppData\…\live\<sha>\app.js) has no node_modules beside it: load docx
-      // from the installed app instead (resources\app.asar in the exe; the shell's folder or desktop/ in development).
+      // Node (the tests) loads the docx package. Copies of the pages run by the old Electron app's Node (until it
+      // is replaced by the Tauri app) have no node_modules beside them: docx comes from that app's folder.
       const { createRequire } = await import("node:module");
       const path = await import("node:path");
       const res = process.resourcesPath || "";

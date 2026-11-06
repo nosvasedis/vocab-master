@@ -1,6 +1,6 @@
 /* Vocab Master — platform bridge.
- * In the Electron app, window.desktop (preload) provides file storage, the encrypted
- * key-chain, AI proxying (DeepSeek + Google Gemini) and native exports. In the browser
+ * In the desktop app, window.desktop (the Tauri shell's bridge, desktop/src-tauri/shim/desktop.js) provides
+ * file storage, the encrypted key-chain, AI proxying (DeepSeek, Gemini, ChatGPT) and native exports. In the browser
  * (node proxy.js) everything falls back to localStorage + same-origin HTTP endpoints.
  * The engine (app.js) only knows fetch() and localStorage, so both are patched here.
  */

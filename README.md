@@ -1,4 +1,4 @@
-# Vocab Master — Teacher Studio 3.5.6 🎓
+# Vocab Master — Teacher Studio 4.0.0 🎓
 
 **AI-Powered Vocabulary ("Lingo Launcher") & Assessment ("Dictation") Worksheet Architect for ESL Teachers (A–E Senior / CEFR Early A1 to B1).**
 
@@ -12,15 +12,17 @@ You can install or run **Vocab Master** on any Windows PC (Windows 10/11 64-bit)
 
 1. Go to the [**GitHub Releases**](../../releases/latest) page.
 2. Choose either download option:
-   - **💿 `Vocab-Master-Setup-3.5.6.exe` (Recommended Installer)**: Standard Windows setup wizard. Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller — and **keeps itself up to date**.
-   - **🧳 `Vocab-Master-Portable-3.5.6.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
+   - **💿 `Vocab-Master-Setup-4.0.0.exe` (Recommended Installer)**: Standard Windows setup (no admin rights needed). Installs **Vocab Master** with a Desktop shortcut, Start Menu entry, and uninstaller — and **keeps itself up to date**.
+   - **🧳 `Vocab-Master-Portable-4.0.0.exe` (Zero-Install Portable)**: Single-file standalone executable. Run it directly from your Downloads folder or a USB flash drive.
 3. On first launch, open **Settings** (bottom of the sidebar). Choose **Google Gemini** or **DeepSeek** and paste your API key, or choose **ChatGPT** → **Continue with ChatGPT** to use an eligible ChatGPT Plus or Pro plan without an API key. For ChatGPT, allow plan usage in your browser, choose a model, then Save. Luna is selected first when available. Desktop credentials are stored encrypted on your PC via Windows DPAPI.
+
+> **Coming from 3.5.x?** Version 4 is a new, much smaller app (Tauri instead of Electron). Install 4.0.0 once by hand: your units, tests, settings and API keys are picked up as they are. If several teachers share the computer and use account sync, each types their sync password once more.
 
 ### 🔄 Updates — automatic
 Install once with the Setup exe and Vocab Master keeps itself up to date:
 - **New pages arrive by themselves.** Most improvements are changes to the app's pages; the app fetches only the changed files from GitHub in the background (a few seconds, checked against their fingerprints) and uses them from the next start — or at once with **Restart now**. Your units, tests and settings are never touched.
-- **New versions of the app** (rare) download in the background and install when you restart.
-- **Settings → Updates** shows what you have, with **Check now** and an *Update automatically* switch; **Help → Check for updates** does the same.
+- **New versions of the app** (rare) download in the background and install quietly when you restart or close the app.
+- **Settings → Updates** shows what you have, with **Check now** and an *Update automatically* switch.
 - If an update ever fails to start, the app sets it aside and opens the version that worked.
 - The portable exe updates its pages too; for a new version of the app it shows a download link.
 
@@ -100,13 +102,15 @@ Sign in (Settings → Account) with Google or email to use your classes, workshe
 
 ## 🛠️ Running from Source (Developers)
 
-### Desktop App (Electron)
+### Desktop App (Tauri)
+Needs Rust (`rustup`, stable) and the Visual Studio C++ build tools; Windows 10/11 already has WebView2.
 ```bash
 cd desktop
 npm install
-npm start          # Launch the Electron desktop app
-npm run smoke      # Run automated end-to-end smoke tests
-npm run dist       # Build Windows Setup Installer (.exe) + Portable (.exe) in desktop/release/
+npm start          # Run the desktop app (debug build; pages read live from desktop/renderer)
+npm run smoke      # Automated end-to-end smoke test
+npm test           # The shell's Rust tests
+npm run dist       # Build the Setup installer + Portable exe in desktop/release/
 ```
 
 ### Local Web App (Node.js Proxy)

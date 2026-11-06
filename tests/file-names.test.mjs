@@ -1,5 +1,5 @@
-/* Saved files are named "<Product>, <book>, Unit <n>, pp. <pages>", and the pages stay importable by the
- * desktop shell from a live-updated copy (Electron's Node needs "type": "module" next to app.js). */
+/* Saved files are named "<Product>, <book>, Unit <n>, pp. <pages>"; the
+ * pages stay importable by Node from any copy of the pages (the tests; "type": "module" next to app.js). */
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";

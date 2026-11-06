@@ -119,11 +119,26 @@ mod tests {
         let port: u16 = q["port"].parse().unwrap();
         let bad = post(port, "state=wrong&id_token=abc").await;
         assert!(bad.starts_with("HTTP/1.1 400"));
+        let mut s = tokio::net::TcpStream::connect(("127.0.0.1", port)).await.unwrap();
+        let get = ["GET /other HTTP/1.1", &format!("Host: 127.0.0.1:{port}"), "", ""].join("\r\n");
+        s.write_all(get.as_bytes()).await.unwrap();
+        let mut other = String::new();
+        s.read_to_string(&mut other).await.unwrap();
+        assert!(other.starts_with("HTTP/1.1 404"));
         let ok = post(port, &format!("state={}&id_token=tok123", q["state"])).await;
         assert!(ok.starts_with("HTTP/1.1 200"));
         let r = task.await.unwrap();
         assert_eq!(r["ok"], true);
         assert_eq!(r["idToken"], "tok123");
+        // Once only: the listener is gone.
+        assert!(tokio::net::TcpStream::connect(("127.0.0.1", port)).await.is_err());
+    }
+
+    #[tokio::test]
+    async fn times_out() {
+        let g = Google::default();
+        let r = g.start(|_| Ok(()), Duration::from_millis(50)).await;
+        assert_eq!(r["code"], "google/timeout");
     }
 
     #[tokio::test]

@@ -1,10 +1,10 @@
-/* Sync — Google sign-in. The app's own page can't run Google's popup (app:// on desktop isn't an
+/* Sync — Google sign-in. The app's own page can't run Google's popup (the desktop app's own address isn't an
    authorised domain, and the CSP blocks Google's scripts), so a small hosted page does it:
    firebase/public/signin.html on vocab-master-live.web.app signs in with Google and hands back only the
    Google ID token, which the app exchanges with signInWithCredential.
    - Web (localhost:8787): the page opens in a popup and posts the token back to this exact origin.
-   - Desktop: the main process opens the system browser and receives the token on a one-time
-     127.0.0.1 loopback port (desktop/main.js, google:signin), checked with a random state value. */
+   - Desktop: the app shell opens the system browser and receives the token on a one-time
+     127.0.0.1 loopback port (desktop/src-tauri/src/google.rs), checked with a random state value. */
 import { SIGNIN_URL, EMULATOR, useEmulator } from "./backend-firebase.js";
 
 const randomState = () => Array.from(crypto.getRandomValues(new Uint8Array(24)), (b) => b.toString(16).padStart(2, "0")).join("");

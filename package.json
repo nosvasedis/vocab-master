@@ -1,15 +1,16 @@
 {
   "name": "vocab-master",
-  "version": "3.5.6",
+  "version": "4.0.0",
   "description": "Vocab Master — AI Vocabulary & Dictation Worksheet Studio for ESL Teachers (A–E Senior)",
   "type": "module",
   "scripts": {
     "start": "node proxy.js",
     "desktop": "npm --prefix desktop start",
     "smoke": "npm --prefix desktop run smoke",
-    "dist": "npm --prefix desktop run dist && node scripts/verify-package.mjs",
+    "dist": "npm --prefix desktop run dist",
     "test": "node --test \"tests/*.test.mjs\"",
-    "release": "node scripts/release.mjs"
+    "release": "node scripts/release.mjs",
+    "test:shell": "npm --prefix desktop test"
   },
   "dependencies": {
     "docx": "^8.5.0"

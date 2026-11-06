@@ -7,7 +7,6 @@ import { SYNCED, SECRET, LOCAL_ONLY } from "../desktop/renderer/js/sync/registry
 import { explode, implode, hash, localChanges, beats, encodeSeg, decodeSeg, TOMBSTONE_TTL } from "../desktop/renderer/js/sync/merge.js";
 import { createEngine } from "../desktop/renderer/js/sync/engine.js";
 import { seal, open, unlockKey, encryptWithPassphrase, decryptWithPassphrase, passphraseHint } from "../desktop/renderer/js/sync/crypto.js";
-import { createGoogleLoopback } from "../desktop/google-signin.js";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const RENDERER = path.join(ROOT, "desktop", "renderer");
@@ -489,28 +488,4 @@ test("rules: only the signed-in, non-anonymous owner can read or write users/{ui
   assert.equal(u.$other[".validate"], false);
 });
 
-/* ── Google loopback (desktop) ────────────────────────────────────── */
-test("google loopback: accepts only the matching state, once, then closes", async () => {
-  let opened = "";
-  const lb = createGoogleLoopback({ openExternal: (u) => { opened = u; }, signinUrl: "https://example.test/signin.html", timeoutMs: 5000 });
-  const done = lb.start();
-  while (!opened) await new Promise((r) => setTimeout(r, 10));
-  const url = new URL(opened);
-  assert.equal(url.searchParams.get("mode"), "loopback");
-  const port = url.searchParams.get("port");
-  const state = url.searchParams.get("state");
-  const post = (body) => fetch(`http://127.0.0.1:${port}/callback`, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(body) });
-  assert.equal((await post({ state: "wrong", id_token: "x" })).status, 400);
-  assert.equal((await fetch(`http://127.0.0.1:${port}/other`)).status, 404);
-  assert.equal((await post({ state, id_token: "google-id-token" })).status, 200);
-  assert.deepEqual(await done, { ok: true, idToken: "google-id-token" });
-  await assert.rejects(post({ state, id_token: "again" }));
-});
-
-test("google loopback: cancel and timeout resolve with an error", async () => {
-  const lb = createGoogleLoopback({ openExternal: () => {}, timeoutMs: 50 });
-  assert.equal((await lb.start()).code, "google/timeout");
-  const p = lb.start();
-  lb.cancel();
-  assert.equal((await p).code, "google/cancelled");
-});
+/* The Google loopback (desktop) is tested with the app shell: desktop/src-tauri/src/google.rs (cargo test). */

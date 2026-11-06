@@ -10,7 +10,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import os from "node:os";
 import { randomBytes } from "node:crypto";
-import { createChatGPT, chatgptError } from "./desktop/chatgpt.js";
+import { createChatGPT, chatgptError } from "./proxy-chatgpt.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 8787;

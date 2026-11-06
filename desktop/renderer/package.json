@@ -1,4 +1,4 @@
 {
-  "//": "Marks the pages as ES modules so the desktop shell can import app.js from a live-updated copy (Word and pack export).",
+  "//": "Marks the pages as ES modules so Node (the tests, and older app copies) can import app.js.",
   "type": "module"
 }
