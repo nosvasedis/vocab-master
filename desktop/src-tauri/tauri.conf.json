@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Vocab Master",
+  "mainBinaryName": "Vocab Master",
+  "version": "../package.json",
+  "identifier": "com.vocabmaster.desktop",
+  "build": {
+    "frontendDist": "./blank"
+  },
+  "app": {
+    "windows": [],
+    "withGlobalTauri": false,
+    "security": { "csp": null }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "Vocab Master",
+    "copyright": "© Vocab Master",
+    "shortDescription": "Vocab Master — vocabulary and dictation worksheets",
+    "longDescription": "AI vocabulary and worksheet studio for Greek-L1 ESL classes (A–E Senior).",
+    "icon": ["icons/icon.png", "icons/icon.ico"],
+    "createUpdaterArtifacts": true,
+    "windows": {
+      "webviewInstallMode": { "type": "downloadBootstrapper", "silent": true },
+      "nsis": {
+        "installMode": "currentUser",
+        "installerIcon": "icons/icon.ico",
+        "displayLanguageSelector": false,
+        "installerHooks": "./installer-hooks.nsh"
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDVDMkQzQkVFNzc2QzA5MzkKUldRNUNXeDM3anN0WE4wN0dQaWJkL3RXaWZqUTV4c1RvUExjR1VuTk9HSHpUTDZTOHJzYmdwc3oK",
+      "endpoints": ["https://github.com/nosvasedis/vocab-master/releases/latest/download/latest.json"],
+      "windows": { "installMode": "quiet" }
+    }
+  }
+}

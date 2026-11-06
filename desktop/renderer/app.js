@@ -4911,7 +4911,13 @@ async function loadDocxLibs() {
       throw err;
     }
   }
-  return import("https://esm.sh/docx@8.5.0?bundle");
+  // The browser build that ships with the pages (vendor/docx, docx 8.5.0): works offline and in the Tauri app.
+  try {
+    return await import("./vendor/docx/docx.mjs");
+  } catch (err) {
+    console.warn("vendor/docx failed, loading docx from esm.sh:", err);
+    return import("https://esm.sh/docx@8.5.0?bundle");
+  }
 }
 
 

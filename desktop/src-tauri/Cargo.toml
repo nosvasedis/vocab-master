@@ -1,0 +1,64 @@
+[package]
+name = "vocab-master"
+version = "4.0.0"
+description = "Vocab Master — AI Vocabulary & Dictation Worksheet Studio for ESL Teachers (A–E Senior)."
+authors = ["Vocab Master"]
+license = "MIT"
+edition = "2021"
+rust-version = "1.85"
+
+[lib]
+name = "vocab_master_lib"
+crate-type = ["rlib"]
+
+[[bin]]
+name = "vocab-master"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2.7.4", features = [] }
+
+[dependencies]
+tauri = { version = "2.12.5", features = ["devtools"] }
+tauri-plugin-dialog = "2.8.4"
+tauri-plugin-opener = "2.7.2"
+tauri-plugin-single-instance = "2.5.5"
+tauri-plugin-updater = { version = "2.14.1", default-features = false, features = ["native-tls", "zip"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.13.5", default-features = false, features = ["native-tls", "json", "stream", "http2", "charset", "form", "query"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "time", "sync", "fs"] }
+futures-util = "0.3"
+rust-embed = { version = "8.13.0", features = ["include-exclude"] }
+base64 = "0.22"
+sha1 = "0.10"
+sha2 = "0.10"
+hex = "0.4"
+rand = "0.8"
+uuid = { version = "1", features = ["v4"] }
+url = "2"
+subtle = "2.6"
+aes-gcm = "0.10"
+jsonwebtoken = { version = "10", default-features = false, features = ["rust_crypto"] }
+dirs = "6"
+percent-encoding = "2"
+
+[dev-dependencies]
+rsa = { version = "0.9", features = ["pem"] }
+
+[profile.dev.package.num-bigint-dig]
+opt-level = 3
+
+[profile.dev.package.rsa]
+opt-level = 3
+
+[target.'cfg(windows)'.dependencies]
+webview2-com = "0.39.1"
+windows = { version = "0.62.2", features = ["Win32_Security_Cryptography", "Win32_Foundation", "Win32_System_Memory", "Win32_System_Console"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
