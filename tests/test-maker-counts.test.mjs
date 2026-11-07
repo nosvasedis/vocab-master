@@ -132,7 +132,7 @@ test("Lingo adding questions: placeholders hold the places, the reply fills exac
   assert.match(user, /REWRITE ONLY items 2, 3/);
   assert.match(user, /These are NEW questions/);
   const reply = { items: [
-    { n: 2, prompt: "A ________ is a mountain that erupts.", options: ["volcano", "island", "cave"], answer: "volcano" },
+    { n: 2, prompt: "The ________ is a mountain that erupts.", options: ["volcano", "island", "cave"], answer: "volcano" },
     { n: 3, prompt: "Hot ________ comes out of it.", options: ["ash", "rain", "snow"], answer: "ash" },
   ] };
   const changed = applyItemFixes(doc, spec, "p1", reply, [2, 3], {});

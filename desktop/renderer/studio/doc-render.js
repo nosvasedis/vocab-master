@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, matchList, sectionRubric, showsExample, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, exampleGapFill, matchList, playedScript, sectionRubric, showsExample, sortBank, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 import { lineHtml, hintBoxHtml, isWriteIn } from "./paper-parts.js";
 import { testPartColumns } from "./item-columns.js";
@@ -59,9 +59,15 @@ function partHead(section, index, layout) {
   </div>`;
 }
 
-function passageHtml(section) {
+function passageHtml(section, layout = {}) {
   if (!section.passage) return "";
-  const body = section.passage.split(/\n{1,}/).map((p) => `<p>${esc(p).replace(/\((\d+)\)\s*_{3,}/g, (_, n) => `<b>(${n})</b>${line("inline")}`).replace(GAP, () => line("inline"))}</p>`).join("");
+  // The example's gap "(0)": written in while the example is printed, the plain word or sentence while it is hidden.
+  const fill = exampleGapFill(section, layout);
+  const gap = (n) => {
+    if (Number(n) === 0 && fill) return fill.shown ? `<b>(0)</b> <span class="st-ex-ans">${esc(fill.text)}</span>` : esc(fill.text);
+    return `<b>(${n})</b>${line("inline")}`;
+  };
+  const body = section.passage.split(/\n{1,}/).map((p) => `<p>${esc(p).replace(/\(\s*(\d+)\s*\)\s*_{3,}/g, (_, n) => gap(n)).replace(GAP, () => line("inline"))}</p>`).join("");
   return `<div class="st-passage">${section.passageTitle ? `<h4>${esc(section.passageTitle)}</h4>` : ""}${body}</div>`;
 }
 
@@ -75,13 +81,14 @@ function bankHtml(section, layout = {}) {
     return `<div class="match-defs${twoCol ? " two-col" : ""}">${defs.map((b) => `<p class="match-def-line${b.text === selected ? " picked" : ""}"><b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("")}</div>`;
   }
   // The words to sort: the example's word is crossed out (it is already in the table). Not the editable word box.
-  if (section.task === "V-SORT") return `<div class="word-bank st-keywords st-sort-words">${section.bank.map((w) => `<span>${w === section.example?.prompt ? `<s>${esc(w)}</s>` : esc(w)}</span>`).join("")}</div>`;
+  // Hidden, the example isn't on the paper, so neither is its word (doc-model.js → sortBank).
+  if (section.task === "V-SORT") return `<div class="word-bank st-keywords st-sort-words">${sortBank(section, layout).map((b) => `<span>${b.done ? `<s>${esc(b.word)}</s>` : esc(b.word)}</span>`).join("")}</div>`;
   return `<div class="word-bank">${section.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`;
 }
 
 /** "Put the words in groups": a table with a column per group and the same number of lines in each; the example's word is written in. */
 function sortTableHtml(section, layout, showAnswers) {
-  const rows = sortRows(section);
+  const rows = sortRows(section, layout);
   const ex = showsExample(section, layout) ? section.example : null;
   const col = (g) => {
     const words = [ex, ...section.items].filter((it) => it && it.answer === g);
@@ -265,7 +272,7 @@ export function renderStudentPaper(doc, options = {}) {
     let body = "";
     if (section.skill === "listening") body += `<div class="st-audio">Listen to track ${i + 1}. You will hear it ${section.plays === 1 ? "once" : "twice"}.</div>`;
     if (section.skill === "dictation") return `<section class="ex-block st-sec">${partHead(section, i, layout)}${dictationHtml(section, layout, options.showAnswers)}</section>`;
-    if (!["writing"].includes(section.skill) || section.task === "W-MESSAGE") body += passageHtml(section);
+    if (!["writing"].includes(section.skill) || section.task === "W-MESSAGE") body += passageHtml(section, layout);
     body += bankHtml(section, layout);
     if (section.answerType === "open") body += openTaskHtml(section, layout);
     else if (section.task === "V-PIC" || section.task === "V-TICK") body += pictureCardsHtml(section, layout, options.showAnswers);
@@ -307,7 +314,7 @@ export function renderTeacherPack(doc, options = {}) {
       if (s.style === "running" && s.strips?.length) h += `<p class="st-teacher-note">Wall strips (print the strips page, cut and stick them around the room):</p>${s.strips.map((t, k) => `<p class="ex-item"><span class="item-num">${k + 1}</span><span class="item-text">${esc(t)}</span></p>`).join("")}`;
       return `${h}</section>`;
     }
-    if (s.script?.length) h += `<div class="st-script"><b>Script (track ${i + 1})</b>${s.script.map((l) => `<p><b>${esc(l.speaker)}:</b> ${esc(l.text)}</p>`).join("")}</div>`;
+    if (s.script?.length) h += `<div class="st-script"><b>Script (track ${i + 1})</b>${playedScript(s, layout).map((l) => `<p><b>${esc(l.speaker)}:</b> ${esc(l.text)}</p>`).join("")}</div>`;
     if (s.answerType === "open") {
       if (s.skill === "speaking" && s.cards?.length) h += speakingScriptHtml(s, layout);
       else if (s.prompts.length) h += `<ol class="st-prompts">${s.prompts.map((p) => `<li>${esc(p)}</li>`).join("")}</ol>`;

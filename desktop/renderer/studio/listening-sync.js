@@ -113,7 +113,7 @@ export function trustItems(section, ns = []) {
 }
 
 const MARK = /^(?:example|number\s+(\d+|[a-z]+))\b/i;
-const isMark = (l) => /^narrator$/i.test(l?.speaker || "") && MARK.test(String(l?.text || "").trim());
+export const isMark = (l) => /^narrator$/i.test(l?.speaker || "") && MARK.test(String(l?.text || "").trim());
 
 /**
  * "Listen for the main idea": every question has its own short recording, opened by the Narrator ("Example.",

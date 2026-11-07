@@ -19,7 +19,7 @@ import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
 import { reviseSection, docWordList, relationPreview, testDefaults, makePart, testPrompt, buildTestDoc, keyCheckPrompt, applyKeyCheck, estimateMinutes, specPoints, partPoints, planProblems, planNotes, fitPartsToSource, defaultTitle, LENGTHS, TEMPLATES, templateFor, templateParts, PART_LEVELS, partLevel, problemTargets, fixItemsPrompt, applyItemFixes, partSimilarity, textWords, partTextWords, suggestText } from "../../studio/test-builder.js";
 import { testCoverage, coverageWhere, wordPriority, newPartFocus } from "../../studio/test-coverage.js";
-import { makeVersionB, docProblems, docPoints, relabelDoc, hasWordBox, boxExtras } from "../../studio/doc-model.js";
+import { makeVersionB, docProblems, docPoints, relabelDoc, hasWordBox, boxExtras, playedScript } from "../../studio/doc-model.js";
 import { renderStudentPaper, renderTeacherPack } from "../../studio/doc-render.js";
 import { buildUnitContext, unitWords } from "../../studio/unit-context.js";
 import { ownWordEntry } from "../../studio/own-words.js";
@@ -27,6 +27,7 @@ import { relationsFromSaved } from "../../studio/word-relations.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
 import { audioFileName } from "../../studio/audio-track.js";
 import { recordingState } from "../../studio/listening-sync.js";
+import { GAP_FIT_PROBLEM } from "../../studio/gap-fit.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { openProjector } from "./projector.js";
 import { loadLessonJson } from "./studio-common.js";
@@ -1053,6 +1054,7 @@ async function generate(btn) {
       ts.lastFocus = wordKeys(sel.focus);
       ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), ...(ts.spec.page || {}) };
       await topUpShortParts(spec, ctx, meta);
+      await fixWording(spec, ctx);
       await checkKeys(ts.doc);
       ts.doc.versionB = spec.versions > 1 ? makeVersionB(ts.doc) : null;
       ts.stale.clear();
@@ -1104,6 +1106,30 @@ async function topUpShortParts(spec, ctx, meta) {
 }
 
 /** Yes/no keys are re-answered from the text alone by a second small call; a failed check leaves the test as it is. */
+/**
+ * Questions whose words around the gap don't fit the answer ("My ________ works on a farm." → farmer, "a ________" →
+ * apple; studio/gap-fit.js) are rewritten at once — one small call per part, once; what is still wrong stays a note
+ * with its Fix button. Only questions that hold their own sentence: a reading text's gaps or a listening part's
+ * notes are left to the teacher (rewriting them alone could break the text or the recording).
+ */
+async function fixWording(spec, ctx, parts = null) {
+  const doc = ts.doc;
+  const epoch = ts.epoch;
+  const jobs = (doc?.sections || []).filter((s) => (!parts || parts.includes(s.id)) && s.skill !== "listening" && !s.passage).map((s) => ({
+    id: s.id,
+    items: [...new Set((s.problems || []).filter((p) => GAP_FIT_PROBLEM.test(p)).map((p) => Number((String(p).match(/^item (\d+):/) || [])[1])).filter(Boolean))],
+  })).filter((j) => j.items.length);
+  await Promise.all(jobs.map(async (j) => {
+    try {
+      const sec = doc.sections.find((x) => x.id === j.id);
+      const { system, user } = fixItemsPrompt(spec, sec, j.items, { profileBlock: withMemory(spec.levelId, ctx.focus), focusWords: ctx.focus, pictureWords: ctx.pictureWords });
+      const reply = await askAi(system, user);
+      if (epoch !== ts.epoch || ts.doc !== doc) return;
+      applyItemFixes(doc, spec, j.id, reply, j.items, { picFor: ctx.picFor, focusWords: ctx.focus });
+    } catch { /* the note and its Fix button stay */ }
+  }));
+}
+
 async function checkKeys(doc, parts = null) {
   const p = keyCheckPrompt(doc, parts);
   if (!p) return 0;
@@ -1207,6 +1233,8 @@ async function rewritePart(partId, btn, wish = "", { ownWords = false } = {}) {
           : "Your part was almost the same as the old version. Write a really NEW one: a new situation, new sentences and new questions, following the teacher's wish.";
       }
       ts.doc = next;
+      await fixWording(spec, ctx, [partId]);
+      if (epoch !== ts.epoch) return false;
       await checkKeys(ts.doc, [partId]);
       if (epoch !== ts.epoch) return false;
       ts.stale.delete(partId);
@@ -1347,7 +1375,7 @@ async function exportTestPack(btn) {
     if (off.length) toast(`${off.map(({ i }) => `Track ${i + 1}`).join(", ")} may not say every answer — the questions changed since ${off.length > 1 ? "they were" : "it was"} made. ✨ Remake the recording in Play the listening, then export again.`, "warn", { ms: 10000 });
     for (const [k, { s, i }] of parts.entries()) {
       say(`Making audio ${k + 1} of ${parts.length}…`);
-      const { blob } = await scriptWav(s.script, { plays: s.plays, levelId: meta.classProfile, onStatus: (st) => setStatus(s.id, st) });
+      const { blob } = await scriptWav(heard(s), { plays: s.plays, levelId: meta.classProfile, onStatus: (st) => setStatus(s.id, st) });
       delete ts.status[s.id];
       files.push(packBytes(new Uint8Array(await blob.arrayBuffer()), `${productFileName(`Listening track ${i + 1}`, meta)}.wav`));
     }
@@ -1409,6 +1437,8 @@ function renderPaper() {
 }
 
 /* ── Listening: natural / studio / computer voices, a player per track and a WAV per track ── */
+/** What a listening part's track says: its script, without the example's own recording while the example is hidden. */
+const heard = (s) => playedScript(s, ts.doc?.meta?.layout || {});
 const listeningParts = () => (ts.doc?.sections || []).map((s, i) => ({ s, i })).filter(({ s }) => s.skill === "listening" && s.script?.length);
 
 /** A listening part already on the paper (with a recording). */
@@ -1456,7 +1486,7 @@ function warnRecording(s, i) {
 function renderListen() {
   const parts = listeningParts();
   if (!parts.length) { $("tsListen").innerHTML = ""; return; }
-  const chars = parts.reduce((n, { s }) => n + s.script.reduce((m, l) => m + String(l.text || "").length, 0), 0);
+  const chars = parts.reduce((n, { s }) => n + heard(s).reduce((m, l) => m + String(l.text || "").length, 0), 0);
   $("tsListen").innerHTML = `<div class="listen-bar">
     <div class="lb-head">${icon("volume", "i-sm")}<b>Play the listening</b><span class="lb-voices">Voices ${voicePickerHtml()}</span></div>
     <div class="lb-tracks">${parts.map(({ s, i }) => `<div class="lb-track">
@@ -1492,7 +1522,7 @@ function togglePlay(id) {
   if (!s) return;
   warnRecording(s, ts.doc.sections.indexOf(s));
   ts.playing = id;
-  ts.player = playScript(s.script, {
+  ts.player = playScript(heard(s), {
     plays: s.plays,
     levelId: ts.doc.meta.classProfile,
     onStatus: (st) => {
@@ -1511,7 +1541,7 @@ async function saveTrack(id, btn) {
   warnRecording(part.s, part.i);
   btn.disabled = true;
   try {
-    const { blob, seconds } = await scriptWav(part.s.script, { plays: part.s.plays, levelId: ts.doc.meta.classProfile, onStatus: (st) => setStatus(id, st) });
+    const { blob, seconds } = await scriptWav(heard(part.s), { plays: part.s.plays, levelId: ts.doc.meta.classProfile, onStatus: (st) => setStatus(id, st) });
     setStatus(id, { phase: "save" });
     downloadBlob(blob, audioFileName(`${sheetTitle()} · Track ${part.i + 1}`));
     // In the app a Save window opens (the app says “Saved …” once the file is written); in a browser it downloads.
@@ -1530,7 +1560,7 @@ async function saveTrack(id, btn) {
 async function warmListening() {
   ts.naturalReady = await naturalDownloaded();
   renderListen();
-  if (ts.doc) warmScripts(listeningParts().map(({ s }) => s.script), ts.doc.meta.classProfile);
+  if (ts.doc) warmScripts(listeningParts().map(({ s }) => heard(s)), ts.doc.meta.classProfile);
 }
 
 function renderRecent() {

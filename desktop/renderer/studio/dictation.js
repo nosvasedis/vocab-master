@@ -5,6 +5,7 @@ import { DICTATION_DEFAULTS, DIFFICULTY, sentenceRange } from "./levels.js";
 import { DICTATION_STYLES } from "./tasks.js";
 import { containsForm, wordFormPattern, allowedTerms } from "./word-scope.js";
 import { newDocId, LETTERS } from "./doc-model.js";
+import { SENTENCE_RULES } from "./gap-fit.js";
 
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
 export const countWords = (s) => clean(s).split(" ").filter((w) => /[A-Za-z0-9]/.test(w)).length;
@@ -110,6 +111,7 @@ JSON: { "title": "short title", "sentences": [ { "text": "one sentence", "target
     spec.grammar?.length ? `Grammar focus — use it naturally in most sentences: ${spec.grammar.join(", ")}.` : "Grammar: what the class level already knows.",
     spec.topic ? `Context / topic: ${spec.topic}` : "Context: one familiar situation for children, so the sentences make sense together.",
     "Simple punctuation only (full stops, commas, question marks, apostrophes). No Greek. No numbers written as digits.",
+    ...SENTENCE_RULES.filter((r) => !/gap/i.test(r)),
   ];
   // "Make it again": the old sentences, so the new ones are really new.
   if (avoid.length) rules.push(`This is a NEW version: write completely different sentences (a new situation, new names) — never reuse or reword these: ${avoid.map((x) => `"${x}"`).join(" ")}`);

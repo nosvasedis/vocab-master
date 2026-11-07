@@ -12,6 +12,8 @@
  *   - repairLine: small sure fixes the app can make itself (the letter count of a crossword clue).
  * A line the teacher wrote in the line editor (item.byTeacher) is never rewritten, only checked. */
 
+import { gapFitProblem } from "./gap-fit.js";
+
 const GREEK = /[Ͱ-Ͽἀ-῿]/;
 const GAP = /_{3,}/;
 const CHOICE = /\(([^()]*\/[^()]*)\)/;
@@ -239,6 +241,25 @@ export function readSteps(prompt) {
  * Opposite / synonym lines are checked by readRelationItem.
  */
 export function lineProblem(typeId, item, vocab = []) {
+  return lineFormProblem(typeId, item, vocab) || lineWordingProblem(typeId, item, vocab);
+}
+
+/** Exercises whose line is a sentence with a gap for the answer (the options may stand in the gap). */
+const GAP_SENTENCE_TYPES = new Set(["D01", "D02", "D03", "D04", "D14", "D17", "D18", "D23", "D24", "L01", "L02", "L05"]);
+
+/**
+ * The words around a gap don't fit its answer once it is filled in ("My ________ works on a farm." → farmer,
+ * "a ________" → apple): studio/gap-fit.js. A choice line's options are checked too (the article before the gap
+ * must not rule one out).
+ */
+export function lineWordingProblem(typeId, item, vocab = []) {
+  if (!GAP_SENTENCE_TYPES.has(typeId)) return "";
+  const prompt = String(item?.prompt ?? "");
+  const choice = CHOICE_TYPES.has(typeId) ? splitChoice(prompt) : null;
+  return gapFitProblem(prompt, item?.answer, { vocab, options: choice?.options || [] });
+}
+
+function lineFormProblem(typeId, item, vocab = []) {
   const prompt = String(item?.prompt ?? "").trim();
   const answer = String(item?.answer ?? "").trim();
   if (!prompt) return "the line is empty — write the question";

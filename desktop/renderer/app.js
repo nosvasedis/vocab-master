@@ -31,6 +31,7 @@ import { PAPER_PARTS_CSS } from "./studio/paper-parts.js";
 import { wsItemView, wsItemHtml, wsItemClass, wsPicLineHtml, itemHint, splitClue, WS_HELP, WS_CHOICE_TYPES } from "./studio/ws-paper.js";
 import { fitChoiceLetters } from "./studio/doc-model.js";
 import { RELATION_TYPES, repairRelationExercise, relationRoom, lineProblem, repairLine } from "./studio/ws-checks.js";
+import { sentenceRulesBlock } from "./studio/gap-fit.js";
 
 const STORAGE_KEY = "lingo_maker_api_key";
 const HISTORY_KEY = "lingo_maker_signatures";
@@ -143,11 +144,11 @@ const EXERCISE_EXAMPLES = {
   D16: 'Sports places: ________, ________  |  Body parts: ________, ________',
   D17: 'overcome a physical ________ → disability',
   D18: 'The ceremony will (kick off / commence) at 8 p.m. → commence',
-  D19: 'A prosthetic or natural arm or leg of the body: ________ → limb',
+  D19: 'A natural or artificial arm or leg: ________ → limb',
   D20: 'Please sequence me to your new basketball coach. → Please introduce me…',
   D21: 'Order the steps: First warm up / Then step onto the track / Finally compete',
   D22: 'Across: 5 letters — A course where athletes run races: ________ → track',
-  D23: 'Arm is to limb as stadium path is to ________. → track',
+  D23: 'Arm is to body as wheel is to ________. → bike',
   D24: 'Her story was a great (inspiration / respiration) to us. → inspiration',
   D25: '[picture of a running track] (an oval path for runners) ________ → track',
   D26: 'ckrat (a path for running races) → track',
@@ -1757,30 +1758,25 @@ function validateOddOneOutGroup(words, answer, vocabulary) {
       }
     }
   }
-  const classes = words.map((w) => inferWordClass(w, vocabulary));
-  const classCounts = {};
-  classes.forEach((c) => { classCounts[c] = (classCounts[c] || 0) + 1; });
-  const maxCount = Math.max(...Object.values(classCounts));
-  const classSummary = describeL09WordClasses(words, vocabulary);
-  if (maxCount !== 3) {
-    const hint = maxCount === 4
-      ? "use 3 words of the same type (usually nouns) + 1 different type (usually a verb) — e.g. artifact, treasure, jewel, excavate"
-      : "pick 3 words that share one part of speech and 1 clear odd word — check each word's type in the vocabulary table";
-    return {
-      ok: false,
-      message: `ambiguous group [${words.join(", ")}] (${classSummary}) — ${hint}`,
-    };
-  }
-  const majorityClass = Object.keys(classCounts).find((c) => classCounts[c] === 3);
-  const oddIndex = classes.findIndex((c) => c !== majorityClass);
-  if (oddIndex < 0) {
-    return { ok: false, message: `all 4 words appear to share the same type — need 1 clear odd word (${classSummary})` };
-  }
-  if (!answerMatches(words[oddIndex], answer)) {
-    return {
-      ok: false,
-      message: `answer must be "${words[oddIndex]}" (the ${classes[oddIndex]} — odd word out), not "${answer}" (${classSummary})`,
-    };
+  // The link may be MEANING (cat, dog, horse, bread — A–C Senior always) or WORD CLASS (D–E: artifact, treasure,
+  // jewel, excavate). Four words of one class are a meaning group, which the app can't judge. What it can see is a
+  // second odd one: three words of one class and the fourth of another, when the answer is a different word — then
+  // two words stand out (cat, dog, run, bread → bread or run?). Only words the word list knows are counted.
+  const known = words.map((w) => (lookupVocabEntry(w, vocabulary) ? inferWordClass(w, vocabulary) : ""));
+  if (known.every(Boolean)) {
+    const classCounts = {};
+    known.forEach((c) => { classCounts[c] = (classCounts[c] || 0) + 1; });
+    const counts = Object.values(classCounts).sort((a, b) => b - a);
+    const classSummary = describeL09WordClasses(words, vocabulary);
+    if (counts[0] === 3) {
+      const majority = Object.keys(classCounts).find((c) => classCounts[c] === 3);
+      const oddIndex = known.findIndex((c) => c !== majority);
+      if (!answerMatches(words[oddIndex], answer)) {
+        return { ok: false, message: `two words stand out in [${words.join(", ")}]: "${answer}" and "${words[oddIndex]}" (the only ${known[oddIndex]}; ${classSummary}) — use 4 words of the same type with one clear odd one by meaning, or make "${words[oddIndex]}" the answer` };
+      }
+    } else if (counts[0] === 2) {
+      return { ok: false, message: `no clear odd one in [${words.join(", ")}] (${classSummary}) — 3 words must share one clear link and the 4th must not` };
+    }
   }
   return { ok: true };
 }
@@ -3214,7 +3210,7 @@ DICTATION FORMATS (never give away answers to students):
 - D05/D06/D18: NO wordBank; multiple choices inside parentheses separated by / only; shuffle option order so the answer is not always first
 - D05 Opposite match / D06 Synonym select: EVERY item = "unitWord (optionA / optionB / optionC)" — the unit word ALONE, never a sentence, never "The opposite of … is", never "… can also mean"; answer = that word's listed antonym (D05) or synonym (D06) from the table, exactly ONE correct option, the other two clearly wrong (never another opposite/synonym of the word); only words that HAVE antonyms (D05) / synonyms (D06) in the table, one item per word; if fewer such words than lines, write FEWER items — NEVER pad with items of another kind
 - D17 Collocation pair: one half of collocation given + ________ gap (e.g. "pour ________ into a glass"); answer is the missing chunk only — words like "a" in the prompt are NOT the answer
-- D08 Sentence fixer (vocabulary): mark the ONE wrong word in [square brackets] in each sentence. "answer" = the single correct unit vocabulary word students write on their answer sheet. "testsWords" = [that same word]. Use a plausible mistake: wrong form (royalties→royalty), wrong similar word (cart→wagon), wrong collocation partner. NEVER print a perfect sentence with no [brackets]. NEVER use (slash / choices) — square brackets only. BAD: "The royalty attended the ceremony." GOOD: "The [royalties] attended the ceremony." answer "royalty". BAD: answer = full corrected sentence
+- D08 Sentence fixer (vocabulary): mark the ONE wrong word in [square brackets] in each sentence. "answer" = the single correct unit vocabulary word students write on their answer sheet. "testsWords" = [that same word]. Use a plausible mistake: wrong form (royalties→royalty), a similar word that is clearly WRONG in this sentence (limb→track: "The runners ran around the [limb]."), wrong collocation partner — the bracketed word must make the sentence wrong, never a word that also fits. NEVER print a perfect sentence with no [brackets]. NEVER use (slash / choices) — square brackets only. BAD: "The royalty attended the ceremony." GOOD: "The [royalties] attended the ceremony." answer "royalty". BAD: answer = full corrected sentence
 - D15 True / false: each item starts with "( )" for students to write T or F; statement uses unit vocabulary in context; answer = "T" or "F" only
 - D20 Error correction: like D08 — each sentence has a deliberate vocabulary mistake; answer = corrected sentence; prompt must NOT already be correct
 - D11 Odd one out: each item = exactly 4 comma-separated words on one line (e.g. "run, jump, swim, apple") — NOT full sentences
@@ -3283,6 +3279,8 @@ ${options.part ? "- ONE PART OF A WRITTEN WORKSHEET: write ONLY the exercises in
 ${VOCAB_SENSE_DISAMBIGUATION_RULES}
 - Teacher-provided type, greek, or collocation on a vocab row are LOCKED — copy exactly into the vocabulary table
 
+${sentenceRulesBlock()}
+
 JSON SCHEMA:
 {
   "meta": { "bookTitle", "unit", "pageRange", "classProfile", "classLabel", "greekGrades", "cefr", "ageRange" },
@@ -3317,7 +3315,8 @@ D08 SENTENCE FIXER (vocabulary) — mandatory:
 - Cover different unit words across items (royalty, wagon, audience, etc.)
 - BAD: "The royalty attended the ceremony." (no brackets — students cannot see what to fix)
 - BAD: answer "The royalty attended the ceremony." (full sentence — answer must be one word only)
-- GOOD: prompt "The children played with a red [cart].", answer "wagon", testsWords ["wagon"]
+- BAD: prompt "The children played with a red [cart].", answer "wagon" — a cart also fits; the bracketed word must be clearly wrong
+- GOOD: prompt "The runners ran around the [limb] twice.", answer "track", testsWords ["track"]
 - GOOD: prompt "The [royalties] attended the ceremony.", answer "royalty", testsWords ["royalty"]`;
   }
   if (plan.dictationTypes?.includes("D02")) {
@@ -3435,7 +3434,16 @@ L05 COLLOCATION MATCH — mandatory:
   }
   if (plan.lingoTypes?.includes("L09")) {
     const types = getVocabWordsWithTypesFromForm(form);
-    block += `
+    const byMeaning = ["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(form.classProfile || plan.classProfile);
+    if (byMeaning) block += `
+L09 ODD ONE OUT — mandatory (A–C Senior: by MEANING):
+- Each item = exactly 4 comma-separated words; answer = the single odd word
+- 3 words share ONE clear link of MEANING a child sees at once (animals, food, places, things you wear, things at school); the 4th clearly doesn't
+- Use unit words; the link must be obvious and only ONE word can be the odd one
+- FORBIDDEN: antonym pairs; related forms (careful/careless); a link only an adult would see; word-class groups
+- GOOD: "cat, dog, horse, bread" → bread · GOOD: "shirt, shoes, hat, apple" → apple
+- BAD: "wagon, tide, audience, mystery" — no clear link, no clear odd word`;
+    else block += `
 L09 ODD ONE OUT — mandatory:
 - Each item = exactly 4 comma-separated words; answer = the single odd word
 - Use the vocabulary table types: exactly 3 words with the SAME type + 1 word with a DIFFERENT type
@@ -3446,6 +3454,8 @@ L09 ODD ONE OUT — mandatory:
 - GOOD: "wagon, helmet, shipwreck, discover" → 3 nouns + 1 verb
 - BAD: "careful, careless, royalty, excavate" — careful/careless are related; only 2 adjectives
 - BAD: "wagon, tide, audience, mystery" — all nouns; no clear odd word
+- A link of meaning (3 animals + 1 food) is fine too when the types alone don't make one word clearly odd`;
+    block += `
 Unit vocabulary types (use these when building groups):
 ${JSON.stringify(types)}`;
   }
@@ -4321,10 +4331,8 @@ L01/L05 — gap where the answer word belongs (not always at end); NEW sentences
     extra += `
 L09 ODD ONE OUT — mandatory for each L09 fix:
 - prompt = exactly 4 comma-separated words; answer = the single odd word
-- 3 words share the SAME part of speech (use vocabulary table types — usually 3 nouns)
-- 1 word is DIFFERENT (usually a verb from the unit) — that word is the answer
-- FORBIDDEN: careful/careless pairs, antonyms together, 4 nouns with no verb odd word
-- GOOD: "artifact, treasure, jewel, excavate" → answer "excavate"`;
+- ${["A_SENIOR", "B_SENIOR", "C_SENIOR"].includes(profileId) ? "3 words share ONE clear link of MEANING (animals, food, places, things you wear); the 4th clearly doesn't — GOOD: \"cat, dog, horse, bread\" → bread" : "3 words share the SAME part of speech (use vocabulary table types — usually 3 nouns) and 1 is DIFFERENT (usually a verb from the unit) — or 3 share a clear link of meaning — GOOD: \"artifact, treasure, jewel, excavate\" → excavate"}
+- Only ONE word can be the odd one; FORBIDDEN: careful/careless pairs, antonyms together, groups with no clear link`;
   }
   if (targets.some((t) => t.typeId === "D08")) {
     extra += `
@@ -4347,6 +4355,9 @@ Rules:
 - Return one fix object per listed item
 - Every answer is a word from the vocabulary table (or its listed family / synonyms / opposites), inflected to fit the sentence when needed
 - When the problem asks for a different answer (e.g. "so the answer is F"), write a NEW statement or question whose correct answer is that one
+- Keep the line's format exactly (gaps as ________, options in (a / b / c), [brackets]) — only the words change
+
+${sentenceRulesBlock()}
 ${extra}`;
 }
 
@@ -5973,6 +5984,7 @@ export {
   analyzeVocabFeaturesFromData,
   buildPlanFromCustom,
   validateWorksheet,
+  validateOddOneOutGroup,
   computeCoverage,
   computeDictationCoverage,
   computeLingoCoverage,

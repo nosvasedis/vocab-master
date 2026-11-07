@@ -10,6 +10,7 @@ import { normalizeSection, docPoints, newDocId, tfValue, hasWordBox, sectionRubr
 import { allowedTerms, answerInScope, relatedTerms } from "./word-scope.js";
 import { unitContextPrompt } from "./unit-context.js";
 import { scriptKeys, trustItems, answerHeard, itemKey } from "./listening-sync.js";
+import { SENTENCE_RULES, sentenceRulesBlock } from "./gap-fit.js";
 
 export const LENGTHS = {
   quiz: { label: "Quick quiz", minutes: 20, skills: ["vocabulary", "vocabulary", "grammar", "reading"] },
@@ -506,6 +507,7 @@ Only include the fields a part needs. One object per part, same ids, same order.
     "Facts in texts and scripts must be true (lava is hot, ash is grey); only the \"no\" statements may be wrong.",
     DISTRACTOR_RULE,
     "When a part tests two grammar points, each item tests ONE of them and the items alternate between them.",
+    ...SENTENCE_RULES,
   ].filter(Boolean);
   const rewrite = rewriteBlock(ctx.rewrite, parts);
   const user = `${topicMode ? "" : `UNIT CONTEXT\n${unitContextPrompt(ctx.unitContext)}\n\n`}RULES\n${rules.map((r) => `- ${r}`).join("\n")}\n\nLOCKED TEST PLAN (${parts.length} part${parts.length === 1 ? "" : "s"})\n${parts.map((p) => partBrief(p, spec.parts.indexOf(p), spec, ctx.pictureWords || [], focus)).join("\n")}${rewrite ? `\n\n${rewrite}` : ""}`;
@@ -671,7 +673,8 @@ export function fixItemsPrompt(spec, section, itemNs, ctx = {}) {
   if (order) itemNs.forEach((n) => { must[n] = order[n - 1]; });
   const show = (it) => `${it.n}. ${it.prompt || ""}${it.options?.length ? ` [${it.options.join(" | ")}]` : ""} → ${it.answer || ""}`;
   const system = `You fix single questions in an English test for Greek learners in a language school. Return ONLY valid JSON: { "items": [ { "n": 3, "prompt": "", "options": [], "answer": ""${t.answer === "tf" ? ', "evidence": "the exact words of the ' + (src || "text") + ' that decide it"' : ""} } ]${ctx.withScript ? ', "script": [ { "speaker": "Name", "text": "line" } ]' : ""} } — only the items asked for, with their numbers${ctx.withScript ? ", and the whole script" : ""}.
-${ctx.profileBlock || ""}`;
+${ctx.profileBlock || ""}
+${sentenceRulesBlock()}`;
   const focus = (ctx.focusWords || []).map((w) => w.english).filter(Boolean);
   const user = [
     partBrief(plan, idx, spec, ctx.pictureWords || [], ctx.focusWords || [], order),
@@ -800,7 +803,7 @@ export function reviseSection(doc, spec, sectionId, edit, ctx = {}) {
   if (edit(raw) === false) return false;
   const plan = spec?.parts?.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
   const picFor = spec?.pictures !== false ? ctx.picFor || keepPics(s) : null;
-  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor, spareWords: spareFirst(spareWords(ctx.focusWords, doc.focusWords), doc, sectionId), greekFor: greekLookup(ctx.focusWords, doc.focusWords) });
+  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor, spareWords: spareFirst(spareWords(ctx.focusWords, doc.focusWords), doc, sectionId), greekFor: greekLookup(ctx.focusWords, doc.focusWords), vocab: ctx.focusWords?.length ? ctx.focusWords : doc.focusWords || [] });
   fresh.problems.push(...scopeProblems(fresh, ctx.focusWords));
   fresh.plays = s.plays || fresh.plays;
   fresh.rubricEl = s.rubricEl || fresh.rubricEl;
@@ -863,7 +866,7 @@ export function buildTestDoc(spec, reply, ctx = {}, previous = null) {
   const sections = spec.parts.map((p, i) => {
     const raw = byId.get(p.id) || (!previous && rawSections[i]);
     if (!raw && previous) return previous.sections.find((s) => s.id === p.id) || null;
-    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures !== false ? ctx.picFor : null, spareWords: spareWords(ctx.focusWords || []), greekFor: greekLookup(ctx.focusWords) });
+    const s = normalizeSection(p, raw || {}, { levelId: spec.levelId, picFor: spec.pictures !== false ? ctx.picFor : null, spareWords: spareWords(ctx.focusWords || []), greekFor: greekLookup(ctx.focusWords), vocab: ctx.focusWords || [] });
     s.problems.push(...scopeProblems(s, ctx.focusWords));
     if (!raw) s.problems.push("the AI did not write this part");
     return s;

@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, matchList, sectionRubric, showsExample, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, docPoints, exampleGapFill, matchList, playedScript, sectionRubric, showsExample, sortBank, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields, headerSchool, headerTitle } from "./paper-header.js";
@@ -126,7 +126,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         (s.style === "dictogloss" || s.style === "running" ? [] : s.sentences).forEach((x) => children.push(item(x.n, [run(x.text), ...(s.style === "gapped" ? [run(`   (${x.answers.join(", ")})`, { color: "777777", size: 18 })] : []), ...(x.letter ? [run(`   picture ${x.letter.toUpperCase()}`, { color: "777777", size: 18 })] : [])])));
         return;
       }
-      if (s.script?.length) children.push(box(s.script.map((l) => para([run(`${l.speaker}: `, { bold: true, size: 20 }), run(l.text, { size: 20 })]))));
+      if (s.script?.length) children.push(box(playedScript(s, meta.layout).map((l) => para([run(`${l.speaker}: `, { bold: true, size: 20 }), run(l.text, { size: 20 })]))));
       if (s.answerType === "open") {
         if (s.skill === "speaking" && s.cards?.length) {
           if (s.warmup?.length) { children.push(para([run("Warm-up", { bold: true, size: 19 })])); s.warmup.forEach((q, k) => children.push(item(k + 1, [run(q)]))); }
@@ -157,17 +157,25 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       else children.push(...lines(s.style === "running" ? Math.max(6, Math.ceil((s.textWords || 60) / 8)) : s.sentences.length));
       return;
     }
-    if (s.passage && (s.skill !== "writing" || s.task === "W-MESSAGE")) children.push(box([...(s.passageTitle ? [para([run(s.passageTitle, { bold: true })])] : []), ...s.passage.split(/\n+/).map((p) => para([run(gapText(p), { size: 21 })], { spacing: { after: 1 * MM } }))]));
+    if (s.passage && (s.skill !== "writing" || s.task === "W-MESSAGE")) {
+      // The example's gap "(0)": written in while the example is printed, the plain word or sentence while hidden.
+      const fill = exampleGapFill(s, meta.layout);
+      const passageRuns = (p) => String(p).split(/(\(\s*0\s*\)\s*_{3,})/).filter(Boolean).flatMap((bit) => (fill && /^\(\s*0\s*\)\s*_{3,}$/.test(bit)
+        ? fill.shown ? [run("(0) ", { bold: true, size: 21 }), run(fill.text, { italics: true, size: 21, color: "555555" })] : [run(fill.text, { size: 21 })]
+        : [run(gapText(bit), { size: 21 })]));
+      children.push(box([...(s.passageTitle ? [para([run(s.passageTitle, { bold: true })])] : []), ...s.passage.split(/\n+/).map((p) => para(passageRuns(p), { spacing: { after: 1 * MM } }))]));
+    }
     if (s.bank?.length) {
       if (s.answerType === "match") matchList(s, meta.layout).defs.forEach((b) => children.push(para([run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text, { size: 20 })], { indent: { left: 8 * MM } })));
       // The words to sort: the example's word crossed out (it is already in the table).
-      else if (s.task === "V-SORT") children.push(box([para(s.bank.flatMap((w, k) => [...(k ? [run("     •     ", { bold: true })] : []), new d.TextRun({ text: w, font: FONT, size: scaledSize(22, textSize), bold: true, strike: w === s.example?.prompt, color: w === s.example?.prompt ? "8A8A8A" : undefined })]))]));
+      // (Hidden, the example isn't on the paper, so neither is its word.)
+      else if (s.task === "V-SORT") children.push(box([para(sortBank(s, meta.layout).flatMap((b, k) => [...(k ? [run("     •     ", { bold: true })] : []), new d.TextRun({ text: b.word, font: FONT, size: scaledSize(22, textSize), bold: true, strike: b.done, color: b.done ? "8A8A8A" : undefined })]))]));
       else children.push(box([para([run(s.bank.join("     •     "), { bold: true })])]));
     }
     // "Put the words in groups": a column per group, the same number of lines in each; the example's word written in.
     if (s.task === "V-SORT") {
-      const rows = sortRows(s);
-      const ex = teacher || showsExample(s, meta.layout) ? s.example : null;
+      const rows = sortRows(s, meta.layout);
+      const ex = showsExample(s, meta.layout) ? s.example : null;
       const cols = (s.groups || []).map((g) => [ex, ...s.items].filter((it) => it && it.answer === g));
       const cell = (children, head) => new d.TableCell({ margins: { top: 1.4 * MM, bottom: 1.4 * MM, left: 2 * MM, right: 2 * MM }, shading: head ? { fill: "F1F0EB", type: d.ShadingType.CLEAR, color: "auto" } : undefined, children });
       children.push(new d.Table({

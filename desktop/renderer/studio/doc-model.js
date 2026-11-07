@@ -8,7 +8,8 @@ import { readingText } from "./reading-texts.js";
 import { balancedPositions, binaryBalance } from "./answer-balance.js";
 import { fitWordBox, countExtraWords, repeatedAnswers, withExtraWords } from "./word-box.js";
 import { containsForm } from "./word-scope.js";
-import { scriptKeys } from "./listening-sync.js";
+import { scriptKeys, isMark } from "./listening-sync.js";
+import { gapFitProblem, passageGapSentence } from "./gap-fit.js";
 
 /** Letters for options, matching meanings and order boxes: enough for the longest part (12 questions + the example). */
 export const LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -501,6 +502,9 @@ function openPictures(taskId, raw, ctx) {
   return out;
 }
 
+/** Parts whose questions are sentences (or a text) with a gap for the answer: checked by studio/gap-fit.js. */
+const WORDING_TASKS = new Set(["V-BANK", "V-MC", "V-COLLOC", "V-FAMMC", "V-FORM", "G-MC", "G-FORM", "L-GAP", "L-NOTES", "R-GAP", "R-MCCLOZE", "G-CLOZE"]);
+
 /**
  * A planned section filled with the AI's content.
  * plan: { id, task, items, pointsEach?, points? } · raw: the AI's object for that section.
@@ -653,6 +657,13 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     const unsure = items.filter((it) => it.evidence && !source.includes(squash(it.evidence))).map((it) => it.n);
     if (source && unsure.length) problems.push(`check the answer${unsure.length > 1 ? "s" : ""} to item${unsure.length > 1 ? "s" : ""} ${unsure.join(", ")} against the ${section.script.length ? "script" : "text"}`);
   }
+  // The words around each gap must fit its answer ("My ________ works on a farm." → farmer; "a ________" → apple).
+  if (WORDING_TASKS.has(plan.task)) items.forEach((it) => {
+    const text = /_{3,}/.test(it.prompt || "") ? it.prompt : section.passage ? passageGapSentence(section.passage, it.n) : "";
+    const grammar = task.skill === "grammar";
+    const p = text ? gapFitProblem(text, it.answer, { vocab: ctx.vocab || [], options: task.answer === "choice" && !grammar ? it.options : [] }) : "";
+    if (p) problems.push(`item ${it.n}: ${p}`);
+  });
   // The questions the recording was written for (kept through edits; a new script fits every question it has now).
   if (task.skill === "listening" && section.script.length) section.scriptFor = Array.isArray(raw.scriptFor) ? raw.scriptFor : scriptKeys(section);
   section.problems = problems;
@@ -679,8 +690,61 @@ function sortGroups(section, raw, example, items, problems) {
   section.bank = shuffled(all.map((it) => it.prompt).filter(Boolean));
 }
 
-/** The rows of a "Put the words in groups" table: as many as the biggest group (so the table gives nothing away). */
-export const sortRows = (section) => Math.max(1, ...(section?.groups || []).map((g) => [section.example, ...(section.items || [])].filter((it) => it?.answer === g).length));
+/**
+ * The rows of a "Put the words in groups" table: as many as the biggest group (so the table gives nothing away) —
+ * counting the example's word only while the example is printed.
+ */
+export const sortRows = (section, layout = {}) => {
+  const ex = showsExample(section, layout) ? section.example : null;
+  return Math.max(1, ...(section?.groups || []).map((g) => [ex, ...(section.items || [])].filter((it) => it?.answer === g).length));
+};
+
+/**
+ * The box of words to sort, as printed: [{ word, done }]. While the example is printed its word is in the box,
+ * crossed out (it is already in the table, as in Cambridge tasks); hidden, the example is not on the paper at all,
+ * so its word is left out of the box too — never a crossed-out word with no example to explain it.
+ */
+export function sortBank(section, layout = {}) {
+  const exWord = section?.example?.prompt || "";
+  const shown = showsExample(section, layout);
+  let met = false;
+  return (section?.bank || []).flatMap((w) => {
+    if (exWord && !met && w === exWord) { met = true; return shown ? [{ word: w, done: true }] : []; }
+    return [{ word: w, done: false }];
+  });
+}
+
+/**
+ * A text with the example's gap "(0) ________" (gap-fill and missing-sentence texts): what stands in that gap.
+ * While the example is printed it is written in, Cambridge style (its word, or the letter of its sentence);
+ * hidden, the sentence is simply complete — the example's word or sentence as plain text, no "(0)", no empty line.
+ * Returns { shown, text } or null when the text has no example gap or the example has no answer.
+ */
+export function exampleGapFill(section, layout = {}) {
+  const ex = section?.example;
+  if (!ex?.answer || !/\(\s*0\s*\)\s*_{3,}/.test(section?.passage || "")) return null;
+  const shown = showsExample(section, layout);
+  if (!shown) return { shown, text: String(ex.answer) };
+  if (section.answerType === "match") return { shown, text: (matchList(section, layout).letterOf(ex.answer) || "").toUpperCase() || String(ex.answer) };
+  if (section.answerType === "choice" && Number.isInteger(ex.answerIndex) && ex.options?.[ex.answerIndex]) return { shown, text: ex.options[ex.answerIndex] };
+  return { shown, text: String(ex.answer) };
+}
+
+/**
+ * A listening part's script as played and printed. "Listen for the main idea" has one short recording per question,
+ * opened by the narrator ("Example.", "Number 1." …): while the example is hidden from the paper, its recording is
+ * left out too, so the children never hear an "Example" they can't see. Other parts keep the whole script (the
+ * example's detail is just one more detail, like a distractor).
+ */
+export function playedScript(section, layout = {}) {
+  const script = Array.isArray(section?.script) ? section.script : [];
+  if (section?.task !== "L-GIST" || !section.example || showsExample(section, layout)) return script;
+  const start = script.findIndex((l) => isMark(l) && /^example\b/i.test(l.text.trim()));
+  if (start < 0) return script;
+  let end = script.findIndex((l, i) => i > start && isMark(l));
+  if (end < 0) end = script.length;
+  return [...script.slice(0, start), ...script.slice(end)];
+}
 
 /** How own sentences are marked (teacher's pack, paper and Word). */
 export const USE_MARKING = (s) => `Any sentence that shows the word's meaning is right — the model is one example. ${s.pointsEach >= 2 ? `${s.pointsEach} points each: 1 for using the word with the right meaning, ${s.pointsEach - 1} for a correct sentence (grammar, spelling).` : "1 point for a correct sentence that shows the meaning."}`;
