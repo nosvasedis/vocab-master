@@ -14,6 +14,10 @@
 - **Sizes:** Setup 119.8 MB (Electron 3.5.6: 182 MB), Portable 156.2 MB (182 MB); the rest is pictures and voice clips.
 - **Tests:** `npm run test:shell` 34 Rust tests (ChatGPT suite ported, keychain round trip, live plan/blob sha, loopback, paths); `npm test` 701 green; `npm run smoke` green on the Tauri shell (editor, projector, word bank, 7 games, voices isolated + WASM + worker, Word/PDF/WAV pack, PDF not blank). Checked with a copy of the real data folder: all 26 stored keys hydrate, DeepSeek/Gemini keys decrypt and work (balance 200, 50 Gemini models), ChatGPT file decrypts (1 signed-in connection), Firebase accepts the new origin.
 
+## Short test lines in two columns from 5 questions (2026-11-08, from the user; pages only, on main)
+- A "Match words and meanings" part with 8 words printed one column with most of the line empty. `testPartColumns` (studio/item-columns.js) now also puts a part into two columns from **5** questions when every line is very short (`SHORT_LINE` 24 characters at standard size, less with larger text; short answers only), on the paper, the projector and in Word. Longer lines keep the old rule (10+ questions, lines up to 40 characters); worksheets are unchanged.
+- Test in `tests/listening-flow.test.mjs`; `npm test` 719 green. Checked in the browser preview: 8 words to match, 1–4 on the left and 5–8 beside them.
+
 ## Listening fixes and choices, one Header dialog, list editors, leaving closes (2026-11-08, from the user; pages only, on main)
 - **Studio voices 400** ("Unknown parameter 'mode' at generation_config.speech_config"): Google dropped `mode` from the multi-speaker config — removed (`studio/gemini-voice.js`, `scripts/lib/gemini-tts.mjs`).
 - **Natural voices "not playing" after a studio try:** a stopped player's late `onEnd` cleared the *new* player (Test Maker, Dictation, Settings sample), so the next Play started a second one over it. Each player now only touches its own state (`mine()` checks). Saving a WAV falls back from studio to natural like playing does (`makeClips` in listening.js).

@@ -83,3 +83,14 @@ test("words in one worksheet exercise: its words with their lines, and the ones 
   assert.deepEqual(ew.here.map((w) => [w.english, w.lines, w.only]), [["volcano", [1, 3], true], ["island", [2], false]]);
   assert.deepEqual(ew.others.map((w) => [w.english, w.status]), [["forest", "missing"], ["desert", "other"]]);
 });
+
+test("short matching lists go into two columns from 5 questions; long lines and short lists stay in one", async () => {
+  const { testPartColumns } = await import("../desktop/renderer/studio/item-columns.js");
+  const words = ["dog", "cow", "fish", "horse", "sheep", "bird", "goat", "duck"];
+  const s = { answerType: "match", task: "V-MATCH", example: { prompt: "cat" }, items: words.map((prompt) => ({ prompt, answer: "x" })) };
+  assert.equal(testPartColumns(s), true, "8 words to match");
+  assert.equal(testPartColumns({ ...s, items: s.items.slice(0, 5) }), true, "5 words");
+  assert.equal(testPartColumns({ ...s, items: s.items.slice(0, 4) }), false, "4 words: one column");
+  assert.equal(testPartColumns({ ...s, items: s.items.map((it) => ({ ...it, prompt: "a much longer line that needs the width" })) }), false, "long lines need the whole width");
+  assert.equal(testPartColumns(s, { textSize: "xlarge" }), true, "short words fit even in large print");
+});

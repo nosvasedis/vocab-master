@@ -8,6 +8,9 @@ import { textZoom } from "./text-size.js";
 export const COLUMN_MIN_ITEMS = 10;
 /** About this many characters fit one line of a half-width column at the standard text size (A4, 11 pt). */
 const HALF_LINE = 40;
+/** Test lines this short (a word and its answer line) go into two columns from SHORT_MIN_ITEMS questions. */
+const SHORT_LINE = 24;
+export const SHORT_MIN_ITEMS = 5;
 const GAP = /_{3,}/g;
 
 /** One word or one letter (a, T, Yes, rainforest, well-known) — never a phrase or a sentence. */
@@ -29,9 +32,9 @@ export function printedLength({ prompt = "", hint = "", options = [], extra = 0 
  * Two columns only when there are enough lines, every answer is short and every line fits half the width
  * (so the lines don't wrap and the columns really save space). Larger text needs shorter lines.
  */
-export function useTwoColumns(rows, { count = rows?.length || 0, textSize = "standard", minItems = COLUMN_MIN_ITEMS } = {}) {
+export function useTwoColumns(rows, { count = rows?.length || 0, textSize = "standard", minItems = COLUMN_MIN_ITEMS, half = HALF_LINE } = {}) {
   if (!Array.isArray(rows) || count < minItems || !rows.length) return false;
-  const limit = Math.floor(HALF_LINE / textZoom(textSize));
+  const limit = Math.floor(half / textZoom(textSize));
   return rows.every((r) => r && r.short && r.length <= limit);
 }
 
@@ -63,5 +66,8 @@ export function testPartColumns(section, { textSize, withExample = true } = {}) 
   const items = section?.items || [];
   if (!["choice", "tf", "match", "word"].includes(section?.answerType) || ["V-PIC", "V-TICK", "V-SORT", "V-USE", "R-CONV", "R-SENT"].includes(section?.task)) return false;
   const rows = [...(withExample && section.example ? [section.example] : []), ...items].map((it) => testItemRow(section, it));
+  // Very short lines (a word to match, a short statement) leave most of the line empty: from 5 questions they
+  // sit in two columns too, so the part takes half the height.
+  if (useTwoColumns(rows, { count: items.length, textSize, minItems: SHORT_MIN_ITEMS, half: SHORT_LINE })) return true;
   return useTwoColumns(rows, { count: items.length, textSize });
 }
