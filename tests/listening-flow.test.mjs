@@ -71,3 +71,15 @@ test("words in one part: the ones it tests (with their questions, only-here) and
   assert.deepEqual(p.others.map((w) => w.english), ["sheep", "fish"], "untested first: sheep is missing, fish only an option");
   assert.equal(p.total, 4);
 });
+
+test("words in one worksheet exercise: its words with their lines, and the ones it could take (this sheet's gaps first)", async () => {
+  const { exerciseWords } = await import("../desktop/renderer/studio/quality-check.js");
+  const line = (number, answer) => ({ number, prompt: "We saw the ________.", answer });
+  const data = {
+    lingoLauncher: { vocabulary: ["volcano", "island", "forest", "desert"].map((english) => ({ english })), practice: [{ number: 1, typeId: "L01", items: [line(1, "desert")] }] },
+    dictation: { exercises: [{ number: 1, typeId: "D01", items: [line(1, "volcano"), line(2, "island"), line(3, "volcano")] }, { number: 2, typeId: "D02", items: [line(1, "island")] }] },
+  };
+  const ew = exerciseWords(data, "dictation", 1);
+  assert.deepEqual(ew.here.map((w) => [w.english, w.lines, w.only]), [["volcano", [1, 3], true], ["island", [2], false]]);
+  assert.deepEqual(ew.others.map((w) => [w.english, w.status]), [["forest", "missing"], ["desert", "other"]]);
+});

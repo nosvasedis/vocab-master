@@ -141,3 +141,30 @@ export function friendlyReason(reason = "") {
   if (/must contain a mistake/i.test(r)) return "the sentence has no mistake to correct";
   return cap(r.replace(/\s+—\s+e\.g\..*$/i, ""));
 }
+
+/**
+ * The unit words of one worksheet exercise, for its settings' "Words in this exercise" panel (from the word check).
+ * sheet: "dictation" | "lingo"; exercise: its number.
+ * here: { english, lines: [line numbers], only: no other exercise on this sheet tests it };
+ * others: the words it doesn't test, the ones this sheet doesn't test at all first —
+ *   { english, status: "missing" (neither sheet) | "other" (only the other sheet) | "tested" (elsewhere on this sheet) }.
+ */
+export function exerciseWords(data, sheet, exercise) {
+  const cov = wordCoverage(data);
+  const other = sheet === "dictation" ? "lingo" : "dictation";
+  const here = [];
+  const others = [];
+  for (const w of cov.words) {
+    const mine = (w[sheet] || []).filter((a) => a.exercise === exercise);
+    if (mine.length) {
+      here.push({ english: w.head, lines: [...new Set(mine.map((a) => a.item))].sort((a, b) => a - b), only: !(w[sheet] || []).some((a) => a.exercise !== exercise) });
+    } else {
+      const status = (w[sheet] || []).length ? "tested" : (w[other] || []).length ? "other" : "missing";
+      others.push({ english: w.head, status });
+    }
+  }
+  const rank = { missing: 0, other: 1, tested: 2 };
+  here.sort((a, b) => a.lines[0] - b.lines[0]);
+  others.sort((a, b) => rank[a.status] - rank[b.status]);
+  return { here, others, total: cov.words.length };
+}

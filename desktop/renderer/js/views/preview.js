@@ -19,6 +19,7 @@ import { productFileName, safeFileName } from "../../studio/file-names.js";
 import { wsItemView, WS_HELP, helpMode, helpModes, familyBase, splitClue, joinAB, joinSteps } from "../../studio/ws-paper.js";
 import { letterHelpField } from "./letter-help-ui.js";
 import { listField, wireLists, listValues } from "../list-field.js";
+import { exerciseWords } from "../../studio/quality-check.js";
 
 let sheetSeg;
 let densitySeg;
@@ -258,26 +259,36 @@ function onPaperActivate(e) {
 
 /* ── Delete one line: the exercise renumbers, its answer leaves the word box, the answer key follows ── */
 function deleteLine(sheet, exIndex, itemIndex) {
+  const item = getExercise(sheet, exIndex)?.items?.[itemIndex];
+  if (item) deleteLines(sheet, exIndex, [itemIndex], `Line ${item.number} deleted`);
+}
+
+/** Take lines out of an exercise (0-based indexes), with their answers out of its word box / list; one Undo. */
+function deleteLines(sheet, exIndex, itemIndexes, said) {
   const ex = getExercise(sheet, exIndex);
-  const item = ex?.items?.[itemIndex];
-  if (!ex || !item) return;
-  if (ex.items.length <= 1) { toast("An exercise needs at least one line — edit or remake this one instead.", "warn", { ms: 4500 }); return; }
+  if (!ex) return false;
+  const drop = [...new Set(itemIndexes)].filter((k) => ex.items[k]).sort((a, b) => b - a);
+  if (!drop.length) return false;
+  if (ex.items.length - drop.length < 1) { toast("An exercise needs at least one line — edit or remake this one instead.", "warn", { ms: 4500 }); return false; }
   const before = JSON.stringify(state.data);
   const lc = (x) => String(typeof x === "string" ? x : x?.english || x?.text || x?.word || "").trim().toLowerCase();
-  const [gone] = ex.items.splice(itemIndex, 1);
-  ex.items.forEach((it, i) => { it.number = i + 1; });
-  // Its answer leaves the word box / word list too, unless another line still needs it (lettered answers stay).
-  const answer = lc(gone?.answer);
-  if (answer.length > 1 && !ex.items.some((it) => lc(it.answer) === answer)) {
-    for (const key of ["wordBank", "wordList"]) {
-      const at = Array.isArray(ex[key]) ? ex[key].findIndex((w) => lc(w) === answer) : -1;
-      if (at >= 0) ex[key].splice(at, 1);
+  for (const k of drop) {
+    const [gone] = ex.items.splice(k, 1);
+    // Its answer leaves the word box / word list too, unless another line still needs it (lettered answers stay).
+    const answer = lc(gone?.answer);
+    if (answer.length > 1 && !ex.items.some((it) => lc(it.answer) === answer)) {
+      for (const key of ["wordBank", "wordList"]) {
+        const at = Array.isArray(ex[key]) ? ex[key].findIndex((w) => lc(w) === answer) : -1;
+        if (at >= 0) ex[key].splice(at, 1);
+      }
     }
   }
+  ex.items.forEach((it, i) => { it.number = i + 1; });
   state.data = normalizeWorksheetExercises(state.data);
   persistSession();
   renderPreview();
-  toast(`Line ${item.number} deleted — ${plural(ex.items.length, "line")} left in exercise ${ex.number}.`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); } }] });
+  toast(`${said} — ${plural(ex.items.length, "line")} left in exercise ${ex.number}.`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => { state.data = JSON.parse(before); persistSession(); renderPreview(); } }] });
+  return true;
 }
 
 /* ── Add lines after a line: Lingo writes new ones (how many, words, a wish), or a copy to edit ── */
@@ -964,7 +975,7 @@ function openExerciseSettings(sheet, exIndex) {
     subtitle: `${ex.typeId} · ${EXERCISE_LABELS[ex.typeId] || ex.typeId}`,
     iconName: "sliders",
     sheet: true,
-    body: `
+    body: `${exerciseWordsHtml(sheet, ex)}
       <div class="field"><label class="label" for="es_instr">What the children read <span class="opt">empty = the app's line, which fits what is printed</span></label>
         <textarea class="textarea" id="es_instr" rows="2" placeholder="${esc(appLine)}">${esc(own)}</textarea></div>
       ${modes.length ? `<div class="field"><span class="label">${family ? "Word help" : "Letter help"} <span class="opt">the whole exercise — the app draws the letter boxes</span></span>
@@ -975,6 +986,11 @@ function openExerciseSettings(sheet, exIndex) {
     onMount(root, close) {
       let clearOwn = false;
       const pending = new Set();
+      // A words-panel action first keeps what was changed above (Save), then acts on the sheet as it is now.
+      let dirty = false;
+      root.addEventListener("input", (e) => { if (!e.target.closest("[data-wp]")) dirty = true; });
+      root.addEventListener("click", (e) => { if (e.target.closest("[data-mode], [data-es-clear], [data-es-mix]")) dirty = true; });
+      wireExerciseWords(root, sheet, exIndex, () => { if (dirty) root.querySelector("[data-save]").click(); else close(); });
       root.querySelector("[data-es-modes]")?.addEventListener("click", (e) => {
         const b = e.target.closest("[data-mode]");
         if (!b) return;
@@ -1006,6 +1022,114 @@ function openExerciseSettings(sheet, exIndex) {
       });
     },
   });
+}
+
+/* ── "Words in this exercise": the word check for one exercise, in its settings ── */
+const WP_TONE = { missing: "cov-bad", other: "cov-warn", tested: "cov-good" };
+const WP_TIP = { missing: "Not tested on either sheet", other: "Only on the other sheet", tested: "Tested in another exercise of this sheet" };
+
+function exerciseWordsHtml(sheet, ex) {
+  const ew = exerciseWords(state.data, sheet, ex.number);
+  if (!ew.total) return "";
+  const lines = (ns) => `${ns.length > 1 ? "lines" : "line"} ${ns.join(", ")}`;
+  const here = ew.here.length
+    ? ew.here.map((w) => `<span class="wp-chip${w.only ? " only" : ""}" data-ftip="${esc(w.only ? "No other exercise on this sheet tests it" : "Another exercise on this sheet tests it too")}"><b>${esc(w.english)}</b><small>${esc(lines(w.lines))}</small><button type="button" class="wp-x" data-wp-x="${esc(w.english)}" aria-label="Take “${esc(w.english)}” out of this exercise">${icon("x", "i-xs")}</button></span>`).join("")
+    : `<span class="wp-none">No unit word is tested here yet.</span>`;
+  const room = MAX_LINES - ex.items.length;
+  const others = ew.others.map((w) => `<button type="button" class="wp-add ${WP_TONE[w.status]}" data-wp-add="${esc(w.english)}" aria-pressed="false" data-ftip="${esc(WP_TIP[w.status])}">${icon("plus", "i-xs")}${esc(w.english)}</button>`).join("");
+  const untested = ew.others.filter((w) => w.status !== "tested").length;
+  return `<section class="wp" data-wp>
+    <header><span>${icon("target", "i-xs")}<b>Words in this exercise</b></span><small>${plural(ew.here.length, "word")} of ${ew.total} · from the word check</small></header>
+    <div class="wp-here">${here}</div>
+    <div class="wp-confirm" data-wp-confirm hidden></div>
+    ${others ? `<details class="wp-more"${ew.here.length ? "" : " open"}><summary>${icon("plus", "i-xs")}Add words from the word check <small>${untested} not on this sheet yet</small></summary>
+      <div class="wp-others">${others}</div>
+      <div class="wp-go"><button type="button" class="btn btn-magic btn-sm" data-wp-place disabled${room > 0 ? "" : ` data-full`}>${icon("sparkles", "i-sm")}<span>Add lines with them</span></button><small>${room > 0 ? `Lingo writes one new line for each word, at the end (room for ${plural(room, "more line")}).` : `The exercise is full (${MAX_LINES} lines) — take a word out first.`}</small></div>
+    </details>` : ""}
+  </section>`;
+}
+
+/** done(): keep the settings above and close the dialog — every action then works on the sheet as it is. */
+function wireExerciseWords(root, sheet, exIndex, done) {
+  const box = root.querySelector("[data-wp]");
+  if (!box) return;
+  const pick = [];
+  const confirmEl = box.querySelector("[data-wp-confirm]");
+  const go = box.querySelector("[data-wp-place]");
+  const exNow = () => getExercise(sheet, exIndex);
+  box.addEventListener("click", (e) => {
+    const add = e.target.closest("[data-wp-add]");
+    if (add) {
+      const w = add.dataset.wpAdd;
+      const at = pick.indexOf(w);
+      if (at >= 0) pick.splice(at, 1); else pick.push(w);
+      add.classList.toggle("on", at < 0);
+      add.setAttribute("aria-pressed", String(at < 0));
+      const room = MAX_LINES - (exNow()?.items.length || 0);
+      go.disabled = !pick.length || room <= 0;
+      go.querySelector("span").textContent = pick.length ? `Add ${pick.length > 1 ? `${Math.min(pick.length, room)} lines` : `a line with “${pick[0]}”`}` : "Add lines with them";
+      return;
+    }
+    if (e.target.closest("[data-wp-place]")) {
+      const ex = exNow();
+      if (!ex || !pick.length) return;
+      const words = pick.slice(0, MAX_LINES - ex.items.length);
+      if (!words.length) return;
+      if (!isAiReady()) { actions.openSettings(); return; }
+      done();
+      const last = getExercise(sheet, exIndex).items.length - 1;
+      addLines(sheet, exIndex, last, words.length, { words });
+      return;
+    }
+    const x = e.target.closest("[data-wp-x]");
+    if (x) { askRemove(x.dataset.wpX); return; }
+    if (e.target.closest("[data-wp-cancel]")) { confirmEl.hidden = true; confirmEl.innerHTML = ""; return; }
+    const del = e.target.closest("[data-wp-del]");
+    if (del) {
+      const lines = JSON.parse(del.dataset.wpDel);
+      const word = del.dataset.word;
+      done();
+      deleteLines(sheet, exIndex, lines.map((n) => n - 1), `“${word}” taken out (${lines.length > 1 ? `lines ${lines.join(", ")}` : `line ${lines[0]}`} deleted)`);
+      return;
+    }
+    const swap = e.target.closest("[data-wp-swap]");
+    if (swap) {
+      const neu = confirmEl.querySelector("[data-wp-new]")?.value;
+      if (!neu) return;
+      if (!isAiReady()) { actions.openSettings(); return; }
+      const lines = JSON.parse(swap.dataset.wpSwap);
+      const old = swap.dataset.word;
+      done();
+      swapLines(sheet, exIndex, lines, old, neu);
+    }
+  });
+
+  function askRemove(word) {
+    const ex = exNow();
+    if (!ex) return;
+    const ew = exerciseWords(state.data, sheet, ex.number);
+    const w = ew.here.find((x) => x.english === word);
+    if (!w) return;
+    const canDelete = ex.items.length - w.lines.length >= 1;
+    const lines = w.lines.length > 1 ? `lines ${w.lines.join(", ")}` : `line ${w.lines[0]}`;
+    const swapTo = ew.others;
+    confirmEl.innerHTML = `<p><b>“${esc(word)}”</b> is tested by ${lines}.${w.only ? ` <span class="wp-warn">${icon("alert", "i-xs")}No other exercise on this sheet tests it.</span>` : ""}</p>
+      <div class="wp-acts">
+        ${canDelete ? `<button type="button" class="btn btn-danger-ghost btn-sm" data-wp-del="${esc(JSON.stringify(w.lines))}" data-word="${esc(word)}">${icon("trash", "i-sm")}Delete ${lines}</button>` : `<span class="wp-note">The exercise needs at least one line, so it can’t be deleted.</span>`}
+        ${swapTo.length ? `<span class="wp-or">or</span><select class="select sm" data-wp-new aria-label="Another word">${swapTo.map((o) => `<option value="${esc(o.english)}">${esc(o.english)}${o.status === "tested" ? " (tested elsewhere)" : ""}</option>`).join("")}</select>
+        <button type="button" class="btn btn-magic btn-sm" data-wp-swap="${esc(JSON.stringify(w.lines))}" data-word="${esc(word)}">${icon("sparkles", "i-sm")}Lingo writes ${w.lines.length > 1 ? "them" : "it"} with this word</button>` : ""}
+        <button type="button" class="btn btn-ghost btn-sm" data-wp-cancel>Keep it</button>
+      </div>`;
+    confirmEl.hidden = false;
+  }
+}
+
+/** Lingo writes the lines that test one word again, each on another word (like ✨ Remake with a wish). */
+async function swapLines(sheet, exIndex, lines, old, neu) {
+  for (const n of lines) {
+    const k = (getExercise(sheet, exIndex)?.items || []).findIndex((it) => it.number === n);
+    if (k >= 0) await remakeLine(sheet, exIndex, k, `Build this line on the word "${neu}" instead of "${old}" — "${old}" must not be in the line any more.`);
+  }
 }
 
 function flashNode(selector) {
