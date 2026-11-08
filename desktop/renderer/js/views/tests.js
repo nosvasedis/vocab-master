@@ -295,7 +295,8 @@ function build() {
   $("tsPdf").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportPdf(sheetHtml(false), sheetTitle(), fileName())));
   $("tsWord").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportWord(sheetDoc(), ts.sheet === "teacher" ? "teacher" : "student", fileName()).catch((err) => toast(err.message, "error"))));
   $("tsListen").addEventListener("click", (e) => {
-    if (pickVoice(e)) { stopPlayer(); renderListen(); warmListening(); return; }
+    // Other voices: a track that was playing starts again with them (the new voices are made first).
+    if (pickVoice(e)) { const was = ts.playing; stopPlayer(); renderListen(); if (was) togglePlay(was); else warmListening(); return; }
     const fl = e.target.closest("[data-flow]");
     if (fl) {
       const p = ts.spec.parts.find((x) => x.id === fl.dataset.flowPart);
@@ -1366,6 +1367,8 @@ function refreshDoc() {
   ts.doc.versionB = ts.spec.versions > 1 ? makeVersionB(ts.doc) : null;
   saveDoc(ts.doc);
   renderPaper();
+  // A new or changed recording is made in the background (natural voices), so Play starts at once.
+  if (!ts.playing) warmScripts(listeningParts().map(({ s }) => heard(s)), ts.doc.meta.classProfile);
 }
 
 /* ── Paper ────────────────────────────────────────────────────────── */
@@ -1553,6 +1556,12 @@ function warnRecording(s, i) {
 }
 
 function renderListen() {
+  // The playing track's recording changed (remade, edited, a question taken out, numbers on/off) or its test closed:
+  // the old recording stops, so what is heard is always what is on the paper.
+  if (ts.playing) {
+    const s = ts.doc?.sections.find((x) => x.id === ts.playing);
+    if (!s || JSON.stringify(heard(s)) !== ts.playingScript) { stopPlayer(); if (s) toast("The recording changed — press Play to hear the new one.", "info", { ms: 3500 }); }
+  }
   const parts = listeningParts();
   if (!parts.length) { $("tsListen").innerHTML = ""; return; }
   const chars = parts.reduce((n, { s }) => n + heard(s).reduce((m, l) => m + String(l.text || "").length, 0), 0);
@@ -1600,15 +1609,17 @@ function togglePlay(id) {
   if (!s) return;
   warnRecording(s, ts.doc.sections.indexOf(s));
   ts.playing = id;
+  ts.playingScript = JSON.stringify(heard(s));
   // A stopped player finishes in the background: only the current one may touch the bar (else its late onEnd
   // would forget the new player, and the next Play would start a second one over it).
-  const mine = () => ts.player === ctl;
-  const ctl = playScript(heard(s), {
+  let ctl = null;
+  const mine = () => !!ctl && ts.player === ctl;
+  ctl = playScript(heard(s), {
     plays: s.plays,
     levelId: ts.doc.meta.classProfile,
     onStatus: (st) => {
       if (!mine()) return;
-      if (st.phase === "fallback") toast(st.message, "warn");
+      if (st.phase === "fallback") { toast(st.message, "warn"); setTimeout(() => { if (mine()) { ts.status[id] = st; renderListen(); } }); }
       if (st.phase === "prepare" && ts.status[id]?.phase === "play") return; // playing while the rest is made
       setStatus(id, st);
     },

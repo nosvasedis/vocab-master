@@ -48,8 +48,9 @@ function mountVoiceSettings(q) {
   sample.addEventListener("click", () => {
     if (player) { player.stop(); player = null; sample.innerHTML = `${icon("play", "i-sm")}Hear a sample`; render(); return; }
     sample.innerHTML = `${icon("pause", "i-sm")}Stop`;
-    const mine = () => player === ctl; // a stopped sample must not touch the next one
-    const ctl = playSample({
+    let ctl = null;
+    const mine = () => !!ctl && player === ctl; // a stopped sample must not touch the next one
+    ctl = playSample({
       onStatus: (st) => {
         if (!mine()) return;
         if (st.phase === "download") hint.textContent = `Downloading the natural voices… ${Math.round((st.progress || 0) * 100)}%`;

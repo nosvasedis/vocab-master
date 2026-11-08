@@ -228,7 +228,8 @@ function build() {
     if (again) { generate(again); return; }
   });
   $("dcVoices").addEventListener("click", (e) => {
-    if (pickVoice(e)) { if (dc.player) toggleRead(); renderVoices(); return; }
+    // Other voices: a reading that was going starts again with them.
+    if (pickVoice(e)) { const was = !!dc.player; if (was) toggleRead(); renderVoices(); if (was) toggleRead(); return; }
     const wav = e.target.closest("[data-dc-wav]");
     if (wav) saveReading(wav);
   });
@@ -644,8 +645,9 @@ function toggleRead() {
   if (dc.sheet !== "teacher") { dc.sheet = "teacher"; document.querySelector('[data-seg="dcSheet"] [data-value="teacher"]')?.click(); }
   setReadBtn(true);
   const items = () => [...paper.root.querySelectorAll(".st-key .ex-item")];
-  const mine = () => dc.player === ctl; // a stopped reading must not touch the next one
-  const ctl = readDictation(lines, {
+  let ctl = null;
+  const mine = () => !!ctl && dc.player === ctl; // a stopped reading must not touch the next one
+  ctl = readDictation(lines, {
     repeats: dc.spec.repeats,
     levelId: dc.doc.meta.classProfile,
     punctuation: !!dc.spec.punctuationAloud,

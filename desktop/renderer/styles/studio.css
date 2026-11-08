@@ -102,6 +102,7 @@
 .voice-pick .vp-opt:hover { color: var(--text); }
 .voice-pick .vp-opt.active { background: var(--brand); color: #fff; }
 .voice-pick .vp-opt.needs-setup:not(.active) { opacity: 0.55; }
+.voice-pick .vp-opt.resting.active { background: var(--warning); color: #fff; }
 .listen-bar .lb-flow { margin-left: 4px; }
 .listen-bar .lb-flow .vp-opt { padding: 5px 9px; font-size: 11px; }
 .vp-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--surface); color: var(--text-2); max-width: 100%; }

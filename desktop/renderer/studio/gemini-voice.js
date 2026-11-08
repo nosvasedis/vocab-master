@@ -80,7 +80,7 @@ export function studioError(status, bodyText = "") {
   try { detail = JSON.parse(bodyText)?.error?.message || ""; } catch { detail = String(bodyText).slice(0, 160); }
   if (status === 401 || /API key not valid|API_KEY_INVALID/i.test(detail)) return "Google rejected the Gemini key. Check it in Settings.";
   if (status === 403) return `Google refused the studio voices (403)${detail ? `: ${detail}` : ""}.`;
-  if (status === 429) return "The Gemini voice quota is used up for now (429). Natural voices are used instead.";
+  if (status === 429) return "The Gemini voice quota is used up for now (429).";
   if (status >= 500) return `Gemini voices are having trouble right now (${status}).`;
   return `Gemini voices error ${status}${detail ? `: ${detail}` : ""}`;
 }

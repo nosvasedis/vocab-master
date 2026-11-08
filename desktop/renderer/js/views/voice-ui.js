@@ -3,7 +3,7 @@
 import { esc, icon, toast } from "../ui.js";
 import { actions } from "../actions.js";
 import { ENGINES } from "../../studio/voice-cast.js";
-import { chosenEngine, setEngine, activeEngine, studioAvailable, naturalSupported, studioCostFor, NATURAL_DOWNLOAD_MB } from "../voices/listening.js";
+import { chosenEngine, setEngine, activeEngine, studioAvailable, naturalSupported, studioCostFor, studioProblem, retryStudio, NATURAL_DOWNLOAD_MB } from "../voices/listening.js";
 
 const SHORT = { natural: "Natural", studio: "Studio", computer: "Computer" };
 
@@ -12,8 +12,9 @@ export function voicePickerHtml() {
   const on = chosenEngine();
   return `<div class="voice-pick" role="group" aria-label="Voices">${Object.keys(ENGINES).map((id) => {
     const off = (id === "studio" && !studioAvailable()) || (id === "natural" && !naturalSupported());
-    const tip = id === "studio" && !studioAvailable() ? "Add a Gemini key in Settings to use the studio voices" : `${ENGINES[id].label}: ${ENGINES[id].note}`;
-    return `<button type="button" class="vp-opt${on === id ? " active" : ""}${off ? " needs-setup" : ""}" data-voice="${id}" aria-pressed="${on === id}" data-tip="${esc(tip)}">${SHORT[id]}</button>`;
+    const resting = id === "studio" && on === "studio" && studioAvailable() && studioProblem();
+    const tip = id === "studio" && !studioAvailable() ? "Add a Gemini key in Settings to use the studio voices" : resting ? `${resting} The natural voices read for now — click to try the studio voices again.` : `${ENGINES[id].label}: ${ENGINES[id].note}`;
+    return `<button type="button" class="vp-opt${on === id ? " active" : ""}${off ? " needs-setup" : ""}${resting ? " resting" : ""}" data-voice="${id}" aria-pressed="${on === id}" data-tip="${esc(tip)}">${SHORT[id]}</button>`;
   }).join("")}</div>`;
 }
 
@@ -26,7 +27,8 @@ export function pickVoice(e) {
     toast("The studio voices use your own Gemini key (about 2 cents per test). Add one in Settings → AI service → Google Gemini.", "info", { actions: [{ label: "Open settings", run: () => actions.openSettings() }] });
     return false;
   }
-  if (id === chosenEngine()) return false;
+  // Studio chosen but resting (quota, key): clicking it again tries it again.
+  if (id === chosenEngine()) { if (id === "studio" && studioProblem()) { retryStudio(); return true; } return false; }
   setEngine(id);
   return true;
 }
@@ -34,6 +36,8 @@ export function pickVoice(e) {
 /** One line under the tracks: what the chosen voices are and what they cost. chars = characters to speak. */
 export function voiceNote(chars = 0, { downloaded = true } = {}) {
   const engine = activeEngine();
+  const resting = chosenEngine() === "studio" && studioAvailable() && studioProblem();
+  if (resting) return `Studio voices are resting: ${resting.replace(/\s*Natural voices are used instead\.?/, "")} The free natural voices read the listening for now — click Studio to try again.`;
   if (engine === "studio") {
     const cents = Math.max(0.1, studioCostFor(chars) * 100);
     return `Studio voices (Gemini, your key): about ${cents < 1 ? cents.toFixed(1) : Math.round(cents)} ¢ for this listening, made once and kept on this computer.`;

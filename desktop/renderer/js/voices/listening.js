@@ -18,13 +18,37 @@ export const NATURAL_DOWNLOAD_MB = 92;
 export const naturalSupported = () => typeof Worker !== "undefined" && typeof WebAssembly !== "undefined" && typeof indexedDB !== "undefined";
 export const studioAvailable = () => !!getApiKey("gemini");
 
-/** The engine the teacher chose. */
+/** The engine the teacher chose. Choosing the studio voices again tries them again (after a quota or key problem). */
 export const chosenEngine = () => engineOf(prefs.listeningVoices);
-export function setEngine(id) { prefs.listeningVoices = engineOf(id); savePrefs(); }
+export function setEngine(id) {
+  prefs.listeningVoices = engineOf(id);
+  if (prefs.listeningVoices === "studio") studioDown = null;
+  savePrefs();
+}
 
-/** The engine that will actually speak (studio needs a Gemini key; natural needs WebAssembly). */
+/*
+ * When the studio voices fail (the quota is used up, Google refuses the key, Google is down), the natural voices take
+ * over — and stay in for a while, so the next Play starts at once instead of asking Google and waiting for the same
+ * error. Quota: an hour; key refused: until the key changes; Google's own trouble or the network: a few minutes.
+ */
+let studioDown = null; // { key, until, message }
+function markStudioDown(err) {
+  const st = err?.status || 0;
+  const ms = st === 429 ? 60 * 60e3 : st === 401 || st === 403 ? Infinity : st >= 500 ? 5 * 60e3 : 2 * 60e3;
+  studioDown = { key: getApiKey("gemini"), until: Date.now() + ms, message: err?.message || "The studio voices didn’t answer." };
+}
+/** Why the studio voices are resting now ("" when they aren't). */
+export function studioProblem() {
+  if (!studioDown) return "";
+  if (Date.now() > studioDown.until || studioDown.key !== getApiKey("gemini")) { studioDown = null; return ""; }
+  return studioDown.message;
+}
+/** Try the studio voices again on the next Play. */
+export function retryStudio() { studioDown = null; }
+
+/** The engine that will actually speak (studio needs a working Gemini key; natural needs WebAssembly). */
 export function activeEngine(choice = chosenEngine()) {
-  if (choice === "studio" && !studioAvailable()) return naturalSupported() ? "natural" : "computer";
+  if (choice === "studio" && (!studioAvailable() || studioProblem())) return naturalSupported() ? "natural" : "computer";
   if (choice === "natural" && !naturalSupported()) return "computer";
   return choice;
 }
@@ -151,12 +175,16 @@ function studioFetch(body) {
   return studioSlot(async () => {
     const key = getApiKey("gemini");
     if (!key) throw new Error("Add a Gemini key in Settings to use the studio voices.");
-    const res = await fetch("/gemini/v1beta/interactions", { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(body) });
-    const text = await res.text();
-    if (!res.ok) throw Object.assign(new Error(studioError(res.status, text)), { status: res.status });
+    let res;
+    let text = "";
+    try {
+      res = await fetch("/gemini/v1beta/interactions", { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(body) });
+      text = await res.text();
+    } catch { throw Object.assign(new Error("The studio voices couldn’t be reached (no internet, or Google is down)."), { studio: true }); }
+    if (!res.ok) throw Object.assign(new Error(studioError(res.status, text)), { status: res.status, studio: true });
     let b64 = "";
     try { b64 = replyAudio(JSON.parse(text)); } catch { /* not JSON */ }
-    if (!b64) throw new Error("Gemini sent no audio — try again.");
+    if (!b64) throw Object.assign(new Error("Gemini sent no audio — try again."), { studio: true, status: 500 });
     const bin = atob(b64);
     const bytes = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
@@ -246,21 +274,105 @@ function controller() {
   return ctl;
 }
 const pause = (ms, ctl) => new Promise((r) => { const t = setTimeout(r, ms); ctl.timers.push(t); ctl.wake = r; });
-function playSamples(samples, ctl) {
-  if (ctl.stopped) return Promise.resolve();
+async function playSamples(samples, ctl) {
+  if (ctl.stopped) return;
   ctl.ctx ||= new AudioContext();
+  // A sound device that went to sleep (or a context made while the window was hidden) starts suspended: wake it,
+  // or nothing is heard and the track never moves on.
+  if (ctl.ctx.state === "suspended") { try { await ctl.ctx.resume(); } catch { /* ignore */ } }
+  if (ctl.stopped) return;
   const buf = ctl.ctx.createBuffer(1, samples.length, RATE);
   buf.copyToChannel(level(samples), 0);
   const src = ctl.ctx.createBufferSource();
   src.buffer = buf;
   src.connect(ctl.ctx.destination);
   ctl.sources.push(src);
-  return new Promise((resolve) => { src.onended = resolve; ctl.wake = resolve; src.start(); });
+  await new Promise((resolve) => {
+    // The clip's own length is the latest it can end: a context that stays asleep never fires onended.
+    const t = setTimeout(resolve, (samples.length / RATE) * 1000 + 1500);
+    ctl.timers.push(t);
+    src.onended = () => { clearTimeout(t); resolve(); };
+    ctl.wake = resolve;
+    src.start();
+  });
 }
-/** Tell the UI how many clips are ready, as they finish. */
-function trackReady(promises, status) {
+
+/**
+ * Wait until the track can play through without stopping for a clip that is still being made: all clips are ready,
+ * or the ready ones at the start already last longer than making the rest will take (the natural voices make one
+ * clip at a time; a teacher hears the start sooner, never a long silence in the middle). The studio voices are
+ * waited for completely (a clip that fails half-way would change the voices mid-track).
+ * durationOf(i, clip): seconds that part of the track lasts (clip + the pause after it).
+ * onProgress(done, total) as clips finish. Rejects with the first error.
+ */
+function readyToStart(clips, { waitAll = false, durationOf, onProgress, ctl }) {
+  const n = clips.length;
+  const got = new Array(n);
   let done = 0;
-  promises.forEach((p) => p.then(() => status?.(++done), () => {}));
+  let last = performance.now();
+  const gaps = [];
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    const finish = (fn) => { if (!settled) { settled = true; fn(); } };
+    const check = () => {
+      if (ctl.stopped) return finish(resolve);
+      if (done === n) return finish(resolve);
+      if (waitAll) return;
+      let k = 0;
+      let secs = 0;
+      while (k < n && got[k]) { secs += durationOf(k, got[k]); k++; }
+      if (!k) return;
+      // How long one clip takes to make: the recent gaps between finished clips (a clip from the cache comes at once).
+      const made = gaps.filter((g) => g > 0.08);
+      const per = made.length ? made.slice(-3).reduce((x, y) => x + y, 0) / Math.min(3, made.length) : Infinity;
+      if (secs >= per * (n - done) * 1.25 + 1) finish(resolve);
+    };
+    if (!n) return finish(resolve);
+    clips.forEach((p, i) => p.then((c) => {
+      got[i] = c;
+      done++;
+      const now = performance.now();
+      gaps.push((now - last) / 1000);
+      last = now;
+      onProgress?.(done, n);
+      check();
+    }, (e) => finish(() => reject(e))));
+  });
+}
+
+/**
+ * The clips for a track, ready to play: from the chosen engine, or — when the studio voices fail (quota, key, Google
+ * down) — from the natural voices, which then stay in for a while (markStudioDown). Reports what happens through
+ * onStatus: download (natural voices, the first time), fallback (once, with the reason), prepare (n of total).
+ * makeSegs(engine) → segments. Returns { engine, segs, clips: [Promise] }, or throws (the computer voices take over).
+ */
+async function trackClips(makeSegs, ctl, { onStatus, waitAll = false, durationOf }) {
+  let engine = activeEngine();
+  const load = async () => {
+    const segs = makeSegs(engine);
+    if (engine === "natural" && !(await segmentsReady(segs))) {
+      if (!(await naturalDownloaded())) onStatus?.({ engine, phase: "download", progress: 0 });
+      await prepareNatural((p) => { if (!naturalState.ready) onStatus?.({ engine, phase: "download", progress: p }); });
+    }
+    onStatus?.({ engine, phase: "prepare", done: 0, total: segs.length });
+    const clips = segs.map(segmentClip);
+    clips.forEach((c) => c.catch(() => {})); // a failure is handled below, once
+    await readyToStart(clips, {
+      ctl, durationOf: (i, c) => durationOf(segs, i, c), waitAll: waitAll || engine === "studio",
+      onProgress: (done, total) => { if (!ctl.started && done < total) onStatus?.({ engine, phase: "prepare", done, total }); },
+    });
+    return { engine, segs, clips };
+  };
+  try {
+    return await load();
+  } catch (e) {
+    // Only the studio voices' own failures switch to the natural voices; anything else is a real error.
+    if (engine !== "studio" || !e?.studio || !naturalSupported() || ctl.stopped) throw e;
+    markStudioDown(e);
+    onStatus?.({ engine: "natural", phase: "fallback", message: `${e.message || "The studio voices didn’t answer."} The natural voices read it instead.` });
+    engine = "natural";
+    return load();
+  }
 }
 
 /**
@@ -271,32 +383,19 @@ export function playScript(lines, opts = {}) {
   const { plays = 2, levelId = "", onLine, onEnd, onStatus } = opts;
   const ctl = controller();
   ctl.done = (async () => {
-    let engine = activeEngine();
+    await null; // the caller holds the controller before any callback (onStatus, onLine, onEnd) runs
     const computer = (message) => {
       if (message) onStatus?.({ engine: "computer", phase: "fallback", message });
       ctl.inner = playComputer(lines, { plays, rate: COMPUTER_RATE[levelId] || 0.9, onLine, onEnd: () => {} });
       return ctl.inner.done;
     };
     try {
-      if (engine === "computer") { onStatus?.({ engine, phase: "play" }); await computer(); return; }
-      let segs = scriptSegments(lines, engine, levelId);
-      if (engine === "natural" && !(await segmentsReady(segs))) {
-        if (!(await naturalDownloaded())) onStatus?.({ engine, phase: "download", progress: 0 });
-        await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
-      }
-      if (ctl.stopped) return;
-      let clips = segs.map(segmentClip);
-      onStatus?.({ engine, phase: "prepare", done: 0, total: segs.length });
-      try { await clips[0]; } catch (e) {
-        if (engine !== "studio" || !naturalSupported()) throw e;
-        // Studio failed (quota, key, network): the free voices take over.
-        onStatus?.({ engine: "natural", phase: "fallback", message: e.message });
-        engine = "natural";
-        await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
-        segs = scriptSegments(lines, engine, levelId);
-        clips = segs.map(segmentClip);
-      }
-      trackReady(clips, (done) => { if (done < segs.length) onStatus?.({ engine, phase: "prepare", done, total: segs.length }); });
+      if (activeEngine() === "computer") { onStatus?.({ engine: "computer", phase: "play" }); await computer(); return; }
+      const secs = (c) => c.length / RATE;
+      const { engine, segs, clips } = await trackClips((eng) => scriptSegments(lines, eng, levelId), ctl, {
+        onStatus, durationOf: (sg, i, c) => secs(c) + pauseAfter(sg[i], sg[i + 1]),
+      });
+      ctl.started = true;
       for (let p = 0; p < plays && !ctl.stopped; p++) {
         for (let i = 0; i < segs.length && !ctl.stopped; i++) {
           const samples = await clips[i];
@@ -327,27 +426,19 @@ export function readDictation(sentences, opts = {}) {
   const { repeats = 2, levelId = "", punctuation = false, onLine, onEnd, onStatus } = opts;
   const ctl = controller();
   ctl.done = (async () => {
-    let engine = activeEngine();
+    await null; // the caller holds the controller before any callback (onStatus, onLine, onEnd) runs
     const computer = (message) => {
       if (message) onStatus?.({ engine: "computer", phase: "fallback", message });
       ctl.inner = readComputer(sentences, { repeats, rate: COMPUTER_RATE[levelId] || 0.85, punctuation, onLine, onEnd: () => {} });
       return ctl.inner.done;
     };
     try {
-      if (engine === "computer") { await computer(); return; }
-      let segs = dictationSegments(sentences, engine, { repeats, levelId, punctuation });
-      if (engine === "natural" && !(await segmentsReady(segs))) await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
-      let clips = segs.map(segmentClip);
-      onStatus?.({ engine, phase: "prepare", done: 0, total: segs.length });
-      try { await clips[0]; } catch (e) {
-        if (engine !== "studio" || !naturalSupported()) throw e;
-        onStatus?.({ engine: "natural", phase: "fallback", message: e.message });
-        engine = "natural";
-        await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
-        segs = dictationSegments(sentences, engine, { repeats, levelId, punctuation });
-        clips = segs.map(segmentClip);
-      }
-      trackReady(clips, (done) => { if (done < segs.length) onStatus?.({ engine, phase: "prepare", done, total: segs.length }); });
+      if (activeEngine() === "computer") { await computer(); return; }
+      // The writing pauses are long, so the reading starts early and the voices are made while the children write.
+      const { engine, segs, clips } = await trackClips((eng) => dictationSegments(sentences, eng, { repeats, levelId, punctuation }), ctl, {
+        onStatus, durationOf: (sg, i, c) => c.length / RATE + dictationPause(sg[i]),
+      });
+      ctl.started = true;
       for (let i = 0; i < segs.length && !ctl.stopped; i++) {
         const samples = await clips[i];
         if (ctl.stopped) break;
@@ -368,10 +459,6 @@ export function readDictation(sentences, opts = {}) {
 }
 
 /* ── Audio files ─────────────────────────────────────────────────── */
-/**
- * The whole listening as a WAV (played `plays` times, 4 s apart). The computer voices can't be recorded,
- * so a download always uses natural or studio voices. onStatus as in playScript.
- */
 /** Make every clip of some segments with the studio or natural voices; a studio failure (quota, key, network)
  * falls back to the natural voices, like the player does. → { engine, segs, clips } */
 async function makeClips(makeSegs, onStatus) {
@@ -385,13 +472,18 @@ async function makeClips(makeSegs, onStatus) {
     return { engine, segs, clips };
   };
   try { return await run(); } catch (e) {
-    if (engine !== "studio" || !naturalSupported()) throw e;
+    if (engine !== "studio" || !e?.studio || !naturalSupported()) throw e;
+    markStudioDown(e);
     onStatus?.({ engine: "natural", phase: "fallback", message: `${e.message} The natural voices make it instead.` });
     engine = "natural";
     return run();
   }
 }
 
+/**
+ * The whole listening as a WAV (played `plays` times, 4 s apart). The computer voices can't be recorded,
+ * so a download always uses natural or studio voices. onStatus as in playScript.
+ */
 export async function scriptWav(lines, { plays = 2, levelId = "", onStatus } = {}) {
   const { engine, segs, clips } = await makeClips((eng) => scriptSegments(lines, eng, levelId), onStatus);
   const track = renderTrack(segs, clips, { plays });

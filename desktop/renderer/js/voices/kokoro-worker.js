@@ -6,16 +6,40 @@
 import { KokoroTTS, env, transformersEnv } from "../../vendor/kokoro/kokoro.web.js";
 
 const MODEL = "onnx-community/Kokoro-82M-v1.0-ONNX";
-env.wasmPaths = new URL("../../vendor/kokoro/", import.meta.url).href;
+const VENDOR = new URL("../../vendor/kokoro/", import.meta.url).href;
+env.wasmPaths = VENDOR;
 // Several threads only when the page is cross-origin isolated (the desktop app); 4 was the fastest in tests.
-const threads = self.crossOriginIsolated ? Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) - 1)) : 1;
+let threads = self.crossOriginIsolated ? Math.max(1, Math.min(4, (navigator.hardwareConcurrency || 2) - 1)) : 1;
 transformersEnv.backends.onnx.wasm.numThreads = threads;
+
+/*
+ * The engine's threads are workers started by this worker from the engine's own script. In the desktop app (WebView2
+ * with the app's own address) a worker can't start a worker from that address — the threads never start and the voices
+ * hang without an error. Given an in-memory copy of the script, the engine starts its threads from the copy, which works
+ * everywhere. If even that fails, one thread (slower, but it speaks).
+ */
+let threadsReady = null;
+function prepareThreads() {
+  threadsReady ||= (async () => {
+    if (threads < 2) return;
+    try {
+      const res = await fetch(`${VENDOR}ort-wasm-simd-threaded.jsep.mjs`);
+      if (!res.ok) throw new Error(String(res.status));
+      const mjs = URL.createObjectURL(new Blob([await res.arrayBuffer()], { type: "text/javascript" }));
+      transformersEnv.backends.onnx.wasm.wasmPaths = { mjs, wasm: `${VENDOR}ort-wasm-simd-threaded.jsep.wasm` };
+    } catch {
+      threads = 1;
+      transformersEnv.backends.onnx.wasm.numThreads = 1;
+    }
+  })();
+  return threadsReady;
+}
 
 let loading = null;
 const files = new Map(); // file → { loaded, total }
 
 function load() {
-  loading ||= KokoroTTS.from_pretrained(MODEL, {
+  loading ||= prepareThreads().then(() => KokoroTTS.from_pretrained(MODEL, {
     dtype: "q8",
     device: "wasm",
     progress_callback: (p) => {
@@ -25,7 +49,7 @@ function load() {
       for (const f of files.values()) { loaded += f.loaded; total += f.total; }
       postMessage({ type: "progress", loaded, total });
     },
-  }).then((tts) => { postMessage({ type: "ready", threads }); return tts; })
+  })).then((tts) => { postMessage({ type: "ready", threads }); return tts; })
     .catch((e) => { loading = null; throw e; });
   return loading;
 }
