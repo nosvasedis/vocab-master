@@ -20,7 +20,7 @@ import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, es
 import { recordingState, unheardAnswers, cutGistRecording, numberedScript } from "../../studio/listening-sync.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
 import { containsForm } from "../../studio/word-scope.js";
-import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks, hasWord } from "../../studio/test-coverage.js";
+import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks, hasWord, partWords } from "../../studio/test-coverage.js";
 import { planFromProposal, moveWords, resizePart, removePart, addPart, setTask, setOpt, syncPlan, fitTasks, placedWords } from "../../studio/word-plan.js";
 
 const CSS = `
@@ -176,34 +176,50 @@ export function mountTestEditing(host) {
     if (!s) return;
     if (s.items.length <= 1) { toast("A part needs at least one question — to drop the whole part, remove it in Step 3 (The parts).", "warn", { ms: 5000 }); return; }
     const idx = itemIndex(s, d.ref);
-    const n = idx + 1;
+    await dropItems(d.id, [idx], `Question ${idx + 1} deleted`);
+  }
+
+  /**
+   * Take questions out of a part (0-based indexes), as the teacher's Delete does: a numbered recording loses their
+   * bits, the word box their answers (unless another question needs one), Step 3 its count; one Undo for all.
+   */
+  async function dropItems(id, idxs, said) {
+    const s = A(id);
+    if (!s) return false;
+    const drop = [...new Set(idxs)].filter((k) => s.items[k]).sort((a, b) => b - a);
+    if (!drop.length) return false;
+    if (s.items.length - drop.length < 1) { toast("A part needs at least one question — to drop the whole part, remove it in Step 3 (The parts).", "warn", { ms: 5000 }); return false; }
     const doc = host.doc();
     const before = snapshot();
     const lc = (x) => String(x || "").trim().toLowerCase();
     const ctx = await host.ctx().catch(() => ({}));
-    if (host.doc() !== doc) return;
-    const ok = reviseSection(doc, host.spec(), d.id, (raw) => {
-      if (!raw.items[idx]) return false;
-      const [gone] = raw.items.splice(idx, 1);
-      // "Listen for the main idea": its own short recording goes too, and the ones after it are renumbered.
-      if (s.task === "L-GIST" || numberedScript(raw.script)) raw.script = cutGistRecording(raw.script, idx + 1) || raw.script;
-      // Its answer leaves the word box too (unless another question still needs it).
-      if (Array.isArray(raw.bank) && gone?.answer && !raw.items.some((it) => lc(it.answer) === lc(gone.answer))) {
-        const at = raw.bank.findIndex((w) => lc(w) === lc(gone.answer));
-        if (at >= 0) raw.bank.splice(at, 1);
+    if (host.doc() !== doc) return false;
+    const numbered = s.task === "L-GIST" || numberedScript(s.script);
+    const ok = reviseSection(doc, host.spec(), id, (raw) => {
+      for (const idx of drop) { // from the end, so the numbers before it stay right
+        if (!raw.items[idx]) return false;
+        const [gone] = raw.items.splice(idx, 1);
+        // A numbered recording ("Number 1." …): that question's own bit goes too, and the ones after it are renumbered.
+        if (numbered) raw.script = cutGistRecording(raw.script, idx + 1) || raw.script;
+        // Its answer leaves the word box too (unless another question still needs it).
+        if (Array.isArray(raw.bank) && gone?.answer && !raw.items.some((it) => lc(it.answer) === lc(gone.answer))) {
+          const at = raw.bank.findIndex((w) => lc(w) === lc(gone.answer));
+          if (at >= 0) raw.bank.splice(at, 1);
+        }
       }
     }, { picFor: ctx.picFor, focusWords: ctx.focus });
-    if (!ok) return;
-    host.itemsChanged?.(d.id);
+    if (!ok) return false;
+    host.itemsChanged?.(id);
     host.commit();
-    const recNote = s.skill !== "listening" ? "" : s.task === "L-GIST" || numberedScript(s.script) ? " Its recording was cut out too." : " The recording still fits — its detail stays as an extra one.";
-    toast(`Question ${n} deleted — ${plural(A(d.id).items.length, "question")} left in this part.${recNote}`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
+    const recNote = s.skill !== "listening" ? "" : numbered ? ` ${drop.length > 1 ? "Their recordings were" : "Its recording was"} cut out too.` : " The recording still fits — the detail stays as an extra one.";
+    toast(`${said} — ${plural(A(id).items.length, "question")} left in this part.${recNote}`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
       if (host.doc() !== doc) return;
       Object.assign(doc, JSON.parse(before));
-      host.itemsChanged?.(d.id);
+      host.itemsChanged?.(id);
       host.commit();
-      toast("Question put back.", "info", { ms: 1600 });
+      toast(drop.length > 1 ? "Questions put back." : "Question put back.", "info", { ms: 1600 });
     } }] });
+    return true;
   }
 
   /* ── Add questions: Lingo writes them (how many, where, which words, how hard, a wish) or the teacher does ── */
@@ -404,17 +420,133 @@ export function mountTestEditing(host) {
   }
 
   /* ── Editors ── */
-  function form({ title, subtitle, iconName = "pencil", body, onSave, extraFoot = "", onMount }) {
+  function form({ title, subtitle, iconName = "pencil", body, onSave, extraFoot = "", onMount, part = null }) {
+    const panel = part ? wordsPanelHtml(part) : "";
     openDialog({
-      title, subtitle, iconName, sheet: true, body,
+      title, subtitle, iconName, sheet: true, body: panel + body,
       foot: `${extraFoot}<span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-primary" data-save>${icon("check", "i-sm")}Save</button>`,
       onMount(root, close) {
         const val = (id) => root.querySelector(`#${id}`)?.value ?? "";
         root.querySelector("[data-save]").addEventListener("click", async () => { if ((await onSave(val, root)) !== false) close(); });
         root.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) root.querySelector("[data-save]").click(); });
         onMount?.(root, close);
+        if (panel) wireWordsPanel(root, part, close);
       },
     });
+  }
+
+  /* ── "Words in this part": the word check, for one part, inside its editor ── */
+  // Parts that ask questions about words (writing, speaking and dictation have no questions to point at).
+  const panelFits = (s) => !!s && TASKS[s.task]?.answer !== "open" && s.skill !== "dictation" && s.items?.length > 0;
+
+  /**
+   * The chosen words this part tests (with their questions; "only here" when no other part tests it), each with ✕,
+   * and the words it doesn't test yet, to put in. Everything goes through the paper's own actions, so the word check,
+   * Step 3, the points and the paper all follow.
+   */
+  function wordsPanelHtml(s) {
+    const doc = host.doc();
+    const i = doc?.sections.indexOf(s) ?? -1;
+    if (!panelFits(s) || i < 0) return "";
+    const pw = partWords(doc, i);
+    if (!pw.total) return "";
+    const qs = (items) => `${items.length > 1 ? "Q" : "Q"} ${items.join(", ")}`;
+    const here = pw.here.length
+      ? pw.here.map((w) => `<span class="wp-chip${w.only ? " only" : ""}" data-ftip="${esc(`${w.greek ? `${w.greek} · ` : ""}${w.only ? "Only this part tests it" : "Also tested in another part"}`)}"><b>${esc(w.english)}</b><small>${qs(w.items)}</small><button type="button" class="wp-x" data-wp-x="${esc(w.english)}" aria-label="Take “${esc(w.english)}” out of this part">${icon("x", "i-xs")}</button></span>`).join("")
+      : `<span class="wp-none">No word from the word check is tested here yet.</span>`;
+    const tone = { missing: "cov-bad", seen: "cov-warn", tested: "cov-good" };
+    const others = pw.others.map((w) => `<button type="button" class="wp-add ${tone[w.status]}" data-wp-add="${esc(w.english)}" aria-pressed="false" data-ftip="${esc(w.where)}">${icon("plus", "i-xs")}${esc(w.english)}</button>`).join("");
+    return `<section class="wp" data-wp>
+      <header><span>${icon("target", "i-xs")}<b>Words in this part</b></span><small>${plural(pw.here.length, "word")} of ${pw.total} · from the word check</small></header>
+      <div class="wp-here">${here}</div>
+      <div class="wp-confirm" data-wp-confirm hidden></div>
+      ${others ? `<details class="wp-more"${pw.here.length ? "" : " open"}><summary>${icon("plus", "i-xs")}Add words from the word check <small>${pw.others.filter((w) => w.status !== "tested").length} not tested yet</small></summary>
+        <div class="wp-others">${others}</div>
+        <div class="wp-go"><button type="button" class="btn btn-magic btn-sm" data-wp-place disabled>${icon("sparkles", "i-sm")}<span>Put them in this part…</span></button><small>You choose how next: a new question, one it replaces, or the part written again.</small></div>
+      </details>` : ""}
+    </section>`;
+  }
+
+  function wireWordsPanel(root, s, close) {
+    const box = root.querySelector("[data-wp]");
+    if (!box) return;
+    const pick = new Set();
+    const confirmEl = box.querySelector("[data-wp-confirm]");
+    const go = box.querySelector("[data-wp-place]");
+    const idx = () => host.doc()?.sections.indexOf(A(s.id)) ?? -1;
+    box.addEventListener("click", async (e) => {
+      const add = e.target.closest("[data-wp-add]");
+      if (add) {
+        const w = add.dataset.wpAdd;
+        if (pick.has(w)) pick.delete(w); else pick.add(w);
+        add.classList.toggle("on", pick.has(w));
+        add.setAttribute("aria-pressed", String(pick.has(w)));
+        go.disabled = !pick.size;
+        go.querySelector("span").textContent = pick.size ? `Put ${pick.size > 1 ? `these ${pick.size} words` : `“${[...pick][0]}”`} in this part…` : "Put them in this part…";
+        return;
+      }
+      if (e.target.closest("[data-wp-place]")) {
+        const i = idx();
+        if (i < 0 || !pick.size) return;
+        const words = testCoverage(host.doc()).words.filter((w) => pick.has(w.english));
+        close();
+        placeWords(words, { part: i });
+        return;
+      }
+      const x = e.target.closest("[data-wp-x]");
+      if (x) { askRemove(x.dataset.wpX); return; }
+      if (e.target.closest("[data-wp-cancel]")) { confirmEl.hidden = true; confirmEl.innerHTML = ""; return; }
+      const del = e.target.closest("[data-wp-del]");
+      if (del) {
+        const items = JSON.parse(del.dataset.wpDel);
+        close();
+        await dropItems(s.id, items.map((n) => n - 1), `“${del.dataset.word}” taken out (${items.length > 1 ? `questions ${items.join(", ")}` : `question ${items[0]}`} deleted)`);
+        return;
+      }
+      const swap = e.target.closest("[data-wp-swap]");
+      if (swap) {
+        const neu = confirmEl.querySelector("[data-wp-new]")?.value;
+        if (!neu) return;
+        const old = swap.dataset.word;
+        const items = JSON.parse(swap.dataset.wpSwap);
+        close();
+        await swapWord(s.id, items, old, neu);
+      }
+    });
+
+    /** ✕ on a word: what taking it out means, said plainly — delete its question(s), or ask Lingo for another word. */
+    function askRemove(word) {
+      const i = idx();
+      if (i < 0) return;
+      const pw = partWords(host.doc(), i);
+      const w = pw.here.find((x) => x.english === word);
+      if (!w) return;
+      const sec = A(s.id);
+      const canDelete = sec.items.length - w.items.length >= 1;
+      const qs = w.items.length > 1 ? `questions ${w.items.join(", ")}` : `question ${w.items[0]}`;
+      const swapTo = pw.others.filter((o) => o.status !== "tested").concat(pw.others.filter((o) => o.status === "tested"));
+      confirmEl.innerHTML = `<p><b>“${esc(word)}”</b> is tested by ${qs}.${w.only ? ` <span class="wp-warn">${icon("alert", "i-xs")}No other part tests it — the word check will show it as not tested.</span>` : ""}</p>
+        <div class="wp-acts">
+          ${canDelete ? `<button type="button" class="btn btn-danger-ghost btn-sm" data-wp-del="${esc(JSON.stringify(w.items))}" data-word="${esc(word)}">${icon("trash", "i-sm")}Delete ${qs}</button>` : `<span class="wp-note">The part needs at least one question, so it can’t be deleted.</span>`}
+          ${swapTo.length ? `<span class="wp-or">or</span><select class="select sm" data-wp-new aria-label="Another word">${swapTo.map((o) => `<option value="${esc(o.english)}">${esc(o.english)}${o.status === "tested" ? " (tested elsewhere)" : ""}</option>`).join("")}</select>
+          <button type="button" class="btn btn-magic btn-sm" data-wp-swap="${esc(JSON.stringify(w.items))}" data-word="${esc(word)}">${icon("sparkles", "i-sm")}Lingo writes ${w.items.length > 1 ? "them" : "it"} with this word</button>` : ""}
+          <button type="button" class="btn btn-ghost btn-sm" data-wp-cancel>Keep it</button>
+        </div>`;
+      confirmEl.hidden = false;
+    }
+  }
+
+  /** Lingo writes the question(s) that test one word again, each on another word (checked, like Remake). */
+  async function swapWord(id, items, old, neu) {
+    const s = A(id);
+    if (!s) return;
+    const answer = ANSWER_TASKS.has(s.task) ? neu : undefined;
+    let ok = 0;
+    for (const n of items) {
+      const done1 = await remake(id, n - 1, `Test the word "${neu}" instead of "${old}" — "${old}" must not be in this question any more.`, null, { answer, quiet: items.length > 1 });
+      if (done1) ok++;
+    }
+    if (items.length > 1) toast(ok ? `${ok} of ${items.length} questions now test “${neu}” instead of “${old}”.` : `Lingo couldn’t swap “${old}” for “${neu}”. Try another word, or edit the questions yourself.`, ok ? "ok" : "warn", { ms: 6000 });
   }
   const field = (id, lab, value, { rows = 0, hint = "", attrs = "" } = {}) => `<div class="field"><label class="label" for="${id}">${lab}${hint ? ` <span class="opt">${hint}</span>` : ""}</label>${rows ? `<textarea class="textarea" id="${id}" rows="${rows}" ${attrs}>${esc(value || "")}</textarea>` : `<input class="input" id="${id}" value="${esc(value || "")}" autocomplete="off" ${attrs} />`}</div>`;
 
@@ -440,7 +572,7 @@ export function mountTestEditing(host) {
       const testOn = doc.meta.layout?.examples !== false;
       const shownNow = s.showExample ?? testOn;
       return form({
-        title: "Instructions", subtitle: sub,
+        title: "Instructions", subtitle: sub, part: s,
         body: field("pe_rub", "What the children read", s.rubric, { rows: 2 }) + field("pe_rubel", "In Greek", s.rubricEl, { rows: 2, hint: "printed when Greek help is on" })
           + (hasExample ? `<div class="field pe-example"><span class="label">Example <span class="opt">the solved question 0 at the start of this part</span></span><label class="switch sm"><input type="checkbox" id="pe_example"${shownNow ? " checked" : ""} /><span class="track"></span><span class="sw-text">Show it on the paper</span></label></div>` : ""),
         onSave: (v, root) => {
@@ -460,7 +592,7 @@ export function mountTestEditing(host) {
     }
     if (d.kind === "passage") {
       return form({
-        title: "The text", subtitle: sub,
+        title: "The text", subtitle: sub, part: s,
         body: field("pe_ptitle", "Title", s.passageTitle, { hint: "optional" }) + field("pe_pass", "Text", s.passage, { rows: 12, hint: s.task === "R-GAP" || /\(\d+\)/.test(s.passage) ? "keep the gaps as (1) ________" : "" })
           + `<p class="st-hint">${icon("info", "i-xs")} The questions are checked against the text again when you save.</p>`,
         onSave: (v) => { if (!v("pe_pass").trim()) { toast("The text can’t be empty.", "warn"); return false; } revise(s.id, (raw) => { raw.passageTitle = v("pe_ptitle").trim(); raw.passage = v("pe_pass").trim(); }, "Text saved."); },
@@ -468,7 +600,7 @@ export function mountTestEditing(host) {
     }
     if (d.kind === "bank") {
       return form({
-        title: "The word box", subtitle: sub,
+        title: "The word box", subtitle: sub, part: s,
         body: listField("pe_bank", "Words", ["Word"], s.bank, { hint: "the answers are always in it; words that fit no gap are extra words, and the instruction says how many", add: "Add a word" }),
         onMount: (root) => wireLists(root),
         onSave: (v, root) => revise(s.id, (raw) => { raw.bank = listValues(root, "pe_bank"); raw.keepBank = true; }, "Word box saved.").then(() => host.itemsChanged?.(s.id)),
@@ -481,7 +613,7 @@ export function mountTestEditing(host) {
       // A pair that stays keeps what else it had (a picture, the teacher's letter help).
       const keyOf = (a, b) => `${a}\u0000${b}`;
       return form({
-        title, subtitle: sub,
+        title, subtitle: sub, part: s,
         body: (s.task === "V-SORT" ? listField("pe_groups", "Groups", ["Group"], s.groups || [], { hint: "each word’s group must be one of them", add: "Add a group" }) : "")
           + listField("pe_pairs", "", [left, right], s.items.map((it) => [it.prompt, it.answer]), { add: `Add a ${left.toLowerCase()}` })
           + (extras ? listField("pe_extras", "Extra sentences", ["Sentence"], s.extras, { hint: "they fit no gap", add: "Add a sentence" }) : ""),

@@ -56,3 +56,18 @@ test("put in order: the hidden example is one more lettered event, never first, 
   assert.equal(answerKeyRows(sec, { examples: false })[at].text, "1 — Lily puts on her pajamas.");
   assert.equal(orderList(sec, {}).length, 3, "shown, it stays solved above the list");
 });
+
+test("words in one part: the ones it tests (with their questions, only-here) and the ones it could take", async () => {
+  const { partWords } = await import("../desktop/renderer/studio/test-coverage.js");
+  const doc = {
+    focusWords: ["dog", "cow", "fish", "sheep"].map((english) => ({ english })),
+    sections: [
+      { skill: "vocabulary", task: "V-MATCH", items: [{ n: 1, prompt: "dog", answer: "a pet that barks" }, { n: 2, prompt: "cow", answer: "it gives milk" }] },
+      { skill: "vocabulary", task: "V-MC", items: [{ n: 1, prompt: "My ________ barks.", options: ["dog", "fish"], answerIndex: 0, answer: "dog" }] },
+    ],
+  };
+  const p = partWords(doc, 0);
+  assert.deepEqual(p.here.map((w) => [w.english, w.items, w.only]), [["dog", [1], false], ["cow", [2], true]]);
+  assert.deepEqual(p.others.map((w) => w.english), ["sheep", "fish"], "untested first: sheep is missing, fish only an option");
+  assert.equal(p.total, 4);
+});

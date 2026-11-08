@@ -216,3 +216,22 @@ export function newPartFocus(doc, part, { tasks = {}, hasPicture = () => true, s
   if ((t.needs?.includes("passage") || t.needs?.includes("script")) && !open) how += " Put each word in the text (or script) and ask about it where you can.";
   return { words, instruction: `${head} — ${how}` };
 }
+
+/**
+ * The words of one part, for its editor's "Words in this part" panel (from the word check itself).
+ * here: the chosen words this part tests — { english, greek, items: [question numbers], only: no other part tests it };
+ * others: the chosen words it doesn't test, untested ones first — { english, greek, status, where }.
+ */
+export function partWords(doc, partIndex) {
+  const cov = testCoverage(doc);
+  const here = [];
+  const others = [];
+  for (const w of wordPriority(cov)) {
+    const t = w.tested.find((x) => x.part === partIndex);
+    if (t) here.push({ english: w.english, greek: w.greek, items: t.items, only: w.tested.length === 1 });
+    else others.push({ english: w.english, greek: w.greek, status: w.status, where: coverageWhere(w) });
+  }
+  // The panel lists the part's words in question order.
+  here.sort((a, b) => Math.min(...a.items) - Math.min(...b.items));
+  return { here, others, total: cov.total };
+}

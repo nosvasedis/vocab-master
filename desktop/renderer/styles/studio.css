@@ -1264,3 +1264,27 @@
 .hd-side > b { font-size: 12px; font-weight: 750; color: var(--text-2); }
 .hd-word { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 8px; }
 .hd-word > span { font-size: 12px; color: var(--text-3); }
+
+/* "Words in this part" — the word check for one part, inside its editor (test-edit.js) */
+.wp { border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2, var(--surface)); padding: 10px 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px; }
+.wp header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.wp header span { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.wp header small, .wp-more summary small, .wp-go small { color: var(--text-3); font-size: 11.5px; }
+.wp-here, .wp-others { display: flex; flex-wrap: wrap; gap: 6px; }
+.wp-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 10px; border-radius: 99px; background: color-mix(in srgb, var(--success) 14%, transparent); font-size: 12.5px; }
+.wp-chip.only { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--success) 55%, transparent); }
+.wp-chip small { color: var(--text-3); font-size: 11px; }
+.wp-x { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border: 0; border-radius: 99px; background: transparent; color: var(--text-3); cursor: pointer; }
+.wp-x:hover { background: #fde8e8; color: #b42318; }
+.wp-none { font-size: 12.5px; color: var(--text-3); }
+.wp-confirm { border-radius: 10px; background: var(--surface); border: 1px solid var(--border); padding: 8px 10px; font-size: 13px; }
+.wp-confirm p { margin: 0 0 8px; }
+.wp-warn { display: inline-flex; align-items: center; gap: 4px; color: #b54708; }
+.wp-acts { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.wp-or, .wp-note { color: var(--text-3); font-size: 12px; }
+.wp-more summary { cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; list-style: none; }
+.wp-more summary::-webkit-details-marker { display: none; }
+.wp-more[open] summary { margin-bottom: 8px; }
+.wp-add { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border: 1.5px solid transparent; border-radius: 99px; font: 600 12.5px/1.3 var(--font-ui); cursor: pointer; }
+.wp-add.on { color: #fff; background: var(--brand); border-color: var(--brand); }
+.wp-go { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
