@@ -34,6 +34,7 @@ import { loadLessonJson } from "./studio-common.js";
 import { mountTestEditing } from "./test-edit.js";
 import { openHeaderDialog, paperWords } from "../header-dialog.js";
 import { textKey } from "../../studio/paper-header.js";
+import { openWordFinder, closeWordFinder } from "../word-finder.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
 
 /** The header lines of the student paper and the teacher's pack the teacher can reword (Header dialog). */
@@ -81,7 +82,7 @@ export function initTests() {
 /** The test on the paper (null = none); the open one is remembered for the next start. */
 function setDoc(d) {
   // A new or other test: which Step 1 source it belongs to is known again once Step 1 shows it.
-  if (ts.doc?.id !== d?.id) { ts.docKey = ""; ts.linkOnOpen = false; }
+  if (ts.doc?.id !== d?.id) { ts.docKey = ""; ts.linkOnOpen = false; closeWordFinder(); }
   ts.doc = d || null;
   rememberOpen("test", ts.doc?.id);
 }
@@ -269,7 +270,13 @@ function build() {
   $("tsOutline").addEventListener("click", (e) => {
     // A word (or all the untested ones): the teacher chooses the part and the question it goes in.
     const cw = e.target.closest("[data-cov-word]");
-    if (cw) { const w = testCoverage(ts.doc).words.find((x) => x.english === cw.dataset.covWord); if (w) editor?.placeWords([w]); return; }
+    // A word already tested: find it on the paper (every question that tests it, ‹ › to move); otherwise choose where it goes.
+    if (cw) {
+      const w = testCoverage(ts.doc).words.find((x) => x.english === cw.dataset.covWord);
+      if (!w) return;
+      if (w.status === "tested") findOnPaper(w); else editor?.placeWords([w]);
+      return;
+    }
     if (e.target.closest("[data-cov-place]")) { editor?.placeWords(wordPriority(testCoverage(ts.doc)).filter((w) => w.status !== "tested")); return; }
     const cp = e.target.closest("[data-cov-show]");
     if (cp) { showPart(Number(cp.dataset.covShow)); return; }
@@ -943,7 +950,7 @@ function renderOutline() {
 function wordCheckHtml(d, cov) {
   if (!cov.total) return "";
   const tone = { tested: "cov-good", seen: "cov-warn", missing: "cov-bad" };
-  const chip = (w) => `<button type="button" class="cov-chip ${tone[w.status]}" data-cov-word="${esc(w.english)}" data-ftip="${esc(`${w.greek ? `${w.greek} · ` : ""}${coverageWhere(w)} — click to choose where it goes`)}">${w.status === "tested" ? icon("check", "i-xs") : ""}${esc(w.english)}${w.tested.length ? `<small>${w.tested.map((x) => x.part + 1).join("·")}</small>` : ""}</button>`;
+  const chip = (w) => `<button type="button" class="cov-chip ${tone[w.status]}" data-cov-word="${esc(w.english)}" data-ftip="${esc(`${w.greek ? `${w.greek} · ` : ""}${coverageWhere(w)} — ${w.status === "tested" ? "click to find it on the paper" : "click to choose where it goes"}`)}">${w.status === "tested" ? icon("check", "i-xs") : ""}${esc(w.english)}${w.tested.length ? `<small>${w.tested.map((x) => x.part + 1).join("·")}</small>` : ""}</button>`;
   const pct = (n) => `${((n / cov.total) * 100).toFixed(1)}%`;
   const open = cov.words.filter((w) => w.status !== "tested");
   const summary = !open.length
@@ -955,7 +962,7 @@ function wordCheckHtml(d, cov) {
       ${summary}
       <div class="cov-chips">${[...open, ...cov.words.filter((w) => w.status === "tested")].map(chip).join("")}</div>
       <div class="cov-legend"><span><i style="background:var(--success)"></i>Tested</span><span><i style="background:var(--warning)"></i>Only in a text</span><span><i style="background:var(--danger)"></i>Not on the test</span></div>
-      <p class="insp-note">Hover a word to see where it is. Click it to choose where it goes: a new question, a question it replaces, or a part written again — in the part you pick.</p>
+      <p class="insp-note">Click a tested word to find it on the paper (‹ › moves between its questions). Click a word that isn't tested to choose where it goes: a new question, a question it replaces, or a part written again.</p>
       ${roomNote(d, open.length)}
       ${open.length > 1 ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-place>${icon("target", "i-sm")}Place the ${plural(open.length, "untested word")}…</button>` : ""}
     </div>`;
@@ -967,6 +974,26 @@ function roomNote(d, n) {
   const room = d.sections.filter((s) => s.skill === "vocabulary" && TASKS[s.task]?.answer !== "open").reduce((k, s) => k + Math.max(0, 12 - s.items.length), 0);
   if (n <= Math.min(room, 5)) return "";
   return `<p class="q-note mk-wc-room">${icon("layers", "i-xs")}<span>${room ? `The vocabulary parts have room for ${plural(room, "more question")} — not enough for ${n} words without crowding them.` : `The vocabulary parts are full.`} The next step proposes new vocabulary parts and shows how long the test becomes${n > 20 ? ", with a suggestion for how many words one test can check well" : ""}.</span></p>`;
+}
+
+/**
+ * Find a tested word on the paper: each question that tests it (and each text it only appears in), outlined with the
+ * word highlighted, and a bar to step through them. A click on a question still opens its editor; "Put it in another
+ * part too" opens the usual placement.
+ */
+function findOnPaper(w) {
+  const studentSheet = () => {
+    if (ts.sheet !== "A") { ts.sheet = "A"; renderSheetSeg(); renderPaper(); }
+    return paper.root;
+  };
+  const itemEl = (root, part, n) => root?.querySelectorAll("section.st-sec")[part]?.querySelectorAll(".st-item:not(.st-example):not(.st-first), .pic-card:not(.st-example)")[n - 1] || null;
+  const textEl = (root, part) => { const sec = root?.querySelectorAll("section.st-sec")[part]; return sec?.querySelector(".st-passage") || sec || null; };
+  const shown = () => (ts.sheet === "A" ? paper.root : null);
+  const spots = [
+    ...w.tested.flatMap((t) => t.items.map((n) => ({ label: `Part ${t.part + 1} · question ${n}`, el: () => itemEl(studentSheet(), t.part, n), peek: () => itemEl(shown(), t.part, n) }))),
+    ...w.seen.filter((p) => !w.tested.some((t) => t.part === p)).map((p) => ({ label: `Part ${p + 1} · in the text (no question asks about it)`, el: () => textEl(studentSheet(), p), peek: () => textEl(shown(), p) })),
+  ];
+  openWordFinder({ root: paper.root, word: w.english, spots, extra: { label: "Put it in another part too", run: () => editor?.placeWords([w]) } });
 }
 
 /** Show part i on the paper (the children's sheet), scrolled into view and flashed. */

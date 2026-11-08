@@ -15,6 +15,7 @@ import {
   bookTitle, unitNumber, pageRange, isCpp, LEVEL_COLORS, BOOK_COLORS, coursebookQuery, pickFromQuery,
 } from "./state.js";
 import { actions } from "./actions.js";
+import { closeWordFinder } from "./word-finder.js";
 import { registerMaker, closeMade, leaveView, deleteMade, reconcile, makerActsHtml, SAVES_KEY, DOCS_KEY } from "./made.js";
 import { initSetup, loadPoolWords, validateSetup, renderSetup, highlightSetupGap } from "./views/setup.js";
 import { initWords, renderWords } from "./views/words.js";
@@ -73,7 +74,7 @@ function go(view, { force = false, silent = false } = {}) {
     play(order.indexOf(view) < order.indexOf(from) ? "navBack" : "nav");
   }
   state.view = view;
-  if (from !== view) leaveView(from, view);
+  if (from !== view) { leaveView(from, view); closeWordFinder(); }
   if (FLOW.includes(view)) lastFlow = view;
   $$(".view").forEach((v) => v.classList.toggle("active", v.dataset.view === view));
   $("scroller").scrollTo({ top: 0, behavior: "instant" });

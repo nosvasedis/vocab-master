@@ -3194,7 +3194,10 @@ function renderCoverageHeatmap(coverage, vocabulary) {
     const lines = w ? [...places("Dictation", w.dictation), ...places("Lingo", w.lingo)] : [];
     const via = w ? [...new Set([...w.dictation, ...w.lingo].map((at) => at.via).filter((x) => normalizeWord(x) !== normalizeWord(w.head)))] : [];
     const tip = lines.length ? `Tested in ${lines.join(", ")}${via.length ? ` (as ${via.join(", ")})` : ""}` : "Not tested on either sheet";
-    return `<span class="cov-chip ${cls}" title="${escapeHtml(tip)}">${escapeHtml(v.english)}</span>`;
+    // A word already on a sheet: a click finds it there (js/word-finder.js via the preview).
+    return lines.length
+      ? `<button type="button" class="cov-chip ${cls}" data-cov-find="${escapeHtml(v.english)}" title="${escapeHtml(`${tip} — click to find it on the sheets`)}">${escapeHtml(v.english)}</button>`
+      : `<span class="cov-chip ${cls}" title="${escapeHtml(tip)}">${escapeHtml(v.english)}</span>`;
   }).join(" ");
 }
 

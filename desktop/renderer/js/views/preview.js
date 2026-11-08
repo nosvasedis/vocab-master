@@ -19,7 +19,8 @@ import { productFileName, safeFileName } from "../../studio/file-names.js";
 import { wsItemView, WS_HELP, helpMode, helpModes, familyBase, splitClue, joinAB, joinSteps } from "../../studio/ws-paper.js";
 import { letterHelpField } from "./letter-help-ui.js";
 import { listField, wireLists, listValues } from "../list-field.js";
-import { exerciseWords } from "../../studio/quality-check.js";
+import { exerciseWords, wordCoverage } from "../../studio/quality-check.js";
+import { openWordFinder, closeWordFinder } from "../word-finder.js";
 
 let sheetSeg;
 let densitySeg;
@@ -74,6 +75,8 @@ export function initPreview() {
     onChange: (v) => { state.preview.textSize = v; emit("preview"); renderPaper(); },
   });
   $("optAnswers").addEventListener("change", (e) => { state.preview.showAnswers = e.target.checked; emit("preview"); renderPaper(); });
+  // A word already on the sheets (coverage): find it there.
+  $("coveragePanel").addEventListener("click", (e) => { const b = e.target.closest("[data-cov-find]"); if (b) findWord(b.dataset.covFind); });
   // The header switches apply to all three sheets (screen, print, PDF and Word).
   $("btnHeader").addEventListener("click", () => openHeaderDialog({
     header: state.preview.header, schoolName: prefs.schoolName || "", subtitle: "All three sheets of this unit",
@@ -549,7 +552,39 @@ function renderQuality() {
   $("coveragePanel").innerHTML = `
     <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
     <div class="cov-legend"><span><i style="background:var(--success)"></i>In Dictation</span><span><i style="background:var(--warning)"></i>Lingo only</span><span><i style="background:var(--danger)"></i>Not tested</span></div>
-    <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Hover a word to see where it's tested.</p>`;
+    <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Click a word to find it on the sheets (‹ › moves between its lines).</p>`;
+}
+
+/** Show a sheet (Lingo Launcher, Dictation, Answer key) on the paper. */
+function showSheet(sheet) {
+  if (state.preview.sheet === sheet) return;
+  state.preview.sheet = sheet;
+  sheetSeg.set(sheet);
+  emit("preview");
+  renderLayoutControls();
+  renderPaper();
+}
+
+/**
+ * Find a unit word on the sheets: every line that tests it, outlined with the word highlighted, and a bar to step
+ * through them (switching between the Dictation and Lingo Launcher as needed). A click on a line still edits it.
+ */
+function findWord(english) {
+  const cov = wordCoverage(state.data).words.find((w) => w.head === english);
+  if (!cov) return;
+  const lists = { dictation: state.data?.dictation?.exercises || [], lingo: state.data?.lingoLauncher?.practice || [] };
+  const where = (sheet, at) => {
+    const exIdx = lists[sheet].findIndex((ex) => ex.number === at.exercise);
+    const itemIdx = exIdx < 0 ? -1 : (lists[sheet][exIdx].items || []).findIndex((it) => it.number === at.item);
+    return { exIdx, itemIdx };
+  };
+  const lineEl = (sheet, at) => { const { exIdx, itemIdx } = where(sheet, at); return itemIdx < 0 ? null : shadow.querySelector(`.ex-item[data-ex="${exIdx}"][data-item="${itemIdx}"]`); };
+  const spots = ["dictation", "lingo"].flatMap((sheet) => (cov[sheet] || []).map((at) => ({
+    label: `${SHEET_NAME[sheet]} · exercise ${at.exercise}, line ${at.item}${at.via && at.via !== cov.head ? ` (as “${at.via}”)` : ""}`,
+    el: () => { showSheet(sheet); return lineEl(sheet, at); },
+    peek: () => (state.preview.sheet === sheet ? lineEl(sheet, at) : null),
+  })));
+  openWordFinder({ root: shadow, word: english, spots });
 }
 
 /** Show a line from the check on its sheet (switches sheet, scrolls to it and flashes it). */

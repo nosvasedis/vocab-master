@@ -1289,3 +1289,11 @@
 .wp-add { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border: 1.5px solid transparent; border-radius: 99px; font: 600 12.5px/1.3 var(--font-ui); cursor: pointer; }
 .wp-add.on { color: #fff; background: var(--brand); border-color: var(--brand); }
 .wp-go { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+
+/* The word finder (js/word-finder.js): a small bar at the bottom while a word is found on the paper */
+.wf-bar { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 8px; max-width: min(640px, calc(100vw - 32px)); padding: 8px 10px 8px 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18); font-size: 13px; animation: wf-in 0.18s ease-out; }
+.wf-bar .wf-ico { color: #d97706; display: inline-flex; }
+.wf-bar .wf-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; margin-right: 4px; }
+.wf-bar .wf-text small { color: var(--text-3); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wf-bar .wf-count { color: var(--text-3); font-weight: 600; font-size: 12px; margin-left: 4px; }
+@keyframes wf-in { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
