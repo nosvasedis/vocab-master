@@ -46,17 +46,20 @@ function mountVoiceSettings(q) {
     render();
   });
   sample.addEventListener("click", () => {
-    if (player) { player.stop(); player = null; return; }
+    if (player) { player.stop(); player = null; sample.innerHTML = `${icon("play", "i-sm")}Hear a sample`; render(); return; }
     sample.innerHTML = `${icon("pause", "i-sm")}Stop`;
-    player = playSample({
+    const mine = () => player === ctl; // a stopped sample must not touch the next one
+    const ctl = playSample({
       onStatus: (st) => {
+        if (!mine()) return;
         if (st.phase === "download") hint.textContent = `Downloading the natural voices… ${Math.round((st.progress || 0) * 100)}%`;
         else if (st.phase === "prepare") hint.textContent = "Making the sample…";
         else if (st.phase === "fallback") toast(st.message, "warn");
         else render();
       },
-      onEnd: () => { player = null; sample.innerHTML = `${icon("play", "i-sm")}Hear a sample`; render(); },
+      onEnd: () => { if (!mine()) return; player = null; sample.innerHTML = `${icon("play", "i-sm")}Hear a sample`; render(); },
     });
+    player = ctl;
   });
   render();
 }

@@ -18,6 +18,7 @@ import { picPngMap, inlinePictures } from "../../studio/pic-assets.js";
 import { productFileName, safeFileName } from "../../studio/file-names.js";
 import { wsItemView, WS_HELP, helpMode, helpModes, familyBase, splitClue, joinAB, joinSteps } from "../../studio/ws-paper.js";
 import { letterHelpField } from "./letter-help-ui.js";
+import { listField, wireLists, listValues } from "../list-field.js";
 
 let sheetSeg;
 let densitySeg;
@@ -694,10 +695,10 @@ function openItemEditor(sheet, exIndex, itemIndex) {
   let body = "";
   if (kind === "choice") {
     body = field("ie_body", view.target ? "Word" : "Sentence", choiceBody, { rows: view.target ? 0 : 2, hint: view.target ? "its options are printed under it" : "the gap is ________" })
-      + field("ie_opts", "Options", view.options.join("\n"), { rows: 3, hint: "one per line — printed a, b, c to circle" })
+      + listField("ie_opts", "Options", ["Option"], view.options, { hint: "printed a, b, c to circle", add: "Add an option", wide: true })
       + `<div class="field"><label class="label" for="ie_answer">Right answer</label><select class="select" id="ie_answer"></select></div>`;
   } else if (kind === "odd") {
-    body = field("ie_opts", "The words", view.options.join("\n"), { rows: 4, hint: "one per line — three belong together" }) + `<div class="field"><label class="label" for="ie_answer">The odd one out</label><select class="select" id="ie_answer"></select></div>`;
+    body = listField("ie_opts", "The words", ["Word"], view.options, { hint: "three belong together", add: "Add a word", wide: true }) + `<div class="field"><label class="label" for="ie_answer">The odd one out</label><select class="select" id="ie_answer"></select></div>`;
   } else if (kind === "ab") {
     body = field("ie_a", "Sentence A", view.options[0], { rows: 2 }) + field("ie_b", "Sentence B", view.options[1], { rows: 2 }) + select("ie_answer", "The right one", [["A", "A"], ["B", "B"]], item.answer);
   } else if (kind === "label") {
@@ -707,7 +708,7 @@ function openItemEditor(sheet, exIndex, itemIndex) {
   } else if (kind === "match") {
     body = field("ie_body", "Word", view.word) + (matchLetters.length ? select("ie_answer", "Its meaning", matchLetters.map((l) => [l, `${l} · ${meaning(l)}`]), item.answer) : field("ie_answer", "Letter", item.answer, { wide: false }));
   } else if (kind === "steps") {
-    body = field("ie_steps", "Steps", view.steps.join("\n"), { rows: 4, hint: "one per line, as printed a, b, c … (mixed up)" }) + field("ie_answer", "Right order", item.answer, { hint: "the letters, e.g. b, a, c" });
+    body = listField("ie_steps", "Steps", ["Step"], view.steps, { hint: "as printed a, b, c … (mixed up)", add: "Add a step", wide: true }) + field("ie_answer", "Right order", item.answer, { hint: "the letters, e.g. b, a, c" });
   } else if (kind === "group") {
     body = field("ie_body", "Group", view.group) + field("ie_answer", "Its words", item.answer, { hint: "comma-separated — they go in the word box" });
   } else if (kind === "jumble") {
@@ -750,8 +751,8 @@ function openItemEditor(sheet, exIndex, itemIndex) {
         ${body}
         ${showStem ? `<div class="field"><label class="label" for="ie_stem">Stem clue (bold)</label><input class="input" id="ie_stem" value="${esc(item.stem || "")}" autocomplete="off" /></div>` : ""}
         ${showTests ? `<div class="field wide"><label class="label" for="ie_tests">Tests these unit words <span class="opt">comma-separated</span></label><input class="input" id="ie_tests" value="${esc((item.testsWords || []).join(", "))}" autocomplete="off" /></div>` : ""}
-        ${showBank ? `<div class="field wide"><label class="label" for="ie_bank">${ex.typeId === "D13" ? "Meanings" : "Word bank"} <span class="opt">one per line · whole exercise${ex.typeId === "D13" ? " · “A. meaning”" : " · words that fit no gap count as extra words"}</span></label><textarea class="textarea" id="ie_bank" rows="4">${esc(ex.wordBank.join("\n"))}</textarea></div>` : ""}
-        ${showList ? `<div class="field wide"><label class="label" for="ie_list">Word list <span class="opt">one per line · whole exercise · words that fit no gap count as extra words</span></label><textarea class="textarea" id="ie_list" rows="4">${esc(ex.wordList.join("\n"))}</textarea></div>` : ""}
+        ${showBank ? listField("ie_bank", ex.typeId === "D13" ? "Meanings" : "Word bank", [ex.typeId === "D13" ? "Meaning" : "Word"], ex.wordBank, { hint: `whole exercise${ex.typeId === "D13" ? " · “A. meaning”" : " · words that fit no gap count as extra words"}`, add: ex.typeId === "D13" ? "Add a meaning" : "Add a word", wide: true }) : ""}
+        ${showList ? listField("ie_list", "Word list", ["Word"], ex.wordList, { hint: "whole exercise · words that fit no gap count as extra words", add: "Add a word", wide: true }) : ""}
       </div>
       ${help?.html || ""}
       <div class="validation-line ok" id="ie_val">${icon("check-circle")}<span>Checking…</span></div>`,
@@ -767,18 +768,18 @@ function openItemEditor(sheet, exIndex, itemIndex) {
     onMount(root, close) {
       const q = (id) => root.querySelector(id);
       const val = (id) => q(id)?.value ?? "";
-      const lines = (id) => val(id).split("\n").map((x) => x.trim()).filter(Boolean);
+      const lines = (id) => (root.querySelector(`[data-list="${id.slice(1)}"]`) ? listValues(root, id.slice(1)) : val(id).split("\n").map((x) => x.trim()).filter(Boolean));
       help?.mount(root);
       // The right-answer list follows the options as they are typed.
       const fillAnswers = () => {
         const sel = q("#ie_answer");
-        if (!sel || sel.tagName !== "SELECT" || !q("#ie_opts")) return;
+        if (!sel || sel.tagName !== "SELECT" || !q('[data-list="ie_opts"]')) return;
         const opts = lines("#ie_opts");
         const cur = sel.value || item.answer;
         sel.innerHTML = opts.map((o, i) => `<option value="${esc(o)}"${o.toLowerCase() === String(cur).toLowerCase() ? " selected" : ""}>${LET[i] || ""}) ${esc(o)}</option>`).join("");
       };
       fillAnswers();
-      q("#ie_opts")?.addEventListener("input", fillAnswers);
+      wireLists(root, (id) => { if (id === "ie_opts") fillAnswers(); validate(); });
       q("[data-mix]")?.addEventListener("click", () => { q("#ie_prompt").value = mixWords(val("#ie_answer")); q("#ie_prompt").dispatchEvent(new Event("input", { bubbles: true })); });
       /** The line as the teacher left it: the prompt rebuilt in the exercise's own format; check = why it can't be saved. */
       const built = () => {

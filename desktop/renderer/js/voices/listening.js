@@ -176,6 +176,7 @@ export function scriptSegments(lines, engine, levelId = "") {
   if (engine === "studio") {
     return dialogueRequests(spoken, cast, { levelId }).map((r) => ({
       ...spoken[r.lines.at(-1)],
+      first: spoken[r.lines[0]], // pauseAfter looks at the next run's first line (a narrator's "Number 2.")
       lines: r.lines,
       key: clipKey("studio", r.body.generation_config.speech_config.speakers?.map((s) => s.voice).join("+") || r.body.generation_config.speech_config[0].voice, 1, JSON.stringify(r.body.input)),
       make: () => studioFetch(r.body),
@@ -371,13 +372,28 @@ export function readDictation(sentences, opts = {}) {
  * The whole listening as a WAV (played `plays` times, 4 s apart). The computer voices can't be recorded,
  * so a download always uses natural or studio voices. onStatus as in playScript.
  */
+/** Make every clip of some segments with the studio or natural voices; a studio failure (quota, key, network)
+ * falls back to the natural voices, like the player does. → { engine, segs, clips } */
+async function makeClips(makeSegs, onStatus) {
+  let engine = activeEngine() === "studio" ? "studio" : "natural";
+  const run = async () => {
+    if (engine === "natural") await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
+    const segs = makeSegs(engine);
+    let done = 0;
+    onStatus?.({ engine, phase: "prepare", done, total: segs.length });
+    const clips = await Promise.all(segs.map((s) => segmentClip(s).then((c) => { onStatus?.({ engine, phase: "prepare", done: ++done, total: segs.length }); return c; })));
+    return { engine, segs, clips };
+  };
+  try { return await run(); } catch (e) {
+    if (engine !== "studio" || !naturalSupported()) throw e;
+    onStatus?.({ engine: "natural", phase: "fallback", message: `${e.message} The natural voices make it instead.` });
+    engine = "natural";
+    return run();
+  }
+}
+
 export async function scriptWav(lines, { plays = 2, levelId = "", onStatus } = {}) {
-  const engine = activeEngine() === "studio" ? "studio" : "natural";
-  if (engine === "natural") await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
-  const segs = scriptSegments(lines, engine, levelId);
-  let done = 0;
-  onStatus?.({ engine, phase: "prepare", done, total: segs.length });
-  const clips = await Promise.all(segs.map((s) => segmentClip(s).then((c) => { onStatus?.({ engine, phase: "prepare", done: ++done, total: segs.length }); return c; })));
+  const { engine, segs, clips } = await makeClips((eng) => scriptSegments(lines, eng, levelId), onStatus);
   const track = renderTrack(segs, clips, { plays });
   return { blob: new Blob([encodeWav(track.samples, track.rate)], { type: "audio/wav" }), seconds: track.layout.seconds, engine };
 }
@@ -387,12 +403,7 @@ export async function scriptWav(lines, { plays = 2, levelId = "", onStatus } = {
  * write). Natural or studio voices (the computer voices can't be recorded). onStatus as in readDictation.
  */
 export async function dictationWav(sentences, { repeats = 2, levelId = "", punctuation = false, onStatus } = {}) {
-  const engine = activeEngine() === "studio" ? "studio" : "natural";
-  if (engine === "natural") await prepareNatural((p) => onStatus?.({ engine, phase: "download", progress: p }));
-  const segs = dictationSegments(sentences, engine, { repeats, levelId, punctuation });
-  let done = 0;
-  onStatus?.({ engine, phase: "prepare", done, total: segs.length });
-  const clips = await Promise.all(segs.map((s) => segmentClip(s).then((c) => { onStatus?.({ engine, phase: "prepare", done: ++done, total: segs.length }); return c; })));
+  const { engine, segs, clips } = await makeClips((eng) => dictationSegments(sentences, eng, { repeats, levelId, punctuation }), onStatus);
   const track = dictationTrack(segs, clips);
   return { blob: new Blob([encodeWav(track.samples, track.rate)], { type: "audio/wav" }), seconds: track.seconds, engine };
 }

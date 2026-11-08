@@ -8,7 +8,7 @@ import { actions } from "../actions.js";
 import { $, esc, icon, plural } from "../ui.js";
 import { owl, recentDocs } from "./studio-common.js";
 import { askAssistant } from "./assistant.js";
-import { openMade, isOpen } from "../made.js";
+import { openMade } from "../made.js";
 import { projectorHasContent } from "./projector.js";
 
 let built = false;
@@ -24,10 +24,10 @@ const FLOW = [["setup", "Class & unit"], ["words", "Words"], ["exercises", "Exer
 
 function greeting(d = new Date()) {
   const h = d.getHours();
-  if (h < 5) return ["Working late", "Καλό βράδυ"];
-  if (h < 12) return ["Good morning", "Καλημέρα"];
-  if (h < 18) return ["Good afternoon", "Καλό απόγευμα"];
-  return ["Good evening", "Καλό βράδυ"];
+  if (h < 5) return "Working late";
+  if (h < 12) return "Good morning";
+  if (h < 18) return "Good afternoon";
+  return "Good evening";
 }
 
 function currentUnit() {
@@ -139,7 +139,7 @@ function recentList() {
   const kindName = { test: "Test", dictation: "Dictation", unit: "Worksheets" };
   return `<div class="hm-recent">${items.map((it) => `<button type="button" class="hm-recent-row" data-hm="${esc(it.act)}" data-kind="${it.kind}">
       <span class="hm-recent-ico">${icon(kindIco[it.kind], "i-sm")}</span>
-      <span class="hm-recent-text"><b>${esc(it.title)}</b><small>${esc(kindName[it.kind])}${isOpen(it.kind, it.id) ? " · open now" : ""}${it.sub ? ` · ${esc(it.sub)}` : ""}</small></span>
+      <span class="hm-recent-text"><b>${esc(it.title)}</b><small>${esc(kindName[it.kind])}${it.sub ? ` · ${esc(it.sub)}` : ""}</small></span>
       ${it.lvl && LEVEL_COLORS[it.lvl] ? `<span class="hm-dot" style="background:${LEVEL_COLORS[it.lvl]}"></span>` : ""}
       <small class="hm-when">${esc(when(it.at))}</small>
     </button>`).join("")}</div>`;
@@ -155,7 +155,7 @@ function classCards() {
 
 export function renderHome() {
   if (!built) build();
-  const [hello, el] = greeting();
+  const hello = greeting();
   const today = new Date().toLocaleDateString(undefined, { weekday: "long", day: "numeric", month: "long" });
   const tests = recentDocs("test").length;
   const dicts = recentDocs("dictation").length;
@@ -165,7 +165,7 @@ export function renderHome() {
     <div class="hm-hero-glow" aria-hidden="true"><i></i><i></i></div>
     <div class="hm-hero-text">
       <span class="hm-date">${icon("clock", "i-xs")}${esc(today)}</span>
-      <h2>${esc(hello)}! <span class="hm-el" lang="el">${esc(el)}</span></h2>
+      <h2>${esc(hello)}!</h2>
       <p>What are we making for your class today?</p>
       <form class="hm-ask" id="hmAsk">
         <span class="hm-ask-ico">${icon("sparkles")}</span>

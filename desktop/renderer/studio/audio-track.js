@@ -2,6 +2,8 @@
  * A clip is { samples: Float32Array, rate }. A track is the clips in order with natural pauses,
  * played once or twice with a longer pause between, levelled to one loudness and saved as 16-bit WAV. */
 
+import { isMark } from "./listening-sync.js";
+
 export const RATE = 24000; // Kokoro and Gemini both speak at 24 kHz
 
 /** Float32 mono → 16-bit PCM WAV bytes. */
@@ -94,9 +96,16 @@ export function level(samples, targetRms = 0.1, maxPeak = 0.92) {
   return out;
 }
 
+/** Seconds to answer before the narrator reads the next number. */
+export const NUMBER_GAP = 3;
+
 /** Pause after a line: longer after a question and at a change of speaker, never rushed. */
 export function pauseAfter(line, next) {
   if (!next) return 0;
+  // A numbered recording: time to answer before the narrator's next "Number n.", a short beat after it.
+  const nextLine = next.first || next;
+  if (isMark(nextLine)) return NUMBER_GAP;
+  if (isMark(line.last || line)) return 0.7;
   const q = /\?\s*$/.test(line.text || "");
   const turn = (line.speaker || "") !== (next.speaker || "");
   return (turn ? 0.55 : 0.35) + (q ? 0.2 : 0);

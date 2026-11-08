@@ -9,6 +9,7 @@
  * one ("Listen for the main idea" cuts its own recording). The teacher's own changes never call the AI by themselves:
  * a part whose recording may not fit shows "Remake the recording" (one request) on the paper, in Play the listening,
  * Step 3 and Step 5. */
+import { listField, wireLists, listValues } from "../list-field.js";
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, KNOBS, tfLabels, levelIndex, partOpts, taskFit } from "../../studio/tasks.js";
 import { LETTER_HELP_TASKS, showsExample, speakingCardLabel } from "../../studio/doc-model.js";
@@ -16,7 +17,7 @@ import { picUrl } from "../pics.js";
 import { letterHelpField } from "./letter-help-ui.js";
 import { TEST_DEFAULTS } from "../../studio/levels.js";
 import { reviseSection, fixItemsPrompt, applyItemFixes, makePart, specPoints, estimateMinutes, scriptPrompt, applyScript } from "../../studio/test-builder.js";
-import { recordingState, unheardAnswers, cutGistRecording } from "../../studio/listening-sync.js";
+import { recordingState, unheardAnswers, cutGistRecording, numberedScript } from "../../studio/listening-sync.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "../../studio/remake.js";
 import { containsForm } from "../../studio/word-scope.js";
 import { itemUses, placementOptions, testCoverage, planNewParts, newPartTasks, hasWord } from "../../studio/test-coverage.js";
@@ -101,8 +102,8 @@ export function mountTestEditing(host) {
       mark(secEl.querySelector(".word-bank:not(.st-keywords)"), { kind: "bank", id });
       mark(secEl.querySelector(".match-defs"), { kind: "pairs", id });
       mark(secEl.querySelector(".st-sort"), { kind: "pairs", id });
-      mark(secEl.querySelector(".st-example"), { kind: "example", id });
-      [...secEl.querySelectorAll(".st-item:not(.st-example), .pic-card:not(.st-example)")].forEach((el, k) => {
+      mark(secEl.querySelector(".st-example, .st-first"), { kind: "example", id });
+      [...secEl.querySelectorAll(".st-item:not(.st-example):not(.st-first), .pic-card:not(.st-example)")].forEach((el, k) => {
         if (s.items[k]) mark(el, { kind: "item", id, ref: s.items[k], remake: true });
       });
       // A speaking part's pictures and cards open the speaking editor (on the card that was clicked).
@@ -185,7 +186,7 @@ export function mountTestEditing(host) {
       if (!raw.items[idx]) return false;
       const [gone] = raw.items.splice(idx, 1);
       // "Listen for the main idea": its own short recording goes too, and the ones after it are renumbered.
-      if (s.task === "L-GIST") raw.script = cutGistRecording(raw.script, idx + 1) || raw.script;
+      if (s.task === "L-GIST" || numberedScript(raw.script)) raw.script = cutGistRecording(raw.script, idx + 1) || raw.script;
       // Its answer leaves the word box too (unless another question still needs it).
       if (Array.isArray(raw.bank) && gone?.answer && !raw.items.some((it) => lc(it.answer) === lc(gone.answer))) {
         const at = raw.bank.findIndex((w) => lc(w) === lc(gone.answer));
@@ -195,7 +196,7 @@ export function mountTestEditing(host) {
     if (!ok) return;
     host.itemsChanged?.(d.id);
     host.commit();
-    const recNote = s.skill !== "listening" ? "" : s.task === "L-GIST" ? " Its recording was cut out too." : " The recording still fits — its detail stays as an extra one.";
+    const recNote = s.skill !== "listening" ? "" : s.task === "L-GIST" || numberedScript(s.script) ? " Its recording was cut out too." : " The recording still fits — its detail stays as an extra one.";
     toast(`Question ${n} deleted — ${plural(A(d.id).items.length, "question")} left in this part.${recNote}`, "ok", { ms: 6000, actions: [{ label: "Undo", run: () => {
       if (host.doc() !== doc) return;
       Object.assign(doc, JSON.parse(before));
@@ -420,6 +421,8 @@ export function mountTestEditing(host) {
   function openEditor(d, el) {
     const doc = host.doc();
     if (d.kind === "meta") {
+      // The title belongs to the Header dialog (title, header lines and their words in one place).
+      if (host.openHeader) return host.openHeader();
       return form({
         title: "The test’s title", iconName: "pencil",
         body: field("pe_title", "Title", doc.meta.title) + field("pe_sub", "Line under the title", doc.meta.subtitle, { hint: "optional" }),
@@ -431,8 +434,9 @@ export function mountTestEditing(host) {
     const sub = label(s);
     if (d.kind === "rubric") {
       // The part's own example switch: the test's Examples switch decides until the teacher changes it here (and a
-      // switch that matches the test's again goes back to following it). An order task always keeps its first event.
-      const hasExample = !!s.example && s.task !== "R-ORDER";
+      // switch that matches the test's again goes back to following it). An order task's hidden first event is
+      // listed with the others, unsolved.
+      const hasExample = !!s.example;
       const testOn = doc.meta.layout?.examples !== false;
       const shownNow = s.showExample ?? testOn;
       return form({
@@ -465,24 +469,34 @@ export function mountTestEditing(host) {
     if (d.kind === "bank") {
       return form({
         title: "The word box", subtitle: sub,
-        body: field("pe_bank", "Words", s.bank.join("\n"), { rows: 8, hint: "one per line — the answers are always in it; words that fit no gap are extra words, and the instruction says how many" }),
-        onSave: (v) => revise(s.id, (raw) => { raw.bank = lines(v("pe_bank")); raw.keepBank = true; }, "Word box saved.").then(() => host.itemsChanged?.(s.id)),
+        body: listField("pe_bank", "Words", ["Word"], s.bank, { hint: "the answers are always in it; words that fit no gap are extra words, and the instruction says how many", add: "Add a word" }),
+        onMount: (root) => wireLists(root),
+        onSave: (v, root) => revise(s.id, (raw) => { raw.bank = listValues(root, "pe_bank"); raw.keepBank = true; }, "Word box saved.").then(() => host.itemsChanged?.(s.id)),
       });
     }
     if (d.kind === "pairs") {
       // Matching, a conversation's replies, missing sentences, or words and their groups — each pair is a question.
       const [title, left, right] = PAIR_LABELS[s.task] || PAIR_LABELS.default;
       const extras = Array.isArray(s.extras);
+      // A pair that stays keeps what else it had (a picture, the teacher's letter help).
+      const keyOf = (a, b) => `${a}\u0000${b}`;
       return form({
         title, subtitle: sub,
-        body: (s.task === "V-SORT" ? field("pe_groups", "Groups", (s.groups || []).join("\n"), { rows: 3, hint: "one per line — each word’s group must be one of them" }) : "")
-          + `<div class="pe-pairs">${s.items.map((it, k) => `<div class="pe-pair"><span class="pe-n">${k + 1}</span><input class="input" id="pe_w${k}" value="${esc(it.prompt)}" aria-label="${left} ${k + 1}" /><input class="input" id="pe_m${k}" value="${esc(it.answer)}" aria-label="${right} ${k + 1}" /></div>`).join("")}</div>`
-          + (extras ? field("pe_extras", "Extra sentences", s.extras.join("\n"), { rows: 3, hint: "one per line — they fit no gap" }) : ""),
-        onSave: (v) => revise(s.id, (raw) => {
-          s.items.forEach((_, k) => { raw.items[k] = { ...raw.items[k], prompt: v(`pe_w${k}`).trim(), answer: v(`pe_m${k}`).trim() }; });
-          if (s.task === "V-SORT") raw.groups = lines(v("pe_groups"));
-          if (extras) raw.extras = lines(v("pe_extras"));
-        }, `${title} saved.`),
+        body: (s.task === "V-SORT" ? listField("pe_groups", "Groups", ["Group"], s.groups || [], { hint: "each word’s group must be one of them", add: "Add a group" }) : "")
+          + listField("pe_pairs", "", [left, right], s.items.map((it) => [it.prompt, it.answer]), { add: `Add a ${left.toLowerCase()}` })
+          + (extras ? listField("pe_extras", "Extra sentences", ["Sentence"], s.extras, { hint: "they fit no gap", add: "Add a sentence" }) : ""),
+        onMount: (root) => wireLists(root),
+        onSave: (v, root) => {
+          const pairs = listValues(root, "pe_pairs").filter(([a, b]) => a && b);
+          if (!pairs.length) { toast("Keep at least one pair — or delete the part.", "warn"); return false; }
+          const old = new Map(s.items.map((it, k) => [keyOf(it.prompt, it.answer), k]));
+          return revise(s.id, (raw) => {
+            const was = raw.items;
+            raw.items = pairs.map(([prompt, answer]) => ({ ...(was[old.get(keyOf(prompt, answer))] || {}), prompt, answer }));
+            if (s.task === "V-SORT") raw.groups = listValues(root, "pe_groups");
+            if (extras) raw.extras = listValues(root, "pe_extras");
+          }, `${title} saved.`).then(() => host.itemsChanged?.(s.id));
+        },
       });
     }
     if (d.kind === "item" || d.kind === "example") return itemEditor(s, d, el);
@@ -491,8 +505,11 @@ export function mountTestEditing(host) {
       const pics = TASKS[s.task]?.needs?.includes("pictures");
       return form({
         title: "The writing task", subtitle: sub,
-        body: field("pe_task", "The task", s.task_prompt, { rows: 3 }) + (pics ? field("pe_pics", "Pictures", (s.pictures || []).map((p) => p.word).join("\n"), { rows: 3, hint: "one word per line, in story order — words with a picture in the app" }) : "") + field("pe_frame", "Help points", s.frame.join("\n"), { rows: 4, hint: "one per line" }) + field("pe_sample", "Model answer", s.sample, { rows: 5, hint: "teacher’s pack" }),
-        onSave: (v) => revise(s.id, (raw) => { raw.prompt = v("pe_task").trim(); if (pics) raw.pictures = lines(v("pe_pics")); raw.frame = lines(v("pe_frame")); raw.sample = v("pe_sample").trim(); }, "Writing task saved."),
+        body: field("pe_task", "The task", s.task_prompt, { rows: 3 }) + (pics ? listField("pe_pics", "Pictures", ["Word"], (s.pictures || []).map((p) => p.word), { hint: "in story order — words with a picture in the app", add: "Add a picture" }) : "")
+          + listField("pe_frame", s.task === "W-SENT" ? "Sentence starters" : "Help points", [s.task === "W-SENT" ? "Starter" : "Point"], s.frame, { add: s.task === "W-SENT" ? "Add a starter" : "Add a point" })
+          + field("pe_sample", "Model answer", s.sample, { rows: 5, hint: "teacher’s pack" }),
+        onMount: (root) => wireLists(root),
+        onSave: (v, root) => revise(s.id, (raw) => { raw.prompt = v("pe_task").trim(); if (pics) raw.pictures = listValues(root, "pe_pics"); raw.frame = listValues(root, "pe_frame"); raw.sample = v("pe_sample").trim(); }, "Writing task saved."),
       });
     }
     if (d.kind === "sample") {
@@ -820,10 +837,10 @@ The right answer MUST be "${opts.answer}" (a form of it that fits the sentence i
     const gone = have - target;
     reviseSection(doc, host.spec(), id, (raw) => {
       raw.items.splice(target);
-      if (s.task === "L-GIST") for (let n = have; n > target; n--) raw.script = cutGistRecording(raw.script, n) || raw.script;
+      if (s.task === "L-GIST" || numberedScript(raw.script)) for (let n = have; n > target; n--) raw.script = cutGistRecording(raw.script, n) || raw.script;
     }, { picFor: ctx.picFor, focusWords: ctx.focus });
     host.itemsChanged?.(id);
-    done(before, `${gone > 1 ? `The last ${gone} questions` : "The last question"} taken out — ${plural(target, "question")} left.${s.task === "L-GIST" ? " Their recordings were cut out too." : s.script?.length ? " The recording still fits." : ""}`);
+    done(before, `${gone > 1 ? `The last ${gone} questions` : "The last question"} taken out — ${plural(target, "question")} left.${s.task === "L-GIST" || numberedScript(s.script) ? " Their recordings were cut out too." : s.script?.length ? " The recording still fits." : ""}`);
   }
 
   /** A question on the paper (A version), for the busy look while Lingo rewrites it. */

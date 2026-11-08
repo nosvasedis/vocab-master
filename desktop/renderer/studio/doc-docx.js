@@ -2,7 +2,7 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, exampleGapFill, matchList, playedScript, sectionRubric, showsExample, sortBank, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, boldWordsInstead, orderList, starterPieces, starterWords, docPoints, exampleGapFill, matchList, playedScript, sectionRubric, showsExample, sortBank, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields, headerSchool, headerTitle } from "./paper-header.js";
@@ -165,7 +165,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         : [run(gapText(bit), { size: 21 })]));
       children.push(box([...(s.passageTitle ? [para([run(s.passageTitle, { bold: true })])] : []), ...s.passage.split(/\n+/).map((p) => para(passageRuns(p), { spacing: { after: 1 * MM } }))]));
     }
-    if (s.bank?.length) {
+    if (s.bank?.length && !boldWordsInstead(s)) {
       if (s.answerType === "match") matchList(s, meta.layout).defs.forEach((b) => children.push(para([run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text, { size: 20 })], { indent: { left: 8 * MM } })));
       // The words to sort: the example's word crossed out (it is already in the table).
       // (Hidden, the example isn't on the paper, so neither is its word.)
@@ -192,16 +192,17 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       if (s.skill === "speaking") { speakingPaper(s); return; }
       const storyPics = s.pictures.map((p) => pic(p.pic, 90)).filter(Boolean);
       if (storyPics.length) children.push(para(storyPics.flatMap((p, k) => [p, run(`  ${k + 1}     `)])));
-      if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [run(`${gapText(starterText(f))}  `), run("______________________________", { color: "8A8A8A" })]))); return; }
+      if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [...starterPieces(f, starterWords(s, doc)).map((b) => run(gapText(b.text), { bold: b.bold })), run("  "), run("______________________________", { color: "8A8A8A" })]))); return; }
       s.frame.forEach((f) => children.push(para([run(`• ${gapText(f)}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
       return;
     }
-    const withExample = !!s.example && (teacher || showsExample(s, meta.layout));
+    // An order task's hidden first event is one more lettered event (orderList), on the teacher's pack too (same letters).
+    const withExample = !!s.example && (s.task === "R-ORDER" ? showsExample(s, meta.layout) : teacher || showsExample(s, meta.layout));
     // A matching part's letters are the ones its list prints (the example's meaning is in the list only while it is shown).
     const matched = s.answerType === "match" ? matchList(s, meta.layout) : null;
     const letterOf = (it) => (matched ? matched.letterOf(it.answer).toUpperCase() : "");
-    const all = [...(withExample ? [{ ...s.example, n: 0 }] : []), ...s.items];
+    const all = [...(withExample ? [{ ...s.example, n: 0 }] : []), ...(s.task === "R-ORDER" ? orderList(s, meta.layout) : s.items)];
     const cols = testPartColumns(s, { textSize, withExample });
     const out = [];
     all.forEach((it) => {

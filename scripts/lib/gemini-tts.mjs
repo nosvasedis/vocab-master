@@ -84,7 +84,7 @@ export async function synthesize({ model, voice, text, style = "", turns, speake
     input: [{ type: "user_input", content: conversational ? turns.map((t) => textItem(t.text, { speaker: t.speaker, style: t.style })) : [textItem(text, { style })] }],
     response_format: { type: "audio" },
     generation_config: {
-      speech_config: conversational ? { mode: "conversational", speakers } : [{ voice }],
+      speech_config: conversational ? { speakers } : [{ voice }],
     },
   };
   const json = await post("/interactions", body);

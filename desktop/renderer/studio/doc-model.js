@@ -8,7 +8,7 @@ import { readingText } from "./reading-texts.js";
 import { balancedPositions, binaryBalance } from "./answer-balance.js";
 import { fitWordBox, countExtraWords, repeatedAnswers, withExtraWords } from "./word-box.js";
 import { containsForm } from "./word-scope.js";
-import { scriptKeys, isMark } from "./listening-sync.js";
+import { scriptKeys, isMark, numberedScript } from "./listening-sync.js";
 import { gapFitProblem, passageGapSentence } from "./gap-fit.js";
 
 /** Letters for options, matching meanings and order boxes: enough for the longest part (12 questions + the example). */
@@ -297,7 +297,24 @@ export const boxExtras = (section) => (hasWordBox(section) ? countExtraWords(sec
  * the part's title → Example) wins when the teacher set one; otherwise the test's Examples switch decides. An order
  * task keeps its first event, so its example always shows.
  */
-export const showsExample = (section, layout = {}) => !!section?.example && (section.task === "R-ORDER" || (section.showExample ?? layout.examples !== false));
+export const showsExample = (section, layout = {}) => !!section?.example && (section.showExample ?? layout.examples !== false);
+
+/**
+ * "Put the events in order" as the paper lists it. With the example shown, the first event is written in (✓ 1) above
+ * the lettered events. Hidden, it is not given away: it joins the others as one more lettered event (at a fixed place
+ * that depends on the text, so the paper, Word file and key agree) and the children number every event.
+ * → [{ ...item, letter, first }] (first: the example's event).
+ */
+export function orderList(section, layout = {}) {
+  const items = section?.items || [];
+  if (section?.task !== "R-ORDER" || !section.example || showsExample(section, layout)) return items.map((it) => ({ ...it, first: false }));
+  let h = 0;
+  for (const ch of String(section.example.prompt || "")) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  const at = items.length ? 1 + (h % items.length) : 0; // never first: the first event isn't handed over by its place
+  const list = [...items];
+  list.splice(at, 0, { ...section.example, answer: "1" });
+  return list.map((it, i) => ({ ...it, letter: LETTERS[i], first: it === list[at] && i === at }));
+}
 
 /**
  * A matching part's list as printed: its meanings with their letters, the letter of each answer, and the example's
@@ -325,6 +342,30 @@ export function matchList(section, layout = {}) {
  * about my town.", "My name is ____."): a gap at the end becomes the writing line (so the paper never shows two
  * lines in a row), gaps inside stay as short gaps, and "..." is one ellipsis.
  */
+/**
+ * "Finish the sentences": the unit words are already in the starters, so there is no word box — the words are printed
+ * in bold inside the starters instead. → [{ text, bold }] pieces of one starter.
+ */
+export function starterPieces(starter, words = []) {
+  const text = starterText(starter);
+  const list = [...new Set((words || []).map((w) => clean(w)).filter((w) => w && w.length > 1))].sort((a, b) => b.length - a.length);
+  if (!list.length) return [{ text, bold: false }];
+  const rx = new RegExp(`\\b(${list.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})(?:s|es|ed|ing)?\\b`, "gi");
+  const out = [];
+  let at = 0;
+  for (const m of text.matchAll(rx)) {
+    if (m.index > at) out.push({ text: text.slice(at, m.index), bold: false });
+    out.push({ text: m[0], bold: true });
+    at = m.index + m[0].length;
+  }
+  if (at < text.length) out.push({ text: text.slice(at), bold: false });
+  return out;
+}
+/** The words printed in bold in a part's starters: its own words and the test's unit words. */
+export const starterWords = (section, doc) => [...(section?.bank || []), ...((doc?.focusWords || []).map((w) => w?.english || w))].filter((w) => typeof w === "string");
+/** Parts whose word box is not printed: the words are in bold in the sentences ("Finish the sentences"). */
+export const boldWordsInstead = (section) => section?.task === "W-SENT";
+
 export function starterText(starter) {
   let s = clean(starter).replace(/\.{3,}/g, "…");
   // Trailing gap (with any full stop, ellipsis or other punctuation after it) → the line after the starter.
@@ -731,14 +772,14 @@ export function exampleGapFill(section, layout = {}) {
 }
 
 /**
- * A listening part's script as played and printed. "Listen for the main idea" has one short recording per question,
+ * A listening part's script as played and printed. "Listen for the main idea" (and any numbered recording) has one short recording per question,
  * opened by the narrator ("Example.", "Number 1." …): while the example is hidden from the paper, its recording is
  * left out too, so the children never hear an "Example" they can't see. Other parts keep the whole script (the
  * example's detail is just one more detail, like a distractor).
  */
 export function playedScript(section, layout = {}) {
   const script = Array.isArray(section?.script) ? section.script : [];
-  if (section?.task !== "L-GIST" || !section.example || showsExample(section, layout)) return script;
+  if ((section?.task !== "L-GIST" && !numberedScript(script)) || !section.example || showsExample(section, layout)) return script;
   const start = script.findIndex((l) => isMark(l) && /^example\b/i.test(l.text.trim()));
   if (start < 0) return script;
   let end = script.findIndex((l, i) => i > start && isMark(l));
@@ -759,6 +800,7 @@ export function answerKeyRows(section, layout = {}) {
   // Groups: one row per group with its words.
   if (section.task === "V-SORT") return (section.groups || []).map((g) => ({ n: g, text: (section.items || []).filter((it) => it.answer === g).map((it) => it.prompt).join(", ") }));
   const match = section.answerType === "match" ? matchList(section, layout) : null;
+  if (section.task === "R-ORDER") return orderList(section, layout).map((it) => ({ n: (it.letter || "").toUpperCase() || it.n, text: `${it.answer} — ${it.prompt}` }));
   return (section.items || []).map((it) => {
     if (section.task === "V-USE") return { n: it.n, text: `e.g. ${it.answer}` };
     if (section.answerType === "choice") return { n: it.n, text: `${LETTERS[it.answerIndex] ?? "?"}) ${it.answer}` };

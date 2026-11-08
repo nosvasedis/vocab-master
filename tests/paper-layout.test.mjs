@@ -29,11 +29,12 @@ test("text size: a class on the sheet, a zoom rule for each size, and scaled Wor
   assert.match(renderTeacherPack(docWith("V-MC", { textSize: "xlarge", density: "compact" })), /density-compact text-xlarge/);
 });
 
-test("the examples switch leaves out item 0 — except the first event of an order task", async () => {
+test("the examples switch leaves out item 0 — an order task's first event joins the others, unsolved", async () => {
   assert.match(renderStudentPaper(docWith("V-MC")), /EXAMPLE LINE/);
   assert.doesNotMatch(renderStudentPaper(docWith("V-MC", { examples: false })), /EXAMPLE LINE/);
   const order = docWith("R-ORDER", { examples: false });
-  assert.ok(renderStudentPaper(order).includes("st-example"), "the order task keeps its first event");
+  const html = renderStudentPaper(order);
+  assert.ok(!html.includes("st-example") && html.includes("st-first"), "the first event is listed with the others, not solved");
   const withEx = await buildStudioDocx({ doc: docWith("V-MC"), which: "student" });
   const noEx = await buildStudioDocx({ doc: docWith("V-MC", { examples: false }), which: "student" });
   assert.ok(noEx.size < withEx.size, "the Word paper leaves it out too");
@@ -46,7 +47,7 @@ test("each part has its own example switch: it wins over the test's Examples swi
   assert.equal(showsExample({ example: {} }, { examples: false }), false);
   assert.equal(showsExample({ example: {}, showExample: true }, { examples: false }), true, "the part's own switch wins");
   assert.equal(showsExample({ example: {}, showExample: false }, {}), false);
-  assert.equal(showsExample({ example: {}, task: "R-ORDER", showExample: false }, { examples: false }), true, "the first event stays");
+  assert.equal(showsExample({ example: {}, task: "R-ORDER", showExample: false }, { examples: false }), false, "an order task obeys the switch too");
 
   const doc = docWith("V-MC", { examples: false });
   assert.doesNotMatch(renderStudentPaper(doc), /EXAMPLE LINE/);
@@ -56,8 +57,8 @@ test("each part has its own example switch: it wins over the test's Examples swi
   doc.sections[0].showExample = false;
   assert.doesNotMatch(renderStudentPaper(doc), /EXAMPLE LINE/, "hidden on this part only");
   const order = docWith("R-ORDER", { examples: false });
-  order.sections[0].showExample = false;
-  assert.ok(renderStudentPaper(order).includes("st-example"), "an order task keeps its first event");
+  order.sections[0].showExample = true;
+  assert.ok(renderStudentPaper(order).includes("st-example"), "an order task shows its solved first event when its switch is on");
 
   // Word follows the part's switch too (the file is smaller without the example, bigger with it).
   const sizeOf = async (d) => (await buildStudioDocx({ doc: d, which: "student" })).size;

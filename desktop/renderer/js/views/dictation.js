@@ -456,7 +456,7 @@ function renderRecent() {
     const sec = d.sections?.[0] || {};
     const style = DICTATION_STYLES[sec.style];
     return `<div class="tb-recent-card${d.id === dc.doc?.id ? " is-open" : ""}" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
-        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${STYLE_ICON[sec.style] || ""} ${esc(style?.label || "Read-aloud dictation")}${d.id === dc.doc?.id ? ` <span class="badge brand">Open</span>` : ""}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")}</span>
+        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${STYLE_ICON[sec.style] || ""} ${esc(style?.label || "Read-aloud dictation")}</b><span>${esc(d.meta?.label || d.meta?.bookTitle || "")}</span>
           <span class="trc-meta">${plural(sec.sentences?.length || 0, "sentence")}${when(d.savedAt) ? ` · ${esc(when(d.savedAt))}` : ""}</span></button>
         <button type="button" class="icon-btn sm danger trc-del" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`;
   }).join("");
@@ -542,7 +542,7 @@ function sheetHtml(sheet = dc.sheet) {
 /** The reading as a WAV, made with the chosen voice exactly as “Read it aloud” reads it. */
 const readingWav = () => dictationWav(readAloudLines(dc.doc), {
   repeats: dc.spec.repeats, levelId: dc.doc.meta.classProfile, punctuation: !!dc.spec.punctuationAloud,
-  onStatus: (st) => { dc.status = st; renderVoices(); },
+  onStatus: (st) => { if (st.phase === "fallback") toast(st.message, "warn"); dc.status = st; renderVoices(); },
 });
 const audioName = () => `${productFileName("Dictation audio", dc.doc?.meta || {})}.wav`;
 
@@ -644,19 +644,22 @@ function toggleRead() {
   if (dc.sheet !== "teacher") { dc.sheet = "teacher"; document.querySelector('[data-seg="dcSheet"] [data-value="teacher"]')?.click(); }
   setReadBtn(true);
   const items = () => [...paper.root.querySelectorAll(".st-key .ex-item")];
-  dc.player = readDictation(lines, {
+  const mine = () => dc.player === ctl; // a stopped reading must not touch the next one
+  const ctl = readDictation(lines, {
     repeats: dc.spec.repeats,
     levelId: dc.doc.meta.classProfile,
     punctuation: !!dc.spec.punctuationAloud,
-    onLine: (i) => items().forEach((el, k) => el.classList.toggle("st-playing", k === i)),
+    onLine: (i) => { if (mine() || i === -1) items().forEach((el, k) => el.classList.toggle("st-playing", k === i)); },
     onStatus: (st) => {
+      if (!mine()) return;
       if (st.phase === "fallback") toast(st.message, "warn");
       if (st.phase === "prepare" && dc.status?.phase === "play") return; // reading while the rest is made
       dc.status = st;
       renderVoices();
     },
-    onEnd: () => { dc.player = null; dc.status = null; setReadBtn(false); renderVoices(); },
+    onEnd: () => { if (!mine()) return; dc.player = null; dc.status = null; setReadBtn(false); renderVoices(); },
   });
+  dc.player = ctl;
 }
 
 /** Voices picker and the reader's status, above the paper. */

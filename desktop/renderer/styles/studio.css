@@ -102,6 +102,8 @@
 .voice-pick .vp-opt:hover { color: var(--text); }
 .voice-pick .vp-opt.active { background: var(--brand); color: #fff; }
 .voice-pick .vp-opt.needs-setup:not(.active) { opacity: 0.55; }
+.listen-bar .lb-flow { margin-left: 4px; }
+.listen-bar .lb-flow .vp-opt { padding: 5px 9px; font-size: 11px; }
 .vp-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--surface); color: var(--text-2); max-width: 100%; }
 .vp-status.warn { background: var(--warning-soft); color: var(--warning-ink); }
 .vp-spin { width: 11px; height: 11px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: vp-spin 0.8s linear infinite; flex: none; }
@@ -987,6 +989,10 @@
 .pa-mode .chip { height: 34px; padding: 0 14px; font-weight: 700; }
 .pe-pairs { display: flex; flex-direction: column; gap: 6px; }
 .pe-pair { display: grid; grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1.6fr); gap: 8px; align-items: center; }
+.pe-pair.pe-row { grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1.6fr) 30px; }
+.pe-pair.pe-row.one { grid-template-columns: 22px minmax(0, 1fr) 30px; }
+.pe-list .pe-row-add { align-self: flex-start; margin-top: 6px; }
+.pe-list > .label { display: block; margin-bottom: 6px; }
 .pe-n { font: 800 12px/1 var(--font-ui); color: var(--text-3); text-align: right; }
 .pe-card { position: relative; margin: 4px 0 12px; padding: 10px 14px 4px; border: 1.5px solid var(--border); border-radius: 12px; }
 .pe-card legend { padding: 0 6px; font: 800 12px/1 var(--font-ui); letter-spacing: .04em; text-transform: uppercase; color: var(--brand-ink); }

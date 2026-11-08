@@ -5,6 +5,7 @@
  *   - the delivery note goes in speech_metadata.style and is never read aloud.
  * The app sends these through /gemini/v1beta/interactions (proxy.js on the web, IPC on the desktop). */
 import { spokenText, studioStyle } from "./voice-cast.js";
+import { isMark } from "./listening-sync.js";
 
 export const GEMINI_TTS_MODEL = "gemini-3.8-flash-tts";
 /** USD per second of speech: $9 per 1M output tokens × 25 audio tokens a second (content/pricing.json). */
@@ -23,7 +24,9 @@ export function speakerRuns(lines) {
   let cur = null;
   lines.forEach((line, index) => {
     const sp = line.speaker || "Narrator";
-    if (!cur || (!cur.speakers.has(sp) && cur.speakers.size >= 2)) { cur = { speakers: new Set(), lines: [] }; runs.push(cur); }
+    // A narrator's "Number 1." is a run of its own, so the track can pause before it and after it.
+    const mark = isMark(line);
+    if (!cur || mark || cur.mark || (!cur.speakers.has(sp) && cur.speakers.size >= 2)) { cur = { speakers: new Set(), lines: [], mark }; runs.push(cur); }
     cur.speakers.add(sp);
     cur.lines.push({ ...line, index });
   });
@@ -43,7 +46,7 @@ export function dialogueRequests(lines, cast, { levelId = "" } = {}) {
         response_format: { type: "audio" },
         generation_config: {
           speech_config: conversational
-            ? { mode: "conversational", speakers: run.speakers.map((sp) => ({ speaker: sp, voice: cast[sp]?.voice || "Kore" })) }
+            ? { speakers: run.speakers.map((sp) => ({ speaker: sp, voice: cast[sp]?.voice || "Kore" })) }
             : [{ voice: cast[run.speakers[0]]?.voice || "Kore" }],
         },
       },

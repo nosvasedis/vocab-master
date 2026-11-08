@@ -377,11 +377,11 @@ function build(initial) {
     const match = (s) => !pickerQuery || `${s.title} ${s.sub}`.toLowerCase().includes(pickerQuery);
     const row = (s) => `<button type="button" class="pj-pick${st.src && s.kind === st.src.kind && s.id === st.src.id ? " current" : ""}" data-pick="${esc(`${s.kind}:${s.id}`)}" data-kind="${s.kind}">
         <span class="pj-pick-ico">${icon(PROJECTOR_KINDS[s.kind].icon)}</span>
-        <span class="pj-pick-text"><b>${esc(s.title)}</b><small>${esc([PROJECTOR_KINDS[s.kind].label, s.sub, s.open ? "open now" : s.savedAt ? timeAgo(s.savedAt) : ""].filter(Boolean).join(" · "))}</small></span>
+        <span class="pj-pick-text"><b>${esc(s.title)}</b><small>${esc([PROJECTOR_KINDS[s.kind].label, s.sub, s.open ? "on your screen" : s.savedAt ? timeAgo(s.savedAt) : ""].filter(Boolean).join(" · "))}</small></span>
       </button>`;
     const a = openNow.filter(match);
     const b = lib.filter(match).slice(0, 40);
-    return { all: [...openNow, ...lib], html: `${a.length ? `<h4>Open now</h4>${a.map(row).join("")}` : ""}${b.length ? `<h4>From your Library</h4>${b.map(row).join("")}` : ""}${!a.length && !b.length ? `<p class="pj-pick-empty">${pickerQuery ? "Nothing matches." : "Nothing made yet — a worksheet unit, a test or a dictation shows here."}</p>` : ""}` };
+    return { all: [...openNow, ...lib], html: `${a.length ? `<h4>On your screen</h4>${a.map(row).join("")}` : ""}${b.length ? `<h4>From your Library</h4>${b.map(row).join("")}` : ""}${!a.length && !b.length ? `<p class="pj-pick-empty">${pickerQuery ? "Nothing matches." : "Nothing made yet — a worksheet unit, a test or a dictation shows here."}</p>` : ""}` };
   };
   let pickerItems = [];
   const drawPicker = () => {

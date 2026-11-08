@@ -9,7 +9,7 @@ import { balancedPattern } from "./answer-balance.js";
 import { normalizeSection, docPoints, newDocId, tfValue, hasWordBox, sectionRubric } from "./doc-model.js";
 import { allowedTerms, answerInScope, relatedTerms } from "./word-scope.js";
 import { unitContextPrompt } from "./unit-context.js";
-import { scriptKeys, trustItems, answerHeard, itemKey } from "./listening-sync.js";
+import { scriptKeys, trustItems, answerHeard, itemKey, numberedScript } from "./listening-sync.js";
 import { SENTENCE_RULES, sentenceRulesBlock } from "./gap-fit.js";
 
 export const LENGTHS = {
@@ -365,6 +365,9 @@ export function planNotes(spec, { focusWords = [] } = {}) {
   return notes;
 }
 
+/** A numbered recording: the narrator opens each question's bit, so children always know where they are. */
+export const NUMBERED_RULE = 'NUMBERED recording: split the script into one short bit per question, in order. Each bit starts with a line by the speaker "Narrator": "Example." for the example (first), then "Number 1.", "Number 2." … — exactly one per question. Each bit says ONLY the answer to its own question (the wrong options may be mentioned in it). Keep the same speakers and situation throughout.';
+
 const GENRE = { story: "a story with named characters", article: "a fact text (like a children's magazine article)", email: "an email or a letter", diary: "a diary entry or a blog post", dialogue: "a dialogue between two or three people (Name: line)", notice: "a poster, notice or advertisement with short lines" };
 const AUDIO = { dialogue: "a dialogue between two speakers", talk: "one speaker: a phone message, a short talk or a description", interview: "an interview (one speaker asks, the other answers)", announcement: "an announcement (at school, a station, a museum) by one speaker" };
 const SUPPORT = {
@@ -376,7 +379,7 @@ const SUPPORT = {
 /** "Finish the sentences" always prints starters: support only changes how much each starter gives. */
 const SENTENCE_SUPPORT = {
   "W-SENT": {
-    full: "Support: LOTS — frame = 5–6 long, guiding sentence starters, and \"bank\" = 6–8 useful words for a word box.",
+    full: "Support: LOTS — frame = 5–6 long, guiding sentence starters, each with one unit word in it, and \"bank\" = the unit words used in the starters (the app prints them in bold in the sentences; there is no word box).",
     some: "",
     none: "Support: LITTLE — frame = 5–6 SHORT sentence starters (\"I like…\", \"On Saturdays, I…\"); still starters, never notes or questions.",
   },
@@ -407,6 +410,8 @@ function knobLines(p, spec, focus = []) {
   }
   if (o.audio && o.audio !== "any") out.push(`  The recording: ${AUDIO[o.audio]}.`);
   if (o.plays === 1) out.push("  It is played ONCE: every answer is said slowly and clearly, never in the middle of a long sentence.");
+  if (o.flow === "numbered") out.push(`  ${NUMBERED_RULE}`);
+  else if (o.flow === "continuous") out.push("  The recording is ONE continuous dialogue or talk, with no numbers read out; the answers come in the order of the questions.");
   if (o.support && (SENTENCE_SUPPORT[p.task] || SUPPORT)[o.support]) out.push(`  ${(SENTENCE_SUPPORT[p.task] || SUPPORT)[o.support]}`);
   if (FAMILY_TASKS.includes(p.task)) out.push(`  CLASS LADDER — ${FAMILY_LADDER[levelIndex(spec.levelId)]}`);
   const rel = relationLine(p.task, focus);
@@ -688,7 +693,7 @@ ${ctx.instruction}` : "",
     `REWRITE ONLY items ${itemNs.join(", ")}. Keep the same task and the same kind of question; every other item stays exactly as it is, so never repeat one of them.${t.bank && t.answer !== "match" ? " Each gap needs a different word: never the answer of another item (the app makes the word box from the answers again)." : ""}${src && !ctx.withScript ? ` Every item must be answerable from the ${src} above.` : ""}${focus.length ? (SCOPED.includes(section.task) ? ` Answers come only from these words (inflected if needed): ${focus.join(", ")}.` : ` Use words the class knows (the unit words where they fit: ${focus.slice(0, 30).join(", ")}).`) : ""}`,
     Object.keys(must).length ? `Required answers: ${Object.entries(must).map(([n, a]) => `item ${n} = "${a}"`).join(", ")}.${order ? ` Write a NEW sentence for each of these items whose answer is beyond doubt — a reader who checks the key must give the same answer.${section.task === "V-RIGHT" ? ` A "${tfLabels(spec.levelId)[1]}" sentence is correct English with the word in CAPITALS in its normal grammar; only its MEANING doesn't fit.` : ""}` : ""}` : "",
     t.answer === "choice" ? DISTRACTOR_RULE : "",
-    ctx.withScript ? `ALSO RETURN "script": the whole script again for ALL the items (the new ones too). Keep the same speakers, names and situation and the lines that still work; add what the new items need, so every answer${section.example ? " (and the example's)" : ""} is said clearly, once, in the order of the items. At least ${scriptLines({ items: section.items.length })} lines; only what the speakers say.${section.task === "L-GIST" ? ' One very short recording per item, each opened by the speaker "Narrator": "Number 1." … in order (and "Example." first).' : ""}` : "",
+    ctx.withScript ? `ALSO RETURN "script": the whole script again for ALL the items (the new ones too). Keep the same speakers, names and situation and the lines that still work; add what the new items need, so every answer${section.example ? " (and the example's)" : ""} is said clearly, once, in the order of the items. At least ${scriptLines({ items: section.items.length })} lines; only what the speakers say.${section.task === "L-GIST" || numberedScript(section.script) ? ' One very short recording per item, each opened by the speaker "Narrator": "Number 1." … in order (and "Example." first).' : ""}` : "",
   ].filter(Boolean).join("\n\n");
   return { system, user };
 }
@@ -741,6 +746,7 @@ export function scriptPrompt(spec, section, ctx = {}) {
   const t = TASKS[section.task] || {};
   const tf = section.answerType === "tf";
   const gist = section.task === "L-GIST";
+  const numbered = !gist && partOpts(plan, spec.levelId).flow === "numbered";
   const show = (it, label) => `${label}. ${it.prompt || ""}${it.options?.length ? ` [${it.options.join(" | ")}]` : ""} → ${it.answer || ""}`;
   const system = `You write the listening script of one part of an English test for Greek learners in a language school; the app's voices read it aloud. Return ONLY valid JSON: { "script": [ { "speaker": "Name", "text": "line" } ]${tf ? ', "evidence": [ { "n": 1, "evidence": "the exact words of the script that decide item 1" } ]' : ""} }
 ${ctx.profileBlock || ""}`;
@@ -757,6 +763,8 @@ ${ctx.profileBlock || ""}`;
       tf ? "- A \"yes\" statement says what the script says; for a \"no\" statement the script clearly says something else (one detail is different). Also give, for each item (and the example as n 0), the exact words of the script that decide it." : "",
       section.answerType === "match" ? "- Every pair is said clearly; one or two things go with nobody." : "",
       section.answerType === "word" ? "- Each answer is said exactly as written (a name is also spelled letter by letter, e.g. \"T-O-M\")." : "",
+      numbered ? `- ${NUMBERED_RULE}` : "",
+      !gist && !numbered && TASKS[section.task]?.knobs?.includes("flow") ? "- ONE continuous recording: no \"Number 1.\" lines; the answers come in the order of the questions." : "",
       gist ? "- One VERY short recording per question (2–4 lines): each starts with a line by the speaker \"Narrator\": \"Example.\", \"Number 1.\", \"Number 2.\" … — exactly one per question, in order. The right option is the main idea; the wrong ones use words that are heard but miss the point." : "",
       "- Details that only questions no longer on the paper needed may go.",
       `- At least ${scriptLines(plan)} lines. Only what the speakers say: no narrator saying "Listen and…"${gist ? " (only the numbered Narrator lines)" : ""}, no sound effects. Words the class knows; the unit words where they fit.`,

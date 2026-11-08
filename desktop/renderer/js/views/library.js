@@ -6,7 +6,7 @@ import { $, esc, icon, plural, toast, timeAgo } from "../ui.js";
 import { emit, on, LEVEL_COLORS } from "../state.js";
 import { actions } from "../actions.js";
 import { readJSON, writeJSON } from "../bridge.js";
-import { recentDocs, openMade, deleteMade, isOpen, reconcile, SAVES_KEY, DOCS_KEY } from "../made.js";
+import { recentDocs, openMade, deleteMade, reconcile, SAVES_KEY, DOCS_KEY } from "../made.js";
 import { SKILLS, DICTATION_STYLES } from "../../studio/tasks.js";
 import { openProjector } from "./projector.js";
 
@@ -79,7 +79,7 @@ function cardHtml(it, i) {
   const top = `<div class="lib-top">
       <span class="lc-letter">${esc((p?.label || "?").charAt(0))}</span>
       <div class="lib-title"><strong title="${esc(it.title)}">${esc(it.title)}</strong><span>${esc(it.sub)}</span></div>
-      ${isOpen(it.type, it.id) ? `<span class="badge brand" data-tip="Open in its maker now">Open</span>` : `<span class="lib-kind ${it.type}">${kindChip[0]}${kindChip[1]}</span>`}
+      <span class="lib-kind ${it.type}">${kindChip[0]}${kindChip[1]}</span>
     </div>`;
   const words = it.words.length ? `<div class="lib-words">${it.words.slice(0, 7).map((w) => `<span>${esc(w)}</span>`).join("")}${it.words.length > 7 ? `<span>+${it.words.length - 7}</span>` : ""}</div>` : "";
   let meta;

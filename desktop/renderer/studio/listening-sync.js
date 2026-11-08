@@ -115,8 +115,14 @@ export function trustItems(section, ns = []) {
 const MARK = /^(?:example|number\s+(\d+|[a-z]+))\b/i;
 export const isMark = (l) => /^narrator$/i.test(l?.speaker || "") && MARK.test(String(l?.text || "").trim());
 
+/** A numbered script: the narrator opens each question's bit ("Number 1." …), not one continuous recording. */
+export const numberedScript = (script) => (Array.isArray(script) ? script : []).some((l) => isMark(l) && !/^example/i.test(String(l.text).trim()));
+
+/** The same script as one continuous recording: the narrator's "Example." / "Number n." lines taken out. */
+export const unnumberScript = (script) => (Array.isArray(script) ? script : []).filter((l) => !isMark(l));
+
 /**
- * "Listen for the main idea": every question has its own short recording, opened by the Narrator ("Example.",
+ * A numbered script (and "Listen for the main idea"): every question has its own short recording, opened by the Narrator ("Example.",
  * "Number 1." …). Taking question n out cuts its recording and renumbers the ones after it. Returns the new script,
  * or null when the script isn't laid out that way (then it stays as it is).
  */

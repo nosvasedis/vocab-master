@@ -38,8 +38,14 @@ const PRESETS = {
  * (auto = the app's text; the teacher's words replace it on screen, in print and in Word; empty = the app's).
  * onChange(header) runs on every click and keystroke.
  */
-export function openHeaderDialog({ header = {}, test = false, schoolName = "", subtitle = "", words = null, onChange }) {
+export function openHeaderDialog({ header = {}, test = false, schoolName = "", subtitle = "", words = null, heading = null, onChange }) {
   let h = { ...HEADER_DEFAULTS, ...header, texts: { ...(header.texts || {}) } };
+  // heading: { title, subtitle, label, onChange(title, subtitle) } — the paper's own title, edited here (the one place
+  // for the top of the paper: clicking the title on the paper opens this dialog too).
+  const headingHtml = () => (heading ? `<fieldset class="hd-group hd-heading"><legend>${esc(heading.label || "Title")}</legend>
+      <label class="hd-word"><span>Title</span><input class="input sm" data-hd-title value="${esc(heading.title || "")}" placeholder="Title" /></label>
+      <label class="hd-word"><span>Line under the title</span><input class="input sm" data-hd-subtitle value="${esc(heading.subtitle || "")}" placeholder="Optional" /></label>
+    </fieldset>` : "");
   const groups = HEADER_GROUPS.filter((g) => test || !g.test);
   const wordRow = ({ field, auto, label }) => {
     const key = textKey(field, auto);
@@ -50,6 +56,7 @@ export function openHeaderDialog({ header = {}, test = false, schoolName = "", s
       <div class="hd-sides">${[["left", "Left side"], ["right", "Right side"]].filter(([k]) => words[k]?.length).map(([k, label]) => `<div class="hd-side"><b>${label}</b>${words[k].map(wordRow).join("")}</div>`).join("")}</div>
     </fieldset>` : "");
   const body = () => `
+    ${headingHtml()}
     <div class="hd-presets">${Object.entries(PRESETS).map(([k, p]) => `<button type="button" class="chip" data-hd-preset="${k}">${esc(p.label)}</button>`).join("")}</div>
     ${groups.map((g) => `<fieldset class="hd-group"><legend>${esc(g.label)}</legend><div class="hd-grid">${g.fields.map(([k, label]) => `<label class="switch sm"><input type="checkbox" data-hd="${k}" ${h[k] ? "checked" : ""} /><span class="track"></span><span class="sw-text">${esc(label)}${k === "school" && !schoolName ? `<small>No school name yet</small>` : ""}</span></label>`).join("")}</div>
       ${g.id === "top" ? `<div class="field hd-extra"${h.extra ? "" : " hidden"}><input class="input sm" data-hd-text placeholder="e.g. Spring term test · Ms Vasedi" value="${esc(h.extraText || "")}" aria-label="Your own line" /></div>
@@ -74,6 +81,13 @@ export function openHeaderDialog({ header = {}, test = false, schoolName = "", s
         changed();
       });
       host.addEventListener("input", (e) => {
+        if (e.target.dataset.hdTitle !== undefined || e.target.dataset.hdSubtitle !== undefined) {
+          const t = host.querySelector("[data-hd-title]").value;
+          heading.title = t;
+          heading.subtitle = host.querySelector("[data-hd-subtitle]").value;
+          if (t.trim()) heading.onChange?.(t.trim(), heading.subtitle.trim());
+          return;
+        }
         if (e.target.dataset.hdText !== undefined) { h.extraText = e.target.value; changed(); }
         const key = e.target.dataset.hdWord;
         if (key !== undefined) {

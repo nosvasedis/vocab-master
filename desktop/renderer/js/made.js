@@ -115,7 +115,22 @@ export async function openMade(kind, id, { view = HOME_VIEW[kind], quiet = false
   return true;
 }
 
-/** Close what a maker has open (the header's Close): it stays in the Library, and the maker starts again. */
+/**
+ * There is no "open / closed" for the teacher to think about: what a maker shows is open while the teacher works in
+ * it, and leaving the maker's screens closes it (it is saved, in the Library). Opening it again opens it. Called on
+ * every screen change; a maker still writing (an AI reply on its way) keeps its item until the teacher comes back.
+ */
+export function leaveView(from, to) {
+  let changed = false;
+  for (const [kind, views] of Object.entries(MAKER_VIEWS)) {
+    if (!views.includes(from) || views.includes(to) || !openId(kind) || makers[kind]?.busy?.()) continue;
+    makers[kind].close("left");
+    changed = true;
+  }
+  if (changed) emit("library");
+}
+
+/** Close what a maker has open (Ctrl+N / New unit): it stays in the Library, and the maker starts again. */
 export function closeMade(kind) {
   const id = openId(kind);
   if (!id || busyNow(kind)) return false;
@@ -185,10 +200,10 @@ export function reconcile({ remote = false } = {}) {
  */
 export function makerActsHtml(kind, { open, draft = false }) {
   const what = KIND_NAME[kind];
+  // No Close: leaving the maker puts the item away by itself (leaveView).
   if (open) {
     return `<span class="mk-saved" data-tip="Saved in your Library — every change is kept" data-tip-pos="bottom">${icon("check", "i-xs")}<span>Saved</span></span>
-    <button type="button" class="icon-btn sm danger mk-del" data-mk-del data-tip="Delete this ${what}" data-tip-pos="bottom" aria-label="Delete this ${what}">${icon("trash", "i-sm")}</button>
-    <button type="button" class="btn btn-secondary btn-sm mk-close" data-mk-close data-tip="Close this ${what} — it stays in your Library" data-tip-pos="bottom-end">${icon("x", "i-sm")}<span>Close</span></button>`;
+    <button type="button" class="icon-btn sm danger mk-del" data-mk-del data-tip="Delete this ${what}" data-tip-pos="bottom-end" aria-label="Delete this ${what}">${icon("trash", "i-sm")}</button>`;
   }
   if (draft) return `<button type="button" class="btn btn-ghost btn-sm mk-close" data-mk-close data-tip="Clear this word list and start again (Ctrl+N)" data-tip-pos="bottom-end">${icon("refresh", "i-sm")}<span>Start over</span></button>`;
   return "";

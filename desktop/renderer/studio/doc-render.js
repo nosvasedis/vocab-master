@@ -4,7 +4,7 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, docPoints, exampleGapFill, matchList, playedScript, sectionRubric, showsExample, sortBank, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, boldWordsInstead, docPoints, exampleGapFill, matchList, orderList, playedScript, starterPieces, starterWords, sectionRubric, showsExample, sortBank, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
 import { lineHtml, hintBoxHtml, isWriteIn } from "./paper-parts.js";
 import { testPartColumns } from "./item-columns.js";
@@ -72,7 +72,7 @@ function passageHtml(section, layout = {}) {
 }
 
 function bankHtml(section, layout = {}) {
-  if (!section.bank?.length) return "";
+  if (!section.bank?.length || boldWordsInstead(section)) return "";
   if (section.answerType === "match") {
     // The meanings as the paper prints them: the example's own meaning only while the example is shown (selected).
     const { defs, selected } = matchList(section, layout);
@@ -109,7 +109,7 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   const letter = (x) => (match ? match.letterOf(x.answer).toUpperCase() : "");
   const exAns = example ? `<span class="st-ex-ans${match ? " picked" : ""}">${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]}` : match ? letter(it) : it.answer)}</span>` : "";
   const key = showAnswers && !example ? `<span class="teacher-ans-pill">✓ ${esc(section.answerType === "choice" ? `${LETTERS[it.answerIndex]} ${it.answer}` : match ? letter(it) : it.answer)}</span>` : "";
-  const cls = `ex-item st-item${example ? " st-example" : ""}`;
+  const cls = `ex-item st-item${example ? " st-example" : ""}${it.first ? " st-first" : ""}`;
   if (section.answerType === "choice") {
     const pics = layout.pictures && it.optionPics?.length;
     const opts = pics
@@ -156,12 +156,12 @@ function pictureCardsHtml(section, layout, showAnswers) {
   return `<div class="pic-grid">${section.example?.pic && showsExample(section, layout) ? card(section.example, true) : ""}${section.items.map((it) => card(it, false)).join("")}</div>`;
 }
 
-function openTaskHtml(section, layout) {
+function openTaskHtml(section, layout, boldWords = []) {
   const words = section.words ? `<span class="st-words">${esc(section.words[0])}–${esc(section.words[1])} words</span>` : "";
   const pics = layout.pictures && section.pictures.length ? `<div class="st-story-pics">${section.pictures.map((p, i) => `<div class="st-story-pic">${pic(p.pic)}<small>${i + 1}</small></div>`).join("")}</div>` : "";
   if (section.skill === "speaking") return speakingHtml(section, layout);
   // "Finish the sentences": each starter gets its own line to write on.
-  if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${withGaps(starterText(f))}</span>${line("grow")}</p>`).join("")}</div>`;
+  if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${starterPieces(f, boldWords).map((b) => (b.bold ? `<b>${withGaps(b.text)}</b>` : withGaps(b.text))).join("")}</span>${line("grow")}</p>`).join("")}</div>`;
   const frame = section.frame.length ? `<ul class="st-frame">${section.frame.map((f) => `<li>${withGaps(f)}</li>`).join("")}</ul>` : "";
   const n = Math.max(5, Math.round(((section.words?.[1] || 40) / 8)));
   return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)} ${words}</p>` : words ? `<p class="st-task">${words}</p>` : ""}${pics}${frame}<div class="st-lines">${Array.from({ length: n }, () => line("full")).join("")}</div>`;
@@ -274,14 +274,14 @@ export function renderStudentPaper(doc, options = {}) {
     if (section.skill === "dictation") return `<section class="ex-block st-sec">${partHead(section, i, layout)}${dictationHtml(section, layout, options.showAnswers)}</section>`;
     if (!["writing"].includes(section.skill) || section.task === "W-MESSAGE") body += passageHtml(section, layout);
     body += bankHtml(section, layout);
-    if (section.answerType === "open") body += openTaskHtml(section, layout);
+    if (section.answerType === "open") body += openTaskHtml(section, layout, starterWords(section, doc));
     else if (section.task === "V-PIC" || section.task === "V-TICK") body += pictureCardsHtml(section, layout, options.showAnswers);
     else if (section.task === "V-SORT") body += sortTableHtml(section, layout, options.showAnswers);
     else {
       // Picture-choice questions sit two to a row, so a part fits on one page.
       const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
       const example = showsExample(section, layout) ? itemHtml(section, section.example, layout, { example: true }) : "";
-      const questions = section.items.map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
+      const questions = (section.task === "R-ORDER" ? orderList(section, layout) : section.items).map((it) => itemHtml(section, it, layout, { showAnswers: options.showAnswers })).join("");
       // Ten or more short questions with one-letter or one-word answers: two columns, the second half beside the first
       // (the example stays above them, so 10 questions sit five and five).
       const cols = !picGrid && testPartColumns(section, { textSize: layout.textSize, withExample: !!example });

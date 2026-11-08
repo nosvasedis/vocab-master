@@ -52,7 +52,7 @@ test("Gemini studio requests: one conversational request per run of two speakers
   assert.deepEqual(reqs[0].lines, [0, 1, 2]);
   const body = reqs[0].body;
   assert.equal(body.model, GEMINI_TTS_MODEL);
-  assert.equal(body.generation_config.speech_config.mode, "conversational");
+  assert.equal(body.generation_config.speech_config.mode, undefined);
   assert.deepEqual(body.generation_config.speech_config.speakers, [{ speaker: "Mia", voice: cast.Mia.voice }, { speaker: "Dad", voice: cast.Dad.voice }]);
   assert.equal(body.input[0].content[2].text, "Look blank!");
   assert.match(body.input[0].content[0].annotations[0].style, /British English/);

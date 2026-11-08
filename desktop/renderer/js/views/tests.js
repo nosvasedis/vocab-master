@@ -26,13 +26,14 @@ import { ownWordEntry } from "../../studio/own-words.js";
 import { relationsFromSaved } from "../../studio/word-relations.js";
 import { playScript, scriptWav, warmScripts, naturalDownloaded } from "../voices/listening.js";
 import { audioFileName } from "../../studio/audio-track.js";
-import { recordingState } from "../../studio/listening-sync.js";
+import { recordingState, numberedScript, unnumberScript } from "../../studio/listening-sync.js";
 import { GAP_FIT_PROBLEM } from "../../studio/gap-fit.js";
 import { voicePickerHtml, pickVoice, voiceNote, statusPill } from "./voice-ui.js";
 import { openProjector } from "./projector.js";
 import { loadLessonJson } from "./studio-common.js";
 import { mountTestEditing } from "./test-edit.js";
 import { openHeaderDialog, paperWords } from "../header-dialog.js";
+import { textKey } from "../../studio/paper-header.js";
 import { registerMaker, openMade, closeMade, deleteMade, rememberOpen, rememberedOpen, findMade, makerActsHtml } from "../made.js";
 
 /** The header lines of the student paper and the teacher's pack the teacher can reword (Header dialog). */
@@ -295,6 +296,16 @@ function build() {
   $("tsWord").addEventListener("click", (e) => withBusy(e.currentTarget, () => exportWord(sheetDoc(), ts.sheet === "teacher" ? "teacher" : "student", fileName()).catch((err) => toast(err.message, "error"))));
   $("tsListen").addEventListener("click", (e) => {
     if (pickVoice(e)) { stopPlayer(); renderListen(); warmListening(); return; }
+    const fl = e.target.closest("[data-flow]");
+    if (fl) {
+      const p = ts.spec.parts.find((x) => x.id === fl.dataset.flowPart);
+      if (!p) return;
+      stopPlayer();
+      p.opts = { ...(p.opts || {}), flow: fl.dataset.flow };
+      savePrefs(); renderParts();
+      refitFlow(p.id, fl.dataset.flow);
+      return;
+    }
     const play = e.target.closest("[data-play]");
     if (play) { togglePlay(play.dataset.play); return; }
     const wav = e.target.closest("[data-wav]");
@@ -339,6 +350,7 @@ function build() {
     ask: (system, user, retryHint = "") => askAi(system, user, { retryHint }),
     checkKeys: (ids) => checkKeys(ts.doc, ids),
     commit: () => refreshDoc(),
+    openHeader: () => openTestHeader(),
     // A question deleted (or put back) on the paper: Step 3 shows the part's new number of questions.
     itemsChanged(id) {
       const p = ts.spec.parts.find((x) => x.id === id);
@@ -800,6 +812,8 @@ function onPartsClick(e) {
     else if (k === "extras" && ts.doc?.sections.some((x) => x.id === p.id)) refitWordBox(p.id, v);
     // Letter help is made by the app: the boxes change on the paper at once (no AI). A question with its own help keeps it.
     else if ((k === "hint" || k === "family") && ts.doc?.sections.some((x) => x.id === p.id)) refitLetterHelp(p.id);
+    // Numbered ↔ continuous: taking the numbers out needs no AI; putting them in, Lingo splits the script (one request).
+    else if (k === "flow" && writtenListening(p.id)) refitFlow(p.id, v);
     else markStale(p.id);
     savePrefs(); renderParts();
     return;
@@ -1319,6 +1333,28 @@ function refitWordBox(id, want) {
   } else toast(want ? `The word box now has ${plural(want, "extra word")}, and the instruction says so.` : "The word box now has one word per gap.", "ok", { ms: 3000 });
 }
 
+/** A written listening part's recording flow changed in Step 3. */
+function refitFlow(id, flow) {
+  const sec = ts.doc?.sections.find((x) => x.id === id);
+  if (!sec?.script?.length) return;
+  const numbered = numberedScript(sec.script);
+  if (flow === "continuous" && numbered) {
+    sec.script = unnumberScript(sec.script);
+    refreshDoc();
+    toast("The recording now plays straight through, without “Number 1, Number 2…”.", "ok", { ms: 3500 });
+  } else if (flow === "numbered" && !numbered) {
+    toast("To split the recording into “Number 1, Number 2…”, Lingo writes the script again for the same questions (one request).", "info", { ms: 9000, actions: [{ label: "Split it now", run: () => editor?.remakeRecording(id) }] });
+    renderListen();
+  }
+}
+
+/** A part whose Step 3 flow and recording disagree: the note and the button that fixes it. */
+function flowMismatch(sec) {
+  const p = ts.spec.parts.find((x) => x.id === sec?.id);
+  if (!p || !TASKS[sec.task]?.knobs?.includes("flow") || !sec.script?.length) return "";
+  return partOpts(p, ts.spec.levelId).flow === "numbered" && !numberedScript(sec.script) ? "This recording plays straight through — split it into “Number 1, Number 2…”?" : "";
+}
+
 function refreshDoc() {
   if (!ts.doc) return;
   ts.doc.meta.points = docPoints(ts.doc);
@@ -1375,7 +1411,7 @@ async function exportTestPack(btn) {
     if (off.length) toast(`${off.map(({ i }) => `Track ${i + 1}`).join(", ")} may not say every answer — the questions changed since ${off.length > 1 ? "they were" : "it was"} made. ✨ Remake the recording in Play the listening, then export again.`, "warn", { ms: 10000 });
     for (const [k, { s, i }] of parts.entries()) {
       say(`Making audio ${k + 1} of ${parts.length}…`);
-      const { blob } = await scriptWav(heard(s), { plays: s.plays, levelId: meta.classProfile, onStatus: (st) => setStatus(s.id, st) });
+      const { blob } = await scriptWav(heard(s), { plays: s.plays, levelId: meta.classProfile, onStatus: (st) => { if (st.phase === "fallback") toast(st.message, "warn"); setStatus(s.id, st); } });
       delete ts.status[s.id];
       files.push(packBytes(new Uint8Array(await blob.arrayBuffer()), `${productFileName(`Listening track ${i + 1}`, meta)}.wav`));
     }
@@ -1395,6 +1431,41 @@ function renderSheetSeg() {
   if (!opts.some(([v]) => v === ts.sheet)) ts.sheet = "A";
   $("tsSheetSeg").innerHTML = segHtml("tsSheet", opts, ts.sheet);
   segmented($("tsSheetSeg").firstElementChild, { value: ts.sheet, onChange: (v) => { ts.sheet = v; renderPaper(); } });
+}
+
+/** Retitle the open test from the Header dialog (the paper follows a moment after typing stops). */
+let retitleTimer = 0;
+function retitle(title, subtitle) {
+  if (!ts.doc) return;
+  ts.doc.meta.title = title;
+  ts.doc.meta.subtitle = subtitle;
+  clearTimeout(retitleTimer);
+  retitleTimer = setTimeout(() => { refreshDoc(); renderRecent(); }, 250);
+}
+
+/**
+ * The one place for the top of the paper: the test's title and the line under it, which header lines show, and the
+ * teacher's own words for them. The paper's title (✎ Edit on the paper) opens it too.
+ */
+function openTestHeader() {
+  if (!ts.doc) return;
+  const meta = ts.doc.meta;
+  const layout = meta.layout || {};
+  const header = { ...(layout.header || {}), texts: { ...(layout.header?.texts || {}) } };
+  // Older tests may hold their own words for the title / subtitle: they become the title itself.
+  for (const [field, key] of [["title", "title"], ["kind", "subtitle"]]) {
+    const k = textKey(field, meta[key] || (key === "title" ? "Test" : ""));
+    if (header.texts[k]?.trim()) { meta[key] = header.texts[k].trim(); delete header.texts[k]; }
+  }
+  const setHeader = (h) => { ts.doc.meta.layout = { ...(ts.doc.meta.layout || {}), header: h }; ts.spec.page = { ...(ts.spec.page || {}), header: h }; savePrefs(); refreshDoc(); };
+  setHeader(header);
+  const words = docWords(meta);
+  words.left = words.left.filter((w) => !(w.label === "Title" || w.label === "Subtitle"));
+  openHeaderDialog({
+    header, words, test: true, schoolName: prefs.schoolName || "", subtitle: "This test — and the next tests you make",
+    heading: { label: "The test’s title", title: meta.title || "", subtitle: meta.subtitle || "", onChange: retitle },
+    onChange: setHeader,
+  });
 }
 
 function renderPaper() {
@@ -1423,11 +1494,7 @@ function renderPaper() {
     savePrefs();
     refreshDoc();
   };
-  wirePageControls($("tsPageCtl"), setPage, () => openHeaderDialog({
-    header: ts.doc.meta.layout?.header,
-    words: docWords(ts.doc.meta), test: true, schoolName: prefs.schoolName || "", subtitle: "This test — and the next tests you make",
-    onChange: (header) => setPage({ header }),
-  }));
+  wirePageControls($("tsPageCtl"), setPage, () => openTestHeader());
   paper.render(safePaperHtml(() => sheetHtml(), "test"));
   editor?.decorate();
   fitPaper($("tsStage"), $("tsPaper"));
@@ -1474,6 +1541,8 @@ function recordingHtml(sec) {
   if (!sec || sec.skill !== "listening") return "";
   if (ts.recording.has(sec.id)) return `<div class="mk-op-probs">${icon("volume", "i-xs")}<div>Lingo is working on this part’s questions and recording…</div></div>`;
   const note = editor?.recordingNote(sec);
+  const flow = !note && flowMismatch(sec);
+  if (flow) return `<div class="mk-op-probs">${icon("volume", "i-xs")}<div>${esc(flow)} <button type="button" class="btn btn-magic btn-sm" data-rerecord="${esc(sec.id)}">${icon("sparkles", "i-xs")}Split into numbers</button></div></div>`;
   return note ? `<div class="mk-op-probs">${icon("alert", "i-xs")}<div>${esc(note)} <button type="button" class="btn btn-magic btn-sm" data-rerecord="${esc(sec.id)}">${icon("sparkles", "i-xs")}Remake the recording</button></div></div>` : "";
 }
 
@@ -1492,12 +1561,20 @@ function renderListen() {
     <div class="lb-tracks">${parts.map(({ s, i }) => `<div class="lb-track">
       <button type="button" class="btn btn-secondary btn-sm${ts.playing === s.id ? " playing" : ""}" data-play="${s.id}">${icon(ts.playing === s.id ? "pause" : "play", "i-sm")}${ts.playing === s.id ? "Stop" : `Track ${i + 1} · plays ${s.plays === 1 ? "once" : "twice"}`}</button>
       <button type="button" class="icon-btn sm" data-wav="${s.id}" data-tip="Save track ${i + 1} as an audio file (WAV) — for a speaker, a CD player or the class page" aria-label="Save track ${i + 1} as audio">${icon("download", "i-sm")}</button>
+      ${flowPickHtml(s)}
       ${statusPill(ts.status[s.id])}
       ${ts.recording.has(s.id) ? `<span class="lb-rec busy">${icon("sparkles", "i-xs")}Lingo is making it again…</span>` : recordingState(s)?.stale ? `<button type="button" class="btn btn-magic btn-sm lb-rec" data-rerecord="${s.id}" data-tip="${esc(editor?.recordingNote(s) || "")}">${icon("sparkles", "i-xs")}Remake the recording</button>` : ""}
     </div>`).join("")}</div>
     ${parts.some(({ s }) => recordingState(s)?.stale) ? `<small class="lb-warn">${icon("alert", "i-xs")} ${esc(parts.filter(({ s }) => recordingState(s)?.stale).map(({ s, i }) => `Track ${i + 1}: ${editor?.recordingNote(s)}`).join(" "))}</small>` : ""}
     <small>${esc(voiceNote(chars, { downloaded: ts.naturalReady }))}</small>
   </div>`;
+}
+
+/** Numbered or continuous, right on the track (the same setting as Step 3's "Recording flow"). */
+function flowPickHtml(s) {
+  if (!TASKS[s.task]?.knobs?.includes("flow")) return "";
+  const on = numberedScript(s.script) ? "numbered" : "continuous";
+  return `<div class="voice-pick lb-flow" role="group" aria-label="Recording flow">${[["numbered", "Numbered", "The narrator says “Number 1, Number 2…” before each question’s bit, with time to answer"], ["continuous", "Continuous", "One recording straight through"]].map(([v, label, tip]) => `<button type="button" class="vp-opt${on === v ? " active" : ""}" data-flow="${v}" data-flow-part="${esc(s.id)}" aria-pressed="${on === v}" data-tip="${esc(tip)}">${label}</button>`).join("")}</div>`;
 }
 
 function setStatus(id, st) {
@@ -1511,6 +1588,7 @@ function setStatus(id, st) {
 function stopPlayer() {
   if (!ts.player) return;
   ts.player.stop();
+  delete ts.status[ts.playing];
   ts.player = null;
   ts.playing = null;
 }
@@ -1522,16 +1600,21 @@ function togglePlay(id) {
   if (!s) return;
   warnRecording(s, ts.doc.sections.indexOf(s));
   ts.playing = id;
-  ts.player = playScript(heard(s), {
+  // A stopped player finishes in the background: only the current one may touch the bar (else its late onEnd
+  // would forget the new player, and the next Play would start a second one over it).
+  const mine = () => ts.player === ctl;
+  const ctl = playScript(heard(s), {
     plays: s.plays,
     levelId: ts.doc.meta.classProfile,
     onStatus: (st) => {
+      if (!mine()) return;
       if (st.phase === "fallback") toast(st.message, "warn");
       if (st.phase === "prepare" && ts.status[id]?.phase === "play") return; // playing while the rest is made
       setStatus(id, st);
     },
-    onEnd: () => { if (ts.playing === id) { ts.player = null; ts.playing = null; } delete ts.status[id]; ts.naturalReady = true; renderListen(); },
+    onEnd: () => { if (!mine()) return; ts.player = null; ts.playing = null; delete ts.status[id]; ts.naturalReady = true; renderListen(); },
   });
+  ts.player = ctl;
   renderListen();
 }
 
@@ -1541,7 +1624,7 @@ async function saveTrack(id, btn) {
   warnRecording(part.s, part.i);
   btn.disabled = true;
   try {
-    const { blob, seconds } = await scriptWav(heard(part.s), { plays: part.s.plays, levelId: ts.doc.meta.classProfile, onStatus: (st) => setStatus(id, st) });
+    const { blob, seconds } = await scriptWav(heard(part.s), { plays: part.s.plays, levelId: ts.doc.meta.classProfile, onStatus: (st) => { if (st.phase === "fallback") toast(st.message, "warn"); setStatus(id, st); } });
     setStatus(id, { phase: "save" });
     downloadBlob(blob, audioFileName(`${sheetTitle()} · Track ${part.i + 1}`));
     // In the app a Save window opens (the app says “Saved …” once the file is written); in a browser it downloads.
@@ -1569,7 +1652,7 @@ function renderRecent() {
   const when = (iso) => { const d = iso ? new Date(iso) : null; return d && !Number.isNaN(d) ? d.toLocaleDateString(undefined, { day: "numeric", month: "short" }) : ""; };
   $("tsRecent").innerHTML = list.length
     ? list.map((d) => `<div class="tb-recent-card${d.id === ts.doc?.id ? " is-open" : ""}" data-doc="${esc(d.id)}" style="--lvl:${LEVEL_COLORS[d.meta?.classProfile] || "var(--brand)"}">
-        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${esc(d.meta?.title || "Test")}${d.id === ts.doc?.id ? ` <span class="badge brand">Open</span>` : ""}</b><span>${esc(d.meta?.subtitle || "")}</span>
+        <button type="button" class="recent-open"><span class="trc-lvl">${esc((levelLabel(d.meta?.classProfile) || "?")[0])}</span><b>${esc(d.meta?.title || "Test")}</b><span>${esc(d.meta?.subtitle || "")}</span>
           <span class="trc-meta">${plural(d.sections?.length || 0, "part")} · ${esc(d.meta?.points || "")} pts${when(d.savedAt) ? ` · ${esc(when(d.savedAt))}` : ""}</span></button>
         <button type="button" class="icon-btn sm danger trc-del" data-del aria-label="Delete">${icon("trash", "i-sm")}</button></div>`).join("")
     : `<p class="st-hint">Your tests are kept here, so you can open and print them again any time.</p>`;
