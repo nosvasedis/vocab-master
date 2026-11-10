@@ -13,7 +13,7 @@ import {
 } from "./studio-common.js";
 /** The class profile plus what the class has already met (class memory, when the teacher turned it on). */
 const withMemory = (levelId, focus) => [profileBlock(levelId), classMemoryBrief(levelId, focus || [])].filter(Boolean).join("\n");
-import { TASKS, SKILLS, KNOBS, tfLabels, partOpts } from "../../studio/tasks.js";
+import { TASKS, SKILLS, KNOBS, PAPER_KNOBS, tfLabels, partOpts } from "../../studio/tasks.js";
 import { textsFor } from "../../studio/reading-texts.js";
 import { openTaskLibrary, sampleHtml, taskBadges, textChooserHtml } from "./task-library.js";
 import { GRAMMAR_MENU, LEVEL_IDS, DIFFICULTY, TEST_DEFAULTS, grammarLabel } from "../../studio/levels.js";
@@ -639,6 +639,7 @@ function partFacts(p, texts) {
   if (rel) facts.push(rel.total ? `${plural(rel.total, REL_NAME[rel.kind][0], REL_NAME[rel.kind][1])} the class learned` : `Lingo picks the ${REL_NAME[rel.kind][1]}`);
   for (const k of t.knobs || []) {
     if (k === "text" || ((k === "genre" || k === "length") && o.text && texts.some((x) => x.id === o.text))) continue;
+    if ((k === "gaps" || k === "line") && o[k] === "auto") continue;
     const label = KNOBS[k].values.find(([v]) => String(v) === String(o[k]))?.[1];
     if (label) facts.push(`${KNOBS[k].label}: ${label}`);
   }
@@ -816,6 +817,8 @@ function onPartsClick(e) {
     if (k === "text" && v && ts.peek !== p.id) ts.peek = null;
     // How often the recording plays changes only the paper; everything else is written again.
     if (k === "plays" && ts.doc) { const sec = ts.doc.sections.find((x) => x.id === p.id); if (sec) { sec.plays = v; refreshDoc(); } }
+    // Paper-only settings (letters or lines, gap length, writing lines, gap labels): the part is redrawn, nothing is written.
+    else if (PAPER_KNOBS.includes(k) && ts.doc?.sections.some((x) => x.id === p.id)) { setPaperKnob(ts.doc.sections.find((x) => x.id === p.id), k, v); refreshDoc(); }
     // Extra words in a word box: the box changes on the paper at once (no AI), and its instruction follows.
     else if (k === "extras" && ts.doc?.sections.some((x) => x.id === p.id)) refitWordBox(p.id, v);
     // Letter help is made by the app: the boxes change on the paper at once (no AI). A question with its own help keeps it.
@@ -1381,6 +1384,15 @@ function flowMismatch(sec) {
   const p = ts.spec.parts.find((x) => x.id === sec?.id);
   if (!p || !TASKS[sec.task]?.knobs?.includes("flow") || !sec.script?.length) return "";
   return partOpts(p, ts.spec.levelId).flow === "numbered" && !numberedScript(sec.script) ? "This recording plays straight through — split it into “Number 1, Number 2…”?" : "";
+}
+
+/** A paper-only setting on a written part (the section keeps it; studio/doc-model.js sets it the same way). */
+const PAPER_FIELD = { link: "link", gaps: "gapSize", line: "lineAfter", cues: "cues" };
+function setPaperKnob(sec, k, v) {
+  const f = PAPER_FIELD[k];
+  if (!sec || !f) return;
+  if ((k === "gaps" || k === "line") && v === "auto") delete sec[f];
+  else sec[f] = v;
 }
 
 function refreshDoc() {

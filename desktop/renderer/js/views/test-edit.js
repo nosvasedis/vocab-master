@@ -12,6 +12,7 @@
 import { listField, wireLists, listValues } from "../list-field.js";
 import { esc, icon, toast, openDialog, plural } from "../ui.js";
 import { SKILLS, TASKS, KNOBS, tfLabels, levelIndex, partOpts, taskFit } from "../../studio/tasks.js";
+import { wireGapTool } from "../gap-tool.js";
 import { LETTER_HELP_TASKS, showsExample, speakingCardLabel } from "../../studio/doc-model.js";
 import { picUrl } from "../pics.js";
 import { letterHelpField } from "./letter-help-ui.js";
@@ -430,6 +431,8 @@ export function mountTestEditing(host) {
         root.querySelector("[data-save]").addEventListener("click", async () => { if ((await onSave(val, root)) !== false) close(); });
         root.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) root.querySelector("[data-save]").click(); });
         onMount?.(root, close);
+        // Every text box can take a gap, a longer or shorter one, or a label after it.
+        wireGapTool(root);
         if (panel) wireWordsPanel(root, part, close);
       },
     });
@@ -616,7 +619,7 @@ export function mountTestEditing(host) {
         title, subtitle: sub, part: s,
         body: (s.task === "V-SORT" ? listField("pe_groups", "Groups", ["Group"], s.groups || [], { hint: "each word’s group must be one of them", add: "Add a group" }) : "")
           + listField("pe_pairs", "", [left, right], s.items.map((it) => [it.prompt, it.answer]), { add: `Add a ${left.toLowerCase()}` })
-          + (extras ? listField("pe_extras", "Extra sentences", ["Sentence"], s.extras, { hint: "they fit no gap", add: "Add a sentence" }) : ""),
+          + (extras ? (s.task === "V-HALVES" ? listField("pe_extras", "Extra endings", ["Ending"], s.extras, { hint: "they finish no beginning", add: "Add an ending" }) : listField("pe_extras", "Extra sentences", ["Sentence"], s.extras, { hint: "they fit no gap", add: "Add a sentence" })) : ""),
         onMount: (root) => wireLists(root),
         onSave: (v, root) => {
           const pairs = listValues(root, "pe_pairs").filter(([a, b]) => a && b);
@@ -638,7 +641,7 @@ export function mountTestEditing(host) {
       return form({
         title: "The writing task", subtitle: sub,
         body: field("pe_task", "The task", s.task_prompt, { rows: 3 }) + (pics ? listField("pe_pics", "Pictures", ["Word"], (s.pictures || []).map((p) => p.word), { hint: "in story order — words with a picture in the app", add: "Add a picture" }) : "")
-          + listField("pe_frame", s.task === "W-SENT" ? "Sentence starters" : "Help points", [s.task === "W-SENT" ? "Starter" : "Point"], s.frame, { add: s.task === "W-SENT" ? "Add a starter" : "Add a point" })
+          + listField("pe_frame", FRAME_LABELS[s.task]?.[0] || "Help points", [FRAME_LABELS[s.task]?.[1] || "Point"], s.frame, { add: FRAME_LABELS[s.task]?.[2] || "Add a point", hint: FRAME_LABELS[s.task]?.[3] || "", wide: true })
           + field("pe_sample", "Model answer", s.sample, { rows: 5, hint: "teacher’s pack" }),
         onMount: (root) => wireLists(root),
         onSave: (v, root) => revise(s.id, (raw) => { raw.prompt = v("pe_task").trim(); if (pics) raw.pictures = listValues(root, "pe_pics"); raw.frame = listValues(root, "pe_frame"); raw.sample = v("pe_sample").trim(); }, "Writing task saved."),
@@ -676,12 +679,19 @@ export function mountTestEditing(host) {
     if (d.kind === "speaking") return speakingEditor(s, d.card);
   }
 
+  /** A writing part's list: [label, box, add, hint]. */
+  const FRAME_LABELS = {
+    "W-SENT": ["Sentence starters", "Starter", "Add a starter", "a starter ending in … gets a writing line; a whole sentence with gaps (________ (name) is my ________.) is written in its gaps"],
+    "W-FRAME": ["Sentences", "Sentence", "Add a sentence", "a gap is ________ and its label follows it in brackets: ________ (name) is my ________ (family member)."],
+  };
+
   /** What the pairs of a matching-like part are called: [editor title, left, right]. */
   const PAIR_LABELS = {
     default: ["Words and meanings", "Word", "Meaning"],
     "R-CONV": ["The conversation", "Line", "Reply"],
     "R-SENT": ["The missing sentences", "Gap", "Sentence"],
     "V-SORT": ["Words and groups", "Word", "Group"],
+    "V-HALVES": ["Beginnings and endings", "Beginning", "Ending"],
   };
 
   function itemEditor(s, d, el) {

@@ -2,8 +2,9 @@
  * Built in Node (web server / desktop main) from the same doc model as the HTML; pictures arrive as PNG
  * copies in meta.picPng. The docx library is passed in by app.js (buildStudioDocx). */
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, boldWordsInstead, orderList, starterPieces, starterWords, docPoints, exampleGapFill, matchList, playedScript, sectionRubric, showsExample, sortBank, speakingCardLabel, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, boldWordsInstead, orderList, starterPieces, starterWords, docPoints, exampleGapFill, matchList, playedScript, sectionRubric, showsExample, sortBank, speakingCardLabel, speakingPlan, starterText, sortRows, starterHasLine, USE_MARKING } from "./doc-model.js";
 import { scaledSize } from "./text-size.js";
+import { gapsText } from "./paper-parts.js";
 import { testPartColumns, splitColumns } from "./item-columns.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields, headerSchool, headerTitle } from "./paper-header.js";
 
@@ -24,7 +25,9 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
     const b64 = showPics && pics[String(token || "").replace(/^@/, "")];
     return b64 ? new d.ImageRun({ data: toBytes(b64), transformation: { width: size, height: size } }) : null;
   };
-  const gapText = (s) => String(s || "").replace(/_{3,}/g, "____________");
+  // Gaps print as long as on the paper (the part's "Gap length", or each gap's own); labels as the paper prints them.
+  let gapOpts = {};
+  const gapText = (s) => gapsText(s, gapOpts);
   const writeIn = (it) => /_/.test(it?.hint || "");
   // Letter help as letter boxes, like the paper: the given letters in bold, a box for each letter to write.
   const hintRun = (it) => {
@@ -116,6 +119,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
   }
 
   (doc.sections || []).forEach((s, i) => {
+    gapOpts = { size: s.gapSize || "auto", cues: s.task === "W-FRAME" && s.cues === "off" ? "off" : "inline" };
     const head = [run(` Part ${i + 1} `, { display: true, bold: true, size: 20 }), run(`  ${SKILLS[s.skill]?.label || ""}`, { bold: true, size: 16, color: "777777" })];
     if (s.points && !teacher) head.push(run(`     ____ / ${s.points}`, { bold: true, size: 18 }));
     children.push(para(head, { spacing: { before: 4 * MM, after: 0.6 * MM }, keepNext: true, border: { top: { style: d.BorderStyle.SINGLE, size: 6, color: "111111", space: 4 } } }));
@@ -165,6 +169,24 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         : [run(gapText(bit), { size: 21 })]));
       children.push(box([...(s.passageTitle ? [para([run(s.passageTitle, { bold: true })])] : []), ...s.passage.split(/\n+/).map((p) => para(passageRuns(p), { spacing: { after: 1 * MM } }))]));
     }
+    // Beginnings and endings: a borderless table, the numbered beginnings left and the lettered endings right.
+    if (s.task === "V-HALVES") {
+      const { defs, letterOf } = matchList(s, meta.layout);
+      const lines = s.link === "line";
+      const left = [...(showsExample(s, meta.layout) && s.example ? [{ ...s.example, n: 0 }] : []), ...s.items];
+      const cell = (kids, w) => new d.TableCell({ width: { size: w, type: d.WidthType.PERCENTAGE }, margins: { top: 1 * MM, bottom: 1 * MM }, borders: { top: noLine, bottom: noLine, left: noLine, right: noLine }, children: [para(kids)] });
+      const rows = Array.from({ length: Math.max(left.length, defs.length) }, (_, r) => {
+        const it = left[r];
+        const b = defs[r];
+        const ex = it?.n === 0;
+        const l = it ? [run(`${it.n}.  `, { display: true, bold: true, size: 20 }), run(it.prompt, { bold: true }), run(lines ? "   ●" : ex ? `   [ ${letterOf(it.answer).toUpperCase()} ]` : "   [      ]", { bold: true })] : [];
+        const rgt = b ? [run(lines ? "●   " : "", { bold: true }), run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text)] : [];
+        return new d.TableRow({ children: [cell(l, 46), cell([], 8), cell(rgt, 46)] });
+      });
+      children.push(new d.Table({ width: { size: 100, type: d.WidthType.PERCENTAGE }, borders: { top: noLine, bottom: noLine, left: noLine, right: noLine, insideHorizontal: noLine, insideVertical: noLine }, rows }));
+      if (lines && left[0]?.n === 0) children.push(para([run(`Example: 0 → ${letterOf(left[0].answer).toUpperCase()}`, { italics: true, size: 18, color: "555555" })]));
+      return;
+    }
     if (s.bank?.length && !boldWordsInstead(s)) {
       if (s.answerType === "match") matchList(s, meta.layout).defs.forEach((b) => children.push(para([run(`${b.letter.toUpperCase()}  `, { bold: true }), run(b.text, { size: 20 })], { indent: { left: 8 * MM } })));
       // The words to sort: the example's word crossed out (it is already in the table).
@@ -192,7 +214,9 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
       if (s.skill === "speaking") { speakingPaper(s); return; }
       const storyPics = s.pictures.map((p) => pic(p.pic, 90)).filter(Boolean);
       if (storyPics.length) children.push(para(storyPics.flatMap((p, k) => [p, run(`  ${k + 1}     `)])));
-      if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [...starterPieces(f, starterWords(s, doc)).map((b) => run(gapText(b.text), { bold: b.bold })), run("  "), run("______________________________", { color: "8A8A8A" })]))); return; }
+      if (s.task === "W-SENT") { s.frame.forEach((f, k) => children.push(item(k + 1, [...starterPieces(f, starterWords(s, doc)).map((b) => run(gapText(b.text), { bold: b.bold })), ...(starterHasLine(f, s.lineAfter) ? [run("  "), run("______________________________", { color: "8A8A8A" })] : [])]))); return; }
+      // Sentences about you: the child writes in the gaps; the labels follow them in brackets.
+      if (s.task === "W-FRAME") { s.frame.forEach((f, k) => children.push(item(k + 1, [run(gapText(f)), ...(s.lineAfter === "always" ? [run("  "), run("______________________________", { color: "8A8A8A" })] : [])]))); return; }
       s.frame.forEach((f) => children.push(para([run(`• ${gapText(f)}`, { size: 20, color: "444444" })], { indent: { left: 6 * MM } })));
       children.push(...lines(Math.max(5, Math.round((s.words?.[1] || 40) / 8))));
       return;
@@ -230,7 +254,7 @@ export async function buildStudioDocx({ doc, which = "student" }, d) {
         const box = ex ? [run(` ${it.answer} `, { italics: true })] : hintRun(it);
         const [first, ...rest] = String(it.prompt || "").split(/_{3,}/);
         const jumble = it.jumble ? [run(`   [${it.jumble}]`, { bold: true, size: 19, color: "555555" })] : [];
-        runs.push(run(first), ...(rest.length ? [...box, run(gapText(rest.join("____________"))), ...jumble] : [...jumble, run("   "), ...box]));
+        runs.push(run(first), ...(rest.length ? [...box, run(gapText(rest.join("________"))), ...jumble] : [...jumble, run("   "), ...box]));
       } else runs.push(run(gapText(it.prompt)), ...(it.jumble ? [run(`   [${it.jumble}]`, { bold: true, size: 19, color: "555555" })] : []), ...(it.hint ? [run(`   [${it.hint}]`, { bold: true, size: 19, color: "555555" })] : []), ...(/_{3,}/.test(it.prompt) && !ex ? [] : [run(`   ${ex ? it.answer : "______________"}`, { italics: ex })]));
       out.push(item(ex ? (s.task === "R-ORDER" ? "✓" : "0") : s.task === "R-ORDER" ? (it.letter || "").toUpperCase() : it.n, runs));
     });

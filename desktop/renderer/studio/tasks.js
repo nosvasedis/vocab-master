@@ -135,6 +135,11 @@ export const TASKS = {
     blurb: "Which word goes with it: make, do, take or have? Fixed phrases with the unit words, where Greek learners often choose the wrong partner.",
     sample: { q: "Can you ________ the table for dinner?", o: ["make", "set", "do"], a: 1 },
     rubric: "Choose the word that goes with the others.", el: "Διάλεξε τη λέξη που πάει μαζί με τις άλλες.", ai: "Each item tests a fixed phrase (collocation) with a unit word: prompt = a short sentence with the partner word gapped (\"Can you ________ the table for dinner?\"); options = 3 partner words of the same class that learners mix up (make / do / take / have / go / get / play / set…); only one sounds natural." },
+  // Two columns: the beginnings of phrases on the left, their endings (lettered, mixed up) on the right.
+  "V-HALVES": { skill: "vocabulary", label: "Match the beginnings and endings", answer: "match", kind: "recognise", fit: [0, 4], knobs: ["pairing", "ends", "link"], trains: ["Collocations", "Words that go together"],
+    blurb: "Two columns: the beginning of a phrase on the left (the alarm clock), its ending on the right (rings), mixed up. Children join each beginning to its ending — by letter or with a line. You choose the kind of phrase and how many extra endings there are.",
+    sample: { pairs: [["the alarm clock", "rings"], ["brush", "your teeth"], ["the dog", "barks"]] },
+    rubric: "Match the beginnings with the endings. Write the letter.", el: "Αντιστοίχισε τις αρχές με τα τέλη. Γράψε το γράμμα.", ai: "Each item is ONE natural phrase or collocation with a unit word, cut in two: prompt = the beginning (left column, 1–5 words, e.g. \"the alarm clock\"), answer = the ending (right column, 1–5 words, e.g. \"rings\"), so that beginning + ending reads as a natural phrase (\"the alarm clock rings\"). Every ending fits ONLY its own beginning — never two endings that could both finish a beginning (no \"is big\" / \"is nice\"). The unit word may be in either half; never the same word in two items. The app letters and mixes up the endings." },
   "V-FORM": { skill: "vocabulary", label: "Word families", answer: "word", kind: "recall", fit: [0, 4], knobs: ["family"], trains: ["Word building", "Word class"],
     blurb: "A gap and a word in capitals; children change it to fit. Young classes add an easy ending to a word they know (SUN → sunny, TEACH → teacher), older ones build words with prefixes and suffixes (CARE → careless). The app can print the word inside the answer (s u n _ _) to help.",
     sample: { q: "It is a ________ day. (SUN)", hint: "s u n _ _", a: "sunny" },
@@ -216,10 +221,15 @@ export const TASKS = {
     sample: { q: "She plays tennis. (negative) → She ________", a: "She doesn't play tennis." },
     rubric: "Rewrite the sentences. Begin with the words given.", el: "Ξαναγράψε τις προτάσεις. Ξεκίνα με τις λέξεις που σου δίνονται.", ai: "prompt = a sentence, then in brackets what to change with the grammar focus, then → and the start of the new sentence with ________ (\"She plays tennis. (negative) → She ________\" / \"They built the castle in 1400. → The castle ________\"); answer = the full new sentence. The meaning stays the same." },
   // Writing
-  "W-SENT": { skill: "writing", label: "Finish the sentences about you", answer: "open", kind: "create", fit: [0, 2], knobs: ["support"], trains: ["Personal writing", "Sentence building"],
+  "W-SENT": { skill: "writing", label: "Finish the sentences about you", answer: "open", kind: "create", fit: [0, 2], knobs: ["support", "line"], trains: ["Personal writing", "Sentence building"],
     blurb: "Five or six sentence starters about the child's own life, with a line for each. The gentlest first step into writing for young learners.",
     sample: { lines: ["My favorite room in my house is…", "After school, I usually…"] },
     rubric: "Finish the sentences about you.", el: "Τελείωσε τις προτάσεις για σένα.", ai: "prompt = one short line saying what the sentences are about; frame = 5–6 sentence starters about the student's own life linked to the unit topic, using unit words (\"My favorite room in my house is…\"). Each starter is the BEGINNING of one sentence and ends with … — never underscores, gaps or blanks (the paper prints the writing line after it); sample = a model set of finished sentences, one per starter, separated by new lines." },
+  // Sentence frames with labelled gaps: "________ (name) is my ________ (family member)." → "Eva is my mother."
+  "W-FRAME": { skill: "writing", label: "Complete the sentences about you", answer: "open", kind: "create", fit: [0, 2], knobs: ["frameGaps", "cues", "box"], trains: ["Personal writing", "Using the unit words"],
+    blurb: "Whole sentences with gaps for the child's own words, each gap labelled underneath: ________ (name) is my ________ (family member). Children write about themselves inside a frame — a step before free sentences. You choose how many gaps, the labels and a word box.",
+    sample: { lines: ["________ (name) is my ________ (family member).", "My favourite ________ (room) is the ________ (room)."] },
+    rubric: "Complete the sentences about you.", el: "Συμπλήρωσε τις προτάσεις για σένα.", ai: "prompt = one short line saying what the sentences are about; frame = 5–6 COMPLETE sentences about the student's own life, linked to the unit topic, each with gaps ________ for the student's own words, and right after EVERY gap a short label in brackets saying what goes there: \"________ (name) is my ________ (family member).\", \"I go to school by ________ (transport).\" The label is 1–3 words naming the kind of word (name, number, colour, family member, food, day, place, a job…) — never the answer itself. The rest of each sentence is printed, uses unit words, and is true for any child once the gaps are filled; sample = a model answer, one finished sentence per frame (\"Eva is my mother.\"), separated by new lines." },
   "W-PICTURES": { skill: "writing", label: "Write about the pictures", answer: "open", needs: ["pictures"], kind: "create", fit: [0, 2], knobs: ["support"], trains: ["Telling a story", "Using the unit words"],
     blurb: "Three of the app's pictures in story order and two or three sentence starters; children write a short story. Pictures give them something to say.",
     sample: { pics: ["🐘", "🌊", "🌳"], lines: ["One day, the elephants…"] },
@@ -296,7 +306,27 @@ export const KNOBS = {
   extras: { label: "Extra words in the box", values: [[0, "None · one per gap"], [1, "+1"], [2, "+2"], [3, "+3"]] },
   // Lettered sentences to put back (conversation / text): extra ones that fit no gap, so the last answer isn't free.
   spare: { label: "Extra sentences", values: [[0, "None"], [1, "+1"], [2, "+2"], [3, "+3"]] },
+  // Beginnings and endings: endings that finish no beginning, so the last match isn't free.
+  ends: { label: "Extra endings", values: [[0, "None"], [1, "+1"], [2, "+2"], [3, "+3"]] },
+  pairing: { label: "Phrases", values: [["any", "Lingo picks"], ["does", "Thing + what it does"], ["verb", "Verb + words"], ["adj", "Describing word + noun"], ["sentence", "Sentence halves"]] },
+  // Paper only (no AI): how the children join the columns.
+  link: { label: "Answer by", values: [["letter", "Writing the letter"], ["line", "Drawing lines"]] },
+  // Paper only: every gap of the part at one length, or each as it was typed (the editors' gap tool).
+  gaps: { label: "Gap length", values: [["auto", "As typed"], ["short", "Short"], ["standard", "Standard"], ["long", "Long"], ["xlong", "Extra long"]] },
+  // Paper only ("Finish the sentences"): a writing line after a starter.
+  line: { label: "Writing line", values: [["auto", "After open starters"], ["always", "After every sentence"], ["never", "None · gaps only"]] },
+  // Sentence frames: how many gaps each has (Lingo writes them), their labels (paper only) and a word box.
+  frameGaps: { label: "Gaps in each sentence", values: [[1, "One"], [2, "Two"], [3, "Mixed · 1–3"]] },
+  cues: { label: "Labels under the gaps", values: [["on", "(name), (family member)…"], ["off", "No labels"]] },
+  box: { label: "Word box", values: [["off", "None"], ["on", "Unit words to choose from"]] },
 };
+
+/** Settings that change only the paper: switching one redraws the part at once, nothing is written again. */
+export const PAPER_KNOBS = ["link", "gaps", "line", "cues"];
+
+// Every part whose questions or text have gaps can set their length ("Gap length"); gaps typed anywhere else still
+// print as long as they were typed.
+for (const id of ["L-GAP", "L-NOTES", "R-GAP", "R-MCCLOZE", "R-SENT", "V-MC", "V-BANK", "V-COLLOC", "V-FAMMC", "V-FORM", "G-MC", "G-FORM", "G-CLOZE", "W-SENT", "W-FRAME"]) TASKS[id].knobs = [...TASKS[id].knobs, "gaps"];
 
 const LEVEL_INDEX = { A_SENIOR: 0, B_SENIOR: 1, C_SENIOR: 2, D_SENIOR: 3, E_SENIOR: 4 };
 export const levelIndex = (levelId) => LEVEL_INDEX[levelId] ?? 1;
@@ -306,7 +336,10 @@ const LEVEL_LETTERS = "ABCDE";
 export function knobDefault(key, levelId) {
   const i = levelIndex(levelId);
   return {
-    text: "", genre: "any", audio: "any", length: "medium", plays: 2, options: 3, extras: 0, spare: 2,
+    text: "", genre: "any", audio: "any", length: "medium", plays: 2, options: 3, extras: 0, spare: 2, ends: 1,
+    pairing: "any", gaps: "auto", line: "auto", cues: "on", box: i <= 0 ? "on" : "off",
+    link: i <= 1 ? "line" : "letter",
+    frameGaps: i <= 0 ? 1 : 2,
     flow: i <= 1 ? "numbered" : "continuous",
     hint: i <= 1 ? "first" : i === 2 ? "count" : "none",
     support: i <= 1 ? "full" : "some",

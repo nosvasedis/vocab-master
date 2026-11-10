@@ -385,6 +385,21 @@ const SENTENCE_SUPPORT = {
   },
 };
 
+/** "Match the beginnings and endings": the kind of phrase cut in two. */
+const PAIRING = {
+  any: "",
+  does: "Phrases: a THING or animal + what it does — beginning = the subject (\"the alarm clock\", \"a bee\"), ending = its verb and any words after it (\"rings\", \"makes honey\").",
+  verb: "Phrases: a VERB + the words that go with it — beginning = the verb (\"brush\", \"do\", \"catch\"), ending = its partner words (\"your teeth\", \"your homework\", \"the bus\").",
+  adj: "Phrases: a DESCRIBING word + noun — beginning = the adjective with its article (\"a heavy\", \"fresh\"), ending = the noun it goes with best (\"bag\", \"bread\").",
+  sentence: "Phrases: SENTENCE HALVES — beginning = the first half of a short sentence (\"When the alarm clock rings,\"), ending = the half that finishes it (\"I get up.\"); each ending fits only its own beginning by meaning and grammar.",
+};
+/** Sentence frames: how many gaps each has. */
+const FRAME_GAPS = {
+  1: "Gaps: EXACTLY ONE gap in each sentence.",
+  2: "Gaps: TWO gaps in each sentence (\"________ (name) is my ________ (family member).\").",
+  3: "Gaps: a MIX — one, two or three gaps per sentence, easier sentences first.",
+};
+
 /** The knob settings of a part as prompt lines. */
 /** Word families, by class: which word-building changes each class meets (Pre-A1 endings → B1 word formation). */
 const FAMILY_LADDER = [
@@ -413,6 +428,9 @@ function knobLines(p, spec, focus = []) {
   if (o.flow === "numbered") out.push(`  ${NUMBERED_RULE}`);
   else if (o.flow === "continuous") out.push("  The recording is ONE continuous dialogue or talk, with no numbers read out; the answers come in the order of the questions.");
   if (o.support && (SENTENCE_SUPPORT[p.task] || SUPPORT)[o.support]) out.push(`  ${(SENTENCE_SUPPORT[p.task] || SUPPORT)[o.support]}`);
+  if (o.pairing && PAIRING[o.pairing]) out.push(`  ${PAIRING[o.pairing]}`);
+  if (o.frameGaps) out.push(`  ${FRAME_GAPS[o.frameGaps] || FRAME_GAPS[2]}`);
+  if (o.box) out.push(o.box === "on" ? '  Word box: "bank" = 6–8 unit words the children may use in the gaps (more words than gaps; not every one fits every child).' : '  No word box: "bank" = [].');
   if (FAMILY_TASKS.includes(p.task)) out.push(`  CLASS LADDER — ${FAMILY_LADDER[levelIndex(spec.levelId)]}`);
   const rel = relationLine(p.task, focus);
   if (rel) out.push(rel);
@@ -429,6 +447,12 @@ export function wordBoxRule(p, spec) {
 
 /** The lettered list of a conversation / missing-sentences part: the answers and exactly N sentences that fit no gap. */
 export function spareRule(p, spec) {
+  if (p.task === "V-HALVES") {
+    const k = partOpts(p, spec.levelId).ends || 0;
+    return k
+      ? `SPARE: "extras" = EXACTLY ${k} extra ending${k > 1 ? "s" : ""} that finish${k > 1 ? "" : "es"} NO beginning naturally (the right column then has ${p.items + 1 + k} endings with the example's). Same kind and length as the real endings; never a copy or near-copy of one.`
+      : `SPARE: "extras" = [] — the right column holds only the endings.`;
+  }
   const n = partOpts(p, spec.levelId).spare || 0;
   return n
     ? `SPARE: "extras" = EXACTLY ${n} extra sentence${n > 1 ? "s" : ""} that fit${n > 1 ? "" : "s"} NO gap (the list then has ${p.items + 1 + n} sentences with the example's). Never a copy or a near-copy of an answer.`
@@ -440,6 +464,7 @@ const ANSWER_NOT_A_WORD = {
   "V-SORT": "Here the tested words are the PROMPTS (one word each) and the answers are the group names.",
   "V-USE": "Here the tested word is in the PROMPT (in CAPITALS) and the answer is a model sentence.",
   "V-RIGHT": "Here the tested word is the word in CAPITALS in each sentence.",
+  "V-HALVES": "Here the tested word is in the beginning OR the ending of each phrase (one tested word per item); the answer is the ending.",
 };
 
 function partBrief(p, i, spec, pictureWords, focus = [], order = null) {
@@ -458,7 +483,7 @@ function partBrief(p, i, spec, pictureWords, focus = [], order = null) {
   }
   lines.push(...knobLines(p, spec, focus));
   if (t.bank && t.answer !== "match") lines.push(`  ${wordBoxRule(p, spec)}`);
-  if (t.knobs?.includes("spare")) lines.push(`  ${spareRule(p, spec)}`);
+  if (t.knobs?.includes("spare") || t.knobs?.includes("ends")) lines.push(`  ${spareRule(p, spec)}`);
   if (ANSWER_NOT_A_WORD[p.task]) lines.push(`  ${ANSWER_NOT_A_WORD[p.task]}`);
   if (p.skill === "writing" && p.words) lines.push(`  Students write ${p.words[0]}–${p.words[1]} words.`);
   if (p.skill === "speaking") {

@@ -6,7 +6,7 @@
  * and a line can have its own letters (item.reveal: "none" or the positions to show). */
 import { levelIndex, KNOBS } from "./tasks.js";
 import { letterHint, familyHint, revealHint, cleanReveal, revealFor } from "./doc-model.js";
-import { lineHtml, hintBoxHtml, isWriteIn } from "./paper-parts.js";
+import { lineHtml, hintBoxHtml, isWriteIn, gapsHtml } from "./paper-parts.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const GAP = /_{3,}/;
@@ -218,7 +218,7 @@ export function wsItemClass(view) {
  * style). The answer pill is added by the caller.
  */
 export function wsItemHtml(view, item, { text = esc } = {}) {
-  const withGaps = (s) => text(s).replace(GAPS, () => lineHtml("inline"));
+  const withGaps = (s) => gapsHtml(text(s));
   if (view.kind === "choice") {
     let body = "";
     if (view.target) body = `<span class="ws-target">${text(view.before)}</span>`;

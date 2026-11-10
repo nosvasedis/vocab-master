@@ -27,7 +27,7 @@ import { picForWord, picUrl } from "./js/pics.js";
 import { TEXT_SIZE_CSS, textSizeKey, scaledSize } from "./studio/text-size.js";
 import { headerOptions, headerKindLine, headerMetaLines, headerExtra, studentFields, headerSchool, headerTitle } from "./studio/paper-header.js";
 import { WS_KIND_OF, wsAllowed, wsTaskFit, exerciseSettingsBlock, itemsAt, settingsAt, planEntries, withEntries, cleanSettings } from "./studio/worksheet-tasks.js";
-import { PAPER_PARTS_CSS } from "./studio/paper-parts.js";
+import { PAPER_PARTS_CSS, gapsText } from "./studio/paper-parts.js";
 import { wsItemView, wsItemHtml, wsItemClass, wsPicLineHtml, itemHint, splitClue, WS_HELP, WS_CHOICE_TYPES } from "./studio/ws-paper.js";
 import { fitChoiceLetters } from "./studio/doc-model.js";
 import { RELATION_TYPES, repairRelationExercise, relationRoom, lineProblem, repairLine } from "./studio/ws-checks.js";
@@ -5138,7 +5138,7 @@ function wsDocxRuns(k, ex, it, levelId) {
   const view = wsItemView(ex, it, levelId);
   const br = () => new d.TextRun({ break: 1 });
   const GAP = "____________";
-  const txt = (s, o = {}) => textRuns(stripLeadingItemNumber(String(s || "")).replace(/_{3,}/g, GAP), { pic: 22, ...o });
+  const txt = (s, o = {}) => textRuns(gapsText(stripLeadingItemNumber(String(s || ""))), { pic: 22, ...o });
   const boxes = (hint) => {
     const words = String(hint).replace(/\s*\(\d+ letters?\)\s*$/, "").trim().split(/\s{2,}/).map((w) => w.split(" ").filter(Boolean));
     return words.flatMap((w, i) => [...(i ? [run("    ")] : [run(" ")]), ...w.map((t) => (t === "_" ? run("☐", { size: 30, color: "555555" }) : run(`${t} `, { bold: true, size: 24 })))]).concat(run(" "));
@@ -5147,7 +5147,7 @@ function wsDocxRuns(k, ex, it, levelId) {
   if (view.kind === "choice") {
     const out = [];
     if (view.target) out.push(run(view.before, { display: true, bold: true }), br());
-    else if (view.before || view.after) out.push(...txt(view.mid ? `${view.before} ${GAP} ${view.after}` : `${view.before} ${view.after}`.trim()), br());
+    else if (view.before || view.after) out.push(...txt(view.mid ? `${view.before} ________ ${view.after}` : `${view.before} ${view.after}`.trim()), br());
     view.options.forEach((o, i) => {
       if (view.stack && i) out.push(br());
       out.push(run(`${view.upper ? L[i].toUpperCase() : L[i]}) `, { bold: true }), ...txt(o), run("      "));
@@ -5166,7 +5166,7 @@ function wsDocxRuns(k, ex, it, levelId) {
   const text = stripLeadingItemNumber(String(view.text || ""));
   const marked = (s) => (view.wrong ? s.split(/(\[[^\]]+\])/).filter(Boolean).flatMap((part) => (/^\[[^\]]+\]$/.test(part) ? [run(part, { bold: true })] : txt(part))) : txt(s));
   const [first, ...rest] = text.split(/_{3,}/);
-  const runs = rest.length ? [...marked(first), ...box, ...marked(rest.join(GAP))] : [...marked(text), run("   "), ...box];
+  const runs = rest.length ? [...marked(first), ...box, ...marked(rest.join("________"))] : [...marked(text), run("   "), ...box];
   if (view.stem) runs.push(run(`  ${view.stem}`, { display: true, bold: true }));
   return runs;
 }

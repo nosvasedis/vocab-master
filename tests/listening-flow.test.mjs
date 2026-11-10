@@ -42,7 +42,8 @@ test("recording flow: numbered for A–B Senior, continuous from C Senior; the t
 test("finish the sentences: the unit words in bold inside the starters", () => {
   const p = starterPieces("My favourite hobby is ____ because I like painting.", ["hobby", "paint"]);
   assert.deepEqual(p.filter((x) => x.bold).map((x) => x.text), ["hobby", "painting"]);
-  assert.equal(p.map((x) => x.text).join(""), "My favourite hobby is ________ because I like painting.");
+  // A gap inside keeps the length it was typed with (the teacher shapes gaps; the paper draws it short).
+  assert.equal(p.map((x) => x.text).join(""), "My favourite hobby is ____ because I like painting.");
 });
 
 test("put in order: the hidden example is one more lettered event, never first, and the key agrees", () => {

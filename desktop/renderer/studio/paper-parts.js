@@ -25,6 +25,42 @@ export function hintBoxHtml(hint, answer = "", example = false) {
   return `<span class="st-cells${example ? " done" : ""}">${words.map((w, i) => `<span class="st-cword">${w.map((t, j) => cell(t, i, j)).join("")}</span>`).join("")}</span>`;
 }
 
+/**
+ * Gaps the teacher can shape. A gap is a run of 3+ underscores and prints as long as it was typed: 3–4 short, 5–10 the
+ * usual gap, 11–16 long, 17+ extra long (the editors' gap tool writes these lengths). A part can set every gap's length
+ * instead (size "short" / "standard" / "long" / "xlong"; "auto" keeps each one's own). A gap may carry a label in
+ * brackets right after it — "________ (name) is my ________ (family member)." — printed as written ("inline"), small
+ * under the line ("under"), or left out ("off").
+ */
+export const GAP_SIZES = ["short", "standard", "long", "xlong"];
+export const GAP_UNDERSCORES = { short: 4, standard: 8, long: 14, xlong: 20 };
+export function gapSize(n, size = "auto") {
+  if (GAP_SIZES.includes(size)) return size;
+  return n <= 4 ? "short" : n <= 10 ? "standard" : n <= 16 ? "long" : "xlong";
+}
+const GAP_CLASS = { short: " gap-short", standard: "", long: " gap-long", xlong: " gap-xlong" };
+/** One gap's line. */
+export const gapLineHtml = (n = 8, size = "auto") => lineHtml(`inline${GAP_CLASS[gapSize(n, size)]}`);
+// A gap and the label in brackets after it (short: up to 4 words, no sentence inside it).
+const GAP_WITH_CUE = /(_{3,})(?:(\s*)\(([^()<>\n]{1,32})\))?/g;
+/** Escaped text with its gaps drawn. opts: { size, cues: "inline" | "under" | "off" }. */
+export function gapsHtml(html, { size = "auto", cues = "inline" } = {}) {
+  return String(html ?? "").replace(GAP_WITH_CUE, (all, run, sp, cue) => {
+    const ln = gapLineHtml(run.length, size);
+    if (cue === undefined || cues === "inline" || cue.trim().split(/\s+/).length > 4) return `${ln}${all.slice(run.length)}`;
+    if (cues === "off") return ln;
+    return `<span class="st-gap">${ln}<small class="st-gap-cue">${cue.trim()}</small></span>`;
+  });
+}
+/** Plain text (Word files) with its gaps as underscores of their printed length; labels as asked. */
+export function gapsText(text, { size = "auto", cues = "inline", scale = 1.5 } = {}) {
+  return String(text ?? "").replace(GAP_WITH_CUE, (all, run, sp, cue) => {
+    const line = "_".repeat(Math.round(GAP_UNDERSCORES[gapSize(run.length, size)] * scale));
+    if (cue === undefined || cues === "inline" || cue.trim().split(/\s+/).length > 4) return `${line}${all.slice(run.length)}`;
+    return cues === "off" ? line : `${line} (${cue.trim()})`;
+  });
+}
+
 /** Letter help with blanks ("b _ _ _ _ _", "_ _ _ _ (4 letters)", "s u n _ _") is the writing space itself. */
 export const isWriteIn = (hint) => /_/.test(hint || "");
 
@@ -36,6 +72,13 @@ export const PAPER_PARTS_CSS = `
 .st-line.tiny { min-width: 9mm; }
 .st-line.full { display: block; width: 100%; height: 8mm; }
 .st-line.grow { flex: 1; min-width: 30mm; }
+.st-line.inline.gap-short { min-width: 12mm; }
+.st-line.inline.gap-long { min-width: 36mm; }
+.st-line.inline.gap-xlong { min-width: 52mm; }
+/* A gap with its label under the line ("name", "family member"), like a form. */
+.st-gap { position: relative; display: inline-block; margin-bottom: 3.2mm; }
+.st-gap .st-line { margin-left: 0; margin-right: 0; }
+.st-gap-cue { position: absolute; left: -2mm; right: -2mm; top: 100%; margin-top: 0.4mm; text-align: center; font: 600 7.2pt/1 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; color: var(--ink-2); white-space: nowrap; }
 .st-hint { display: inline-block; margin: 0 1.6mm; padding: 0.2mm 1.8mm; border: 0.6pt dashed var(--ink-3); border-radius: 1.4mm; font: 700 9.6pt/1.4 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.06em; color: var(--ink-2); white-space: nowrap; }
 .pic-card .st-hint { margin: 0.6mm 0 0; font-size: 8.6pt; }
 .pic-card .pic-line.hinted { height: auto; border-bottom: 0; flex-wrap: wrap; gap: 1mm; }

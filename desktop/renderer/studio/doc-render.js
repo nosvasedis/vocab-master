@@ -4,9 +4,9 @@
 import { escapeHtml as esc, worksheetHeaderHtml, worksheetSectionHtml, WORKSHEET_PRINT_CSS } from "../app.js";
 import { picUrl } from "../js/pics.js";
 import { SKILLS, TASKS, DICTATION_STYLES } from "./tasks.js";
-import { LETTERS, answerKeyRows, boldWordsInstead, docPoints, exampleGapFill, matchList, orderList, playedScript, starterPieces, starterWords, sectionRubric, showsExample, sortBank, speakingPlan, starterText, sortRows, USE_MARKING } from "./doc-model.js";
+import { LETTERS, answerKeyRows, boldWordsInstead, docPoints, exampleGapFill, matchList, orderList, playedScript, starterPieces, starterWords, sectionRubric, showsExample, sortBank, speakingPlan, starterText, sortRows, starterHasLine, USE_MARKING } from "./doc-model.js";
 import { textSizeKey } from "./text-size.js";
-import { lineHtml, hintBoxHtml, isWriteIn } from "./paper-parts.js";
+import { lineHtml, hintBoxHtml, isWriteIn, gapsHtml } from "./paper-parts.js";
 import { testPartColumns } from "./item-columns.js";
 
 const GAP = /_{3,}/g;
@@ -15,7 +15,12 @@ const pic = (token, cls = "ws-pic") => {
   const id = String(token || "").replace(/^@/, "");
   return /^(?:w|c|ui)-[a-z0-9-]+$/.test(id) ? `<img class="${cls}" src="${esc(picUrl(id))}" alt="" draggable="false">` : "";
 };
-const withGaps = (text) => esc(text).replace(GAP, () => line("inline"));
+// The gaps of the part being drawn: their length (Step 3 "Gap length") and how a label after a gap is printed.
+let gapOpts = {};
+// Sentences about you print a gap's label small under its line ("name", "family member"); other parts as written.
+const gapsFor = (section) => ({ size: section?.gapSize || "auto", cues: section?.task === "W-FRAME" ? (section.cues === "off" ? "off" : "under") : section?.task === "W-SENT" ? "under" : "inline" });
+const drawGaps = (html) => gapsHtml(html, gapOpts);
+const withGaps = (text) => drawGaps(esc(text));
 /** Letter help with blanks ("b _ _ _ _ _", "_ _ _ _ (4 letters)", "s u n _ _") is the writing space itself. */
 const writeIn = (it) => isWriteIn(it?.hint);
 /** Letter help drawn as letter boxes (studio/paper-parts.js); in the example every box is filled in by hand. */
@@ -63,11 +68,11 @@ function passageHtml(section, layout = {}) {
   if (!section.passage) return "";
   // The example's gap "(0)": written in while the example is printed, the plain word or sentence while it is hidden.
   const fill = exampleGapFill(section, layout);
-  const gap = (n) => {
+  const gap = (n, run = "________") => {
     if (Number(n) === 0 && fill) return fill.shown ? `<b>(0)</b> <span class="st-ex-ans">${esc(fill.text)}</span>` : esc(fill.text);
-    return `<b>(${n})</b>${line("inline")}`;
+    return `<b>(${n})</b>${drawGaps(run)}`;
   };
-  const body = section.passage.split(/\n{1,}/).map((p) => `<p>${esc(p).replace(/\(\s*(\d+)\s*\)\s*_{3,}/g, (_, n) => gap(n)).replace(GAP, () => line("inline"))}</p>`).join("");
+  const body = section.passage.split(/\n{1,}/).map((p) => `<p>${esc(p).replace(/\(\s*(\d+)\s*\)\s*(_{3,})/g, (_, n, run) => gap(n, run)).replace(/_{3,}/g, (m) => drawGaps(m))}</p>`).join("");
   return `<div class="st-passage">${section.passageTitle ? `<h4>${esc(section.passageTitle)}</h4>` : ""}${body}</div>`;
 }
 
@@ -84,6 +89,30 @@ function bankHtml(section, layout = {}) {
   // Hidden, the example isn't on the paper, so neither is its word (doc-model.js → sortBank).
   if (section.task === "V-SORT") return `<div class="word-bank st-keywords st-sort-words">${sortBank(section, layout).map((b) => `<span>${b.done ? `<s>${esc(b.word)}</s>` : esc(b.word)}</span>`).join("")}</div>`;
   return `<div class="word-bank">${section.bank.map((w) => `<span>${esc(w)}</span>`).join("")}</div>`;
+}
+
+/**
+ * "Match the beginnings and endings": two columns side by side — the numbered beginnings on the left, the lettered
+ * endings (mixed up, with any extra ones) on the right. By letter: a box after each beginning. By lines: a dot at the
+ * end of each beginning and before each ending, and the example's line drawn in.
+ */
+const HALF_ROW_MM = 9;
+function halvesHtml(section, layout, showAnswers) {
+  const { defs, letterOf, selected } = matchList(section, layout);
+  const ex = showsExample(section, layout) ? section.example : null;
+  const lines = section.link === "line";
+  const left = [...(ex ? [{ ...ex, ex: true }] : []), ...section.items];
+  const key = (it) => (showAnswers && !it.ex ? `<span class="teacher-ans-pill">✓ ${esc(letterOf(it.answer).toUpperCase())}</span>` : "");
+  const end = (it) => (lines ? `<span class="st-dot${it.ex ? " on" : ""}"></span>` : `<span class="st-order-box${it.ex ? " picked" : ""}">${it.ex ? esc(letterOf(it.answer).toUpperCase()) : ""}</span>`);
+  const rows = left.map((it) => `<div class="ex-item st-item st-half${it.ex ? " st-example" : ""}"><span class="item-num">${it.ex ? "0" : esc(it.n)}</span><div class="item-text"><span class="st-half-text">${esc(it.prompt)}</span>${key(it)}${end(it)}</div></div>`).join("");
+  const ends = defs.map((b) => `<p class="match-def-line st-half-end${b.text === selected ? " picked" : ""}">${lines ? `<span class="st-dot${b.text === selected ? " on" : ""}"></span>` : ""}<b>${esc((b.letter || "").toUpperCase())}</b><span>${esc(b.text)}</span></p>`).join("");
+  // The example's line, drawn in the gap between the columns (rows are all one height, so its ends are known).
+  let svg = "";
+  if (lines && ex) {
+    const to = defs.findIndex((b) => b.text === selected);
+    if (to >= 0) svg = `<svg class="st-half-link" viewBox="0 0 100 ${Math.max(left.length, defs.length) * HALF_ROW_MM}" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="${HALF_ROW_MM / 2}" x2="100" y2="${(to + 0.5) * HALF_ROW_MM}" vector-effect="non-scaling-stroke"/></svg>`;
+  }
+  return `<div class="st-halves${lines ? " by-line" : " by-letter"}"><div class="st-halves-starts">${rows}</div><div class="st-halves-gutter">${svg}</div><div class="match-defs st-halves-ends">${ends}</div></div>`;
 }
 
 /** "Put the words in groups": a table with a column per group and the same number of lines in each; the example's word is written in. */
@@ -143,7 +172,7 @@ function itemHtml(section, it, layout, { example = false, showAnswers = false } 
   const jumble = it.jumble ? ` <span class="st-hint st-jumble">${esc(it.jumble)}</span>` : "";
   if (writeIn(it)) {
     const box = hintBox(it, example);
-    const text = hasGap ? `${esc(it.prompt).replace(/_{3,}/, () => box).replace(GAP, () => line("inline"))}${jumble}` : `${withGaps(it.prompt)}${jumble} ${box}`;
+    const text = hasGap ? `${drawGaps(esc(it.prompt).replace(/_{3,}/, () => box))}${jumble}` : `${withGaps(it.prompt)}${jumble} ${box}`;
     return `<div class="${cls}">${num}<div class="item-text">${text}${key}</div></div>`;
   }
   const prompt = /^\(\d+\)$/.test(it.prompt) ? `<b>${esc(it.prompt)}</b>` : withGaps(it.prompt);
@@ -161,7 +190,9 @@ function openTaskHtml(section, layout, boldWords = []) {
   const pics = layout.pictures && section.pictures.length ? `<div class="st-story-pics">${section.pictures.map((p, i) => `<div class="st-story-pic">${pic(p.pic)}<small>${i + 1}</small></div>`).join("")}</div>` : "";
   if (section.skill === "speaking") return speakingHtml(section, layout);
   // "Finish the sentences": each starter gets its own line to write on.
-  if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${starterPieces(f, boldWords).map((b) => (b.bold ? `<b>${withGaps(b.text)}</b>` : withGaps(b.text))).join("")}</span>${line("grow")}</p>`).join("")}</div>`;
+  if (section.task === "W-SENT" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters">${section.frame.map((f, i) => `<p class="st-starter"><span class="item-num">${i + 1}</span><span>${drawGaps(starterPieces(f, boldWords).map((b) => (b.bold ? `<b>${esc(b.text)}</b>` : esc(b.text))).join(""))}</span>${starterHasLine(f, section.lineAfter) ? line("grow") : ""}</p>`).join("")}</div>`;
+  // "Complete the sentences about you": whole sentences, the child writes in the gaps (each labelled under its line).
+  if (section.task === "W-FRAME" && section.frame.length) return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)}</p>` : ""}<div class="st-starters st-frames">${section.frame.map((f, i) => `<p class="st-starter st-frame-sent"><span class="item-num">${i + 1}</span><span>${withGaps(f)}</span>${section.lineAfter === "always" ? line("grow") : ""}</p>`).join("")}</div>`;
   const frame = section.frame.length ? `<ul class="st-frame">${section.frame.map((f) => `<li>${withGaps(f)}</li>`).join("")}</ul>` : "";
   const n = Math.max(5, Math.round(((section.words?.[1] || 40) / 8)));
   return `${section.task_prompt ? `<p class="st-task">${esc(section.task_prompt)} ${words}</p>` : words ? `<p class="st-task">${words}</p>` : ""}${pics}${frame}<div class="st-lines">${Array.from({ length: n }, () => line("full")).join("")}</div>`;
@@ -270,13 +301,15 @@ export function renderStudentPaper(doc, options = {}) {
   const layout = docLayout(doc, options);
   const parts = (doc.sections || []).map((section, i) => {
     let body = "";
+    gapOpts = gapsFor(section);
     if (section.skill === "listening") body += `<div class="st-audio">Listen to track ${i + 1}. You will hear it ${section.plays === 1 ? "once" : "twice"}.</div>`;
     if (section.skill === "dictation") return `<section class="ex-block st-sec">${partHead(section, i, layout)}${dictationHtml(section, layout, options.showAnswers)}</section>`;
     if (!["writing"].includes(section.skill) || section.task === "W-MESSAGE") body += passageHtml(section, layout);
-    body += bankHtml(section, layout);
+    if (section.task !== "V-HALVES") body += bankHtml(section, layout);
     if (section.answerType === "open") body += openTaskHtml(section, layout, starterWords(section, doc));
     else if (section.task === "V-PIC" || section.task === "V-TICK") body += pictureCardsHtml(section, layout, options.showAnswers);
     else if (section.task === "V-SORT") body += sortTableHtml(section, layout, options.showAnswers);
+    else if (section.task === "V-HALVES") body += halvesHtml(section, layout, options.showAnswers);
     else {
       // Picture-choice questions sit two to a row, so a part fits on one page.
       const picGrid = layout.pictures && section.items.some((it) => it.optionPics?.length);
@@ -350,6 +383,25 @@ export const STUDIO_PRINT_CSS = `
 .studio-sheet .ex-item:has(.st-options) { line-height: 1.5; margin-bottom: 1.8mm; }
 .studio-sheet .ex-item:has(.st-options) .st-options { margin-top: 0.4mm; }
 .match-defs.two-col { columns: 2; column-gap: 6mm; }
+/* Beginnings and endings: two columns of rows of one height, a gutter between them to draw lines in. */
+.st-halves { display: grid; grid-template-columns: minmax(0, 1fr) 16mm minmax(0, 1fr); margin: 1mm 0 2mm 0; }
+.st-halves.by-letter { grid-template-columns: minmax(0, 1fr) 8mm minmax(0, 1fr); }
+.st-halves .st-half, .st-halves .st-half-end { box-sizing: border-box; height: 9mm; min-height: 9mm; margin: 0; display: flex; align-items: center; break-inside: avoid; }
+.st-halves .st-half .item-text { display: flex; align-items: center; gap: 2mm; flex: 1; min-width: 0; }
+.st-halves .st-half-text { flex: 1; min-width: 0; font-weight: 700; }
+.studio-sheet .st-halves .st-halves-ends { columns: auto; margin: 0; padding: 0; border: 0; border-radius: 0; }
+.st-halves .ex-item { margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; }
+.st-halves .st-half-end { gap: 2mm; }
+.st-halves .st-half-end b { flex: none; }
+.st-halves-gutter { position: relative; }
+.st-half-link { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.st-half-link line { stroke: #111; stroke-width: 1.2; }
+.st-dot { flex: none; width: 2.2mm; height: 2.2mm; border-radius: 50%; border: 0.9pt solid #111; background: #fff; }
+.st-dot.on { background: #111; }
+.st-halves.by-line .st-half .st-dot { margin-right: -1.1mm; }
+.st-halves.by-line .st-half-end .st-dot { margin-left: -1.1mm; }
+/* A sentence about you: room under each line for its label. */
+
 .match-defs.two-col .match-def-line { break-inside: avoid; margin-top: 0; }
 .studio-sheet .st-skill { font: 800 7.4pt/1.2 "Manrope", "Inter", "Segoe UI", Arial, sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.4mm; }
 .studio-sheet .ex-head { align-items: flex-start; }
@@ -370,6 +422,8 @@ export const STUDIO_PRINT_CSS = `
 .st-sent .item-text { display: flex; align-items: center; gap: 1.6mm; }
 .st-starter { display: flex; align-items: flex-end; gap: 2mm; margin: 0 0 3.2mm; font-size: 10.4pt; }
 .st-starter .item-num { flex: none; }
+/* A sentence with labelled gaps: the number beside the words, room under the last labels. */
+.st-starter.st-frame-sent, .st-starter:has(.st-gap) { align-items: baseline; line-height: 1.9; margin-bottom: 4.4mm; }
 .st-cols { columns: 2; column-gap: 8mm; }
 .st-cols > .ex-item { break-inside: avoid; page-break-inside: avoid; }
 .st-pic-items { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm 6mm; }

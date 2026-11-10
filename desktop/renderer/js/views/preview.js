@@ -6,6 +6,7 @@ import {
   fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, getSavedSession, remakeWorksheetItem,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
+import { wireGapTool } from "../gap-tool.js";
 import { state, emit, on, buildForm, makeWord, prefs, worksheetFreshness } from "../state.js";
 import { worksheetFontCss } from "../fonts.js";
 import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictures.js";
@@ -816,6 +817,8 @@ function openItemEditor(sheet, exIndex, itemIndex) {
       const val = (id) => q(id)?.value ?? "";
       const lines = (id) => (root.querySelector(`[data-list="${id.slice(1)}"]`) ? listValues(root, id.slice(1)) : val(id).split("\n").map((x) => x.trim()).filter(Boolean));
       help?.mount(root);
+      // Gaps: put one in, make one longer or shorter, give it a label (the sheet prints it as long as it is typed).
+      wireGapTool(root);
       // The right-answer list follows the options as they are typed.
       const fillAnswers = () => {
         const sel = q("#ie_answer");

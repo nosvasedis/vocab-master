@@ -363,6 +363,17 @@ export function starterPieces(starter, words = []) {
 }
 /** The words printed in bold in a part's starters: its own words and the test's unit words. */
 export const starterWords = (section, doc) => [...(section?.bank || []), ...((doc?.focusWords || []).map((w) => w?.english || w))].filter((w) => typeof w === "string");
+/**
+ * Does a starter get a writing line after it? "always" / "never" (Step 3 "Writing line"); "auto": yes for an open
+ * starter ("My best friend is…"), no for a whole sentence with its own gaps ("________ (name) is my ________ (family
+ * member)." — the child writes in the gaps).
+ */
+export function starterHasLine(starter, mode = "auto") {
+  if (mode === "always") return true;
+  if (mode === "never") return false;
+  const s = starterText(starter);
+  return !(/_{3,}/.test(s) && /[.!?)]["'’”]?$/.test(s));
+}
 /** Parts whose word box is not printed: the words are in bold in the sentences ("Finish the sentences"). */
 export const boldWordsInstead = (section) => section?.task === "W-SENT";
 
@@ -370,7 +381,8 @@ export function starterText(starter) {
   let s = clean(starter).replace(/\.{3,}/g, "…");
   // Trailing gap (with any full stop, ellipsis or other punctuation after it) → the line after the starter.
   s = s.replace(/\s*_{3,}[\s_.…!?,;:]*$/, "").trim();
-  return s.replace(/_{3,}/g, "________");
+  // Gaps inside keep the length they were typed with (the paper draws it).
+  return s;
 }
 
 export function sectionRubric(section) {
@@ -378,6 +390,11 @@ export function sectionRubric(section) {
   let en = section?.rubric || "";
   let el = section?.rubricEl || "";
   if (n) { en = fitChoiceLetters(en, n); el = fitChoiceLetters(el, n); }
+  // Beginnings and endings: the instruction says how the children answer (letters or lines, Step 3).
+  if (section?.task === "V-HALVES") {
+    if (section.link === "line") { en = en.replace(/Write the letters?\.?/i, "Draw lines."); el = el.replace(/Γράψε το γράμμα\.?/, "Ένωσε με γραμμές."); }
+    else { en = en.replace(/Draw (?:a )?lines?\.?/i, "Write the letter."); el = el.replace(/Ένωσε με γραμμές\.?/, "Γράψε το γράμμα."); }
+  }
   if (hasWordBox(section)) {
     const k = boxExtras(section);
     en = withExtraWords(en, k, "en");
@@ -628,17 +645,21 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
       const name = section.replier ? new RegExp(`^${section.replier.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*:\\s*`, "i") : null;
       [example, ...items].filter(Boolean).forEach((it) => { if (name) it.answer = it.answer.replace(name, ""); });
     }
-    if (opts.spare !== undefined) {
+    const spare = opts.spare ?? opts.ends;
+    if (spare !== undefined) {
+      const halves = plan.task === "V-HALVES";
       const taken = new Set([example, ...items].filter(Boolean).map((it) => lc(it.answer)));
-      section.extras = (Array.isArray(raw.extras) ? raw.extras : []).map(clean).filter((x) => x && !taken.has(lc(x)) && (taken.add(lc(x)), true)).slice(0, opts.spare);
-      if (section.extras.length < opts.spare) problems.push(`the list needs ${opts.spare} extra sentence${opts.spare > 1 ? "s" : ""} that fit no gap (has ${section.extras.length})`);
-      repeatedAnswers(items.map((it) => it.answer)).forEach((r) => problems.push(`item ${r.n}: same sentence as item ${r.first} — each gap needs its own sentence`));
+      section.extras = (Array.isArray(raw.extras) ? raw.extras : []).map(clean).filter((x) => x && !taken.has(lc(x)) && (taken.add(lc(x)), true)).slice(0, spare);
+      if (section.extras.length < spare) problems.push(halves ? `the right column needs ${spare} extra ending${spare > 1 ? "s" : ""} that finish no beginning (has ${section.extras.length})` : `the list needs ${spare} extra sentence${spare > 1 ? "s" : ""} that fit no gap (has ${section.extras.length})`);
+      repeatedAnswers(items.map((it) => it.answer)).forEach((r) => problems.push(halves ? `item ${r.n}: same ending as item ${r.first} — each beginning needs its own ending` : `item ${r.n}: same sentence as item ${r.first} — each gap needs its own sentence`));
     }
     if (plan.task === "R-SENT") items.forEach((it) => { if (!new RegExp(`\\(${it.n}\\)\\s*_{3,}`).test(section.passage)) problems.push(`the text is missing the gap (${it.n}) ________`); });
     // The example's meaning is in the list too, so item 0 shows its letter (Cambridge style).
     const defs = shuffled([...new Set([...(example?.answer ? [example.answer] : []), ...items.map((it) => it.answer), ...(section.extras || [])])]);
     section.bank = defs.map((text, i) => ({ letter: LETTERS[i], text }));
     [example, ...items].filter(Boolean).forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)] || ""; it.prompt ||= ""; });
+  } else if (plan.task === "W-FRAME" && opts.box === "off") {
+    section.bank = [];
   } else if (task.answer === "open" && task.skill === "writing" && Array.isArray(raw.bank) && raw.bank.length) {
     // A word box for writing with lots of support.
     section.bank = [...new Set(raw.bank.map(clean).filter(Boolean))].slice(0, 10);
@@ -656,6 +677,15 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     repeatedAnswers(answers).forEach((r) => problems.push(`item ${r.n}: same answer as item ${r.first} ("${r.answer}") — each gap needs a different word from the box`));
   }
   if (plan.task === "V-SORT") sortGroups(section, raw, example, items, problems);
+  // Settings that change only the paper (Step 3): gap length, writing lines, gap labels, letters or lines to draw.
+  if (opts.gaps && opts.gaps !== "auto") section.gapSize = opts.gaps;
+  if (opts.line && opts.line !== "auto") section.lineAfter = opts.line;
+  if (opts.cues) section.cues = opts.cues;
+  if (opts.link) section.link = opts.link;
+  if (plan.task === "W-FRAME") section.frame.forEach((f, k) => {
+    if (!/_{3,}/.test(f)) problems.push(`sentence ${k + 1} has no gap ________ for the child's own words`);
+    else if (opts.cues !== "off" && /_{3,}(?!_|\s*\([^()]{1,32}\))/.test(f)) problems.push(`sentence ${k + 1}: every gap needs its label in brackets right after it, e.g. ________ (name)`);
+  });
   if (task.answer === "choice") balanceChoices(items);
   if (plan.task === "G-ORDER") [example, ...items].filter(Boolean).forEach((it) => repairOrderItem(it));
   if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
