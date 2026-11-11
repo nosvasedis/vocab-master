@@ -140,6 +140,7 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     const byKey = new Map();
     for (const r of list) if (SYNCED[r.key]) (byKey.get(r.key) || byKey.set(r.key, []).get(r.key)).push(r);
     const changedKeys = [];
+    const changedIds = {};
     for (const [key, recs] of byKey) {
       const spec = SYNCED[key];
       captureKey(key, { persist: false }); // never overwrite an edit sync hasn't recorded yet
@@ -155,11 +156,11 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
           continue;
         }
         if (incoming.del) {
-          if (items.has(id)) changed = true;
+          if (items.has(id)) { changed = true; (changedIds[key] ||= []).push(id); }
           items.delete(id);
           meta[id] = { t: incoming.t, by: incoming.by, del: true };
         } else {
-          if (items.get(id) !== rec.v) changed = true;
+          if (items.get(id) !== rec.v) { changed = true; (changedIds[key] ||= []).push(id); }
           items.set(id, rec.v);
           meta[id] = { t: incoming.t, by: incoming.by, h: hash(rec.v) };
         }
@@ -175,7 +176,8 @@ export function createEngine({ storage, now = Date.now, onChange = () => {}, onS
     }
     save();
     setStatus({});
-    if (changedKeys.length) onChange(changedKeys);
+    // Which records changed, too: a screen that has one of them open loads the new version (js/made.js).
+    if (changedKeys.length) onChange(changedKeys, changedIds);
     return changedKeys;
   }
 

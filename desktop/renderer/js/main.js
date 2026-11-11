@@ -272,6 +272,19 @@ function registerWorksheets() {
       emit("setup", "words", "level", "data");
       return true;
     },
+    // The open unit changed on another computer: its new version, on the same screen.
+    reload(id) {
+      const s = getSavedSession(id);
+      if (!s || state.sessionId !== id) return false;
+      const view = state.view;
+      applyForm(s.form || {}, s.plan || null);
+      state.data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(s.data)));
+      state.plan = s.plan || state.plan;
+      state.view = view;
+      emit("setup", "words", "level", "data");
+      if (view === "preview") renderPreview();
+      return true;
+    },
     // Closed (deleted here or on another computer): the unit's words and sheets go, the class and book stay.
     close() {
       const view = state.view;
@@ -467,7 +480,8 @@ async function startSync() {
     const keys = e.detail?.keys || [];
     if (keys.includes("vm_prefs_v2")) { Object.assign(prefs, readJSON("vm_prefs_v2", {})); applyTheme(); configureAudio(soundPrefs()); }
     // Worksheets, tests or dictations changed on another computer: a maker whose open item was deleted there is emptied.
-    if (keys.includes(SAVES_KEY) || keys.includes(DOCS_KEY)) { reconcile({ remote: true }); emit("library"); }
+    // One changed there: the maker that has it open shows the new version (an edit here then builds on it, never on the old copy).
+    if (keys.includes(SAVES_KEY) || keys.includes(DOCS_KEY)) { reconcile({ remote: true, changed: e.detail?.ids || {} }); emit("library"); }
     // The AI service chosen on another computer: the engine must use it too (not only the status card).
     if (keys.includes("vm_ai_provider")) void applyProvider().finally(() => setAiState());
     else if (keys.some((k) => k === "lingo_maker_api_key" || k === "vm_gemini_api_key")) setAiState();

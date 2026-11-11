@@ -6,7 +6,7 @@ import { getAllSavedSessions, deleteSavedSession } from "../app.js";
 import { readJSON, writeJSON } from "./bridge.js";
 import { state, emit } from "./state.js";
 import { actions } from "./actions.js";
-import { toast, confirmDialog, icon, esc } from "./ui.js";
+import { toast, confirmDialog, icon, esc, hasOpenDialog } from "./ui.js";
 
 export const SAVES_KEY = "lingo_maker_saves";
 export const DOCS_KEY = "vm_studio_docs_v1";
@@ -179,16 +179,41 @@ function undoDelete(kind, item, reopen) {
 }
 
 /** A maker whose open item is no longer saved (deleted on another computer, a restore…) is emptied. */
-export function reconcile({ remote = false } = {}) {
+export function reconcile({ remote = false, changed = {} } = {}) {
   let closed = 0;
   for (const kind of Object.keys(makers)) {
     const id = openId(kind);
-    if (!id || findMade(kind, id) || makers[kind].busy?.()) continue;
+    if (!id) continue;
+    const key = kind === "unit" ? SAVES_KEY : DOCS_KEY;
+    if (findMade(kind, id)) {
+      // Changed on another computer: the maker shows that version now (later when Lingo is still writing here).
+      if (remote && (changed[key] || []).includes(id)) reloadOpen(kind, id);
+      continue;
+    }
+    if (makers[kind].busy?.()) continue;
     makers[kind].close("gone");
     closed++;
     if (remote) toast(`The open ${KIND_NAME[kind]} was deleted on another computer, so it was closed.`, "info", { ms: 5000 });
   }
   return closed;
+}
+
+/** Waiting reloads, kind → id: an item that changed elsewhere while its maker was busy. */
+const waiting = {};
+function reloadOpen(kind, id) {
+  const m = makers[kind];
+  if (!m?.reload || openId(kind) !== id) { delete waiting[kind]; return; }
+  // Lingo writing, or an editor open on its paper: after that (what wins is then in the library, and is shown).
+  const later = () => m.busy?.() || hasOpenDialog();
+  if (later()) {
+    if (waiting[kind] === id) return;
+    waiting[kind] = id;
+    const retry = () => { if (waiting[kind] !== id) return; if (later()) { setTimeout(retry, 1500); return; } delete waiting[kind]; reloadOpen(kind, id); };
+    setTimeout(retry, 1500);
+    return;
+  }
+  delete waiting[kind];
+  if (m.reload(id)) toast(`This ${KIND_NAME[kind]} was changed on another computer — you see the new version.`, "info", { ms: 4500 });
 }
 
 /**

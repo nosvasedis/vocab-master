@@ -162,7 +162,8 @@ export function rebalanceChoiceItems(items = [], rand = Math.random) {
     const it = items[i];
     const { pos, k, group } = choicePosition(it.prompt, it.answer);
     const want = (targets[n] - 1) % k;
-    if (want === pos) return;
+    // A line the teacher wrote or changed keeps its options as they set them.
+    if (want === pos || it.byTeacher) return;
     const opts = [...group.options];
     const [ans] = opts.splice(pos, 1);
     opts.splice(want, 0, ans);

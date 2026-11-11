@@ -489,3 +489,23 @@ test("rules: only the signed-in, non-anonymous owner can read or write users/{ui
 });
 
 /* The Google loopback (desktop) is tested with the app shell: desktop/src-tauri/src/google.rs (cargo test). */
+
+test("engine: says which records changed, so a screen with one of them open shows the new version", async () => {
+  const acct = memoryAccount();
+  const now = clock();
+  const A = laptop(acct, now, { vm_studio_docs_v1: JSON.stringify([{ id: "t1", savedAt: "2026-11-01", meta: { title: "Unit 3" } }, { id: "t2", savedAt: "2026-11-01" }]) });
+  await A.engine.pull();
+  const storage = memoryStorage();
+  const seen = [];
+  const B = createEngine({ storage, now, onChange: (keys, ids) => seen.push({ keys, ids }) });
+  B.attach(acct, "uid-1");
+  await B.pull();
+  assert.deepEqual(seen.at(-1).ids.vm_studio_docs_v1.sort(), ["t1", "t2"]);
+  // The test is edited on laptop A (one question changed): B is told t1 changed, and only t1.
+  now.tick();
+  A.storage.set("vm_studio_docs_v1", JSON.stringify([{ id: "t1", savedAt: "2026-11-02", meta: { title: "Unit 3" }, sections: [{ items: [{ answer: "fish" }] }] }, { id: "t2", savedAt: "2026-11-01" }]));
+  await A.engine.pull();
+  await B.pull();
+  assert.deepEqual(seen.at(-1).ids, { vm_studio_docs_v1: ["t1"] });
+  assert.equal(JSON.parse(storage.get("vm_studio_docs_v1")).find((d) => d.id === "t1").sections[0].items[0].answer, "fish");
+});

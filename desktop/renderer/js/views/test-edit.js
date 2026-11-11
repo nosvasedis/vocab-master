@@ -283,7 +283,7 @@ export function mountTestEditing(host) {
           const at2 = Number(root.querySelector("#pa_pos").value);
           if (mode === "me") {
             const v = (k) => root.querySelector(`#${k}`)?.value?.trim() ?? "";
-            const item = { prompt: v("pa_prompt"), answer: v("pa_ans"), options: choice ? lines(v("pa_opts")) : undefined };
+            const item = { prompt: v("pa_prompt"), answer: v("pa_ans"), options: choice ? lines(v("pa_opts")) : undefined, ownOrder: choice };
             if (!item.prompt && !match) { toast("Write the question.", "warn"); return; }
             if (!item.answer) { toast("Add the right answer.", "warn"); return; }
             if (choice && !item.options.some((o) => lc(o) === lc(item.answer))) { toast("The right answer must be one of the options.", "warn"); return; }
@@ -723,7 +723,7 @@ export function mountTestEditing(host) {
       extraFoot: example ? "" : `<button type="button" class="btn btn-magic" data-pe-remake>${icon("sparkles", "i-sm")}Remake with Lingo</button>`,
       onMount(root, close) { help?.mount(root); root.querySelector("[data-pe-remake]")?.addEventListener("click", () => { close(); remakeDialog(d, el); }); },
       onSave: (v) => {
-        const item = { prompt: v("pe_prompt").trim(), answer: v("pe_ans").trim(), options: choice ? lines(v("pe_opts")) : undefined, evidence: it.evidence, ...(help ? { reveal: help.value() } : it.reveal !== undefined ? { reveal: it.reveal } : {}) };
+        const item = { prompt: v("pe_prompt").trim(), answer: v("pe_ans").trim(), options: choice ? lines(v("pe_opts")) : undefined, ownOrder: choice, evidence: it.evidence, ...(help ? { reveal: help.value() } : it.reveal !== undefined ? { reveal: it.reveal } : {}) };
         if (choice && !item.options.some((o) => o.toLowerCase() === item.answer.toLowerCase())) { toast("The right answer must be one of the options.", "warn"); return false; }
         if (!item.answer) { toast("Add the right answer.", "warn"); return false; }
         if (s.script?.length && !example) { saveListeningItem(s.id, idx, item); return; }

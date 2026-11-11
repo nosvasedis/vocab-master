@@ -461,10 +461,44 @@ export function orderEvents(example, items, rand = Math.random) {
   return list;
 }
 
+/**
+ * A list printed before (a matching part's lettered meanings, a word box) after an edit: what is still in it keeps
+ * its place and letter, a new entry takes the place of one that went, and any more are added at the end, mixed.
+ */
+export function keepLetters(all, before, rand = Math.random) {
+  if (!Array.isArray(before) || !before.length) return shuffled(all, rand);
+  const now = new Set(all);
+  const fresh = shuffled(all.filter((t) => !before.includes(t)), rand);
+  const list = before.map((t) => (now.has(t) ? t : fresh.shift())).filter((t) => t !== undefined);
+  return [...new Set([...list, ...fresh])];
+}
+
 /** Option order that spreads the right answer evenly over a, b, c… across a section (other options keep their order). */
-export function balanceChoices(items, rand = Math.random) {
+export function balanceChoices(items, rand = Math.random, fixed = null) {
   const idx = items.map((it, i) => (Array.isArray(it.options) && it.answerIndex >= 0 ? i : -1)).filter((i) => i >= 0);
   if (!idx.length) return;
+  // Questions already on the paper (or set by the teacher) keep their order: only the others are placed, each where
+  // the right answer is least used so far, so an edit never moves the letters of the questions it didn't touch.
+  if (fixed?.size) {
+    const free = idx.filter((i) => !fixed.has(items[i]));
+    if (!free.length) return;
+    const k = Math.min(...idx.map((i) => items[i].options.length));
+    const used = Array(k).fill(0);
+    idx.filter((i) => fixed.has(items[i])).forEach((i) => { if (items[i].answerIndex < k) used[items[i].answerIndex]++; });
+    for (const i of free) {
+      const it = items[i];
+      const low = Math.min(...used);
+      const spots = used.map((u, p) => (u === low ? p : -1)).filter((p) => p >= 0);
+      const want = spots.includes(it.answerIndex) ? it.answerIndex : spots[Math.floor(rand() * spots.length)];
+      used[want]++;
+      if (want === it.answerIndex) continue;
+      const move = (arr) => { if (!arr) return arr; const a = [...arr]; const [x] = a.splice(it.answerIndex, 1); a.splice(want, 0, x); return a; };
+      it.options = move(it.options);
+      it.optionPics = move(it.optionPics);
+      it.answerIndex = want;
+    }
+    return;
+  }
   const k = Math.min(...idx.map((i) => items[i].options.length));
   const targets = balancedPositions(idx.length, k, rand);
   idx.forEach((i, n) => {
@@ -578,9 +612,12 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
   if (zero && (!raw.example || (plan.items && rawItems.length > plan.items))) { rawItems = rawItems.filter((r) => r !== zero); if (!raw.example) raw = { ...raw, example: zero }; }
   const want = plan.items || rawItems.length;
   let items = [];
+  // ctx.keep (a part on the paper checked again): the raw items whose option order stays as it is.
+  const kept = new Set();
   for (const r of rawItems) {
     if (items.length >= want) break;
     const { item, problems: p } = normalizeItem(r, plan.task, ctx);
+    if (ctx.keep?.has(r)) kept.add(item);
     // (A Greek → English question whose word has no Greek stays, flagged, so the fixer replaces just that one.)
     if (task.answer !== "open" && !item.prompt && !item.options?.length && !item.pic && !(plan.task === "V-GREEK" && item.answer)) continue;
     items.push(item);
@@ -655,7 +692,8 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     }
     if (plan.task === "R-SENT") items.forEach((it) => { if (!new RegExp(`\\(${it.n}\\)\\s*_{3,}`).test(section.passage)) problems.push(`the text is missing the gap (${it.n}) ________`); });
     // The example's meaning is in the list too, so item 0 shows its letter (Cambridge style).
-    const defs = shuffled([...new Set([...(example?.answer ? [example.answer] : []), ...items.map((it) => it.answer), ...(section.extras || [])])]);
+    // A part checked again keeps its letters (ctx.letters: the list as printed); a new meaning goes in at a random place.
+    const defs = keepLetters([...new Set([...(example?.answer ? [example.answer] : []), ...items.map((it) => it.answer), ...(section.extras || [])])], ctx.letters);
     section.bank = defs.map((text, i) => ({ letter: LETTERS[i], text }));
     [example, ...items].filter(Boolean).forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)] || ""; it.prompt ||= ""; });
   } else if (plan.task === "W-FRAME" && opts.box === "off") {
@@ -686,7 +724,7 @@ export function normalizeSection(plan, raw = {}, ctx = {}) {
     if (!/_{3,}/.test(f)) problems.push(`sentence ${k + 1} has no gap ________ for the child's own words`);
     else if (opts.cues !== "off" && /_{3,}(?!_|\s*\([^()]{1,32}\))/.test(f)) problems.push(`sentence ${k + 1}: every gap needs its label in brackets right after it, e.g. ________ (name)`);
   });
-  if (task.answer === "choice") balanceChoices(items);
+  if (task.answer === "choice") balanceChoices(items, Math.random, kept);
   if (plan.task === "G-ORDER") [example, ...items].filter(Boolean).forEach((it) => repairOrderItem(it));
   if (plan.task === "R-ORDER") section.items = items = orderEvents(example, items);
   if (task.answer === "choice" || hasWordBox(section)) { const r = sectionRubric(section); section.rubric = r.en; section.rubricEl = r.el; }
@@ -844,34 +882,58 @@ export function answerKeyRows(section, layout = {}) {
  * Version B of a doc for the next desk: items in another order (listening keeps the order of the audio),
  * options moved, word banks reshuffled. Same tasks, same texts, same points.
  */
-export function makeVersionB(doc, rand = Math.random) {
+export function makeVersionB(doc, rand = Math.random, before = null) {
   const b = JSON.parse(JSON.stringify(doc));
   b.meta = { ...b.meta, version: "B" };
   for (const s of b.sections) {
     if (s.answerType === "open" || s.skill === "dictation") continue;
+    // before: the version B made earlier. An edit changes only what it touched: the other questions keep their
+    // place, their options and the list its letters, so a version B already printed still fits its teacher's pack.
+    const old = before?.sections?.find((x) => x.id === s.id && x.task === s.task);
+    // A question is found by its prompt (so one whose answer changed keeps its place), or, where prompts repeat (picture
+    // questions have none), by prompt, picture and answer; one that can't be told apart is placed afresh.
+    const once = (list, k) => list.filter((x) => promptKey(x) === k).length === 1;
+    const itemKey = (it) => (old && once(old.items || [], promptKey(it)) && once(s.items, promptKey(it)) ? `p${promptKey(it)}` : `f${fullKey(it)}`);
+    const keys = (old?.items || []).map(itemKey);
+    const oldAt = new Map(keys.map((k, i) => [k, i]).filter(([k]) => keys.indexOf(k) === keys.lastIndexOf(k) && s.items.filter((it) => itemKey(it) === k).length === 1));
+    const oldItem = (it) => (oldAt.has(itemKey(it)) ? old.items[oldAt.get(itemKey(it))] : null);
     // Listening and reading questions follow the order of the audio / text, so only their options move.
     const keepOrder = s.skill === "listening" || s.skill === "reading";
     if (!keepOrder) {
-      s.items = shuffled(s.items, rand);
+      const known = s.items.filter((it) => oldAt.has(itemKey(it))).sort((x, y) => oldAt.get(itemKey(x)) - oldAt.get(itemKey(y)));
+      const list = known.length ? known : shuffled(s.items.filter((it) => !oldAt.has(itemKey(it))), rand);
+      if (known.length) for (const it of s.items) if (!oldAt.has(itemKey(it))) list.splice(Math.floor(rand() * (list.length + 1)), 0, it);
+      s.items = list;
       s.items.forEach((it, i) => { it.n = i + 1; });
     }
     if (s.answerType === "choice") {
+      const fixed = new Set();
       s.items.forEach((it) => {
-        const order = shuffled(it.options.map((_, i) => i), rand);
+        const was = oldItem(it);
+        const same = was && Array.isArray(was.options) && was.options.length === it.options.length && was.options.every((o) => it.options.includes(o));
+        const order = same ? was.options.map((o) => it.options.indexOf(o)) : shuffled(it.options.map((_, i) => i), rand);
         it.options = order.map((i) => it.options[i]);
         if (it.optionPics) it.optionPics = order.map((i) => it.optionPics[i]);
         it.answerIndex = order.indexOf(it.answerIndex);
+        if (same) fixed.add(it);
       });
-      balanceChoices(s.items, rand);
+      balanceChoices(s.items, rand, fixed.size ? fixed : null);
     }
     if (s.answerType === "match") {
-      const defs = shuffled(s.bank.map((x) => x.text), rand);
+      const defs = keepLetters(s.bank.map((x) => x.text), old?.answerType === "match" ? (old.bank || []).map((x) => x.text) : null, rand);
       s.bank = defs.map((text, i) => ({ letter: LETTERS[i], text }));
       [s.example, ...s.items].filter(Boolean).forEach((it) => { it.letter = LETTERS[defs.indexOf(it.answer)] || ""; });
-    } else if (s.bank?.length) s.bank = shuffled(s.bank, rand);
+    } else if (s.bank?.length) {
+      const prev = Array.isArray(old?.bank) && old.bank.every((w) => typeof w === "string") ? old.bank : null;
+      s.bank = prev ? keepLetters(s.bank, prev, rand) : shuffled(s.bank, rand);
+    }
   }
   return b;
 }
+
+/** A question in both versions (version B moves questions and options, never rewrites them): its prompt; all of it. */
+const promptKey = (it) => String(it?.prompt || "").trim().toLowerCase();
+const fullKey = (it) => JSON.stringify([promptKey(it), it?.picWord || "", String(it?.answer || "").trim().toLowerCase()]);
 
 /** Every problem in a doc, for the quality strip: ["Reading: item 2: …"]. */
 export function docProblems(doc) {

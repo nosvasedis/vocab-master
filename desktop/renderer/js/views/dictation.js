@@ -70,6 +70,17 @@ export function initDictation() {
       return true;
     },
     reveal() { dc.showResult = true; },
+    // Changed on another computer: the new version, on the sheet the teacher was looking at.
+    reload(id) {
+      const d = findMade("dictation", id);
+      if (!d || !built || dc.doc?.id !== id) return false;
+      const sheet = dc.sheet;
+      openDoc(d);
+      dc.sheet = sheet;
+      dc.showResult = false;
+      renderAll();
+      return true;
+    },
     close: () => closeDoc(),
     busy: () => !!dc.writing,
   });

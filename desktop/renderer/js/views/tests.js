@@ -74,6 +74,16 @@ export function initTests() {
       return true;
     },
     reveal() { ts.showResult = true; },
+    // Changed on another computer: the new version, on the sheet the teacher was looking at.
+    reload(id) {
+      const d = findMade("test", id);
+      if (!d || !built || ts.doc?.id !== id) return false;
+      const sheet = ts.sheet;
+      openDoc(d);
+      if (sheet === "teacher" || (sheet === "B" && ts.doc.versionB)) ts.sheet = sheet;
+      renderAll();
+      return true;
+    },
     close: () => closeDoc(),
     busy: () => !!ts.writing,
   });
@@ -888,7 +898,8 @@ function renderOptions() {
     s[root.dataset.seg] = Number(v);
     savePrefs();
     renderReady();
-    if (ts.doc) { ts.doc.versionB = s.versions > 1 ? makeVersionB(ts.doc) : null; ts.doc.meta.version = s.versions > 1 ? "A" : ""; renderSheetSeg(); renderPaper(); }
+    // Saved at once (refreshDoc), so the library, the export and the other computers have version B too.
+    if (ts.doc) { ts.doc.meta.version = s.versions > 1 ? "A" : ""; if (ts.sheet === "B" && s.versions < 2) ts.sheet = "A"; refreshDoc(); renderSheetSeg(); }
   } }));
   renderReady();
 }
@@ -1403,7 +1414,8 @@ function refreshDoc() {
   // that lost it couldn’t take Step 1 back to its unit when opened, or follow Step 1’s words.
   const keep = ts.doc.spec || {};
   ts.doc.spec = { ...JSON.parse(JSON.stringify(ts.spec)), ...(keep.source ? { source: keep.source } : {}), ...(keep.source?.kind === "topic" ? { topic: keep.topic || "" } : {}) };
-  ts.doc.versionB = ts.spec.versions > 1 ? makeVersionB(ts.doc) : null;
+  // Version B follows the edit, and only the edit: what it didn't touch stays where version B had it.
+  ts.doc.versionB = ts.spec.versions > 1 ? makeVersionB(ts.doc, Math.random, ts.doc.versionB) : null;
   saveDoc(ts.doc);
   renderPaper();
   // A new or changed recording is made in the background (natural voices), so Play starts at once.

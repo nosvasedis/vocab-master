@@ -724,6 +724,9 @@ ${ctx.instruction}` : "",
 }
 
 /** A section back into the AI's shape (to normalize it again after some items change). */
+/** A choice question as printed: its prompt, its options in order and its answer. */
+const choiceKey = (it) => JSON.stringify([String(it?.prompt || "").trim(), (Array.isArray(it?.options) ? it.options : []).map((o) => String(o).trim()), String(it?.answer || "").trim()]);
+
 function sectionToRaw(s) {
   const item = (it) => (it ? { prompt: it.prompt, options: it.options, answer: it.answer, evidence: it.evidence, picture: it.picWord, reveal: it.reveal, jumble: it.jumble } : null);
   return {
@@ -833,10 +836,15 @@ export function reviseSection(doc, spec, sectionId, edit, ctx = {}) {
   const raw = sectionToRaw(s);
   // A recording from before questions were tracked fits the questions it has now.
   if (s.skill === "listening" && s.script?.length && !Array.isArray(raw.scriptFor)) raw.scriptFor = scriptKeys(s);
+  // What is on the paper now: a question the edit leaves as it was keeps its option order, the list its letters.
+  const was = new Set([s.example, ...(s.items || [])].filter(Boolean).map(choiceKey));
   if (edit(raw) === false) return false;
+  // … and so does a question the teacher typed (ownOrder: the options in the order they wrote them).
+  const keep = new Set([raw.example, ...(raw.items || [])].filter((r) => r && (r.ownOrder || was.has(choiceKey(r)))));
+  [raw.example, ...(raw.items || [])].forEach((r) => { if (r) delete r.ownOrder; });
   const plan = spec?.parts?.find((x) => x.id === sectionId) || { id: s.id, task: s.task, items: s.items.length };
   const picFor = spec?.pictures !== false ? ctx.picFor || keepPics(s) : null;
-  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { levelId: doc.meta?.classProfile || spec?.levelId, picFor, spareWords: spareFirst(spareWords(ctx.focusWords, doc.focusWords), doc, sectionId), greekFor: greekLookup(ctx.focusWords, doc.focusWords), vocab: ctx.focusWords?.length ? ctx.focusWords : doc.focusWords || [] });
+  const fresh = normalizeSection({ ...plan, items: raw.items.length, points: s.points, pointsEach: s.pointsEach, words: s.words }, raw, { keep, letters: s.answerType === "match" ? (s.bank || []).map((b) => b.text) : null, levelId: doc.meta?.classProfile || spec?.levelId, picFor, spareWords: spareFirst(spareWords(ctx.focusWords, doc.focusWords), doc, sectionId), greekFor: greekLookup(ctx.focusWords, doc.focusWords), vocab: ctx.focusWords?.length ? ctx.focusWords : doc.focusWords || [] });
   fresh.problems.push(...scopeProblems(fresh, ctx.focusWords));
   fresh.plays = s.plays || fresh.plays;
   fresh.rubricEl = s.rubricEl || fresh.rubricEl;

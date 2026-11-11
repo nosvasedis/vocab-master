@@ -87,7 +87,7 @@ export async function initSync(hooks = {}) {
   ui = { ...ui, ...hooks };
   engine = createEngine({
     storage,
-    onChange: (keys) => emit("vm-sync-changed", { keys }),
+    onChange: (keys, ids = {}) => emit("vm-sync-changed", { keys, ids }),
     onStatus: (s) => publish(s),
     vaultKeys,
   });
