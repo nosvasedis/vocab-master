@@ -75,8 +75,13 @@ export function initPreview() {
     onChange: (v) => { state.preview.textSize = v; emit("preview"); renderPaper(); },
   });
   $("optAnswers").addEventListener("change", (e) => { state.preview.showAnswers = e.target.checked; emit("preview"); renderPaper(); });
-  // A word already on the sheets (coverage): find it there.
-  $("coveragePanel").addEventListener("click", (e) => { const b = e.target.closest("[data-cov-find]"); if (b) findWord(b.dataset.covFind); });
+  // Word coverage: a word on the sheets is found there; a word on neither sheet (or the button) opens "Put words on the sheets".
+  $("coveragePanel").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-cov-find]");
+    if (b) { findWord(b.dataset.covFind); return; }
+    const p = e.target.closest("[data-cov-place]");
+    if (p) { placeWordsDialog(p.dataset.covPlace ? [p.dataset.covPlace] : missingFrom("dictation"), "dictation"); return; }
+  });
   // The header switches apply to all three sheets (screen, print, PDF and Word).
   $("btnHeader").addEventListener("click", () => openHeaderDialog({
     header: state.preview.header, schoolName: prefs.schoolName || "", subtitle: "All three sheets of this unit",
@@ -507,7 +512,8 @@ function renderCoverage() {
   $("coveragePanel").innerHTML = `${stale}
     <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
     <div class="cov-legend"><span><i style="background:var(--success)"></i>In Dictation</span><span><i style="background:var(--warning)"></i>Lingo only</span><span><i style="background:var(--danger)"></i>Not tested</span></div>
-    <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Click a word to find it on the sheets (‹ › moves between its lines).</p>`;
+    <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Click a word to find it on the sheets (‹ › moves between its lines), or one that isn't tested to choose where it goes.</p>
+    ${inDict < words.length ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-place="">${icon("target", "i-sm")}Put the ${plural(words.length - inDict, "missing word")} on the Dictation…</button>` : ""}`;
 }
 
 /** Show a sheet (Lingo Launcher, Dictation, Answer key) on the paper. */
@@ -539,7 +545,120 @@ function findWord(english) {
     el: () => { showSheet(sheet); return lineEl(sheet, at); },
     peek: () => (state.preview.sheet === sheet ? lineEl(sheet, at) : null),
   })));
-  openWordFinder({ root: shadow, word: english, spots });
+  const other = !cov.dictation.length ? "dictation" : !cov.lingo.length ? "lingo" : null;
+  openWordFinder({
+    root: shadow, word: english, spots,
+    extra: { label: other ? `Put it on the ${SHEET_NAME[other]} too` : "Put it in another exercise too", run: () => placeWordsDialog([english], other || (state.preview.sheet === "lingo" ? "lingo" : "dictation")) },
+  });
+}
+
+/** Unit words the sheet doesn't test yet (words on neither sheet first). */
+function missingFrom(sheet) {
+  const other = sheet === "dictation" ? "lingo" : "dictation";
+  return wordCoverage(state.data).words.filter((w) => !w[sheet].length).sort((a, b) => Number(!!a[other].length) - Number(!!b[other].length)).map((w) => w.head);
+}
+
+/**
+ * "Put words on the sheets": the teacher picks the words, the sheet, the exercise, and how — new lines at the end of
+ * the exercise, or (one word) instead of a line they choose. Each line says which unit words it tests, so a line that
+ * is the only test of a word on this sheet is never replaced by surprise. Lingo writes the lines (Undo after).
+ */
+function placeWordsDialog(chosen = [], startSheet = "dictation") {
+  if (!state.data) return;
+  const cov = wordCoverage(state.data).words;
+  const lists = { dictation: state.data.dictation?.exercises || [], lingo: state.data.lingoLauncher?.practice || [] };
+  let sheet = lists[startSheet]?.length ? startSheet : startSheet === "dictation" ? "lingo" : "dictation";
+  const picked = new Set(chosen.filter((w) => cov.some((c) => c.head === w)));
+  let exIndex = -1;
+  let how = "add";
+  let line = -1;
+
+  const statusOn = (w, sh) => (w[sh].length ? "here" : w[sh === "dictation" ? "lingo" : "dictation"].length ? "other" : "missing");
+  const TONE = { missing: "cov-bad", other: "cov-warn", here: "cov-good" };
+  const TIP = { missing: "Not tested on either sheet", other: "Only on the other sheet", here: "Already tested on this sheet" };
+  /** Which unit words each line of an exercise tests, and whether it is the only line on this sheet that tests one. */
+  const lineInfo = (ex) => (ex.items || []).map((it) => {
+    const words = cov.filter((w) => w[sheet].some((a) => a.exercise === ex.number && a.item === it.number));
+    const only = words.filter((w) => w[sheet].length === 1).map((w) => w.head);
+    return { n: it.number, prompt: String(it.prompt || "").replace(/\s+/g, " ").trim(), words: words.map((w) => w.head), only };
+  });
+  // The first exercise with room for a new line (else the first one).
+  const pickExercise = () => {
+    const ex = lists[sheet];
+    if (!ex.length) return -1;
+    return Math.max(0, ex.findIndex((e) => e.items.length < MAX_LINES));
+  };
+  const pickLine = (ex) => {
+    const info = lineInfo(ex);
+    const safe = info.findIndex((l) => !l.only.length);
+    return safe >= 0 ? safe : 0;
+  };
+
+  openDialog({
+    title: "Put words on the sheets", subtitle: "Choose the words, the exercise, and where they go — Lingo writes the lines.", iconName: "target", tone: "brand",
+    body: `<div data-pw></div>`,
+    foot: `<span class="pw-sum" data-pw-sum></span><span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-magic" data-pw-go>${icon("sparkles", "i-sm")}<span>Add</span></button>`,
+    onMount(root, close) {
+      const body = root.querySelector("[data-pw]");
+      const go = root.querySelector("[data-pw-go]");
+      const sum = root.querySelector("[data-pw-sum]");
+      exIndex = pickExercise();
+      const draw = () => {
+        const exs = lists[sheet];
+        const ex = exs[exIndex];
+        const words = [...cov].sort((a, b) => ["missing", "other", "here"].indexOf(statusOn(a, sheet)) - ["missing", "other", "here"].indexOf(statusOn(b, sheet)));
+        const room = ex ? MAX_LINES - ex.items.length : 0;
+        const info = ex ? lineInfo(ex) : [];
+        if (how === "replace" && picked.size !== 1) how = "add";
+        body.innerHTML = `
+          <div class="field"><span class="label">Sheet</span><div class="pe-wishes">${["dictation", "lingo"].map((sh) => `<button type="button" class="chip${sh === sheet ? " active" : ""}" data-pw-sheet="${sh}"${lists[sh].length ? "" : " disabled"}>${esc(SHEET_NAME[sh])} <small>· ${plural(missingFrom(sh).length, "word")} missing</small></button>`).join("")}</div></div>
+          <div class="field"><span class="label">Words <span class="opt">${picked.size ? `${picked.size} chosen` : "choose one or more"}</span></span>
+            <div class="cov-chips pw-words">${words.map((w) => { const st = statusOn(w, sheet); return `<button type="button" class="wp-add ${TONE[st]}${picked.has(w.head) ? " on" : ""}" data-pw-word="${esc(w.head)}" aria-pressed="${picked.has(w.head)}" title="${esc(TIP[st])}">${icon(picked.has(w.head) ? "check" : "plus", "i-xs")}${esc(w.head)}</button>`; }).join("")}</div>
+            <div class="cov-legend"><span><i style="background:var(--danger)"></i>On neither sheet</span><span><i style="background:var(--warning)"></i>Only on the other sheet</span><span><i style="background:var(--success)"></i>Already on this sheet</span></div></div>
+          <div class="field"><span class="label">Exercise</span>
+            <div class="pw-exs">${exs.map((e, i) => { const r = MAX_LINES - e.items.length; return `<button type="button" class="pw-ex${i === exIndex ? " on" : ""}" data-pw-ex="${i}"><b>${esc(String(e.number))}</b><span>${esc(EXERCISE_LABELS[e.typeId] || e.typeId)}<small>${plural(e.items.length, "line")} · ${r > 0 ? `room for ${r}` : "full"}</small></span></button>`; }).join("")}</div></div>
+          ${ex ? `<div class="field"><span class="label">Where</span>
+            <div class="pe-wishes"><button type="button" class="chip${how === "add" ? " active" : ""}" data-pw-how="add"${room > 0 ? "" : " disabled"}>＋ New lines at the end</button><button type="button" class="chip${how === "replace" ? " active" : ""}" data-pw-how="replace"${picked.size === 1 ? "" : ` disabled title="Choose one word to write a line again with it"`}>↻ Instead of a line</button></div>
+            ${how === "add" ? `<p class="st-hint">${room > 0 ? `Lingo writes one new line for each word at the end of exercise ${ex.number} (room for ${plural(room, "more line")}).${picked.size > room ? ` Only the first ${room} fit.` : ""}` : `Exercise ${ex.number} is full (${MAX_LINES} lines): choose “Instead of a line”, or another exercise.`}</p>`
+              : `<div class="pw-lines">${info.map((l, k) => `<label class="pw-line${k === line ? " on" : ""}${l.only.length ? " only" : ""}"><input type="radio" name="pw_line" value="${k}"${k === line ? " checked" : ""} /><b>${l.n}</b><span>${esc(l.prompt.length > 80 ? `${l.prompt.slice(0, 78)}…` : l.prompt)}<small>${l.words.length ? `tests ${esc(l.words.join(", "))}` : "tests no unit word"}${l.only.length ? ` · ${icon("alert", "i-xs")} the only line on this sheet for ${esc(l.only.join(", "))}` : ""}</small></span></label>`).join("")}</div>`}
+          </div>` : ""}`;
+        const n = how === "add" ? Math.min(picked.size, room) : picked.size === 1 && line >= 0 ? 1 : 0;
+        go.disabled = !ex || !n;
+        go.querySelector("span").textContent = how === "add"
+          ? (n > 1 ? `Add ${n} lines` : n === 1 ? `Add a line with “${[...picked][0]}”` : "Add")
+          : (n ? `Write line ${info[line].n} again with “${[...picked][0]}”` : "Write the line again");
+        sum.textContent = ex ? `${SHEET_NAME[sheet]} · exercise ${ex.number}` : `The ${SHEET_NAME[sheet]} has no exercises.`;
+      };
+      body.addEventListener("click", (e) => {
+        const sh = e.target.closest("[data-pw-sheet]");
+        if (sh && !sh.disabled) { sheet = sh.dataset.pwSheet; exIndex = pickExercise(); line = -1; how = "add"; draw(); return; }
+        const w = e.target.closest("[data-pw-word]");
+        if (w) { const k = w.dataset.pwWord; if (picked.has(k)) picked.delete(k); else picked.add(k); draw(); return; }
+        const x = e.target.closest("[data-pw-ex]");
+        if (x) { exIndex = Number(x.dataset.pwEx); line = -1; if (how === "replace") line = pickLine(lists[sheet][exIndex]); else if (MAX_LINES - lists[sheet][exIndex].items.length <= 0 && picked.size === 1) { how = "replace"; line = pickLine(lists[sheet][exIndex]); } draw(); return; }
+        const h = e.target.closest("[data-pw-how]");
+        if (h && !h.disabled) { how = h.dataset.pwHow; line = how === "replace" ? pickLine(lists[sheet][exIndex]) : -1; draw(); }
+      });
+      body.addEventListener("change", (e) => { if (e.target.name === "pw_line") { line = Number(e.target.value); draw(); } });
+      go.addEventListener("click", () => {
+        const ex = lists[sheet][exIndex];
+        if (!ex || !picked.size) return;
+        if (!isAiReady()) { actions.openSettings(); return; }
+        const words = [...picked];
+        close();
+        showSheet(sheet);
+        if (how === "replace") {
+          const at = (ex.items || []).findIndex((it) => it.number === lineInfo(ex)[line]?.n);
+          const old = lineInfo(ex)[line]?.words || [];
+          if (at >= 0) remakeLine(sheet, exIndex, at, `Build this line on the word "${words[0]}"${old.length ? ` instead of ${old.map((o) => `"${o}"`).join(", ")} — ${old.length > 1 ? "they" : "it"} must not be the answer any more` : ""}.`);
+          return;
+        }
+        const room = MAX_LINES - ex.items.length;
+        addLines(sheet, exIndex, ex.items.length - 1, Math.min(words.length, room), { words: words.slice(0, room) });
+      });
+      draw();
+    },
+  });
 }
 
 /* ── Editors ─────────────────────────────────────────────────────── */

@@ -599,11 +599,12 @@
 .q-note { margin: 0; font-size: 11.5px; line-height: 1.45; color: var(--text-3); }
 .q-summary { font-size: 12.5px; color: var(--text-2); }
 #coveragePanel .stale-note { margin-bottom: 10px; }
+#coveragePanel > .btn { margin-top: 8px; }
 
 .cov-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .cov-chip { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-button.cov-chip[data-cov-find] { border: 0; cursor: pointer; font-family: var(--font-ui); transition: transform var(--dur-fast), box-shadow var(--dur-fast); }
-button.cov-chip[data-cov-find]:hover, button.cov-chip[data-cov-find]:focus-visible { transform: translateY(-1px); box-shadow: 0 0 0 1.5px currentColor; outline: none; }
+button.cov-chip[data-cov-find], button.cov-chip[data-cov-place] { border: 0; cursor: pointer; font-family: var(--font-ui); transition: transform var(--dur-fast), box-shadow var(--dur-fast); }
+button.cov-chip[data-cov-find]:hover, button.cov-chip[data-cov-find]:focus-visible, button.cov-chip[data-cov-place]:hover, button.cov-chip[data-cov-place]:focus-visible { transform: translateY(-1px); box-shadow: 0 0 0 1.5px currentColor; outline: none; }
 .cov-good { color: var(--success-ink); background: var(--success-soft); }
 .cov-warn { color: var(--warning-ink); background: var(--warning-soft); }
 .cov-bad { color: var(--danger-ink); background: var(--danger-soft); }
