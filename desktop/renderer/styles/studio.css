@@ -1064,7 +1064,7 @@
 .word-chip.review.early { opacity: .78; border-style: dashed; }
 .word-chip.review.early:hover, .word-chip.review.early:focus-visible { opacity: 1; }
 
-/* Test Maker result: the word check (like the worksheets' quality check) and each part's tested words */
+/* Test Maker result: the word check and each part's tested words */
 .mk-op-words { display: flex; gap: 6px; margin: -2px 6px 0 30px; font-size: 11.5px; line-height: 1.4; color: var(--text-3); }
 .mk-op-words > span { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .mk-op-words b { color: var(--success-ink); font-weight: 700; }
@@ -1289,6 +1289,28 @@
 .wp-add { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border: 1.5px solid transparent; border-radius: 99px; font: 600 12.5px/1.3 var(--font-ui); cursor: pointer; }
 .wp-add.on { color: #fff; background: var(--brand); border-color: var(--brand); }
 .wp-go { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+
+/* "Put words on the sheets" (preview.js placeWordsDialog): words, exercise, new lines or instead of a line */
+.pw-words { max-height: 150px; overflow-y: auto; padding: 1px; }
+.pw-words .wp-add.on { color: #fff; background: var(--brand); border-color: var(--brand); }
+.pw-exs { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; }
+.pw-ex { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 10px; border: 1.5px solid var(--border); font-size: 13px; }
+.pw-ex > b { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 99px; background: var(--surface-2, var(--surface)); font-size: 12px; flex: none; }
+.pw-ex span { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.pw-ex small { color: var(--text-3); font-size: 11.5px; }
+.pw-ex:hover { border-color: var(--border-strong); }
+.pw-ex:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+.pw-ex.on { border-color: var(--brand); background: var(--brand-soft); }
+.pw-ex.on > b { background: var(--brand); color: #fff; }
+.pw-lines { display: flex; flex-direction: column; gap: 4px; max-height: 240px; overflow-y: auto; margin-top: 8px; }
+.pw-line { display: flex; align-items: flex-start; gap: 8px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--border); font-size: 12.5px; cursor: pointer; }
+.pw-line input { margin-top: 2px; }
+.pw-line > b { color: var(--text-3); min-width: 16px; }
+.pw-line span { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pw-line small { color: var(--text-3); font-size: 11.5px; display: inline-flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.pw-line.only small { color: #b54708; }
+.pw-line.on { border-color: var(--brand); background: var(--brand-soft); }
+.pw-sum { color: var(--text-3); font-size: 12.5px; }
 
 /* The word finder (js/word-finder.js): a small bar at the bottom while a word is found on the paper */
 .wf-bar { position: fixed; left: 50%; bottom: 80px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 8px; max-width: min(640px, calc(100vw - 32px)); padding: 8px 10px 8px 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18); font-size: 13px; animation: wf-in 0.18s ease-out; }

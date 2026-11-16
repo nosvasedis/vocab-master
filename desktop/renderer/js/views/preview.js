@@ -1,9 +1,8 @@
-/* Step 4 — A4 preview with click-to-edit, quality checks, coverage, layout options and exports. */
+/* Step 4 — A4 preview with click-to-edit, word coverage, layout options and exports. */
 import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
-  renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
-  saveWorksheetSession, applyQuickWorksheetFixes, getStudentExerciseInstruction, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
-  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, getSavedSession, remakeWorksheetItem,
+  renderCoverageHeatmap, validateWorksheet, normalizeWorksheetExercises,
+  saveWorksheetSession, getStudentExerciseInstruction, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, exportDocx, openWorksheetPrint, getSavedSession, remakeWorksheetItem,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
 import { wireGapTool } from "../gap-tool.js";
@@ -11,7 +10,7 @@ import { state, emit, on, buildForm, makeWord, prefs, worksheetFreshness } from 
 import { worksheetFontCss } from "../fonts.js";
 import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictures.js";
 import { savePrefs } from "../state.js";
-import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
+import { desktop, getApiKey, isAiReady } from "../bridge.js";
 import { actions } from "../actions.js";
 import { openHeaderDialog, paperWords } from "../header-dialog.js";
 import { play } from "../../arcade/audio.js";
@@ -76,8 +75,13 @@ export function initPreview() {
     onChange: (v) => { state.preview.textSize = v; emit("preview"); renderPaper(); },
   });
   $("optAnswers").addEventListener("change", (e) => { state.preview.showAnswers = e.target.checked; emit("preview"); renderPaper(); });
-  // A word already on the sheets (coverage): find it there.
-  $("coveragePanel").addEventListener("click", (e) => { const b = e.target.closest("[data-cov-find]"); if (b) findWord(b.dataset.covFind); });
+  // Word coverage: a word on the sheets is found there; a word on neither sheet (or the button) opens "Put words on the sheets".
+  $("coveragePanel").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-cov-find]");
+    if (b) { findWord(b.dataset.covFind); return; }
+    const p = e.target.closest("[data-cov-place]");
+    if (p) { placeWordsDialog(p.dataset.covPlace ? [p.dataset.covPlace] : missingFrom("dictation"), "dictation"); return; }
+  });
   // The header switches apply to all three sheets (screen, print, PDF and Word).
   $("btnHeader").addEventListener("click", () => openHeaderDialog({
     header: state.preview.header, schoolName: prefs.schoolName || "", subtitle: "All three sheets of this unit",
@@ -125,12 +129,6 @@ export function initPreview() {
   $("btnPdf").addEventListener("click", (e) => exportPdf(state.preview.sheet, e.currentTarget));
   $("btnPrint").addEventListener("click", () => printSheet(state.preview.sheet));
   $("btnDuplicate").addEventListener("click", duplicateUnit);
-  $("qualityPanel").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-fix]");
-    if (b) runFix(b.dataset.fix, b);
-    const j = e.target.closest("[data-jump]");
-    if (j) { const [sheet, ex, item] = j.dataset.jump.split(":"); jumpToLine(sheet, Number(ex), Number(item)); }
-  });
   if (!desktop()) $("packNote").textContent = "Downloads all three sheets as Word documents.";
 
   on("data", () => { if (state.view === "preview") renderPreview(); });
@@ -147,13 +145,12 @@ export function renderPreview() {
   if (!has) {
     shadow.innerHTML = "";
     $("paper").classList.add("hidden");
-    $("qualityPanel").innerHTML = "";
     $("coveragePanel").innerHTML = "";
     return;
   }
   $("paper").classList.remove("hidden");
   renderPaper();
-  renderQuality();
+  renderCoverage();
 }
 
 /* ── Layout options ──────────────────────────────────────────────── */
@@ -491,69 +488,32 @@ function ensurePlan() {
 export function persistSession() {
   if (!state.data) return null;
   ensurePlan();
-  const val = validateWorksheet(state.data);
   // Edits to worksheets made from an earlier word list keep that list in the library entry:
   // saving them under the current Step 2 words would pair old sheets with new words.
   const form = worksheetFreshness()?.stale ? (getSavedSession(state.sessionId)?.form || buildForm()) : buildForm();
   try {
-    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId: state.sessionId, validation: val });
+    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId: state.sessionId });
   } catch (err) {
     toast(`Couldn't save to the library: ${err.message}`, "error");
   }
   emit("library");
-  return val;
 }
 
-/* ── Quality & coverage ──────────────────────────────────────────── */
-function renderQuality() {
+/* ── Word coverage ──────────────────────────────────────────────── */
+function renderCoverage() {
   const val = validateWorksheet(state.data);
-  const report = buildValidationReport(val, state.data);
   const stale = worksheetFreshness()?.wordsChanged
     ? `<div class="callout info stale-note">${icon("info")}<span>These sheets were written for an earlier word list. <a data-goto="exercises">Generate again</a> to use your current words.</span></div>`
     : "";
-  // Class guidelines the sheet departs from (lines per exercise, planned exercises…): information, never a problem.
-  const notes = report.notes?.length
-    ? `<div class="q-group info"><h5>${icon("info", "i-xs")}Good to know</h5><ul>${report.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>`
-    : "";
-  if (report.valid) {
-    $("qualityPanel").innerHTML = stale + `<div class="quality-ok">${icon("check-circle")}<span>${esc(report.intro)}</span></div>${notes ? `<div class="quality-list q-after">${notes}</div>` : ""}`;
-  } else {
-    const list = (items, row) => `<ul>${items.slice(0, 6).map(row).join("")}${items.length > 6 ? `<li>…and ${items.length - 6} more</li>` : ""}</ul>`;
-    const group = (title, items, iconName, tone = "warn", note = "") => items.length
-      ? `<div class="q-group ${tone}"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5>${list(items, (i) => `<li>${esc(i.friendly)}</li>`)}${note}</div>`
-      : "";
-    // Each line problem says where it is; a click shows that line on the sheet.
-    const lineGroup = (title, items, iconName, tone) => items.length
-      ? `<div class="q-group ${tone}"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5>${list(items, (i) => `<li><button type="button" class="q-line" data-jump="${i.target.sheet}:${i.target.exercise}:${i.target.item}" title="Show this line on the sheet"><b>${esc(i.where)}</b> ${esc(i.friendly)}</button></li>`)}</div>`
-      : "";
-    const items = report.categories.items;
-    const btns = [];
-    if (report.quickCount) btns.push(`<button type="button" class="btn btn-secondary btn-sm btn-block" data-fix="quick">${icon("zap", "i-sm")}Apply ${plural(report.quickCount, "quick fix", "quick fixes")}</button>`);
-    if (report.itemCount) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="items">${icon("sparkles", "i-sm")}Rewrite ${plural(report.itemCount, "line")} with AI</button>`);
-    if (report.coverageFixable) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="coverage">${icon("target", "i-sm")}${report.coverageFixable < report.coverageCount ? `Add ${report.coverageFixable} of the missing words with AI` : `Add the missing ${plural(report.coverageCount, "word")} with AI`}</button>`);
-    const total = report.quickCount + report.itemCount + (report.coverageFixable ? 1 : 0);
-    if (total > 1 && btns.length > 1) btns.unshift(`<button type="button" class="btn btn-primary btn-sm btn-block" data-fix="all">${icon("wand", "i-sm")}Fix everything</button>`);
-    const chips = report.coverageChips.map((c) => `<span class="cov-chip ${c.inLingo ? "cov-warn" : "cov-bad"}" title="${esc(c.inLingo ? "Practised in Lingo, not in the Dictation" : "Not tested on either sheet")}${c.related.length ? esc(` · also listed: ${c.related.join(", ")}`) : ""}">${esc(c.word)}</span>`).join("");
-    $("qualityPanel").innerHTML = `${stale}
-      <p class="q-summary">${esc(report.intro)}</p>
-      <div class="quality-list">
-        ${lineGroup("Lines to fix", items.filter((i) => !i.minor), "pencil", "bad")}
-        ${group("Whole exercise", report.categories.manual, "alert", "bad", `<p class="q-note">Write it again in Step 3, or edit it on the sheet.</p>`)}
-        ${report.coverageCount ? `<div class="q-group warn"><h5>${icon("target", "i-xs")}Not in the Dictation yet (${report.coverageCount})</h5><div class="cov-chips">${chips}</div>${report.roomNote ? `<p class="q-note">${esc(report.roomNote)}</p>` : ""}</div>` : ""}
-        ${lineGroup("Worth improving", items.filter((i) => i.minor), "pencil", "warn")}
-        ${group("Quick tidy-ups", report.categories.quick, "zap")}
-        ${notes}
-      </div>
-      ${btns.length ? `<div class="q-actions">${btns.join("")}</div>` : `<p class="insp-note">Click a line on the sheet to edit it, or write the exercises again in Step 3.</p>`}`;
-  }
   const lingoTested = val.coverage?.lingo?.testedCount ?? 0;
   const words = val.coverage?.dictation?.words || [];
   const inDict = words.filter((w) => w.dictation.length).length;
   const nowhere = words.filter((w) => !w.dictation.length && !w.lingo.length).length;
-  $("coveragePanel").innerHTML = `
+  $("coveragePanel").innerHTML = `${stale}
     <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
     <div class="cov-legend"><span><i style="background:var(--success)"></i>In Dictation</span><span><i style="background:var(--warning)"></i>Lingo only</span><span><i style="background:var(--danger)"></i>Not tested</span></div>
-    <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Click a word to find it on the sheets (‹ › moves between its lines).</p>`;
+    <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Click a word to find it on the sheets (‹ › moves between its lines), or one that isn't tested to choose where it goes.</p>
+    ${inDict < words.length ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-place="">${icon("target", "i-sm")}Put the ${plural(words.length - inDict, "missing word")} on the Dictation…</button>` : ""}`;
 }
 
 /** Show a sheet (Lingo Launcher, Dictation, Answer key) on the paper. */
@@ -585,53 +545,120 @@ function findWord(english) {
     el: () => { showSheet(sheet); return lineEl(sheet, at); },
     peek: () => (state.preview.sheet === sheet ? lineEl(sheet, at) : null),
   })));
-  openWordFinder({ root: shadow, word: english, spots });
-}
-
-/** Show a line from the check on its sheet (switches sheet, scrolls to it and flashes it). */
-function jumpToLine(sheet, exerciseNum, itemNum) {
-  const list = sheet === "lingo" ? state.data?.lingoLauncher?.practice : state.data?.dictation?.exercises;
-  const exIdx = (list || []).findIndex((ex) => ex.number === exerciseNum);
-  const itemIdx = exIdx < 0 ? -1 : (list[exIdx].items || []).findIndex((it) => it.number === itemNum);
-  if (itemIdx < 0) return;
-  if (state.preview.sheet !== sheet) {
-    state.preview.sheet = sheet;
-    sheetSeg.set(sheet);
-    emit("preview");
-    renderLayoutControls();
-    renderPaper();
-  }
-  flashNode(`.ex-item[data-ex="${exIdx}"][data-item="${itemIdx}"]`);
-}
-
-async function runFix(kind, btn) {
-  if (!state.data) return;
-  const form = buildForm();
-  const val = validateWorksheet(state.data);
-  if (kind === "quick") {
-    state.data = applyQuickWorksheetFixes(state.data);
-    const after = persistSession();
-    toast(countQuickFixIssues(after?.issues || []) === 0 ? "Quick fixes applied." : "Quick fixes applied — a few notes remain.", "ok");
-    renderPreview();
-    return;
-  }
-  const apiKey = getApiKey();
-  if (!isAiReady()) { actions.openSettings(); return; }
-  await withBusy(btn, async () => {
-    actions.setAiState("busy");
-    try {
-      const fn = kind === "items" ? fixWorksheetValidationIssues : kind === "coverage" ? fixDictationCoverageGaps : fixAllWorksheetIssues;
-      const result = await fn(form, apiKey, state.data, val);
-      state.data = result.data;
-      persistSession();
-      actions.setAiState("on");
-      toast(result.message || "Fixed.", result.validation?.valid ? "ok" : "warn");
-    } catch (err) {
-      actions.setAiState("error", err.message);
-      toast(err.message || String(err), "error", { actions: chatgptUsageLimited(err) ? [{ label: "Manage usage", run: () => manageChatGPTUsage().catch(() => actions.openSettings()) }] : [] });
-    }
+  const other = !cov.dictation.length ? "dictation" : !cov.lingo.length ? "lingo" : null;
+  openWordFinder({
+    root: shadow, word: english, spots,
+    extra: { label: other ? `Put it on the ${SHEET_NAME[other]} too` : "Put it in another exercise too", run: () => placeWordsDialog([english], other || (state.preview.sheet === "lingo" ? "lingo" : "dictation")) },
   });
-  renderPreview();
+}
+
+/** Unit words the sheet doesn't test yet (words on neither sheet first). */
+function missingFrom(sheet) {
+  const other = sheet === "dictation" ? "lingo" : "dictation";
+  return wordCoverage(state.data).words.filter((w) => !w[sheet].length).sort((a, b) => Number(!!a[other].length) - Number(!!b[other].length)).map((w) => w.head);
+}
+
+/**
+ * "Put words on the sheets": the teacher picks the words, the sheet, the exercise, and how — new lines at the end of
+ * the exercise, or (one word) instead of a line they choose. Each line says which unit words it tests, so a line that
+ * is the only test of a word on this sheet is never replaced by surprise. Lingo writes the lines (Undo after).
+ */
+function placeWordsDialog(chosen = [], startSheet = "dictation") {
+  if (!state.data) return;
+  const cov = wordCoverage(state.data).words;
+  const lists = { dictation: state.data.dictation?.exercises || [], lingo: state.data.lingoLauncher?.practice || [] };
+  let sheet = lists[startSheet]?.length ? startSheet : startSheet === "dictation" ? "lingo" : "dictation";
+  const picked = new Set(chosen.filter((w) => cov.some((c) => c.head === w)));
+  let exIndex = -1;
+  let how = "add";
+  let line = -1;
+
+  const statusOn = (w, sh) => (w[sh].length ? "here" : w[sh === "dictation" ? "lingo" : "dictation"].length ? "other" : "missing");
+  const TONE = { missing: "cov-bad", other: "cov-warn", here: "cov-good" };
+  const TIP = { missing: "Not tested on either sheet", other: "Only on the other sheet", here: "Already tested on this sheet" };
+  /** Which unit words each line of an exercise tests, and whether it is the only line on this sheet that tests one. */
+  const lineInfo = (ex) => (ex.items || []).map((it) => {
+    const words = cov.filter((w) => w[sheet].some((a) => a.exercise === ex.number && a.item === it.number));
+    const only = words.filter((w) => w[sheet].length === 1).map((w) => w.head);
+    return { n: it.number, prompt: String(it.prompt || "").replace(/\s+/g, " ").trim(), words: words.map((w) => w.head), only };
+  });
+  // The first exercise with room for a new line (else the first one).
+  const pickExercise = () => {
+    const ex = lists[sheet];
+    if (!ex.length) return -1;
+    return Math.max(0, ex.findIndex((e) => e.items.length < MAX_LINES));
+  };
+  const pickLine = (ex) => {
+    const info = lineInfo(ex);
+    const safe = info.findIndex((l) => !l.only.length);
+    return safe >= 0 ? safe : 0;
+  };
+
+  openDialog({
+    title: "Put words on the sheets", subtitle: "Choose the words, the exercise, and where they go — Lingo writes the lines.", iconName: "target", tone: "brand",
+    body: `<div data-pw></div>`,
+    foot: `<span class="pw-sum" data-pw-sum></span><span class="spacer"></span><button type="button" class="btn btn-secondary" data-close>Cancel</button><button type="button" class="btn btn-magic" data-pw-go>${icon("sparkles", "i-sm")}<span>Add</span></button>`,
+    onMount(root, close) {
+      const body = root.querySelector("[data-pw]");
+      const go = root.querySelector("[data-pw-go]");
+      const sum = root.querySelector("[data-pw-sum]");
+      exIndex = pickExercise();
+      const draw = () => {
+        const exs = lists[sheet];
+        const ex = exs[exIndex];
+        const words = [...cov].sort((a, b) => ["missing", "other", "here"].indexOf(statusOn(a, sheet)) - ["missing", "other", "here"].indexOf(statusOn(b, sheet)));
+        const room = ex ? MAX_LINES - ex.items.length : 0;
+        const info = ex ? lineInfo(ex) : [];
+        if (how === "replace" && picked.size !== 1) how = "add";
+        body.innerHTML = `
+          <div class="field"><span class="label">Sheet</span><div class="pe-wishes">${["dictation", "lingo"].map((sh) => `<button type="button" class="chip${sh === sheet ? " active" : ""}" data-pw-sheet="${sh}"${lists[sh].length ? "" : " disabled"}>${esc(SHEET_NAME[sh])} <small>· ${plural(missingFrom(sh).length, "word")} missing</small></button>`).join("")}</div></div>
+          <div class="field"><span class="label">Words <span class="opt">${picked.size ? `${picked.size} chosen` : "choose one or more"}</span></span>
+            <div class="cov-chips pw-words">${words.map((w) => { const st = statusOn(w, sheet); return `<button type="button" class="wp-add ${TONE[st]}${picked.has(w.head) ? " on" : ""}" data-pw-word="${esc(w.head)}" aria-pressed="${picked.has(w.head)}" title="${esc(TIP[st])}">${icon(picked.has(w.head) ? "check" : "plus", "i-xs")}${esc(w.head)}</button>`; }).join("")}</div>
+            <div class="cov-legend"><span><i style="background:var(--danger)"></i>On neither sheet</span><span><i style="background:var(--warning)"></i>Only on the other sheet</span><span><i style="background:var(--success)"></i>Already on this sheet</span></div></div>
+          <div class="field"><span class="label">Exercise</span>
+            <div class="pw-exs">${exs.map((e, i) => { const r = MAX_LINES - e.items.length; return `<button type="button" class="pw-ex${i === exIndex ? " on" : ""}" data-pw-ex="${i}"><b>${esc(String(e.number))}</b><span>${esc(EXERCISE_LABELS[e.typeId] || e.typeId)}<small>${plural(e.items.length, "line")} · ${r > 0 ? `room for ${r}` : "full"}</small></span></button>`; }).join("")}</div></div>
+          ${ex ? `<div class="field"><span class="label">Where</span>
+            <div class="pe-wishes"><button type="button" class="chip${how === "add" ? " active" : ""}" data-pw-how="add"${room > 0 ? "" : " disabled"}>＋ New lines at the end</button><button type="button" class="chip${how === "replace" ? " active" : ""}" data-pw-how="replace"${picked.size === 1 ? "" : ` disabled title="Choose one word to write a line again with it"`}>↻ Instead of a line</button></div>
+            ${how === "add" ? `<p class="st-hint">${room > 0 ? `Lingo writes one new line for each word at the end of exercise ${ex.number} (room for ${plural(room, "more line")}).${picked.size > room ? ` Only the first ${room} fit.` : ""}` : `Exercise ${ex.number} is full (${MAX_LINES} lines): choose “Instead of a line”, or another exercise.`}</p>`
+              : `<div class="pw-lines">${info.map((l, k) => `<label class="pw-line${k === line ? " on" : ""}${l.only.length ? " only" : ""}"><input type="radio" name="pw_line" value="${k}"${k === line ? " checked" : ""} /><b>${l.n}</b><span>${esc(l.prompt.length > 80 ? `${l.prompt.slice(0, 78)}…` : l.prompt)}<small>${l.words.length ? `tests ${esc(l.words.join(", "))}` : "tests no unit word"}${l.only.length ? ` · ${icon("alert", "i-xs")} the only line on this sheet for ${esc(l.only.join(", "))}` : ""}</small></span></label>`).join("")}</div>`}
+          </div>` : ""}`;
+        const n = how === "add" ? Math.min(picked.size, room) : picked.size === 1 && line >= 0 ? 1 : 0;
+        go.disabled = !ex || !n;
+        go.querySelector("span").textContent = how === "add"
+          ? (n > 1 ? `Add ${n} lines` : n === 1 ? `Add a line with “${[...picked][0]}”` : "Add")
+          : (n ? `Write line ${info[line].n} again with “${[...picked][0]}”` : "Write the line again");
+        sum.textContent = ex ? `${SHEET_NAME[sheet]} · exercise ${ex.number}` : `The ${SHEET_NAME[sheet]} has no exercises.`;
+      };
+      body.addEventListener("click", (e) => {
+        const sh = e.target.closest("[data-pw-sheet]");
+        if (sh && !sh.disabled) { sheet = sh.dataset.pwSheet; exIndex = pickExercise(); line = -1; how = "add"; draw(); return; }
+        const w = e.target.closest("[data-pw-word]");
+        if (w) { const k = w.dataset.pwWord; if (picked.has(k)) picked.delete(k); else picked.add(k); draw(); return; }
+        const x = e.target.closest("[data-pw-ex]");
+        if (x) { exIndex = Number(x.dataset.pwEx); line = -1; if (how === "replace") line = pickLine(lists[sheet][exIndex]); else if (MAX_LINES - lists[sheet][exIndex].items.length <= 0 && picked.size === 1) { how = "replace"; line = pickLine(lists[sheet][exIndex]); } draw(); return; }
+        const h = e.target.closest("[data-pw-how]");
+        if (h && !h.disabled) { how = h.dataset.pwHow; line = how === "replace" ? pickLine(lists[sheet][exIndex]) : -1; draw(); }
+      });
+      body.addEventListener("change", (e) => { if (e.target.name === "pw_line") { line = Number(e.target.value); draw(); } });
+      go.addEventListener("click", () => {
+        const ex = lists[sheet][exIndex];
+        if (!ex || !picked.size) return;
+        if (!isAiReady()) { actions.openSettings(); return; }
+        const words = [...picked];
+        close();
+        showSheet(sheet);
+        if (how === "replace") {
+          const at = (ex.items || []).findIndex((it) => it.number === lineInfo(ex)[line]?.n);
+          const old = lineInfo(ex)[line]?.words || [];
+          if (at >= 0) remakeLine(sheet, exIndex, at, `Build this line on the word "${words[0]}"${old.length ? ` instead of ${old.map((o) => `"${o}"`).join(", ")} — ${old.length > 1 ? "they" : "it"} must not be the answer any more` : ""}.`);
+          return;
+        }
+        const room = MAX_LINES - ex.items.length;
+        addLines(sheet, exIndex, ex.items.length - 1, Math.min(words.length, room), { words: words.slice(0, room) });
+      });
+      draw();
+    },
+  });
 }
 
 /* ── Editors ─────────────────────────────────────────────────────── */
@@ -905,9 +932,9 @@ function openItemEditor(sheet, exIndex, itemIndex) {
 
       const commit = (msg) => {
         state.data = normalizeWorksheetExercises(state.data);
-        const v = persistSession();
+        persistSession();
         renderPreview();
-        if (msg) toast(msg, v?.issues?.length ? "warn" : "ok", { ms: 2600 });
+        if (msg) toast(msg, "ok", { ms: 2600 });
       };
       const save = () => {
         const b = built();
@@ -1308,9 +1335,8 @@ function duplicateUnit() {
   if (!state.data) return;
   ensurePlan();
   const data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(state.data)));
-  const val = validateWorksheet(data);
   try {
-    state.sessionId = saveWorksheetSession(buildForm(), data, JSON.parse(JSON.stringify(state.plan)), { validation: val });
+    state.sessionId = saveWorksheetSession(buildForm(), data, JSON.parse(JSON.stringify(state.plan)));
     state.data = data;
     emit("library", "data");
     toast("Duplicated. Pick another class level, adjust words, then generate again.", "ok", { ms: 5200 });

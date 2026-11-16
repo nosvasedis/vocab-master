@@ -15,7 +15,7 @@ import { useTwoColumns, isShortAnswer, printedLength, splitColumns } from "./stu
 import { fitWordBox, countExtraWords, repeatedAnswers, withExtraWords, extraWordsLine } from "./studio/word-box.js";
 import { IRREGULAR_FORMS, wordFormPattern, findOutsideAnswers, worksheetMatchesForm, wordsKey, unitIdentity, allowedTerms } from "./studio/word-scope.js";
 import { remakePlan, remakeProblems, remakeRetryHint } from "./studio/remake.js";
-import { wordCoverage, dictationRoom, sentenceLimit, NOT_SENTENCE_TYPES, friendlyReason, lineLabel } from "./studio/quality-check.js";
+import { wordCoverage } from "./studio/quality-check.js";
 import { BINARY_TYPES, binaryBalance, balancedPattern, repairABItems, choicesPredictable, rebalanceChoiceItems } from "./studio/answer-balance.js";
 import {
   buildArcadeDeck,
@@ -592,7 +592,6 @@ function saveWorksheetSession(form, data, plan, options = {}) {
   const saves = getAllSavedSessions();
   const reuseId = options.updateId && saves.some((s) => s.id === options.updateId) ? options.updateId : null;
   const id = reuseId || `ws_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-  const validation = options.validation || null;
 
   const entry = {
     id,
@@ -601,8 +600,6 @@ function saveWorksheetSession(form, data, plan, options = {}) {
     savedAt: new Date().toISOString(),
     label: form.unit ? `Unit ${form.unit} · ${form.bookTitle}` : form.bookTitle || "Untitled unit",
     pageRange: form.pageRange,
-    validationOk: validation ? validation.valid : true,
-    validationIssues: validation?.issues?.slice(0, 8) || [],
     form: JSON.parse(JSON.stringify(form)),
     data: JSON.parse(JSON.stringify(data)),
     plan: JSON.parse(JSON.stringify(plan)),
@@ -1234,7 +1231,7 @@ function validateExtraTypes(data, issues) {
 }
 
 /**
- * Answer-key checks shared by generation and the quality panel, as item-level issues the AI item fixer
+ * Answer-key checks used by generation, as item-level issues the AI item fixer
  * can repair line by line: two-answer keys need a real mix (never all True), and answers must be this
  * unit's words (never one left over from an earlier list).
  */
@@ -1296,9 +1293,9 @@ function isAnswerKeyIssue(issue) {
   return /the key needs a mix of|is not a word from this unit's list/.test(issue);
 }
 
-/** Line issues the line fixer repairs after generation (answer keys, a sentence too long to dictate, a line copied across sheets). */
+/** Line issues the line fixer repairs after generation (answer keys, a line copied across sheets). */
 function isLineRepairIssue(issue) {
-  return isAnswerKeyIssue(issue) || LINE_PROBLEMS.has(issue) || /item \d+: (sentence is \d+ words|same sentence as Dictation)/.test(issue);
+  return isAnswerKeyIssue(issue) || LINE_PROBLEMS.has(issue) || /item \d+: same sentence as Dictation/.test(issue);
 }
 
 function normalizeWorksheetPrompts(data) {
@@ -2015,17 +2012,6 @@ ${lines.length ? `${lines.join("\n")}\n` : ""}- Two-answer exercises are NEVER a
 - In bracket choices "(a / b / c)" put the correct option in a different place on different lines (first, middle, last)`;
 }
 
-/**
- * The words of the longest sentence in a line (the class limit is per sentence): a riddle's short clues, "I live in the
- * sea. I have eight legs. What am I?", are three sentences, and sequencing steps "a) … / b) …" one each. A gap or a set
- * of bracket choices (anywhere in the line) is one word; a riddle's choices aren't read out.
- */
-function countDictationPromptWords(prompt, typeId) {
-  const body = typeId === "D12" ? splitPromptBodyAndChoices(prompt).body : String(prompt || "");
-  const flat = body.replace(/\([^)]*\/[^)]*\)/g, " X ").replace(/_{2,}/g, " X ");
-  return Math.max(0, ...flat.split(/(?<=[.!?])\s+(?=\S)|\s+\/\s+/).map((s) => countWords(s)));
-}
-
 const RIDDLE_GIVEAWAY_HINTS = [
   { answers: ["treasure"], leaks: ["gold", "jewels", "jewel", "pirates look for me", "valuable thing"] },
   { answers: ["helmet"], leaks: ["hard hat", "protect your head", "wear to protect your head"] },
@@ -2317,10 +2303,6 @@ function buildPlanFromCustom(profile, dictTypes, lingoTypes, features = {}) {
   };
 }
 
-function countWords(text) {
-  return (text || "").replace(/_+/g, "").split(/\s+/).filter(Boolean).length;
-}
-
 function hasGreek(text) {
   return /[\u0370-\u03FF\u1F00-\u1FFF]/.test(text || "");
 }
@@ -2386,10 +2368,6 @@ function validateWorksheet(data) {
     ex.items?.forEach((item) => {
       if (hasGreek(item.prompt) || hasGreek(item.instruction)) {
         issues.push(`Greek found in dictation prompt (item ${item.number})`);
-      }
-      const words = countDictationPromptWords(item.prompt, ex.typeId);
-      if (profile && !NOT_SENTENCE_TYPES.has(ex.typeId) && words > sentenceLimit(profile.maxSentenceWords)) {
-        issues.push(`Dictation ex ${ex.number} (${ex.typeId}) item ${item.number}: sentence is ${words} words — keep it to about ${profile.maxSentenceWords} for ${profile.label}`);
       }
       if ((item.prompt || "").includes("<u>")) issues.push("Forbidden <u> tag in dictation");
       if (ex.typeId === "D12") {
@@ -2652,7 +2630,6 @@ function validateWorksheet(data) {
   const lingoCoverage = computeLingoCoverage(vocab, data.lingoLauncher?.practice || []);
   const coverage = {
     dictation: dictCoverage,
-    room: dictationRoom(data, { words: dictCoverage.words, missing: dictCoverage.missing.map((m) => m.label) }, (profile?.itemsPerExercise || 5) + 2), // the same leeway as the size note
     lingo: lingoCoverage,
     wordMap: dictCoverage.wordMap,
     missing: dictCoverage.missing.map((m) => m.label),
@@ -3194,10 +3171,11 @@ function renderCoverageHeatmap(coverage, vocabulary) {
     const lines = w ? [...places("Dictation", w.dictation), ...places("Lingo", w.lingo)] : [];
     const via = w ? [...new Set([...w.dictation, ...w.lingo].map((at) => at.via).filter((x) => normalizeWord(x) !== normalizeWord(w.head)))] : [];
     const tip = lines.length ? `Tested in ${lines.join(", ")}${via.length ? ` (as ${via.join(", ")})` : ""}` : "Not tested on either sheet";
-    // A word already on a sheet: a click finds it there (js/word-finder.js via the preview).
+    // A word already on a sheet: a click finds it there (js/word-finder.js via the preview); one on neither sheet
+    // opens "Put words on the sheets" to choose where it goes.
     return lines.length
       ? `<button type="button" class="cov-chip ${cls}" data-cov-find="${escapeHtml(v.english)}" title="${escapeHtml(`${tip} — click to find it on the sheets`)}">${escapeHtml(v.english)}</button>`
-      : `<span class="cov-chip ${cls}" title="${escapeHtml(tip)}">${escapeHtml(v.english)}</span>`;
+      : `<button type="button" class="cov-chip ${cls}" data-cov-place="${escapeHtml(v.english)}" title="${escapeHtml(`${tip} — click to choose where it goes`)}">${escapeHtml(v.english)}</button>`;
   }).join(" ");
 }
 
@@ -3791,7 +3769,7 @@ async function callDeepSeekWithValidation({ apiKey, systemPrompt, userPrompt, pr
     data.coverageReport = lastValidation.coverage;
     // A missing planned exercise is worth another try; the other notes are guidelines, never a reason to rewrite.
     if (lastValidation.valid && !lastValidation.planMismatch) break;
-    // A lopsided key, a stray answer or a long sentence is a few lines to rewrite, not a reason to write everything again.
+    // A lopsided key or a stray answer is a few lines to rewrite, not a reason to write everything again.
     if (!lastValidation.planMismatch && lastValidation.issues.every(isLineRepairIssue)) break;
   }
   const keyIssues = (lastValidation?.issues || []).filter(isLineRepairIssue);
@@ -3801,7 +3779,7 @@ async function callDeepSeekWithValidation({ apiKey, systemPrompt, userPrompt, pr
       data = fixed.data;
       lastValidation = validateWorksheet(data);
       data.coverageReport = lastValidation.coverage;
-    } catch { /* keep the worksheet; the quality panel offers the same fix */ }
+    } catch { /* keep the worksheet as written */ }
   }
   return { data, validation: lastValidation };
 }
@@ -4082,7 +4060,7 @@ ONE PART OF A WRITTEN WORKSHEET — mandatory:
     try {
       const fixed = await fixWorksheetValidationIssues(form, apiKey, best.data, { ...best.validation, issues: lines }, { maxAttempts: 2 });
       best = { data: fixed.data, validation: validateWorksheet(fixed.data) };
-    } catch { /* keep the exercise; the quality panel offers the same fix */ }
+    } catch { /* keep the exercise as written */ }
   }
   best.data.coverageReport = best.validation.coverage;
   return { ...best, written: want, numbers: [...numbers] };
@@ -4144,174 +4122,6 @@ function parseValidationFixTargets(issues, data) {
     }
   }
   return targets;
-}
-
-function countFixableValidationIssues(issues, data) {
-  return parseValidationFixTargets(issues, data).length;
-}
-
-function isQuickFixIssue(issue) {
-  return /word (bank|list) is in (answer|category\/gap) order/i.test(issue)
-    || /bracket choices (always put the correct answer first|put the correct answer in the same place)/i.test(issue)
-    || /remove word bank — bracket choices/i.test(issue)
-    || /remove wordList/i.test(issue)
-    || /word list is in answer order/i.test(issue);
-}
-
-function isCoverageIssue(issue) {
-  return /^Dictation — not tested at least once:/i.test(issue);
-}
-
-function humanizeValidationIssue(issue) {
-  if (/^Dictation — not tested at least once:/i.test(issue)) {
-    const words = issue.replace(/^Dictation — not tested at least once:\s*/i, "");
-    return `Still need to test in dictation: ${words}`;
-  }
-  if (/word bank is in answer order/i.test(issue)) {
-    const m = issue.match(/exercise (\d+)/i);
-    return `Dictation exercise ${m?.[1] || "?"} — word bank order is too predictable (we can shuffle it).`;
-  }
-  if (/word bank is in category\/gap order/i.test(issue)) {
-    const m = issue.match(/exercise (\d+)/i);
-    return `Dictation exercise ${m?.[1] || "?"} — category sort words match the gap order (we can shuffle the bank).`;
-  }
-  if (/bracket choices (always put the correct answer first|put the correct answer in the same place)/i.test(issue)) {
-    const m = issue.match(/exercise (\d+)/i);
-    return `Exercise ${m?.[1] || "?"} — the right option is always in the same place (we can mix them).`;
-  }
-  if (/word list is in answer order/i.test(issue)) {
-    const m = issue.match(/exercise (\d+)/i);
-    return `Lingo exercise ${m?.[1] || "?"} — word list order matches the answers (we can shuffle it).`;
-  }
-  if (/remove word bank/i.test(issue)) return "A word bank isn't needed when each line already has bracket choices — we can remove it.";
-  if (/remove wordList/i.test(issue)) return "This exercise type shouldn't show a separate word list — we can hide it.";
-  if (/ambiguous group/i.test(issue) || /do not pair related forms/i.test(issue)) {
-    const m = issue.match(/item (\d+)/i);
-    return `Odd one out (line ${m?.[1] || "?"}): the four words don't have one clear odd word out.`;
-  }
-  const itemM = issue.match(/^(?:Lingo|Dictation) ex \d+(?: \([^)]+\))? item (\d+):\s*(.+)$/i);
-  if (itemM) {
-    const detail = itemM[2].charAt(0).toUpperCase() + itemM[2].slice(1);
-    return `Line ${itemM[1]}: ${detail}`;
-  }
-  const exM = issue.match(/^(?:Lingo|Dictation) exercise (\d+)(?: \([^)]+\))?:\s*(.+)$/i);
-  if (exM) return `Exercise ${exM[1]}: ${exM[2].charAt(0).toUpperCase() + exM[2].slice(1)}`;
-  return issue;
-}
-
-function categorizeValidationIssues(issues, data) {
-  const quick = [];
-  const items = [];
-  const coverage = [];
-  const manual = [];
-  const itemKeys = new Set();
-
-  for (const issue of issues || []) {
-    const friendly = humanizeValidationIssue(issue);
-    if (isCoverageIssue(issue)) {
-      coverage.push({ raw: issue, friendly });
-      continue;
-    }
-    if (isQuickFixIssue(issue)) {
-      quick.push({ raw: issue, friendly });
-      continue;
-    }
-    const targets = parseValidationFixTargets([issue], data);
-    if (targets.length) {
-      const t = targets[0];
-      const key = `${t.sheet}:${t.exercise}:${t.item}`;
-      if (!itemKeys.has(key)) {
-        itemKeys.add(key);
-        items.push({ raw: issue, friendly, target: t });
-      }
-      continue;
-    }
-    manual.push({ raw: issue, friendly });
-  }
-
-  return { quick, items, coverage, manual };
-}
-
-function buildValidationReport(validation, data) {
-  const notes = validation?.notes || [];
-  if (validation?.valid) {
-    return { valid: true, intro: "All checks passed — ready to print.", notes };
-  }
-  const categories = categorizeValidationIssues(validation?.issues || [], data);
-  // Item issues say where they are and what is wrong in the teacher's words; a long sentence is a nice-to-fix.
-  categories.items.forEach((i) => {
-    i.where = lineLabel(i.target);
-    i.friendly = friendlyReason(i.target.reason);
-    i.minor = /^(sentence is \d+ words|same sentence as Dictation)/i.test(i.target.reason);
-  });
-  const missing = validation?.coverage?.dictation?.missing || [];
-  const lingoMap = validation?.coverage?.lingo?.wordMap || {};
-  const room = validation?.coverage?.room || null;
-  const coverageChips = missing.map((m) => ({ word: m.label, inLingo: (lingoMap[m.label] || []).length > 0, related: m.related || [] }));
-  const mustFix = categories.items.filter((i) => !i.minor).length + categories.manual.length;
-  const s = (n, one, many) => `${n} ${n === 1 ? one : many}`;
-  const intro = mustFix
-    ? `${s(mustFix, "thing", "things")} to fix before you print — most can be fixed below without starting over.`
-    : "Ready to print. These would make it better:";
-  let roomNote = "";
-  if (missing.length && room) {
-    const add = room.addable.reduce((n, a) => n + a.free, 0);
-    if (room.short > 0) {
-      roomNote = room.room
-        ? `Lingo can add about ${room.room} of them without making the exercises much longer. For the rest, add lines on the sheet (＋ Add after), or raise “Lines per exercise” / add an exercise in Step 3 — or leave them for Lingo practice.`
-        : `Every Dictation line already tests a different word. To include these, add lines on the sheet (＋ Add after), or raise “Lines per exercise” / add an exercise in Step 3 — or leave them for Lingo practice.`;
-    } else {
-      const parts = [];
-      if (room.spare.length) parts.push(`${s(room.spare.length, "line repeats a word", "lines repeat words")} tested elsewhere`);
-      if (add) parts.push(`the exercises can take ${s(add, "more line", "more lines")}`);
-      roomNote = `There's room for them: ${parts.join(" and ")}.`;
-    }
-  }
-  return {
-    valid: false,
-    intro,
-    notes,
-    mustFix,
-    categories,
-    quickCount: categories.quick.length,
-    itemCount: categories.items.length,
-    coverageWords: missing.map((m) => m.label),
-    coverageChips,
-    coverageCount: missing.length,
-    coverageFixable: room ? Math.min(missing.length, room.room) : missing.length,
-    roomNote,
-    manualCount: categories.manual.length,
-  };
-}
-
-/** Old shuffles moved the answer out of first place every time (so it was never first): spread it evenly instead. */
-function forceShuffleBracketChoices(data) {
-  const spread = (ex) => { if (itemsHaveSlashChoices(ex)) rebalanceChoiceItems(ex.items || []); };
-  data.dictation?.exercises?.forEach(spread);
-  data.lingoLauncher?.practice?.forEach(spread);
-}
-
-/** Instant layout fixes — shuffles, word-bank order, bracket order (no API). */
-function applyQuickWorksheetFixes(data) {
-  const fixed = cloneWorksheetData(data);
-  normalizeWorksheetExercises(fixed);
-  forceShuffleBracketChoices(fixed);
-  fixed.dictation?.exercises?.forEach((ex) => {
-    if (ex.wordBank?.length >= 2 && (ex.typeId === "D01" || ex.typeId === "D16")) {
-      const orderItems = ex.typeId === "D16" ? itemsForAnswerOrderCheck(ex) : ex.items;
-      ex.wordBank = shuffleListAwayFromAnswers(ex.wordBank, orderItems);
-    }
-  });
-  fixed.lingoLauncher?.practice?.forEach((ex) => {
-    if (LINGO_WORDLIST_TYPES.has(ex.typeId) && ex.wordList?.length >= 2) {
-      ex.wordList = shuffleListAwayFromAnswers(ex.wordList, ex.items);
-    }
-  });
-  return fixed;
-}
-
-function countQuickFixIssues(issues) {
-  return (issues || []).filter(isQuickFixIssue).length;
 }
 
 function targetKeysFromFixTargets(targets) {
@@ -4512,186 +4322,6 @@ The other lines of this exercise (never repeat one of them): ${JSON.stringify(ot
     }
   }
   return { data: existingData, validation: validateWorksheet(existingData), changed: false, problems };
-}
-
-function mergeDictationItemUpdates(data, updates) {
-  const merged = cloneWorksheetData(data);
-  for (const u of updates || []) {
-    const ex = getWorksheetExercise(merged, "dictation", u.exercise);
-    if (!ex) continue;
-    if (u.replaceExercise) {
-      Object.assign(ex, u.replaceExercise);
-      continue;
-    }
-    let item = ex.items?.find((i) => i.number === u.item);
-    if (!item && u.item != null) {
-      item = { number: u.item, prompt: "", answer: "" };
-      ex.items = ex.items || [];
-      ex.items.push(item);
-      ex.items.sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
-    }
-    if (!item) continue;
-    if (u.prompt !== undefined) item.prompt = u.prompt;
-    if (u.answer !== undefined) item.answer = u.answer;
-    if (u.stem !== undefined) item.stem = u.stem;
-    if (u.testsWords !== undefined) item.testsWords = u.testsWords;
-    if (u.wordBank !== undefined) ex.wordBank = u.wordBank;
-  }
-  return merged;
-}
-
-/**
- * Adjust dictation only so every vocabulary target is tested at least once.
- */
-async function fixDictationCoverageGaps(form, apiKey, existingData, validation, options = {}) {
-  const missing = validation?.coverage?.dictation?.missing
-    || computeDictationCoverage(existingData.lingoLauncher?.vocabulary || [], existingData.dictation).missing;
-  if (!missing.length) {
-    return {
-      data: existingData,
-      validation: validation || validateWorksheet(existingData),
-      message: "Dictation coverage is already complete.",
-      fixedCount: 0,
-    };
-  }
-
-  const profileId = form.classProfile || existingData.meta?.classProfile;
-  const profile = tunedProfile(profileId, existingData.generationPlan?.tune);
-  const labels = missing.map((m) => (m.kind === "headword" ? m.label : `${m.label} (${m.kind})`));
-  const vocab = existingData.lingoLauncher?.vocabulary || [];
-  const maxAttempts = options.maxAttempts ?? 3;
-  // Where the new words can go without dropping a word the Dictation already tests.
-  const room = (validation?.coverage?.room) || validateWorksheet(existingData).coverage.room;
-  const roomLines = [
-    ...room.spare.map((r) => `- Exercise ${r.exercise} item ${r.item} (${r.typeId}) may be rewritten: ${r.repeats.length ? `it only repeats ${r.repeats.join(", ")}, tested in another line` : "it tests no unit word"}`),
-    ...room.addable.map((a) => `- Exercise ${a.exercise} (${a.typeId}) may get up to ${a.free} new item${a.free === 1 ? "" : "s"} (numbered after its last item)`),
-  ];
-
-  const systemPrompt = `You are an ESL dictation worksheet editor for Greek learners (${profile?.label || profileId}).
-Return ONLY valid JSON — no markdown.
-
-Schema: {
-  "itemUpdates": [
-    { "exercise": number, "item": number, "prompt": string, "answer": string, optional "stem", "testsWords": [] }
-  ],
-  optional "exerciseUpdates": [
-    { "exercise": number, optional "wordBank": [], optional "items": [ full items array if replacing one exercise only ] }
-  ]
-}
-
-Rules:
-- Edit dictation ONLY — keep the same number of exercises and the same typeId per exercise
-- Every missing target below must be tested at least once: it is the item's answer (in the form that fits), or for matching / odd-one-out it is printed in the line AND listed in testsWords
-- Change ONLY the items the user message says may be rewritten or added — every other item tests a word nothing else tests and must stay exactly as it is
-- Keep each exercise's format (gaps, bracket choices, word bank) and the class's sentence length (max ~${profile?.maxSentenceWords || 10} words); never print the answer in its own line
-- Do not change lingoLauncher vocabulary or practice
-- Do not reuse sentences from lingoLauncher practice`;
-
-  const userPrompt = `Missing dictation coverage — each word MUST be tested at least once:
-${labels.join(", ")}
-
-Where they can go (one missing word per item; if there are more words than places, cover as many as fit):
-${roomLines.join("\n") || "- No free places: rewrite nothing and return empty itemUpdates"}
-
-Current dictation (keep structure; update content only as needed):
-${JSON.stringify(existingData.dictation, null, 2)}
-
-Vocabulary table:
-${JSON.stringify(vocab, null, 2)}`;
-
-  let data = cloneWorksheetData(existingData);
-  let lastValidation = validation || validateWorksheet(data);
-  let stillMissing = lastValidation.coverage?.dictation?.missing?.length ?? missing.length;
-  if (!room.room) {
-    return {
-      data: existingData,
-      validation: lastValidation,
-      fixedCount: 0,
-      message: "The Dictation has no free lines for more words — add a dictation exercise or more lines per exercise in Step 3.",
-    };
-  }
-  // Other problems the sheet already has; a reply that adds new ones (a revealed answer, a broken format) is not kept.
-  const otherIssues = (v) => v.issues.filter((i) => !isCoverageIssue(i)).length;
-  const baseOther = otherIssues(lastValidation);
-
-  for (let attempt = 0; attempt < maxAttempts && stillMissing > 0; attempt++) {
-    const hint = attempt > 0
-      ? `Still not covered: ${(lastValidation.coverage?.dictation?.missing || []).map((m) => m.label).join(", ")}. Every changed item must keep its exercise's format and test its word as the answer.`
-      : "";
-    const aiResult = await callDeepSeek(apiKey, systemPrompt, userPrompt, hint);
-    let candidate = mergeDictationItemUpdates(data, aiResult.itemUpdates);
-    if (aiResult.exerciseUpdates?.length) {
-      aiResult.exerciseUpdates.forEach((eu) => {
-        const ex = getWorksheetExercise(candidate, "dictation", eu.exercise);
-        if (!ex) return;
-        if (eu.wordBank) ex.wordBank = eu.wordBank;
-        if (eu.items) ex.items = eu.items;
-      });
-    }
-    normalizeWorksheetExercises(candidate);
-    const v = validateWorksheet(candidate);
-    const left = v.coverage?.dictation?.missing?.length || 0;
-    if (left < stillMissing && otherIssues(v) <= baseOther) {
-      data = candidate;
-      lastValidation = v;
-      data.coverageReport = v.coverage;
-      stillMissing = left;
-    }
-  }
-
-  const fixed = stillMissing === 0;
-  const covered = Math.max(0, missing.length - stillMissing);
-  return {
-    data,
-    validation: lastValidation,
-    fixedCount: covered,
-    message: fixed
-      ? `The Dictation now tests all ${missing.length} missing word${missing.length === 1 ? "" : "s"}.`
-      : covered
-        ? `Added ${covered} word${covered === 1 ? "" : "s"} to the Dictation — ${stillMissing} still missing${room.short ? " (no room left: add lines in Step 3)" : ""}.`
-        : "Couldn't add the missing words without breaking other lines — nothing was changed.",
-  };
-}
-
-/**
- * Run quick fixes, then item AI fixes, then coverage AI fixes (in order).
- */
-async function fixAllWorksheetIssues(form, apiKey, existingData, validation) {
-  let data = cloneWorksheetData(existingData);
-  let val = validation || validateWorksheet(data);
-  const parts = [];
-
-  if (countQuickFixIssues(val.issues) > 0) {
-    data = applyQuickWorksheetFixes(data);
-    val = validateWorksheet(data);
-    parts.push("layout");
-  }
-
-  const itemTargets = countFixableValidationIssues(val.issues, data);
-  if (itemTargets > 0) {
-    const itemResult = await fixWorksheetValidationIssues(form, apiKey, data, val);
-    data = itemResult.data;
-    val = itemResult.validation;
-    parts.push("items");
-  }
-
-  const missing = val.coverage?.dictation?.missing?.length || 0;
-  if (missing > 0 && val.coverage?.room?.room) {
-    const covResult = await fixDictationCoverageGaps(form, apiKey, data, val);
-    data = covResult.data;
-    val = covResult.validation;
-    parts.push("coverage");
-  }
-
-  const before = (validation || validateWorksheet(existingData)).issues.length;
-  const after = val.issues.length;
-  const message = val.valid
-    ? "Everything is fixed — the worksheet is ready."
-    : after < before
-      ? `Fixed ${before - after} of ${before} — ${after} left (see the check).`
-      : "Nothing could be fixed automatically — edit the lines on the sheet or write the exercise again in Step 3.";
-
-  return { data, validation: val, steps: parts, message };
 }
 
 /* ─── Print export ─── */
@@ -6003,12 +5633,6 @@ export {
   exerciseStatus,
   fixWorksheetValidationIssues,
   remakeWorksheetItem,
-  countFixableValidationIssues,
-  buildValidationReport,
-  applyQuickWorksheetFixes,
-  fixDictationCoverageGaps,
-  fixAllWorksheetIssues,
-  countQuickFixIssues,
   buildWorksheetPrintDocument,
   buildLingoDocx,
   buildDictationDocx,

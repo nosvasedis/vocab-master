@@ -596,27 +596,15 @@
 
 .quality-ok { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 11px; color: var(--success-ink); background: var(--success-soft); font-size: 13px; font-weight: 600; }
 .quality-ok .i { width: 20px; height: 20px; }
-.quality-list { display: flex; flex-direction: column; gap: 8px; }
-.q-group { border-radius: 11px; background: var(--surface-2); padding: 10px 12px; }
-.q-group h5 { margin: 0 0 6px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-.q-group ul { margin: 0; padding-left: 16px; font-size: 12px; color: var(--text-2); display: flex; flex-direction: column; gap: 3px; }
-.q-group.warn h5 { color: var(--warning-ink); }
-.q-group.bad h5 { color: var(--danger-ink); }
-.q-group.info h5 { color: var(--text-2); }
-.quality-list.q-after { margin-top: 8px; }
-.q-group .cov-chips + .q-note, .q-group ul + .q-note { margin-top: 7px; }
 .q-note { margin: 0; font-size: 11.5px; line-height: 1.45; color: var(--text-3); }
-.q-line { all: unset; cursor: pointer; display: block; border-radius: 6px; line-height: 1.4; }
-.q-line b { color: var(--text); font-weight: 650; }
-.q-line:hover, .q-line:focus-visible { color: var(--text); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 2px; }
-.q-line:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.q-actions { display: flex; flex-direction: column; gap: 6px; }
 .q-summary { font-size: 12.5px; color: var(--text-2); }
+#coveragePanel .stale-note { margin-bottom: 10px; }
+#coveragePanel > .btn { margin-top: 8px; }
 
 .cov-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .cov-chip { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-button.cov-chip[data-cov-find] { border: 0; cursor: pointer; font-family: var(--font-ui); transition: transform var(--dur-fast), box-shadow var(--dur-fast); }
-button.cov-chip[data-cov-find]:hover, button.cov-chip[data-cov-find]:focus-visible { transform: translateY(-1px); box-shadow: 0 0 0 1.5px currentColor; outline: none; }
+button.cov-chip[data-cov-find], button.cov-chip[data-cov-place] { border: 0; cursor: pointer; font-family: var(--font-ui); transition: transform var(--dur-fast), box-shadow var(--dur-fast); }
+button.cov-chip[data-cov-find]:hover, button.cov-chip[data-cov-find]:focus-visible, button.cov-chip[data-cov-place]:hover, button.cov-chip[data-cov-place]:focus-visible { transform: translateY(-1px); box-shadow: 0 0 0 1.5px currentColor; outline: none; }
 .cov-good { color: var(--success-ink); background: var(--success-soft); }
 .cov-warn { color: var(--warning-ink); background: var(--warning-soft); }
 .cov-bad { color: var(--danger-ink); background: var(--danger-soft); }

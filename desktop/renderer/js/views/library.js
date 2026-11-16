@@ -84,7 +84,7 @@ function cardHtml(it, i) {
   const words = it.words.length ? `<div class="lib-words">${it.words.slice(0, 7).map((w) => `<span>${esc(w)}</span>`).join("")}${it.words.length > 7 ? `<span>+${it.words.length - 7}</span>` : ""}</div>` : "";
   let meta;
   if (it.type === "unit") {
-    meta = `${it.raw.validationOk === false ? `<span class="badge warning">${icon("alert", "i-xs")}Has notes</span>` : `<span class="badge success">${icon("check", "i-xs")}Checked</span>`}<span>${plural(it.words.length, "word")}</span>`;
+    meta = `<span>${plural(it.words.length, "word")}</span>`;
   } else if (it.type === "test") {
     const secs = it.raw.sections || [];
     const skills = [...new Set(secs.map((s) => SKILLS[s.skill]?.icon).filter(Boolean))].join(" ");

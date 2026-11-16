@@ -7,7 +7,7 @@
  *     "WORD (a / b / c)" whose word is a unit word with a listed opposite (synonym) and whose options hold exactly
  *     one of them. A line that can be read that way is rewritten to it; any other line is rebuilt from the word
  *     list (a word not yet used, its listed opposite and two clearly wrong words), or dropped when no word is left.
- *   - lineProblem: what is wrong with one line of any exercise ("" when nothing), for the quality panel and the
+ *   - lineProblem: what is wrong with one line of any exercise ("" when nothing), for the line editor and the
  *     AI line fixer.
  *   - repairLine: small sure fixes the app can make itself (the letter count of a crossword clue).
  * A line the teacher wrote in the line editor (item.byTeacher) is never rewritten, only checked. */
