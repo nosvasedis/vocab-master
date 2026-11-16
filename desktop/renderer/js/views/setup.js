@@ -268,8 +268,10 @@ function renderOwnWords() {
   const own = state.words.filter((w) => w.own && w.english.trim());
   const list = $("ownWordList");
   list.classList.toggle("hidden", !own.length);
-  list.innerHTML = own.map((w) => `<span class="word-chip own"><span>${esc(w.english)}</span>${w.greek ? `<small lang="el">${esc(w.greek)}</small>` : ""}<button type="button" class="mk-own-x" data-own-del="${esc(w.id)}" aria-label="Remove ${esc(w.english)}">${icon("x", "i-xs")}</button></span>`).join("")
+  const html = own.map((w) => `<span class="word-chip own"><span>${esc(w.english)}</span>${w.greek ? `<small lang="el">${esc(w.greek)}</small>` : ""}<button type="button" class="mk-own-x" data-own-del="${esc(w.id)}" aria-label="Remove ${esc(w.english)}">${icon("x", "i-xs")}</button></span>`).join("")
     + (own.length > 1 ? `<button type="button" class="pk-clear" data-own-clear>Remove all</button>` : "");
+  // Unchanged (e.g. a pool word was tapped): leave it, so these chips don't pop in again.
+  if (list._html !== html) { list.innerHTML = html; list._html = html; }
 }
 
 function togglePoolWord(entry) {
@@ -414,7 +416,17 @@ function renderPool() {
     ? words.filter((w) => w.english.toLowerCase().includes(q) || String(w.greek || "").toLowerCase().includes(q))
     : words;
   const wrap = $("poolChips");
-  if (!words.length) {
+  // Same chips as on screen (only what is chosen changed): mark them in place, so the list doesn't redraw and pop in again.
+  const key = !words.length ? "none" : !list.length ? `nomatch:${q}` : JSON.stringify(list.map((w) => [w.english, w.source, w.type, w.greek, w.sbPage, w.wbPage, w.page, w.origin]));
+  if (wrap._key === key && list.length && wrap.children.length === list.length) {
+    [...wrap.children].forEach((chip, i) => {
+      chip._entry = list[i];
+      const on = chosen.has(list[i].english.toLowerCase());
+      if (chip.classList.contains("on") === on) return;
+      chip.classList.toggle("on", on);
+      chip.querySelector(".wc-box").innerHTML = icon(on ? "check" : "plus");
+    });
+  } else if (!words.length) {
     wrap.innerHTML = `<div class="empty"><div class="empty-art">${icon("filter")}</div><h3>No words here</h3><p>Turn on more word sources above or choose a wider page range.</p></div>`;
   } else if (!list.length) {
     wrap.innerHTML = `<div class="empty"><h3>No matches for “${esc(q)}”</h3></div>`;
@@ -433,6 +445,7 @@ function renderPool() {
     }).join("");
     [...wrap.children].forEach((chip, i) => { chip._entry = list[i]; });
   }
+  wrap._key = key;
   const inPool = words.filter((w) => chosen.has(w.english.toLowerCase())).length;
   const extra = state.words.filter((w) => w.english.trim()).length - inPool;
   $("poolSummary").innerHTML = `<strong>${inPool}</strong> of ${words.length} pool words in your unit${extra > 0 ? ` · +${extra} of your own` : ""}

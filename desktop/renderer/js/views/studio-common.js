@@ -258,6 +258,52 @@ export const safeName = (s) => String(s).replace(/[\\/:*?"<>|]+/g, "-").replace(
 const BOOK_IDS = Object.keys(CPP_BOOKS);
 
 /**
+ * Puts html into el like innerHTML, but keeps the elements that are still there and changes only what differs:
+ * the chips don't pop in again, and the word list keeps its scroll. Fields end as innerHTML would leave them
+ * (the value, ticks and choice the html gives).
+ */
+export function morphInto(el, html) {
+  const tpl = document.createElement("template");
+  tpl.innerHTML = html;
+  const FIELDS = "input, textarea, select";
+  const want = [...tpl.content.querySelectorAll(FIELDS)]; // read before the morph moves new nodes into el
+  morphChildren(el, tpl.content);
+  // What the teacher typed or ticked lives in properties, not attributes: set them as the html has them.
+  [...el.querySelectorAll(FIELDS)].forEach((f, i) => {
+    const w = want[i];
+    if (!w || f === w || f.tagName !== w.tagName) return;
+    if (f.tagName === "SELECT") {
+      const idx = [...w.options].findIndex((o) => o.hasAttribute("selected"));
+      const pick = idx >= 0 ? idx : f.options.length ? 0 : -1;
+      if (f.selectedIndex !== pick) f.selectedIndex = pick;
+    } else if (f.tagName === "TEXTAREA") {
+      if (f.value !== w.textContent) f.value = w.textContent;
+    } else if (f.type === "checkbox" || f.type === "radio") {
+      if (f.checked !== w.hasAttribute("checked")) f.checked = w.hasAttribute("checked");
+    } else if (f.value !== (w.getAttribute("value") ?? "")) f.value = w.getAttribute("value") ?? "";
+  });
+}
+function morphChildren(into, from) {
+  let cur = into.firstChild;
+  for (const n of [...from.childNodes]) {
+    if (!cur) { into.appendChild(n); continue; }
+    const after = cur.nextSibling;
+    if (cur.nodeType !== n.nodeType || cur.nodeName !== n.nodeName) into.replaceChild(n, cur);
+    else if (n.nodeType === Node.ELEMENT_NODE) morphEl(cur, n);
+    else if (cur.nodeValue !== n.nodeValue) cur.nodeValue = n.nodeValue;
+    cur = after;
+  }
+  while (cur) { const after = cur.nextSibling; cur.remove(); cur = after; }
+}
+function morphEl(a, b) {
+  if (!a.isEqualNode(b)) {
+    for (const { name } of [...a.attributes]) if (!b.hasAttribute(name)) a.removeAttribute(name);
+    for (const { name, value } of [...b.attributes]) if (a.getAttribute(name) !== value) a.setAttribute(name, value);
+    morphChildren(a, b);
+  }
+}
+
+/**
  * Where the words come from: coursebook units (book → units → sections → words) or a free topic, plus the
  * teacher's own words. Each maker has its own picker and its own choice (storeKey: remembered on this
  * computer) — nothing is taken from another screen.
@@ -425,7 +471,8 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
       return `<div class="mk-review">${head(plan.due.length ? `Words ${esc(name)} met before and should see again — tap to mix them in.` : "", off)}${from}${body}${noteHtml}</div>`;
     };
     const countLine = (verb) => `<p class="mk-count">${icon("target", "i-xs")}<b>${plural(f.length, "word")}</b> ${verb}${ownN ? ` · ${plural(ownN, "of your own", "of your own")}` : ""}</p>`;
-    host.innerHTML = `
+    // Only what changed is touched (not the whole panel), so a tap on a word doesn't redraw every chip.
+    morphInto(host, `
       ${modes.length ? `<div class="mk-choices" style="--n:${modes.length}" role="radiogroup" aria-label="What the test is built on">${modes.map(([k, ico, title, sub]) => `<button type="button" role="radio" aria-checked="${st.kind === k}" class="mk-choice${st.kind === k ? " active" : ""}" data-sp-kind="${k}"><span class="mk-choice-ico">${icon(ico)}</span><span class="mk-choice-t"><b>${title}</b><small>${esc(sub)}</small></span><span class="mk-tick">${icon("check", "i-xs")}</span></button>`).join("")}</div>` : ""}
       ${st.kind === "topic" ? `<div class="mk-panel"><label class="mk-h" for="spTopic">What should the test be about?</label>
         <input class="input lg" id="spTopic" data-sp-topic placeholder="${esc(topicPlaceholder)}" value="${esc(st.topic)}" />
@@ -454,7 +501,7 @@ export function createSourcePicker({ multiUnit = false, allowTopic = false, topi
           ${relBlock()}
           ${reviewBlock()}
           ${countLine(st.focusMode === "pick" && !ownN ? "chosen — tap words to add or remove them" : "chosen")}
-        </div>` : ""}`;
+        </div>` : ""}`);
   }
   /**
    * The unit's words, all of them, like Worksheets → Word pool: a tick on the chosen ones, a + on the rest, the
