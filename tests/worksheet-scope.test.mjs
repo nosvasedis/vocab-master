@@ -4,7 +4,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   configureAi, enforceTeacherVocabulary, regenerateDictationOnly, regenerateLingoPracticeOnly, generateWorksheets,
-  buildUserPrompt, validateWorksheet, validateAnswerKeys, normalizeWorksheetExercises, worksheetMatchesForm, applyQuickWorksheetFixes,
+  buildUserPrompt, validateWorksheet, validateAnswerKeys, normalizeWorksheetExercises, worksheetMatchesForm,
 } from "../desktop/renderer/app.js";
 import { findOutsideAnswers, answerInScope, allowedTerms, containsForm } from "../desktop/renderer/studio/word-scope.js";
 import {
@@ -184,8 +184,8 @@ test("bracket choices never keep the answer in one place — and never 'always s
   // Two-option choices (L02) used to be shuffled so the answer was never first, i.e. always second.
   const data = sheetFor(["volcano", "lava"]);
   data.lingoLauncher.practice.push({ number: 2, typeId: "L02", wordList: [], items: [1, 2, 3, 4].map((n) => ({ number: n, prompt: `It is (lava / snow) ${n}.`, answer: "lava" })) });
-  const quick = applyQuickWorksheetFixes(data);
-  const p2 = quick.lingoLauncher.practice[1].items.map((it) => choicePosition(it.prompt, it.answer).pos);
+  const fixed = normalizeWorksheetExercises(JSON.parse(JSON.stringify(data)));
+  const p2 = fixed.lingoLauncher.practice[1].items.map((it) => choicePosition(it.prompt, it.answer).pos);
   assert.deepEqual([...new Set(p2)].sort(), [0, 1], `positions ${p2}`);
 });
 

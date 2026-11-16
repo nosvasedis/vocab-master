@@ -4,7 +4,7 @@
 import {
   CLASS_PROFILES, EXERCISE_LABELS,
   pickGenerationPlan, analyzeVocabFeatures, generateWorksheets, regenerateDictationOnly,
-  regenerateLingoPracticeOnly, normalizeWorksheetExercises, validateWorksheet, saveWorksheetSession, findVocabGaps,
+  regenerateLingoPracticeOnly, normalizeWorksheetExercises, saveWorksheetSession, findVocabGaps,
   writeWorksheetExercises, exerciseStatus,
   normalizeTune, isDefaultTune, tunedProfile,
 } from "../../app.js";
@@ -768,16 +768,15 @@ export async function runGenerate(mode = "full") {
     state.data = normalizeWorksheetExercises(result.data);
     // A one-sheet rewrite keeps the other sheet as it is: the plan says what the worksheet now holds.
     state.plan = result.plan || state.plan;
-    const val = validateWorksheet(state.data);
     try {
-      state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId, validation: val });
+      state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId });
     } catch (saveErr) {
       toast(`Generated, but saving to the library failed: ${saveErr.message}`, "error");
     }
     actions.setAiState("on");
     setBusy(false);
     emit("data", "library");
-    toast(val.valid ? "Worksheets ready and saved to your library." : `Worksheets ready — ${plural(val.issues.length, "note")} to review.`, val.valid ? "ok" : "warn");
+    toast("Worksheets ready and saved to your library.", "ok");
     actions.go("preview");
   } catch (e) {
     setBusy(false);

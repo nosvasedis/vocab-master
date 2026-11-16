@@ -54,7 +54,7 @@ Vocab Master is a calm, four-step studio with a sidebar that always shows where 
 - **Ink-saving black-and-white design** — outlines and type only, no filled areas; fonts are embedded so PDFs look the same on any PC.
 - **Per-sheet switches:** student name box, score per exercise, footer with page numbers, a “shared sheet — answer in your notebook” note (on by default for Dictation, which classes reuse), and your school name (Settings).
 - A true **A4 preview** (identical to the PDF). Click any word box or exercise line to edit it in a side panel with live checking; add or delete lines with undo.
-- **Quality check** with one-click quick fixes or AI rewrites, and a **word coverage** map.
+- A **word coverage** map: which unit words each sheet tests (click a word to find its lines).
 - Export the **full unit pack** (Word + PDF for all three sheets), or the current sheet as Word, PDF or print. Toggle the student name header, answer preview and spacing.
 - **Duplicate** a unit to adapt it for another class.
 

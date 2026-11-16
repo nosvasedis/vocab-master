@@ -174,7 +174,7 @@ export function rebalanceChoiceItems(items = [], rand = Math.random) {
   return changed;
 }
 
-/** Plain-language summary of a key's mix, for the answer key and quality panel ("3 T · 2 F"). */
+/** Plain-language summary of a key's mix, for the answer key ("3 T · 2 F"). */
 export function keyMixLabel(typeId, items = []) {
   const { counts } = binaryBalance(typeId, items);
   const [a, b] = BINARY_TYPES[typeId] || ["", ""];

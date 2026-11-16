@@ -1,10 +1,10 @@
-/* The worksheet quality check tells the truth: whole-word matching, one chip per word family,
- * long sentences as fixable lines, copied lines as fixable lines, and an honest note when the Dictation
- * has no room for the words it misses. */
+/* Worksheet word coverage tells the truth (whole-word matching, one chip per word family), and the worksheet
+ * check behind generation: a long sentence is never a problem (nothing on the sheets is dictated), a copied
+ * line is a line to fix, class guidelines are notes. */
 import test from "node:test";
 import assert from "node:assert/strict";
-import { lineTestsTerm, wordCoverage, dictationRoom, friendlyReason, sentenceLimit } from "../desktop/renderer/studio/quality-check.js";
-import { validateWorksheet, buildValidationReport } from "../desktop/renderer/app.js";
+import { lineTestsTerm, wordCoverage } from "../desktop/renderer/studio/quality-check.js";
+import { validateWorksheet } from "../desktop/renderer/app.js";
 
 const vocab = (rows) => rows.map(([english, derivatives = []], i) => ({
   number: i + 1, english, type: "n.", greek: "x", emojis: "🙂", collocation: "",
@@ -50,39 +50,13 @@ test("a derivative as the answer counts for its word", () => {
   assert.equal(cov.words[0].dictation[0].via, "introduction");
 });
 
-test("room: spare lines and free places, and an honest shortfall", () => {
-  const words = [["kitchen"], ["garden"], ["bedroom"], ["movie"]];
-  const data = sheet(words, [
-    { number: 1, typeId: "D04", wordBank: [], items: [
-      line(1, "We cook in the ________.", "kitchen"),
-      line(2, "Mum is in the ________ now.", "kitchen"),
-      line(3, "The flowers are in the ________.", "garden"),
-    ] },
-  ]);
-  const cov = wordCoverage(data);
-  assert.deepEqual(cov.missing, ["bedroom", "movie"]);
-  const room = dictationRoom(data, cov, 4);
-  assert.equal(room.spare.length, 1, "one of the two kitchen lines can go");
-  assert.equal(room.room, 2, "1 spare line + 1 free place");
-  assert.equal(room.short, 0);
-  assert.equal(dictationRoom(data, cov, 3).short, 1, "a full exercise leaves one word out");
-});
-
-test("a too-long dictation sentence is a line to fix, with its place", () => {
+test("a long sentence is never a problem: nothing on the worksheets is dictated", () => {
   const long = "My big brother and my little sister like to watch a funny movie on Saturday night.";
   const data = sheet([["movie"]], [{ number: 1, typeId: "D04", wordBank: [], items: [line(1, long.replace("movie", "________"), "movie")] }]);
   const val = validateWorksheet(data);
-  const issue = val.issues.find((i) => /sentence is \d+ words/.test(i));
-  assert.match(issue, /^Dictation ex 1 \(D04\) item 1: sentence is 16 words — keep it to about 7/);
-  const report = buildValidationReport(val, data);
-  const item = report.categories.items.find((i) => i.minor);
-  assert.equal(item.where, "Dictation 1 · line 1");
-  assert.match(item.friendly, /too long to dictate \(16 words/);
-  assert.equal(report.categories.manual.length, 0, "never 'may need a full rewrite'");
-  assert.match(report.intro, /^Ready to print/);
-  assert.equal(sentenceLimit(7), 9);
-  const choices = sheet([["glue"]], [{ number: 1, typeId: "D03", wordBank: [], items: [line(1, "We (fold / glue / meet) the stars on the card.", "glue")] }]);
-  assert.equal(validateWorksheet(choices).issues.some((i) => /sentence is/.test(i)), false, "bracket choices are one word, wherever they are");
+  assert.equal(val.issues.some((i) => /sentence is \d+ words|dictate/.test(i)), false, val.issues.join(" | "));
+  assert.equal(val.notes.some((n) => /dictate|words long/.test(n)), false);
+  assert.equal(val.valid, true);
 });
 
 test("a Lingo line copied from the Dictation is a line to fix", () => {
@@ -90,32 +64,8 @@ test("a Lingo line copied from the Dictation is a line to fix", () => {
   const data = sheet([["kitchen"]],
     [{ number: 1, typeId: "D04", wordBank: [], items: [line(1, s, "kitchen")] }],
     [{ number: 1, typeId: "L01", wordList: [], items: [line(1, s, "kitchen")] }]);
-  const report = buildValidationReport(validateWorksheet(data), data);
-  const item = report.categories.items.find((i) => /same sentence/.test(i.friendly));
-  assert.ok(item, JSON.stringify(report.categories));
-  assert.equal(item.target.sheet, "lingo");
-  assert.equal(report.categories.manual.length, 0);
-});
-
-test("the report says when the missing words can't fit", () => {
-  const data = sheet([["kitchen"], ["garden"], ["bedroom"]], [
-    { number: 1, typeId: "D04", wordBank: [], items: [
-      line(1, "We cook in the ________.", "kitchen"), line(2, "Flowers grow in the ________.", "garden"),
-      line(3, "Dad is in the ________.", "kitchen"), line(4, "Mum is in the ________.", "garden"),
-      line(5, "Look at the ________.", "kitchen"), line(6, "I play in the ________.", "garden"),
-    ] },
-  ]);
-  const val = validateWorksheet(data);
-  const report = buildValidationReport(val, data);
-  assert.deepEqual(report.coverageWords, ["bedroom"]);
-  assert.ok(report.coverageFixable >= 1, "repeated lines can take it");
-  assert.match(report.roomNote, /room/);
-  assert.equal(report.coverageChips[0].inLingo, false);
-});
-
-test("teacher wording for the common reasons", () => {
-  assert.equal(friendlyReason('prompt reveals answer "garden"'), "the answer “garden” is already printed in the line");
-  assert.match(friendlyReason('rewrite this statement so the answer is "False" — the key needs a mix of True and False'), /mix of True and False/);
+  const issues = validateWorksheet(data).issues;
+  assert.ok(issues.some((i) => /^Lingo ex 1 \(L01\) item 1: same sentence as Dictation 1 line 1/.test(i)), issues.join(" | "));
 });
 
 test("lines per exercise is a guideline: 7 lines for A Senior is fine, a big overshoot is only a note", () => {
@@ -127,8 +77,7 @@ test("lines per exercise is a guideline: 7 lines for A Senior is fine, a big ove
   assert.equal(seven.notes.filter((n) => /lines/.test(n)).length, 0, "7 lines (setting ~5) isn't even worth a note");
   const nine = at(9);
   assert.ok(nine.notes.some((n) => /Dictation 1 has 9 lines/.test(n)));
-  const report = buildValidationReport(nine, sheet(words, []));
-  assert.equal(report.mustFix ?? 0, 0, "a note is never a thing to fix");
+  assert.equal(nine.issues.some((i) => /lines/.test(i)), false, "a note is never a thing to fix");
 });
 
 test("exercise counts and class types are notes on the sheet, but a dropped exercise still retries generation", () => {

@@ -7,7 +7,7 @@ import { askMerge } from "./sync/account-ui.js";
 import * as engine from "../app.js";
 import {
   CLASS_PROFILES, CPP_BOOKS, getSavedSession, normalizeWorksheetExercises,
-  validateWorksheet, saveWorksheetSession, lookupCoursebookWord, splitEmojiText,
+  saveWorksheetSession, lookupCoursebookWord, splitEmojiText,
 } from "../app.js";
 import { $, $$, esc, icon, plural, toast, confirmDialog, closeTopDialog, hasOpenDialog } from "./ui.js";
 import {
@@ -252,7 +252,7 @@ function openUnit({ form, data, plan }) {
   state.plan = plan;
   state.sessionId = null;
   try {
-    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { validation: validateWorksheet(state.data) });
+    state.sessionId = saveWorksheetSession(form, state.data, state.plan);
   } catch { /* storage unavailable */ }
   emit("setup", "words", "level", "data", "library");
   go("preview", { force: true });

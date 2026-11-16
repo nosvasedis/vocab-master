@@ -957,7 +957,7 @@ function renderOutline() {
 }
 
 /**
- * The word check, like the worksheets' quality check: which of the chosen words the test asks about and where
+ * The word check: which of the chosen words the test asks about and where
  * (hover a word; a click shows its part on the paper), the ones that only appear in a text, and the ones not on
  * the test — with a button that writes a vocabulary part again around them.
  */

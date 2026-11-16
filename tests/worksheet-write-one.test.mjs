@@ -1,6 +1,6 @@
 /* Worksheets: Step 3's "Write this exercise" — Lingo writes just the exercises that changed (or were added) and puts
- * them in their places on the written worksheet; everything else stays exactly as it is. Also: line length is measured
- * per sentence, so a riddle's short clues are not "too long to dictate". */
+ * them in their places on the written worksheet; everything else stays exactly as it is. Also: no line is ever flagged
+ * for its length (nothing on the worksheets is dictated). */
 import test from "node:test";
 import assert from "node:assert/strict";
 import { configureAi, writeWorksheetExercises, exerciseStatus, validateWorksheet, normalizeWorksheetExercises } from "../desktop/renderer/app.js";
@@ -97,13 +97,12 @@ test("too few exercises back: one more try; the word list changed: no partial re
   );
 });
 
-test("a riddle's short clue sentences are not 'too long to dictate'; one long sentence still is", () => {
+test("no riddle is flagged for its length, short clues or one long sentence", () => {
   const data = sheet();
   data.meta.classProfile = "A_SENIOR";
   data.dictation.exercises.push({ number: 3, typeId: "D12", instruction: "", wordBank: [], items: [
     { number: 1, prompt: "I am very hot. I come out of a mountain. What am I? (crust / lava / plate)", answer: "lava" },
     { number: 2, prompt: "I am the very hot red rock that comes out of the top of a mountain when it erupts. What am I? (crust / lava / plate)", answer: "lava" },
   ] });
-  const long = validateWorksheet(data).issues.filter((i) => /ex 3 \(D12\) item \d+: sentence is/.test(i));
-  assert.deepEqual(long.map((i) => i.match(/item (\d+)/)[1]), ["2"]);
+  assert.deepEqual(validateWorksheet(data).issues.filter((i) => /ex 3 \(D12\)/.test(i) && /words|dictate/.test(i)), []);
 });

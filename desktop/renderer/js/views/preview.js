@@ -1,9 +1,8 @@
-/* Step 4 — A4 preview with click-to-edit, quality checks, coverage, layout options and exports. */
+/* Step 4 — A4 preview with click-to-edit, word coverage, layout options and exports. */
 import {
   EXERCISE_LABELS, WORKSHEET_PRINT_CSS, renderLingoLauncher, renderDictation, renderAnswerKey,
-  renderCoverageHeatmap, validateWorksheet, buildValidationReport, normalizeWorksheetExercises,
-  saveWorksheetSession, applyQuickWorksheetFixes, getStudentExerciseInstruction, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, countQuickFixIssues, fixWorksheetValidationIssues,
-  fixDictationCoverageGaps, fixAllWorksheetIssues, exportDocx, openWorksheetPrint, getSavedSession, remakeWorksheetItem,
+  renderCoverageHeatmap, validateWorksheet, normalizeWorksheetExercises,
+  saveWorksheetSession, getStudentExerciseInstruction, WORKSHEET_LAYOUT_DEFAULTS, buildWorksheetPrintDocument, splitEmojiText, exportDocx, openWorksheetPrint, getSavedSession, remakeWorksheetItem,
 } from "../../app.js";
 import { $, esc, icon, plural, toast, openDialog, segmented, withBusy } from "../ui.js";
 import { wireGapTool } from "../gap-tool.js";
@@ -11,7 +10,7 @@ import { state, emit, on, buildForm, makeWord, prefs, worksheetFreshness } from 
 import { worksheetFontCss } from "../fonts.js";
 import { PICTURE_STYLES, ensurePictureStyle, rasterisePictures } from "../pictures.js";
 import { savePrefs } from "../state.js";
-import { desktop, getApiKey, isAiReady, chatgptUsageLimited, manageChatGPTUsage } from "../bridge.js";
+import { desktop, getApiKey, isAiReady } from "../bridge.js";
 import { actions } from "../actions.js";
 import { openHeaderDialog, paperWords } from "../header-dialog.js";
 import { play } from "../../arcade/audio.js";
@@ -125,12 +124,6 @@ export function initPreview() {
   $("btnPdf").addEventListener("click", (e) => exportPdf(state.preview.sheet, e.currentTarget));
   $("btnPrint").addEventListener("click", () => printSheet(state.preview.sheet));
   $("btnDuplicate").addEventListener("click", duplicateUnit);
-  $("qualityPanel").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-fix]");
-    if (b) runFix(b.dataset.fix, b);
-    const j = e.target.closest("[data-jump]");
-    if (j) { const [sheet, ex, item] = j.dataset.jump.split(":"); jumpToLine(sheet, Number(ex), Number(item)); }
-  });
   if (!desktop()) $("packNote").textContent = "Downloads all three sheets as Word documents.";
 
   on("data", () => { if (state.view === "preview") renderPreview(); });
@@ -147,13 +140,12 @@ export function renderPreview() {
   if (!has) {
     shadow.innerHTML = "";
     $("paper").classList.add("hidden");
-    $("qualityPanel").innerHTML = "";
     $("coveragePanel").innerHTML = "";
     return;
   }
   $("paper").classList.remove("hidden");
   renderPaper();
-  renderQuality();
+  renderCoverage();
 }
 
 /* ── Layout options ──────────────────────────────────────────────── */
@@ -491,66 +483,28 @@ function ensurePlan() {
 export function persistSession() {
   if (!state.data) return null;
   ensurePlan();
-  const val = validateWorksheet(state.data);
   // Edits to worksheets made from an earlier word list keep that list in the library entry:
   // saving them under the current Step 2 words would pair old sheets with new words.
   const form = worksheetFreshness()?.stale ? (getSavedSession(state.sessionId)?.form || buildForm()) : buildForm();
   try {
-    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId: state.sessionId, validation: val });
+    state.sessionId = saveWorksheetSession(form, state.data, state.plan, { updateId: state.sessionId });
   } catch (err) {
     toast(`Couldn't save to the library: ${err.message}`, "error");
   }
   emit("library");
-  return val;
 }
 
-/* ── Quality & coverage ──────────────────────────────────────────── */
-function renderQuality() {
+/* ── Word coverage ──────────────────────────────────────────────── */
+function renderCoverage() {
   const val = validateWorksheet(state.data);
-  const report = buildValidationReport(val, state.data);
   const stale = worksheetFreshness()?.wordsChanged
     ? `<div class="callout info stale-note">${icon("info")}<span>These sheets were written for an earlier word list. <a data-goto="exercises">Generate again</a> to use your current words.</span></div>`
     : "";
-  // Class guidelines the sheet departs from (lines per exercise, planned exercises…): information, never a problem.
-  const notes = report.notes?.length
-    ? `<div class="q-group info"><h5>${icon("info", "i-xs")}Good to know</h5><ul>${report.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul></div>`
-    : "";
-  if (report.valid) {
-    $("qualityPanel").innerHTML = stale + `<div class="quality-ok">${icon("check-circle")}<span>${esc(report.intro)}</span></div>${notes ? `<div class="quality-list q-after">${notes}</div>` : ""}`;
-  } else {
-    const list = (items, row) => `<ul>${items.slice(0, 6).map(row).join("")}${items.length > 6 ? `<li>…and ${items.length - 6} more</li>` : ""}</ul>`;
-    const group = (title, items, iconName, tone = "warn", note = "") => items.length
-      ? `<div class="q-group ${tone}"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5>${list(items, (i) => `<li>${esc(i.friendly)}</li>`)}${note}</div>`
-      : "";
-    // Each line problem says where it is; a click shows that line on the sheet.
-    const lineGroup = (title, items, iconName, tone) => items.length
-      ? `<div class="q-group ${tone}"><h5>${icon(iconName, "i-xs")}${esc(title)}</h5>${list(items, (i) => `<li><button type="button" class="q-line" data-jump="${i.target.sheet}:${i.target.exercise}:${i.target.item}" title="Show this line on the sheet"><b>${esc(i.where)}</b> ${esc(i.friendly)}</button></li>`)}</div>`
-      : "";
-    const items = report.categories.items;
-    const btns = [];
-    if (report.quickCount) btns.push(`<button type="button" class="btn btn-secondary btn-sm btn-block" data-fix="quick">${icon("zap", "i-sm")}Apply ${plural(report.quickCount, "quick fix", "quick fixes")}</button>`);
-    if (report.itemCount) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="items">${icon("sparkles", "i-sm")}Rewrite ${plural(report.itemCount, "line")} with AI</button>`);
-    if (report.coverageFixable) btns.push(`<button type="button" class="btn btn-soft btn-sm btn-block" data-fix="coverage">${icon("target", "i-sm")}${report.coverageFixable < report.coverageCount ? `Add ${report.coverageFixable} of the missing words with AI` : `Add the missing ${plural(report.coverageCount, "word")} with AI`}</button>`);
-    const total = report.quickCount + report.itemCount + (report.coverageFixable ? 1 : 0);
-    if (total > 1 && btns.length > 1) btns.unshift(`<button type="button" class="btn btn-primary btn-sm btn-block" data-fix="all">${icon("wand", "i-sm")}Fix everything</button>`);
-    const chips = report.coverageChips.map((c) => `<span class="cov-chip ${c.inLingo ? "cov-warn" : "cov-bad"}" title="${esc(c.inLingo ? "Practised in Lingo, not in the Dictation" : "Not tested on either sheet")}${c.related.length ? esc(` · also listed: ${c.related.join(", ")}`) : ""}">${esc(c.word)}</span>`).join("");
-    $("qualityPanel").innerHTML = `${stale}
-      <p class="q-summary">${esc(report.intro)}</p>
-      <div class="quality-list">
-        ${lineGroup("Lines to fix", items.filter((i) => !i.minor), "pencil", "bad")}
-        ${group("Whole exercise", report.categories.manual, "alert", "bad", `<p class="q-note">Write it again in Step 3, or edit it on the sheet.</p>`)}
-        ${report.coverageCount ? `<div class="q-group warn"><h5>${icon("target", "i-xs")}Not in the Dictation yet (${report.coverageCount})</h5><div class="cov-chips">${chips}</div>${report.roomNote ? `<p class="q-note">${esc(report.roomNote)}</p>` : ""}</div>` : ""}
-        ${lineGroup("Worth improving", items.filter((i) => i.minor), "pencil", "warn")}
-        ${group("Quick tidy-ups", report.categories.quick, "zap")}
-        ${notes}
-      </div>
-      ${btns.length ? `<div class="q-actions">${btns.join("")}</div>` : `<p class="insp-note">Click a line on the sheet to edit it, or write the exercises again in Step 3.</p>`}`;
-  }
   const lingoTested = val.coverage?.lingo?.testedCount ?? 0;
   const words = val.coverage?.dictation?.words || [];
   const inDict = words.filter((w) => w.dictation.length).length;
   const nowhere = words.filter((w) => !w.dictation.length && !w.lingo.length).length;
-  $("coveragePanel").innerHTML = `
+  $("coveragePanel").innerHTML = `${stale}
     <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
     <div class="cov-legend"><span><i style="background:var(--success)"></i>In Dictation</span><span><i style="background:var(--warning)"></i>Lingo only</span><span><i style="background:var(--danger)"></i>Not tested</span></div>
     <p class="insp-note">Dictation tests ${inDict} of ${words.length} words; Lingo practises ${lingoTested}${nowhere ? ` · ${plural(nowhere, "word")} on neither sheet` : ""}. Click a word to find it on the sheets (‹ › moves between its lines).</p>`;
@@ -586,52 +540,6 @@ function findWord(english) {
     peek: () => (state.preview.sheet === sheet ? lineEl(sheet, at) : null),
   })));
   openWordFinder({ root: shadow, word: english, spots });
-}
-
-/** Show a line from the check on its sheet (switches sheet, scrolls to it and flashes it). */
-function jumpToLine(sheet, exerciseNum, itemNum) {
-  const list = sheet === "lingo" ? state.data?.lingoLauncher?.practice : state.data?.dictation?.exercises;
-  const exIdx = (list || []).findIndex((ex) => ex.number === exerciseNum);
-  const itemIdx = exIdx < 0 ? -1 : (list[exIdx].items || []).findIndex((it) => it.number === itemNum);
-  if (itemIdx < 0) return;
-  if (state.preview.sheet !== sheet) {
-    state.preview.sheet = sheet;
-    sheetSeg.set(sheet);
-    emit("preview");
-    renderLayoutControls();
-    renderPaper();
-  }
-  flashNode(`.ex-item[data-ex="${exIdx}"][data-item="${itemIdx}"]`);
-}
-
-async function runFix(kind, btn) {
-  if (!state.data) return;
-  const form = buildForm();
-  const val = validateWorksheet(state.data);
-  if (kind === "quick") {
-    state.data = applyQuickWorksheetFixes(state.data);
-    const after = persistSession();
-    toast(countQuickFixIssues(after?.issues || []) === 0 ? "Quick fixes applied." : "Quick fixes applied — a few notes remain.", "ok");
-    renderPreview();
-    return;
-  }
-  const apiKey = getApiKey();
-  if (!isAiReady()) { actions.openSettings(); return; }
-  await withBusy(btn, async () => {
-    actions.setAiState("busy");
-    try {
-      const fn = kind === "items" ? fixWorksheetValidationIssues : kind === "coverage" ? fixDictationCoverageGaps : fixAllWorksheetIssues;
-      const result = await fn(form, apiKey, state.data, val);
-      state.data = result.data;
-      persistSession();
-      actions.setAiState("on");
-      toast(result.message || "Fixed.", result.validation?.valid ? "ok" : "warn");
-    } catch (err) {
-      actions.setAiState("error", err.message);
-      toast(err.message || String(err), "error", { actions: chatgptUsageLimited(err) ? [{ label: "Manage usage", run: () => manageChatGPTUsage().catch(() => actions.openSettings()) }] : [] });
-    }
-  });
-  renderPreview();
 }
 
 /* ── Editors ─────────────────────────────────────────────────────── */
@@ -905,9 +813,9 @@ function openItemEditor(sheet, exIndex, itemIndex) {
 
       const commit = (msg) => {
         state.data = normalizeWorksheetExercises(state.data);
-        const v = persistSession();
+        persistSession();
         renderPreview();
-        if (msg) toast(msg, v?.issues?.length ? "warn" : "ok", { ms: 2600 });
+        if (msg) toast(msg, "ok", { ms: 2600 });
       };
       const save = () => {
         const b = built();
@@ -1308,9 +1216,8 @@ function duplicateUnit() {
   if (!state.data) return;
   ensurePlan();
   const data = normalizeWorksheetExercises(JSON.parse(JSON.stringify(state.data)));
-  const val = validateWorksheet(data);
   try {
-    state.sessionId = saveWorksheetSession(buildForm(), data, JSON.parse(JSON.stringify(state.plan)), { validation: val });
+    state.sessionId = saveWorksheetSession(buildForm(), data, JSON.parse(JSON.stringify(state.plan)));
     state.data = data;
     emit("library", "data");
     toast("Duplicated. Pick another class level, adjust words, then generate again.", "ok", { ms: 5200 });
