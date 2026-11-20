@@ -1243,6 +1243,11 @@
 .ws-sheet-head b { font: 750 15px/1.2 var(--font-display); }
 .ws-sheet-head small { font-size: 12px; color: var(--text-3); }
 .ws-sheet-head .badge { margin-left: auto; }
+.ws-sheet-head .ws-leave-out { margin-left: auto; color: var(--text-3); }
+.ws-sheet-head .ws-write-sheet + .ws-leave-out { margin-left: 4px; }
+.ws-sheet-head .ws-leave-out + .badge { margin-left: 8px; }
+.ws-sheet-off .ws-sheet-ico { filter: grayscale(1); opacity: .55; }
+.ws-sheet-off .ws-sheet-head b { color: var(--text-3); }
 .ws-sheet-ico { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; font-size: 17px; background: color-mix(in srgb, var(--skill) 14%, transparent); }
 .ws-add { width: 100%; margin-top: 8px; }
 .ws-sheet .pc-pts small { letter-spacing: 0.02em; }

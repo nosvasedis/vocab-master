@@ -185,7 +185,10 @@ function renderChrome() {
     const facts = [
       p ? p.label : "",
       state.inputMode === "freeform" ? "described unit" : filledWords().length ? plural(filledWords().length, "word") : "",
-      state.plan?.dictationExerciseCount ? `${state.plan.dictationExerciseCount} + ${state.plan.lingoPracticeCount} exercises` : "",
+      // "4 + 2 exercises", or "3 Dictation exercises" / "2 Lingo exercises" for a unit with one sheet.
+      state.plan?.dictationExerciseCount && state.plan?.lingoPracticeCount ? `${state.plan.dictationExerciseCount} + ${state.plan.lingoPracticeCount} exercises`
+        : state.plan?.dictationExerciseCount ? plural(state.plan.dictationExerciseCount, "Dictation exercise")
+          : state.plan?.lingoPracticeCount ? plural(state.plan.lingoPracticeCount, "Lingo exercise") : "",
       state.data ? "sheets ready" : "",
     ].filter(Boolean);
     $("flowDots").innerHTML = `<span class="ws-dots">${FLOW.map((s, i) => `<span class="${i === idx ? "active" : i < idx || stepDone(s) ? "done" : ""}"></span>`).join("")}</span><span class="ws-foot-t"><b>Step ${idx + 1} of ${FLOW.length}</b>${facts.length ? ` · ${esc(facts.join(" · "))}` : ""}</span>`;
