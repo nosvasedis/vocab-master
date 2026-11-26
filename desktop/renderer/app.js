@@ -691,7 +691,8 @@ function pickGenerationPlanTypes(profileId, options = {}) {
   // Synonym/antonym exercises are impossible without synonyms/antonyms in the vocabulary.
   const dictPool = filterDictTypesByFeatures(profile.allowDictation, features);
   const seedOk = (combo) => combo.every((id) => dictPool.includes(id));
-  const dictCount = options.dictationCount || randomChoice([3, 4, 5]);
+  // 0 = no Dictation sheet in this mix (the teacher wants only the Lingo Launcher); likewise lingoCount 0.
+  const dictCount = options.dictationCount ?? randomChoice([3, 4, 5]);
   const lingoCount = options.lingoCount ?? pickLingoCount(profile);
 
   for (let attempt = 0; attempt < 40; attempt++) {
@@ -1504,8 +1505,9 @@ function collectTestTargets(vocabulary) {
  * or shown and declared in testsWords; whole words only, so "room" never counts for "bedroom"). Synonyms and
  * opposites belong to their headword's family, so a missing word is listed once, not once per related form.
  */
-function computeDictationCoverage(vocabulary, dictation) {
-  const cov = wordCoverage({ lingoLauncher: { vocabulary }, dictation });
+function computeDictationCoverage(vocabulary, dictation, practice = []) {
+  // The Lingo practice only fills in where each word is on the Lingo sheet (for the coverage chips); it never covers.
+  const cov = wordCoverage({ lingoLauncher: { vocabulary, practice }, dictation });
   const wordMap = {};
   cov.words.forEach((w) => { wordMap[w.head] = [...new Set(w.dictation.map((at) => at.typeId))]; });
   const missing = cov.words.filter((w) => !w.dictation.length)
@@ -2618,8 +2620,10 @@ function validateWorksheet(data) {
     issues.push(msg);
   });
 
-  const dictCoverage = computeDictationCoverage(vocab, data.dictation || { exercises: [] });
-  if (dictCoverage.missing.length) {
+  const dictCoverage = computeDictationCoverage(vocab, data.dictation || { exercises: [] }, data.lingoLauncher?.practice || []);
+  // A unit without a Dictation sheet (only the Lingo Launcher, the teacher's choice) has nothing to cover there.
+  const hasDictation = exCount > 0 || !!plan?.dictationTypes?.length;
+  if (hasDictation && dictCoverage.missing.length) {
     const labels = dictCoverage.missing.map((m) => {
       if (m.kind === "headword") return m.label;
       return `${m.label} (${m.kind})`;
@@ -2632,9 +2636,9 @@ function validateWorksheet(data) {
     dictation: dictCoverage,
     lingo: lingoCoverage,
     wordMap: dictCoverage.wordMap,
-    missing: dictCoverage.missing.map((m) => m.label),
-    missingDetails: dictCoverage.missing,
-    ok: dictCoverage.ok,
+    missing: hasDictation ? dictCoverage.missing.map((m) => m.label) : [],
+    missingDetails: hasDictation ? dictCoverage.missing : [],
+    ok: hasDictation ? dictCoverage.ok : true,
   };
 
   return { issues, notes, planMismatch, coverage, valid: issues.length === 0 };
@@ -3230,8 +3234,11 @@ LINGO PRACTICE FORMATS (follow exactly per typeId):
 
 /** options.part: only some exercises of a written worksheet are written (writeWorksheetExercises) — coverage is theirs alone. */
 function buildSystemPrompt(profileId, plan, options = {}) {
-  const typeDesc = plan.dictationTypes.map((t) => `${t} (${EXERCISE_LABELS[t]})`).join(", ");
-  const lingoDesc = plan.lingoTypes.map((t) => `${t} (${EXERCISE_LABELS[t]})`).join(", ");
+  const typeDesc = (plan.dictationTypes || []).map((t) => `${t} (${EXERCISE_LABELS[t]})`).join(", ");
+  const lingoDesc = (plan.lingoTypes || []).map((t) => `${t} (${EXERCISE_LABELS[t]})`).join(", ");
+  // A worksheet may hold only one of the two sheets (the teacher's choice in Step 3).
+  const noDict = !options.part && !plan.dictationTypes?.length;
+  const noLingo = !options.part && !plan.lingoTypes?.length;
   return `You are Vocab Master, an expert ESL materials writer for Greek learners in Greek language schools (φροντιστήριο).
 
 Return ONLY valid json matching the schema below. No markdown fences.
@@ -3239,13 +3246,13 @@ Return ONLY valid json matching the schema below. No markdown fences.
 ${getProfilePromptBlock(profileId, plan.tune)}${buildTuneBlock(profileId, plan.tune)}${buildWordBoxBlock(plan)}${exerciseSettingsBlock(plan, EXERCISE_LABELS)}
 
 LOCKED GENERATION PLAN (do NOT change types or counts):
-- Dictation exercises: exactly ${plan.dictationExerciseCount} — types: ${typeDesc}
-- Lingo practice: exactly ${plan.lingoPracticeCount} — types: ${lingoDesc}
+- Dictation exercises: ${noDict ? "NONE — this worksheet has no Dictation sheet: \"dictation\": { \"exercises\": [] }" : `exactly ${plan.dictationExerciseCount} — types: ${typeDesc}`}
+- Lingo practice: ${noLingo ? "NONE — this worksheet has no Lingo practice: \"practice\": [] (still fill the vocabulary table)" : `exactly ${plan.lingoPracticeCount} — types: ${lingoDesc}`}
 
 RULES:
 - Greek translation on EVERY Lingo Launcher vocab item; NEVER Greek in dictation prompts
 - Collocation phrases, not dictionary sentences
-${options.part ? "- ONE PART OF A WRITTEN WORKSHEET: write ONLY the exercises in the plan; the rest of the worksheet already exists and stays. Which words to test is in the user message (ONE PART OF A WRITTEN WORKSHEET) — never every unit word in one exercise. Each dictation exercise" : "- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise"}: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items only (an exercise with its own number in EXERCISE SETTINGS has exactly that many)
+${noDict ? "- NO DICTATION SHEET: write no dictation exercises at all. Each Lingo exercise" : options.part ? "- ONE PART OF A WRITTEN WORKSHEET: write ONLY the exercises in the plan; the rest of the worksheet already exists and stays. Which words to test is in the user message (ONE PART OF A WRITTEN WORKSHEET) — never every unit word in one exercise. Each dictation exercise" : "- DICTATION: every headword AND every synonym, antonym, and derivative listed in the vocabulary table must be tested at least once TOTAL across all dictation exercises combined — NOT in every exercise, NOT all in one exercise. Each dictation exercise"}: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items only (an exercise with its own number in EXERCISE SETTINGS has exactly that many)
 - LINGO PRACTICE: test a sensible subset of words — not every word must appear in practice. Each Lingo exercise: ~${tunedProfile(profileId, plan.tune)?.itemsPerExercise || 5} items maximum (or its own number in EXERCISE SETTINGS) — NEVER one exercise with every vocabulary word
 - NEVER reuse the same sentence in Lingo practice and Dictation — write different contexts for each worksheet
 - Item "number" is a plain counter (1, 2, 3…) — NEVER type "(1)", "1)" or "1." at the start of any item "prompt"; the app prints the numbered circle itself
@@ -3521,14 +3528,18 @@ If a row already has type and/or greek filled in, treat that as the locked word 
   }
   const lingoRelated = buildLingoRelatedExerciseBlock(form, plan);
   const dictationRelated = buildDictationRelatedExerciseBlock(form, plan);
-  const distributionBlock = options.part || buildDictationDistributionBlock(form, plan, form.vocabRows);
-  const uniquenessBlock = buildWorksheetUniquenessBlock() + buildWordScopeBlock(form) + buildAnswerBalanceBlock(plan, form);
+  // Only the sheets in the plan: no Dictation sheet means no coverage rules for it, one sheet needs no "different from the other".
+  const hasDict = !!plan?.dictationTypes?.length;
+  const hasLingo = !!plan?.lingoTypes?.length;
+  const distributionBlock = options.part || (hasDict ? buildDictationDistributionBlock(form, plan, form.vocabRows) : "");
+  const uniquenessBlock = (options.part || (hasDict && hasLingo) ? buildWorksheetUniquenessBlock() : "") + buildWordScopeBlock(form) + buildAnswerBalanceBlock(plan, form);
+  const sheetsLine = hasDict && hasLingo || options.part ? "" : `\nThis unit has ONLY the ${hasDict ? "Dictation sheet (leave lingoLauncher.practice empty; the vocabulary table is still needed)" : "Lingo Launcher (vocabulary table + practice; leave dictation.exercises empty)"}.`;
   return `Create worksheets for:
 Book: ${form.bookTitle}
 Unit: ${form.unit}
 Pages: ${form.pageRange}
 Class: ${form.classProfile}
-Target vocabulary: use ALL ${form.vocabRows?.length || "unit"} words from the teacher input — do not drop or add words unless freeform mode.
+Target vocabulary: use ALL ${form.vocabRows?.length || "unit"} words from the teacher input — do not drop or add words unless freeform mode.${sheetsLine}
 
 ${vocabSection}
 
@@ -3723,7 +3734,7 @@ function friendlyApiError(status, bodyText) {
 
 function buildValidationRetryHint(lastValidation) {
   if (!lastValidation?.issues?.length && !lastValidation?.planMismatch) return "";
-  const missing = lastValidation.coverage?.dictation?.missing || [];
+  const missing = lastValidation.coverage?.missingDetails || lastValidation.coverage?.dictation?.missing || [];
   const gapLabels = missing.map((m) => m.label || m).join(", ") || "none";
   const planned = lastValidation.planMismatch ? (lastValidation.notes || []).filter((n) => /were planned in Step 3/.test(n)) : [];
   let hint = `Validation failed — fix ALL issues below:\n${[...planned.map((n) => `${n} Return exactly the planned exercises.`), ...lastValidation.issues].join("\n")}\nDictation coverage gaps: ${gapLabels}`;
@@ -3819,7 +3830,7 @@ async function generateWorksheets(form, apiKey, options = {}) {
  */
 async function freshIfWordsChanged(form, apiKey, existingData, options) {
   if (worksheetMatchesForm(existingData, form)) return null;
-  const plan = options.plan?.dictationTypes?.length && options.plan?.lingoTypes?.length ? options.plan : undefined;
+  const plan = options.plan?.dictationTypes?.length || options.plan?.lingoTypes?.length ? options.plan : undefined;
   const result = await generateWorksheets(form, apiKey, { plan });
   return { ...result, fullRegenerate: true };
 }

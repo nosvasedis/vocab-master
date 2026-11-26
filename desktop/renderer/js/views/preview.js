@@ -21,6 +21,7 @@ import { letterHelpField } from "./letter-help-ui.js";
 import { listField, wireLists, listValues } from "../list-field.js";
 import { exerciseWords, wordCoverage } from "../../studio/quality-check.js";
 import { openWordFinder, closeWordFinder } from "../word-finder.js";
+import { wsSheetsOf } from "../../studio/worksheet-tasks.js";
 
 let sheetSeg;
 let densitySeg;
@@ -28,6 +29,19 @@ let textSizeSeg;
 let shadow;
 
 const SHEET_NAME = { lingo: "Lingo Launcher", dictation: "Dictation", answer: "Answer Key" };
+
+/** The papers this unit has: its sheets (a unit may be only a Lingo Launcher or only a Dictation) and the answer key. */
+const papers = () => [...wsSheetsOf(state.data), "answer"];
+
+/** Only the unit's own sheets in the switch; a sheet it doesn't have is never shown (the first one it has is). */
+function syncSheetSwitch() {
+  const have = state.data ? papers() : Object.keys(SHEET_NAME);
+  $("sheetSeg").querySelectorAll("button[data-value]").forEach((b) => { b.hidden = !have.includes(b.dataset.value); });
+  if (state.data && !have.includes(state.preview.sheet)) {
+    state.preview.sheet = have[0];
+    emit("preview");
+  }
+}
 
 /* Worksheet CSS for the on-screen paper: the exact print rules, plus edit affordances. */
 const PAPER_CSS = WORKSHEET_PRINT_CSS.replace(/@page[^}]*}/, "").replace(/html,\s*body\s*{[^}]*}/, "") + `
@@ -80,11 +94,16 @@ export function initPreview() {
     const b = e.target.closest("[data-cov-find]");
     if (b) { findWord(b.dataset.covFind); return; }
     const p = e.target.closest("[data-cov-place]");
-    if (p) { placeWordsDialog(p.dataset.covPlace ? [p.dataset.covPlace] : missingFrom("dictation"), "dictation"); return; }
+    if (p) {
+      // Words go on the Dictation, or on the Lingo practice in a unit that has only the Lingo Launcher.
+      const sheet = p.dataset.covSheet || (wsSheetsOf(state.data).includes("dictation") ? "dictation" : "lingo");
+      placeWordsDialog(p.dataset.covPlace ? [p.dataset.covPlace] : missingFrom(sheet), sheet);
+      return;
+    }
   });
   // The header switches apply to all three sheets (screen, print, PDF and Word).
   $("btnHeader").addEventListener("click", () => openHeaderDialog({
-    header: state.preview.header, schoolName: prefs.schoolName || "", subtitle: "All three sheets of this unit",
+    header: state.preview.header, schoolName: prefs.schoolName || "", subtitle: "Every sheet of this unit",
     words: paperWords(state.data?.meta || {}, {
       schoolName: prefs.schoolName || "",
       titles: [["Lingo title", "Lingo Launcher"], ["Dictation title", "Dictation"], ["Key title", "Answer Key"]],
@@ -129,12 +148,13 @@ export function initPreview() {
   $("btnPdf").addEventListener("click", (e) => exportPdf(state.preview.sheet, e.currentTarget));
   $("btnPrint").addEventListener("click", () => printSheet(state.preview.sheet));
   $("btnDuplicate").addEventListener("click", duplicateUnit);
-  if (!desktop()) $("packNote").textContent = "Downloads all three sheets as Word documents.";
+  if (!desktop()) $("packNote").textContent = "Downloads every sheet of this unit as Word documents.";
 
   on("data", () => { if (state.view === "preview") renderPreview(); });
 }
 
 export function renderPreview() {
+  syncSheetSwitch();
   sheetSeg.set(state.preview.sheet);
   densitySeg.set(state.preview.density);
   textSizeSeg.set(state.preview.textSize || "standard");
@@ -142,6 +162,10 @@ export function renderPreview() {
   renderLayoutControls();
   const has = !!state.data;
   ["btnExportPack", "btnDocx", "btnPdf", "btnPrint", "btnDuplicate"].forEach((id) => { $(id).disabled = !has; });
+  if (has) {
+    const names = papers().map((sh) => SHEET_NAME[sh]).join(", ").replace(/, (?=[^,]*$)/, " & ");
+    $("packNote").textContent = desktop() ? `${names} as Word + PDF.` : `Downloads ${names} as Word documents.`;
+  }
   if (!has) {
     shadow.innerHTML = "";
     $("paper").classList.add("hidden");
@@ -507,8 +531,27 @@ function renderCoverage() {
     : "";
   const lingoTested = val.coverage?.lingo?.testedCount ?? 0;
   const words = val.coverage?.dictation?.words || [];
+  const sheets = wsSheetsOf(state.data);
+  // A unit with only the Lingo Launcher: coverage is about its practice (there is no Dictation to put words on).
+  if (!sheets.includes("dictation")) {
+    const inLingo = words.filter((w) => w.lingo.length).length;
+    $("coveragePanel").innerHTML = `${stale}
+    <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
+    <div class="cov-legend"><span><i style="background:var(--warning)"></i>In Lingo practice</span><span><i style="background:var(--danger)"></i>Not practised</span></div>
+    <p class="insp-note">This unit has only the Lingo Launcher. Its practice uses ${inLingo} of ${words.length} words (every word is in the word table). Click a word to find it on the sheet, or one that isn't practised to put it in an exercise.</p>
+    ${inLingo < words.length ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-place="" data-cov-sheet="lingo">${icon("target", "i-sm")}Put the ${plural(words.length - inLingo, "missing word")} in the Lingo practice…</button>` : ""}`;
+    return;
+  }
   const inDict = words.filter((w) => w.dictation.length).length;
   const nowhere = words.filter((w) => !w.dictation.length && !w.lingo.length).length;
+  if (!sheets.includes("lingo")) {
+    $("coveragePanel").innerHTML = `${stale}
+    <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
+    <div class="cov-legend"><span><i style="background:var(--success)"></i>In Dictation</span><span><i style="background:var(--danger)"></i>Not tested</span></div>
+    <p class="insp-note">This unit has only the Dictation. It tests ${inDict} of ${words.length} words. Click a word to find it on the sheet, or one that isn't tested to choose where it goes.</p>
+    ${inDict < words.length ? `<button type="button" class="btn btn-soft btn-sm btn-block" data-cov-place="">${icon("target", "i-sm")}Put the ${plural(words.length - inDict, "missing word")} on the Dictation…</button>` : ""}`;
+    return;
+  }
   $("coveragePanel").innerHTML = `${stale}
     <div class="cov-chips">${renderCoverageHeatmap(val.coverage, state.data.lingoLauncher.vocabulary)}</div>
     <div class="cov-legend"><span><i style="background:var(--success)"></i>In Dictation</span><span><i style="background:var(--warning)"></i>Lingo only</span><span><i style="background:var(--danger)"></i>Not tested</span></div>
@@ -545,7 +588,8 @@ function findWord(english) {
     el: () => { showSheet(sheet); return lineEl(sheet, at); },
     peek: () => (state.preview.sheet === sheet ? lineEl(sheet, at) : null),
   })));
-  const other = !cov.dictation.length ? "dictation" : !cov.lingo.length ? "lingo" : null;
+  const have = wsSheetsOf(state.data);
+  const other = !cov.dictation.length && have.includes("dictation") ? "dictation" : !cov.lingo.length && have.includes("lingo") ? "lingo" : null;
   openWordFinder({
     root: shadow, word: english, spots,
     extra: { label: other ? `Put it on the ${SHEET_NAME[other]} too` : "Put it in another exercise too", run: () => placeWordsDialog([english], other || (state.preview.sheet === "lingo" ? "lingo" : "dictation")) },
@@ -574,6 +618,7 @@ function placeWordsDialog(chosen = [], startSheet = "dictation") {
   let line = -1;
 
   const statusOn = (w, sh) => (w[sh].length ? "here" : w[sh === "dictation" ? "lingo" : "dictation"].length ? "other" : "missing");
+  const single = !(lists.dictation.length && lists.lingo.length);
   const TONE = { missing: "cov-bad", other: "cov-warn", here: "cov-good" };
   const TIP = { missing: "Not tested on either sheet", other: "Only on the other sheet", here: "Already tested on this sheet" };
   /** Which unit words each line of an exercise tests, and whether it is the only line on this sheet that tests one. */
@@ -611,10 +656,10 @@ function placeWordsDialog(chosen = [], startSheet = "dictation") {
         const info = ex ? lineInfo(ex) : [];
         if (how === "replace" && picked.size !== 1) how = "add";
         body.innerHTML = `
-          <div class="field"><span class="label">Sheet</span><div class="pe-wishes">${["dictation", "lingo"].map((sh) => `<button type="button" class="chip${sh === sheet ? " active" : ""}" data-pw-sheet="${sh}"${lists[sh].length ? "" : " disabled"}>${esc(SHEET_NAME[sh])} <small>· ${plural(missingFrom(sh).length, "word")} missing</small></button>`).join("")}</div></div>
+          <div class="field"><span class="label">Sheet</span><div class="pe-wishes">${["dictation", "lingo"].filter((sh) => lists[sh].length).map((sh) => `<button type="button" class="chip${sh === sheet ? " active" : ""}" data-pw-sheet="${sh}">${esc(SHEET_NAME[sh])} <small>· ${plural(missingFrom(sh).length, "word")} missing</small></button>`).join("")}</div></div>
           <div class="field"><span class="label">Words <span class="opt">${picked.size ? `${picked.size} chosen` : "choose one or more"}</span></span>
             <div class="cov-chips pw-words">${words.map((w) => { const st = statusOn(w, sheet); return `<button type="button" class="wp-add ${TONE[st]}${picked.has(w.head) ? " on" : ""}" data-pw-word="${esc(w.head)}" aria-pressed="${picked.has(w.head)}" title="${esc(TIP[st])}">${icon(picked.has(w.head) ? "check" : "plus", "i-xs")}${esc(w.head)}</button>`; }).join("")}</div>
-            <div class="cov-legend"><span><i style="background:var(--danger)"></i>On neither sheet</span><span><i style="background:var(--warning)"></i>Only on the other sheet</span><span><i style="background:var(--success)"></i>Already on this sheet</span></div></div>
+            <div class="cov-legend">${single ? `<span><i style="background:var(--danger)"></i>Not on the sheet yet</span>` : `<span><i style="background:var(--danger)"></i>On neither sheet</span><span><i style="background:var(--warning)"></i>Only on the other sheet</span>`}<span><i style="background:var(--success)"></i>Already on this sheet</span></div></div>
           <div class="field"><span class="label">Exercise</span>
             <div class="pw-exs">${exs.map((e, i) => { const r = MAX_LINES - e.items.length; return `<button type="button" class="pw-ex${i === exIndex ? " on" : ""}" data-pw-ex="${i}"><b>${esc(String(e.number))}</b><span>${esc(EXERCISE_LABELS[e.typeId] || e.typeId)}<small>${plural(e.items.length, "line")} · ${r > 0 ? `room for ${r}` : "full"}</small></span></button>`; }).join("")}</div></div>
           ${ex ? `<div class="field"><span class="label">Where</span>
@@ -1307,7 +1352,18 @@ async function exportPack(btn) {
       // "CPP1, Unit 5, pp. 40-41": shells before 3.5.4 name the files "<base>_Dictation.docx"; newer ones use `names`.
       const base = safeFileName(productFileName("", state.data.meta)) || "Unit";
       const d = desktop();
-      if (d?.exportPack) {
+      const sheets = papers();
+      const both = sheets.length === 3;
+      // A unit with one sheet: just its papers (Word + PDF), through the shell's general pack saver.
+      if (!both && d?.savePack) {
+        const data = await wordData();
+        const files = [];
+        for (const sheet of sheets) files.push({ name: `${sheetFileName(sheet)}.docx`, docx: { type: sheet, data } });
+        for (const sheet of sheets) files.push({ name: `${sheetFileName(sheet)}.pdf`, pdf: { html: await pdfHtml(sheet), footer: pdfFooter(sheet) } });
+        const res = await d.savePack({ folderName: safeFileName(productFileName("Unit pack", state.data.meta)), title: "Choose folder to export the unit pack", files });
+        if (res.ok) savedToast(res.folder, `unit pack (${plural(res.files.length, "file")})`);
+        else if (!res.canceled) toast(`Pack export failed: ${res.error || "unknown error"}`, "error");
+      } else if (both && d?.exportPack) {
         const res = await d.exportPack({
           data: await wordData(),
           baseSlug: base,
@@ -1320,10 +1376,10 @@ async function exportPack(btn) {
         else if (!res.canceled) toast(`Pack export failed: ${res.error || "unknown error"}`, "error");
       } else {
         const data = await wordData();
-        for (const sheet of ["lingo", "dictation", "answer"]) {
+        for (const sheet of sheets) {
           await exportDocx(sheet, data, `${sheetFileName(sheet)}.docx`);
         }
-        toast("Downloaded Lingo Launcher, Dictation and Answer Key.", "ok");
+        toast(`Downloaded ${sheets.map((sh) => SHEET_NAME[sh]).join(", ").replace(/, (?=[^,]*$)/, " and ")}.`, "ok");
       }
     } catch (e) {
       toast(`Pack export failed: ${e.message || e}`, "error");

@@ -31,7 +31,9 @@ export function projectorSheets(kind, doc, { schoolName = "" } = {}) {
       { id: "lingo", label: "Lingo Launcher", reveal: true, html: () => renderLingoLauncher(doc, opts(true)) },
       { id: "dictation", label: "Dictation", reveal: true, html: () => renderDictation(doc, opts(true)) },
       { id: "answer", label: "Answer key", reveal: false, html: () => renderAnswerKey(doc, opts(false)) },
-    ].filter((s) => s.id !== "lingo" || doc.lingoLauncher).filter((s) => s.id !== "dictation" || doc.dictation?.exercises?.length);
+    // A unit may be only a Lingo Launcher or only a Dictation: the projector shows the sheets it has.
+    ].filter((s) => s.id !== "lingo" || (doc.lingoLauncher && (doc.lingoLauncher.practice?.length || !doc.dictation?.exercises?.length)))
+      .filter((s) => s.id !== "dictation" || doc.dictation?.exercises?.length);
   }
   const layout = { layout: { schoolName, studentHeader: false } };
   if (kind === "test") {

@@ -9,6 +9,7 @@ import { readJSON, writeJSON } from "../bridge.js";
 import { recentDocs, openMade, deleteMade, reconcile, SAVES_KEY, DOCS_KEY } from "../made.js";
 import { SKILLS, DICTATION_STYLES } from "../../studio/tasks.js";
 import { openProjector } from "./projector.js";
+import { wsSheetsOf } from "../../studio/worksheet-tasks.js";
 
 const KINDS = [
   ["all", "Everything", "library"],
@@ -50,11 +51,17 @@ export function initLibrary() {
   on("library", () => { renderLibrary(); updateLibraryCount(); });
 }
 
+/** " · Dictation only" / " · Lingo Launcher only" for a unit made with one of the two sheets. */
+function oneSheet(data) {
+  const sheets = wsSheetsOf(data);
+  return sheets.length === 1 ? ` · ${sheets[0] === "dictation" ? "Dictation" : "Lingo Launcher"} only` : "";
+}
+
 /** Everything saved, newest first: { type, id, savedAt, level, title, sub, words, raw }. */
 function allItems() {
   const units = (getAllSavedSessions() || []).map((s) => ({
     type: "unit", id: s.id, savedAt: s.savedAt, level: s.profileId, title: s.label, raw: s,
-    sub: `${CLASS_PROFILES[s.profileId]?.label || s.profileId || ""}${s.pageRange ? ` · p. ${s.pageRange}` : ""}`,
+    sub: `${CLASS_PROFILES[s.profileId]?.label || s.profileId || ""}${s.pageRange ? ` · p. ${s.pageRange}` : ""}${oneSheet(s.data)}`,
     words: (s.data?.lingoLauncher?.vocabulary || []).map((v) => v.english).filter(Boolean),
   }));
   const docs = recentDocs().map((d) => ({

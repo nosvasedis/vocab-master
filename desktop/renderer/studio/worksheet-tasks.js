@@ -243,6 +243,22 @@ export function planEntries(plan, sheet) {
   return (plan?.[typesKey] || []).map((type, i) => ({ type, ...cleanSettings(settings[i]) }));
 }
 
+/**
+ * The sheets a worksheet unit holds: a teacher can make only the Lingo Launcher, only the Dictation, or both.
+ * A sheet is there when it has exercises (older units always have both). The answer key follows them.
+ */
+export function wsSheetsOf(data) {
+  const out = [];
+  if (data?.lingoLauncher?.practice?.length) out.push("lingo");
+  if (data?.dictation?.exercises?.length) out.push("dictation");
+  return out;
+}
+
+/** The sheets a plan will write ("lingo", "dictation"), in the order they print. */
+export function planSheets(plan) {
+  return ["lingo", "dictation"].filter((sheet) => planEntries(plan, sheet).length);
+}
+
 /** The plan with a sheet's exercises replaced (types, count, settings and signature kept in step). */
 export function withEntries(plan, sheet, entries) {
   const [typesKey, countKey] = SHEET_KEYS[sheet];

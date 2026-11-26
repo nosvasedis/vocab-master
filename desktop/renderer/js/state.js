@@ -195,6 +195,11 @@ export function applyForm(form = {}, plan = null) {
   if (plan) {
     state.plan = plan;
     state.ex.tune = { ...TUNE_START, ...(plan.tune || {}) };
+    // A unit made with one sheet keeps the other one out of new mixes (Step 3's "No Dictation" / "No Lingo Launcher").
+    const dict = plan.dictationTypes?.length || 0;
+    const lingo = plan.lingoTypes?.length || 0;
+    state.ex.dictCount = !dict && lingo ? -1 : Math.max(0, state.ex.dictCount || 0);
+    state.ex.lingoCount = !lingo && dict ? -1 : Math.max(0, state.ex.lingoCount || 0);
   }
 }
 

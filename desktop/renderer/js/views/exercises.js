@@ -43,8 +43,9 @@ export function initExercises() {
   $("tuneItems").addEventListener("change", (e) => setTune({ items: Number(e.target.value) }));
   $("tuneExtras").addEventListener("change", (e) => setTune({ extras: Number(e.target.value) }));
   $("btnTuneReset").addEventListener("click", () => setTune(null));
-  $("dictCount").addEventListener("change", (e) => { state.ex.dictCount = Number(e.target.value); newMix(); });
-  $("lingoCount").addEventListener("change", (e) => { state.ex.lingoCount = Number(e.target.value); newMix(); });
+  // -1 = "none": the mix leaves that sheet out (a unit can be only a Lingo Launcher or only a Dictation), never both.
+  $("dictCount").addEventListener("change", (e) => { state.ex.dictCount = Number(e.target.value); if (state.ex.dictCount < 0 && state.ex.lingoCount < 0) state.ex.lingoCount = 0; newMix(); });
+  $("lingoCount").addEventListener("change", (e) => { state.ex.lingoCount = Number(e.target.value); if (state.ex.lingoCount < 0 && state.ex.dictCount < 0) state.ex.dictCount = 0; newMix(); });
   $("btnShuffle").addEventListener("click", () => newMix());
   $("wsPresets").addEventListener("click", (e) => {
     const p = e.target.closest("[data-preset]");
@@ -91,11 +92,14 @@ function detachIfUnitChanged() {
 
 /** Called when the Exercises view is shown. */
 export function enterExercises() {
-  if (state.profileId && !state.plan?.dictationTypes?.length) newMix({ quiet: true });
+  if (state.profileId && !hasExercises(state.plan)) newMix({ quiet: true });
   renderExercises();
 }
 
 const features = () => analyzeVocabFeatures(buildForm());
+/** Any exercise in the plan, on either sheet (a unit may hold only one of the two sheets). */
+const hasExercises = (plan) => !!(plan?.dictationTypes?.length || plan?.lingoTypes?.length);
+const SHEET_SHORT = { dictation: "Dictation", lingo: "Lingo practice" };
 const levelName = () => CLASS_PROFILES[state.profileId]?.label || "";
 
 /* ── The plan: state.plan is the one source (types, counts, each exercise's settings, the fine-tuning) ── */
@@ -156,13 +160,13 @@ function newMix({ quiet = false } = {}) {
     forceRandom: !!before,
     vocabFeatures: features(),
     tune,
-    ...(state.ex.dictCount > 0 ? { dictationCount: state.ex.dictCount } : {}),
-    ...(state.ex.lingoCount > 0 ? { lingoCount: state.ex.lingoCount } : {}),
+    ...(state.ex.dictCount ? { dictationCount: Math.max(0, state.ex.dictCount) } : {}),
+    ...(state.ex.lingoCount ? { lingoCount: Math.max(0, state.ex.lingoCount) } : {}),
   });
   openKey = null;
   emit("plan");
   renderExercises();
-  if (!quiet && before?.dictationTypes) {
+  if (!quiet && hasExercises(before)) {
     toast(`A new mix for ${levelName()}.`, "ok", { ms: 3200, actions: [{ label: "Undo", run: () => { state.plan = before; emit("plan"); renderExercises(); } }] });
   }
 }
@@ -217,8 +221,9 @@ function applyPreset(name) {
     return out;
   };
   const before = state.plan;
-  const dict = pick("dictation", PRESETS[name][0], 4).map((type) => ({ type }));
-  const lingo = pick("lingo", PRESETS[name][1], 2).map((type) => ({ type }));
+  // A sheet the teacher left out stays out.
+  const dict = state.ex.dictCount < 0 ? [] : pick("dictation", PRESETS[name][0], 4).map((type) => ({ type }));
+  const lingo = state.ex.lingoCount < 0 ? [] : pick("lingo", PRESETS[name][1], 2).map((type) => ({ type }));
   state.plan = withEntries(withEntries({ tune: before?.tune }, "dictation", dict), "lingo", lingo);
   if (!state.plan.tune) delete state.plan.tune;
   openKey = null;
@@ -226,7 +231,7 @@ function applyPreset(name) {
   renderExercises();
   const label = $("wsPresets").querySelector(`[data-preset="${name}"]`)?.textContent.replace(/^\W+/u, "").trim() || name;
   toast(`Started from “${label}” — change any exercise below.`, "ok", {
-    ms: 3200, actions: before?.dictationTypes ? [{ label: "Undo", run: () => { state.plan = before; emit("plan"); renderExercises(); } }] : [],
+    ms: 3200, actions: hasExercises(before) ? [{ label: "Undo", run: () => { state.plan = before; emit("plan"); renderExercises(); } }] : [],
   });
 }
 
@@ -235,10 +240,10 @@ function planError() {
   if (state.inputMode === "structured" && !filledWords().length) return "Add some words in Step 2 first.";
   if (state.inputMode === "freeform" && state.freeform.trim().length < 10) return "Describe the unit in Step 2 first.";
   const p = state.plan;
-  if (!p?.dictationTypes?.length) return "Add at least one Dictation exercise.";
-  if (!p?.lingoTypes?.length) return "Add at least one Lingo practice exercise.";
+  // Either sheet alone is fine (only a Lingo Launcher, only a Dictation), or both.
+  if (!hasExercises(p)) return "Add at least one exercise — to the Dictation, the Lingo practice, or both.";
   const f = features();
-  for (const id of [...p.dictationTypes, ...p.lingoTypes]) {
+  for (const id of [...(p.dictationTypes || []), ...(p.lingoTypes || [])]) {
     const block = wsBlock(id, f);
     if (block) return `“${EXERCISE_LABELS[id] || id}” ${block} — change it or fill that column.`;
   }
@@ -249,6 +254,7 @@ function planError() {
 export function renderExercises() {
   $("dictCount").value = String(state.ex.dictCount || 0);
   $("lingoCount").value = String(state.ex.lingoCount || 0);
+  $("btnShuffle").disabled = !state.profileId;
   renderParts();
   renderTune();
   renderGenerateCard();
@@ -320,7 +326,7 @@ function rowHtml(sheet, e, i, count, f, st = "") {
         ${state.data ? `<button type="button" class="icon-btn sm ws-write${st ? " on" : ""}" data-write="${key}" ${canWriteOne() ? "" : "disabled"} data-tip="${esc(canWriteOne() ? WRITE_LABEL[st] : "Your word list changed — Generate again below")}" aria-label="${esc(WRITE_LABEL[st])}">${icon("refresh", "i-sm")}</button>` : ""}
         <button type="button" class="icon-btn sm" data-move="-1" data-key="${key}" data-tip="Move up" aria-label="Move exercise ${i + 1} up" ${i === 0 ? "disabled" : ""}>${icon("chevron-up", "i-sm")}</button>
         <button type="button" class="icon-btn sm" data-move="1" data-key="${key}" data-tip="Move down" aria-label="Move exercise ${i + 1} down" ${i === count - 1 ? "disabled" : ""}>${icon("chevron-down", "i-sm")}</button>
-        <button type="button" class="icon-btn sm danger" data-remove="${key}" data-tip="Remove this exercise" aria-label="Remove exercise ${i + 1}" ${count <= 1 ? "disabled" : ""}>${icon("trash", "i-sm")}</button>
+        <button type="button" class="icon-btn sm danger" data-remove="${key}" data-tip="${count <= 1 && !otherHas(sheet) ? "The unit needs at least one exercise" : count <= 1 ? `Remove it — this unit then has no ${esc(SHEET_SHORT[sheet])}` : "Remove this exercise"}" aria-label="Remove exercise ${i + 1}" ${count <= 1 && !otherHas(sheet) ? "disabled" : ""}>${icon("trash", "i-sm")}</button>
       </span>
       <button type="button" class="pc-toggle" data-expand="${key}" aria-expanded="${expanded}" aria-controls="wsBody-${key.replace(":", "-")}">${icon(expanded ? "chevron-up" : "sliders", "i-sm")}<span>${expanded ? "Done" : "Settings"}</span></button>
     </div>`;
@@ -364,6 +370,10 @@ function rowHtml(sheet, e, i, count, f, st = "") {
   </li>`;
 }
 
+/** The other sheet of the plan has exercises (so this one may be left out). */
+const otherSheet = (sheet) => (sheet === "dictation" ? "lingo" : "dictation");
+const otherHas = (sheet) => planEntries(state.plan, otherSheet(sheet)).length > 0;
+
 /** The letter-help chips of an exercise whose letter boxes the app draws (the Test Maker's knob). */
 function helpHtml(e, key) {
   const h = WS_HELP[e.type];
@@ -396,10 +406,17 @@ function renderParts() {
     const writeAll = changed && canWriteOne()
       ? `<button type="button" class="btn btn-primary btn-sm ws-write-sheet" data-write-sheet="${sheet}" data-tip="Lingo writes just the changed exercises; the rest of the worksheet stays as it is">${icon("refresh", "i-sm")}Write the ${changed === 1 ? "changed one" : `${changed} changed`}</button>`
       : "";
-    return `<section class="ws-sheet" data-skill="ws-${sheet}">
-      <div class="ws-sheet-head"><span class="ws-sheet-ico">${sh.icon}</span><div><b>${esc(sh.label)}</b><small>${esc(sh.note)}</small></div>${writeAll}<span class="badge">${plural(list.length, "exercise")}</span></div>
-      <ol class="part-list">${list.map((e, i) => rowHtml(sheet, e, i, list.length, f, status[sheet][i] || "")).join("") || `<li class="st-hint">No exercises yet — add one below.</li>`}</ol>
-      <button type="button" class="add-tile ws-add" data-add="${sheet}" data-skill="ws-${sheet}"><span>${sh.icon}</span>Add a ${sheet === "dictation" ? "Dictation" : "Lingo practice"} exercise${icon("plus", "i-xs")}</button>
+    // A sheet can be left out (the unit is then only the other one) and brought back by adding an exercise.
+    const leaveOut = list.length && otherHas(sheet)
+      ? `<button type="button" class="btn btn-ghost btn-sm ws-leave-out" data-leave-out="${sheet}" data-tip="Make this unit without the ${esc(sh.label)} — only the ${esc(WS_SHEETS[otherSheet(sheet)].label)}">${icon("x", "i-sm")}Leave out</button>`
+      : "";
+    const empty = sheet === "dictation"
+      ? "No Dictation in this unit — only the Lingo Launcher is made. Add an exercise to make a Dictation too."
+      : "No Lingo Launcher in this unit — only the Dictation is made. Add an exercise to make a Lingo Launcher too.";
+    return `<section class="ws-sheet${list.length ? "" : " ws-sheet-off"}" data-skill="ws-${sheet}">
+      <div class="ws-sheet-head"><span class="ws-sheet-ico">${sh.icon}</span><div><b>${esc(sh.label)}</b><small>${esc(list.length ? sh.note : "left out of this unit")}</small></div>${writeAll}${leaveOut}<span class="badge">${list.length ? plural(list.length, "exercise") : "Left out"}</span></div>
+      <ol class="part-list">${list.map((e, i) => rowHtml(sheet, e, i, list.length, f, status[sheet][i] || "")).join("") || `<li class="st-hint">${esc(empty)}</li>`}</ol>
+      <button type="button" class="add-tile ws-add" data-add="${sheet}" data-skill="ws-${sheet}"><span>${sh.icon}</span>Add a ${SHEET_SHORT[sheet]} exercise${icon("plus", "i-xs")}</button>
     </section>`;
   };
   host.innerHTML = `${all.length ? `<div class="pc-overview">
@@ -407,7 +424,11 @@ function renderParts() {
       <div class="pc-mix">${icon("layers", "i-sm")}<span>This worksheet:</span>${mix.map(([k, n]) => `<span class="tk-kind kind-${k}">${n} × ${esc(WS_KINDS[k].label)}</span>`).join("")}<small>${mix.length < 2 ? "Mix kinds of exercise: recognising first, then recalling." : "A good mix: recognising, recalling" + (mix.some(([k]) => k === "create") ? " and using the words." : " — add “Own sentence” to use them too.")}</small></div>
     </div>` : ""}
     <div class="ws-sheets">${section("dictation")}${section("lingo")}</div>`;
-  $("wsPlanSum").textContent = `${plural(lists.dictation.length, "Dictation exercise")} · ${plural(lists.lingo.length, "practice exercise")} · ≈ ${lines} lines`;
+  $("wsPlanSum").textContent = [
+    lists.dictation.length ? plural(lists.dictation.length, "Dictation exercise") : "",
+    lists.lingo.length ? plural(lists.lingo.length, "practice exercise") : "",
+    `≈ ${lines} lines`,
+  ].filter(Boolean).join(" · ");
 }
 
 /* ── Interaction ─────────────────────────────────────────────────── */
@@ -448,6 +469,8 @@ function libraryFor(sheet, i, mode) {
         return;
       }
       list.push({ type: id });
+      if (sheet === "dictation" && state.ex.dictCount < 0) state.ex.dictCount = 0;
+      if (sheet === "lingo" && state.ex.lingoCount < 0) state.ex.lingoCount = 0;
       openKey = `${sheet}:${list.length - 1}`;
       commit(sheet, list);
       requestAnimationFrame(() => $("wsParts").querySelector(`[data-key="${openKey}"]`)?.scrollIntoView({ block: "nearest", behavior: "smooth" }));
@@ -471,6 +494,8 @@ function onPartsClick(e) {
     if (openKey) $("wsParts").querySelector(`[data-key="${openKey}"]`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     return;
   }
+  const lo = e.target.closest("[data-leave-out]");
+  if (lo) { leaveOut(lo.dataset.leaveOut); return; }
   const add = e.target.closest("[data-add]");
   if (add) { libraryFor(add.dataset.add, -1, "add"); return; }
   const pick = e.target.closest("[data-pick]");
@@ -529,13 +554,15 @@ function onPartsClick(e) {
   if (rm) {
     const { sheet, i } = parseKey(rm.dataset.remove);
     const list = planEntries(state.plan, sheet);
-    if (list.length <= 1) return;
+    // The unit keeps at least one exercise; the last one of a sheet may go when the other sheet has some.
+    if (list.length <= 1 && !otherHas(sheet)) return;
     const before = state.plan;
     const at = sheetIndex(before, sheet, i);
     const [gone] = list.splice(i, 1);
     if (openKey?.startsWith(`${sheet}:`)) openKey = null;
-    // The written sheet loses the exercise too (one exercise always stays, as in the plan).
-    const sheetBefore = at >= 0 && sheetList(state.data, sheet).length > 1
+    // The written sheet loses the exercise too; its last one only while the other written sheet has exercises.
+    const written = sheetList(state.data, sheet) || [];
+    const sheetBefore = at >= 0 && (written.length > 1 || sheetList(state.data, otherSheet(sheet))?.length)
       ? editSheet(sheet, (exs, entries) => { exs.splice(at, 1); entries?.splice(at, 1); })
       : null;
     commit(sheet, list);
@@ -545,6 +572,28 @@ function onPartsClick(e) {
       actions: [{ label: "Undo", run: () => { state.plan = before; restoreSheet(sheetBefore); emit("plan"); renderExercises(); } }],
     });
   }
+}
+
+/**
+ * "Leave out": the unit is made without this sheet (only the other one). Its exercises leave Step 3 and a written
+ * sheet at once; new mixes keep it out until the teacher adds an exercise to it again. Undo brings it all back.
+ */
+function leaveOut(sheet) {
+  if (!otherHas(sheet)) return;
+  const before = state.plan;
+  const countBefore = { dictCount: state.ex.dictCount, lingoCount: state.ex.lingoCount };
+  const sheetBefore = sheetList(state.data, sheet)?.length && sheetList(state.data, otherSheet(sheet))?.length
+    ? editSheet(sheet, (exs, entries) => { exs.splice(0); entries?.splice(0); })
+    : null;
+  if (sheet === "dictation") state.ex.dictCount = -1;
+  else state.ex.lingoCount = -1;
+  if (openKey?.startsWith(`${sheet}:`)) openKey = null;
+  commit(sheet, []);
+  const label = WS_SHEETS[sheet].label;
+  toast(`This unit is now only the ${WS_SHEETS[otherSheet(sheet)].label}${sheetBefore ? ` — the ${label} left the written sheets too` : ""}.`, "info", {
+    ms: 4200,
+    actions: [{ label: "Undo", run: () => { state.plan = before; Object.assign(state.ex, countBefore); restoreSheet(sheetBefore); emit("plan"); renderExercises(); } }],
+  });
 }
 
 /** The difficulty slider moves its label live; the plan changes when it is let go (change). */
@@ -574,7 +623,10 @@ function renderGenerateCard() {
     profile ? `<span class="badge brand">${esc(profile.label)} · ${esc(profile.cefr)}</span>` : "",
     bookTitle() ? `<span class="badge">${icon("book", "i-xs")}${esc(bookTitle())}${unitNumber() ? ` · Unit ${esc(unitNumber())}` : ""}${pageRange() ? ` · p. ${esc(pageRange())}` : ""}</span>` : "",
     state.inputMode === "structured" ? `<span class="badge">${plural(n, "word")}</span>` : `<span class="badge">Freeform brief</span>`,
-    state.plan ? `<span class="badge">${state.plan.dictationTypes?.length || 0} Dictation · ${state.plan.lingoTypes?.length || 0} Lingo</span>` : "",
+    state.plan ? `<span class="badge">${[
+      state.plan.dictationTypes?.length ? `${state.plan.dictationTypes.length} Dictation` : "",
+      state.plan.lingoTypes?.length ? `${state.plan.lingoTypes.length} Lingo` : "",
+    ].filter(Boolean).join(" · ") || "No exercises"}</span>` : "",
   ].join("");
   const fr = worksheetFreshness();
   const st = statuses();
@@ -588,11 +640,24 @@ function renderGenerateCard() {
   $("genSummary").innerHTML = `
     <h3>${state.data ? (fr?.wordsChanged ? "New word list — time for fresh worksheets" : "Worksheets ready — want a fresh version?") : "Ready to write your worksheets"}</h3>
     <div class="gs-facts">${facts}</div>
-    ${err ? `<div class="callout warning">${icon("alert")}<span>${esc(err)}</span></div>` : ""}${staleNote || (err ? "" : `<p class="hint">Lingo Launcher study sheet, Dictation test and a full teacher answer key — usually 30–90 seconds.</p>`)}`;
+    ${err ? `<div class="callout warning">${icon("alert")}<span>${esc(err)}</span></div>` : ""}${staleNote || (err ? "" : `<p class="hint">${esc(madeLine())} — usually 30–90 seconds.</p>`)}`;
   $("btnGenerate").disabled = !!err;
   $("btnGenerate").innerHTML = `${icon("sparkles")}${state.data ? "Generate again" : "Generate worksheets"}`;
   $("genRegen").classList.toggle("hidden", !state.data || !!fr?.wordsChanged);
   $("btnRegenDict").disabled = $("btnRegenLingo").disabled = !!err;
+  // "Rewrite … only" is for a unit with both sheets: with one sheet, Generate again rewrites it.
+  const both = !!(state.plan?.dictationTypes?.length && state.plan?.lingoTypes?.length && state.data?.dictation?.exercises?.length && state.data?.lingoLauncher?.practice?.length);
+  $("btnRegenDict").classList.toggle("hidden", !both);
+  $("btnRegenLingo").classList.toggle("hidden", !both);
+}
+
+/** What Generate makes, in the plan's words ("Lingo Launcher study sheet, Dictation test and a full teacher answer key"). */
+function madeLine() {
+  const dict = !!state.plan?.dictationTypes?.length;
+  const lingo = !!state.plan?.lingoTypes?.length;
+  if (dict && !lingo) return "Only the Dictation test (no Lingo Launcher) and the teacher answer key";
+  if (lingo && !dict) return "Only the Lingo Launcher study sheet (no Dictation) and the teacher answer key";
+  return "Lingo Launcher study sheet, Dictation test and a full teacher answer key";
 }
 
 /* ── Writing some exercises of a written worksheet ───────────────────────────────────────────────────────────── */
@@ -634,7 +699,7 @@ async function writeExercises(sheet, indices, btn, { quiet = false } = {}) {
       const res = await writeWorksheetExercises(buildForm(), getApiKey(), state.data, { plan: state.plan, sheet, indices });
       // The sheets were replaced meanwhile (generated again, another unit opened): this exercise belongs to the old ones.
       if (state.data !== before) return false;
-      state.data = normalizeWorksheetExercises(res.data);
+      state.data = normalizeWorksheetExercises(dropLeftOut(res.data));
       persistSession();
       actions.setAiState("on");
       emit("data", "library");
@@ -658,6 +723,20 @@ async function writeExercises(sheet, indices, btn, { quiet = false } = {}) {
   } finally {
     writing = false;
   }
+}
+
+/**
+ * A sheet left out in Step 3 that was still written (it was the unit's only sheet, so it stayed) goes once the other
+ * sheet has its exercises: the written unit is what Step 3 says.
+ */
+function dropLeftOut(data) {
+  for (const sheet of SHEETS) {
+    const other = otherSheet(sheet);
+    if (planEntries(state.plan, sheet).length || !sheetList(data, sheet)?.length || !sheetList(data, other)?.length) continue;
+    sheetList(data, sheet).splice(0);
+    if (data.generationPlan) data.generationPlan = { ...withEntries(data.generationPlan, sheet, []), ...(data.generationPlan.exerciseMode ? { exerciseMode: data.generationPlan.exerciseMode } : {}) };
+  }
+  return data;
 }
 
 /** Every exercise that changed in Step 3, on both sheets (one call per sheet). */
@@ -728,7 +807,7 @@ function showGenError(message) {
 
 export async function runGenerate(mode = "full") {
   if (state.busy) return;
-  if (!state.plan?.dictationTypes?.length && state.profileId) newMix({ quiet: true });
+  if (!hasExercises(state.plan) && state.profileId) newMix({ quiet: true });
   const err = planError();
   if (err) { toast(err, "warn"); return; }
   const apiKey = getApiKey();
